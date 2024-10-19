@@ -18,8 +18,9 @@ class OtpVerificationController extends GetxController {
 
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (duration == 60) {
-        _timer.cancel();
+      print("print timer===========> ${timer.tick}");
+      if (duration == 0) {
+        startTimer();
         update();
       } else {
         duration--;

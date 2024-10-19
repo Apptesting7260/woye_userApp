@@ -58,12 +58,28 @@ class OtpVerificaitonScreen extends StatelessWidget {
                   ),
                   hBox(20),
                   Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Resend code in ${otpVerificationController.duration} s",
-                      style: AppFontStyle.text_16_400(AppColors.darkText),
-                    ),
-                  )
+                      alignment: Alignment.center,
+                      child: otpVerificationController.duration != 0
+                          ?
+                          //     ? Text(
+                          //         "${(otpVerificationController.duration ~/ 60).toString().padLeft(2, '0')}:${(otpVerificationController.duration % 60).toString().padLeft(2, '0')}",
+                          //         // "00:${otpVerificationController.start.toString().padLeft(2, "0")}",
+                          //         style: TextStyle(
+                          //             color: const Color.fromARGB(255, 184, 30, 30),
+                          //             fontSize: 15.sp,
+                          //             fontWeight: FontWeight.w500),
+                          //       )
+                          //     : null
+                          Text(
+                              "Resend code in ${otpVerificationController.duration.toString().padLeft(2, "0")} s",
+                              style:
+                                  AppFontStyle.text_16_400(AppColors.darkText),
+                            )
+                          : Text(
+                              "Resend Code",
+                              style:
+                                  AppFontStyle.text_14_400(AppColors.lightText),
+                            ))
                 ],
               ),
             ),
