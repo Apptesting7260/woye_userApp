@@ -1,3 +1,4 @@
+import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/app_export.dart';
 import 'package:woye_user/presentation/common/login/login_controller.dart';
 
@@ -17,15 +18,15 @@ class LoginScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  hBox(60),
+                  hBox(100),
                   Text(
                     "Login to your\nAccount",
                     style: AppFontStyle.text_40_600(AppColors.darkText),
                   ),
-                  hBox(34),
+                  hBox(24),
                   Text(
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                    style: AppFontStyle.text_18_400(AppColors.lightText),
+                    style: AppFontStyle.text_16_400(AppColors.lightText),
                   ),
                   hBox(50),
                   CustomTextFormField(
@@ -54,10 +55,10 @@ class LoginScreen extends StatelessWidget {
                                   style: AppFontStyle.text_16_400(
                                       AppColors.darkText),
                                 ),
-                              wBox(8),
+                              wBox(5),
                               SvgPicture.asset(
                                 ImageConstants.arrowDown,
-                                height: 7.h,
+                                height: 6.h,
                               )
                             ],
                           ),
@@ -71,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                   CustomElevatedButton(
                     text: "Sign In",
                     onPressed: () {
-                      Get.toNamed("page");
+                      Get.toNamed(AppRoutes.otpVerification);
                     },
                   ),
                   hBox(30),
@@ -86,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Text(
                         "or continue with",
-                        style: AppFontStyle.text_18_400(AppColors.lightText),
+                        style: AppFontStyle.text_16_400(AppColors.lightText),
                       ),
                       Expanded(
                         child: Divider(

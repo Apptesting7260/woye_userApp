@@ -8,7 +8,7 @@ class AppFontStyle {
         color: color,
         fontSize: size,
         fontWeight: fontWeight,
-        fontFamily: "Gilroy");
+        fontFamily: 'Gilroy');
   }
 
   static text_14_400(Color color) {
@@ -82,6 +82,51 @@ class AppFontStyle {
 
   static text_30_600(Color color) {
     return _textStyle(color, 30.sp, FontWeight.w600, TextOverflow.ellipsis);
+  }
+
+  static text_14_800(Color color) {
+    return _textStyle(color, 14.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_15_800(Color color) {
+    return _textStyle(color, 15.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_16_800(Color color) {
+    return _textStyle(
+      color,
+      16.sp,
+      FontWeight.w800,
+      TextOverflow.ellipsis,
+    );
+  }
+
+  static text_18_800(Color color) {
+    return _textStyle(color, 18.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_20_800(Color color) {
+    return _textStyle(color, 20.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_22_800(Color color) {
+    return _textStyle(color, 22.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_24_800(Color color) {
+    return _textStyle(color, 24.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_26_800(Color color) {
+    return _textStyle(color, 26.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_28_800(Color color) {
+    return _textStyle(color, 28.sp, FontWeight.w800, TextOverflow.ellipsis);
+  }
+
+  static text_30_800(Color color) {
+    return _textStyle(color, 30.sp, FontWeight.w800, TextOverflow.ellipsis);
   }
 
   static text_36_600(Color color) {

@@ -21,35 +21,24 @@ class WelcomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: "W",
-                              style: AppFontStyle.text_56_800(AppColors.black)),
-                          TextSpan(
-                              text: "O",
-                              style:
-                                  AppFontStyle.text_56_800(AppColors.primary)),
-                          TextSpan(
-                              text: "Y",
-                              style: AppFontStyle.text_56_800(AppColors.black)),
-                          TextSpan(
-                              text: "E",
-                              style: AppFontStyle.text_56_800(AppColors.black)),
-                        ])),
-                        hBox(50),
+                        hBox(30),
+                        SvgPicture.asset(
+                          ImageConstants.welcomeLogo,
+                          height: 42.h,
+                        ),
+                        hBox(20),
                         Text(
                           "Let’s Get Started!",
                           style: AppFontStyle.text_36_600(AppColors.darkText),
                         ),
-                        hBox(50),
+                        hBox(20),
                         CustomElevatedButton(
-                          text: "Sign in with Phone Number",
+                          text: "Sign In With Phone Number",
                           onPressed: () {
                             Get.toNamed(AppRoutes.login);
                           },
                         ),
-                        hBox(30),
+                        hBox(20),
                         Row(
                           children: [
                             Expanded(
@@ -62,7 +51,7 @@ class WelcomeScreen extends StatelessWidget {
                             Text(
                               "or",
                               style:
-                                  AppFontStyle.text_18_400(AppColors.lightText),
+                                  AppFontStyle.text_16_400(AppColors.lightText),
                             ),
                             Expanded(
                               child: Divider(
@@ -73,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        hBox(30),
+                        hBox(20),
                         facebookButton(),
                         hBox(15),
                         googleButton(),
@@ -113,10 +102,8 @@ class WelcomeScreen extends StatelessWidget {
               width: 26.h,
             ),
             wBox(12),
-            Text(
-              "Continue with Facebook",
-              style: AppFontStyle.text_18_400(AppColors.darkText),
-            )
+            Text("Continue with Facebook",
+                style: AppFontStyle.text_16_400(AppColors.darkText))
           ],
         ));
   }
@@ -133,10 +120,10 @@ class WelcomeScreen extends StatelessWidget {
               width: 26.h,
             ),
             wBox(12),
-            Text(
-              "Continue with Google",
-              style: AppFontStyle.text_18_400(AppColors.darkText),
-            )
+            Text("Continue with Google",
+                style: AppFontStyle.text_16_400(AppColors.darkText)
+                // AppFontStyle.text_16_800(AppColors.darkText),
+                )
           ],
         ));
   }
@@ -153,10 +140,8 @@ class WelcomeScreen extends StatelessWidget {
               width: 26.h,
             ),
             wBox(12),
-            Text(
-              "Continue with Apple",
-              style: AppFontStyle.text_18_400(AppColors.darkText),
-            )
+            Text("Continue with Apple",
+                style: AppFontStyle.text_16_400(AppColors.darkText))
           ],
         ));
   }

@@ -40,14 +40,10 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: AppColors.darkText,
       body: Center(
-        child: RichText(
-            text: TextSpan(children: [
-          TextSpan(text: "W", style: AppFontStyle.text_56_800(AppColors.white)),
-          TextSpan(
-              text: "O", style: AppFontStyle.text_56_800(AppColors.primary)),
-          TextSpan(text: "Y", style: AppFontStyle.text_56_800(AppColors.white)),
-          TextSpan(text: "E", style: AppFontStyle.text_56_800(AppColors.white)),
-        ])),
+        child: SvgPicture.asset(
+          ImageConstants.splashLogo,
+          height: 42.h,
+        ),
       ),
     );
   }

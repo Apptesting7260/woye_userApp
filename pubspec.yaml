@@ -84,17 +84,33 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Gilroy
+    - family: GilroyUltraLight
+      fonts:
+        - asset: assets/fonts/Gilroy-UltraLight.ttf
+    - family: GilroyThin
+      fonts:
+        - asset: assets/fonts/Gilroy-Thin.ttf
+    - family: GilroyLight
+      fonts:
+        - asset: assets/fonts/Gilroy-Light.ttf
+    - family: GilroyRegular
       fonts:
         - asset: assets/fonts/Gilroy-Regular.ttf
-        # - asset: assets/fonts/Gilroy-UltraLight.ttf
-        # - asset: assets/fonts/Gilroy-Thin.ttf
-        # - asset: assets/fonts/Gilroy-Light.ttf
-        # - asset: assets/fonts/Gilroy-Medium.ttf
-        # - asset: assets/fonts/Gilroy-SemiBold.ttf
-        # - asset: assets/fonts/Gilroy-Bold.ttf
-        # - asset: assets/fonts/Gilroy-ExtraBold.ttf
-        # - asset: assets/fonts/Gilroy-Heavy.ttf
+    - family: GilroyMedium
+      fonts:
+        - asset: assets/fonts/Gilroy-Medium.ttf
+    - family: GilroySemiBold
+      fonts:
+        - asset: assets/fonts/Gilroy-SemiBold.ttf
+    - family: GilroyBold
+      fonts:
+        - asset: assets/fonts/Gilroy-Bold.ttf
+    - family: GilroyExtraBold
+      fonts:
+        - asset: assets/fonts/Gilroy-ExtraBold.ttf
+    - family: GilroyHeavy
+      fonts:
+        - asset: assets/fonts/Gilroy-Heavy.ttf
 
   #         style: italic
   #   - family: Trajan Pro
