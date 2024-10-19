@@ -60,7 +60,7 @@ class OtpVerificaitonScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      "Resend code in 55 s",
+                      "Resend code in ${otpVerificationController.duration} s",
                       style: AppFontStyle.text_16_400(AppColors.darkText),
                     ),
                   )

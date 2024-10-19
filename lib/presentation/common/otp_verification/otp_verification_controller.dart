@@ -6,17 +6,18 @@ class OtpVerificationController extends GetxController {
 
   @override
   void onInit() {
+    startTimer();
     super.onInit();
   }
 
   @override
   void onClose() {
-    // TODO: implement onClose
+    _timer.cancel();
     super.onClose();
   }
 
   void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 60), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (duration == 60) {
         _timer.cancel();
         update();
@@ -31,6 +32,7 @@ class OtpVerificationController extends GetxController {
   void resendOtp() {
     duration = 60;
     startTimer();
+    update();
   }
 
   PinTheme defaultPinTheme = PinTheme(

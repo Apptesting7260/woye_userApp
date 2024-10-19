@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          
           smartManagement: SmartManagement.full,
           debugShowCheckedModeBanner: false,
           defaultTransition: Transition.fade,
