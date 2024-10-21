@@ -13,7 +13,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     checkToken();
-
     super.initState();
   }
 
@@ -21,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // String? responseToken = await prefUtils.getToken();
     // bool? isRegister = await prefUtils.getRegistrationDetails();
 
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(seconds: 2), () {
       // if (responseToken == null) {
       //   Get.toNamed(AppRoutes.login);
       // }
@@ -31,7 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
       // if (responseToken != null && isRegister!) {
       //   Get.toNamed(AppRoutes.navbar);
       // }
-      Get.toNamed(AppRoutes.welcomeScreen);
+      // Get.Of(AppRoutes.welcomeScreen);
+      Get.offAllNamed(AppRoutes.welcomeScreen);
     });
   }
 

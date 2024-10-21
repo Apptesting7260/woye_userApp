@@ -12,6 +12,7 @@ class AppRoutes {
   static const String welcomeScreen = "/welcome_screen";
   static const String login = "/login_screen";
   static const String otpVerification = "/otp_verification";
+
   // static const String signUp = "/signUp_page";
   // static const String navbar = "/nav_bar";
   // static const String homeScreen = "/home_screen";
