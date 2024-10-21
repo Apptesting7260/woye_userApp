@@ -24,6 +24,12 @@ class AppRoutes {
   static const String signUpOtp = "/sign_up_otp_page";
   static const String formSignUp = "/form_sign_up";
   static const String restaurantNavbar = "/restaurant_navbar";
+
+  static const String otpVerification = "/otp_verification";
+
+  // static const String signUp = "/signUp_page";
+  // static const String navbar = "/nav_bar";
+
   // static const String homeScreen = "/home_screen";
   // static const String customerSupport = "/customer_support";
   // static const String profilePage = "/profile_page";
