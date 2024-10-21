@@ -48,82 +48,81 @@ class RestaurantNavbar extends StatelessWidget {
     ];
     return Container(
         height: 70.h,
+        width: Get.width,
         decoration: BoxDecoration(
           color: AppColors.navbar,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
         ),
-        child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 13),
-          child: Row(
-              children: List.generate(navbarItems.length, (index) {
-            bool isSelected = navbarController.navbarCurrentIndex == index;
-            String icon = navbarController.navbarCurrentIndex == index
-                ? navbarItemsFilled[index]
-                : navbarItems[index];
-            return InkWell(
-              onTap: () {
-                navbarController.getIndex(index);
-              },
-              child: Padding(
-                padding: REdgeInsets.symmetric(horizontal: 12),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  width: 48.w,
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.zero,
-                        height: 4.h,
-                        width: 44.w,
-                        decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.primary
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(10.r),
-                                bottomRight: Radius.circular(10.r))),
-                      ),
-                      Padding(
-                        padding: REdgeInsets.only(top: 19, bottom: 23),
-                        child: SvgPicture.asset(
-                          icon,
-                          height: 24.h,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(navbarItems.length, (index) {
+              bool isSelected = navbarController.navbarCurrentIndex == index;
+              String icon = navbarController.navbarCurrentIndex == index
+                  ? navbarItemsFilled[index]
+                  : navbarItems[index];
+              return InkWell(
+                onTap: () {
+                  navbarController.getIndex(index);
+                },
+                child: Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 12),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    width: 44.w,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.zero,
+                          height: 4.h,
+                          width: 44.w,
+                          decoration: BoxDecoration(
+                              color: isSelected
+                                  ? AppColors.primary
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(10.r),
+                                  bottomRight: Radius.circular(10.r))),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: REdgeInsets.only(top: 19, bottom: 23),
+                          child: SvgPicture.asset(
+                            icon,
+                            height: 24.h,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          })
-              // navbarItems.map((icon) {
-              //   int index = navbarItems.indexOf(icon);
-              //   bool isSelected = navbarController.navbarCurrentIndex == index;
-              //   return GestureDetector(
-              //     onTap: () {
-              //       navbarController.getIndex(index);
-              //     },
-              //     child: Padding(
-              //       padding: REdgeInsets.symmetric(horizontal: 12),
-              //       child: AnimatedContainer(
-              //         duration: const Duration(milliseconds: 300),
-              //         curve: Curves.easeInOut,
-              //         height: 48.h,
-              //         width: 48.h,
-              //         child: Column(
-              //           children: [
-              //             SvgPicture.asset(
-              //               icon,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   );
-              // }).toList(),
-              ),
-        ));
+              );
+            })
+            // navbarItems.map((icon) {
+            //   int index = navbarItems.indexOf(icon);
+            //   bool isSelected = navbarController.navbarCurrentIndex == index;
+            //   return GestureDetector(
+            //     onTap: () {
+            //       navbarController.getIndex(index);
+            //     },
+            //     child: Padding(
+            //       padding: REdgeInsets.symmetric(horizontal: 12),
+            //       child: AnimatedContainer(
+            //         duration: const Duration(milliseconds: 300),
+            //         curve: Curves.easeInOut,
+            //         height: 48.h,
+            //         width: 48.h,
+            //         child: Column(
+            //           children: [
+            //             SvgPicture.asset(
+            //               icon,
+            //             ),
+            //           ],
+            //         ),
+            //       ),
+            //     ),
+            //   );
+            // }).toList(),
+            ));
   }
 }

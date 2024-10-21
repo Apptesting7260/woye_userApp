@@ -16,15 +16,15 @@ class RestaurantNavbarController extends GetxController {
 
   PrefUtils prefUtils = PrefUtils();
   File? profileImage;
-  // int navbarCurrentIndex = 0;
 
   List<Widget> widgets = [
-    HomeScreen(),
-    CategoriesScreen(),
-    MyCartScreen(),
-    MyProfileScreen(),
-    WishlistScreen()
+    const HomeScreen(),
+    const CategoriesScreen(),
+    const MyCartScreen(),
+    const MyProfileScreen(),
+    const WishlistScreen()
   ];
+
   @override
   void onInit() async {
     networkController.onInit();
@@ -32,6 +32,11 @@ class RestaurantNavbarController extends GetxController {
     debugPrint("response token at profile page ====================>$token");
 
     super.onInit();
+  }
+
+  @override
+  void onClose() async {
+    super.onClose();
   }
 
   bool isloading = false;

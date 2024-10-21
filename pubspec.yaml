@@ -44,6 +44,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   shared_preferences: ^2.3.2
   fluttertoast: ^8.2.8
+  animated_svg: ^2.1.0
 
 dev_dependencies:
   flutter_test:

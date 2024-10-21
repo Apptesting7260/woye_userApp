@@ -68,5 +68,9 @@ class AppRoutes {
         name: restaurantNavbar,
         page: () => const RestaurantNavbar(),
         binding: RestaurantNavbarBinding()),
+    GetPage(
+        name: restaurantNavbar,
+        page: () => const RestaurantNavbar(),
+        binding: RestaurantNavbarBinding()),
   ];
 }
