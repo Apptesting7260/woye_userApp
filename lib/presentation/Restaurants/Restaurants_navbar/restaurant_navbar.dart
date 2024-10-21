@@ -48,27 +48,13 @@ class RestaurantNavbar extends StatelessWidget {
     ];
     return Container(
         height: 70.h,
-        // height: 70.h,
-        // height: 70.h,
         decoration: BoxDecoration(
           color: AppColors.navbar,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
-          // boxShadow: [
-          //   BoxShadow(
-          //       color: AppColors.primary.withOpacity(0.2),
-          //       blurRadius: 3,
-          //       blurStyle: BlurStyle.outer)
-          // ]
-          // boxShadow: [
-          //   BoxShadow(
-          //       color: AppColors.primary.withOpacity(0.2),
-          //       blurRadius: 3,
-          //       blurStyle: BlurStyle.outer)
-          // ]
         ),
         child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 13, vertical: 0),
+          padding: REdgeInsets.symmetric(horizontal: 13),
           child: Row(
               children: List.generate(navbarItems.length, (index) {
             bool isSelected = navbarController.navbarCurrentIndex == index;
@@ -80,21 +66,17 @@ class RestaurantNavbar extends StatelessWidget {
                 navbarController.getIndex(index);
               },
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
+                padding: REdgeInsets.symmetric(horizontal: 12),
                 child: AnimatedContainer(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  duration: Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
-                  // height: 35.h,
-                  width: 48.h,
+                  width: 48.w,
                   child: Column(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
                         margin: EdgeInsets.zero,
                         height: 4.h,
-                        width: 44.h,
+                        width: 44.w,
                         decoration: BoxDecoration(
                             color: isSelected
                                 ? AppColors.primary
