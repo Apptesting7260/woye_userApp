@@ -1,4 +1,4 @@
-import 'package:woye_user/core/app_export.dart';
+import 'package:woye_user/core/Utils/app_export.dart';
 
 class NetworkController extends GetxController {
   bool isConnected = true;

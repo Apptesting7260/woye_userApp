@@ -1,4 +1,4 @@
-import 'package:woye_user/core/app_export.dart';
+import 'package:woye_user/core/utils/app_export.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
@@ -17,11 +17,26 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      iconTheme: IconThemeData(),
       automaticallyImplyLeading: false,
-      leading: leading,
+      leading: leading ??
+          GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Padding(
+              padding: REdgeInsets.only(left: 24, top: 20),
+              child: CircleAvatar(
+                radius: 44.w,
+                backgroundColor: AppColors.greyBackground,
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: AppColors.darkText,
+                ),
+              ),
+            ),
+          ),
       leadingWidth: leadingWidth ?? 70.w,
-      toolbarHeight: 90.h,
+      toolbarHeight: 110.h,
       actions: actions,
       backgroundColor: Colors.transparent,
       surfaceTintColor: Colors.transparent,
@@ -29,5 +44,5 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(90.h);
+  Size get preferredSize => Size.fromHeight(110.h);
 }

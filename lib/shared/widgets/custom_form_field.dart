@@ -1,4 +1,4 @@
-import 'package:woye_user/core/app_export.dart';
+import 'package:woye_user/core/utils/app_export.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -112,7 +112,7 @@ class CustomTextFormField extends StatelessWidget {
       );
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? "",
-        hintStyle: hintStyle ?? AppFontStyle.text_16_400(AppColors.hintText),
+        hintStyle: hintStyle ?? AppFontStyle.text_14_400(AppColors.hintText),
         prefixIcon: prefix,
         prefixIconConstraints: prefixConstraints,
         suffixIcon: suffix,

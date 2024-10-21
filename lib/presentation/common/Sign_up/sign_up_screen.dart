@@ -2,8 +2,8 @@ import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Common/login/login_controller.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
                 children: [
                   hBox(100),
                   Text(
-                    "Login to your\nAccount",
+                    "Create your\nAccount",
                     style: AppFontStyle.text_40_600(AppColors.darkText),
                   ),
                   hBox(24),
@@ -70,49 +70,15 @@ class LoginScreen extends StatelessWidget {
                   ),
                   hBox(20),
                   CustomElevatedButton(
-                    text: "Sign In",
+                    text: "Sign Up",
                     onPressed: () {
-                      Get.toNamed(AppRoutes.loginOtp);
+                      Get.toNamed(AppRoutes.signUpOtp);
                     },
-                  ),
-                  hBox(30),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 1.h,
-                          color: AppColors.greyBackground,
-                          endIndent: 16.w,
-                        ),
-                      ),
-                      Text(
-                        "or continue with",
-                        style: AppFontStyle.text_16_400(AppColors.lightText),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          thickness: 1.h,
-                          color: AppColors.greyBackground,
-                          indent: 16.w,
-                        ),
-                      ),
-                    ],
-                  ),
-                  hBox(30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      facebookButton(),
-                      wBox(15),
-                      googleButton(),
-                      wBox(15),
-                      appleButton(),
-                    ],
                   ),
                   const Spacer(),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.signUp);
+                      Get.toNamed(AppRoutes.login);
                     },
                     child: Align(
                       alignment: Alignment.center,
@@ -123,11 +89,11 @@ class LoginScreen extends StatelessWidget {
                         child: RichText(
                             text: TextSpan(children: [
                           TextSpan(
-                              text: "Don't have an account? ",
+                              text: "Already have an account? ",
                               style: AppFontStyle.text_16_400(
                                   AppColors.lightText)),
                           TextSpan(
-                              text: "Sign Up",
+                              text: "Sign In",
                               style: AppFontStyle.text_16_600(
                                 AppColors.darkText,
                               )),
@@ -140,37 +106,5 @@ class LoginScreen extends StatelessWidget {
             ),
           );
         });
-  }
-
-  CustomRoundedButton facebookButton() {
-    return CustomRoundedButton(
-      onPressed: () {},
-      child: SvgPicture.asset(
-        ImageConstants.fbLogo,
-        height: 26.h,
-        width: 26.h,
-      ),
-    );
-  }
-
-  CustomRoundedButton googleButton() {
-    return CustomRoundedButton(
-        onPressed: () {},
-        child: SvgPicture.asset(
-          ImageConstants.googleLogo,
-          height: 26.h,
-          width: 26.h,
-        ));
-  }
-
-  CustomRoundedButton appleButton() {
-    return CustomRoundedButton(
-      onPressed: () {},
-      child: SvgPicture.asset(
-        ImageConstants.appleLogo,
-        height: 26.h,
-        width: 26.h,
-      ),
-    );
   }
 }

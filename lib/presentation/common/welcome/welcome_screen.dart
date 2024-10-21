@@ -1,6 +1,6 @@
 import 'package:woye_user/Routes/app_routes.dart';
-import 'package:woye_user/core/app_export.dart';
-import 'package:woye_user/presentation/common/welcome/welcome_controller.dart';
+import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Common/welcome/welcome_controller.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -71,17 +71,24 @@ class WelcomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: REdgeInsets.only(bottom: 30),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "Don't have an account? ",
-                          style: AppFontStyle.text_16_400(AppColors.lightText)),
-                      TextSpan(
-                          text: "Sign Up",
-                          style: AppFontStyle.text_16_600(AppColors.darkText)),
-                    ])),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.signUp);
+                    },
+                    child: Padding(
+                      padding: REdgeInsets.only(bottom: 30),
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "Don't have an account? ",
+                            style:
+                                AppFontStyle.text_16_400(AppColors.lightText)),
+                        TextSpan(
+                            text: "Sign Up",
+                            style:
+                                AppFontStyle.text_16_600(AppColors.darkText)),
+                      ])),
+                    ),
                   ),
                 ],
               ),

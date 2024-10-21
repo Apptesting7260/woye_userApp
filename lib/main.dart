@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:woye_user/Routes/app_routes.dart';
-import 'package:woye_user/shared/theme/colors.dart';
+import 'package:woye_user/core/utils/app_export.dart';
 
 void main() {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.light));
-
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.white,
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
+      statusBarBrightness: Brightness.light));
+  Get.put(NetworkController());
   runApp(const MyApp());
 }
 
@@ -27,7 +25,6 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
-          
           smartManagement: SmartManagement.full,
           debugShowCheckedModeBanner: false,
           defaultTransition: Transition.fade,
@@ -37,6 +34,7 @@ class MyApp extends StatelessWidget {
               pageTransitionsTheme: const PageTransitionsTheme(
                   builders: <TargetPlatform, PageTransitionsBuilder>{
                     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                    TargetPlatform.android: CupertinoPageTransitionsBuilder()
                   }),
               colorScheme: ColorScheme.fromSeed(
                 seedColor: AppColors.primary,

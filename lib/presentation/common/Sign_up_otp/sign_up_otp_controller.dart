@@ -1,6 +1,6 @@
-import 'package:woye_user/core/app_export.dart';
+import 'package:woye_user/core/utils/app_export.dart';
 
-class OtpVerificationController extends GetxController {
+class SignUpOtpController extends GetxController {
   int duration = 60;
   late Timer _timer;
 
@@ -17,10 +17,9 @@ class OtpVerificationController extends GetxController {
   }
 
   void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      print("print timer===========> ${timer.tick}");
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (duration == 0) {
-        startTimer();
+        timer.cancel();
         update();
       } else {
         duration--;
@@ -38,7 +37,7 @@ class OtpVerificationController extends GetxController {
 
   PinTheme defaultPinTheme = PinTheme(
       width: 54.w,
-      height: 60.h,
+      height: 56.h,
       textStyle: AppFontStyle.text_18_600(AppColors.darkText),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
@@ -49,7 +48,7 @@ class OtpVerificationController extends GetxController {
 
   PinTheme focusedPinTheme = PinTheme(
       width: 54.w,
-      height: 60.h,
+      height: 56.h,
       textStyle: AppFontStyle.text_18_600(AppColors.darkText),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),
@@ -59,7 +58,7 @@ class OtpVerificationController extends GetxController {
       ));
   PinTheme submittedPinTheme = PinTheme(
       width: 54.w,
-      height: 60.h,
+      height: 56.h,
       textStyle: AppFontStyle.text_18_600(AppColors.darkText),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15.r),

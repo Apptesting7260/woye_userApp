@@ -1,32 +1,23 @@
-import 'package:woye_user/core/app_export.dart';
-import 'package:woye_user/presentation/common/otp_verification/otp_verification_controller.dart';
+import 'package:woye_user/Routes/app_routes.dart';
+import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Common/sign_up_otp/sign_up_otp_controller.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
 
-class OtpVerificaitonScreen extends StatelessWidget {
-  const OtpVerificaitonScreen({super.key});
+class SignUpOtpScreen extends StatelessWidget {
+  const SignUpOtpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<OtpVerificationController>(
-        init: OtpVerificationController(),
-        builder: (otpVerificationController) {
+    return GetBuilder<SignUpOtpController>(
+        init: SignUpOtpController(),
+        builder: (signUpOtpController) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            appBar: CustomAppBar(
-              leading: Padding(
-                padding: REdgeInsets.only(left: 24),
-                child: CircleAvatar(
-                  radius: 44.w,
-                  backgroundColor: AppColors.greyBackground,
-                  child: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: AppColors.darkText,
-                  ),
-                ),
-              ),
-            ),
+            appBar: const CustomAppBar(),
             body: Padding(
-              padding: REdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              padding: REdgeInsets.symmetric(
+                horizontal: 24,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -46,20 +37,21 @@ class OtpVerificaitonScreen extends StatelessWidget {
                   hBox(30),
                   Pinput(
                     length: 6,
-                    defaultPinTheme: otpVerificationController.defaultPinTheme,
-                    focusedPinTheme: otpVerificationController.focusedPinTheme,
-                    submittedPinTheme:
-                        otpVerificationController.submittedPinTheme,
+                    defaultPinTheme: signUpOtpController.defaultPinTheme,
+                    focusedPinTheme: signUpOtpController.focusedPinTheme,
+                    submittedPinTheme: signUpOtpController.submittedPinTheme,
                   ),
                   hBox(20),
                   CustomElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(AppRoutes.formSignUp);
+                    },
                     text: "Verify",
                   ),
                   hBox(20),
                   Align(
                       alignment: Alignment.center,
-                      child: otpVerificationController.duration != 0
+                      child: signUpOtpController.duration != 0
                           ?
                           //     ? Text(
                           //         "${(otpVerificationController.duration ~/ 60).toString().padLeft(2, '0')}:${(otpVerificationController.duration % 60).toString().padLeft(2, '0')}",
@@ -71,14 +63,19 @@ class OtpVerificaitonScreen extends StatelessWidget {
                           //       )
                           //     : null
                           Text(
-                              "Resend code in ${otpVerificationController.duration.toString().padLeft(2, "0")} s",
+                              "Resend code in ${signUpOtpController.duration.toString()} s",
                               style:
                                   AppFontStyle.text_16_400(AppColors.darkText),
                             )
-                          : Text(
-                              "Resend Code",
-                              style:
-                                  AppFontStyle.text_14_400(AppColors.lightText),
+                          : GestureDetector(
+                              onTap: () {
+                                signUpOtpController.resendOtp();
+                              },
+                              child: Text(
+                                "Resend Code",
+                                style: AppFontStyle.text_16_400(
+                                    AppColors.lightText),
+                              ),
                             ))
                 ],
               ),
