@@ -16,33 +16,36 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leadingWidth});
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      automaticallyImplyLeading: false,
-      leading: leading ??
-          GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: Padding(
-              padding: REdgeInsets.only(left: 24, top: 20),
-              child: CircleAvatar(
-                radius: 44.w,
-                backgroundColor: AppColors.greyBackground,
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: AppColors.darkText,
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24),
+      child: AppBar(
+        automaticallyImplyLeading: false,
+        leading: leading ??
+            GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Padding(
+                padding: REdgeInsets.only(top: 20, bottom: 20),
+                child: CircleAvatar(
+                  radius: 44.w,
+                  backgroundColor: AppColors.greyBackground,
+                  child: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: AppColors.darkText,
+                  ),
                 ),
               ),
             ),
-          ),
-      leadingWidth: leadingWidth ?? 70.w,
-      toolbarHeight: 110.h,
-      actions: actions,
-      backgroundColor: Colors.transparent,
-      surfaceTintColor: Colors.transparent,
+        leadingWidth: leadingWidth ?? 50.w,
+        toolbarHeight: 90.h,
+        actions: actions,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+      ),
     );
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(110.h);
+  Size get preferredSize => Size.fromHeight(90.h);
 }
