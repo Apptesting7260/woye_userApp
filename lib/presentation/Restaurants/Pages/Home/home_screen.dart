@@ -76,6 +76,7 @@ class HomeScreen extends StatelessWidget {
                               onTap: () {
                                 homeController.getIndex(index);
                               },
+                              
                               child: MainButtonBar(
                                 title: homeController.mainButtonbar[index]
                                         ["title"] ??
@@ -99,7 +100,11 @@ class HomeScreen extends StatelessWidget {
                           separatorBuilder: (BuildContext context, int index) {
                             return wBox(10);
                           },
-                        )
+                        ),
+
+                        IndexedStack(children: [ 
+
+                        ],)
                       ],
                     ),
                   )
@@ -126,7 +131,9 @@ class MainButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
       height: 42.h,
       width: Get.width * 0.27,
       decoration: BoxDecoration(
@@ -138,7 +145,6 @@ class MainButtonBar extends StatelessWidget {
         children: [
           Image.asset(
             image,
-            // scale: 1,
             height: 16.h,
             width: 16.h,
           ),
