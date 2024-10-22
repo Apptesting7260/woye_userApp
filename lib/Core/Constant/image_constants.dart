@@ -27,15 +27,12 @@ class ImageConstants {
   static String profilefilled = "$svgPath/profile-filled.svg";
   static String notification = "$svgPath/notification.svg";
 
-  // static String restaurantGreen = "$svgPath/Restaurants-Green.svg";
-  // static String restaurantWhite = "$svgPath/Restaurants-White.svg";
-  // static String pharmacyGreen = "$svgPath/Pharmacy-Green.svg";
-  // static String pharmacyWhite = "$svgPath/Pharmacy-White.svg";
-  // static String groceryGreen = "$svgPath/Grocery-Green.svg";
-  // static String groceryWhite = "$svgPath/Grocery-White.svg";
-
   static String profileImage = "$imagePath/profile-image.png";
 
   static String restaurantDisable = "$imagePath/restaurant-green.png";
   static String restaurantEnable = "$imagePath/restaurant-white.png";
+  static String pharmacyDisable = "$imagePath/pharmacy-green.png";
+  static String pharmacyEnable = "$imagePath/pharmacy-white.png";
+  static String groceryDisable = "$imagePath/grocery-green.png";
+  static String groceryEnable = "$imagePath/grocery-white.png";
 }

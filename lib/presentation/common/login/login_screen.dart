@@ -110,7 +110,8 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                   const Spacer(),
-                  GestureDetector(
+                  InkWell(
+                    splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.signUp);
                     },

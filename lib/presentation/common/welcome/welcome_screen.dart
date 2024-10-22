@@ -71,7 +71,8 @@ class WelcomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
+                    splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.signUp);
                     },
