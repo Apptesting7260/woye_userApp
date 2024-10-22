@@ -61,7 +61,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15.r),
-                              borderSide: BorderSide(width: 1,color: AppColors.hintText)
+                              borderSide: BorderSide(width: 1.w,color: AppColors.hintText)
                           ),
                           filled: true,
                           fillColor: Colors.white
@@ -78,7 +78,7 @@ class CategoryDetailsScreen extends StatelessWidget {
                     height: 60.h,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.r),
-                      border: Border.all(width: 1,color: AppColors.hintText)
+                      border: Border.all(width: 1.w,color: AppColors.hintText)
                     ),
                     child: Center(
                       child: Image.asset("assets/images/filter.png", scale: 4),

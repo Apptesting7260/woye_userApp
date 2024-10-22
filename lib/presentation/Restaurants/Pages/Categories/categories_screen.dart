@@ -16,27 +16,25 @@ class CategoriesScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: REdgeInsets.all(8.0),
         child: Column(
           children: [
             // Search bar
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: REdgeInsets.all(8.0),
               child: TextField(
                 decoration: InputDecoration(
                   hintText: "Search",
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                       borderSide: BorderSide(
-                          width: 1, color: AppColors.textFieldBorder)),
+                          width: 1.w, color: AppColors.textFieldBorder)),
                 ),
               ),
             ),
 
-            SizedBox(
-              height: 20,
-            ),
+            hBox(20),
 
             // Category list
             Expanded(
@@ -50,15 +48,15 @@ class CategoriesScreen extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
-                              width: 1, color: AppColors.lightPrimary),
-                          borderRadius: BorderRadius.circular(15)),
+                              width: 1.w, color: AppColors.lightPrimary),
+                          borderRadius: BorderRadius.circular(15.r)),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: REdgeInsets.symmetric(horizontal: 16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Container(
-                              height: 100,
+                              height: 100.h,
                               child: Row(
                                 children: [
                                   Container(
@@ -69,13 +67,11 @@ class CategoriesScreen extends StatelessWidget {
                                     ),
                                     decoration: BoxDecoration(
                                         borderRadius:
-                                            BorderRadius.circular(10)),
-                                    height: 80,
-                                    width: 80,
+                                            BorderRadius.circular(10.r)),
+                                    height: 80.h,
+                                    width: 80.w,
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
+                                  wBox(10),
                                   Text('Pizza')
                                 ],
                               ),
@@ -88,15 +84,11 @@ class CategoriesScreen extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: 20,
-                  );
+                  return hBox(20);
                 },
               ),
             ),
-            SizedBox(
-              height: 70,
-            )
+            hBox(70),
           ],
         ),
       ),
