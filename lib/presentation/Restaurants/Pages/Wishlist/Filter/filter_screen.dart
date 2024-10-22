@@ -1,20 +1,22 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/core/Utils/sized_box.dart';
 
-class FilterScreen extends StatefulWidget {
+class FilterWishScreen extends StatefulWidget {
   @override
-  State<FilterScreen> createState() => _FilterScreenState();
+  State<FilterWishScreen> createState() => _FilterScreenState();
 }
 
-class _FilterScreenState extends State<FilterScreen> {
+class _FilterScreenState extends State<FilterWishScreen> {
 
   final Map<String, bool> _options = {
-    "Veg": true,
-    "Non-veg": false,
-    "Jain": false,
-    "Healthy": false,
-    "Vegan": false,
+    "Personal Care": true,
+    "Skin Care": false,
+    "Digestive Care": false,
+    "Fever Care": false,
+    "Heart Care": false,
   };
 
   // Range values to keep track of the slider's start and end
@@ -24,7 +26,7 @@ class _FilterScreenState extends State<FilterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: REdgeInsets.all(12.0),
+        padding: REdgeInsets.all(16.0),
         child: SingleChildScrollView(  // Added SingleChildScrollView for scrollable content
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +67,7 @@ class _FilterScreenState extends State<FilterScreen> {
               hBox(20),
 
               // Brand section with checkboxes
-              Text("Brand", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: 'Gilroy')),
+              Text("Categories", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: 'Gilroy')),
               ..._options.keys.map((String key) {
                 return CheckboxListTile(
                   title: Text(
@@ -107,17 +109,16 @@ class _FilterScreenState extends State<FilterScreen> {
                 groupValue: 1,
                 onChanged: (value) {},
               ),
-              hBox(16),
+              SizedBox(height: 16),
 
               // Quick Filter section with filter chips
-              Text("Quick Filter", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              hBox(16),
+              Text("Sort by", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               Wrap(
-                spacing: 4,
+                spacing: 8,
                 children: [
-                  FilterChipWidget(label: "Near & Fast"),
-                  FilterChipWidget(label: "Rating 4.5"),
-                  FilterChipWidget(label: "Pure Veg"),
+                  FilterChipWidget(label: "Newest"),
+                  FilterChipWidget(label: "Best sale"),
+                  FilterChipWidget(label: "Popular"),
                 ],
               ),
               hBox(16),
@@ -153,80 +154,11 @@ class _FilterScreenState extends State<FilterScreen> {
                     setState(() {
                       _currentRangeValues = values;
                     });
-                    },
+                  },
                 ),
               ),
               hBox(16),
 
-              // Size section with radio buttons
-              Text("Size", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              RadioListTile(
-                title: Text("Small", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 1,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Medium", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 2,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Large", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 3,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              SizedBox(height: 16),
-
-              // Toppings section with radio buttons
-              Text("Toppings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              RadioListTile(
-                title: Text("All", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 1,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Vegetables", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 2,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Chicken", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 3,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Paneer", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 4,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Non Veg", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 5,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Sauces And Spices", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 6,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-              RadioListTile(
-                title: Text("Others", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
-                value: 7,
-                groupValue: 1,
-                onChanged: (value) {},
-              ),
-
-              // Empty space to allow scrollability
-              SizedBox(height: 20),
 
               // Clear and Apply buttons
               Row(
@@ -293,57 +225,9 @@ class FilterChipWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(100),
-        side: BorderSide(color: AppColors.hintText)
-      ),
-      label: Text(
-        label,
-        style: TextStyle(
-            fontFamily: 'Gilroy-Regular',
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
-            color: AppColors.darkText
-        ),
-      ),
+      label: Text(label),
       selected: false,
       onSelected: (isSelected) {},
     );
   }
 }
-
-class TwoToneCircleSliderThumb extends SliderComponentShape {
-  final Color innerColor;
-  final Color outerColor;
-
-  TwoToneCircleSliderThumb({required this.innerColor, required this.outerColor});
-
-  @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size(20, 20); // Define size of the thumb
-  }
-
-  @override
-  void paint(
-      PaintingContext context,
-      Offset center, {
-        required Animation<double> activationAnimation,
-        required Animation<double> enableAnimation,
-        required bool isDiscrete,
-        required TextPainter labelPainter,
-        required RenderBox parentBox,
-        required SliderThemeData sliderTheme,
-        required TextDirection textDirection,
-        required double value,
-        required double textScaleFactor,
-        required Size sizeWithOverflow,
-      }) {
-    final Paint outerPaint = Paint()..color = outerColor;
-    final Paint innerPaint = Paint()..color = innerColor;
-    final double radius = sizeWithOverflow.shortestSide / 2;
-
-    context.canvas.drawCircle(center, radius, outerPaint);
-    context.canvas.drawCircle(center, radius * 0.8, innerPaint);
-  }
-}
-

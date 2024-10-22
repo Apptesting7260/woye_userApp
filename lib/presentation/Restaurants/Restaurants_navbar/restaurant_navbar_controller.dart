@@ -14,9 +14,9 @@ class RestaurantNavbarController extends GetxController {
   List<Widget> widgets = [
     const HomeRestaurantScreen(),
     const CategoriesScreen(),
+    const WishlistScreen(),
     const MyCartScreen(),
     const MyProfileScreen(),
-    const WishlistScreen()
   ];
 
   @override
