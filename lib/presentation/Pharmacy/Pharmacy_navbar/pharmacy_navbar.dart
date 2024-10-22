@@ -7,7 +7,7 @@ class PharmacyNavbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Pharmacy_navbar"),
+        child: Text("Pharmacy Navbar"),
       ),
     );
   }

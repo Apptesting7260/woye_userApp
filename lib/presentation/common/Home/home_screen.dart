@@ -31,11 +31,11 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
-              padding: REdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  Row(
+            body: Column(
+              children: [
+                Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
@@ -60,8 +60,11 @@ class HomeScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  hBox(30),
-                  SizedBox(
+                ),
+                hBox(30),
+                Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: SizedBox(
                     height: 42.h,
                     child: Row(
                       children: [
@@ -103,13 +106,19 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  hBox(20),
-                  // IndexedStack(
-                  //   index: homeController.mainButtonIndex,
-                  //   children: homeController.homeWidgets,
-                  // )
-                ],
-              ),
+                ),
+                hBox(20),
+                SingleChildScrollView(
+                  child: SizedBox(
+                    width: Get.width,
+                    height: 600,
+                    child: IndexedStack(
+                      index: homeController.mainButtonIndex,
+                      children: homeController.homeWidgets,
+                    ),
+                  ),
+                )
+              ],
             ),
           );
         });

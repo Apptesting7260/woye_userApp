@@ -6,9 +6,9 @@ class HomeRestaurantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("home restaurant"),
-      ),
-    );
+        body: Stack(
+      alignment: Alignment.topCenter,
+      children: [],
+    ));
   }
 }
