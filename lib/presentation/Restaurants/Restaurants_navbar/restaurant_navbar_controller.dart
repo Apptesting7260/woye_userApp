@@ -34,11 +34,6 @@ class RestaurantNavbarController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onClose() async {
-    super.onClose();
-  }
-
   bool isloading = false;
   String? token;
   Map<String, dynamic>? profileDetails;

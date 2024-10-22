@@ -30,17 +30,54 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          
           children: [
-            Text(
-              "Your Location",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Your Location",
+                      style: AppFontStyle.text_12_400(AppColors.lightText),
+                    ),
+                    hBox(10),
+                    Text(
+                      "32 Llanberis Close, Tonteg, CF38 1HR",
+                      style: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  size: 32,
+                  color: AppColors.darkText,
+                )
+              ],
             ),
-            hBox(10),
-            Text(
-              "32 Llanberis Close, Tonteg, CF38 1HR",
-              style: AppFontStyle.text_16_400(AppColors.darkText),
-            ),
+            hBox(30),
+            Row(
+              children: [
+                Container(
+                  height: 42.h,
+                  width: 120.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(10.r)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(ImageConstants.restaurantWhite),
+                      wBox(6),
+                      Text(
+                        "Restaurant",
+                        style: AppFontStyle.text_12_400(AppColors.white),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),

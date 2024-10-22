@@ -11,6 +11,10 @@ class AppFontStyle {
         fontFamily: 'Gilroy');
   }
 
+  static text_12_400(Color color) {
+    return _textStyle(color, 12.sp, FontWeight.w400, TextOverflow.ellipsis);
+  }
+
   static text_14_400(Color color) {
     return _textStyle(color, 14.sp, FontWeight.w400, TextOverflow.ellipsis);
   }
