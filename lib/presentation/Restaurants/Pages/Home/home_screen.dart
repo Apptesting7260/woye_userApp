@@ -68,9 +68,33 @@ class HomeScreen extends StatelessWidget {
                         ListView.separated(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
-                          itemCount: 3,
+                          itemCount: homeController.mainButtonbar.length,
                           itemBuilder: (context, index) {
-                            return MainButtonBar();
+                            bool isSelected =
+                                homeController.mainButtonIndex == index;
+                            return GestureDetector(
+                              onTap: () {
+                                homeController.getIndex(index);
+                              },
+                              child: MainButtonBar(
+                                title: homeController.mainButtonbar[index]
+                                        ["title"] ??
+                                    "",
+                                image: isSelected
+                                    ? homeController.mainButtonbar[index]
+                                            ["imageEnabled"] ??
+                                        ""
+                                    : homeController.mainButtonbar[index]
+                                            ["imageDisabled"] ??
+                                        "",
+                                backgroundColor: isSelected
+                                    ? AppColors.primary
+                                    : Colors.transparent,
+                                titleColor: isSelected
+                                    ? AppColors.white
+                                    : AppColors.black,
+                              ),
+                            );
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return wBox(10);
@@ -88,35 +112,40 @@ class HomeScreen extends StatelessWidget {
 }
 
 class MainButtonBar extends StatelessWidget {
-  final String? title;
-  final String? image;
+  final String image;
+  final String title;
+  final Color backgroundColor;
+  final Color titleColor;
   const MainButtonBar({
     super.key,
-    this.title,
-    this.image,
+    required this.image,
+    required this.title,
+    required this.backgroundColor,
+    required this.titleColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 42.h,
-      // width: 100.w,
       width: Get.width * 0.27,
       decoration: BoxDecoration(
-          color: AppColors.primary, borderRadius: BorderRadius.circular(10.r)),
+          border: Border.all(color: AppColors.primary.withOpacity(0.2)),
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(10.r)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            image!,
+            image,
             // scale: 1,
             height: 16.h,
             width: 16.h,
           ),
           wBox(6),
           Text(
-            title!,
-            style: AppFontStyle.text_12_400(AppColors.white),
+            title,
+            style: AppFontStyle.text_12_400(titleColor),
           )
         ],
       ),
