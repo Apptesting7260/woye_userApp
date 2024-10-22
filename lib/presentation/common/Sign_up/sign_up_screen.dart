@@ -33,28 +33,28 @@ class SignUpScreen extends StatelessWidget {
                     prefix: Padding(
                       padding: REdgeInsets.only(left: 20),
                       child: GestureDetector(
-                        onTap: () {
-                          showCountryPicker(
-                              showPhoneCode: true,
-                              context: context,
-                              onSelect: loginController.onSelect);
-                        },
+                        // onTap: () {
+                        //   showCountryPicker(
+                        //       showPhoneCode: true,
+                        //       context: context,
+                        //       onSelect: loginController.onSelect);
+                        // },
                         child: SizedBox(
                           width: 70.w,
                           child: Row(
                             children: [
-                              if (loginController.selectedCountry != null)
-                                Text(
-                                  "+${loginController.selectedCountry!.phoneCode}",
-                                  style: AppFontStyle.text_16_400(
-                                      AppColors.darkText),
-                                )
-                              else
-                                Text(
-                                  "+91",
-                                  style: AppFontStyle.text_16_400(
-                                      AppColors.darkText),
-                                ),
+                              // if (loginController.selectedCountry != null)
+                              //   Text(
+                              //     "+${loginController.selectedCountry!.phoneCode}",
+                              //     style: AppFontStyle.text_16_400(
+                              //         AppColors.darkText),
+                              //   )
+                              // else
+                              //   Text(
+                              //     "+91",
+                              //     style: AppFontStyle.text_16_400(
+                              //         AppColors.darkText),
+                              //   ),
                               wBox(5),
                               SvgPicture.asset(
                                 ImageConstants.arrowDown,

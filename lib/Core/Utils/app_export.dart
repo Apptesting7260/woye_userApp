@@ -1,8 +1,6 @@
 export 'dart:async';
 export 'dart:convert';
-
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:country_picker/country_picker.dart';
 export 'package:flutter/material.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
 export 'package:flutter_svg/flutter_svg.dart';

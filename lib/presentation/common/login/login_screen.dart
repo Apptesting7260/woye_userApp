@@ -1,9 +1,12 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Common/login/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  // final loginController = Get.lazyPut(() => LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,41 +33,19 @@ class LoginScreen extends StatelessWidget {
                   ),
                   hBox(50),
                   CustomTextFormField(
-                    prefix: Padding(
-                      padding: REdgeInsets.only(left: 20),
-                      child: GestureDetector(
-                        onTap: () {
-                          showCountryPicker(
-                              showPhoneCode: true,
-                              context: context,
-                              onSelect: loginController.onSelect);
-                        },
-                        child: SizedBox(
-                          width: 70.w,
-                          child: Row(
-                            children: [
-                              if (loginController.selectedCountry != null)
-                                Text(
-                                  "+${loginController.selectedCountry!.phoneCode}",
-                                  style: AppFontStyle.text_16_400(
-                                      AppColors.darkText),
-                                )
-                              else
-                                Text(
-                                  "+91",
-                                  style: AppFontStyle.text_16_400(
-                                      AppColors.darkText),
-                                ),
-                              wBox(5),
-                              SvgPicture.asset(
-                                ImageConstants.arrowDown,
-                                height: 6.h,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    controller: loginController.mobNoCon,
+                    contentPadding: REdgeInsets.all(30),
+                    prefix: CountryCodePicker(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 9),
+                        // onChanged: (CountryCode countryCode) {
+                        //   countryCode.updateCountryCode(countryCode);
+                        //   countryCode.showError.value = false;
+                        //   int? countrylength = controller
+                        //       .countryPhoneDigits[countryCode.code.toString()];
+                        //   controller.chackCountryLength = countrylength!;
+                        // },
+                        initialSelection: "ZA"),
                     hintText: "Phone Number",
                     textInputType: TextInputType.phone,
                   ),
@@ -72,7 +53,9 @@ class LoginScreen extends StatelessWidget {
                   CustomElevatedButton(
                     text: "Sign In",
                     onPressed: () {
-                      Get.toNamed(AppRoutes.loginOtp);
+                      loginController.sendOtp();
+
+                      // Get.toNamed(AppRoutes.loginOtp);
                     },
                   ),
                   hBox(30),
