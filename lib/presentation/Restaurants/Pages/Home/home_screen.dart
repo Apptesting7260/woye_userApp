@@ -67,7 +67,13 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(ImageConstants.restaurantWhite),
+                      Image.asset(
+                        "assets/images/restaurent-white.png",
+                        // scale: 1,
+                        height: 20.h,
+                        width: 20.h,
+                      ),
+                      // SvgPicture.asset(ImageConstants.pharmacyWhite),
                       wBox(6),
                       Text(
                         "Restaurant",
