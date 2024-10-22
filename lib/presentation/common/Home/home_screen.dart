@@ -1,4 +1,4 @@
-import 'package:woye_user/Presentation/Restaurants/Pages/Home/home_controller.dart';
+import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_app_bar.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
@@ -31,11 +31,11 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            body: SingleChildScrollView(
-              padding: REdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  Row(
+            body: Column(
+              children: [
+                Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
@@ -60,8 +60,11 @@ class HomeScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                  hBox(30),
-                  SizedBox(
+                ),
+                hBox(30),
+                Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: SizedBox(
                     height: 42.h,
                     child: Row(
                       children: [
@@ -99,12 +102,23 @@ class HomeScreen extends StatelessWidget {
                           separatorBuilder: (BuildContext context, int index) {
                             return wBox(10);
                           },
-                        )
+                        ),
                       ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                ),
+                hBox(20),
+                SingleChildScrollView(
+                  child: SizedBox(
+                    width: Get.width,
+                    height: 600,
+                    child: IndexedStack(
+                      index: homeController.mainButtonIndex,
+                      children: homeController.homeWidgets,
+                    ),
+                  ),
+                )
+              ],
             ),
           );
         });
@@ -126,7 +140,9 @@ class MainButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
       height: 42.h,
       width: Get.width * 0.27,
       decoration: BoxDecoration(
@@ -138,7 +154,6 @@ class MainButtonBar extends StatelessWidget {
         children: [
           Image.asset(
             image,
-            // scale: 1,
             height: 16.h,
             width: 16.h,
           ),

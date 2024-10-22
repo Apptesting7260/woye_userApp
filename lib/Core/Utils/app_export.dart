@@ -12,6 +12,7 @@ export 'package:google_fonts/google_fonts.dart';
 export 'package:image_picker/image_picker.dart';
 export 'package:pinput/pinput.dart';
 export 'package:woye_user/core/Utils/network_controller.dart';
+export 'package:woye_user/core/Utils/pref_utils.dart';
 export 'package:woye_user/core/Utils/sized_box.dart';
 export 'package:woye_user/core/Utils/snackbar.dart';
 export 'package:woye_user/core/Utils/validations.dart';

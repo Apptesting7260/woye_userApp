@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "783589739636",
+    "project_id": "woyewala",
+    "storage_bucket": "woyewala.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783589739636:android:5a4ca8a8b4de4d5653d521",
+        "android_client_info": {
+          "package_name": "com.woye_user.woye_user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_3I1EYcTLHYDrRUJPwPL3eVmQ_QvJ-po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
