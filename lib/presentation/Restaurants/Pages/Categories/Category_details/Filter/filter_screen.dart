@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/core/Utils/sized_box.dart';
 
 class FilterScreen extends StatefulWidget {
+  const FilterScreen({super.key});
+
   @override
   State<FilterScreen> createState() => _FilterScreenState();
 }
@@ -20,11 +20,14 @@ class _FilterScreenState extends State<FilterScreen> {
   // Range values to keep track of the slider's start and end
   RangeValues _currentRangeValues = const RangeValues(500, 1000);
 
+  int _selectedValue = 1;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: REdgeInsets.all(12.0),
+        padding: REdgeInsets.symmetric(horizontal: 12.0),
         child: SingleChildScrollView(  // Added SingleChildScrollView for scrollable content
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,26 +94,36 @@ class _FilterScreenState extends State<FilterScreen> {
                   contentPadding: EdgeInsets.zero,
                 );
               }).toList(),
-              SizedBox(height: 16),
+
+              hBox(16),
 
               // Price section with radio buttons
-              Text("Price", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              RadioListTile(
-                title: Text("Low to high", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              Text("Price", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              CustomRadioCircle(
+                title: "Low to high",
                 value: 1,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("High to low", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "High to low",
                 value: 2,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
+
               hBox(16),
 
               // Quick Filter section with filter chips
-              Text("Quick Filter", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text("Quick Filter", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
               hBox(16),
               Wrap(
                 spacing: 4,
@@ -120,6 +133,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   FilterChipWidget(label: "Pure Veg"),
                 ],
               ),
+
               hBox(16),
 
               // Price Range with slider
@@ -156,77 +170,118 @@ class _FilterScreenState extends State<FilterScreen> {
                     },
                 ),
               ),
+
               hBox(16),
 
               // Size section with radio buttons
-              Text("Size", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              RadioListTile(
-                title: Text("Small", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              Text("Size", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              CustomRadioCircle(
+                title: "Small",
                 value: 1,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Medium", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Medium",
                 value: 2,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Large", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Large",
                 value: 3,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              SizedBox(height: 16),
+
+              hBox(16),
 
               // Toppings section with radio buttons
-              Text("Toppings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              RadioListTile(
-                title: Text("All", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              Text("Toppings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              CustomRadioCircle(
+                title: "All",
                 value: 1,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Vegetables", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Vegetables",
                 value: 2,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Chicken", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Chicken",
                 value: 3,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Paneer", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Paneer",
                 value: 4,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Non Veg", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Non Veg",
                 value: 5,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Sauces And Spices", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Sauces And Spices",
                 value: 6,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("Others", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "Others",
                 value: 7,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
 
-              // Empty space to allow scrollability
-              SizedBox(height: 20),
+              hBox(20),
 
               // Clear and Apply buttons
               Row(
@@ -238,7 +293,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         width: 184.w,
                         decoration: BoxDecoration(
                           color: Colors.black,
-                          borderRadius: BorderRadius.circular(100)
+                          borderRadius: BorderRadius.circular(100.r)
                         ),
                         child: Center(
                             child: Text(
@@ -260,7 +315,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         width: 184.w,
                         decoration: BoxDecoration(
                             color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(100)
+                            borderRadius: BorderRadius.circular(100.r)
                         ),
                         child: Center(
                             child: Text(
@@ -277,6 +332,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   ),
                 ],
               ),
+              hBox(50)
             ],
           ),
         ),
@@ -347,3 +403,50 @@ class TwoToneCircleSliderThumb extends SliderComponentShape {
   }
 }
 
+class CustomRadioCircle extends StatelessWidget {
+  final String title;
+  final int value;
+  final int groupValue;
+  final ValueChanged<int?> onChanged;
+
+  CustomRadioCircle({
+    required this.title,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    bool isSelected = value == groupValue;
+
+    return GestureDetector(
+      onTap: () => onChanged(value),
+      child: Row(
+        children: [
+          Container(
+            height: 20.h,
+            width: 20.h,
+            margin: EdgeInsets.symmetric(vertical: 8.0),
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                width: 1.w,
+              ),
+            ),
+          ),
+          wBox(10),
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+              fontFamily: 'Gilroy-Regular',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
