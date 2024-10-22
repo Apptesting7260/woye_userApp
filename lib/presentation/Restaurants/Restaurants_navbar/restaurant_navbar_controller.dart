@@ -20,9 +20,9 @@ class RestaurantNavbarController extends GetxController {
   List<Widget> widgets = [
     const HomeScreen(),
     const CategoriesScreen(),
+    const WishlistScreen(),
     const MyCartScreen(),
     const MyProfileScreen(),
-    const WishlistScreen()
   ];
 
   @override
