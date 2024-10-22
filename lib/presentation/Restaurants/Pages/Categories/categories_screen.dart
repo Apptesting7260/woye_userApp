@@ -61,7 +61,7 @@ class CategoriesScreen extends StatelessWidget {
                                 children: [
                                   Container(
                                     child: Image.asset(
-                                      "assets/images/6cee589c2f553320ee93e5afced09766 1.png",
+                                      "assets/images/burger.png",
                                       scale: 10,
                                       fit: BoxFit.fill,
                                     ),

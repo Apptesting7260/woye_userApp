@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Categories/Category_details/Filter/filter_screen.dart';
 import 'package:woye_user/shared/theme/colors.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
@@ -73,15 +74,20 @@ class CategoryDetailsScreen extends StatelessWidget {
                 wBox(8),
                 Opacity(
                   opacity: .3,
-                  child: Container(
-                    width: 60.h,
-                    height: 60.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      border: Border.all(width: 1.w,color: AppColors.hintText)
-                    ),
-                    child: Center(
-                      child: Image.asset("assets/images/filter.png", scale: 4),
+                  child: InkWell(
+                    onTap: (){
+                      Get.to(FilterScreen());
+                    },
+                    child: Container(
+                      width: 60.h,
+                      height: 60.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.r),
+                        border: Border.all(width: 1.w,color: AppColors.hintText)
+                      ),
+                      child: Center(
+                        child: Image.asset("assets/images/filter.png", scale: 4),
+                      ),
                     ),
                   ),
                 ),
@@ -128,7 +134,7 @@ class PizzaItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
-                  "assets/images/6cee589c2f553320ee93e5afced09766 1.png",
+                  "assets/images/burger.png",
                   fit: BoxFit.cover, // Ensure image scales properly
                   height: 120.h, // Adjust based on your design
                   width: double.infinity,
