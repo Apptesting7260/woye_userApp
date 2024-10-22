@@ -65,7 +65,15 @@ class HomeScreen extends StatelessWidget {
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(10.r)),
                   child: Row(
-                    children: [SvgPicture.asset("assetName"), Text("data")],
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(ImageConstants.restaurantWhite),
+                      wBox(6),
+                      Text(
+                        "Restaurant",
+                        style: AppFontStyle.text_12_400(AppColors.white),
+                      )
+                    ],
                   ),
                 )
               ],
