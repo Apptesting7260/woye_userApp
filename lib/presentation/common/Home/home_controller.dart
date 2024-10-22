@@ -12,6 +12,19 @@ class HomeController extends GetxController {
     const GroceryNavbar()
   ];
 
+  void navigate(index) {
+    switch (index) {
+      case 0:
+        Get.to(
+          const RestaurantNavbar(),
+        );
+      case 1:
+        Get.to(const PharmacyNavbar());
+      case 2:
+        Get.to(const GroceryNavbar());
+    }
+  }
+
   List<Map<String, dynamic>> mainButtonbar = [
     {
       "title": "Restaurants",
