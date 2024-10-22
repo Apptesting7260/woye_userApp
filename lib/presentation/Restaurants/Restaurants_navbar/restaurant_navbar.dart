@@ -73,8 +73,9 @@ class RestaurantNavbar extends StatelessWidget {
                     width: 44.w,
                     child: Column(
                       children: [
-                        Container(
-                          margin: EdgeInsets.zero,
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.linear,
                           height: 4.h,
                           width: 44.w,
                           decoration: BoxDecoration(
