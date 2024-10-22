@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(
-                        "assets/images/restaurent-white.png",
+                        ImageConstants.restaurantWhite,
                         // scale: 1,
                         height: 20.h,
                         width: 20.h,
