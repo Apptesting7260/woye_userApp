@@ -1,5 +1,5 @@
-import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/shared/widgets/custom_app_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:woye_user/shared/theme/colors.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
   const CategoryDetailsScreen({super.key});
@@ -11,62 +11,17 @@ class CategoryDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
+            SizedBox(height: 20),
 
-            SizedBox(
-              height: 20,
-            ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey.shade200,
-                  ),
-                  child: Center(
-                    child: Image.asset("assets/images/back.png",scale: 4,)
-                  ),
-                ),
-
-                Text(
-                  "Pizza",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                SizedBox(),
-              ],
-            ),
-
-            SizedBox(
-              height: 20,
-            ),
-
-            // Search bar
-            Expanded(
-              child: Row(
-                children: [
-                  Container(
-                    height: 60,
-                    child:  TextField(
-                      decoration: InputDecoration(
-                        hintText: "Search",
-                        prefixIcon: Icon(Icons.search),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none,
-                        ),
-                        filled: true,
-                        fillColor: Colors.grey.shade200,
-                      ),
-                    ),
-                  ),
-                  Container(
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
@@ -74,16 +29,65 @@ class CategoryDetailsScreen extends StatelessWidget {
                       color: Colors.grey.shade200,
                     ),
                     child: Center(
-                        child: Image.asset("assets/images/back.png",scale: 4,)
+                      child: Image.asset("assets/images/back.png", scale: 4),
                     ),
                   ),
-                ],
-              ),
+                ),
+                Text(
+                  "Pizza",
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: 44), // Empty space to balance the layout
+              ],
             ),
 
-            SizedBox(
-              height: 20,
+            SizedBox(height: 20),
+
+            // Search bar and Filter Icon
+            Row(
+              children: [
+                Expanded(
+                  child: Opacity(
+                    opacity: .3,
+                    child: Container(
+                      height: 60,
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: "Search",
+                          prefixIcon: Icon(Icons.search),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(width: 1,color: AppColors.hintText)
+                          ),
+                          filled: true,
+                          fillColor: Colors.white
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8),
+                Opacity(
+                  opacity: .3,
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(width: 1,color: AppColors.hintText)
+                    ),
+                    child: Center(
+                      child: Image.asset("assets/images/filter.png", scale: 4),
+                    ),
+                  ),
+                ),
+              ],
             ),
+
+            SizedBox(height: 20),
 
             // Pizza listing
             Expanded(
@@ -112,6 +116,9 @@ class PizzaItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -121,7 +128,9 @@ class PizzaItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: Image.asset(
                   "assets/images/6cee589c2f553320ee93e5afced09766 1.png",
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover, // Ensure image scales properly
+                  height: 120, // Adjust based on your design
+                  width: double.infinity,
                 ),
               ),
               Positioned(
@@ -146,12 +155,18 @@ class PizzaItem extends StatelessWidget {
                 Row(
                   children: [
                     Text("\$18.00", style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(width: 5,),
-                    Text("\$20.00", style: TextStyle(decoration: TextDecoration.lineThrough)),
+                    SizedBox(width: 5),
+                    Text(
+                      "\$20.00",
+                      style: TextStyle(
+                        decoration: TextDecoration.lineThrough,
+                        color: Colors.grey,
+                      ),
+                    ),
                   ],
                 ),
-                Text("McMushroom Pizza"),
                 SizedBox(height: 4),
+                Text("McMushroom Pizza"),
               ],
             ),
           ),
