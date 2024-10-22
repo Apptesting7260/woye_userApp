@@ -1,7 +1,17 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
+import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar.dart';
 
 class HomeController extends GetxController {
   int mainButtonIndex = 0;
+
+  List<Widget> homeWidgets = [
+    const RestaurantNavbar(),
+    const PharmacyNavbar(),
+    const GroceryNavbar()
+  ];
+
   List<Map<String, dynamic>> mainButtonbar = [
     {
       "title": "Restaurants",

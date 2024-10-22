@@ -1,4 +1,4 @@
-import 'package:woye_user/Presentation/Restaurants/Pages/Home/home_controller.dart';
+import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_app_bar.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
@@ -76,7 +76,6 @@ class HomeScreen extends StatelessWidget {
                               onTap: () {
                                 homeController.getIndex(index);
                               },
-                              
                               child: MainButtonBar(
                                 title: homeController.mainButtonbar[index]
                                         ["title"] ??
@@ -101,13 +100,14 @@ class HomeScreen extends StatelessWidget {
                             return wBox(10);
                           },
                         ),
-
-                        IndexedStack(children: [ 
-
-                        ],)
                       ],
                     ),
-                  )
+                  ),
+                  hBox(20),
+                  // IndexedStack(
+                  //   index: homeController.mainButtonIndex,
+                  //   children: homeController.homeWidgets,
+                  // )
                 ],
               ),
             ),

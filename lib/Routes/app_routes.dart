@@ -1,4 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar_binding.dart';
 import 'package:woye_user/presentation/Common/form_sign_up/form_sign_up_binding.dart';
@@ -27,7 +28,7 @@ class AppRoutes {
 
   static const String otpVerification = "/otp_verification";
 
-  // static const String signUp = "/signUp_page";
+  static const String homeScreen = "/home_screen";
   // static const String navbar = "/nav_bar";
 
   // static const String homeScreen = "/home_screen";
@@ -72,5 +73,10 @@ class AppRoutes {
         name: restaurantNavbar,
         page: () => const RestaurantNavbar(),
         binding: RestaurantNavbarBinding()),
+    GetPage(
+      name: homeScreen,
+      page: () => const HomeScreen(),
+      // binding: RestaurantNavbarBinding()
+    ),
   ];
 }
