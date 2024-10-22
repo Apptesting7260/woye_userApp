@@ -5,6 +5,8 @@ import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant
 
 class HomeController extends GetxController {
   int mainButtonIndex = 0;
+  
+
 
   List<Widget> homeWidgets = [
     const RestaurantNavbar(),
