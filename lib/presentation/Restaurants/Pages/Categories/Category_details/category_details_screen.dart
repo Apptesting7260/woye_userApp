@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/shared/theme/colors.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
@@ -8,10 +9,10 @@ class CategoryDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: REdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            hBox(20),
 
 
             Row(
@@ -22,8 +23,8 @@ class CategoryDetailsScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    width: 44,
-                    height: 44,
+                    width: 44.h,
+                    height: 44.h,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey.shade200,
@@ -36,15 +37,15 @@ class CategoryDetailsScreen extends StatelessWidget {
                 Text(
                   "Pizza",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 44), // Empty space to balance the layout
+                wBox(44) // Empty space to balance the layout
               ],
             ),
 
-            SizedBox(height: 20),
+            hBox(20),
 
             // Search bar and Filter Icon
             Row(
@@ -53,13 +54,13 @@ class CategoryDetailsScreen extends StatelessWidget {
                   child: Opacity(
                     opacity: .3,
                     child: Container(
-                      height: 60,
+                      height: 60.h,
                       child: TextField(
                         decoration: InputDecoration(
                           hintText: "Search",
                           prefixIcon: Icon(Icons.search),
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(15.r),
                               borderSide: BorderSide(width: 1,color: AppColors.hintText)
                           ),
                           filled: true,
@@ -69,14 +70,14 @@ class CategoryDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 8),
+                wBox(8),
                 Opacity(
                   opacity: .3,
                   child: Container(
-                    width: 60,
-                    height: 60,
+                    width: 60.h,
+                    height: 60.h,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
+                      borderRadius: BorderRadius.circular(15.r),
                       border: Border.all(width: 1,color: AppColors.hintText)
                     ),
                     child: Center(
@@ -87,7 +88,7 @@ class CategoryDetailsScreen extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 20),
+           hBox(20),
 
             // Pizza listing
             Expanded(
@@ -117,7 +118,7 @@ class PizzaItem extends StatelessWidget {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -129,20 +130,20 @@ class PizzaItem extends StatelessWidget {
                 child: Image.asset(
                   "assets/images/6cee589c2f553320ee93e5afced09766 1.png",
                   fit: BoxFit.cover, // Ensure image scales properly
-                  height: 120, // Adjust based on your design
+                  height: 120.h, // Adjust based on your design
                   width: double.infinity,
                 ),
               ),
               Positioned(
-                top: 5,
-                right: 5,
+                top: 5.h,
+                right: 5.w,
                 child: Container(
-                  padding: EdgeInsets.all(4),
+                  padding: REdgeInsets.all(4),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.favorite_border, size: 16),
+                  child: Icon(Icons.favorite_border, size: 16.h),
                 ),
               ),
             ],
@@ -155,7 +156,7 @@ class PizzaItem extends StatelessWidget {
                 Row(
                   children: [
                     Text("\$18.00", style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(width: 5),
+                    wBox(5),
                     Text(
                       "\$20.00",
                       style: TextStyle(
@@ -165,7 +166,7 @@ class PizzaItem extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 4),
+                hBox(4),
                 Text("McMushroom Pizza"),
               ],
             ),
