@@ -1,11 +1,14 @@
-import 'package:country_code_picker/country_code_picker.dart';
-import 'package:woye_user/Routes/app_routes.dart';
-import 'package:woye_user/core/utils/app_export.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: avoid_print, unnecessary_string_interpolations
+
 import 'dart:io';
 
+import 'package:country_code_picker/country_code_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:woye_user/Routes/app_routes.dart';
+import 'package:woye_user/core/utils/app_export.dart';
+
 class LoginController extends GetxController {
-  bool isLoding = false;
+  RxBool isLoding = false.obs;
 
   late TextEditingController mobNoCon;
 
@@ -13,19 +16,17 @@ class LoginController extends GetxController {
   var resendToken = 0.obs;
   RxBool showError = true.obs;
 
-
-
   @override
   void onInit() {
     mobNoCon = TextEditingController();
-    // TODO: implement onInit
+    
     super.onInit();
   }
 
   @override
   void onClose() {
     mobNoCon.dispose();
-    // TODO: implement onClose
+   
     super.onClose();
   }
 
@@ -45,7 +46,7 @@ class LoginController extends GetxController {
     print(
         'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
-      isLoding = true;
+      isLoding = true.obs;
       update();
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
@@ -84,7 +85,7 @@ class LoginController extends GetxController {
           verificationID.value = verificationId;
           completer.complete(true);
           Get.toNamed(AppRoutes.loginOtp);
-          isLoding = false;
+          isLoding = false.obs;
           update();
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
@@ -92,9 +93,9 @@ class LoginController extends GetxController {
     } catch (e) {
       completer.complete(false);
       print('error == ${e.toString()}');
-      isLoding = false;
+      isLoding = false.obs;
     }
-    isLoding = false;
+    isLoding = false.obs;
     return completer.future;
   }
 
