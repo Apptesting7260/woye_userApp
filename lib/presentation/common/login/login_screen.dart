@@ -38,16 +38,25 @@ class LoginScreen extends StatelessWidget {
                     prefix: CountryCodePicker(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 9),
-                        // onChanged: (CountryCode countryCode) {
-                        //   countryCode.updateCountryCode(countryCode);
-                        //   countryCode.showError.value = false;
-                        //   int? countrylength = controller
-                        //       .countryPhoneDigits[countryCode.code.toString()];
-                        //   controller.chackCountryLength = countrylength!;
-                        // },
-                        initialSelection: "ZA"),
+                        onChanged: (CountryCode countryCode) {
+                          loginController.updateCountryCode(countryCode);
+                          loginController.showError.value = false;
+                          int? countrylength = loginController
+                              .countryPhoneDigits[countryCode.code.toString()];
+                          loginController.chackCountryLength = countrylength!;
+                        },
+                        initialSelection: "IN"),
                     hintText: "Phone Number",
                     textInputType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your phone number';
+                      }
+                      if (value.length != loginController.chackCountryLength) {
+                        return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
+                      }
+                      return null; // Return null if the input is valid
+                    },
                   ),
                   hBox(20),
                   CustomElevatedButton(
