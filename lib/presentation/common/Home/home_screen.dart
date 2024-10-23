@@ -13,7 +13,8 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: REdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  padding: REdgeInsets.only(
+                      left: 24, top: 30, right: 24, bottom: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -51,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                                 style: AppFontStyle.text_12_400(
                                     AppColors.lightText),
                               ),
-                              hBox(10),
+                              hBox(5),
                               Text(
                                 "32 Llanberis Close, Tonteg, CF38 1HR",
                                 style: AppFontStyle.text_14_400(
@@ -60,14 +61,14 @@ class HomeScreen extends StatelessWidget {
                             ],
                           ),
                           Icon(
-                            Icons.keyboard_arrow_right_rounded,
-                            size: 32,
-                            color: AppColors.darkText,
+                            Icons.arrow_forward_ios_sharp,
+                            size: 22,
+                            color: AppColors.darkText.withOpacity(0.8),
                           )
                         ],
                       ),
                     ),
-                    hBox(30),
+                    hBox(20),
                     Padding(
                       padding: REdgeInsets.symmetric(horizontal: 24),
                       child: SizedBox(
@@ -115,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    hBox(10),
+                    hBox(4),
                   ],
                 ),
               ],

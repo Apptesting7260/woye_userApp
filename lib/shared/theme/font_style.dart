@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 
 class AppFontStyle {
   static TextStyle _textStyle(
@@ -9,6 +8,10 @@ class AppFontStyle {
         fontSize: size,
         fontWeight: fontWeight,
         fontFamily: 'Gilroy');
+  }
+
+  static text_10_400(Color color) {
+    return _textStyle(color, 10.sp, FontWeight.w400, TextOverflow.ellipsis);
   }
 
   static text_12_400(Color color) {
@@ -21,6 +24,10 @@ class AppFontStyle {
 
   static text_15_400(Color color) {
     return _textStyle(color, 15.sp, FontWeight.w400, TextOverflow.ellipsis);
+  }
+
+  static text_16_300(Color color) {
+    return _textStyle(color, 16.sp, FontWeight.w300, TextOverflow.ellipsis);
   }
 
   static text_16_400(Color color) {
@@ -41,6 +48,10 @@ class AppFontStyle {
 
   static text_24_400(Color color) {
     return _textStyle(color, 24.sp, FontWeight.w400, TextOverflow.ellipsis);
+  }
+
+  static text_12_600(Color color) {
+    return _textStyle(color, 12.sp, FontWeight.w600, TextOverflow.ellipsis);
   }
 
   static text_14_600(Color color) {
