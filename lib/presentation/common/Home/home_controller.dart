@@ -40,6 +40,7 @@ class HomeController extends GetxController {
       case 2:
         Get.toNamed(AppRoutes.groceryNavbar);
     }
+    update();
   }
 
   void getIndex(index) {
