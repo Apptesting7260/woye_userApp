@@ -13,8 +13,6 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
   GlobalKey homeWidgetKey = GlobalKey();
   double height = 520;
 
-  
-
   _getHeight(_) {
     final keyContext = homeWidgetKey.currentContext;
     if (keyContext != null) height = keyContext.size!.height;
@@ -39,7 +37,6 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
             child: ListView(
               children: [
                 StickyHeader(
-                  
                   header: Container(
                     height: 50.0,
                     color: Colors.blueGrey[700],

@@ -1,149 +1,123 @@
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
+import 'package:woye_user/Shared/Widgets/custom_app_bar.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  GlobalKey homekey = GlobalKey();
-  double? size;
-
-  _getSizes() {
-    final renderBoxRed = homekey.currentContext;
-    size = renderBoxRed!.size!.height;
-    print("checkSize : $size");
-  }
-
-  _afterLayout(_) {
-    _getSizes();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
-  }
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<HomeController>(
         init: HomeController(),
         builder: (homeController) {
-          return Container(
-            key: homekey,
-            child: Column(
+          return Scaffold(
+            appBar: CustomAppBar(
+              leading: Image.asset(
+                ImageConstants.profileImage,
+                height: 50.h,
+                width: 50.h,
+              ),
+              actions: [
+                Container(
+                  padding: REdgeInsets.all(9),
+                  height: 44.h,
+                  width: 44.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.greyBackground,
+                      borderRadius: BorderRadius.circular(12.r)),
+                  child: SvgPicture.asset(
+                    ImageConstants.notification,
+                  ),
+                ),
+              ],
+            ),
+            body: Column(
               children: [
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                  padding: REdgeInsets.symmetric(horizontal: 24),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset(
-                        ImageConstants.profileImage,
-                        height: 50.h,
-                        width: 50.h,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Your Location",
+                            style:
+                                AppFontStyle.text_12_400(AppColors.lightText),
+                          ),
+                          hBox(10),
+                          Text(
+                            "32 Llanberis Close, Tonteg, CF38 1HR",
+                            style: AppFontStyle.text_14_400(AppColors.darkText),
+                          ),
+                        ],
                       ),
-                      Container(
-                        padding: REdgeInsets.all(9),
-                        height: 44.h,
-                        width: 44.h,
-                        decoration: BoxDecoration(
-                            color: AppColors.greyBackground,
-                            borderRadius: BorderRadius.circular(12.r)),
-                        child: SvgPicture.asset(
-                          ImageConstants.notification,
-                        ),
-                      ),
+                      Icon(
+                        Icons.keyboard_arrow_right_rounded,
+                        size: 32,
+                        color: AppColors.darkText,
+                      )
                     ],
                   ),
                 ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: REdgeInsets.symmetric(horizontal: 24),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Your Location",
-                                style: AppFontStyle.text_12_400(
-                                    AppColors.lightText),
-                              ),
-                              hBox(6),
-                              Text(
-                                "32 Llanberis Close, Tonteg, CF38 1HR",
-                                style: AppFontStyle.text_14_400(
-                                    AppColors.darkText),
-                              ),
-                            ],
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_right_rounded,
-                            size: 32.h,
-                            color: AppColors.darkText,
-                          )
-                        ],
-                      ),
-                    ),
-                    hBox(30),
-                    Padding(
-                      padding: REdgeInsets.symmetric(horizontal: 24),
-                      child: SizedBox(
-                        height: 42.h,
-                        child: Row(
-                          children: [
-                            ListView.separated(
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount: homeController.mainButtonbar.length,
-                              itemBuilder: (context, index) {
-                                bool isSelected =
-                                    homeController.mainButtonIndex == index;
-                                return GestureDetector(
-                                  onTap: () {
-                                    homeController.getIndex(index);
-                                    homeController.navigate(index);
-                                  },
-                                  child: MainButtonBar(
-                                    title: homeController.mainButtonbar[index]
-                                            ["title"] ??
+                hBox(30),
+                Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: SizedBox(
+                    height: 42.h,
+                    child: Row(
+                      children: [
+                        ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemCount: homeController.mainButtonbar.length,
+                          itemBuilder: (context, index) {
+                            bool isSelected =
+                                homeController.mainButtonIndex == index;
+                            return GestureDetector(
+                              onTap: () {
+                                homeController.getIndex(index);
+                              },
+                              child: MainButtonBar(
+                                title: homeController.mainButtonbar[index]
+                                        ["title"] ??
+                                    "",
+                                image: isSelected
+                                    ? homeController.mainButtonbar[index]
+                                            ["imageEnabled"] ??
+                                        ""
+                                    : homeController.mainButtonbar[index]
+                                            ["imageDisabled"] ??
                                         "",
-                                    image: isSelected
-                                        ? homeController.mainButtonbar[index]
-                                                ["imageEnabled"] ??
-                                            ""
-                                        : homeController.mainButtonbar[index]
-                                                ["imageDisabled"] ??
-                                            "",
-                                    backgroundColor: isSelected
-                                        ? AppColors.primary
-                                        : Colors.transparent,
-                                    titleColor: isSelected
-                                        ? AppColors.white
-                                        : AppColors.black,
-                                  ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return wBox(10);
-                              },
-                            ),
-                          ],
+                                backgroundColor: isSelected
+                                    ? AppColors.primary
+                                    : Colors.transparent,
+                                titleColor: isSelected
+                                    ? AppColors.white
+                                    : AppColors.black,
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return wBox(10);
+                          },
                         ),
-                      ),
+                      ],
                     ),
-                    hBox(20),
-                  ],
+                  ),
                 ),
+                hBox(20),
+                SingleChildScrollView(
+                  child: SizedBox(
+                    width: Get.width,
+                    height: 600,
+                    child: IndexedStack(
+                      index: homeController.mainButtonIndex,
+                      children: homeController.homeWidgets,
+                    ),
+                  ),
+                )
               ],
             ),
           );
