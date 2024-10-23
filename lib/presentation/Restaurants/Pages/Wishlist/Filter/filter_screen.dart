@@ -22,6 +22,8 @@ class _FilterScreenState extends State<FilterWishScreen> {
   // Range values to keep track of the slider's start and end
   RangeValues _currentRangeValues = const RangeValues(500, 1000);
 
+  int _selectedValue = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,8 +87,8 @@ class _FilterScreenState extends State<FilterWishScreen> {
                     });
                   },
                   checkboxShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.r),
-                    side: BorderSide(width: 1,color: AppColors.darkText)
+                      borderRadius: BorderRadius.circular(5.r),
+                      side: BorderSide(width: 1,color: AppColors.darkText)
                   ),
                   activeColor: Colors.black,
                   controlAffinity: ListTileControlAffinity.leading,
@@ -96,18 +98,26 @@ class _FilterScreenState extends State<FilterWishScreen> {
               SizedBox(height: 16),
 
               // Price section with radio buttons
-              Text("Price", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              RadioListTile(
-                title: Text("Low to high", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              Text("Price", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22.sp,fontFamily: 'Gilroy')),
+              CustomRadioCircle(
+                title: "Low to high",
                 value: 1,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
-              RadioListTile(
-                title: Text("High to low", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,fontFamily: 'Gilroy-Regular')),
+              CustomRadioCircle(
+                title: "High to low",
                 value: 2,
-                groupValue: 1,
-                onChanged: (value) {},
+                groupValue: _selectedValue,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue = value!;
+                  });
+                },
               ),
               SizedBox(height: 16),
 
@@ -169,8 +179,8 @@ class _FilterScreenState extends State<FilterWishScreen> {
                         height: 60.h,
                         width: 184.w,
                         decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(100)
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(100)
                         ),
                         child: Center(
                             child: Text(
@@ -228,6 +238,54 @@ class FilterChipWidget extends StatelessWidget {
       label: Text(label),
       selected: false,
       onSelected: (isSelected) {},
+    );
+  }
+}
+
+class CustomRadioCircle extends StatelessWidget {
+  final String title;
+  final int value;
+  final int groupValue;
+  final ValueChanged<int?> onChanged;
+
+  CustomRadioCircle({
+    required this.title,
+    required this.value,
+    required this.groupValue,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    bool isSelected = value == groupValue;
+
+    return GestureDetector(
+      onTap: () => onChanged(value),
+      child: Row(
+        children: [
+          Container(
+            height: 20.h,
+            width: 20.h,
+            margin: EdgeInsets.symmetric(vertical: 8.0),
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                width: 1.w,
+              ),
+            ),
+          ),
+          wBox(10),
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+              fontFamily: 'Gilroy-Regular',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
