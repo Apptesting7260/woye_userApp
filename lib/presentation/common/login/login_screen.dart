@@ -34,7 +34,6 @@ class LoginScreen extends StatelessWidget {
                   hBox(50),
                   CustomTextFormField(
                     controller: loginController.mobNoCon,
-                    contentPadding: REdgeInsets.all(30),
                     prefix: CountryCodePicker(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 9),
@@ -55,16 +54,15 @@ class LoginScreen extends StatelessWidget {
                       if (value.length != loginController.chackCountryLength) {
                         return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
                       }
-                      return null; // Return null if the input is valid
+                      return null;
                     },
                   ),
                   hBox(20),
                   CustomElevatedButton(
                     text: "Sign In",
+                    isLoading: loginController.isLoding,
                     onPressed: () {
                       loginController.sendOtp();
-
-                      // Get.toNamed(AppRoutes.loginOtp);
                     },
                   ),
                   hBox(30),

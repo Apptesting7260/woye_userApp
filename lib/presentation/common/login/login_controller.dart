@@ -1,15 +1,19 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 
 class LoginController extends GetxController {
+  bool isLoding = false;
+
   late TextEditingController mobNoCon;
 
   // late TextEditingController countryCode;
   var resendToken = 0.obs;
   RxBool showError = true.obs;
+
+
 
   @override
   void onInit() {
@@ -41,11 +45,15 @@ class LoginController extends GetxController {
     print(
         'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
+      isLoding = true;
+      update();
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber:
             '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
-        // forceResendingToken: !Platform.isIOS ? (resendToken.value != 0 ? resendToken.value : null) : null,
+        forceResendingToken: !Platform.isIOS
+            ? (resendToken.value != 0 ? resendToken.value : null)
+            : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
         },
@@ -58,7 +66,6 @@ class LoginController extends GetxController {
             SnackBarUtils.showToastCenter('Something went wrong');
           }
           print(e.toString());
-
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
@@ -76,17 +83,22 @@ class LoginController extends GetxController {
           }
           verificationID.value = verificationId;
           completer.complete(true);
+          Get.toNamed(AppRoutes.loginOtp);
+          isLoding = false;
+          update();
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
       completer.complete(false);
       print('error == ${e.toString()}');
+      isLoding = false;
     }
+    isLoding = false;
     return completer.future;
   }
 
-  int chackCountryLength = 9;
+  int chackCountryLength = 10;
   final Map<String, int> countryPhoneDigits = {
     'AF': 9, // Afghanistan
     'AL': 9, // Albania

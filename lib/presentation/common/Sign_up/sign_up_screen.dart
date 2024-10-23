@@ -1,15 +1,16 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Common/login/login_controller.dart';
+import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<LoginController>(
-        init: LoginController(),
-        builder: (loginController) {
+    return GetBuilder<SignUpController>(
+        init: SignUpController(),
+        builder: (signUpController) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             body: Padding(
@@ -30,41 +31,17 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   hBox(50),
                   CustomTextFormField(
-                    prefix: Padding(
-                      padding: REdgeInsets.only(left: 20),
-                      child: GestureDetector(
-                        // onTap: () {
-                        //   showCountryPicker(
-                        //       showPhoneCode: true,
-                        //       context: context,
-                        //       onSelect: loginController.onSelect);
-                        // },
-                        child: SizedBox(
-                          width: 70.w,
-                          child: Row(
-                            children: [
-                              // if (loginController.selectedCountry != null)
-                              //   Text(
-                              //     "+${loginController.selectedCountry!.phoneCode}",
-                              //     style: AppFontStyle.text_16_400(
-                              //         AppColors.darkText),
-                              //   )
-                              // else
-                              //   Text(
-                              //     "+91",
-                              //     style: AppFontStyle.text_16_400(
-                              //         AppColors.darkText),
-                              //   ),
-                              wBox(5),
-                              SvgPicture.asset(
-                                ImageConstants.arrowDown,
-                                height: 6.h,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    prefix: CountryCodePicker(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 0, vertical: 9),
+                        onChanged: (CountryCode countryCode) {
+                          signUpController.updateCountryCode(countryCode);
+                          signUpController.showError.value = false;
+                          int? countrylength = signUpController
+                              .countryPhoneDigits[countryCode.code.toString()];
+                          signUpController.chackCountryLength = countrylength!;
+                        },
+                        initialSelection: "IN"),
                     hintText: "Phone Number",
                     textInputType: TextInputType.phone,
                   ),
@@ -72,7 +49,7 @@ class SignUpScreen extends StatelessWidget {
                   CustomElevatedButton(
                     text: "Sign Up",
                     onPressed: () {
-                      Get.toNamed(AppRoutes.signUpOtp);
+                      // Get.toNamed(AppRoutes.loginOtp);
                     },
                   ),
                   const Spacer(),

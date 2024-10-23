@@ -8,15 +8,13 @@ import 'package:woye_user/presentation/Common/form_sign_up/form_sign_up_binding.
 import 'package:woye_user/presentation/Common/form_sign_up/form_sign_up_screen.dart';
 import 'package:woye_user/presentation/Common/login/login_binding.dart';
 import 'package:woye_user/presentation/Common/login/login_screen.dart';
-import 'package:woye_user/presentation/Common/login_otp/login_otp_binding.dart';
-import 'package:woye_user/presentation/Common/login_otp/login_otp_screen.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_binding.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
-import 'package:woye_user/presentation/Common/sign_up_otp/sign_up_otp_binding.dart';
-import 'package:woye_user/presentation/Common/sign_up_otp/sign_up_otp_screen.dart';
 import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
+import '../presentation/common/otp/login_otp_binding.dart';
+import '../presentation/common/otp/login_otp_screen.dart';
 
 class AppRoutes {
   static const String initalRoute = "/inital_route";
@@ -24,23 +22,14 @@ class AppRoutes {
   static const String login = "/login_screen";
   static const String loginOtp = "/login_otp";
   static const String signUp = "/sign_up_screen";
-  static const String signUpOtp = "/sign_up_otp_page";
   static const String formSignUp = "/form_sign_up";
   static const String restaurantNavbar = "/restaurant_navbar";
   static const String pharmacyNavbar = "/pharmacy_navbar";
   static const String groceryNavbar = "/grocery_navbar";
-
   static const String otpVerification = "/otp_verification";
-
   static const String homeScreen = "/home_screen";
-  // static const String navbar = "/nav_bar";
 
-  // static const String homeScreen = "/home_screen";
-  // static const String customerSupport = "/customer_support";
-  // static const String profilePage = "/profile_page";
-  // static const String myAccount = "/my_account";
-  // static const String termsAndConditions = "/term_and_conditions";
-  // static const String privacyPolicy = "/privacy_policy";
+
 
   static List<GetPage> pages = [
     GetPage(
@@ -54,16 +43,16 @@ class AppRoutes {
     GetPage(name: login, page: () => LoginScreen(), binding: LoginBinding()),
     GetPage(
         name: loginOtp,
-        page: () => const LoginOtpScreen(),
+        page: () => LoginOtpScreen(),
         binding: LoginOtpBinding()),
     GetPage(
         name: signUp,
         page: () => const SignUpScreen(),
         binding: SignUpBinding()),
-    GetPage(
-        name: signUpOtp,
-        page: () => const SignUpOtpScreen(),
-        binding: SignUpOtpBinding()),
+    // GetPage(
+    //     name: signUpOtp,
+    //     page: () => const SignUpOtpScreen(),
+    //     binding: SignUpOtpBinding()),
     GetPage(
         name: formSignUp,
         page: () => const FormSignUpScreen(),
