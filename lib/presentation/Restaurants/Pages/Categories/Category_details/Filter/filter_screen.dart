@@ -1,3 +1,6 @@
+import 'package:another_xlider/another_xlider.dart';
+import 'package:another_xlider/models/handler.dart';
+import 'package:another_xlider/models/trackbar.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -8,8 +11,7 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-
-  final Map<String, bool> _options = {
+  final Map<String, bool> options = {
     "Veg": true,
     "Non-veg": false,
     "Jain": false,
@@ -17,24 +19,35 @@ class _FilterScreenState extends State<FilterScreen> {
     "Vegan": false,
   };
 
-  // Range values to keep track of the slider's start and end
-  RangeValues _currentRangeValues = const RangeValues(500, 1000);
+  final Map<String, bool> price = {
+    "Veg": true,
+    "Non-veg": false,
+  };
 
-  int _selectedValue = 1;
+  final Map<String, bool> size = {
+    "Veg": true,
+    "Non-veg": false,
+  };
 
+  final Map<String, bool> tops = {
+    "Veg": true,
+    "Non-veg": false,
+  };
+
+  double _lowerValue = 500;
+  double _upperValue = 1000;
+  int groupValue = -1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: REdgeInsets.symmetric(horizontal: 12.0),
-        child: SingleChildScrollView(  // Added SingleChildScrollView for scrollable content
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               hBox(20),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -61,81 +74,145 @@ class _FilterScreenState extends State<FilterScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  wBox(44) // Empty space to balance the layout
+                  wBox(44),
                 ],
               ),
-
               hBox(20),
 
-              // Brand section with checkboxes
-              Text("Brand", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: 'Gilroy')),
-              ..._options.keys.map((String key) {
-                return CheckboxListTile(
-                  title: Text(
-                    key,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18.sp,
-                      fontFamily: 'Gilroy-Regular',
-                    ),
-                  ),
-                  value: _options[key],
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _options[key] = value!;
-                    });
-                  },
-                  checkboxShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.r),
-                      side: BorderSide(width: 1,color: AppColors.darkText)
-                  ),
-                  activeColor: Colors.black,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                );
-              }).toList(),
+              // Brand section with ListView.builder
+              Text("Brand", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Container(
+                height: 150.h, // Adjust height based on content
+                child: ListView.separated(
+                  itemCount: options.length,
+                  itemBuilder: (context, index) {
+                    String key = options.keys.elementAt(index);
+                    bool isSelected = options[key] ?? false;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          options[key] = !isSelected; // Toggle selection state
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 20.h,
+                            width: 20.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.r),
+                              color: isSelected ? Colors.black : Colors.white,
+                              border: Border.all(
+                                width: 1.w,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.check,
+                              color: isSelected ? Colors.white : Colors.white,
+                              size: 16.h,
+                            ),
+                          ),
+                          wBox(10),
+                          Text(
+                            'title',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              fontFamily: 'Gilroy-Regular',
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }, separatorBuilder: (BuildContext context, int index) {
+                    return hBox(5);
+                },
+                ),
+              ),
 
-              hBox(16),
+
+              hBox(25),
 
               // Price section with radio buttons
               Text("Price", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-              CustomRadioCircle(
-                title: "Low to high",
-                value: 1,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
+              Container(
+                height: 150.h, // Adjust height based on content
+                child: ListView.separated(
+                  itemCount: price.length,
+                  itemBuilder: (context, index) {
+                    String key = price.keys.elementAt(index);
+                    bool isPrice = price[key] ?? false;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          price[key] = !isPrice; // Toggle selection state
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 20.h,
+                            width: 20.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isPrice ? Colors.black : Colors.white,
+                              border: Border.all(
+                                width: 1.w,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.check,
+                              color: isPrice ? Colors.white : Colors.white,
+                              size: 16.h,
+                            ),
+                          ),
+                          wBox(10),
+                          Text(
+                            'title',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              fontFamily: 'Gilroy-Regular',
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }, separatorBuilder: (BuildContext context, int index) {
+                  return hBox(5);
                 },
-              ),
-              CustomRadioCircle(
-                title: "High to low",
-                value: 2,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
+                ),
               ),
 
-              hBox(16),
+              hBox(25),
 
-              // Quick Filter section with filter chips
               Text("Quick Filter", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-              hBox(16),
-              Wrap(
-                spacing: 4,
-                children: [
-                  FilterChipWidget(label: "Near & Fast"),
-                  FilterChipWidget(label: "Rating 4.5"),
-                  FilterChipWidget(label: "Pure Veg"),
-                ],
+              hBox(10),
+              Container(
+                height: 150.h,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2.5,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                  ),
+                  itemCount: 3,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      height: 43.h,
+                      child: Center(child: Text('Near and Fast')),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppColors.darkText,width: 1),
+                        borderRadius: BorderRadius.circular(100.r)
+                      ),
+                    );
+                  },
+                ),
               ),
 
-              hBox(16),
-
+              hBox(15),
               // Price Range with slider
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,141 +224,147 @@ class _FilterScreenState extends State<FilterScreen> {
               hBox(6),
               Text("Average price: \$1.200", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,color: AppColors.lightText)),
               hBox(6),
+
               // RangeSlider widget
-              SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  thumbColor: AppColors.primary,
-                  trackHeight: 4,
-                  inactiveTrackColor: Colors.grey.shade300, // Inactive track color
+              FlutterSlider(
+                values: [_lowerValue, _upperValue],
+                max: 1000,
+                min: 100,
+                rangeSlider: true,
+                handlerHeight: 24,
+                handler: FlutterSliderHandler(
+                  child: Image.asset("assets/images/slider-image.png"),
                 ),
-                child: RangeSlider(
-                  values: _currentRangeValues,
-                  min: 500,
-                  max: 1000,
-                  divisions: 100,
-                  labels: RangeLabels(
-                    _currentRangeValues.start.round().toString(),
-                    _currentRangeValues.end.round().toString(),
+                rightHandler: FlutterSliderHandler(
+                  child: Image.asset("assets/images/slider-image.png"),
+                ),
+                trackBar: FlutterSliderTrackBar(
+                  activeTrackBarHeight: 8,
+                  inactiveTrackBarHeight: 8,
+                  activeTrackBar: BoxDecoration(
+                    color: AppColors.primary, // Active color
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  onChanged: (RangeValues values) {
-                    setState(() {
-                      _currentRangeValues = values;
-                    });
-                  },
+                  inactiveTrackBar: BoxDecoration(
+                    color: AppColors.lightText.withOpacity(.3)  , // Inactive color
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                onDragging: (handlerIndex, lowerValue, upperValue) {
+                  setState(() {
+                    _lowerValue = lowerValue;
+                    _upperValue = upperValue;
+                  });
+                },
+              ),
+              hBox(16),
+
+
+              hBox(25),
+
+              Text("Size", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Container(
+                height: 150.h, // Adjust height based on content
+                child: ListView.separated(
+                  itemCount: size.length,
+                  itemBuilder: (context, index) {
+                    String key = size.keys.elementAt(index);
+                    bool isSize = size[key] ?? false;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          size[key] = !isSize; // Toggle selection state
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 20.h,
+                            width: 20.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isSize ? Colors.black : Colors.white,
+                              border: Border.all(
+                                width: 1.w,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.check,
+                              color: isSize ? Colors.white : Colors.white,
+                              size: 16.h,
+                            ),
+                          ),
+                          wBox(10),
+                          Text(
+                            'title',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              fontFamily: 'Gilroy-Regular',
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }, separatorBuilder: (BuildContext context, int index) {
+                  return hBox(5);
+                },
                 ),
               ),
 
-              hBox(16),
+              hBox(25),
 
-              // Size section with radio buttons
-              Text("Size", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-              CustomRadioCircle(
-                title: "Small",
-                value: 1,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Medium",
-                value: 2,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Large",
-                value: 3,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-
-              hBox(16),
-
-              // Toppings section with radio buttons
               Text("Toppings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-              CustomRadioCircle(
-                title: "All",
-                value: 1,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
+              Container(
+                height: 150.h, // Adjust height based on content
+                child: ListView.separated(
+                  itemCount: tops.length,
+                  itemBuilder: (context, index) {
+                    String key = tops.keys.elementAt(index);
+                    bool isTop = tops[key] ?? false;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          tops[key] = !isTop; // Toggle selection state
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 20.h,
+                            width: 20.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isTop ? Colors.black : Colors.white,
+                              border: Border.all(
+                                width: 1.w,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.check,
+                              color: isTop ? Colors.white : Colors.white,
+                              size: 16.h,
+                            ),
+                          ),
+                          wBox(10),
+                          Text(
+                            'title',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              fontFamily: 'Gilroy-Regular',
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }, separatorBuilder: (BuildContext context, int index) {
+                  return hBox(5);
                 },
-              ),
-              CustomRadioCircle(
-                title: "Vegetables",
-                value: 2,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Chicken",
-                value: 3,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Paneer",
-                value: 4,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Non Veg",
-                value: 5,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Sauces And Spices",
-                value: 6,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Others",
-                value: 7,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
+                ),
               ),
 
-              hBox(20),
+              hBox(25),
 
               // Clear and Apply buttons
               Row(
@@ -289,50 +372,50 @@ class _FilterScreenState extends State<FilterScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                        height: 60.h,
-                        width: 184.w,
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(100.r)
+                      height: 60.h,
+                      width: 184.w,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Clear",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.sp,
+                            fontFamily: 'Gilroy-Regular',
+                          ),
                         ),
-                        child: Center(
-                            child: Text(
-                                "Clear",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
+                      ),
                     ),
                   ),
                   wBox(10),
                   Expanded(
                     child: Container(
-                        height: 60.h,
-                        width: 184.w,
-                        decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(100.r)
+                      height: 60.h,
+                      width: 184.w,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Apply",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.sp,
+                            fontFamily: 'Gilroy-Regular',
+                          ),
                         ),
-                        child: Center(
-                            child: Text(
-                                "Apply",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
+                      ),
                     ),
                   ),
                 ],
               ),
-              hBox(50)
+              hBox(50),
             ],
           ),
         ),
@@ -340,6 +423,7 @@ class _FilterScreenState extends State<FilterScreen> {
     );
   }
 }
+
 
 class FilterChipWidget extends StatelessWidget {
   final String label;
@@ -450,3 +534,6 @@ class CustomRadioCircle extends StatelessWidget {
     );
   }
 }
+
+
+

@@ -5,9 +5,14 @@ import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/widgets/custom_search_filter.dart';
 import 'package:woye_user/shared/widgets/customappbar.dart';
 
-class CategoryDetailsScreen extends StatelessWidget {
+class CategoryDetailsScreen extends StatefulWidget {
   const CategoryDetailsScreen({super.key});
 
+  @override
+  State<CategoryDetailsScreen> createState() => _CategoryDetailsScreenState();
+}
+
+class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,7 +102,7 @@ class CategoryDetailsScreen extends StatelessWidget {
             //   ],
             // ),
 
-            SearchBarWithFilter(onFilterTap: () {  Get.to(FilterScreen()); },),
+            SearchBarWithFilter(onFilterTap: () {  Get.to(const FilterScreen()); },),
 
            hBox(20),
 

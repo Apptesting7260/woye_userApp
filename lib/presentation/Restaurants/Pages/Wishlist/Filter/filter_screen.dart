@@ -1,41 +1,53 @@
-
-
-import 'package:flutter/material.dart';
+import 'package:another_xlider/another_xlider.dart';
+import 'package:another_xlider/models/handler.dart';
+import 'package:another_xlider/models/trackbar.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/core/Utils/sized_box.dart';
 
 class FilterWishScreen extends StatefulWidget {
+  const FilterWishScreen({super.key});
+
   @override
   State<FilterWishScreen> createState() => _FilterScreenState();
 }
 
 class _FilterScreenState extends State<FilterWishScreen> {
-
-  final Map<String, bool> _options = {
-    "Personal Care": true,
-    "Skin Care": false,
-    "Digestive Care": false,
-    "Fever Care": false,
-    "Heart Care": false,
+  final Map<String, bool> options = {
+    "Veg": true,
+    "Non-veg": false,
+    "Jain": false,
+    "Healthy": false,
+    "Vegan": false,
   };
 
-  // Range values to keep track of the slider's start and end
-  RangeValues _currentRangeValues = const RangeValues(500, 1000);
+  final Map<String, bool> price = {
+    "Veg": true,
+    "Non-veg": false,
+  };
 
-  int _selectedValue = 1;
+  final Map<String, bool> size = {
+    "Veg": true,
+    "Non-veg": false,
+  };
+
+  final Map<String, bool> tops = {
+    "Veg": true,
+    "Non-veg": false,
+  };
+
+  double _lowerValue = 500;
+  double _upperValue = 1000;
+  int groupValue = -1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: REdgeInsets.all(16.0),
-        child: SingleChildScrollView(  // Added SingleChildScrollView for scrollable content
+        padding: REdgeInsets.symmetric(horizontal: 12.0),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               hBox(20),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -62,77 +74,145 @@ class _FilterScreenState extends State<FilterWishScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  wBox(44) // Empty space to balance the layout
+                  wBox(44),
                 ],
               ),
-
               hBox(20),
 
-              // Brand section with checkboxes
-              Text("Categories", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: 'Gilroy')),
-              ..._options.keys.map((String key) {
-                return CheckboxListTile(
-                  title: Text(
-                    key,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18.sp,
-                      fontFamily: 'Gilroy-Regular',
-                    ),
-                  ),
-                  value: _options[key],
-                  onChanged: (bool? value) {
-                    setState(() {
-                      _options[key] = value!;
-                    });
-                  },
-                  checkboxShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.r),
-                      side: BorderSide(width: 1,color: AppColors.darkText)
-                  ),
-                  activeColor: Colors.black,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
-                );
-              }).toList(),
-              SizedBox(height: 16),
+              // Brand section with ListView.builder
+              Text("Categories", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Container(
+                height: 150.h, // Adjust height based on content
+                child: ListView.separated(
+                  itemCount: options.length,
+                  itemBuilder: (context, index) {
+                    String key = options.keys.elementAt(index);
+                    bool isSelected = options[key] ?? false;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          options[key] = !isSelected; // Toggle selection state
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 20.h,
+                            width: 20.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5.r),
+                              color: isSelected ? Colors.black : Colors.white,
+                              border: Border.all(
+                                width: 1.w,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.check,
+                              color: isSelected ? Colors.white : Colors.white,
+                              size: 16.h,
+                            ),
+                          ),
+                          wBox(10),
+                          Text(
+                            'title',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              fontFamily: 'Gilroy-Regular',
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }, separatorBuilder: (BuildContext context, int index) {
+                  return hBox(5);
+                },
+                ),
+              ),
+
+
+              hBox(25),
 
               // Price section with radio buttons
-              Text("Price", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22.sp,fontFamily: 'Gilroy')),
-              CustomRadioCircle(
-                title: "Low to high",
-                value: 1,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
+              Text("Price", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Container(
+                height: 150.h, // Adjust height based on content
+                child: ListView.separated(
+                  itemCount: price.length,
+                  itemBuilder: (context, index) {
+                    String key = price.keys.elementAt(index);
+                    bool isPrice = price[key] ?? false;
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          price[key] = !isPrice; // Toggle selection state
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Container(
+                            height: 20.h,
+                            width: 20.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: isPrice ? Colors.black : Colors.white,
+                              border: Border.all(
+                                width: 1.w,
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.check,
+                              color: isPrice ? Colors.white : Colors.white,
+                              size: 16.h,
+                            ),
+                          ),
+                          wBox(10),
+                          Text(
+                            'title',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                              fontFamily: 'Gilroy-Regular',
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }, separatorBuilder: (BuildContext context, int index) {
+                  return hBox(5);
                 },
+                ),
               ),
-              CustomRadioCircle(
-                title: "High to low",
-                value: 2,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              SizedBox(height: 16),
 
-              // Quick Filter section with filter chips
-              Text("Sort by", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Wrap(
-                spacing: 8,
-                children: [
-                  FilterChipWidget(label: "Newest"),
-                  FilterChipWidget(label: "Best sale"),
-                  FilterChipWidget(label: "Popular"),
-                ],
-              ),
-              hBox(16),
+              hBox(25),
 
+              Text("Sort by", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              hBox(10),
+              Container(
+                height: 150.h,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    childAspectRatio: 2.5,
+                    crossAxisSpacing: 8.0,
+                    mainAxisSpacing: 8.0,
+                  ),
+                  itemCount: 3,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      height: 43.h,
+                      child: Center(child: Text('Near and Fast')),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.darkText,width: 1),
+                          borderRadius: BorderRadius.circular(100.r)
+                      ),
+                    );
+                  },
+                ),
+              ),
+
+              hBox(15),
               // Price Range with slider
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -144,31 +224,40 @@ class _FilterScreenState extends State<FilterWishScreen> {
               hBox(6),
               Text("Average price: \$1.200", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,color: AppColors.lightText)),
               hBox(6),
+
               // RangeSlider widget
-              SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  thumbColor: AppColors.primary,
-                  trackHeight: 4,
-                  inactiveTrackColor: Colors.grey.shade300, // Inactive track color
+              FlutterSlider(
+                values: [_lowerValue, _upperValue],
+                max: 1000,
+                min: 100,
+                rangeSlider: true,
+                handlerHeight: 24,
+                handler: FlutterSliderHandler(
+                  child: Image.asset("assets/images/slider-image.png"),
                 ),
-                child: RangeSlider(
-                  values: _currentRangeValues,
-                  min: 500,
-                  max: 1000,
-                  divisions: 100,
-                  labels: RangeLabels(
-                    _currentRangeValues.start.round().toString(),
-                    _currentRangeValues.end.round().toString(),
+                rightHandler: FlutterSliderHandler(
+                  child: Image.asset("assets/images/slider-image.png"),
+                ),
+                trackBar: FlutterSliderTrackBar(
+                  activeTrackBarHeight: 8,
+                  inactiveTrackBarHeight: 8,
+                  activeTrackBar: BoxDecoration(
+                    color: AppColors.primary, // Active color
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  onChanged: (RangeValues values) {
-                    setState(() {
-                      _currentRangeValues = values;
-                    });
-                  },
+                  inactiveTrackBar: BoxDecoration(
+                    color: AppColors.lightText.withOpacity(.3), // Inactive color
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                 ),
+                onDragging: (handlerIndex, lowerValue, upperValue) {
+                  setState(() {
+                    _lowerValue = lowerValue;
+                    _upperValue = upperValue;
+                  });
+                },
               ),
               hBox(16),
-
 
               // Clear and Apply buttons
               Row(
@@ -176,49 +265,50 @@ class _FilterScreenState extends State<FilterWishScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                        height: 60.h,
-                        width: 184.w,
-                        decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(100)
+                      height: 60.h,
+                      width: 184.w,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Clear",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.sp,
+                            fontFamily: 'Gilroy-Regular',
+                          ),
                         ),
-                        child: Center(
-                            child: Text(
-                                "Clear",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
+                      ),
                     ),
                   ),
                   wBox(10),
                   Expanded(
                     child: Container(
-                        height: 60.h,
-                        width: 184.w,
-                        decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(100)
+                      height: 60.h,
+                      width: 184.w,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Apply",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.sp,
+                            fontFamily: 'Gilroy-Regular',
+                          ),
                         ),
-                        child: Center(
-                            child: Text(
-                                "Apply",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
+                      ),
                     ),
                   ),
                 ],
               ),
+              hBox(50),
             ],
           ),
         ),
@@ -226,6 +316,7 @@ class _FilterScreenState extends State<FilterWishScreen> {
     );
   }
 }
+
 
 class FilterChipWidget extends StatelessWidget {
   final String label;
@@ -235,10 +326,57 @@ class FilterChipWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-      label: Text(label),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(100),
+          side: BorderSide(color: AppColors.hintText)
+      ),
+      label: Text(
+        label,
+        style: TextStyle(
+            fontFamily: 'Gilroy-Regular',
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
+            color: AppColors.darkText
+        ),
+      ),
       selected: false,
       onSelected: (isSelected) {},
     );
+  }
+}
+
+class TwoToneCircleSliderThumb extends SliderComponentShape {
+  final Color innerColor;
+  final Color outerColor;
+
+  TwoToneCircleSliderThumb({required this.innerColor, required this.outerColor});
+
+  @override
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
+    return Size(20, 20); // Define size of the thumb
+  }
+
+  @override
+  void paint(
+      PaintingContext context,
+      Offset center, {
+        required Animation<double> activationAnimation,
+        required Animation<double> enableAnimation,
+        required bool isDiscrete,
+        required TextPainter labelPainter,
+        required RenderBox parentBox,
+        required SliderThemeData sliderTheme,
+        required TextDirection textDirection,
+        required double value,
+        required double textScaleFactor,
+        required Size sizeWithOverflow,
+      }) {
+    final Paint outerPaint = Paint()..color = outerColor;
+    final Paint innerPaint = Paint()..color = innerColor;
+    final double radius = sizeWithOverflow.shortestSide / 2;
+
+    context.canvas.drawCircle(center, radius, outerPaint);
+    context.canvas.drawCircle(center, radius * 0.8, innerPaint);
   }
 }
 
@@ -289,3 +427,6 @@ class CustomRadioCircle extends StatelessWidget {
     );
   }
 }
+
+
+
