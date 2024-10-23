@@ -34,28 +34,35 @@ class LoginScreen extends StatelessWidget {
                   hBox(50),
                   CustomTextFormField(
                     controller: loginController.mobNoCon,
-                    contentPadding: REdgeInsets.all(30),
                     prefix: CountryCodePicker(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 0, vertical: 9),
-                        // onChanged: (CountryCode countryCode) {
-                        //   countryCode.updateCountryCode(countryCode);
-                        //   countryCode.showError.value = false;
-                        //   int? countrylength = controller
-                        //       .countryPhoneDigits[countryCode.code.toString()];
-                        //   controller.chackCountryLength = countrylength!;
-                        // },
-                        initialSelection: "ZA"),
+                        onChanged: (CountryCode countryCode) {
+                          loginController.updateCountryCode(countryCode);
+                          loginController.showError.value = false;
+                          int? countrylength = loginController
+                              .countryPhoneDigits[countryCode.code.toString()];
+                          loginController.chackCountryLength = countrylength!;
+                        },
+                        initialSelection: "IN"),
                     hintText: "Phone Number",
                     textInputType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your phone number';
+                      }
+                      if (value.length != loginController.chackCountryLength) {
+                        return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
+                      }
+                      return null;
+                    },
                   ),
                   hBox(20),
                   CustomElevatedButton(
                     text: "Sign In",
+                    isLoading: loginController.isLoding,
                     onPressed: () {
                       loginController.sendOtp();
-
-                      // Get.toNamed(AppRoutes.loginOtp);
                     },
                   ),
                   hBox(30),

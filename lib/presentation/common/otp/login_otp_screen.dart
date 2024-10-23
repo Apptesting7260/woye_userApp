@@ -1,16 +1,20 @@
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Common/sign_up_otp/sign_up_otp_controller.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
 
-class SignUpOtpScreen extends StatelessWidget {
-  const SignUpOtpScreen({super.key});
+import '../login/login_controller.dart';
+import 'login_otp_controller.dart';
+
+class LoginOtpScreen extends StatelessWidget {
+  LoginOtpScreen({super.key});
+
+  LoginController loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<SignUpOtpController>(
-        init: SignUpOtpController(),
-        builder: (signUpOtpController) {
+    return GetBuilder<LoginOtpController>(
+        init: LoginOtpController(),
+        builder: (loginOtpController) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: const CustomAppBar(),
@@ -37,21 +41,23 @@ class SignUpOtpScreen extends StatelessWidget {
                   hBox(30),
                   Pinput(
                     length: 6,
-                    defaultPinTheme: signUpOtpController.defaultPinTheme,
-                    focusedPinTheme: signUpOtpController.focusedPinTheme,
-                    submittedPinTheme: signUpOtpController.submittedPinTheme,
+                    controller: loginOtpController.otpPin,
+                    defaultPinTheme: loginOtpController.defaultPinTheme,
+                    focusedPinTheme: loginOtpController.focusedPinTheme,
+                    submittedPinTheme: loginOtpController.submittedPinTheme,
                   ),
                   hBox(20),
                   CustomElevatedButton(
                     onPressed: () {
-                      Get.toNamed(AppRoutes.formSignUp);
+                      loginOtpController.verifyOtp(verificationId: loginController.verificationID.value, smsCode: loginOtpController.otpPin.text);
+                      // Get.toNamed(AppRoutes.signUp);
                     },
                     text: "Verify",
                   ),
                   hBox(20),
                   Align(
                       alignment: Alignment.center,
-                      child: signUpOtpController.duration != 0
+                      child: loginOtpController.duration != 0
                           ?
                           //     ? Text(
                           //         "${(otpVerificationController.duration ~/ 60).toString().padLeft(2, '0')}:${(otpVerificationController.duration % 60).toString().padLeft(2, '0')}",
@@ -63,13 +69,13 @@ class SignUpOtpScreen extends StatelessWidget {
                           //       )
                           //     : null
                           Text(
-                              "Resend code in ${signUpOtpController.duration.toString()} s",
+                              "Resend code in ${loginOtpController.duration.toString()} s",
                               style:
                                   AppFontStyle.text_16_400(AppColors.darkText),
                             )
                           : GestureDetector(
                               onTap: () {
-                                signUpOtpController.resendOtp();
+                                // loginOtpController.resendOtp();
                               },
                               child: Text(
                                 "Resend Code",
