@@ -1,5 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
+import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
 class HomeRestaurantScreen extends StatefulWidget {
   const HomeRestaurantScreen({super.key});
@@ -10,12 +11,11 @@ class HomeRestaurantScreen extends StatefulWidget {
 
 class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
   GlobalKey homeWidgetKey = GlobalKey();
-  double height = 520;
+  double? height;
 
   _getHeight(_) {
     final keyContext = homeWidgetKey.currentContext;
     if (keyContext != null) height = keyContext.size!.height;
-    print("size of home widget ================> $height");
   }
 
   @override
@@ -32,94 +32,105 @@ class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
           HomeScreen(
             key: homeWidgetKey,
           ),
-          SizedBox(
-            height: 500,
-            // height: Get.height - height,
-            child: ListView(
-              children: [
-//                SliverStickyHeader(
-//   header: Container(
-//     height: 60.0,
-//     color: Colors.lightBlue,
-//     padding: EdgeInsets.symmetric(horizontal: 16.0),
-//     alignment: Alignment.centerLeft,
-//     child: Text(
-//       'Header #0',
-//       style: const TextStyle(color: Colors.white),
-//     ),
-//   ),
-//   sliver: SliverList(
-//     delegate: SliverChildBuilderDelegate(
-//       (context, i) => ListTile(
-//             leading: CircleAvatar(
-//               child: Text('0'),
-//             ),
-//             title: Text('List tile #$i'),
-//           ),
-//       childCount: 4,
-//     ),
-//   ),
-// ),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
-                const Text("data"),
+          Expanded(
+            child: CustomScrollView(
+              slivers: [
+                SliverPadding(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  sliver: SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    pinned: false,
+                    snap: true,
+                    floating: true,
+                    expandedHeight: 100.h,
+                    backgroundColor: Colors.transparent,
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: SizedBox(
+                        height: 50.h,
+                        child: (SearchBarWithFilter(
+                          onFilterTap: () {},
+                        )),
+                      ),
+                      centerTitle: true,
+                    ),
+                  ),
+                ),
+                SliverPadding(
+                    padding: REdgeInsets.symmetric(horizontal: 0),
+                    sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                      (context, index) => ListTile(
+                        title: Text('Item #$index'),
+                      ),
+                      // childCount: 50, // Number of items
+                    )))
+                // SliverPadding(
+                //   padding: REdgeInsets.symmetric(horizontal: 24),
+                //   sliver: ListView(
+                //     children: const [
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //       Text("data"),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),

@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 
 class SearchBarWithFilter extends StatelessWidget {
   final String hintText;
@@ -19,37 +17,39 @@ class SearchBarWithFilter extends StatelessWidget {
         Expanded(
           child: Opacity(
             opacity: .3,
-            child: Container(
-              height: 60.h,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: hintText,
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide(width: 1.w, color: Colors.grey), // Replace AppColors.hintText with a color
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
+            child: CustomTextFormField(
+              prefix: SizedBox(
+                height: 24.h,
+                width: 24.h,
+                child: SvgPicture.asset(
+                  "assets/svg/search.svg",
                 ),
               ),
+              hintText: hintText,
+              hintStyle: AppFontStyle.text_14_400(AppColors.hintText),
             ),
           ),
         ),
-        SizedBox(width: 8.h), // Use SizedBox instead of wBox
+        SizedBox(width: 8.w),
         Opacity(
           opacity: .3,
           child: InkWell(
             onTap: onFilterTap,
             child: Container(
-              width: 60.h,
-              height: 60.h,
+              width: 50.h,
+              height: 50.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.r),
-                border: Border.all(width: 1.w, color: Colors.grey), // Replace AppColors.hintText with a color
+                border: Border.all(
+                    width: 1.w,
+                    color: AppColors
+                        .textFieldBorder), // Replace AppColors.hintText with a color
               ),
               child: Center(
-                child: Image.asset("assets/images/filter.png", scale: 4),
+                child: Image.asset(
+                  "assets/images/filter.png",
+                  height: 20.h,
+                ),
               ),
             ),
           ),
