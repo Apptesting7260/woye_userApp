@@ -49,6 +49,7 @@ dependencies:
   country_code_picker: ^3.0.0
   sticky_headers: ^0.3.0+2
   another_xlider: ^3.0.2
+  flutter_sticky_header: ^0.7.0
 
 dev_dependencies:
   flutter_test:

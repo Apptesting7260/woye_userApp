@@ -2,6 +2,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar.dart';
+import 'package:woye_user/Routes/app_routes.dart';
 
 class HomeController extends GetxController {
   int mainButtonIndex = 0;
@@ -29,6 +30,17 @@ class HomeController extends GetxController {
       "imageDisabled": ImageConstants.groceryDisable
     }
   ];
+
+  void navigate(index) {
+    switch (index) {
+      case 0:
+        Get.toNamed(AppRoutes.restaurantNavbar);
+      case 1:
+        Get.toNamed(AppRoutes.pharmacyNavbar);
+      case 2:
+        Get.toNamed(AppRoutes.groceryNavbar);
+    }
+  }
 
   void getIndex(index) {
     mainButtonIndex = index;
