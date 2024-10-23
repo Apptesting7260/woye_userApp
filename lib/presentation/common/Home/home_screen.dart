@@ -9,12 +9,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var homekey = GlobalKey();
+  GlobalKey homekey = GlobalKey();
+  double? size;
 
   _getSizes() {
     final renderBoxRed = homekey.currentContext;
-    final sizeRed = renderBoxRed!.size;
-    print("SIZE of Red: $sizeRed");
+    size = renderBoxRed!.size!.height;
+    print("checkSize : $size");
   }
 
   _afterLayout(_) {
@@ -23,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
   }
