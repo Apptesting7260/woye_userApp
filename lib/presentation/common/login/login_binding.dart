@@ -1,5 +1,4 @@
-import 'package:get/get.dart';
-import 'package:woye_user/presentation/Common/login/login_controller.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 
 class LoginBinding extends Bindings {
   @override

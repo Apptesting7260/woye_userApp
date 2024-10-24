@@ -81,7 +81,7 @@ class LoginController extends GetxController {
           }
           verificationID.value = verificationId;
           completer.complete(true);
-          Get.toNamed(AppRoutes.loginOtp);
+          Get.toNamed(AppRoutes.otp);
           isLoding = false.obs;
           update();
         },

@@ -1,14 +1,10 @@
-import 'package:country_code_picker/country_code_picker.dart';
-import 'package:woye_user/Routes/app_routes.dart';
-import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
-   SignUpScreen({super.key});
+  SignUpScreen({super.key});
 
-
-  final SignUpController signUpController =
-  Get.put(SignUpController());
+  final SignUpController signUpController = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +29,8 @@ class SignUpScreen extends StatelessWidget {
             hBox(50),
             CustomTextFormField(
               prefix: CountryCodePicker(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 0, vertical: 9),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
                   onChanged: (CountryCode countryCode) {
                     signUpController.updateCountryCode(countryCode);
                     signUpController.showError.value = false;
@@ -50,7 +46,9 @@ class SignUpScreen extends StatelessWidget {
             CustomElevatedButton(
               text: "Sign Up",
               onPressed: () {
-                // Get.toNamed(AppRoutes.loginOtp);
+                signUpController.sendOtp();
+
+                // Get.toNamed(AppRoutes.otp);
               },
             ),
             const Spacer(),
@@ -67,16 +65,15 @@ class SignUpScreen extends StatelessWidget {
                   ),
                   child: RichText(
                       text: TextSpan(children: [
-                        TextSpan(
-                            text: "Already have an account? ",
-                            style: AppFontStyle.text_16_400(
-                                AppColors.lightText)),
-                        TextSpan(
-                            text: "Sign In",
-                            style: AppFontStyle.text_16_600(
-                              AppColors.darkText,
-                            )),
-                      ])),
+                    TextSpan(
+                        text: "Already have an account? ",
+                        style: AppFontStyle.text_16_400(AppColors.lightText)),
+                    TextSpan(
+                        text: "Sign In",
+                        style: AppFontStyle.text_16_600(
+                          AppColors.darkText,
+                        )),
+                  ])),
                 ),
               ),
             ),

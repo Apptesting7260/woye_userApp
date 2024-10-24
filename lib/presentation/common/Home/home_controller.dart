@@ -5,7 +5,7 @@ import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant
 import 'package:woye_user/Routes/app_routes.dart';
 
 class HomeController extends GetxController {
-  int mainButtonIndex = 0;
+  RxInt mainButtonIndex = 0.obs;
 
   List<Widget> homeWidgets = [
     const RestaurantNavbar(),
@@ -44,7 +44,7 @@ class HomeController extends GetxController {
   }
 
   void getIndex(index) {
-    mainButtonIndex = index;
+    mainButtonIndex.value = index;
     update();
   }
 }

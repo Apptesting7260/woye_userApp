@@ -1,12 +1,9 @@
-import 'package:country_code_picker/country_code_picker.dart';
-import 'package:woye_user/Routes/app_routes.dart';
-import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Common/login/login_controller.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
-  final LoginController loginController = Get.put(LoginController());
+  static LoginController loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {

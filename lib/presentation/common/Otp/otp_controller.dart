@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
-class LoginOtpController extends GetxController {
+class OtpController extends GetxController {
   late TextEditingController otpPin;
 
   int duration = 60;

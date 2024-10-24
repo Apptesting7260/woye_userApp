@@ -2,14 +2,14 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
-class HomeRestaurantScreen extends StatefulWidget {
-  const HomeRestaurantScreen({super.key});
+class RestaurantHomeScreen extends StatefulWidget {
+  const RestaurantHomeScreen({super.key});
 
   @override
-  State<HomeRestaurantScreen> createState() => _HomeRestaurantScreenState();
+  State<RestaurantHomeScreen> createState() => _HomeRestaurantScreenState();
 }
 
-class _HomeRestaurantScreenState extends State<HomeRestaurantScreen> {
+class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   GlobalKey homeWidgetKey = GlobalKey();
 
   double? height;

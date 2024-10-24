@@ -1,9 +1,9 @@
-import 'package:country_code_picker/country_code_picker.dart';
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'dart:io';
+
 import '../../../Data/response/status.dart';
-import '../../../Routes/app_routes.dart';
 
 class SignUpController extends GetxController {
   final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
@@ -19,11 +19,9 @@ class SignUpController extends GetxController {
   // void setError(String _value) => error.value = _value;
   RxBool isLoding = false.obs;
 
-
   // late TextEditingController countryCode;
   var resendToken = 0.obs;
   RxBool showError = true.obs;
-
 
   void updateCountryCode(CountryCode countryCode) {
     selectedCountryCode.value = countryCode;
@@ -46,7 +44,7 @@ class SignUpController extends GetxController {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber:
-        '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+            '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         forceResendingToken: !Platform.isIOS
             ? (resendToken.value != 0 ? resendToken.value : null)
             : null,
@@ -71,7 +69,7 @@ class SignUpController extends GetxController {
             resendToken.value = forceResendingToken!;
             Timer(
               const Duration(seconds: 59),
-                  () {
+              () {
                 resendToken.value = 0;
                 print('token == ${resendToken.value}');
               },
@@ -79,7 +77,7 @@ class SignUpController extends GetxController {
           }
           verificationID.value = verificationId;
           completer.complete(true);
-          Get.toNamed(AppRoutes.loginOtp);
+          Get.toNamed(AppRoutes.otp);
           isLoding.value = false;
           update();
         },
@@ -287,5 +285,4 @@ class SignUpController extends GetxController {
     'ZM': 9, // Zambia
     'ZW': 9,
   };
-  
 }

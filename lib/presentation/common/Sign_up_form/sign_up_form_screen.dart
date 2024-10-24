@@ -7,7 +7,7 @@ class SignUpFormScreen extends StatelessWidget {
   const SignUpFormScreen({super.key});
 
   static SignUpFormController signUpFormController =
-      Get.put(SignUpFormController());
+      Get.find<SignUpFormController>();
 
   @override
   Widget build(BuildContext context) {
