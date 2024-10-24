@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 
@@ -31,6 +32,9 @@ class SignUpScreen extends StatelessWidget {
               hBox(50),
               CustomTextFormField(
                 controller: signUpController.mobNoCon.value,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 prefix: CountryCodePicker(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 9),

@@ -49,24 +49,29 @@ class OtpScreen extends StatelessWidget {
             ),
             hBox(20),
             Obx(
-              ()=> CustomElevatedButton(
+              () => CustomElevatedButton(
                 isLoading: otpController.otpVerify.value,
                 onPressed: () async {
-                  final verify = await otpController.verifyOtp(
-                      verificationId: from == 'login'
-                          ? loginController.verificationID.value
-                          : signUpController.verificationID.value,
-                      smsCode: otpController.otpPin.value.text);
-                  if (from == 'login') {
-                    if (verify) {
-                      Get.offAllNamed(AppRoutes.restaurantNavbar);
-                    }
+                  if (otpController.otpPin.value.text.length < 6) {
+                    SnackBarUtils.showToastCenter(
+                        'Please enter a valid 6-digit OTP.');
+                    return;
                   } else {
-                    if (verify) {
-                      Get.offNamed(AppRoutes.signUpFom);
+                    final verify = await otpController.verifyOtp(
+                        verificationId: from == 'login'
+                            ? loginController.verificationID.value
+                            : signUpController.verificationID.value,
+                        smsCode: otpController.otpPin.value.text);
+                    if (from == 'login') {
+                      if (verify) {
+                        Get.offAllNamed(AppRoutes.restaurantNavbar);
+                      }
+                    } else {
+                      if (verify) {
+                        Get.offNamed(AppRoutes.signUpFom);
+                      }
                     }
-                  }
-                  // Get.toNamed(AppRoutes.signUp);
+                  } // Get.toNamed(AppRoutes.signUp);
                 },
                 text: "Verify",
               ),
@@ -107,7 +112,7 @@ class OtpScreen extends StatelessWidget {
                     child: OtpTimerButton(
                         buttonType: ButtonType.text_button,
                         controller: loginController.otpTimerButtonController,
-                        // loadingIndicatorColor: clrBlacke,
+                        loadingIndicatorColor: AppColors.primary,
                         onPressed: () {
                           print('resend otp');
                           loginController.resendOtp();
@@ -123,7 +128,7 @@ class OtpScreen extends StatelessWidget {
                     child: OtpTimerButton(
                         buttonType: ButtonType.text_button,
                         controller: signUpController.otpTimerButtonController,
-                        // loadingIndicatorColor: clrBlacke,
+                        loadingIndicatorColor: Colors.green,
                         onPressed: () {
                           print('resend otp');
                           signUpController.resendOtp();

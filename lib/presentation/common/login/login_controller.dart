@@ -110,7 +110,7 @@ class LoginController extends GetxController {
 
   Future<bool> resendOtp() async {
     Completer<bool> completer = Completer<bool>();
-    // otpTimerButtonController.loading();
+    otpTimerButtonController.loading();
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),

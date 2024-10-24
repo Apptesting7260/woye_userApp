@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -29,6 +30,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onChanged,
     this.onTapOutside,
     this.borderRadius,
+    this.inputFormatters,
   });
 
   final Alignment? alignment;
@@ -78,6 +80,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool? enabled;
   final Function(String value)? onChanged;
   final TapRegionCallback? onTapOutside;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +111,7 @@ class CustomTextFormField extends StatelessWidget {
           minLines: 1,
           decoration: decoration,
           validator: validator,
+          inputFormatters: inputFormatters,
         ),
       );
   InputDecoration get decoration => InputDecoration(
