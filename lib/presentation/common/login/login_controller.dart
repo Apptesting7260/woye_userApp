@@ -13,6 +13,7 @@ class LoginController extends GetxController {
   final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
   final Rx<TextEditingController> passController = TextEditingController().obs;
   final rxRequestStatus = Status.COMPLETED.obs;
+  final formKey = GlobalKey<FormState>();
 
   // final loginData = LoginModel().obs;
 
