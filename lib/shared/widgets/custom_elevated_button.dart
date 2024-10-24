@@ -55,19 +55,17 @@
 //     );
 //   }
 // }
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 
 class CustomElevatedButton extends StatelessWidget {
-
   final BorderRadiusGeometry? borderRadius;
   final double? width;
   final double? height;
   final Color? color;
   final VoidCallback onPressed;
   final Widget? child;
-  final bool isLoading;
+  final bool? isLoading;
   final String text;
   final TextStyle? textStyle;
   // final String title;
@@ -80,13 +78,13 @@ class CustomElevatedButton extends StatelessWidget {
   // final Color? bgColor;
   // final bool loading ;
 
-   const CustomElevatedButton({
+  const CustomElevatedButton({
     Key? key,
     this.borderRadius,
     this.width,
     this.height,
     this.color = const Color.fromRGBO(6, 132, 75, 1),
-    this.isLoading = false,
+    this.isLoading,
     this.text = "",
     this.textStyle,
     required this.onPressed,
@@ -102,18 +100,25 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white ??
-                Theme.of(context).buttonTheme.colorScheme?.onSecondary, backgroundColor: color, shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(32.0),
-          ),
-        ),
+            foregroundColor: Colors.red,
+            backgroundColor: color,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(32.0),
+              ),
+            ),
             alignment: Alignment.center,
-            textStyle:  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-        child: Center(child: isLoading==false? Text(text): LoadingAnimationWidget.inkDrop(
-          color: Colors.white,
-          size: 30,
-        )),
+            textStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: AppColors.white)),
+        child: Center(
+            child: isLoading != true
+                ? Text(text)
+                : LoadingAnimationWidget.inkDrop(
+                    color: Colors.white,
+                    size: 30,
+                  )),
       ),
     );
   }

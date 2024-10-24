@@ -5,19 +5,19 @@ class RestaurantHomeController extends GetxController {
     {
       "title": "The Pizza Hub And Restaurants",
       "type": "Pure veg",
-      "image": "assets/images/restaurant-1.png",
+      "image": "assets/images/restaurant-0.png",
       "isFavourite": false
     },
     {
       "title": "Casa Della Saucy",
       "type": "Veg and Non Veg",
-      "image": "",
+      "image": "assets/images/restaurant-1.png",
       "isFavourite": false
     },
     {
       "title": "The Royal Restaurants",
       "type": "Pure veg",
-      "image": "",
+      "image": "assets/images/restaurant-2.png",
       "isFavourite": false
     },
   ];
