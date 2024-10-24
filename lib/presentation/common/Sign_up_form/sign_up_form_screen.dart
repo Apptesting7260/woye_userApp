@@ -1,66 +1,66 @@
+import 'package:woye_user/Presentation/Common/Sign_up_form/sign_up_form_controller.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Common/form_sign_up/form_sign_up_controller.dart';
+import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
 
-class FormSignUpScreen extends StatelessWidget {
-  const FormSignUpScreen({super.key});
+class SignUpFormScreen extends StatelessWidget {
+  const SignUpFormScreen({super.key});
+
+  static SignUpFormController signUpFormController = Get.put(SignUpFormController());
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<FormSignUpController>(
-        init: FormSignUpController(),
-        builder: (formSignUpController) {
-          return Scaffold(
-            appBar: const CustomAppBar(),
-            body: SingleChildScrollView(
-              padding: REdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Fill your profile",
-                    style: AppFontStyle.text_40_600(AppColors.darkText),
-                  ),
-                  hBox(24),
-                  Text(
-                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                    style: AppFontStyle.text_16_400(AppColors.lightText),
-                  ),
-                  hBox(30),
-                  form(formSignUpController, context),
-                  hBox(20),
-                  CustomElevatedButton(
-                      text: "Continue",
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.restaurantNavbar);
-                      }),
-                  hBox(40),
-                ],
-              ),
+    return Scaffold(
+      appBar: const CustomAppBar(),
+      body: SingleChildScrollView(
+        padding: REdgeInsets.symmetric(
+          horizontal: 24,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Fill your profile",
+              style: AppFontStyle.text_40_600(AppColors.darkText),
             ),
-          );
-        });
+            hBox(24),
+            Text(
+              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+              style: AppFontStyle.text_16_400(AppColors.lightText),
+            ),
+            hBox(30),
+            form(signUpFormController, context),
+            hBox(20),
+            CustomElevatedButton(
+                text: "Continue",
+                onPressed: () {
+                  Get.toNamed(AppRoutes.restaurantNavbar);
+                }),
+            hBox(40),
+          ],
+        ),
+      ),
+    );
   }
 
-  Form form(FormSignUpController formSignUpController, BuildContext context) {
+  Form form(SignUpFormController signUpFormController, BuildContext context) {
     return Form(
-        key: formSignUpController.formSignUpKey,
+        key: signUpFormController.formSignUpKey,
         onChanged: () {
-          formSignUpController.checkValid();
+          signUpFormController.checkValid();
         },
         child: Column(
           children: [
             Align(
               alignment: Alignment.center,
-              child: imagePicker(context, formSignUpController),
+              child: imagePicker(context, signUpFormController),
             ),
             hBox(30),
             CustomTextFormField(
               alignment: Alignment.center,
-              controller: formSignUpController.fisrtNameController,
+              controller: signUpFormController.fisrtNameController,
               prefix: SvgPicture.asset(
                 ImageConstants.profileIcon,
               ),
@@ -70,11 +70,11 @@ class FormSignUpScreen extends StatelessWidget {
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
-              validator: formSignUpController.validateFirstName,
+              validator: signUpFormController.validateFirstName,
             ),
             hBox(15),
             CustomTextFormField(
-              controller: formSignUpController.lastNameController,
+              controller: signUpFormController.lastNameController,
               prefix: SvgPicture.asset(
                 ImageConstants.profileIcon,
               ),
@@ -84,11 +84,11 @@ class FormSignUpScreen extends StatelessWidget {
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
-              validator: formSignUpController.validateLastName,
+              validator: signUpFormController.validateLastName,
             ),
             hBox(15),
             CustomTextFormField(
-              controller: formSignUpController.dateOfBirthController,
+              controller: signUpFormController.dateOfBirthController,
               prefix: SvgPicture.asset(
                 ImageConstants.calendar,
               ),
@@ -102,7 +102,7 @@ class FormSignUpScreen extends StatelessWidget {
             ),
             hBox(15),
             CustomTextFormField(
-              controller: formSignUpController.emailController,
+              controller: signUpFormController.emailController,
               prefix: SvgPicture.asset(
                 ImageConstants.email,
               ),
@@ -137,7 +137,7 @@ class FormSignUpScreen extends StatelessWidget {
                       child: Text(element.toString())))
                   .toList(),
               onChanged: (value) {
-                formSignUpController.genderController.text = value.toString();
+                signUpFormController.genderController.text = value.toString();
               },
             )
           ],
@@ -145,7 +145,7 @@ class FormSignUpScreen extends StatelessWidget {
   }
 
   Widget imagePicker(
-      BuildContext context, FormSignUpController formSignUpController) {
+      BuildContext context, SignUpFormController signUpFormController) {
     return GestureDetector(
       onTap: () {
         bottomSheet(context);
@@ -161,12 +161,12 @@ class FormSignUpScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(100.r),
                     // shape: BoxShape.circle,
                     border: Border.all(
-                        color: formSignUpController.image == null
+                        color: signUpFormController.image == null
                             ? Colors.red
                             : Colors.transparent)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100.r),
-                  child: formSignUpController.image == null
+                  child: signUpFormController.image == null
                       ? CircleAvatar(
                           backgroundColor:
                               AppColors.greyBackground.withOpacity(0.5),
@@ -176,7 +176,7 @@ class FormSignUpScreen extends StatelessWidget {
                             color: AppColors.lightText.withOpacity(0.5),
                           ))
                       : Image.file(
-                          formSignUpController.image!,
+                          signUpFormController.image!,
                           fit: BoxFit.cover,
                         ),
                 )),
@@ -197,7 +197,7 @@ class FormSignUpScreen extends StatelessWidget {
                 ),
               ),
             ),
-            if (formSignUpController.image == null)
+            if (signUpFormController.image == null)
               Positioned(
                   bottom: 0,
                   child: Text(

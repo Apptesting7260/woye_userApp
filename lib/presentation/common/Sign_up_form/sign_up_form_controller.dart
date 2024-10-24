@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:woye_user/core/utils/app_export.dart';
 
-class FormSignUpController extends GetxController {
+class SignUpFormController extends GetxController {
   GlobalKey<FormState> formSignUpKey = GlobalKey<FormState>();
 
   bool isLoading = false;
