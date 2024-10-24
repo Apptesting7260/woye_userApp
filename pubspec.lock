@@ -424,6 +424,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  loading_animation_widget:
+    dependency: "direct main"
+    description:
+      name: loading_animation_widget
+      sha256: "9fe23381f3096e902f39e87e487648ff7f74925e86234353fa885bb9f6c98004"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.0"
   matcher:
     dependency: transitive
     description:
@@ -464,6 +472,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
+  otp_timer_button:
+    dependency: "direct main"
+    description:
+      name: otp_timer_button
+      sha256: "2c1dae65db0147add42f52558f88ad71a4a29a612d891e81323ea01bac983dcf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   path:
     dependency: transitive
     description:

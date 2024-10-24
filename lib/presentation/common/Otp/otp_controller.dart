@@ -2,41 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class OtpController extends GetxController {
-  late TextEditingController otpPin;
+  final Rx<TextEditingController> otpPin = TextEditingController().obs;
 
-  int duration = 60;
-  late Timer _timer;
 
-  @override
-  void onInit() {
-    startTimer();
-    otpPin = TextEditingController();
-    super.onInit();
-  }
 
   @override
   void onClose() {
-    _timer.cancel();
-    super.onClose();
-  }
-
-  void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (duration == 0) {
-        timer.cancel();
-        update();
-      } else {
-        duration--;
-        update();
-      }
-    });
-    update();
-  }
-
-  void resendOtptime() {
-    duration = 60;
-    startTimer();
-    update();
+    otpPin.value.dispose();
   }
 
   PinTheme defaultPinTheme = PinTheme(
@@ -82,6 +54,7 @@ class OtpController extends GetxController {
           PhoneAuthProvider.credential(
               verificationId: verificationId, smsCode: smsCode));
       otpVerify.value = false;
+      SnackBarUtils.showToastCenter('Otp Verify Successfully');
       return credential.user == null ? false : true;
     } on FirebaseAuthException catch (e) {
       print('otp error == ${e.code}');

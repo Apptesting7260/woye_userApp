@@ -15,6 +15,7 @@ import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
 import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
+import 'package:woye_user/presentation/common/Home/home_binding.dart';
 
 class AppRoutes {
   static const String initalRoute = "/inital_route";
@@ -57,7 +58,7 @@ class AppRoutes {
     GetPage(
         name: restaurantNavbar,
         page: () => const RestaurantNavbar(),
-        binding: RestaurantNavbarBinding()),
+        bindings: [RestaurantNavbarBinding(),HomeBinding()]),
     GetPage(
         name: restaurantNavbar,
         page: () => const RestaurantNavbar(),

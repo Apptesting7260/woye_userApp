@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
+import '../../../Core/Utils/app_export.dart';
 import '../../../Data/response/status.dart';
+import '../../../Routes/app_routes.dart';
 
 class SignUpController extends GetxController {
   final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
@@ -77,7 +80,14 @@ class SignUpController extends GetxController {
           }
           verificationID.value = verificationId;
           completer.complete(true);
-          Get.toNamed(AppRoutes.otp);
+          Get.toNamed(
+            AppRoutes.otp,
+            arguments: {
+              'type': 'signup',
+              'mob':
+                  '${selectedCountryCode.value.toString()} ${mobNoCon.value.text.trim().toString()}',
+            },
+          );
           isLoding.value = false;
           update();
         },
@@ -91,6 +101,47 @@ class SignUpController extends GetxController {
     isLoding.value = false;
     return completer.future;
   }
+  OtpTimerButtonController otpTimerButtonController =
+  OtpTimerButtonController();
+
+  Future<bool> resendOtp() async {
+    Completer<bool> completer = Completer<bool>();
+    // otpTimerButtonController.loading();
+    try {
+      await auth.verifyPhoneNumber(
+        timeout: const Duration(seconds: 59),
+        phoneNumber: '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          if (e.code == 'invalid-phone-number') {
+            print('${e.code}');
+            SnackBarUtils.showToastCenter('The provided phone number is not valid.');
+          }else{
+            SnackBarUtils.showToastCenter('Something went wrong');
+          }
+          otpTimerButtonController.enableButton();
+          completer.complete(false);
+        },
+        codeSent: (String verificationId, int? forceResendingToken) {
+          print('codesent');
+          SnackBarUtils.showToastCenter('otp has been send successfully.');
+          verificationID.value = verificationId;
+          otpTimerButtonController.startTimer();
+          completer.complete(true);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {},
+      );
+    } catch (e) {
+      otpTimerButtonController.enableButton();
+      completer.complete(false);
+      print('error == ${e.toString()}');
+    }
+    return completer.future;
+
+  }
+
 
   int chackCountryLength = 10;
   final Map<String, int> countryPhoneDigits = {
