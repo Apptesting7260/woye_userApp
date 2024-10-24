@@ -2,30 +2,28 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'dart:io';
+import '../../../Data/response/status.dart';
 import '../../../Routes/app_routes.dart';
 
 class SignUpController extends GetxController {
-  bool isLoding = false;
+  final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
+  final Rx<TextEditingController> passController = TextEditingController().obs;
+  final rxRequestStatus = Status.COMPLETED.obs;
 
-  late TextEditingController mobNoCon;
+  // final loginData = LoginModel().obs;
+
+  // void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  //
+  // void LoginDataSet(LoginModel _value) => loginData.value = _value;
+  //
+  // void setError(String _value) => error.value = _value;
+  RxBool isLoding = false.obs;
+
 
   // late TextEditingController countryCode;
   var resendToken = 0.obs;
   RxBool showError = true.obs;
 
-  @override
-  void onInit() {
-    mobNoCon = TextEditingController();
-    // TODO: implement onInit
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    mobNoCon.dispose();
-    // TODO: implement onClose
-    super.onClose();
-  }
 
   void updateCountryCode(CountryCode countryCode) {
     selectedCountryCode.value = countryCode;
@@ -43,7 +41,7 @@ class SignUpController extends GetxController {
     print(
         'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
-      isLoding = true;
+      isLoding.value = true;
       update();
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
@@ -82,7 +80,7 @@ class SignUpController extends GetxController {
           verificationID.value = verificationId;
           completer.complete(true);
           Get.toNamed(AppRoutes.loginOtp);
-          isLoding = false;
+          isLoding.value = false;
           update();
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
@@ -90,9 +88,9 @@ class SignUpController extends GetxController {
     } catch (e) {
       completer.complete(false);
       print('error == ${e.toString()}');
-      isLoding = false;
+      isLoding.value = false;
     }
-    isLoding = false;
+    isLoding.value = false;
     return completer.future;
   }
 

@@ -47,7 +47,7 @@ class AppRoutes {
         binding: LoginOtpBinding()),
     GetPage(
         name: signUp,
-        page: () => const SignUpScreen(),
+        page: () =>  SignUpScreen(),
         binding: SignUpBinding()),
     // GetPage(
     //     name: signUpOtp,
