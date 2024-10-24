@@ -58,7 +58,7 @@ class LoginScreen extends StatelessWidget {
             hBox(20),
             CustomElevatedButton(
               text: "Sign In",
-              isLoading: loginController.isLoding,
+              isLoading: loginController.isLoding.value,
               onPressed: () {
                 loginController.sendOtp();
               },
