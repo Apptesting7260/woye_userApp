@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Categories/Category_details/Filter/filter_screen.dart';
-import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/widgets/custom_search_filter.dart';
-import 'package:woye_user/shared/widgets/customappbar.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
   const CategoryDetailsScreen({super.key});
@@ -11,95 +8,23 @@ class CategoryDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        title: Text(
+          "Pizza",
+          style: AppFontStyle.text_24_600(AppColors.darkText),
+        ),
+      ),
       body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 12),
+        padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
+            SearchBarWithFilter(
+              onFilterTap: () {
+                Get.to(FilterScreen());
+              },
+            ),
+
             hBox(20),
-
-
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     InkWell(
-            //       onTap: () {
-            //         Navigator.pop(context);
-            //       },
-            //       child: Container(
-            //         width: 44.h,
-            //         height: 44.h,
-            //         decoration: BoxDecoration(
-            //           shape: BoxShape.circle,
-            //           color: Colors.grey.shade200,
-            //         ),
-            //         child: Center(
-            //           child: Image.asset("assets/images/back.png", scale: 4),
-            //         ),
-            //       ),
-            //     ),
-            //     Text(
-            //       "Pizza",
-            //       style: TextStyle(
-            //         fontSize: 24.sp,
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //     wBox(44) // Empty space to balance the layout
-            //   ],
-            // ),
-
-            CustomAppBar1(title: 'Pizza',),
-            hBox(20),
-
-            // Search bar and Filter Icon
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: Opacity(
-            //         opacity: .3,
-            //         child: Container(
-            //           height: 60.h,
-            //           child: TextField(
-            //             decoration: InputDecoration(
-            //               hintText: "Search",
-            //               prefixIcon: Icon(Icons.search),
-            //               border: OutlineInputBorder(
-            //                   borderRadius: BorderRadius.circular(15.r),
-            //                   borderSide: BorderSide(width: 1.w,color: AppColors.hintText)
-            //               ),
-            //               filled: true,
-            //               fillColor: Colors.white
-            //             ),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //     wBox(8),
-            //     Opacity(
-            //       opacity: .3,
-            //       child: InkWell(
-            //         onTap: (){
-            //           Get.to(FilterScreen());
-            //         },
-            //         child: Container(
-            //           width: 60.h,
-            //           height: 60.h,
-            //           decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(15.r),
-            //             border: Border.all(width: 1.w,color: AppColors.hintText)
-            //           ),
-            //           child: Center(
-            //             child: Image.asset("assets/images/filter.png", scale: 4),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-
-            SearchBarWithFilter(onFilterTap: () {  Get.to(FilterScreen()); },),
-
-           hBox(20),
 
             // Pizza listing
             Expanded(
@@ -166,7 +91,8 @@ class PizzaItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text("\$18.00", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("\$18.00",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     wBox(5),
                     Text(
                       "\$20.00",

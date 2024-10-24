@@ -7,26 +7,26 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: CustomAppBar(
+        isLeading: false,
+        isActions: true,
+        title: Text(
+          "Categories",
+          style: AppFontStyle.text_28_600(AppColors.darkText),
+        ),
+      ),
       body: Padding(
         padding: REdgeInsets.all(16.0),
         child: Column(
           children: [
-            // Search bar
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Search",
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                    borderSide: BorderSide(
-                        width: 1.w, color: AppColors.textFieldBorder)),
+            CustomTextFormField(
+              hintText: "Search",
+              prefix: SvgPicture.asset(
+                "assets/svg/search.svg",
+                height: 20,
               ),
             ),
-
             hBox(20),
-
-            // Category list
             Expanded(
               child: ListView.separated(
                 itemCount: 20,
@@ -38,21 +38,21 @@ class CategoriesScreen extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                           border: Border.all(
-                              width: 1.w, color: AppColors.lightPrimary),
+                              width: 0.8.w, color: AppColors.lightPrimary),
                           borderRadius: BorderRadius.circular(15.r)),
                       child: Padding(
-                        padding: REdgeInsets.symmetric(horizontal: 16.0),
+                        padding: REdgeInsets.only(left: 10, right: 15),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
+                            SizedBox(
                               height: 100.h,
                               child: Row(
                                 children: [
                                   Container(
                                     child: Image.asset(
-                                      "assets/images/burger.png",
-                                      scale: 10,
+                                      "assets/images/pizza.png",
+                                      height: 80.h,
                                       fit: BoxFit.fill,
                                     ),
                                     decoration: BoxDecoration(
@@ -61,8 +61,12 @@ class CategoriesScreen extends StatelessWidget {
                                     height: 80.h,
                                     width: 80.w,
                                   ),
-                                  wBox(10),
-                                  Text('Pizza')
+                                  wBox(20),
+                                  Text(
+                                    'Pizza',
+                                    style: AppFontStyle.text_18_400(
+                                        AppColors.darkText),
+                                  )
                                 ],
                               ),
                             ),

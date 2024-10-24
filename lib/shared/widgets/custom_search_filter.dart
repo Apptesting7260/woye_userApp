@@ -16,6 +16,7 @@ class SearchBarWithFilter extends StatelessWidget {
       children: [
         Expanded(
           child: CustomTextFormField(
+            // height: 40,
             borderDecoration: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide:
@@ -46,6 +47,7 @@ class SearchBarWithFilter extends StatelessWidget {
           onTap: onFilterTap,
           child: Container(
             width: 40.h,
+            height: 40.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12.r),
               border: Border.all(
