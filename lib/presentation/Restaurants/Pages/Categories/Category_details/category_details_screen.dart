@@ -1,6 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Categories/Category_details/Filter/filter_screen.dart';
-import 'package:woye_user/shared/widgets/custom_search_filter.dart';
+import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
 class CategoryDetailsScreen extends StatelessWidget {
   const CategoryDetailsScreen({super.key});
@@ -16,31 +15,39 @@ class CategoryDetailsScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            SearchBarWithFilter(
-              onFilterTap: () {
-                Get.to(FilterScreen());
-              },
-            ),
-
-            hBox(20),
-
-            // Pizza listing
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.85,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              pinned: false,
+              snap: true,
+              floating: true,
+              expandedHeight: 80.h,
+              surfaceTintColor: Colors.white,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              flexibleSpace: FlexibleSpaceBar(
+                title: SizedBox(
+                  height: 40.h,
+                  child: (CustomSearchFilter(
+                    onFilterTap: () {},
+                  )),
                 ),
-                itemCount: 6, // Dummy item count
-                itemBuilder: (context, index) {
-                  return PizzaItem();
-                },
+                centerTitle: true,
               ),
             ),
+            SliverGrid(
+                delegate:
+                    SliverChildBuilderDelegate(childCount: 6, (context, index) {
+                  return categoryItem(index);
+                }),
+                gridDelegate: (SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.72.h,
+                  crossAxisSpacing: 16.w,
+                  mainAxisSpacing: 5.h,
+                )))
           ],
         ),
       ),
@@ -48,68 +55,51 @@ class CategoryDetailsScreen extends StatelessWidget {
   }
 }
 
-class PizzaItem extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+Widget categoryItem(index) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Stack(
+        alignment: Alignment.topRight,
         children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset(
-                  "assets/images/burger.png",
-                  fit: BoxFit.cover, // Ensure image scales properly
-                  height: 120.h, // Adjust based on your design
-                  width: double.infinity,
-                ),
-              ),
-              Positioned(
-                top: 5.h,
-                right: 5.w,
-                child: Container(
-                  padding: REdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.favorite_border, size: 16.h),
-                ),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text("\$18.00",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    wBox(5),
-                    Text(
-                      "\$20.00",
-                      style: TextStyle(
-                        decoration: TextDecoration.lineThrough,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-                hBox(4),
-                Text("McMushroom Pizza"),
-              ],
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
             ),
+            child: Image.asset(
+              "assets/images/cat-image$index.png",
+              height: 160,
+              // width: Get.width,
+            ),
+          ),
+          Container(
+            margin: REdgeInsets.only(top: 10, right: 10),
+            padding: REdgeInsets.symmetric(horizontal: 6, vertical: 8),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.r),
+                color: AppColors.greyBackground),
+            child: SvgPicture.asset(
+              "assets/svg/wishlist.svg",
+              height: 15.h,
+            ),
+          )
+        ],
+      ),
+      hBox(5),
+      Row(
+        children: [
+          Text(
+            "\$18.00",
+            textAlign: TextAlign.left,
+            style: AppFontStyle.text_16_600(AppColors.primary),
           ),
         ],
       ),
-    );
-  }
+      Text(
+        "McMushroom Pizza",
+        textAlign: TextAlign.left,
+        style: AppFontStyle.text_16_400(AppColors.darkText),
+      ),
+    ],
+  );
 }

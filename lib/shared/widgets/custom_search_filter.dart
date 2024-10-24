@@ -1,13 +1,27 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
-class SearchBarWithFilter extends StatelessWidget {
+class CustomSearchFilter extends StatelessWidget {
   final String hintText;
   final VoidCallback onFilterTap;
+  final EdgeInsets? padding;
+  final EdgeInsets? searchIocnPadding;
+  final double? searchIconHeight;
+  final Widget? prefix;
+  final BoxConstraints? prefixConstraints;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
 
-  const SearchBarWithFilter({
+  const CustomSearchFilter({
     super.key,
     this.hintText = "Search",
     required this.onFilterTap,
+    this.padding,
+    this.prefix,
+    this.prefixConstraints,
+    this.textStyle,
+    this.hintStyle,
+    this.searchIocnPadding,
+    this.searchIconHeight,
   });
 
   @override
@@ -16,29 +30,29 @@ class SearchBarWithFilter extends StatelessWidget {
       children: [
         Expanded(
           child: CustomTextFormField(
-            // height: 40,
             borderDecoration: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide:
                     BorderSide(width: 0.8, color: AppColors.textFieldBorder)),
-            contentPadding: REdgeInsets.only(top: 10, bottom: 10),
-            textStyle: AppFontStyle.text_10_400(AppColors.darkText),
-            prefixConstraints: BoxConstraints(
-              maxHeight: 18.h,
-            ),
-            prefix: Padding(
-              padding: REdgeInsets.only(
-                left: 15,
-                right: 5,
-                // bottom: 4,
-              ),
-              child: SvgPicture.asset(
-                "assets/svg/search.svg",
-                height: 12,
-              ),
-            ),
+            contentPadding: padding ?? REdgeInsets.symmetric(vertical: 8),
+            textStyle:
+                textStyle ?? AppFontStyle.text_14_400(AppColors.darkText),
+            prefixConstraints: prefixConstraints ??
+                BoxConstraints(maxHeight: 24.h, maxWidth: 40.w),
+            prefix: prefix ??
+                Padding(
+                  padding: REdgeInsets.only(
+                    left: 15,
+                    right: 8,
+                  ),
+                  child: SvgPicture.asset(
+                    "assets/svg/search.svg",
+                    height: 14,
+                  ),
+                ),
             hintText: hintText,
-            hintStyle: AppFontStyle.text_10_400(AppColors.hintText),
+            hintStyle:
+                hintStyle ?? AppFontStyle.text_12_400(AppColors.hintText),
           ),
         ),
         SizedBox(width: 8.w),
@@ -46,10 +60,10 @@ class SearchBarWithFilter extends StatelessWidget {
           splashColor: Colors.transparent,
           onTap: onFilterTap,
           child: Container(
-            width: 40.h,
-            height: 40.h,
+            padding: searchIocnPadding ??
+                REdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(10.r),
               border: Border.all(
                   width: 0.8.w,
                   color: AppColors
@@ -58,7 +72,7 @@ class SearchBarWithFilter extends StatelessWidget {
             child: Center(
               child: Image.asset(
                 "assets/images/filter.png",
-                height: 16.h,
+                height: searchIconHeight ?? 20.h,
               ),
             ),
           ),

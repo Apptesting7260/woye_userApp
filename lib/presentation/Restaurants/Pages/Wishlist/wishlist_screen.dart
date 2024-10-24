@@ -1,7 +1,7 @@
+import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Wishlist/Filter/filter_screen.dart';
 import 'package:woye_user/shared/widgets/custom_header_notification.dart';
-import 'package:woye_user/shared/widgets/custom_search_filter.dart';
 
 class WishlistScreen extends StatelessWidget {
   const WishlistScreen({super.key});
@@ -13,21 +13,17 @@ class WishlistScreen extends StatelessWidget {
         padding: REdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-
             hBox(20),
-
-            CustomHeaderWithNotification(title: 'Wishlist',),
-
+            CustomHeaderWithNotification(
+              title: 'Wishlist',
+            ),
             hBox(20),
-
-            SearchBarWithFilter(
+            CustomSearchFilter(
               onFilterTap: () {
                 Get.to(FilterWishScreen());
-                },
+              },
             ),
-
             hBox(20),
-
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -42,7 +38,6 @@ class WishlistScreen extends StatelessWidget {
                 },
               ),
             ),
-
             hBox(70),
           ],
         ),
@@ -94,7 +89,8 @@ class PizzaItem extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text("\$18.00", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("\$18.00",
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     wBox(5),
                     Text(
                       "\$20.00",

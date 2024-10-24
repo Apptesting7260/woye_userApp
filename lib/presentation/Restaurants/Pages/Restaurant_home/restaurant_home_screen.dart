@@ -56,7 +56,25 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     flexibleSpace: FlexibleSpaceBar(
                       title: SizedBox(
                         height: 34.h,
-                        child: (SearchBarWithFilter(
+                        child: (CustomSearchFilter(
+                          searchIocnPadding: REdgeInsets.all(8),
+                          searchIconHeight: 16.h,
+                          hintStyle:
+                              AppFontStyle.text_10_400(AppColors.hintText),
+                          textStyle:
+                              AppFontStyle.text_10_400(AppColors.darkText),
+                          prefixConstraints: BoxConstraints(
+                            maxHeight: 18.h,
+                          ),
+                          prefix: Padding(
+                            padding:
+                                REdgeInsets.only(left: 15, right: 5, bottom: 1),
+                            child: SvgPicture.asset(
+                              "assets/svg/search.svg",
+                              height: 12,
+                            ),
+                          ),
+                          padding: REdgeInsets.only(top: 10, bottom: 10),
                           onFilterTap: () {},
                         )),
                       ),
@@ -178,93 +196,82 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
 
   Column catergoryList() {
     return Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "Catergories",
-                                    style: AppFontStyle.text_24_600(
-                                        AppColors.darkText),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    "See All",
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.primary),
-                                  ),
-                                  wBox(4),
-                                  Icon(
-                                    Icons.arrow_forward_sharp,
-                                    color: AppColors.primary,
-                                    size: 18,
-                                  )
-                                ],
-                              ),
-                              hBox(20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    children: [
-                                      CustomRoundedButton(
-                                          onPressed: () {},
-                                          child: Image.asset(
-                                              "assets/images/cat-pizza.png")),
-                                      hBox(15),
-                                      Text(
-                                        "Pizza",
-                                        style: AppFontStyle.text_14_400(
-                                            AppColors.darkText),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      CustomRoundedButton(
-                                          onPressed: () {},
-                                          child: Image.asset(
-                                              "assets/images/cat-burger.png")),
-                                      hBox(15),
-                                      Text(
-                                        "Burger",
-                                        style: AppFontStyle.text_14_400(
-                                            AppColors.darkText),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      CustomRoundedButton(
-                                          onPressed: () {},
-                                          child: Image.asset(
-                                              "assets/images/cat-cake.png")),
-                                      hBox(15),
-                                      Text(
-                                        "Cake",
-                                        style: AppFontStyle.text_14_400(
-                                            AppColors.darkText),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      CustomRoundedButton(
-                                          onPressed: () {},
-                                          child: Image.asset(
-                                              "assets/images/cat-sweet.png")),
-                                      hBox(15),
-                                      Text(
-                                        "Sweet",
-                                        style: AppFontStyle.text_14_400(
-                                            AppColors.darkText),
-                                      )
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          );
+      children: [
+        Row(
+          children: [
+            Text(
+              "Catergories",
+              style: AppFontStyle.text_24_600(AppColors.darkText),
+            ),
+            const Spacer(),
+            Text(
+              "See All",
+              style: AppFontStyle.text_14_400(AppColors.primary),
+            ),
+            wBox(4),
+            Icon(
+              Icons.arrow_forward_sharp,
+              color: AppColors.primary,
+              size: 18,
+            )
+          ],
+        ),
+        hBox(20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                CustomRoundedButton(
+                    onPressed: () {},
+                    child: Image.asset("assets/images/cat-pizza.png")),
+                hBox(15),
+                Text(
+                  "Pizza",
+                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                CustomRoundedButton(
+                    onPressed: () {},
+                    child: Image.asset("assets/images/cat-burger.png")),
+                hBox(15),
+                Text(
+                  "Burger",
+                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                CustomRoundedButton(
+                    onPressed: () {},
+                    child: Image.asset("assets/images/cat-cake.png")),
+                hBox(15),
+                Text(
+                  "Cake",
+                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                CustomRoundedButton(
+                    onPressed: () {},
+                    child: Image.asset("assets/images/cat-sweet.png")),
+                hBox(15),
+                Text(
+                  "Sweet",
+                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                )
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget restaurantList({image, title, type, isFavourite}) {
