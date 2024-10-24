@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -30,6 +31,9 @@ class LoginScreen extends StatelessWidget {
               hBox(50),
               CustomTextFormField(
                 controller: loginController.mobNoCon.value,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 prefix: CountryCodePicker(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 9),

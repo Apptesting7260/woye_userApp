@@ -1,8 +1,12 @@
-import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({super.key});
+   WelcomeScreen({super.key});
+
+   final SocialLoginController socialLoginController =
+   Get.put(SocialLoginController());
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +62,11 @@ class WelcomeScreen extends StatelessWidget {
                     ],
                   ),
                   hBox(20),
-                  facebookButton(),
+                  facebookButton(context),
                   hBox(15),
-                  googleButton(),
+                  googleButton(context),
                   hBox(15),
-                  appleButton(),
+                  appleButton(context),
                 ],
               ),
             ),
@@ -90,7 +94,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  CustomOutlinedButton facebookButton() {
+  CustomOutlinedButton facebookButton(context) {
     return CustomOutlinedButton(
         onPressed: () {},
         child: Row(
@@ -108,9 +112,11 @@ class WelcomeScreen extends StatelessWidget {
         ));
   }
 
-  CustomOutlinedButton googleButton() {
+  CustomOutlinedButton googleButton(context) {
     return CustomOutlinedButton(
-        onPressed: () {},
+        onPressed: () {
+          socialLoginController.signInWithGoogle(context);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -128,7 +134,7 @@ class WelcomeScreen extends StatelessWidget {
         ));
   }
 
-  CustomOutlinedButton appleButton() {
+  CustomOutlinedButton appleButton(context) {
     return CustomOutlinedButton(
         onPressed: () {},
         child: Row(
