@@ -59,7 +59,6 @@ class LoginScreen extends StatelessWidget {
                     loginController.sendOtp();
                   },
                 )),
-
             hBox(30),
             Row(
               children: [
@@ -95,30 +94,61 @@ class LoginScreen extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            InkWell(
-              splashColor: Colors.transparent,
-              onTap: () {
-                Get.toNamed(AppRoutes.signUp);
-              },
-              child: Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: REdgeInsets.only(
-                    bottom: 30,
+            Column(
+              children: [
+                InkWell(
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.restaurantNavbar);
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: REdgeInsets.only(
+                        bottom: 30,
+                      ),
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "Home",
+                            style:
+                                AppFontStyle.text_16_400(AppColors.lightText)),
+                        TextSpan(
+                            text: "screen",
+                            style: AppFontStyle.text_16_600(
+                              AppColors.darkText,
+                            )),
+                      ])),
+                    ),
                   ),
-                  child: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: "Don't have an account? ",
-                        style: AppFontStyle.text_16_400(AppColors.lightText)),
-                    TextSpan(
-                        text: "Sign Up",
-                        style: AppFontStyle.text_16_600(
-                          AppColors.darkText,
-                        )),
-                  ])),
                 ),
-              ),
+                InkWell(
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.signUp);
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: REdgeInsets.only(
+                        bottom: 30,
+                      ),
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "Don't have an account? ",
+                            style:
+                                AppFontStyle.text_16_400(AppColors.lightText)),
+                        TextSpan(
+                            text: "Sign Up",
+                            style: AppFontStyle.text_16_600(
+                              AppColors.darkText,
+                            )),
+                      ])),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
