@@ -37,7 +37,7 @@ class AppRoutes {
     ),
     GetPage(
         name: welcomeScreen,
-        page: () => const WelcomeScreen(),
+        page: () =>  WelcomeScreen(),
         binding: WelcomeBinding()),
     GetPage(name: login, page: () => LoginScreen(), binding: LoginBinding()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
