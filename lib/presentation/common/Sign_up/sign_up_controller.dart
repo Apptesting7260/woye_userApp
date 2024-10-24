@@ -20,7 +20,7 @@ class SignUpController extends GetxController {
   // void LoginDataSet(LoginModel _value) => loginData.value = _value;
   //
   // void setError(String _value) => error.value = _value;
-  RxBool isLoding = false.obs;
+  var isLoding = false.obs;
 
   // late TextEditingController countryCode;
   var resendToken = 0.obs;
@@ -37,12 +37,12 @@ class SignUpController extends GetxController {
   RxString verificationID = ''.obs;
 
   Future<bool> sendOtp() async {
+    isLoding.value = true;
     Completer<bool> completer = Completer<bool>();
     print('re == ${resendToken.value}');
     print(
         'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
-      isLoding.value = true;
       update();
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
@@ -59,8 +59,10 @@ class SignUpController extends GetxController {
             print('${e.code}');
             SnackBarUtils.showToastCenter(
                 'The provided phone number is not valid.');
+            isLoding.value = false;
           } else {
             SnackBarUtils.showToastCenter('Something went wrong');
+            isLoding.value = false;
           }
           print(e.toString());
           completer.complete(false);
@@ -89,7 +91,6 @@ class SignUpController extends GetxController {
             },
           );
           isLoding.value = false;
-          update();
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
@@ -98,11 +99,11 @@ class SignUpController extends GetxController {
       print('error == ${e.toString()}');
       isLoding.value = false;
     }
-    isLoding.value = false;
     return completer.future;
   }
+
   OtpTimerButtonController otpTimerButtonController =
-  OtpTimerButtonController();
+      OtpTimerButtonController();
 
   Future<bool> resendOtp() async {
     Completer<bool> completer = Completer<bool>();
@@ -110,15 +111,17 @@ class SignUpController extends GetxController {
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
-        phoneNumber: '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+        phoneNumber:
+            '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             print('${e.code}');
-            SnackBarUtils.showToastCenter('The provided phone number is not valid.');
-          }else{
+            SnackBarUtils.showToastCenter(
+                'The provided phone number is not valid.');
+          } else {
             SnackBarUtils.showToastCenter('Something went wrong');
           }
           otpTimerButtonController.enableButton();
@@ -139,9 +142,7 @@ class SignUpController extends GetxController {
       print('error == ${e.toString()}');
     }
     return completer.future;
-
   }
-
 
   int chackCountryLength = 10;
   final Map<String, int> countryPhoneDigits = {

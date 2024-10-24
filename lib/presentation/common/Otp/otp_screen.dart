@@ -48,25 +48,28 @@ class OtpScreen extends StatelessWidget {
               submittedPinTheme: otpController.submittedPinTheme,
             ),
             hBox(20),
-            CustomElevatedButton(
-              onPressed: () async {
-                final verify = await otpController.verifyOtp(
-                    verificationId: from == 'login'
-                        ? loginController.verificationID.value
-                        : signUpController.verificationID.value,
-                    smsCode: otpController.otpPin.value.text);
-                if (from == 'login') {
-                  if (verify) {
-                    Get.offAllNamed(AppRoutes.restaurantNavbar);
+            Obx(
+              ()=> CustomElevatedButton(
+                isLoading: otpController.otpVerify.value,
+                onPressed: () async {
+                  final verify = await otpController.verifyOtp(
+                      verificationId: from == 'login'
+                          ? loginController.verificationID.value
+                          : signUpController.verificationID.value,
+                      smsCode: otpController.otpPin.value.text);
+                  if (from == 'login') {
+                    if (verify) {
+                      Get.offAllNamed(AppRoutes.restaurantNavbar);
+                    }
+                  } else {
+                    if (verify) {
+                      Get.offNamed(AppRoutes.signUpFom);
+                    }
                   }
-                } else {
-                  if (verify) {
-                    Get.offNamed(AppRoutes.signUpFom);
-                  }
-                }
-                // Get.toNamed(AppRoutes.signUp);
-              },
-              text: "Verify",
+                  // Get.toNamed(AppRoutes.signUp);
+                },
+                text: "Verify",
+              ),
             ),
             hBox(20),
             // Align(

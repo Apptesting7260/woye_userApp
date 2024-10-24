@@ -3,8 +3,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 
 class OtpController extends GetxController {
   final Rx<TextEditingController> otpPin = TextEditingController().obs;
-
-
+  var otpVerify = false.obs;
 
   @override
   void onClose() {
@@ -44,26 +43,26 @@ class OtpController extends GetxController {
       ));
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-  var otpVerify = false.obs;
 
-  Future<bool> verifyOtp(
-      {required String verificationId, required String smsCode}) async {
-    otpVerify.value = true;
+  Future<bool> verifyOtp({
+    required String verificationId,
+    required String smsCode,
+  }) async {
     try {
+      otpVerify.value = true;
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: verificationId, smsCode: smsCode));
-      otpVerify.value = false;
       SnackBarUtils.showToastCenter('Otp Verify Successfully');
       return credential.user == null ? false : true;
     } on FirebaseAuthException catch (e) {
       print('otp error == ${e.code}');
+      otpVerify.value = false;
       if (e.code == 'invalid-verification-code') {
         SnackBarUtils.showToastCenter('Invalid otp.');
       } else {
         SnackBarUtils.showToastCenter('Please check your otp and try again.');
       }
-      otpVerify.value = false;
       return false;
     }
   }

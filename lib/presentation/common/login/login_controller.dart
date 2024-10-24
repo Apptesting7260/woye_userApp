@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print, unnecessary_string_interpolations
 
 import 'dart:io';
-
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
@@ -23,7 +22,7 @@ class LoginController extends GetxController {
   //
   // void setError(String _value) => error.value = _value;
 
-  RxBool isLoding = false.obs;
+  var isLoding = false.obs;
 
   // RxBool loading = false.obs;
 
@@ -41,13 +40,12 @@ class LoginController extends GetxController {
   RxString verificationID = ''.obs;
 
   Future<bool> sendOtp() async {
-    isLoding = true.obs;
+    isLoding.value = true;
     Completer<bool> completer = Completer<bool>();
     print('re == ${resendToken.value}');
     print(
         'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
-      update();
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
         phoneNumber:
@@ -63,8 +61,10 @@ class LoginController extends GetxController {
             print('${e.code}');
             SnackBarUtils.showToastCenter(
                 'The provided phone number is not valid.');
+            isLoding.value = false;
           } else {
             SnackBarUtils.showToastCenter('Something went wrong');
+            isLoding.value = false;
           }
           print(e.toString());
           completer.complete(false);
@@ -92,16 +92,15 @@ class LoginController extends GetxController {
                   '${selectedCountryCode.value.toString()} ${mobNoCon.value.text.trim().toString()},',
             },
           );
-
+          isLoding.value = false;
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
       completer.complete(false);
       print('error == ${e.toString()}');
-      isLoding = false.obs;
+      isLoding.value = false;
     }
-    isLoding = false.obs;
     return completer.future;
   }
 

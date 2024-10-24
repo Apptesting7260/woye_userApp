@@ -59,6 +59,7 @@ class LoginScreen extends StatelessWidget {
                     loginController.sendOtp();
                   },
                 )),
+
             hBox(30),
             Row(
               children: [
