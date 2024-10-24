@@ -1,7 +1,5 @@
 import 'package:woye_user/Presentation/Restaurants/Pages/Categories/Category_details/category_details_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/shared/widgets/custom_app_bar.dart';
-import 'package:woye_user/shared/widgets/custom_header_notification.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
@@ -9,34 +7,11 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(),
       body: Padding(
         padding: REdgeInsets.all(16.0),
         child: Column(
           children: [
-            hBox(20),
-
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     Text("Categories", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 28.sp,fontFamily: 'Gilroy')),
-            //     Container(
-            //       padding: REdgeInsets.all(9),
-            //       height: 44.h,
-            //       width: 44.h,
-            //       decoration: BoxDecoration(
-            //           color: AppColors.greyBackground,
-            //           borderRadius: BorderRadius.circular(12.r)),
-            //       child: SvgPicture.asset(
-            //         ImageConstants.notification,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-
-            CustomHeaderWithNotification(title: 'Categories',),
-
-            hBox(20),
-
             // Search bar
             TextField(
               decoration: InputDecoration(
