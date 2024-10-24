@@ -7,29 +7,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
+import '../../../Data/response/status.dart';
+
 class LoginController extends GetxController {
+  final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
+  final Rx<TextEditingController> passController = TextEditingController().obs;
+  final rxRequestStatus = Status.COMPLETED.obs;
+
+  // final loginData = LoginModel().obs;
+
+  // void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  //
+  // void LoginDataSet(LoginModel _value) => loginData.value = _value;
+  //
+  // void setError(String _value) => error.value = _value;
+
   RxBool isLoding = false.obs;
 
-  late TextEditingController mobNoCon;
-
-
-  // late TextEditingController countryCode;
   var resendToken = 0.obs;
   RxBool showError = true.obs;
-
-  @override
-  void onInit() {
-    mobNoCon = TextEditingController();
-    
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    mobNoCon.dispose();
-   
-    super.onClose();
-  }
 
   void updateCountryCode(CountryCode countryCode) {
     selectedCountryCode.value = countryCode;
