@@ -1,14 +1,13 @@
 import 'package:woye_user/Presentation/Common/Sign_up_form/sign_up_form_controller.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Common/form_sign_up/form_sign_up_controller.dart';
-import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
 
 class SignUpFormScreen extends StatelessWidget {
   const SignUpFormScreen({super.key});
 
-  static SignUpFormController signUpFormController = Get.put(SignUpFormController());
+  static SignUpFormController signUpFormController =
+      Get.put(SignUpFormController());
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +210,7 @@ class SignUpFormScreen extends StatelessWidget {
   }
 
   Future bottomSheet(BuildContext context) {
-    final FormSignUpController controller = Get.find<FormSignUpController>();
+    final SignUpFormController controller = Get.find<SignUpFormController>();
     return showModalBottomSheet(
         backgroundColor: Colors.white,
         shape: OutlineInputBorder(
