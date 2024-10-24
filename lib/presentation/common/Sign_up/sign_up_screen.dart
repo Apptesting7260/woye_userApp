@@ -28,7 +28,9 @@ class SignUpScreen extends StatelessWidget {
             ),
             hBox(50),
             CustomTextFormField(
+              controller: signUpController.mobNoCon.value,
               prefix: CountryCodePicker(
+
                   padding:
                       const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
                   onChanged: (CountryCode countryCode) {
@@ -43,13 +45,16 @@ class SignUpScreen extends StatelessWidget {
               textInputType: TextInputType.phone,
             ),
             hBox(20),
-            CustomElevatedButton(
-              text: "Sign Up",
-              onPressed: () {
-                signUpController.sendOtp();
+            Obx(
+                  ()=>CustomElevatedButton(
+                text: "Sign Up",
+                isLoading: signUpController.isLoding.value,
+                onPressed: () {
+                  signUpController.sendOtp();
 
-                // Get.toNamed(AppRoutes.otp);
-              },
+                  // Get.toNamed(AppRoutes.otp);
+                },
+              ),
             ),
             const Spacer(),
             InkWell(
