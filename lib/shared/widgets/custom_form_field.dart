@@ -119,7 +119,7 @@ class CustomTextFormField extends StatelessWidget {
         hintStyle: hintStyle ?? AppFontStyle.text_14_400(AppColors.hintText),
         prefixIcon: prefix,
         prefixIconConstraints:
-            prefixConstraints ?? BoxConstraints(minWidth: 50.w),
+            prefixConstraints ?? BoxConstraints(minWidth: 30.w),
         suffixIcon: suffix,
         suffixIconConstraints: suffixConstraints,
         isDense: true,

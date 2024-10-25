@@ -1,14 +1,13 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
-class FilterScreen extends StatefulWidget {
-  const FilterScreen({super.key});
+class RestaurantCategoriesFilter extends StatefulWidget {
+  const RestaurantCategoriesFilter({super.key});
 
   @override
-  State<FilterScreen> createState() => _FilterScreenState();
+  State<RestaurantCategoriesFilter> createState() => _FilterScreenState();
 }
 
-class _FilterScreenState extends State<FilterScreen> {
-
+class _FilterScreenState extends State<RestaurantCategoriesFilter> {
   final Map<String, bool> _options = {
     "Veg": true,
     "Non-veg": false,
@@ -22,17 +21,16 @@ class _FilterScreenState extends State<FilterScreen> {
 
   int _selectedValue = 1;
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: REdgeInsets.symmetric(horizontal: 12.0),
-        child: SingleChildScrollView(  // Added SingleChildScrollView for scrollable content
+        child: SingleChildScrollView(
+          // Added SingleChildScrollView for scrollable content
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               hBox(20),
 
               Row(
@@ -68,7 +66,11 @@ class _FilterScreenState extends State<FilterScreen> {
               hBox(20),
 
               // Brand section with checkboxes
-              Text("Brand", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: 'Gilroy')),
+              Text("Brand",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.sp,
+                      fontFamily: 'Gilroy')),
               ..._options.keys.map((String key) {
                 return CheckboxListTile(
                   title: Text(
@@ -87,8 +89,7 @@ class _FilterScreenState extends State<FilterScreen> {
                   },
                   checkboxShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.r),
-                      side: BorderSide(width: 1,color: AppColors.darkText)
-                  ),
+                      side: BorderSide(width: 1, color: AppColors.darkText)),
                   activeColor: Colors.black,
                   controlAffinity: ListTileControlAffinity.leading,
                   contentPadding: EdgeInsets.zero,
@@ -98,7 +99,9 @@ class _FilterScreenState extends State<FilterScreen> {
               hBox(16),
 
               // Price section with radio buttons
-              Text("Price", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Text("Price",
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
               CustomRadioCircle(
                 title: "Low to high",
                 value: 1,
@@ -123,7 +126,9 @@ class _FilterScreenState extends State<FilterScreen> {
               hBox(16),
 
               // Quick Filter section with filter chips
-              Text("Quick Filter", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Text("Quick Filter",
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
               hBox(16),
               Wrap(
                 spacing: 4,
@@ -140,19 +145,30 @@ class _FilterScreenState extends State<FilterScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Price Range", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-                  Text("\&500 - \$1000", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16.sp,color: AppColors.primary)),
+                  Text("Price Range",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18.sp)),
+                  Text("\&500 - \$1000",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
+                          color: AppColors.primary)),
                 ],
               ),
               hBox(6),
-              Text("Average price: \$1.200", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,color: AppColors.lightText)),
+              Text("Average price: \$1.200",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18.sp,
+                      color: AppColors.lightText)),
               hBox(6),
               // RangeSlider widget
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   thumbColor: AppColors.primary,
                   trackHeight: 4,
-                  inactiveTrackColor: Colors.grey.shade300, // Inactive track color
+                  inactiveTrackColor:
+                      Colors.grey.shade300, // Inactive track color
                 ),
                 child: RangeSlider(
                   values: _currentRangeValues,
@@ -174,7 +190,9 @@ class _FilterScreenState extends State<FilterScreen> {
               hBox(16),
 
               // Size section with radio buttons
-              Text("Size", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Text("Size",
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
               CustomRadioCircle(
                 title: "Small",
                 value: 1,
@@ -209,7 +227,9 @@ class _FilterScreenState extends State<FilterScreen> {
               hBox(16),
 
               // Toppings section with radio buttons
-              Text("Toppings", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+              Text("Toppings",
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
               CustomRadioCircle(
                 title: "All",
                 value: 1,
@@ -293,20 +313,14 @@ class _FilterScreenState extends State<FilterScreen> {
                         width: 184.w,
                         decoration: BoxDecoration(
                             color: Colors.black,
-                            borderRadius: BorderRadius.circular(100.r)
-                        ),
+                            borderRadius: BorderRadius.circular(100.r)),
                         child: Center(
-                            child: Text(
-                                "Clear",
+                            child: Text("Clear",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
-                    ),
+                                    fontFamily: 'Gilroy-Regular')))),
                   ),
                   wBox(10),
                   Expanded(
@@ -315,20 +329,14 @@ class _FilterScreenState extends State<FilterScreen> {
                         width: 184.w,
                         decoration: BoxDecoration(
                             color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(100.r)
-                        ),
+                            borderRadius: BorderRadius.circular(100.r)),
                         child: Center(
-                            child: Text(
-                                "Apply",
+                            child: Text("Apply",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
-                    ),
+                                    fontFamily: 'Gilroy-Regular')))),
                   ),
                 ],
               ),
@@ -351,16 +359,14 @@ class FilterChipWidget extends StatelessWidget {
     return FilterChip(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(100),
-          side: BorderSide(color: AppColors.hintText)
-      ),
+          side: BorderSide(color: AppColors.hintText)),
       label: Text(
         label,
         style: TextStyle(
             fontFamily: 'Gilroy-Regular',
             fontWeight: FontWeight.w400,
             fontSize: 18,
-            color: AppColors.darkText
-        ),
+            color: AppColors.darkText),
       ),
       selected: false,
       onSelected: (isSelected) {},
@@ -372,7 +378,8 @@ class TwoToneCircleSliderThumb extends SliderComponentShape {
   final Color innerColor;
   final Color outerColor;
 
-  TwoToneCircleSliderThumb({required this.innerColor, required this.outerColor});
+  TwoToneCircleSliderThumb(
+      {required this.innerColor, required this.outerColor});
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) {
@@ -381,19 +388,19 @@ class TwoToneCircleSliderThumb extends SliderComponentShape {
 
   @override
   void paint(
-      PaintingContext context,
-      Offset center, {
-        required Animation<double> activationAnimation,
-        required Animation<double> enableAnimation,
-        required bool isDiscrete,
-        required TextPainter labelPainter,
-        required RenderBox parentBox,
-        required SliderThemeData sliderTheme,
-        required TextDirection textDirection,
-        required double value,
-        required double textScaleFactor,
-        required Size sizeWithOverflow,
-      }) {
+    PaintingContext context,
+    Offset center, {
+    required Animation<double> activationAnimation,
+    required Animation<double> enableAnimation,
+    required bool isDiscrete,
+    required TextPainter labelPainter,
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required TextDirection textDirection,
+    required double value,
+    required double textScaleFactor,
+    required Size sizeWithOverflow,
+  }) {
     final Paint outerPaint = Paint()..color = outerColor;
     final Paint innerPaint = Paint()..color = innerColor;
     final double radius = sizeWithOverflow.shortestSide / 2;

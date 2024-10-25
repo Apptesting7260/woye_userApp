@@ -21,4 +21,11 @@ class RestaurantHomeController extends GetxController {
       "isFavourite": false
     },
   ];
+
+  void changeFavorite(index) {
+    restaurantList[index]["isFavourite"] =
+        !restaurantList[index]["isFavourite"];
+    print("check==============>${restaurantList[index]["isFavourite"]}");
+    update();
+  }
 }

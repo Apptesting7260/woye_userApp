@@ -163,23 +163,30 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                               ],
                             ),
                             hBox(20),
-                            ListView.separated(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  final controllerList =
-                                      restaurantHomeController
-                                          .restaurantList[index];
-                                  return restaurantList(
-                                      image: controllerList["image"],
-                                      title: controllerList["title"],
-                                      type: controllerList["type"],
-                                      isFavourite:
-                                          controllerList["isFavourite"]);
-                                },
-                                itemCount: restaurantHomeController
-                                    .restaurantList.length,
-                                separatorBuilder: (context, index) => hBox(20)),
+                            GetBuilder(
+                                init: restaurantHomeController,
+                                builder: (controller) {
+                                  return ListView.separated(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        final controllerList =
+                                            restaurantHomeController
+                                                .restaurantList[index];
+                                        return restaurantList(
+                                            index: index,
+                                            image: controllerList["image"],
+                                            title: controllerList["title"],
+                                            type: controllerList["type"],
+                                            isFavourite:
+                                                controllerList["isFavourite"]);
+                                      },
+                                      itemCount: restaurantHomeController
+                                          .restaurantList.length,
+                                      separatorBuilder: (context, index) =>
+                                          hBox(20));
+                                }),
                             hBox(100)
                           ],
                         ),
@@ -274,7 +281,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     );
   }
 
-  Widget restaurantList({image, title, type, isFavourite}) {
+  Widget restaurantList({index, image, title, type, isFavourite}) {
+    RestaurantHomeController controller = Get.find<RestaurantHomeController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -291,15 +299,28 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 width: Get.width,
               ),
             ),
-            Container(
-              margin: REdgeInsets.only(top: 15, right: 15),
-              padding: REdgeInsets.symmetric(horizontal: 6, vertical: 8),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: AppColors.greyBackground),
-              child: SvgPicture.asset(
-                "assets/svg/wishlist.svg",
-                height: 15.h,
+            GestureDetector(
+              onTap: () => controller.changeFavorite(index),
+              child: Container(
+                margin: REdgeInsets.only(top: 15, right: 15),
+                padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: AppColors.greyBackground),
+                child: isFavourite != true
+                    ? Icon(
+                        Icons.favorite_border_outlined,
+                        size: 20.w,
+                      )
+                    : Icon(
+                        Icons.favorite,
+                        size: 20.w,
+                      ),
+
+                // SvgPicture.asset(
+                //   "assets/svg/favorite-inactive.svg",
+                //   height: 15.h,
+                // ),
               ),
             )
           ],

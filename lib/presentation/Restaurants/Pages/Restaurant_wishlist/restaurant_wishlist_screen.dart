@@ -1,10 +1,9 @@
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Wishlist/Filter/filter_screen.dart';
 import 'package:woye_user/shared/widgets/custom_header_notification.dart';
 
-class WishlistScreen extends StatelessWidget {
-  const WishlistScreen({super.key});
+class RestaurantWishlistScreen extends StatelessWidget {
+  const RestaurantWishlistScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class WishlistScreen extends StatelessWidget {
             hBox(20),
             CustomSearchFilter(
               onFilterTap: () {
-                Get.to(FilterWishScreen());
+                Get.toNamed(AppRoutes.restaurantWishlistFilter);
               },
             ),
             hBox(20),

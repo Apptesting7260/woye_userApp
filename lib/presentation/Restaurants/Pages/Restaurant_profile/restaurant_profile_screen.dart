@@ -1,8 +1,8 @@
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/shared/widgets/custom_header_notification.dart';
 
-class MyProfileScreen extends StatelessWidget {
-  const MyProfileScreen({super.key});
+class RestaurantProfileScreen extends StatelessWidget {
+  const RestaurantProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +11,11 @@ class MyProfileScreen extends StatelessWidget {
         padding: REdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-
             hBox(20),
 
-            CustomHeaderWithNotification(title: 'My Profile',),
+            CustomHeaderWithNotification(
+              title: 'My Profile',
+            ),
 
             hBox(20),
 
@@ -32,7 +33,8 @@ class MyProfileScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage('assets/profile_picture.png'), // Replace with user's image
+                      backgroundImage: AssetImage(
+                          'assets/profile_picture.png'), // Replace with user's image
                     ),
                     SizedBox(width: 15.0),
                     Column(
@@ -142,7 +144,6 @@ class MyProfileScreen extends StatelessWidget {
                 // Handle logout
               },
             ),
-
           ],
         ),
       ),

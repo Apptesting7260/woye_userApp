@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:woye_user/Presentation/Restaurants/Pages/Categories/categories_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/My_cart/my_cart_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/My_profile/my_profile_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/restaurant_cart_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/restaurant_home_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Wishlist/wishlist_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/restaurant_profile_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/restaurant_wishlist_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantNavbarController extends GetxController {
@@ -18,10 +18,10 @@ class RestaurantNavbarController extends GetxController {
 
   List<Widget> widgets = [
     const RestaurantHomeScreen(),
-    const CategoriesScreen(),
-    const WishlistScreen(),
-    const MyCartScreen(),
-    const MyProfileScreen(),
+    const RestaurantCategoriesScreen(),
+    const RestaurantWishlistScreen(),
+    const RestaurantCartScreen(),
+    const RestaurantProfileScreen(),
   ];
 
   @override

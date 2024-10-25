@@ -1,16 +1,13 @@
-
-
-import 'package:flutter/material.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/core/Utils/sized_box.dart';
 
-class FilterWishScreen extends StatefulWidget {
+class RestaurantWishlistFilter extends StatefulWidget {
+  const RestaurantWishlistFilter({super.key});
+
   @override
-  State<FilterWishScreen> createState() => _FilterScreenState();
+  State<RestaurantWishlistFilter> createState() => _FilterScreenState();
 }
 
-class _FilterScreenState extends State<FilterWishScreen> {
-
+class _FilterScreenState extends State<RestaurantWishlistFilter> {
   final Map<String, bool> _options = {
     "Personal Care": true,
     "Skin Care": false,
@@ -29,11 +26,11 @@ class _FilterScreenState extends State<FilterWishScreen> {
     return Scaffold(
       body: Padding(
         padding: REdgeInsets.all(16.0),
-        child: SingleChildScrollView(  // Added SingleChildScrollView for scrollable content
+        child: SingleChildScrollView(
+          // Added SingleChildScrollView for scrollable content
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               hBox(20),
 
               Row(
@@ -69,7 +66,11 @@ class _FilterScreenState extends State<FilterWishScreen> {
               hBox(20),
 
               // Brand section with checkboxes
-              Text("Categories", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: 'Gilroy')),
+              Text("Categories",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.sp,
+                      fontFamily: 'Gilroy')),
               ..._options.keys.map((String key) {
                 return CheckboxListTile(
                   title: Text(
@@ -88,8 +89,7 @@ class _FilterScreenState extends State<FilterWishScreen> {
                   },
                   checkboxShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.r),
-                      side: BorderSide(width: 1,color: AppColors.darkText)
-                  ),
+                      side: BorderSide(width: 1, color: AppColors.darkText)),
                   activeColor: Colors.black,
                   controlAffinity: ListTileControlAffinity.leading,
                   contentPadding: EdgeInsets.zero,
@@ -98,7 +98,11 @@ class _FilterScreenState extends State<FilterWishScreen> {
               SizedBox(height: 16),
 
               // Price section with radio buttons
-              Text("Price", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22.sp,fontFamily: 'Gilroy')),
+              Text("Price",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 22.sp,
+                      fontFamily: 'Gilroy')),
               CustomRadioCircle(
                 title: "Low to high",
                 value: 1,
@@ -122,7 +126,8 @@ class _FilterScreenState extends State<FilterWishScreen> {
               SizedBox(height: 16),
 
               // Quick Filter section with filter chips
-              Text("Sort by", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+              Text("Sort by",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               Wrap(
                 spacing: 8,
                 children: [
@@ -137,19 +142,30 @@ class _FilterScreenState extends State<FilterWishScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Price Range", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-                  Text("\&500 - \$1000", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16.sp,color: AppColors.primary)),
+                  Text("Price Range",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18.sp)),
+                  Text("\&500 - \$1000",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16.sp,
+                          color: AppColors.primary)),
                 ],
               ),
               hBox(6),
-              Text("Average price: \$1.200", style: TextStyle(fontWeight: FontWeight.w400, fontSize: 18.sp,color: AppColors.lightText)),
+              Text("Average price: \$1.200",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18.sp,
+                      color: AppColors.lightText)),
               hBox(6),
               // RangeSlider widget
               SliderTheme(
                 data: SliderTheme.of(context).copyWith(
                   thumbColor: AppColors.primary,
                   trackHeight: 4,
-                  inactiveTrackColor: Colors.grey.shade300, // Inactive track color
+                  inactiveTrackColor:
+                      Colors.grey.shade300, // Inactive track color
                 ),
                 child: RangeSlider(
                   values: _currentRangeValues,
@@ -169,7 +185,6 @@ class _FilterScreenState extends State<FilterWishScreen> {
               ),
               hBox(16),
 
-
               // Clear and Apply buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -180,20 +195,14 @@ class _FilterScreenState extends State<FilterWishScreen> {
                         width: 184.w,
                         decoration: BoxDecoration(
                             color: Colors.black,
-                            borderRadius: BorderRadius.circular(100)
-                        ),
+                            borderRadius: BorderRadius.circular(100)),
                         child: Center(
-                            child: Text(
-                                "Clear",
+                            child: Text("Clear",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
-                    ),
+                                    fontFamily: 'Gilroy-Regular')))),
                   ),
                   wBox(10),
                   Expanded(
@@ -202,20 +211,14 @@ class _FilterScreenState extends State<FilterWishScreen> {
                         width: 184.w,
                         decoration: BoxDecoration(
                             color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(100)
-                        ),
+                            borderRadius: BorderRadius.circular(100)),
                         child: Center(
-                            child: Text(
-                                "Apply",
+                            child: Text("Apply",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular'
-                                )
-                            )
-                        )
-                    ),
+                                    fontFamily: 'Gilroy-Regular')))),
                   ),
                 ],
               ),

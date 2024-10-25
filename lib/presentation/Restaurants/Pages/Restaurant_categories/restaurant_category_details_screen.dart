@@ -1,8 +1,8 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
-class CategoryDetailsScreen extends StatelessWidget {
-  const CategoryDetailsScreen({super.key});
+class RestaurantCategoryDetailsScreen extends StatelessWidget {
+  const RestaurantCategoryDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,9 @@ class CategoryDetailsScreen extends StatelessWidget {
                 title: SizedBox(
                   height: 40.h,
                   child: (CustomSearchFilter(
-                    onFilterTap: () {},
+                    onFilterTap: () {
+                      Get.toNamed(AppRoutes.restaurantCategoriesFilter);
+                    },
                   )),
                 ),
                 centerTitle: true,
