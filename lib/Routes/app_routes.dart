@@ -7,7 +7,8 @@ import 'package:woye_user/Presentation/Common/otp/otp_screen.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/restaurant_categories_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/restaurant_wishlist_filter_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/restaurant_category_details.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar_binding.dart';
 import 'package:woye_user/presentation/Common/login/login_binding.dart';
@@ -33,6 +34,8 @@ class AppRoutes {
   static const String homeScreen = "/home_screen";
   static const String restaurantCategoriesFilter =
       "/restaurant_categories_filter";
+  static const String restaurantCategoriesDetails =
+      "/restaurant_categories_details";
   static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
 
   static List<GetPage> pages = [
@@ -76,6 +79,9 @@ class AppRoutes {
     GetPage(
         name: restaurantCategoriesFilter,
         page: () => const RestaurantCategoriesFilter()),
+    GetPage(
+        name: restaurantCategoriesDetails,
+        page: () => const RestaurantCategoryDetails()),
     GetPage(
         name: restaurantWishlistFilter,
         page: () => const RestaurantWishlistFilter()),

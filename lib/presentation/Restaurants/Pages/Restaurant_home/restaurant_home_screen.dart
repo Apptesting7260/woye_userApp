@@ -49,8 +49,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     snap: true,
                     floating: true,
                     expandedHeight: 80.h,
-                    surfaceTintColor: Colors.white,
-                    backgroundColor: Colors.white,
+                    surfaceTintColor: Colors.transparent,
+                    backgroundColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
                     flexibleSpace: FlexibleSpaceBar(

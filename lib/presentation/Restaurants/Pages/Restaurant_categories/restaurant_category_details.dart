@@ -1,15 +1,17 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
-class RestaurantCategoryDetailsScreen extends StatelessWidget {
-  const RestaurantCategoryDetailsScreen({super.key});
+class RestaurantCategoryDetails extends StatelessWidget {
+  const RestaurantCategoryDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var title = Get.arguments;
+
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
-          "Pizza",
+          title,
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
       ),
@@ -22,14 +24,15 @@ class RestaurantCategoryDetailsScreen extends StatelessWidget {
               pinned: false,
               snap: true,
               floating: true,
-              expandedHeight: 80.h,
-              surfaceTintColor: Colors.white,
-              backgroundColor: Colors.white,
+              expandedHeight: 70.h,
+              surfaceTintColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
               flexibleSpace: FlexibleSpaceBar(
+                titlePadding: REdgeInsets.only(bottom: 15),
                 title: SizedBox(
-                  height: 40.h,
+                  height: 35.h,
                   child: (CustomSearchFilter(
                     onFilterTap: () {
                       Get.toNamed(AppRoutes.restaurantCategoriesFilter);
@@ -40,8 +43,8 @@ class RestaurantCategoryDetailsScreen extends StatelessWidget {
               ),
             ),
             SliverGrid(
-                delegate:
-                    SliverChildBuilderDelegate(childCount: 6, (context, index) {
+                delegate: SliverChildBuilderDelegate(childCount: 20,
+                    (context, index) {
                   return categoryItem(index);
                 }),
                 gridDelegate: (SliverGridDelegateWithFixedCrossAxisCount(
@@ -49,7 +52,10 @@ class RestaurantCategoryDetailsScreen extends StatelessWidget {
                   childAspectRatio: 0.72.h,
                   crossAxisSpacing: 16.w,
                   mainAxisSpacing: 5.h,
-                )))
+                ))),
+            SliverToBoxAdapter(
+              child: hBox(50),
+            )
           ],
         ),
       ),
@@ -58,6 +64,9 @@ class RestaurantCategoryDetailsScreen extends StatelessWidget {
 }
 
 Widget categoryItem(index) {
+  RxBool isFavorite = false.obs;
+  IconData favorite = Icons.favorite;
+  IconData favoriteNot = Icons.favorite_border_outlined;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -69,21 +78,34 @@ Widget categoryItem(index) {
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Image.asset(
-              "assets/images/cat-image$index.png",
+              "assets/images/cat-image${index % 5}.png",
               height: 160,
               // width: Get.width,
             ),
           ),
-          Container(
-            margin: REdgeInsets.only(top: 10, right: 10),
-            padding: REdgeInsets.symmetric(horizontal: 6, vertical: 8),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
-                color: AppColors.greyBackground),
-            child: SvgPicture.asset(
-              "assets/svg/wishlist.svg",
-              height: 15.h,
-            ),
+          Obx(
+            () => Container(
+                margin: REdgeInsets.only(top: 10, right: 10),
+                padding: REdgeInsets.all(6),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: AppColors.greyBackground),
+                child: InkWell(
+                  onTap: () {
+                    isFavorite.value = !isFavorite.value;
+                    print("tapped");
+                  },
+                  child: Icon(
+                    isFavorite.value ? favorite : favoriteNot,
+                    // Icons.favorite_border_outlined,
+                    size: 22,
+                  ),
+                )
+                //  SvgPicture.asset(
+                //   "assets/svg/wishlist.svg",
+                //   height: 15.h,
+                // ),
+                ),
           )
         ],
       ),

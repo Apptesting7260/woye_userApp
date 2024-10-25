@@ -59,6 +59,7 @@ dependencies:
   permission_handler:
   google_sign_in: ^6.2.1
   sign_in_with_apple:
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -34,7 +34,7 @@ class CustomSearchFilter extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide:
                     BorderSide(width: 0.8, color: AppColors.textFieldBorder)),
-            contentPadding: padding ?? REdgeInsets.symmetric(vertical: 8),
+            contentPadding: padding ?? REdgeInsets.symmetric(vertical: 6),
             textStyle:
                 textStyle ?? AppFontStyle.text_14_400(AppColors.darkText),
             prefixConstraints: prefixConstraints ??
@@ -52,7 +52,7 @@ class CustomSearchFilter extends StatelessWidget {
                 ),
             hintText: hintText,
             hintStyle:
-                hintStyle ?? AppFontStyle.text_12_400(AppColors.hintText),
+                hintStyle ?? AppFontStyle.text_10_400(AppColors.hintText),
           ),
         ),
         SizedBox(width: 8.w),

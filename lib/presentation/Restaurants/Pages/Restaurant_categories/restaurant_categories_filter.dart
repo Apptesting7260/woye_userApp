@@ -187,6 +187,39 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                 ),
               ),
 
+              // FlutterSlider(
+              //   values: [20, 100],
+              //   max: 1000,
+              //   min: 100,
+              //   rangeSlider: true,
+              //   handlerHeight: 24,
+              //   handler: FlutterSliderHandler(
+              //     child: Image.asset("assets/images/slider-image.png"),
+              //   ),
+              //   rightHandler: FlutterSliderHandler(
+              //     child: Image.asset("assets/images/slider-image.png"),
+              //   ),
+              //   trackBar: FlutterSliderTrackBar(
+              //     activeTrackBarHeight: 8,
+              //     inactiveTrackBarHeight: 8,
+              //     activeTrackBar: BoxDecoration(
+              //       color: AppColors.primary, // Active color
+              //       borderRadius: BorderRadius.circular(4),
+              //     ),
+              //     inactiveTrackBar: BoxDecoration(
+              //       color:
+              //           AppColors.lightText.withOpacity(.3), // Inactive color
+              //       borderRadius: BorderRadius.circular(4),
+              //     ),
+              //   ),
+              //   onDragging: (handlerIndex, lowerValue, upperValue) {
+              //     //   setState(() {
+              //     //     _lowerValue = lowerValue;
+              //     //     _upperValue = upperValue;
+              //     //   });
+              //   },
+              // ),
+
               hBox(16),
 
               // Size section with radio buttons

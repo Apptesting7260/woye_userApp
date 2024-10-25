@@ -10,6 +10,13 @@ class AppFontStyle {
         fontFamily: 'Gilroy');
   }
 
+  ///`font-weight:300 ===========>`
+  static text_16_300(Color color) {
+    return _textStyle(color, 16.sp, FontWeight.w300, TextOverflow.ellipsis);
+  }
+
+  ///`font-weight:400 ===========>`
+
   static text_10_400(Color color) {
     return _textStyle(color, 10.sp, FontWeight.w400, TextOverflow.ellipsis);
   }
@@ -24,10 +31,6 @@ class AppFontStyle {
 
   static text_15_400(Color color) {
     return _textStyle(color, 15.sp, FontWeight.w400, TextOverflow.ellipsis);
-  }
-
-  static text_16_300(Color color) {
-    return _textStyle(color, 16.sp, FontWeight.w300, TextOverflow.ellipsis);
   }
 
   static text_16_400(Color color) {
@@ -49,6 +52,18 @@ class AppFontStyle {
   static text_24_400(Color color) {
     return _textStyle(color, 24.sp, FontWeight.w400, TextOverflow.ellipsis);
   }
+
+  static text_26_400(Color color) {
+    return _textStyle(color, 26.sp, FontWeight.w400, TextOverflow.ellipsis);
+  }
+
+  ///`font-weight:500 ===========>`
+
+  static text_14_500(Color color) {
+    return _textStyle(color, 14.sp, FontWeight.w500, TextOverflow.ellipsis);
+  }
+
+  ///`font-weight:600 ===========>`
 
   static text_12_600(Color color) {
     return _textStyle(color, 12.sp, FontWeight.w600, TextOverflow.ellipsis);
@@ -99,6 +114,21 @@ class AppFontStyle {
     return _textStyle(color, 30.sp, FontWeight.w600, TextOverflow.ellipsis);
   }
 
+  static text_36_600(Color color) {
+    return _textStyle(color, 36.sp, FontWeight.w600, TextOverflow.ellipsis);
+  }
+
+  static text_40_600(Color color) {
+    return _textStyle(
+      color,
+      40.sp,
+      FontWeight.w600,
+      TextOverflow.ellipsis,
+    );
+  }
+
+  ///`font-weight:800 ===========>`
+  ///
   static text_14_800(Color color) {
     return _textStyle(color, 14.sp, FontWeight.w800, TextOverflow.ellipsis);
   }
@@ -144,22 +174,11 @@ class AppFontStyle {
     return _textStyle(color, 30.sp, FontWeight.w800, TextOverflow.ellipsis);
   }
 
-  static text_36_600(Color color) {
-    return _textStyle(color, 36.sp, FontWeight.w600, TextOverflow.ellipsis);
-  }
-
-  static text_40_600(Color color) {
-    return _textStyle(
-      color,
-      40.sp,
-      FontWeight.w600,
-      TextOverflow.ellipsis,
-    );
-  }
-
   static text_56_800(Color color) {
     return _textStyle(color, 56.sp, FontWeight.w800, TextOverflow.ellipsis);
   }
+
+  ///`custom text ===========>`
 
   static customText(Color color, double size, FontWeight fontWeight) {
     return _textStyle(color, size, fontWeight, TextOverflow.ellipsis);
