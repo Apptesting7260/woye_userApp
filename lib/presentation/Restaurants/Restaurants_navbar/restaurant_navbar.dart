@@ -1,4 +1,4 @@
-import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar_controller.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantNavbar extends StatelessWidget {
@@ -58,10 +58,12 @@ class RestaurantNavbar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(navbarItems.length, (index) {
               bool isSelected = navbarController.navbarCurrentIndex == index;
-              String icon = navbarController.navbarCurrentIndex == index
+              String icon = isSelected
                   ? navbarItemsFilled[index]
                   : navbarItems[index];
               return InkWell(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
                 onTap: () {
                   navbarController.getIndex(index);
                 },

@@ -28,6 +28,8 @@ class CustomHeaderWithNotification extends StatelessWidget {
           ),
         ),
         InkWell(
+            highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
           onTap: onNotificationTap,
           child: Container(
             padding: EdgeInsets.all(9.h),

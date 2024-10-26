@@ -26,7 +26,7 @@ class RestaurantCategoriesScreen extends StatelessWidget {
           padding: REdgeInsets.symmetric(horizontal: 24),
           child: CustomScrollView(
             slivers: [
-              CustomSliverAppBar(),
+              const CustomSliverAppBar(),
               SliverToBoxAdapter(
                 child: ListView.separated(
                   shrinkWrap: true,
@@ -44,34 +44,32 @@ class RestaurantCategoriesScreen extends StatelessWidget {
                                 width: 0.8.w, color: AppColors.lightPrimary),
                             borderRadius: BorderRadius.circular(15.r)),
                         child: Padding(
-                          padding: REdgeInsets.only(left: 10, right: 15),
+                          padding: REdgeInsets.only(
+                              left: 10, right: 15, top: 10, bottom: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                height: 100.h,
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r)),
+                              Row(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10.r)),
+                                    height: 70.w,
+                                    width: 70.w,
+                                    child: Image.asset(
+                                      "assets/images/cat-image${index % 5}.png",
                                       height: 80.h,
-                                      width: 80.w,
-                                      child: Image.asset(
-                                        "assets/images/cat-image${index % 5}.png",
-                                        height: 80.h,
-                                        fit: BoxFit.fill,
-                                      ),
+                                      fit: BoxFit.fill,
                                     ),
-                                    wBox(20),
-                                    Text(
-                                      catItems[index % 5],
-                                      style: AppFontStyle.text_18_400(
-                                          AppColors.darkText),
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  wBox(20),
+                                  Text(
+                                    catItems[index % 5],
+                                    style: AppFontStyle.text_18_400(
+                                        AppColors.darkText),
+                                  )
+                                ],
                               ),
                               Icon(Icons.arrow_forward_ios),
                             ],

@@ -6,13 +6,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var title = Get.arguments;
+    var title = Get.arguments ?? "Your Item";
 
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
           title,
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
       body: Padding(
@@ -41,6 +41,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 ),
                 centerTitle: true,
               ),
+            ),
+            SliverToBoxAdapter(
+              child: hBox(10),
             ),
             SliverGrid(
                 delegate: SliverChildBuilderDelegate(childCount: 20,
@@ -79,7 +82,7 @@ Widget categoryItem(index) {
             ),
             child: Image.asset(
               "assets/images/cat-image${index % 5}.png",
-              height: 160,
+              height: 160.h,
               // width: Get.width,
             ),
           ),
@@ -91,6 +94,8 @@ Widget categoryItem(index) {
                     borderRadius: BorderRadius.circular(10.r),
                     color: AppColors.greyBackground),
                 child: InkWell(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
                   onTap: () {
                     isFavorite.value = !isFavorite.value;
                     print("tapped");

@@ -6,11 +6,13 @@ import 'package:woye_user/Presentation/Common/otp/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/otp/otp_screen.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/restaurant_categories_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/restaurant_category_details.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/restaurant_wishlist_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/restaurant_categories_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/restaurant_category_details.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/restaurant_categories_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/restaurant_home_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/restaurant_wishlist_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar.dart';
-import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar_binding.dart';
 import 'package:woye_user/presentation/Common/login/login_binding.dart';
 import 'package:woye_user/presentation/Common/login/login_screen.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_binding.dart';
@@ -32,6 +34,8 @@ class AppRoutes {
   static const String groceryNavbar = "/grocery_navbar";
   static const String otpVerification = "/otp_verification";
   static const String homeScreen = "/home_screen";
+  static const String restaurantHomeFilter = "/restaurant_home_filter";
+  static const String restaurantCategories = "/restaurant_categories";
   static const String restaurantCategoriesFilter =
       "/restaurant_categories_filter";
   static const String restaurantCategoriesDetails =
@@ -65,10 +69,6 @@ class AppRoutes {
         page: () => const RestaurantNavbar(),
         bindings: [RestaurantNavbarBinding(), HomeBinding()]),
     GetPage(
-        name: restaurantNavbar,
-        page: () => const RestaurantNavbar(),
-        binding: RestaurantNavbarBinding()),
-    GetPage(
       name: pharmacyNavbar,
       page: () => const PharmacyNavbar(),
     ),
@@ -76,9 +76,15 @@ class AppRoutes {
       name: groceryNavbar,
       page: () => const GroceryNavbar(),
     ),
+    GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
+    GetPage(
+        name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
     GetPage(
         name: restaurantCategoriesFilter,
-        page: () => const RestaurantCategoriesFilter()),
+        page: () => RestaurantCategoriesFilter()),
+    GetPage(
+        name: restaurantCategoriesFilter,
+        page: () => RestaurantCategoriesFilter()),
     GetPage(
         name: restaurantCategoriesDetails,
         page: () => const RestaurantCategoryDetails()),

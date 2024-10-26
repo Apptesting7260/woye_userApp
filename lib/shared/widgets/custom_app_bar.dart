@@ -34,12 +34,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   },
                   child: Padding(
                     padding: REdgeInsets.only(top: 20, bottom: 20),
-                    child: CircleAvatar(
-                      radius: 44.w,
-                      backgroundColor: AppColors.greyBackground,
-                      child: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: AppColors.darkText,
+                    child: Container(
+                      width: 44.h,
+                      height: 44.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.grey.shade200,
+                      ),
+                      child: Center(
+                        child: Image.asset("assets/images/back.png", scale: 4),
                       ),
                     ),
                   ),
@@ -48,7 +51,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         titleSpacing: 0,
         centerTitle: isLeading,
         title: title,
-        leadingWidth: leadingWidth ?? 50.w,
+        leadingWidth: leadingWidth ?? 44.w,
         toolbarHeight: toolbarHeight ?? 90.h,
         actions: actions ??
             (isActions

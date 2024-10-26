@@ -18,6 +18,8 @@ class CustomAppBar1 extends StatelessWidget {
       children: [
         if (showBackButton)
           InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: () {
               Navigator.pop(context);
             },

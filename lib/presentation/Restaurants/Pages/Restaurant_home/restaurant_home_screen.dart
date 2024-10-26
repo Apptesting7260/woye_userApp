@@ -1,6 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/restaurant_home_controller.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
 class RestaurantHomeScreen extends StatefulWidget {
@@ -15,6 +16,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   double? height;
   final RestaurantHomeController restaurantHomeController =
       Get.put(RestaurantHomeController());
+  final RestaurantNavbarController restaurantNavbarController =
+      Get.put(RestaurantNavbarController());
 
   _getHeight(_) {
     final keyContext = homeWidgetKey.currentContext;
@@ -75,7 +78,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                             ),
                           ),
                           padding: REdgeInsets.only(top: 10, bottom: 10),
-                          onFilterTap: () {},
+                          onFilterTap: () {
+                            Get.toNamed(AppRoutes.restaurantHomeFilter);
+                          },
                         )),
                       ),
                       centerTitle: true,
@@ -86,112 +91,20 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     padding: REdgeInsets.symmetric(horizontal: 24),
                     sliver: SliverList(
                         delegate: SliverChildBuilderDelegate(
+                      childCount: 1,
                       (context, index) => SingleChildScrollView(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              // height: 150.h,
-                              decoration: BoxDecoration(
-                                  color:
-                                      const Color(0xffBB9A65).withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(30.r)),
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                    flex: 1,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 20, top: 30, bottom: 25),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "Order from these restaurants and save.",
-                                            style: AppFontStyle.text_18_600(
-                                                AppColors.darkText),
-                                          ),
-                                          hBox(16),
-                                          CustomElevatedButton(
-                                            height: 40.h,
-                                            width: 100.w,
-                                            onPressed: () {},
-                                            child: Text(
-                                              "Buy now",
-                                              style: AppFontStyle.text_12_600(
-                                                  AppColors.white),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: Image.asset(
-                                      "assets/images/burger.png",
-                                      height: 160.h,
-                                      // width: 100.w,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                            mainBanner(),
                             hBox(20),
-                            catergoryList(),
+                            catergories(),
                             hBox(20),
-                            Row(
-                              children: [
-                                Text(
-                                  "Popular Restaurant",
-                                  style: AppFontStyle.text_24_600(
-                                      AppColors.darkText),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  "See All",
-                                  style: AppFontStyle.text_14_400(
-                                      AppColors.primary),
-                                ),
-                                wBox(4),
-                                Icon(
-                                  Icons.arrow_forward_sharp,
-                                  color: AppColors.primary,
-                                  size: 18,
-                                )
-                              ],
-                            ),
-                            hBox(20),
-                            GetBuilder(
-                                init: restaurantHomeController,
-                                builder: (controller) {
-                                  return ListView.separated(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemBuilder: (context, index) {
-                                        final controllerList =
-                                            restaurantHomeController
-                                                .restaurantList[index];
-                                        return restaurantList(
-                                            index: index,
-                                            image: controllerList["image"],
-                                            title: controllerList["title"],
-                                            type: controllerList["type"],
-                                            isFavourite:
-                                                controllerList["isFavourite"]);
-                                      },
-                                      itemCount: restaurantHomeController
-                                          .restaurantList.length,
-                                      separatorBuilder: (context, index) =>
-                                          hBox(20));
-                                }),
+                            popularRestaurant(),
                             hBox(100)
                           ],
                         ),
                       ),
-                      childCount: 1,
                     )))
               ],
             ),
@@ -201,7 +114,53 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     );
   }
 
-  Column catergoryList() {
+  Widget mainBanner() {
+    return Container(
+      // height: 150.h,
+      decoration: BoxDecoration(
+          color: const Color(0xffBB9A65).withOpacity(0.1),
+          borderRadius: BorderRadius.circular(30.r)),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 1,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, top: 30, bottom: 25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Order from these restaurants and save.",
+                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                  ),
+                  hBox(16),
+                  CustomElevatedButton(
+                    height: 40.h,
+                    width: 100.w,
+                    onPressed: () {},
+                    child: Text(
+                      "Buy now",
+                      style: AppFontStyle.text_12_600(AppColors.white),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: Image.asset(
+              "assets/images/burger.png",
+              height: 160.h,
+              // width: 100.w,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget catergories() {
     return Column(
       children: [
         Row(
@@ -211,16 +170,27 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               style: AppFontStyle.text_24_600(AppColors.darkText),
             ),
             const Spacer(),
-            Text(
-              "See All",
-              style: AppFontStyle.text_14_400(AppColors.primary),
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () {
+                restaurantNavbarController.getIndex(1);
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "See All",
+                    style: AppFontStyle.text_14_400(AppColors.primary),
+                  ),
+                  wBox(4),
+                  Icon(
+                    Icons.arrow_forward_sharp,
+                    color: AppColors.primary,
+                    size: 18,
+                  )
+                ],
+              ),
             ),
-            wBox(4),
-            Icon(
-              Icons.arrow_forward_sharp,
-              color: AppColors.primary,
-              size: 18,
-            )
           ],
         ),
         hBox(20),
@@ -277,6 +247,52 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             ),
           ],
         ),
+      ],
+    );
+  }
+
+  Widget popularRestaurant() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              "Popular Restaurant",
+              style: AppFontStyle.text_24_600(AppColors.darkText),
+            ),
+            const Spacer(),
+            Text(
+              "See All",
+              style: AppFontStyle.text_14_400(AppColors.primary),
+            ),
+            wBox(4),
+            Icon(
+              Icons.arrow_forward_sharp,
+              color: AppColors.primary,
+              size: 18,
+            )
+          ],
+        ),
+        hBox(20),
+        GetBuilder(
+            init: restaurantHomeController,
+            builder: (controller) {
+              return ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final controllerList =
+                        restaurantHomeController.restaurantList[index];
+                    return restaurantList(
+                        index: index,
+                        image: controllerList["image"],
+                        title: controllerList["title"],
+                        type: controllerList["type"],
+                        isFavourite: controllerList["isFavourite"]);
+                  },
+                  itemCount: restaurantHomeController.restaurantList.length,
+                  separatorBuilder: (context, index) => hBox(20));
+            }),
       ],
     );
   }

@@ -1,6 +1,9 @@
 export 'dart:async';
 export 'dart:convert';
 
+export 'package:another_xlider/another_xlider.dart';
+export 'package:another_xlider/models/handler.dart';
+export 'package:another_xlider/models/trackbar.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
 export 'package:country_code_picker/country_code_picker.dart';
 export 'package:dotted_border/dotted_border.dart';

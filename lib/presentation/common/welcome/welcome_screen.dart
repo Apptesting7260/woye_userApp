@@ -2,11 +2,10 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
 
 class WelcomeScreen extends StatelessWidget {
-   WelcomeScreen({super.key});
+  WelcomeScreen({super.key});
 
-   final SocialLoginController socialLoginController =
-   Get.put(SocialLoginController());
-
+  final SocialLoginController socialLoginController =
+      Get.put(SocialLoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -70,23 +69,55 @@ class WelcomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            InkWell(
-              splashColor: Colors.transparent,
-              onTap: () {
-                Get.toNamed(AppRoutes.signUp);
-              },
-              child: Padding(
-                padding: REdgeInsets.only(bottom: 30),
-                child: RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                      text: "Don't have an account? ",
-                      style: AppFontStyle.text_16_400(AppColors.lightText)),
-                  TextSpan(
-                      text: "Sign Up",
-                      style: AppFontStyle.text_16_600(AppColors.darkText)),
-                ])),
-              ),
+            Column(
+              children: [
+                InkWell(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.restaurantNavbar);
+                  },
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: REdgeInsets.only(
+                        bottom: 30,
+                      ),
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "Home",
+                            style:
+                                AppFontStyle.text_16_400(AppColors.lightText)),
+                        TextSpan(
+                            text: "screen",
+                            style: AppFontStyle.text_16_600(
+                              AppColors.darkText,
+                            )),
+                      ])),
+                    ),
+                  ),
+                ),
+                InkWell(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    Get.toNamed(AppRoutes.signUp);
+                  },
+                  child: Padding(
+                    padding: REdgeInsets.only(bottom: 30),
+                    child: RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          text: "Don't have an account? ",
+                          style: AppFontStyle.text_16_400(AppColors.lightText)),
+                      TextSpan(
+                          text: "Sign Up",
+                          style: AppFontStyle.text_16_600(AppColors.darkText)),
+                    ])),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -91,6 +91,8 @@ Widget categoryItem(index) {
                     borderRadius: BorderRadius.circular(10.r),
                     color: AppColors.greyBackground),
                 child: InkWell(
+                    highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
                   onTap: () {
                     isFavorite.value = !isFavorite.value;
                     print("tapped");

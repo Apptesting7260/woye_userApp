@@ -1,19 +1,19 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
-class RestaurantCategoriesFilter extends StatefulWidget {
-  const RestaurantCategoriesFilter({super.key});
+class RestaurantWishlistFilter extends StatefulWidget {
+  const RestaurantWishlistFilter({super.key});
 
   @override
-  State<RestaurantCategoriesFilter> createState() => _FilterScreenState();
+  State<RestaurantWishlistFilter> createState() => _FilterScreenState();
 }
 
-class _FilterScreenState extends State<RestaurantCategoriesFilter> {
+class _FilterScreenState extends State<RestaurantWishlistFilter> {
   final Map<String, bool> _options = {
-    "Veg": true,
-    "Non-veg": false,
-    "Jain": false,
-    "Healthy": false,
-    "Vegan": false,
+    "Personal Care": true,
+    "Skin Care": false,
+    "Digestive Care": false,
+    "Fever Care": false,
+    "Heart Care": false,
   };
 
   // Range values to keep track of the slider's start and end
@@ -25,7 +25,7 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 12.0),
+        padding: REdgeInsets.all(16.0),
         child: SingleChildScrollView(
           // Added SingleChildScrollView for scrollable content
           child: Column(
@@ -37,6 +37,8 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
+                      highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -66,7 +68,7 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
               hBox(20),
 
               // Brand section with checkboxes
-              Text("Brand",
+              Text("Categories",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.sp,
@@ -95,13 +97,14 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                   contentPadding: EdgeInsets.zero,
                 );
               }).toList(),
-
-              hBox(16),
+              SizedBox(height: 16),
 
               // Price section with radio buttons
               Text("Price",
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 22.sp,
+                      fontFamily: 'Gilroy')),
               CustomRadioCircle(
                 title: "Low to high",
                 value: 1,
@@ -122,23 +125,19 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                   });
                 },
               ),
-
-              hBox(16),
+              SizedBox(height: 16),
 
               // Quick Filter section with filter chips
-              Text("Quick Filter",
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-              hBox(16),
+              Text("Sort by",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
               Wrap(
-                spacing: 4,
+                spacing: 8,
                 children: [
-                  FilterChipWidget(label: "Near & Fast"),
-                  FilterChipWidget(label: "Rating 4.5"),
-                  FilterChipWidget(label: "Pure Veg"),
+                  FilterChipWidget(label: "Newest"),
+                  FilterChipWidget(label: "Best sale"),
+                  FilterChipWidget(label: "Popular"),
                 ],
               ),
-
               hBox(16),
 
               // Price Range with slider
@@ -186,155 +185,7 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                   },
                 ),
               ),
-
-              // FlutterSlider(
-              //   values: [20, 100],
-              //   max: 1000,
-              //   min: 100,
-              //   rangeSlider: true,
-              //   handlerHeight: 24,
-              //   handler: FlutterSliderHandler(
-              //     child: Image.asset("assets/images/slider-image.png"),
-              //   ),
-              //   rightHandler: FlutterSliderHandler(
-              //     child: Image.asset("assets/images/slider-image.png"),
-              //   ),
-              //   trackBar: FlutterSliderTrackBar(
-              //     activeTrackBarHeight: 8,
-              //     inactiveTrackBarHeight: 8,
-              //     activeTrackBar: BoxDecoration(
-              //       color: AppColors.primary, // Active color
-              //       borderRadius: BorderRadius.circular(4),
-              //     ),
-              //     inactiveTrackBar: BoxDecoration(
-              //       color:
-              //           AppColors.lightText.withOpacity(.3), // Inactive color
-              //       borderRadius: BorderRadius.circular(4),
-              //     ),
-              //   ),
-              //   onDragging: (handlerIndex, lowerValue, upperValue) {
-              //     //   setState(() {
-              //     //     _lowerValue = lowerValue;
-              //     //     _upperValue = upperValue;
-              //     //   });
-              //   },
-              // ),
-
               hBox(16),
-
-              // Size section with radio buttons
-              Text("Size",
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-              CustomRadioCircle(
-                title: "Small",
-                value: 1,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Medium",
-                value: 2,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Large",
-                value: 3,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-
-              hBox(16),
-
-              // Toppings section with radio buttons
-              Text("Toppings",
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-              CustomRadioCircle(
-                title: "All",
-                value: 1,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Vegetables",
-                value: 2,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Chicken",
-                value: 3,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Paneer",
-                value: 4,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Non Veg",
-                value: 5,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Sauces And Spices",
-                value: 6,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-              CustomRadioCircle(
-                title: "Others",
-                value: 7,
-                groupValue: _selectedValue,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedValue = value!;
-                  });
-                },
-              ),
-
-              hBox(20),
 
               // Clear and Apply buttons
               Row(
@@ -346,7 +197,7 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                         width: 184.w,
                         decoration: BoxDecoration(
                             color: Colors.black,
-                            borderRadius: BorderRadius.circular(100.r)),
+                            borderRadius: BorderRadius.circular(100)),
                         child: Center(
                             child: Text("Clear",
                                 style: TextStyle(
@@ -362,7 +213,7 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                         width: 184.w,
                         decoration: BoxDecoration(
                             color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(100.r)),
+                            borderRadius: BorderRadius.circular(100)),
                         child: Center(
                             child: Text("Apply",
                                 style: TextStyle(
@@ -373,7 +224,6 @@ class _FilterScreenState extends State<RestaurantCategoriesFilter> {
                   ),
                 ],
               ),
-              hBox(50)
             ],
           ),
         ),
@@ -390,56 +240,10 @@ class FilterChipWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FilterChip(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-          side: BorderSide(color: AppColors.hintText)),
-      label: Text(
-        label,
-        style: TextStyle(
-            fontFamily: 'Gilroy-Regular',
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
-            color: AppColors.darkText),
-      ),
+      label: Text(label),
       selected: false,
       onSelected: (isSelected) {},
     );
-  }
-}
-
-class TwoToneCircleSliderThumb extends SliderComponentShape {
-  final Color innerColor;
-  final Color outerColor;
-
-  TwoToneCircleSliderThumb(
-      {required this.innerColor, required this.outerColor});
-
-  @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return Size(20, 20); // Define size of the thumb
-  }
-
-  @override
-  void paint(
-    PaintingContext context,
-    Offset center, {
-    required Animation<double> activationAnimation,
-    required Animation<double> enableAnimation,
-    required bool isDiscrete,
-    required TextPainter labelPainter,
-    required RenderBox parentBox,
-    required SliderThemeData sliderTheme,
-    required TextDirection textDirection,
-    required double value,
-    required double textScaleFactor,
-    required Size sizeWithOverflow,
-  }) {
-    final Paint outerPaint = Paint()..color = outerColor;
-    final Paint innerPaint = Paint()..color = innerColor;
-    final double radius = sizeWithOverflow.shortestSide / 2;
-
-    context.canvas.drawCircle(center, radius, outerPaint);
-    context.canvas.drawCircle(center, radius * 0.8, innerPaint);
   }
 }
 

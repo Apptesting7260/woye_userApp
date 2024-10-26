@@ -57,7 +57,8 @@ class CustomSearchFilter extends StatelessWidget {
         ),
         SizedBox(width: 8.w),
         InkWell(
-          splashColor: Colors.transparent,
+           highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
           onTap: onFilterTap,
           child: Container(
             padding: searchIocnPadding ??

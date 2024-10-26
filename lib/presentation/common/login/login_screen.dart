@@ -105,7 +105,8 @@ class LoginScreen extends StatelessWidget {
               Column(
                 children: [
                   InkWell(
-                    splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.restaurantNavbar);
                     },
@@ -131,6 +132,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   InkWell(
+                highlightColor: Colors.transparent,
+
                     splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.signUp);
