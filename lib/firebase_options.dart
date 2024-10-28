@@ -59,10 +59,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDjKxOtdVRIQe3DbuL9UUApa5wbIVRTCto',
-    appId: '1:783589739636:ios:4d21fe86e480195253d521',
+    appId: '1:783589739636:ios:09d6755bfc23ad2053d521',
     messagingSenderId: '783589739636',
     projectId: 'woyewala',
     storageBucket: 'woyewala.appspot.com',
-    iosBundleId: 'com.example.woyeUser',
+    androidClientId: '783589739636-uh4lulmkmaajflncaeetls6lurdib0av.apps.googleusercontent.com',
+    iosClientId: '783589739636-t4jbmbbdh1jbhqp0bo9tf2ptidnd77tt.apps.googleusercontent.com',
+    iosBundleId: 'com.woyeuser.woyeuser',
   );
+
 }
