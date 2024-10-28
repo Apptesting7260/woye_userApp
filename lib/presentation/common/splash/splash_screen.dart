@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // String? responseToken = await prefUtils.getToken();
     // bool? isRegister = await prefUtils.getRegistrationDetails();
 
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       // if (responseToken == null) {
       //   Get.toNamed(AppRoutes.login);
       // }
