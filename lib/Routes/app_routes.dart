@@ -11,7 +11,6 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details_screen/Product_details_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details_screen/restaurant_details_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Restaurant_navbar_screen/restaurant_navbar.dart';
@@ -81,9 +80,9 @@ class AppRoutes {
       page: () => const GroceryNavbar(),
     ),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
-    GetPage(
-        name: restaurantDetailsScreen,
-        page: () => const RestaurantDetailsScreen()),
+    // GetPage(
+    //     name: restaurantDetailsScreen,
+    //     page: () => const RestaurantDetailsScreen(title: "",)),
     GetPage(
         name: productDetailsScreen, page: () => const ProductDetailsScreen()),
     GetPage(

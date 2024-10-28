@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/Widgets/custom_item_banner.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
 class RestaurantWishlistScreen extends StatelessWidget {
@@ -45,7 +46,7 @@ class RestaurantWishlistScreen extends StatelessWidget {
             SliverGrid(
                 delegate: SliverChildBuilderDelegate(childCount: 20,
                     (context, index) {
-                  return categoryItem(index);
+                  return CustomItemBanner(index: index);
                 }),
                 gridDelegate: (SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -91,7 +92,7 @@ Widget categoryItem(index) {
                     borderRadius: BorderRadius.circular(10.r),
                     color: AppColors.greyBackground),
                 child: InkWell(
-                    highlightColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onTap: () {
                     isFavorite.value = !isFavorite.value;

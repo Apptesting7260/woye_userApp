@@ -1,5 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details_screen/restaurant_details_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
@@ -281,14 +282,21 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    final controllerList =
+                    final restaurantsList =
                         restaurantHomeController.restaurantList[index];
-                    return restaurantList(
-                        index: index,
-                        image: controllerList["image"],
-                        title: controllerList["title"],
-                        type: controllerList["type"],
-                        isFavourite: controllerList["isFavourite"]);
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(RestaurantDetailsScreen(
+                            image: restaurantsList["image"],
+                            title: restaurantsList["title"]));
+                      },
+                      child: restaurantList(
+                          index: index,
+                          image: restaurantsList["image"],
+                          title: restaurantsList["title"],
+                          type: restaurantsList["type"],
+                          isFavourite: restaurantsList["isFavourite"]),
+                    );
                   },
                   itemCount: restaurantHomeController.restaurantList.length,
                   separatorBuilder: (context, index) => hBox(20));
