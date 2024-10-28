@@ -15,6 +15,10 @@ class AppFontStyle {
     return _textStyle(color, 16.sp, FontWeight.w300, TextOverflow.ellipsis);
   }
 
+  static text_18_300(Color color) {
+    return _textStyle(color, 18.sp, FontWeight.w300, TextOverflow.ellipsis);
+  }
+
   ///`font-weight:400 ===========>`
 
   static text_10_400(Color color) {
