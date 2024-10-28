@@ -6,13 +6,15 @@ import 'package:woye_user/Presentation/Common/otp/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/otp/otp_screen.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/restaurant_categories_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/restaurant_category_details.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/restaurant_categories_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/restaurant_home_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/restaurant_wishlist_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Restaurant_categories_screen/restaurant_categories_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details_screen/Product_details_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details_screen/restaurant_details_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
-import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/restaurant_navbar.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Restaurant_navbar_screen/restaurant_navbar.dart';
 import 'package:woye_user/presentation/Common/login/login_binding.dart';
 import 'package:woye_user/presentation/Common/login/login_screen.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_binding.dart';
@@ -35,6 +37,8 @@ class AppRoutes {
   static const String otpVerification = "/otp_verification";
   static const String homeScreen = "/home_screen";
   static const String restaurantHomeFilter = "/restaurant_home_filter";
+  static const String restaurantDetailsScreen = "/restaurant_details_screen";
+  static const String productDetailsScreen = "/product_details_screen";
   static const String restaurantCategories = "/restaurant_categories";
   static const String restaurantCategoriesFilter =
       "/restaurant_categories_filter";
@@ -78,7 +82,13 @@ class AppRoutes {
     ),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
     GetPage(
-        name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
+        name: restaurantDetailsScreen,
+        page: () => const RestaurantDetailsScreen()),
+    GetPage(
+        name: productDetailsScreen, page: () => const ProductDetailsScreen()),
+    GetPage(
+        name: restaurantCategories,
+        page: () => const RestaurantCategoriesScreen()),
     GetPage(
         name: restaurantCategoriesFilter,
         page: () => RestaurantCategoriesFilter()),
