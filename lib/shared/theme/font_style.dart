@@ -61,10 +61,23 @@ class AppFontStyle {
     return _textStyle(color, 26.sp, FontWeight.w400, TextOverflow.ellipsis);
   }
 
+  static text_34_400(Color color) {
+    return _textStyle(color, 34.sp, FontWeight.w400, TextOverflow.ellipsis);
+  }
+
   ///`font-weight:500 ===========>`
 
   static text_14_500(Color color) {
     return _textStyle(color, 14.sp, FontWeight.w500, TextOverflow.ellipsis);
+  }
+
+  static text_16_500(Color color) {
+    return _textStyle(
+      color,
+      16.sp,
+      FontWeight.w500,
+      TextOverflow.ellipsis,
+    );
   }
 
   ///`font-weight:600 ===========>`
@@ -116,6 +129,10 @@ class AppFontStyle {
 
   static text_30_600(Color color) {
     return _textStyle(color, 30.sp, FontWeight.w600, TextOverflow.ellipsis);
+  }
+
+  static text_34_600(Color color) {
+    return _textStyle(color, 34.sp, FontWeight.w600, TextOverflow.ellipsis);
   }
 
   static text_36_600(Color color) {

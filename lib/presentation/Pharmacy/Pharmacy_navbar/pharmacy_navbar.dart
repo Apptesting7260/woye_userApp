@@ -1,3 +1,4 @@
+import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class PharmacyNavbar extends StatelessWidget {
@@ -6,9 +7,7 @@ class PharmacyNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Pharmacy Navbar"),
-      ),
+      body: HomeScreen(),
     );
   }
 }

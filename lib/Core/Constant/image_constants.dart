@@ -23,7 +23,7 @@ class ImageConstants {
   static String wishlistFilled = "$svgPath/wishlist-filled.svg";
   static String cart = "$svgPath/cart.svg";
   static String cartFilled = "$svgPath/cart-filled.svg";
-  static String profileOutlined = "$svgPath/profile-outlined.svg";
+  static String profileOutlined = "$svgPath/Profile-Inactive.svg";
   static String profilefilled = "$svgPath/profile-filled.svg";
   static String notification = "$svgPath/notification.svg";
 

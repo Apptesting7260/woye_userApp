@@ -1,19 +1,17 @@
 // ignore_for_file: avoid_print, unnecessary_string_interpolations
 
 import 'dart:io';
-import 'package:country_code_picker/country_code_picker.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
-import 'package:woye_user/Routes/app_routes.dart';
+import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-
-import '../../../Data/response/status.dart';
 
 class LoginController extends GetxController {
   final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
   final Rx<TextEditingController> passController = TextEditingController().obs;
   final rxRequestStatus = Status.COMPLETED.obs;
-  final formKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
 
   // final loginData = LoginModel().obs;
 
@@ -39,6 +37,14 @@ class LoginController extends GetxController {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   RxString verificationID = ''.obs;
+
+  @override
+  void onClose() {
+    mobNoCon.value.dispose();
+    passController.value.dispose();
+
+    super.onClose();
+  }
 
   Future<bool> sendOtp() async {
     isLoding.value = true;

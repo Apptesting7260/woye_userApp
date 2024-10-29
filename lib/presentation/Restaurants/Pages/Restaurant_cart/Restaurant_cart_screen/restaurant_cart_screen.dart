@@ -22,16 +22,16 @@ class RestaurantCartScreen extends StatelessWidget {
           children: [
             cartItems(),
             hBox(40),
-            couponBox(),
+            couponBox(context),
             hBox(40),
-            paymentMethod(),
+            paymentDetails(),
             hBox(30),
             Divider(
               thickness: .5.w,
               color: AppColors.hintText,
             ),
             hBox(15),
-            checkout(),
+            checkoutButton(),
             hBox(100)
           ],
         ),
@@ -195,7 +195,7 @@ class RestaurantCartScreen extends StatelessWidget {
     );
   }
 
-  Widget couponBox() {
+  Widget couponBox(context) {
     return DottedBorder(
       borderType: BorderType.RRect,
       radius: Radius.circular(15.r),
@@ -206,11 +206,22 @@ class RestaurantCartScreen extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(15.r)),
         child: Row(
           children: [
-            SvgPicture.asset("assets/svg/coupon.svg"),
-            wBox(15),
-            Text(
-              "Enter coupon code",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () {
+                bottomBar(context);
+              },
+              child: Row(
+                children: [
+                  SvgPicture.asset("assets/svg/coupon.svg"),
+                  wBox(15),
+                  Text(
+                    "Enter coupon code",
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                ],
+              ),
             ),
             const Spacer(),
             GestureDetector(
@@ -226,7 +237,7 @@ class RestaurantCartScreen extends StatelessWidget {
     );
   }
 
-  Widget paymentMethod() {
+  Widget paymentDetails() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -280,7 +291,7 @@ class RestaurantCartScreen extends StatelessWidget {
     );
   }
 
-  Widget checkout() {
+  Widget checkoutButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -299,14 +310,169 @@ class RestaurantCartScreen extends StatelessWidget {
         ),
         SizedBox(
           width: 200.w,
-          height: 60.h,
+          height: 55.h,
           child: CustomElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(AppRoutes.checkoutScreen);
+            },
             text: "Checkout",
             textStyle: AppFontStyle.text_16_600(AppColors.white),
           ),
         )
       ],
     );
+  }
+
+  Future bottomBar(context) {
+    return showModalBottomSheet(
+        context: context,
+        backgroundColor: Colors.white,
+        elevation: 8.h,
+        builder: (
+          context,
+        ) {
+          return Container(
+            // height: 550.h,
+            padding: REdgeInsets.symmetric(horizontal: 24, vertical: 30),
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15.r),
+                    topRight: Radius.circular(15.r))),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Your Promo Codes",
+                        style: AppFontStyle.text_20_400(AppColors.darkText),
+                      ),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(
+                          Icons.close,
+                          color: AppColors.mediumText,
+                        ),
+                      )
+                    ],
+                  ),
+                  hBox(15),
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 4,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.navbar,
+                            borderRadius: BorderRadius.circular(15.r)),
+                        child: Padding(
+                          padding: REdgeInsets.all(10.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 80.h,
+                                width: 80.w,
+                                // padding: const EdgeInsets.symmetric(
+                                //     horizontal: 16, vertical: 10),
+                                decoration: BoxDecoration(
+                                    color: index % 2 == 0
+                                        ? AppColors.primary
+                                        : AppColors.black,
+                                    borderRadius: BorderRadius.circular(15.r)),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FittedBox(
+                                      child: Row(
+                                      
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "${(index * 5 + 10)}",
+                                            style: AppFontStyle.text_34_600(
+                                                Colors.white),
+                                          ),
+                                          Text(
+                                            "%",
+                                            style: AppFontStyle.text_16_400(
+                                                Colors.white),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      "OFF",
+                                      style: AppFontStyle.text_16_400(
+                                          Colors.white),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              wBox(10),
+                              Expanded(
+                                flex: 4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Personal offer",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppFontStyle.text_14_400(
+                                          AppColors.lightText),
+                                    ),
+                                    hBox(10),
+                                    Text(
+                                      "PROCODE2024",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppFontStyle.text_16_400(
+                                          AppColors.darkText),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "6 days remaining",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.lightText),
+                                    ),
+                                    hBox(8),
+                                    CustomElevatedButton(
+                                        textStyle: AppFontStyle.text_14_600(
+                                            Colors.white),
+                                        width: 85.w,
+                                        height: 40.h,
+                                        text: "Apply",
+                                        onPressed: () {})
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => hBox(20),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

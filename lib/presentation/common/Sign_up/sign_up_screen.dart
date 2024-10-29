@@ -12,7 +12,7 @@ class SignUpScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
-        key: signUpController.formKey,
+        key: signUpController.signUpFormKey,
         child: Padding(
           padding: REdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -55,7 +55,7 @@ class SignUpScreen extends StatelessWidget {
                   text: "Sign Up",
                   isLoading: signUpController.isLoding.value,
                   onPressed: () {
-                    if (signUpController.formKey.currentState!.validate()) {
+                    if (signUpController.signUpFormKey.currentState!.validate()) {
                       signUpController.sendOtp();
                     }
                   },

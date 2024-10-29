@@ -6,16 +6,19 @@ import 'package:woye_user/Presentation/Common/otp/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/otp/otp_screen.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/Sub_screen/Checkout/checkout_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Restaurant_categories_screen/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Add_address/add_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Delivery_address/delivery_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Edit_address/edit_address_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Restaurant_navbar_screen/restaurant_navbar.dart';
-import 'package:woye_user/presentation/Common/login/login_binding.dart';
 import 'package:woye_user/presentation/Common/login/login_screen.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_binding.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
@@ -47,6 +50,10 @@ class AppRoutes {
   static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
   static const String productReviews = "/product_reviews";
   static const String moreProducts = "/more_products";
+  static const String checkoutScreen = "/checkout_screen";
+  static const String deliveryAddressScreen = "/delivery_ddress_screen";
+  static const String addAddressScreen = "/add_address";
+  static const String editAddressScreen = "/edit_address";
 
   static List<GetPage> pages = [
     GetPage(
@@ -57,8 +64,7 @@ class AppRoutes {
         name: welcomeScreen,
         page: () => WelcomeScreen(),
         binding: WelcomeBinding()),
-    GetPage(
-        name: login, page: () => const LoginScreen(), binding: LoginBinding()),
+    GetPage(name: login, page: () => const LoginScreen()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen(), binding: SignUpBinding()),
     GetPage(
@@ -85,11 +91,11 @@ class AppRoutes {
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
     GetPage(name: productReviews, page: () => const ProductReviews()),
     GetPage(name: moreProducts, page: () => const MoreProducts()),
-    // GetPage(
-    //     name: restaurantDetailsScreen,
-    //     page: () => const RestaurantDetailsScreen(title: "",)),
-    // GetPage(
-    //     name: productDetailsScreen, page: () => const ProductDetailsScreen()),
+    GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
+    GetPage(name: addAddressScreen, page: () => const AddAddressScreen()),
+    GetPage(name: editAddressScreen, page: () => const EditAddressScreen()),
+    GetPage(
+        name: deliveryAddressScreen, page: () => const DeliveryAddressScreen()),
     GetPage(
         name: restaurantCategories,
         page: () => const RestaurantCategoriesScreen()),

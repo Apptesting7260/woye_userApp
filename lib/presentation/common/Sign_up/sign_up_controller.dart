@@ -6,13 +6,12 @@ import 'package:woye_user/core/utils/app_export.dart';
 
 import '../../../Core/Utils/app_export.dart';
 import '../../../Data/response/status.dart';
-import '../../../Routes/app_routes.dart';
 
 class SignUpController extends GetxController {
   final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
   final Rx<TextEditingController> passController = TextEditingController().obs;
   final rxRequestStatus = Status.COMPLETED.obs;
-  final formKey = GlobalKey<FormState>();
+  final signUpFormKey = GlobalKey<FormState>();
   // final loginData = LoginModel().obs;
 
   // void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
@@ -35,6 +34,13 @@ class SignUpController extends GetxController {
 
   FirebaseAuth auth = FirebaseAuth.instance;
   RxString verificationID = ''.obs;
+
+  @override
+  void onClose() {
+    mobNoCon.value.dispose();
+    passController.value.dispose();
+    super.onClose();
+  }
 
   Future<bool> sendOtp() async {
     isLoding.value = true;

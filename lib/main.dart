@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 import 'firebase_options.dart';
@@ -11,7 +10,7 @@ Future<void> main() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-  } catch(e){
+  } catch (e) {
     print("object firebase error $e");
   }
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
@@ -35,6 +34,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return GetMaterialApp(
+          enableLog: true,
           smartManagement: SmartManagement.full,
           debugShowCheckedModeBanner: false,
           defaultTransition: Transition.fade,

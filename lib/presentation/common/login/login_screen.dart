@@ -11,7 +11,7 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
-        key: loginController.formKey,
+        key: loginController.loginFormKey,
         child: Padding(
           padding: REdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -62,7 +62,8 @@ class LoginScreen extends StatelessWidget {
                     text: "Sign In",
                     isLoading: loginController.isLoding.value,
                     onPressed: () {
-                      if (loginController.formKey.currentState!.validate()) {
+                      if (loginController.loginFormKey.currentState!
+                          .validate()) {
                         loginController.sendOtp();
                       }
                     },
@@ -105,8 +106,8 @@ class LoginScreen extends StatelessWidget {
               Column(
                 children: [
                   InkWell(
-                highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.restaurantNavbar);
                     },
@@ -132,8 +133,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                highlightColor: Colors.transparent,
-
+                    highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.signUp);
