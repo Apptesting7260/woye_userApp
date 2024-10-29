@@ -115,7 +115,7 @@ class ProductDetailsScreen extends StatelessWidget {
             reviews(),
             hBox(30),
             moreProducts(),
-            hBox(50),
+            hBox(20),
           ],
         ),
       ),
@@ -374,7 +374,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         "Hide",
-                        style: AppFontStyle.text_18_600(AppColors.primary),
+                        style: AppFontStyle.text_16_600(AppColors.primary),
                       ),
                       Icon(
                         Icons.keyboard_arrow_up_sharp,
@@ -391,7 +391,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       // ),
                       Text(
                         "Show More",
-                        style: AppFontStyle.text_18_600(AppColors.primary),
+                        style: AppFontStyle.text_16_600(AppColors.primary),
                       ),
                       Icon(
                         Icons.keyboard_arrow_down_sharp,
@@ -448,28 +448,6 @@ class ProductDetailsScreen extends StatelessWidget {
               "(120 reviews)",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
-            const Spacer(),
-            InkWell(
-              onTap: () {
-                Get.toNamed(AppRoutes.productReviews);
-              },
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Row(
-                children: [
-                  Text(
-                    "See All",
-                    style: AppFontStyle.text_14_400(AppColors.primary),
-                  ),
-                  wBox(4),
-                  Icon(
-                    Icons.arrow_forward_sharp,
-                    color: AppColors.primary,
-                    size: 18,
-                  )
-                ],
-              ),
-            ),
           ],
         ),
       ],
@@ -477,149 +455,128 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Widget reviews() {
-    RxBool showAll = false.obs;
-
     return Column(
       children: [
         Column(
           children: [
-            Obx(
-              () => ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: showAll.value ? 20 : 2,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(50.r),
-                              child: Image.asset(
-                                "assets/images/profile-review.png",
-                                height: 50.h,
-                                width: 50.h,
-                                fit: BoxFit.cover,
-                              ),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50.r),
+                            child: Image.asset(
+                              "assets/images/profile-review.png",
+                              height: 50.h,
+                              width: 50.h,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                          wBox(15),
-                          Flexible(
-                            flex: 4,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Ronald Richards",
-                                  style: AppFontStyle.text_16_400(
-                                      AppColors.darkText),
-                                ),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/svg/star-yellow.svg",
-                                      width: 15.w,
-                                    ),
-                                    SvgPicture.asset(
-                                      "assets/svg/star-yellow.svg",
-                                      width: 15.w,
-                                    ),
-                                    SvgPicture.asset(
-                                      "assets/svg/star-yellow.svg",
-                                      width: 15.w,
-                                    ),
-                                    SvgPicture.asset(
-                                      "assets/svg/star-yellow.svg",
-                                      fit: BoxFit.cover,
-                                      width: 15.w,
-                                    ),
-                                    SvgPicture.asset(
-                                      "assets/svg/star-white.svg",
-                                    ),
-                                  ],
-                                ),
-                                hBox(10),
-                                Text(
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                                  style: AppFontStyle.text_16_400(
-                                      AppColors.darkText),
-                                ),
-                                hBox(10),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "01-09-2024",
-                                      style: AppFontStyle.text_16_400(
-                                          AppColors.lightText),
-                                    ),
-                                    wBox(10),
-                                    Text(
-                                      "12:20",
-                                      style: AppFontStyle.text_16_400(
-                                          AppColors.lightText),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: REdgeInsets.symmetric(vertical: 10),
-                        child: const Divider(),
-                      ),
-                    ],
-                  );
-                },
-                // separatorBuilder: (context, inxex) => Padding(
-                //   padding: REdgeInsets.symmetric(vertical: 10),
-                //   child: const Divider(),
-                // ),
-              ),
+                        ),
+                        wBox(15),
+                        Flexible(
+                          flex: 4,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Ronald Richards",
+                                style: AppFontStyle.text_16_400(
+                                    AppColors.darkText),
+                              ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/svg/star-yellow.svg",
+                                    width: 15.w,
+                                  ),
+                                  SvgPicture.asset(
+                                    "assets/svg/star-yellow.svg",
+                                    width: 15.w,
+                                  ),
+                                  SvgPicture.asset(
+                                    "assets/svg/star-yellow.svg",
+                                    width: 15.w,
+                                  ),
+                                  SvgPicture.asset(
+                                    "assets/svg/star-yellow.svg",
+                                    fit: BoxFit.cover,
+                                    width: 15.w,
+                                  ),
+                                  SvgPicture.asset(
+                                    "assets/svg/star-white.svg",
+                                  ),
+                                ],
+                              ),
+                              hBox(10),
+                              Text(
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                style: AppFontStyle.text_16_400(
+                                    AppColors.darkText),
+                              ),
+                              hBox(10),
+                              Row(
+                                children: [
+                                  Text(
+                                    "01-09-2024",
+                                    style: AppFontStyle.text_16_400(
+                                        AppColors.lightText),
+                                  ),
+                                  wBox(10),
+                                  Text(
+                                    "12:20",
+                                    style: AppFontStyle.text_16_400(
+                                        AppColors.lightText),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: REdgeInsets.symmetric(vertical: 10),
+                      child: const Divider(),
+                    ),
+                  ],
+                );
+              },
+              // separatorBuilder: (context, inxex) => Padding(
+              //   padding: REdgeInsets.symmetric(vertical: 10),
+              //   child: const Divider(),
+              // ),
             ),
           ],
         ),
         hBox(10),
-        Obx(
-          () => InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              showAll.value = !showAll.value;
-            },
-            child: showAll.value
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Hide",
-                        style: AppFontStyle.text_14_400(AppColors.primary),
-                      ),
-                      Icon(
-                        Icons.arrow_back,
-                        color: AppColors.primary,
-                        size: 20.h,
-                      )
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "See All (20)",
-                        style: AppFontStyle.text_14_400(AppColors.primary),
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: AppColors.primary,
-                        size: 20.h,
-                      )
-                    ],
-                  ),
+        InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            Get.toNamed(AppRoutes.productReviews);
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "See All (20)",
+                style: AppFontStyle.text_14_400(AppColors.primary),
+              ),
+              Icon(
+                Icons.arrow_forward,
+                color: AppColors.primary,
+                size: 20.h,
+              )
+            ],
           ),
         ),
       ],
@@ -637,7 +594,9 @@ class ProductDetailsScreen extends StatelessWidget {
               style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(AppRoutes.moreProducts);
+              },
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               child: Row(
@@ -662,7 +621,7 @@ class ProductDetailsScreen extends StatelessWidget {
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 10,
+            itemCount: 2,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.7.h,

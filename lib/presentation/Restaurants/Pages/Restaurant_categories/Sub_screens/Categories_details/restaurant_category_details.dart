@@ -1,5 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Shared/Widgets/custom_item_banner.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
 class RestaurantCategoryDetails extends StatelessWidget {
@@ -49,7 +49,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
             SliverGrid(
                 delegate: SliverChildBuilderDelegate(childCount: 20,
                     (context, index) {
-                  return CustomItemBanner(index: index);
+                  return GestureDetector(
+                      onTap: () {
+                        Get.to(ProductDetailsScreen(
+                            image: "assets/images/cat-image${index % 5}.png",
+                            title: "McMushroom Pizza"));
+                      },
+                      child: CustomItemBanner(index: index));
                   //  categoryItem(index);
                 }),
                 gridDelegate: (SliverGridDelegateWithFixedCrossAxisCount(

@@ -1,4 +1,4 @@
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details_screen/Product_details_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/Product_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_item_banner.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
@@ -66,7 +66,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             description(),
             hBox(30),
             moreProducts(),
-            hBox(50),
+            hBox(30),
           ],
         ),
       ),
@@ -317,30 +317,15 @@ class RestaurantDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              "More Products",
-              style: AppFontStyle.text_22_600(AppColors.darkText),
-            ),
-            Spacer(),
-            Text(
-              "See All",
-              style: AppFontStyle.text_14_400(AppColors.primary),
-            ),
-            wBox(4),
-            Icon(
-              Icons.arrow_forward_sharp,
-              color: AppColors.primary,
-              size: 18,
-            )
-          ],
+        Text(
+          "More Products",
+          style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
-        hBox(10),
+        hBox(15),
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 20,
+            itemCount: 10,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.72.h,
