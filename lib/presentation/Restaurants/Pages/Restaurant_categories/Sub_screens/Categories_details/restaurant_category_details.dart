@@ -55,7 +55,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 gridDelegate: (SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.72.h,
-                  // crossAxisSpacing: 16.w,
+                  crossAxisSpacing: 14.w,
                   mainAxisSpacing: 5.h,
                 ))),
             SliverToBoxAdapter(

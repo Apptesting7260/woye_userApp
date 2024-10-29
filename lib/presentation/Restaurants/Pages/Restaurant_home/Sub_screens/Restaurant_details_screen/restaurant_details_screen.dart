@@ -1,3 +1,5 @@
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details_screen/Product_details_screen.dart';
+import 'package:woye_user/Shared/Widgets/custom_item_banner.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
@@ -8,7 +10,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String mainBanner = this.image;
+    String mainBannerImage = image;
     String title = this.title;
     return Scaffold(
       appBar: CustomAppBar(
@@ -55,52 +57,37 @@ class RestaurantDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            mainDetails(mainBanner, title),
+            mainBanner(mainBannerImage, title),
             hBox(30),
             openHours(),
             hBox(30),
             description(),
             hBox(30),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      "More Products",
-                      style: AppFontStyle.text_22_600(AppColors.darkText),
-                    ),
-                    Spacer(),
-                    Text(
-                      "See All",
-                      style: AppFontStyle.text_14_400(AppColors.primary),
-                    ),
-                    wBox(4),
-                    Icon(
-                      Icons.arrow_forward_sharp,
-                      color: AppColors.primary,
-                      size: 18,
-                    )
-                  ],
-                ),
-                hBox(10),
-              
-              ],
-            )
+            moreProducts(),
+            hBox(50),
           ],
         ),
       ),
     );
   }
 
-  Widget mainDetails(String mainBanner, String title) {
+  Widget mainBanner(String mainBannerImage, String title) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          mainBanner,
-          height: 250,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20.r),
+          child: Image.asset(
+            // "assets/images/rk.jpg",
+            mainBannerImage,
+            height: 250,
+            width: Get.width,
+            fit: BoxFit.cover,
+          ),
         ),
+        hBox(15),
         Text(
           title,
           style: AppFontStyle.text_24_400(AppColors.darkText),
@@ -178,129 +165,197 @@ class RestaurantDetailsScreen extends StatelessWidget {
     );
   }
 
-  Column openHours() {
+  Widget openHours() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Open Hours",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText),
         ),
         hBox(14),
-        Row(
-          children: [
-            Text(
-              "Tuesday",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-            wBox(100),
-            Text(
-              "10 AM - 11 PM",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-          ],
+        SizedBox(
+          width: Get.width * 0.7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Tuesday",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+              Text(
+                "10 AM - 11 PM",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+            ],
+          ),
         ),
         hBox(10),
-        Row(
-          children: [
-            Text(
-              "Wednesday",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-            wBox(100),
-            Text(
-              "10 AM - 11 PM",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-          ],
+        SizedBox(
+          width: Get.width * 0.7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Wednesday",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+              Text(
+                "10 AM - 11 PM",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+            ],
+          ),
         ),
         hBox(10),
-        Row(
-          children: [
-            Text(
-              "Thursday",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-            wBox(100),
-            Text(
-              "10 AM - 11 PM",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-          ],
+        SizedBox(
+          width: Get.width * 0.7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Thursday",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+              Text(
+                "10 AM - 11 PM",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+            ],
+          ),
         ),
         hBox(10),
-        Row(
-          children: [
-            Text(
-              "Friday",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-            wBox(100),
-            Text(
-              "10 AM - 11 PM",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-          ],
+        SizedBox(
+          width: Get.width * 0.7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Friday",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+              Text(
+                "10 AM - 11 PM",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+            ],
+          ),
         ),
         hBox(10),
-        Row(
-          children: [
-            Text(
-              "Saturday",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-            wBox(100),
-            Text(
-              "10 AM - 11 PM",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-          ],
+        SizedBox(
+          width: Get.width * 0.7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Saturday",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+              Text(
+                "10 AM - 11 PM",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+            ],
+          ),
         ),
         hBox(10),
-        Row(
-          children: [
-            Text(
-              "Sunday",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-            wBox(100),
-            Text(
-              "10 AM - 11 PM",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-          ],
+        SizedBox(
+          width: Get.width * 0.7,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Sunday",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+              Text(
+                "10 AM - 11 PM",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+            ],
+          ),
         ),
         hBox(10),
-        Row(
-          children: [
-            Text(
-              "Monday",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-            wBox(100),
-            Text(
-              "10 AM - 11 PM",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
-          ],
+        SizedBox(
+          width: Get.width * 0.70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Monday",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+              Text(
+                "10 AM - 11 PM",
+                style: AppFontStyle.text_16_400(AppColors.lightText),
+              ),
+            ],
+          ),
         ),
       ],
     );
   }
 
-  Column description() {
+  Widget description() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Open Hours",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          "Descriptions",
+          style: AppFontStyle.text_20_600(AppColors.darkText),
         ),
         hBox(10),
         Text(
           "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
           style: AppFontStyle.text_16_400(AppColors.lightText),
         ),
+      ],
+    );
+  }
+
+  Widget moreProducts() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(
+              "More Products",
+              style: AppFontStyle.text_22_600(AppColors.darkText),
+            ),
+            Spacer(),
+            Text(
+              "See All",
+              style: AppFontStyle.text_14_400(AppColors.primary),
+            ),
+            wBox(4),
+            Icon(
+              Icons.arrow_forward_sharp,
+              color: AppColors.primary,
+              size: 18,
+            )
+          ],
+        ),
+        hBox(10),
+        GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 20,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.72.h,
+              crossAxisSpacing: 14.w,
+              mainAxisSpacing: 5.h,
+            ),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  onTap: () {
+                    Get.to(ProductDetailsScreen(
+                        image: "assets/images/cat-image${index % 5}.png",
+                        title: "McMushroom Pizza"));
+                  },
+                  child: CustomItemBanner(index: index));
+            })
       ],
     );
   }

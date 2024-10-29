@@ -6,6 +6,7 @@ class CustomElevatedButton extends StatelessWidget {
   final double? width;
   final double? height;
   final Color? color;
+  final Color? forGroundColor;
   final VoidCallback onPressed;
   final Widget? child;
   final bool? isLoading;
@@ -23,35 +24,36 @@ class CustomElevatedButton extends StatelessWidget {
     this.textStyle,
     required this.onPressed,
     this.child,
+    this.forGroundColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final borderRadius = this.borderRadius ?? BorderRadius.circular(100.r);
     return SizedBox(
-      width: width ?? 295,
-      height: height ?? 56,
+      width: width ?? Get.width,
+      height: height ?? 56.h,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          foregroundColor: AppColors.white,
+          foregroundColor:forGroundColor?? AppColors.white,
           backgroundColor: color,
-          shape: const RoundedRectangleBorder(
+          shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(32.0),
+              Radius.circular(32.0.r),
             ),
           ),
           alignment: Alignment.center,
           textStyle: textStyle ?? AppFontStyle.text_16_600(AppColors.white),
-        
         ),
-        child: Center(
-            child: isLoading != true
-                ? Text(text)
-                : LoadingAnimationWidget.inkDrop(
-                    color: Colors.white,
-                    size: 30,
-                  )),
+        child: child ??
+            Center(
+                child: isLoading != true
+                    ? Text(text)
+                    : LoadingAnimationWidget.inkDrop(
+                        color: Colors.white,
+                        size: 30.h,
+                      )),
       ),
     );
   }

@@ -10,7 +10,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/R
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details_screen/Product_details_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Restaurant_navbar_screen/restaurant_navbar.dart';
@@ -44,6 +44,7 @@ class AppRoutes {
   static const String restaurantCategoriesDetails =
       "/restaurant_categories_details";
   static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
+  static const String productReviews = "/product_reviews";
 
   static List<GetPage> pages = [
     GetPage(
@@ -80,11 +81,12 @@ class AppRoutes {
       page: () => const GroceryNavbar(),
     ),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
+    GetPage(name: productReviews, page: () => ProductReviews()),
     // GetPage(
     //     name: restaurantDetailsScreen,
     //     page: () => const RestaurantDetailsScreen(title: "",)),
-    GetPage(
-        name: productDetailsScreen, page: () => const ProductDetailsScreen()),
+    // GetPage(
+    //     name: productDetailsScreen, page: () => const ProductDetailsScreen()),
     GetPage(
         name: restaurantCategories,
         page: () => const RestaurantCategoriesScreen()),
