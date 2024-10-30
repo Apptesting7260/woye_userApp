@@ -134,7 +134,7 @@ class RestaurantProfileScreen extends StatelessWidget {
           ),
           trailing: Icon(Icons.arrow_forward_ios),
           onTap: () {
-            // Navigate to promotion code
+            Get.toNamed(AppRoutes.promoCode);
           },
         ),
         ListTile(

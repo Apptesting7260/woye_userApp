@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Delivery_address/delivery_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/delivery_address_screen.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});

@@ -1,4 +1,4 @@
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Delivery_address/delivery_address_controller.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/delivery_address_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class DeliveryAddressScreen extends StatelessWidget {
