@@ -10,7 +10,7 @@ class ProductReviews extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Product Reviews",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
       body: SingleChildScrollView(
@@ -71,8 +71,6 @@ class ProductReviews extends StatelessWidget {
   }
 
   Widget reviews() {
-    // RxBool showAll = false.obs;
-
     return Column(
       children: [
         Column(
@@ -110,6 +108,7 @@ class ProductReviews extends StatelessWidget {
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
                               ),
+                              hBox(5),
                               Row(
                                 children: [
                                   SvgPicture.asset(

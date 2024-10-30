@@ -51,7 +51,7 @@ class CustomItemBanner extends StatelessWidget {
             )
           ],
         ),
-        hBox(5),
+        hBox(10),
         Row(
           children: [
             Text(
@@ -61,11 +61,30 @@ class CustomItemBanner extends StatelessWidget {
             ),
           ],
         ),
+        // hBox(10),
         Text(
           "McMushroom Pizza",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_16_400(AppColors.darkText),
         ),
+        // hBox(10),
+        Text(
+          "The Pizza Hub And Restaurant",
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.left,
+          style: AppFontStyle.text_16_300(AppColors.lightText),
+        ),
+        // hBox(10),
+        Row(
+          children: [
+            SvgPicture.asset("assets/svg/star-yellow.svg"),
+            wBox(4),
+            Text(
+              "4.5/5",
+              style: AppFontStyle.text_14_300(AppColors.lightText),
+            ),
+          ],
+        )
       ],
     );
   }

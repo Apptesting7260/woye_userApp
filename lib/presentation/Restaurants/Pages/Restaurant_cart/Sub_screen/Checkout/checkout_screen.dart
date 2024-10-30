@@ -29,7 +29,8 @@ class CheckoutScreen extends StatelessWidget {
             CustomElevatedButton(
               onPressed: () {},
               text: "Place Order",
-            )
+            ),
+            hBox(50)
           ],
         ),
       ),

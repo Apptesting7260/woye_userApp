@@ -294,7 +294,6 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                           index: index,
                           image: restaurantsList["image"],
                           title: restaurantsList["title"],
-                          type: restaurantsList["type"],
                           isFavourite: restaurantsList["isFavourite"]),
                     );
                   },
@@ -355,12 +354,28 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           textAlign: TextAlign.left,
           style: AppFontStyle.text_18_400(AppColors.darkText),
         ),
-        hBox(10),
-        Text(
-          type,
-          textAlign: TextAlign.left,
-          style: AppFontStyle.text_16_300(AppColors.lightText),
-        ),
+        // hBox(10),
+        Row(
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(
+              "\$7 - \$18",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_600(AppColors.primary),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText),
+            ),
+            SvgPicture.asset("assets/svg/star-yellow.svg"),
+            wBox(4),
+            Text(
+              "4.5/5",
+              style: AppFontStyle.text_14_400(AppColors.lightText),
+            ),
+          ],
+        )
       ],
     );
   }

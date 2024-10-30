@@ -11,8 +11,8 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/R
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
+import 'package:woye_user/Presentation/Restaurants/Sub_screens/More_Products/more_products.dart';
+import 'package:woye_user/Presentation/Restaurants/Sub_screens/Product_reviews/product_reviews.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Add_address/add_address_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Delivery_address/delivery_address_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screen/Edit_address/edit_address_screen.dart';

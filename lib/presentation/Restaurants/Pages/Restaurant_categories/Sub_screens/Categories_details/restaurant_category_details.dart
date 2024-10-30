@@ -1,5 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
 class RestaurantCategoryDetails extends StatelessWidget {
@@ -13,7 +13,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           title,
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(
+            AppColors.darkText,
+          ),
         ),
       ),
       body: Padding(
@@ -60,8 +62,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 }),
                 gridDelegate: (SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.72.h,
-                  crossAxisSpacing: 14.w,
+                  childAspectRatio: 0.6.h,
+                  crossAxisSpacing: 16.w,
                   mainAxisSpacing: 5.h,
                 ))),
             SliverToBoxAdapter(

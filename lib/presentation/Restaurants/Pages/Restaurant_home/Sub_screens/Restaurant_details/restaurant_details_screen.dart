@@ -1,5 +1,4 @@
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/Product_details_screen.dart';
-import 'package:woye_user/Shared/Widgets/custom_item_banner.dart';
+import 'package:woye_user/Presentation/Restaurants/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
@@ -65,7 +64,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             hBox(30),
             description(),
             hBox(30),
-            moreProducts(),
+            moreProducts(context),
             hBox(30),
           ],
         ),
@@ -313,7 +312,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget moreProducts() {
+  Widget moreProducts(context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -322,13 +321,14 @@ class RestaurantDetailsScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
         hBox(15),
+        // MoreProducts().productList()
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: 10,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.72.h,
+              childAspectRatio: 0.6.h,
               crossAxisSpacing: 14.w,
               mainAxisSpacing: 5.h,
             ),

@@ -1,4 +1,3 @@
-import 'package:woye_user/Shared/Widgets/custom_item_banner.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
@@ -230,7 +229,7 @@ class ProductDetailsScreen extends StatelessWidget {
         hBox(10),
         Text(
           "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-          style: AppFontStyle.text_16_400(AppColors.lightText),
+          style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4),
         ),
       ],
     );
@@ -492,6 +491,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
                               ),
+                              hBox(5),
                               Row(
                                 children: [
                                   SvgPicture.asset(
@@ -623,12 +623,19 @@ class ProductDetailsScreen extends StatelessWidget {
             shrinkWrap: true,
             itemCount: 2,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.7.h,
-                crossAxisSpacing: 16.w,
-                mainAxisSpacing: 4.h),
+              crossAxisCount: 2,
+              childAspectRatio: 0.6.h,
+              crossAxisSpacing: 14.w,
+              mainAxisSpacing: 5.h,
+            ),
             itemBuilder: (context, index) {
-              return CustomItemBanner(index: index);
+              return GestureDetector(
+                  onTap: () {
+                    Get.to(ProductDetailsScreen(
+                        image: "assets/images/cat-image${index % 5}.png",
+                        title: "McMushroom Pizza"));
+                  },
+                  child: CustomItemBanner(index: index));
             })
       ],
     );
