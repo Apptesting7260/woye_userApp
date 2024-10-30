@@ -59,6 +59,21 @@ class CustomItemBanner extends StatelessWidget {
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_600(AppColors.primary),
             ),
+            wBox(5),
+            Text(
+              "\$20",
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.left,
+
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w300,
+                  color: AppColors.lightText,
+                  decoration: TextDecoration.lineThrough,
+                  decorationColor: AppColors.lightText),
+
+              //  AppFontStyle.text_14_300(AppColors.lightText),
+            ),
           ],
         ),
         // hBox(10),
@@ -72,7 +87,7 @@ class CustomItemBanner extends StatelessWidget {
           "The Pizza Hub And Restaurant",
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_16_300(AppColors.lightText),
+          style: AppFontStyle.text_14_300(AppColors.lightText),
         ),
         // hBox(10),
         Row(

@@ -106,7 +106,7 @@ class ProductReviews extends StatelessWidget {
                               Text(
                                 "Ronald Richards",
                                 style: AppFontStyle.text_16_400(
-                                    AppColors.darkText),
+                                    AppColors.darkText,),
                               ),
                               hBox(5),
                               Row(

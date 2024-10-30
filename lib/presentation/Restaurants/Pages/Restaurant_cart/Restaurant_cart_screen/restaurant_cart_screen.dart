@@ -22,7 +22,7 @@ class RestaurantCartScreen extends StatelessWidget {
           children: [
             cartItems(),
             hBox(40),
-            couponBox(context),
+            promoCode(context),
             hBox(40),
             paymentDetails(),
             hBox(30),
@@ -42,7 +42,7 @@ class RestaurantCartScreen extends StatelessWidget {
   Widget cartItems() {
     return ListView.separated(
       itemCount: 10,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
         RxInt cartCount = 1.obs;
@@ -93,10 +93,12 @@ class RestaurantCartScreen extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: 110.w,
-                        child: Text(
-                          "McMushroom Pizza",
-                          overflow: TextOverflow.ellipsis,
-                          style: AppFontStyle.text_14_500(AppColors.darkText),
+                        child: FittedBox(
+                          child: Text(
+                            "McMushroom Pizza",
+                            overflow: TextOverflow.ellipsis,
+                            style: AppFontStyle.text_14_500(AppColors.darkText),
+                          ),
                         ),
                       ),
                       Icon(
@@ -142,8 +144,8 @@ class RestaurantCartScreen extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        height: 40.h,
-                        width: 100.w,
+                        height: 35.h,
+                        width: 90.w,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(50.r),
                           border: Border.all(
@@ -195,7 +197,7 @@ class RestaurantCartScreen extends StatelessWidget {
     );
   }
 
-  Widget couponBox(context) {
+  Widget promoCode(context) {
     return DottedBorder(
       borderType: BorderType.RRect,
       radius: Radius.circular(15.r),
@@ -391,14 +393,14 @@ class RestaurantCartScreen extends StatelessWidget {
                                   children: [
                                     FittedBox(
                                       child: Row(
-                                      
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
                                             "${(index * 5 + 10)}",
                                             style: AppFontStyle.text_34_600(
-                                                Colors.white),
+                                                Colors.white,
+                                                height: 1.h),
                                           ),
                                           Text(
                                             "%",
@@ -429,11 +431,14 @@ class RestaurantCartScreen extends StatelessWidget {
                                           AppColors.lightText),
                                     ),
                                     hBox(10),
-                                    Text(
-                                      "PROCODE2024",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppFontStyle.text_16_400(
-                                          AppColors.darkText),
+                                    FittedBox(
+                                      child: Text(
+                                        "PROCODE2024",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppFontStyle.text_16_400(
+                                            AppColors.darkText,
+                                            height: 1.h),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -445,11 +450,13 @@ class RestaurantCartScreen extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      "6 days remaining",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.lightText),
+                                    FittedBox(
+                                      child: Text(
+                                        "6 days remaining",
+                                        overflow: TextOverflow.ellipsis,
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.lightText),
+                                      ),
                                     ),
                                     hBox(8),
                                     CustomElevatedButton(
