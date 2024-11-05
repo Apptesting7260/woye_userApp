@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/delivery_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
@@ -27,7 +28,9 @@ class CheckoutScreen extends StatelessWidget {
             paymentDetails(),
             hBox(30),
             CustomElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(AppRoutes.oderConfirm);
+              },
               text: "Place Order",
             ),
             hBox(50)
@@ -82,51 +85,9 @@ class CheckoutScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
         hBox(15),
-        Container(
-          padding: REdgeInsetsDirectional.all(15),
-          height: 60.h,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(color: AppColors.greyBackground)),
-          child: Row(
-            children: [
-              SvgPicture.asset("assets/svg/wallet.svg"),
-              wBox(10),
-              Text(
-                "My Wallet (\$400)",
-                style: AppFontStyle.text_16_400(AppColors.darkText),
-              ),
-              const Spacer(),
-              Container(
-                height: 20.h,
-                width: 20.h,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: AppColors.primary)),
-              ),
-            ],
-          ),
-        ),
+        PaymentMethodScreen().methodList(),
         hBox(15),
-        Container(
-          padding: REdgeInsetsDirectional.all(15),
-          height: 60.h,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(color: AppColors.primary)),
-          child: Row(
-            children: [
-              SvgPicture.asset("assets/svg/payment_card.svg"),
-              wBox(10),
-              Text(
-                "Add New Card",
-                style: AppFontStyle.text_16_400(AppColors.primary),
-              ),
-              const Spacer(),
-              Icon(Icons.arrow_forward_ios_sharp)
-            ],
-          ),
-        ),
+        PaymentMethodScreen().addNewCard()
       ],
     );
   }

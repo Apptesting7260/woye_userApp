@@ -36,7 +36,7 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          foregroundColor:forGroundColor?? AppColors.white,
+          foregroundColor: forGroundColor ?? AppColors.white,
           backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -49,7 +49,7 @@ class CustomElevatedButton extends StatelessWidget {
         child: child ??
             Center(
                 child: isLoading != true
-                    ? Text(text)
+                    ? FittedBox(child: Text(text))
                     : LoadingAnimationWidget.inkDrop(
                         color: Colors.white,
                         size: 30.h,

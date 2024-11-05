@@ -7,17 +7,24 @@ import 'package:woye_user/Presentation/Common/otp/otp_screen.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/Sub_screens/Checkout/checkout_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Restaurant_categories_screen/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Add_address/add_address_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/delivery_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Add_address/add_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Edit_address/edit_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Order_confirm/order_confirm_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Order_otp/order_otp_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Order_received/order_reveived_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Review_driver/review_driver_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Track_order/track_order_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Payment_method/Add_card/add_card_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Promo_codes/promo_codes.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
-import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Restaurant_navbar_screen/restaurant_navbar.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/View/restaurant_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Sub_screens/More_Products/more_products.dart';
 import 'package:woye_user/Presentation/Restaurants/Sub_screens/Product_reviews/product_reviews.dart';
 import 'package:woye_user/presentation/Common/login/login_screen.dart';
@@ -56,6 +63,13 @@ class AppRoutes {
   static const String addAddressScreen = "/add_address";
   static const String editAddressScreen = "/edit_address";
   static const String promoCode = "/promo_code";
+  static const String paymentMethod = "/payment_method";
+  static const String addCard = "/add_card";
+  static const String oderConfirm = "/order_confirm";
+  static const String trackOrder = "/track_order";
+  static const String orderReveived = "/order_reveived";
+  static const String reviewDriver = "/review_driver";
+  static const String orderOtp = "/order_otp";
 
   static List<GetPage> pages = [
     GetPage(
@@ -80,7 +94,9 @@ class AppRoutes {
     ),
     GetPage(
         name: restaurantNavbar,
-        page: () => const RestaurantNavbar(),
+        page: () => const RestaurantNavbar(
+              navbarInitialIndex: 0,
+            ),
         bindings: [RestaurantNavbarBinding(), HomeBinding()]),
     GetPage(
       name: pharmacyNavbar,
@@ -97,6 +113,13 @@ class AppRoutes {
     GetPage(name: addAddressScreen, page: () => const AddAddressScreen()),
     GetPage(name: editAddressScreen, page: () => const EditAddressScreen()),
     GetPage(name: promoCode, page: () => const PromoCodes()),
+    GetPage(name: paymentMethod, page: () => const PaymentMethodScreen()),
+    GetPage(name: addCard, page: () => const AddCardScreen()),
+    GetPage(name: oderConfirm, page: () => const OrderConfirmScreen()),
+    GetPage(name: trackOrder, page: () => const TrackOrderScreen()),
+    GetPage(name: orderReveived, page: () => const OrderReveivedScreen()),
+    GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
+    GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
     GetPage(
         name: deliveryAddressScreen, page: () => const DeliveryAddressScreen()),
     GetPage(

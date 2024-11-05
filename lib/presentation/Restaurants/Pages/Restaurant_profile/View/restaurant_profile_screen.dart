@@ -35,7 +35,7 @@ class RestaurantProfileScreen extends StatelessWidget {
       padding: REdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: AppColors.lightPrimary,
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(15.0.r),
       ),
       child: Row(
         children: [
@@ -113,6 +113,7 @@ class RestaurantProfileScreen extends StatelessWidget {
           trailing: Icon(Icons.arrow_forward_ios),
           onTap: () {
             // Navigate to payment method
+            Get.toNamed(AppRoutes.paymentMethod);
           },
         ),
         ListTile(

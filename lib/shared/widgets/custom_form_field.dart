@@ -96,6 +96,7 @@ class CustomTextFormField extends StatelessWidget {
         width: width ?? double.maxFinite,
         height: height,
         child: TextFormField(
+          // expands: true,
           onTapOutside: onTapOutside,
           onChanged: onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -107,6 +108,8 @@ class CustomTextFormField extends StatelessWidget {
           obscureText: obscureText!,
           textInputAction: textInputAction,
           keyboardType: textInputType,
+          // maxLines: null,
+          // minLines: null,
           maxLines: maxLines ?? 1,
           minLines: 1,
           decoration: decoration,

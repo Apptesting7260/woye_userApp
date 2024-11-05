@@ -19,7 +19,7 @@ class CustomOutlinedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height ?? 60.h,
+      height: height ?? 56.h,
       width: double.maxFinite,
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(

@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/Restaurant_cart_screen/restaurant_cart_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Restaurant_categories_screen/restaurant_categories_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Restaurant_home_screen/restaurant_home_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Restaurant_profile_screen/restaurant_profile_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Restaurant_wishlist_screen/restaurant_wishlist_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/View/restaurant_home_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/View/restaurant_profile_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/View/restaurant_wishlist_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantNavbarController extends GetxController {

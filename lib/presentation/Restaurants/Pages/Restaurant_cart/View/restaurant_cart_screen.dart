@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Promo_codes/promo_codes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantCartScreen extends StatelessWidget {
@@ -48,14 +49,13 @@ class RestaurantCartScreen extends StatelessWidget {
         RxInt cartCount = 1.obs;
         RxBool isSelected = false.obs;
         return Row(
-          mainAxisSize: MainAxisSize.min,
+          // mainAxisSize: MainAxisSize.min,
           children: [
             Obx(
-              () => Transform.scale(
-                scale: 1.2,
-                child: SizedBox(
-                  height: 20.h,
-                  width: 24.h,
+              () => Expanded(
+                flex: 1,
+                child: Transform.scale(
+                  scale: 1.2,
                   child: Checkbox(
                       activeColor: AppColors.black,
                       shape: RoundedRectangleBorder(
@@ -71,23 +71,26 @@ class RestaurantCartScreen extends StatelessWidget {
               ),
             ),
             wBox(10),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.r),
-              child: Image.asset(
-                "assets/images/cat-image${index % 5}.png",
-                height: 100.h,
-                width: 100.h,
-                fit: BoxFit.cover,
+            Expanded(
+              flex: 3,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20.r),
+                child: Image.asset(
+                  "assets/images/cat-image${index % 5}.png",
+                  height: 100.h,
+                  width: 100.h,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             wBox(10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                hBox(5),
-                SizedBox(
-                  width: (Get.width * 0.51) - 4,
-                  child: Row(
+            Expanded(
+              flex: 6,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  hBox(5),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -101,22 +104,23 @@ class RestaurantCartScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Icon(
-                        Icons.delete_outlined,
-                        color: AppColors.lightText,
+                      SvgPicture.asset(
+                        "assets/svg/delete-outlined.svg",
+                        height: 20,
                       )
+                      // Icon(
+                      //   Icons.delete_outlined,
+                      //   color: AppColors.lightText,
+                      // )
                     ],
                   ),
-                ),
-                hBox(10),
-                Text(
-                  "Small",
-                  style: AppFontStyle.text_12_400(AppColors.lightText),
-                ),
-                // hBox(10),
-                SizedBox(
-                  width: (Get.width * 0.51) - 4,
-                  child: Row(
+                  hBox(10),
+                  Text(
+                    "Small",
+                    style: AppFontStyle.text_12_400(AppColors.lightText),
+                  ),
+                  // hBox(10),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
@@ -155,7 +159,9 @@ class RestaurantCartScreen extends StatelessWidget {
                           () => Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              GestureDetector(
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   if (cartCount.value != 0) cartCount.value--;
                                 },
@@ -169,7 +175,9 @@ class RestaurantCartScreen extends StatelessWidget {
                                 style: AppFontStyle.text_14_400(
                                     AppColors.darkText),
                               ),
-                              GestureDetector(
+                              InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
                                 onTap: () {
                                   cartCount.value++;
                                 },
@@ -184,9 +192,9 @@ class RestaurantCartScreen extends StatelessWidget {
                       )
                     ],
                   ),
-                ),
-                hBox(5),
-              ],
+                  hBox(5),
+                ],
+              ),
             )
           ],
         );
@@ -365,118 +373,7 @@ class RestaurantCartScreen extends StatelessWidget {
                     ],
                   ),
                   hBox(15),
-                  // PromoCodes.promoCodeList
-                  ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: AppColors.navbar,
-                            borderRadius: BorderRadius.circular(15.r)),
-                        child: Padding(
-                          padding: REdgeInsets.all(10.0),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 80.h,
-                                width: 80.w,
-                                // padding: const EdgeInsets.symmetric(
-                                //     horizontal: 16, vertical: 10),
-                                decoration: BoxDecoration(
-                                    color: index % 2 == 0
-                                        ? AppColors.primary
-                                        : AppColors.black,
-                                    borderRadius: BorderRadius.circular(15.r)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    FittedBox(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "${(index * 5 + 10)}",
-                                            style: AppFontStyle.text_34_600(
-                                                Colors.white,
-                                                height: 1.h),
-                                          ),
-                                          Text(
-                                            "%",
-                                            style: AppFontStyle.text_16_400(
-                                                Colors.white),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      "OFF",
-                                      style: AppFontStyle.text_16_400(
-                                          Colors.white),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              wBox(10),
-                              Expanded(
-                                flex: 4,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Personal offer",
-                                      overflow: TextOverflow.ellipsis,
-                                      style: AppFontStyle.text_14_400(
-                                          AppColors.lightText),
-                                    ),
-                                    hBox(10),
-                                    FittedBox(
-                                      child: Text(
-                                        "PROCODE2024",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: AppFontStyle.text_16_400(
-                                            AppColors.darkText,
-                                            height: 1.h),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    FittedBox(
-                                      child: Text(
-                                        "6 days remaining",
-                                        overflow: TextOverflow.ellipsis,
-                                        style: AppFontStyle.text_12_400(
-                                            AppColors.lightText),
-                                      ),
-                                    ),
-                                    hBox(8),
-                                    CustomElevatedButton(
-                                        textStyle: AppFontStyle.text_14_600(
-                                            Colors.white),
-                                        width: 85.w,
-                                        height: 40.h,
-                                        text: "Apply",
-                                        onPressed: () {})
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => hBox(20),
-                  ),
+                  PromoCodes().promoCodeList(),
                 ],
               ),
             ),
