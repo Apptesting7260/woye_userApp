@@ -22,7 +22,8 @@ class RestaurantCategoriesScreen extends StatelessWidget {
             style: AppFontStyle.text_28_600(AppColors.darkText),
           ),
         ),
-        body: Padding(
+        body: 
+        Padding(
           padding: REdgeInsets.symmetric(horizontal: 24),
           child: CustomScrollView(
             slivers: [

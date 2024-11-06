@@ -1,260 +1,91 @@
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Controller/restaurant_profile_controller.dart';
-import 'package:woye_user/core/utils/app_export.dart';
+import 'package:flutter/services.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Edit_profile/edit_profile_controller.dart';
 
-class RestaurantProfileScreen extends StatelessWidget {
-  const RestaurantProfileScreen({super.key});
+class EditProfileScreen extends StatelessWidget {
+  const EditProfileScreen({super.key});
 
-  static final RestaurantProfileController restaurantProfileController =
-      Get.put(RestaurantProfileController());
+  static final EditProfileController editProfileController =
+      Get.put(EditProfileController(), permanent: true);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        isActions: true,
-        isLeading: false,
+        isLeading: true,
         title: Text(
           "My Profile",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
       body: SingleChildScrollView(
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            profileDetails(context),
+            imagePicker(context, editProfileController),
             hBox(30),
-            profileOptions(),
+            profileDetails(),
+            hBox(20),
+            saveButton()
+            // hBox(30),
+            // profileOptions(),
           ],
         ),
       ),
     );
   }
 
-  Container profileDetails(BuildContext context) {
-    return Container(
-      padding: REdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: AppColors.lightPrimary,
-        borderRadius: BorderRadius.circular(15.0.r),
-      ),
-      child: Row(
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: imagePicker(context, restaurantProfileController),
-          ),
-          wBox(15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Jone Deo',
-                style: AppFontStyle.text_18_600(AppColors.darkText),
-              ),
-              hBox(10),
-              Text(
-                'yourname@gmail.com',
-                style: AppFontStyle.text_14_400(AppColors.darkText),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Column profileOptions() {
-    return Column(
-      children: [
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
-          title: Text(
-            'Edit Profile',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.editProfile);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/cart-dark.svg"),
-          title: Text(
-            'Orders',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.orders);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/location-pin-dark.svg"),
-          title: Text(
-            'Delivery Address',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.deliveryAddressScreen);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
-          title: Text(
-            'Payment Method',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to payment method
-            Get.toNamed(AppRoutes.paymentMethod);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/wallet-dark.svg"),
-          title: Text(
-            'My Wallet',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.myWallet);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/coupon-dark.svg"),
-          title: Text(
-            'Promotion Code',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.promoCode);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
-          title: Text(
-            'Invite Friends',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to invite friends
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/settings-dark.svg"),
-          title: Text(
-            'Settings',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to settings
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/help-dark.svg"),
-          title: Text(
-            'Help',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to help
-          },
-        ),
-        // Logout Option
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/logout.svg"),
-          title: Text(
-            'Logout',
-            style: AppFontStyle.text_16_500(AppColors.primary),
-          ),
-          onTap: () {
-            // Handle logout
-          },
-        ),
-        hBox(100)
-      ],
-    );
-  }
-
-  Widget imagePicker(BuildContext context,
-      RestaurantProfileController restaurantProfileController) {
+  Widget imagePicker(BuildContext context, EditProfileController controller) {
     return GestureDetector(
       onTap: () {
         bottomSheet(context);
       },
       child: GetBuilder(
-          init: restaurantProfileController,
+          init: editProfileController,
           builder: (context) {
             return SizedBox(
-              height: 80.h,
+              height: 100.h,
               child: Stack(
                 children: [
                   Container(
-                      width: 80.h,
-                      height: 80.h,
+                      width: 100.h,
+                      height: 100.h,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),
                           // shape: BoxShape.circle,
                           border: Border.all(
-                              color: restaurantProfileController.image == null
+                              color: editProfileController.image == null
                                   ? Colors.transparent
                                   : Colors.transparent)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100.r),
-                        child: restaurantProfileController.image == null
+                        child: editProfileController.image == null
                             ? CircleAvatar(
                                 backgroundColor:
                                     AppColors.greyBackground.withOpacity(0.5),
                                 child: Icon(
                                   Icons.person,
-                                  size: 40.h,
+                                  size: 60.h,
                                   color: AppColors.lightText.withOpacity(0.5),
                                 ))
                             : Image.file(
-                                restaurantProfileController.image!,
+                                editProfileController.image!,
                                 fit: BoxFit.cover,
                               ),
                       )),
                   Positioned(
-                    bottom: 5.h,
-                    right: 2.w,
+                    bottom: 6.h,
+                    right: 4.w,
                     child: Container(
-                      width: 22.h,
-                      height: 22.h,
+                      padding: EdgeInsets.all(4.r),
                       decoration: BoxDecoration(
                           color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(50.r),
+                          shape: BoxShape.circle,
                           border: Border.all(color: AppColors.primary)),
                       child: Icon(
                         Icons.photo_camera,
                         color: Colors.white,
-                        size: 12.h,
+                        size: 14.h,
                       ),
                     ),
                   ),
@@ -265,9 +96,112 @@ class RestaurantProfileScreen extends StatelessWidget {
     );
   }
 
+  Widget profileDetails() {
+    return Column(
+      children: [
+        CustomTextFormField(
+            contentPadding: REdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            hintText: "First Name",
+            prefix: Padding(
+              padding: REdgeInsets.only(left: 20, right: 14),
+              child: SvgPicture.asset(
+                "assets/svg/person-icon.svg",
+                height: 16.h,
+              ),
+            )),
+        hBox(15),
+        CustomTextFormField(
+            contentPadding: REdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            hintText: "Last Name",
+            prefix: Padding(
+              padding: REdgeInsets.only(left: 20, right: 14),
+              child: SvgPicture.asset(
+                "assets/svg/person-icon.svg",
+                height: 16.h,
+              ),
+            )),
+        hBox(15),
+        CustomTextFormField(
+            contentPadding: REdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            hintText: "Date Of Birth",
+            prefix: Padding(
+              padding: REdgeInsets.only(left: 20, right: 14),
+              child: SvgPicture.asset(
+                "assets/svg/calendar.svg",
+                height: 16.h,
+              ),
+            )),
+        hBox(15),
+        CustomTextFormField(
+            contentPadding: REdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            hintText: "Email",
+            prefix: Padding(
+              padding: REdgeInsets.only(left: 20, right: 14),
+              child: SvgPicture.asset(
+                "assets/svg/email.svg",
+                height: 16.h,
+              ),
+            )),
+        hBox(15),
+        DropdownButtonFormField(
+          hint: Text(
+            "Gender",
+            style: AppFontStyle.text_14_400(AppColors.darkText),
+          ),
+          style: AppFontStyle.text_14_400(AppColors.darkText),
+          icon: SvgPicture.asset(ImageConstants.arrowDown),
+          decoration: InputDecoration(
+              contentPadding:
+                  REdgeInsets.symmetric(horizontal: 20, vertical: 18),
+              focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.textFieldBorder),
+                  borderRadius: BorderRadius.circular(15.r)),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.textFieldBorder),
+                  borderRadius: BorderRadius.circular(15.r))),
+          items: ["Male", "Female", "Other"]
+              .map((element) => DropdownMenuItem(
+                  value: element.toString(), child: Text(element.toString())))
+              .toList(),
+          onChanged: (value) {
+            // signUpFormController.genderController.text = value.toString();
+          },
+        ),
+        hBox(15),
+        CustomTextFormField(
+          controller: editProfileController.mobNoCon!.value,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          prefix: CountryCodePicker(
+              showFlag: false,
+              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
+              onChanged: (CountryCode countryCode) {
+                editProfileController.updateCountryCode(countryCode);
+                editProfileController.showError.value = false;
+                int? countrylength = editProfileController
+                    .countryPhoneDigits[countryCode.code.toString()];
+                editProfileController.checkCountryLength = countrylength!;
+              },
+              initialSelection: "IN"),
+          hintText: "Phone Number",
+          textInputType: TextInputType.phone,
+        ),
+      ],
+    );
+  }
+
+  Widget saveButton() {
+    return CustomElevatedButton(
+      onPressed: () {
+        Get.back();
+      },
+      text: "Save",
+    );
+  }
+
   Future bottomSheet(BuildContext context) {
-    final RestaurantProfileController controller =
-        Get.find<RestaurantProfileController>();
+    final EditProfileController controller = Get.find<EditProfileController>();
     return showModalBottomSheet(
         backgroundColor: Colors.white,
         shape: OutlineInputBorder(
@@ -389,5 +323,4 @@ class RestaurantProfileScreen extends StatelessWidget {
           );
         });
   }
-
 }

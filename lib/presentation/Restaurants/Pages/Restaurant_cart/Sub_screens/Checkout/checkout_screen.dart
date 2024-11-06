@@ -29,7 +29,7 @@ class CheckoutScreen extends StatelessWidget {
             hBox(30),
             CustomElevatedButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.oderConfirm);
+                Get.toNamed(AppRoutes.orderOtp);
               },
               text: "Place Order",
             ),

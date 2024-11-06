@@ -11,24 +11,28 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Add_address/add_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Edit_address/edit_address_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Edit_address/edit_address_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Order_confirm/order_confirm_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Order_otp/order_otp_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Order_received/order_reveived_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Review_driver/review_driver_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Track_order/track_order_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Edit_profile/edit_profile_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/Sub_screens/Filter/my_wallet_filter.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/Sub_screens/Transaction_history/transaction_history_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/View/my_wallet_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_confirm/order_confirm_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_otp/order_otp_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_received/order_reveived_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Review_driver/review_driver_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Track_order/track_order_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/view/orders_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Payment_method/Add_card/add_card_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Promo_codes/promo_codes.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/View/restaurant_navbar.dart';
-import 'package:woye_user/Presentation/Restaurants/Sub_screens/More_Products/more_products.dart';
-import 'package:woye_user/Presentation/Restaurants/Sub_screens/Product_reviews/product_reviews.dart';
 import 'package:woye_user/presentation/Common/login/login_screen.dart';
-import 'package:woye_user/presentation/Common/sign_up/sign_up_binding.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
 import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
@@ -70,6 +74,11 @@ class AppRoutes {
   static const String orderReveived = "/order_reveived";
   static const String reviewDriver = "/review_driver";
   static const String orderOtp = "/order_otp";
+  static const String editProfile = "/edit_profile";
+  static const String orders = "/orders";
+  static const String myWallet = "/my_wallet";
+  static const String transactionHistory = "/transaction_history";
+  static const String myWalletFilter = "/my_wallet_filter";
 
   static List<GetPage> pages = [
     GetPage(
@@ -82,7 +91,7 @@ class AppRoutes {
         binding: WelcomeBinding()),
     GetPage(name: login, page: () => const LoginScreen()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
-    GetPage(name: signUp, page: () => SignUpScreen(), binding: SignUpBinding()),
+    GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
         page: () => const SignUpFormScreen(),
@@ -120,6 +129,12 @@ class AppRoutes {
     GetPage(name: orderReveived, page: () => const OrderReveivedScreen()),
     GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
+    GetPage(name: editProfile, page: () => const EditProfileScreen()),
+    GetPage(name: orders, page: () => const OrdersScreen()),
+    GetPage(name: myWallet, page: () => const MyWalletScreen()),
+    GetPage(
+        name: transactionHistory, page: () => const TransactionHistoryScreen()),
+    GetPage(name: myWalletFilter, page: () => const MyWalletFilter()),
     GetPage(
         name: deliveryAddressScreen, page: () => const DeliveryAddressScreen()),
     GetPage(

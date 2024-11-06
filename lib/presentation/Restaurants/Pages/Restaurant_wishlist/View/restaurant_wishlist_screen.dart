@@ -1,5 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Restaurants/Sub_screens/Product_details/product_details_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
 class RestaurantWishlistScreen extends StatelessWidget {

@@ -14,7 +14,7 @@ class DeliveryAddressScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Delivery Address",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
       body: SingleChildScrollView(

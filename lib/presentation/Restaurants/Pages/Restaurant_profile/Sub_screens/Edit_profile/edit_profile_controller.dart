@@ -1,31 +1,26 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:otp_timer_button/otp_timer_button.dart';
-import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
-class SignUpController extends GetxController {
-  final Rx<TextEditingController> mobNoCon = TextEditingController().obs;
-  final Rx<TextEditingController> passController = TextEditingController().obs;
-  final rxRequestStatus = Status.COMPLETED.obs;
-  final signUpFormKey = GlobalKey<FormState>();
-
-  var isLoding = false.obs;
-
-  var resendToken = 0.obs;
+class EditProfileController extends GetxController {
+  Rx<TextEditingController>? mobNoCon;
   RxBool showError = true.obs;
 
   Rx<CountryCode> selectedCountryCode =
       CountryCode(dialCode: '+91', code: 'IN').obs;
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-  RxString verificationID = ''.obs;
+  final ImagePicker _picker = ImagePicker();
+  File? image;
+
+  @override
+  void onInit() {
+    mobNoCon = TextEditingController().obs;
+    super.onInit();
+  }
 
   @override
   void onClose() {
-    mobNoCon.value.dispose();
-    passController.value.dispose();
+    mobNoCon!.value.dispose();
     super.onClose();
   }
 
@@ -33,112 +28,29 @@ class SignUpController extends GetxController {
     selectedCountryCode.value = countryCode;
   }
 
-  Future<bool> sendOtp() async {
-    isLoding.value = true;
-    Completer<bool> completer = Completer<bool>();
-    print('re == ${resendToken.value}');
-    print(
-        'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
-    try {
+  Future<void> pickImageFromCamera() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      image = File(pickedImage.path);
+      // isValid = (signupFormKey.currentState!.validate() && image != null);
       update();
-      await auth.verifyPhoneNumber(
-        timeout: const Duration(seconds: 59),
-        phoneNumber:
-            '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
-        forceResendingToken: !Platform.isIOS
-            ? (resendToken.value != 0 ? resendToken.value : null)
-            : null,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          if (e.code == 'invalid-phone-number') {
-            print('${e.code}');
-            SnackBarUtils.showToastCenter(
-                'The provided phone number is not valid.');
-            isLoding.value = false;
-          } else {
-            SnackBarUtils.showToastCenter('Something went wrong');
-            isLoding.value = false;
-          }
-          print(e.toString());
-          completer.complete(false);
-        },
-        codeSent: (String verificationId, int? forceResendingToken) {
-          print('codesent');
-          if (!Platform.isIOS) {
-            print(forceResendingToken);
-            resendToken.value = forceResendingToken!;
-            Timer(
-              const Duration(seconds: 59),
-              () {
-                resendToken.value = 0;
-                print('token == ${resendToken.value}');
-              },
-            );
-          }
-          verificationID.value = verificationId;
-          completer.complete(true);
-          Get.toNamed(
-            AppRoutes.otp,
-            arguments: {
-              'type': 'signup',
-              'mob':
-                  '${selectedCountryCode.value.toString()} ${mobNoCon.value.text.trim().toString()}',
-            },
-          );
-          isLoding.value = false;
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
-    } catch (e) {
-      completer.complete(false);
-      print('error == ${e.toString()}');
-      isLoding.value = false;
     }
-    return completer.future;
+
+    update();
   }
 
-  OtpTimerButtonController otpTimerButtonController =
-      OtpTimerButtonController();
+  Future<void> pickImageFromGallery() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
 
-  Future<bool> resendOtp() async {
-    Completer<bool> completer = Completer<bool>();
-    otpTimerButtonController.loading();
-    try {
-      await auth.verifyPhoneNumber(
-        timeout: const Duration(seconds: 59),
-        phoneNumber:
-            '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
-        },
-        verificationFailed: (FirebaseAuthException e) {
-          if (e.code == 'invalid-phone-number') {
-            print('${e.code}');
-            SnackBarUtils.showToastCenter(
-                'The provided phone number is not valid.');
-          } else {
-            SnackBarUtils.showToastCenter('Something went wrong');
-          }
-          otpTimerButtonController.enableButton();
-          completer.complete(false);
-        },
-        codeSent: (String verificationId, int? forceResendingToken) {
-          print('codesent');
-          SnackBarUtils.showToastCenter('otp has been send successfully.');
-          verificationID.value = verificationId;
-          otpTimerButtonController.startTimer();
-          completer.complete(true);
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {},
-      );
-    } catch (e) {
-      otpTimerButtonController.enableButton();
-      completer.complete(false);
-      print('error == ${e.toString()}');
+    if (pickedImage != null) {
+      image = File(pickedImage.path);
+      // isValid = (signupFormKey.currentState!.validate() && image != null);
+      update();
     }
-    return completer.future;
+    update();
   }
 
   int checkCountryLength = 10;

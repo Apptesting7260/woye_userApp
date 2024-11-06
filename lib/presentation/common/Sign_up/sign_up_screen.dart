@@ -5,7 +5,7 @@ import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
-  final SignUpController signUpController = Get.find<SignUpController>();
+  final SignUpController signUpController = Get.put(SignUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class SignUpScreen extends StatelessWidget {
                       signUpController.showError.value = false;
                       int? countrylength = signUpController
                           .countryPhoneDigits[countryCode.code.toString()];
-                      signUpController.chackCountryLength = countrylength!;
+                      signUpController.checkCountryLength = countrylength!;
                     },
                     initialSelection: "IN"),
                 hintText: "Phone Number",
@@ -55,7 +55,8 @@ class SignUpScreen extends StatelessWidget {
                   text: "Sign Up",
                   isLoading: signUpController.isLoding.value,
                   onPressed: () {
-                    if (signUpController.signUpFormKey.currentState!.validate()) {
+                    if (signUpController.signUpFormKey.currentState!
+                        .validate()) {
                       signUpController.sendOtp();
                     }
                   },
@@ -65,8 +66,7 @@ class SignUpScreen extends StatelessWidget {
               Column(
                 children: [
                   InkWell(
-                highlightColor: Colors.transparent,
-
+                    highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.restaurantNavbar);
@@ -93,8 +93,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                highlightColor: Colors.transparent,
-
+                    highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () {
                       Get.toNamed(AppRoutes.login);

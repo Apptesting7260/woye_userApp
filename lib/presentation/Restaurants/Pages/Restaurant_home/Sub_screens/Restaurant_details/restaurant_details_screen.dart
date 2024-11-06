@@ -1,4 +1,4 @@
-import 'package:woye_user/Presentation/Restaurants/Sub_screens/Product_details/product_details_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
