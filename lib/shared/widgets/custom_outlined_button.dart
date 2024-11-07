@@ -7,6 +7,7 @@ class CustomOutlinedButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Widget? child;
   final bool isLoading;
+  final Color? borderColor;
 
   const CustomOutlinedButton(
       {super.key,
@@ -15,7 +16,8 @@ class CustomOutlinedButton extends StatelessWidget {
       this.borderRadius,
       this.isLoading = false,
       required this.onPressed,
-      required this.child});
+      required this.child,
+      this.borderColor});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -23,7 +25,8 @@ class CustomOutlinedButton extends StatelessWidget {
       width: double.maxFinite,
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
-              side: BorderSide(color: AppColors.textFieldBorder),
+              padding: EdgeInsets.zero,
+              side: BorderSide(color: borderColor ?? AppColors.textFieldBorder),
               shape: RoundedRectangleBorder(
                   borderRadius: borderRadius ?? BorderRadius.circular(100.r))),
           onPressed: onPressed,

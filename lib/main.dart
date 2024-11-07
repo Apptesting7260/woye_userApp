@@ -46,6 +46,10 @@ class MyApp extends StatelessWidget {
                     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
                     TargetPlatform.android: CupertinoPageTransitionsBuilder()
                   }),
+              dividerTheme: DividerThemeData(color: AppColors.textFieldBorder),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
               colorScheme: ColorScheme.fromSeed(
                 seedColor: AppColors.primary,
                 surface: Colors.white,

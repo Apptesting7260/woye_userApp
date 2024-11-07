@@ -1,5 +1,4 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/controller/order_screen_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/View/restaurant_navbar.dart';
 
@@ -162,20 +161,6 @@ class OrdersScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Order id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "#1947034",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
                 "Status",
                 style: AppFontStyle.text_12_400(AppColors.lightText),
               ),
@@ -216,9 +201,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.to(const ProductDetailsScreen(
-                      image: "assets/images/cat-image0.png",
-                      title: "McMushroom Pizza"));
+                  Get.toNamed(AppRoutes.orderDetails);
                 },
                 child: Container(
                   padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -409,9 +392,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.to(const ProductDetailsScreen(
-                      image: "assets/images/cat-image0.png",
-                      title: "McMushroom Pizza"));
+                  Get.toNamed(AppRoutes.orderDetails);
                 },
                 child: Container(
                   padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -632,9 +613,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.to(const ProductDetailsScreen(
-                      image: "assets/images/cat-image0.png",
-                      title: "McMushroom Pizza"));
+                  Get.toNamed(AppRoutes.orderDetails);
                 },
                 child: Container(
                   padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),

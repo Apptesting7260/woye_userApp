@@ -13,14 +13,15 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/V
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Add_address/add_address_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Edit_address/edit_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Edit_profile/edit_profile_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/Sub_screens/Filter/my_wallet_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/Sub_screens/Transaction_history/transaction_history_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/View/my_wallet_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_confirm/order_confirm_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_details/order_details_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_otp/order_otp_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_received/order_reveived_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Review_driver/review_driver_screen.dart';
@@ -76,6 +77,7 @@ class AppRoutes {
   static const String orderOtp = "/order_otp";
   static const String editProfile = "/edit_profile";
   static const String orders = "/orders";
+  static const String orderDetails = "/order_details";
   static const String myWallet = "/my_wallet";
   static const String transactionHistory = "/transaction_history";
   static const String myWalletFilter = "/my_wallet_filter";
@@ -131,6 +133,7 @@ class AppRoutes {
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
     GetPage(name: editProfile, page: () => const EditProfileScreen()),
     GetPage(name: orders, page: () => const OrdersScreen()),
+    GetPage(name: orderDetails, page: () => const OrderDetailsScreen()),
     GetPage(name: myWallet, page: () => const MyWalletScreen()),
     GetPage(
         name: transactionHistory, page: () => const TransactionHistoryScreen()),

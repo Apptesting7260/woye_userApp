@@ -41,7 +41,22 @@ class RestaurantProfileScreen extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.center,
-            child: imagePicker(context, restaurantProfileController),
+            child: Container(
+                width: 80.h,
+                height: 80.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100.r),
+                ),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100.r),
+                    child: CircleAvatar(
+                        backgroundColor:
+                            AppColors.greyBackground.withOpacity(0.5),
+                        child: Icon(
+                          Icons.person,
+                          size: 40.h,
+                          color: AppColors.lightText.withOpacity(0.5),
+                        )))),
           ),
           wBox(15),
           Column(
@@ -201,193 +216,4 @@ class RestaurantProfileScreen extends StatelessWidget {
       ],
     );
   }
-
-  Widget imagePicker(BuildContext context,
-      RestaurantProfileController restaurantProfileController) {
-    return GestureDetector(
-      onTap: () {
-        bottomSheet(context);
-      },
-      child: GetBuilder(
-          init: restaurantProfileController,
-          builder: (context) {
-            return SizedBox(
-              height: 80.h,
-              child: Stack(
-                children: [
-                  Container(
-                      width: 80.h,
-                      height: 80.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          // shape: BoxShape.circle,
-                          border: Border.all(
-                              color: restaurantProfileController.image == null
-                                  ? Colors.transparent
-                                  : Colors.transparent)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.r),
-                        child: restaurantProfileController.image == null
-                            ? CircleAvatar(
-                                backgroundColor:
-                                    AppColors.greyBackground.withOpacity(0.5),
-                                child: Icon(
-                                  Icons.person,
-                                  size: 40.h,
-                                  color: AppColors.lightText.withOpacity(0.5),
-                                ))
-                            : Image.file(
-                                restaurantProfileController.image!,
-                                fit: BoxFit.cover,
-                              ),
-                      )),
-                  Positioned(
-                    bottom: 5.h,
-                    right: 2.w,
-                    child: Container(
-                      width: 22.h,
-                      height: 22.h,
-                      decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(50.r),
-                          border: Border.all(color: AppColors.primary)),
-                      child: Icon(
-                        Icons.photo_camera,
-                        color: Colors.white,
-                        size: 12.h,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
-    );
-  }
-
-  Future bottomSheet(BuildContext context) {
-    final RestaurantProfileController controller =
-        Get.find<RestaurantProfileController>();
-    return showModalBottomSheet(
-        backgroundColor: Colors.white,
-        shape: OutlineInputBorder(
-          borderSide: const BorderSide(width: 0, color: Colors.transparent),
-          gapPadding: 0,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r)),
-        ),
-        showDragHandle: true,
-        constraints: BoxConstraints(maxHeight: 218.h),
-        elevation: 12.w,
-        context: context,
-        builder: (context) {
-          return Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: AppColors.primary.withOpacity(0.2),
-                    blurRadius: 5,
-                    blurStyle: BlurStyle.outer)
-              ],
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.r),
-                  topRight: Radius.circular(30.r)),
-              color: Colors.white,
-              // gradient: LinearGradient(
-              //     colors: [Colors.white, AppColors.primary.withOpacity(0.05)],
-              //     begin: Alignment.topCenter,
-              //     end: Alignment.bottomCenter),
-            ),
-            child: Padding(
-              padding: REdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  Text("Pick an Image",
-                      style: GoogleFonts.poppins(
-                        textStyle:
-                            AppFontStyle.text_18_400(AppColors.mediumText),
-                      )),
-                  hBox(18),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          controller.pickImageFromCamera();
-                          // _pickImageFromCamera();
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: REdgeInsets.all(10.h),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: AppColors.primary.withOpacity(0.2),
-                                  blurRadius: 5,
-                                  blurStyle: BlurStyle.outer)
-                            ],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.r)),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.photo_camera_outlined,
-                                color: AppColors.lightText,
-                                size: 24.h,
-                              ),
-                              Text(
-                                "Camera",
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.lightText),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          controller.pickImageFromGallery();
-
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          padding: REdgeInsets.all(10.h),
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  color: AppColors.primary.withOpacity(0.2),
-                                  blurRadius: 5,
-                                  blurStyle: BlurStyle.outer)
-                            ],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.r)),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            children: [
-                              Icon(
-                                Icons.photo_library_outlined,
-                                color: AppColors.lightText,
-                                size: 24.h,
-                              ),
-                              Text(
-                                "Gallery",
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.lightText),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
 }

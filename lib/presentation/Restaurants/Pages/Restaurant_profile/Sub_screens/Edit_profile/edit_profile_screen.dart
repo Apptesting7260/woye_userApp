@@ -5,7 +5,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
 
-  static final EditProfileController editProfileController =
+  static final EditProfileController controller =
       Get.put(EditProfileController(), permanent: true);
 
   @override
@@ -22,7 +22,7 @@ class EditProfileScreen extends StatelessWidget {
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            imagePicker(context, editProfileController),
+            imagePicker(context, controller),
             hBox(30),
             profileDetails(),
             hBox(20),
@@ -41,7 +41,7 @@ class EditProfileScreen extends StatelessWidget {
         bottomSheet(context);
       },
       child: GetBuilder(
-          init: editProfileController,
+          init: controller,
           builder: (context) {
             return SizedBox(
               height: 100.h,
@@ -54,12 +54,12 @@ class EditProfileScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100.r),
                           // shape: BoxShape.circle,
                           border: Border.all(
-                              color: editProfileController.image == null
+                              color: controller.image == null
                                   ? Colors.transparent
                                   : Colors.transparent)),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(100.r),
-                        child: editProfileController.image == null
+                        child: controller.image == null
                             ? CircleAvatar(
                                 backgroundColor:
                                     AppColors.greyBackground.withOpacity(0.5),
@@ -69,7 +69,7 @@ class EditProfileScreen extends StatelessWidget {
                                   color: AppColors.lightText.withOpacity(0.5),
                                 ))
                             : Image.file(
-                                editProfileController.image!,
+                                controller.image!,
                                 fit: BoxFit.cover,
                               ),
                       )),
@@ -169,21 +169,29 @@ class EditProfileScreen extends StatelessWidget {
         ),
         hBox(15),
         CustomTextFormField(
-          controller: editProfileController.mobNoCon!.value,
+          controller: controller.mobNoCon!.value,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
           ],
-          prefix: CountryCodePicker(
-              showFlag: false,
-              padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
-              onChanged: (CountryCode countryCode) {
-                editProfileController.updateCountryCode(countryCode);
-                editProfileController.showError.value = false;
-                int? countrylength = editProfileController
-                    .countryPhoneDigits[countryCode.code.toString()];
-                editProfileController.checkCountryLength = countrylength!;
-              },
-              initialSelection: "IN"),
+          prefixConstraints: BoxConstraints(maxWidth: 100),
+          prefix: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CountryCodePicker(
+                  showFlag: false,
+                  padding: REdgeInsets.symmetric(horizontal: 0, vertical: 9),
+                  onChanged: (CountryCode countryCode) {
+                    controller.updateCountryCode(countryCode);
+                    controller.showError.value = false;
+                    int? countrylength = controller
+                        .countryPhoneDigits[countryCode.code.toString()];
+                    controller.checkCountryLength = countrylength!;
+                  },
+                  initialSelection: "IN"),
+              Icon(Icons.keyboard_arrow_down_rounded),
+              wBox(5),
+            ],
+          ),
           hintText: "Phone Number",
           textInputType: TextInputType.phone,
         ),

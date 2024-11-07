@@ -95,7 +95,12 @@ class DeliveryAddressScreen extends StatelessWidget {
                                     AppColors.lightText),
                               ),
                               const Spacer(),
-                              SvgPicture.asset("assets/svg/edit.svg")
+                              InkWell(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.editAddressScreen);
+                                  },
+                                  child:
+                                      SvgPicture.asset("assets/svg/edit.svg"))
                               // SvgPicture.asset(
                               //     "assets/svg/green-check-circle.svg")
                             ],
