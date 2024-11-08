@@ -6,6 +6,6 @@ class GroceryNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: HomeScreen());
+    return const Scaffold(body: HomeScreen());
   }
 }

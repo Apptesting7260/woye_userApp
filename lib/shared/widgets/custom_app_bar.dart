@@ -56,15 +56,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         actions: actions ??
             (isActions
                 ? [
-                    Container(
-                      padding: REdgeInsets.all(9),
-                      height: 44.h,
-                      width: 44.h,
-                      decoration: BoxDecoration(
-                          color: AppColors.greyBackground,
-                          borderRadius: BorderRadius.circular(12.r)),
-                      child: SvgPicture.asset(
-                        ImageConstants.notification,
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.notifications);
+                      },
+                      child: Container(
+                        padding: REdgeInsets.all(9),
+                        height: 44.h,
+                        width: 44.h,
+                        decoration: BoxDecoration(
+                            color: AppColors.greyBackground,
+                            borderRadius: BorderRadius.circular(12.r)),
+                        child: SvgPicture.asset(
+                          ImageConstants.notification,
+                        ),
                       ),
                     ),
                   ]

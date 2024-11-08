@@ -347,7 +347,7 @@ class FilterChipWidget extends StatelessWidget {
   final String label;
   final RxBool isSelect; // Declare isSelect as a field
 
-  FilterChipWidget({
+  const FilterChipWidget({
     super.key,
     required this.label,
     required this.isSelect, // Pass it as a parameter

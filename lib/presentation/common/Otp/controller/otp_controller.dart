@@ -1,9 +1,29 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
+import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class OtpController extends GetxController {
   final Rx<TextEditingController> otpPin = TextEditingController().obs;
   var otpVerify = false.obs;
+  final OtpScreen _otpScreen = OtpScreen();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final _api = Repository();
+
+  final rxRequestStatus = Status.COMPLETED.obs;
+  final registerData = RegisterModel().obs;
+  RxString error = ''.obs;
+  String mobNumber = "";
+
+  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  void signUpSet(RegisterModel _value) => registerData.value = _value;
+  void setError(String _value) => error.value = _value;
+
+  @override
+  void onInit() {
+    mobNumber = _otpScreen.mobileNumber ?? "";
+    super.onInit();
+  }
 
   @override
   void onClose() {
@@ -42,8 +62,6 @@ class OtpController extends GetxController {
         ),
       ));
 
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
   Future<bool> verifyOtp({
     required String verificationId,
     required String smsCode,
@@ -65,6 +83,12 @@ class OtpController extends GetxController {
       }
       return false;
     }
+  }
+
+  void registerApi() async {
+    String? tokenFcm = await FirebaseMessaging.instance.getToken();
+
+    Map data = {"mob_no": ""};
   }
 
 // OtpTimerButtonController otpTimerButtonController =

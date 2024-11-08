@@ -13,7 +13,7 @@ class CustomSliverAppBar extends StatelessWidget {
         floating: true,
         expandedHeight: 70.h,
         flexibleSpace: FlexibleSpaceBar(
-          titlePadding: EdgeInsets.only(top: 10, bottom: 15),
+          titlePadding: const EdgeInsets.only(top: 10, bottom: 15),
           title: SizedBox(
             height: 35.h,
             child: CustomTextFormField(

@@ -48,7 +48,7 @@ class AddAddressScreen extends StatelessWidget {
   }
 
   Widget fullName() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "Full Name",
     );
   }
@@ -59,7 +59,7 @@ class AddAddressScreen extends StatelessWidget {
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],
-      prefixConstraints: BoxConstraints(maxWidth: 100),
+      prefixConstraints: const BoxConstraints(maxWidth: 100),
       prefix: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -74,7 +74,7 @@ class AddAddressScreen extends StatelessWidget {
                 controller.checkCountryLength = countrylength!;
               },
               initialSelection: "IN"),
-          Icon(Icons.keyboard_arrow_down_rounded),
+          const Icon(Icons.keyboard_arrow_down_rounded),
           wBox(5),
         ],
       ),
@@ -84,13 +84,13 @@ class AddAddressScreen extends StatelessWidget {
   }
 
   Widget houseNo() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "House No./Flat No./ Apartment No.",
     );
   }
 
   Widget address() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "Address",
     );
   }
@@ -139,7 +139,7 @@ class AddAddressScreen extends StatelessWidget {
   }
 
   Widget zipPostalCode() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "Zip/Postal Code",
     );
   }

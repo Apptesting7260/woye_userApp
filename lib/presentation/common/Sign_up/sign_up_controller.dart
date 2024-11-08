@@ -53,7 +53,7 @@ class SignUpController extends GetxController {
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
-            print('${e.code}');
+            print(e.code);
             SnackBarUtils.showToastCenter(
                 'The provided phone number is not valid.');
             isLoding.value = false;
@@ -115,7 +115,7 @@ class SignUpController extends GetxController {
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
-            print('${e.code}');
+            print(e.code);
             SnackBarUtils.showToastCenter(
                 'The provided phone number is not valid.');
           } else {

@@ -1,7 +1,5 @@
 import 'package:woye_user/Presentation/Common/Sign_up_form/sign_up_form_controller.dart';
-import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/shared/widgets/custom_app_bar.dart';
 
 class SignUpFormScreen extends StatelessWidget {
   const SignUpFormScreen({super.key});
@@ -20,23 +18,13 @@ class SignUpFormScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Fill your profile",
-              style: AppFontStyle.text_40_600(AppColors.darkText),
-            ),
-            hBox(24),
-            Text(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-              style: AppFontStyle.text_16_400(AppColors.lightText),
-            ),
+            header(),
             hBox(30),
+            //
             form(signUpFormController, context),
             hBox(20),
-            CustomElevatedButton(
-                text: "Continue",
-                onPressed: () {
-                  Get.toNamed(AppRoutes.restaurantNavbar);
-                }),
+            //
+            continueButton(),
             hBox(40),
           ],
         ),
@@ -44,7 +32,27 @@ class SignUpFormScreen extends StatelessWidget {
     );
   }
 
-  Form form(SignUpFormController signUpFormController, BuildContext context) {
+  Widget header() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Fill your profile",
+          style: AppFontStyle.text_36_600(AppColors.darkText),
+        ),
+        hBox(15),
+        Text(
+          "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+          style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
+              color: AppColors.lightText),
+        ),
+      ],
+    );
+  }
+
+  Widget form(SignUpFormController signUpFormController, BuildContext context) {
     return Form(
         key: signUpFormController.formSignUpKey,
         onChanged: () {
@@ -209,6 +217,14 @@ class SignUpFormScreen extends StatelessWidget {
     );
   }
 
+  Widget continueButton() {
+    return CustomElevatedButton(
+        text: "Continue",
+        onPressed: () {
+          Get.toNamed(AppRoutes.restaurantNavbar);
+        });
+  }
+
   Future bottomSheet(BuildContext context) {
     final SignUpFormController controller = Get.find<SignUpFormController>();
     return showModalBottomSheet(
@@ -332,5 +348,4 @@ class SignUpFormScreen extends StatelessWidget {
           );
         });
   }
-
 }

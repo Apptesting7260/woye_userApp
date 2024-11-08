@@ -44,25 +44,25 @@ class AddCardScreen extends StatelessWidget {
   }
 
   Widget cardHolderName() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "Card Holder Name",
     );
   }
 
   Widget cardNumber() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "Card Number",
     );
   }
 
   Widget monthYear() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "MM/YY",
     );
   }
 
   Widget cvv() {
-    return CustomTextFormField(
+    return const CustomTextFormField(
       hintText: "CVV",
     );
   }

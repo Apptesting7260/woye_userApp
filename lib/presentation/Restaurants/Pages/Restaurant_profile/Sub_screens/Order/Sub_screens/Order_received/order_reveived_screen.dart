@@ -47,7 +47,7 @@ class OrderReveivedScreen extends StatelessWidget {
               onPressed: () {
                 Get.toNamed(AppRoutes.reviewDriver);
               },
-              child: Text("Review This Driver"),
+              child: const Text("Review This Driver"),
             ),
           ],
         ),

@@ -24,7 +24,7 @@ class SocialLoginController extends GetxController {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      print('user crediental -------------${credential}');
+      print('user crediental -------------$credential');
       print(
           'details------${googleUser?.displayName}---${googleUser
               ?.email}---${googleUser?.photoUrl}---${googleUser

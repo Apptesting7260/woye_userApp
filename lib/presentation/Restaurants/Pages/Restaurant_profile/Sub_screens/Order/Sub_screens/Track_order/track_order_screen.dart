@@ -73,7 +73,7 @@ class TrackOrderScreen extends StatelessWidget {
               )
             ],
           ),
-          Spacer(),
+          const Spacer(),
           CircleAvatar(
             radius: 20.r,
             child: SvgPicture.asset(

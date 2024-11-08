@@ -173,7 +173,7 @@ class EditProfileScreen extends StatelessWidget {
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
           ],
-          prefixConstraints: BoxConstraints(maxWidth: 100),
+          prefixConstraints: const BoxConstraints(maxWidth: 100),
           prefix: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -188,7 +188,7 @@ class EditProfileScreen extends StatelessWidget {
                     controller.checkCountryLength = countrylength!;
                   },
                   initialSelection: "IN"),
-              Icon(Icons.keyboard_arrow_down_rounded),
+              const Icon(Icons.keyboard_arrow_down_rounded),
               wBox(5),
             ],
           ),

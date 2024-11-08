@@ -174,7 +174,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   decoration: TextDecoration.lineThrough,
                   decorationColor: AppColors.mediumText),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
               height: 40.h,
               width: 100.w,

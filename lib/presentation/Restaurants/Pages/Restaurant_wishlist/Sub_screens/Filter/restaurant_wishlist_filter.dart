@@ -96,8 +96,8 @@ class _FilterScreenState extends State<RestaurantWishlistFilter> {
                   controlAffinity: ListTileControlAffinity.leading,
                   contentPadding: EdgeInsets.zero,
                 );
-              }).toList(),
-              SizedBox(height: 16),
+              }),
+              const SizedBox(height: 16),
 
               // Price section with radio buttons
               Text("Price",
@@ -125,12 +125,12 @@ class _FilterScreenState extends State<RestaurantWishlistFilter> {
                   });
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               // Quick Filter section with filter chips
-              Text("Sort by",
+              const Text("Sort by",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              Wrap(
+              const Wrap(
                 spacing: 8,
                 children: [
                   FilterChipWidget(label: "Newest"),
@@ -147,7 +147,7 @@ class _FilterScreenState extends State<RestaurantWishlistFilter> {
                   Text("Price Range",
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 18.sp)),
-                  Text("\&500 - \$1000",
+                  Text("&500 - \$1000",
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 16.sp,
@@ -235,7 +235,7 @@ class _FilterScreenState extends State<RestaurantWishlistFilter> {
 class FilterChipWidget extends StatelessWidget {
   final String label;
 
-  const FilterChipWidget({required this.label});
+  const FilterChipWidget({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -253,7 +253,7 @@ class CustomRadioCircle extends StatelessWidget {
   final int groupValue;
   final ValueChanged<int?> onChanged;
 
-  CustomRadioCircle({
+  const CustomRadioCircle({super.key, 
     required this.title,
     required this.value,
     required this.groupValue,
@@ -271,8 +271,8 @@ class CustomRadioCircle extends StatelessWidget {
           Container(
             height: 20.h,
             width: 20.h,
-            margin: EdgeInsets.symmetric(vertical: 8.0),
-            padding: EdgeInsets.all(16.0),
+            margin: const EdgeInsets.symmetric(vertical: 8.0),
+            padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
@@ -283,7 +283,7 @@ class CustomRadioCircle extends StatelessWidget {
           wBox(10),
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 18,
               fontFamily: 'Gilroy-Regular',

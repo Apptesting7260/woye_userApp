@@ -9,10 +9,10 @@ class CustomHeaderWithNotification extends StatelessWidget {
   final VoidCallback? onNotificationTap;
 
   const CustomHeaderWithNotification({
-    Key? key,
+    super.key,
     required this.title,
     this.onNotificationTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

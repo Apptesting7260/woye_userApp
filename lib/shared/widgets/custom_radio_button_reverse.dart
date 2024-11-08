@@ -44,7 +44,7 @@ class CustomTitleRadioButton extends StatelessWidget {
                 bool isSelected = value.value == groupValue.value;
 
                 return AnimatedContainer(
-                  duration: Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 200),
                   height: 20.h,
                   width: 20.h,
                   margin: EdgeInsets.symmetric(vertical: 8.0.h),
@@ -57,7 +57,7 @@ class CustomTitleRadioButton extends StatelessWidget {
                             isSelected ? AppColors.primary : AppColors.black),
                   ),
                   child: AnimatedContainer(
-                    duration: Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 200),
                     margin: EdgeInsets.all(2.h),
                     decoration: BoxDecoration(
                       color:

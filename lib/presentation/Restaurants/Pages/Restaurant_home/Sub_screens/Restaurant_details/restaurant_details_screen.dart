@@ -125,7 +125,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
         hBox(20),
         Row(
           children: [
-            Icon(Icons.person_outline_rounded),
+            const Icon(Icons.person_outline_rounded),
             wBox(8),
             Text(
               "John Doe",
@@ -141,7 +141,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
         hBox(10),
         Row(
           children: [
-            Icon(Icons.mail_outline_rounded),
+            const Icon(Icons.mail_outline_rounded),
             wBox(8),
             Text(
               "restaurants@gmail.com",
@@ -152,7 +152,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
         hBox(10),
         Row(
           children: [
-            Icon(Icons.location_on_outlined),
+            const Icon(Icons.location_on_outlined),
             wBox(8),
             Text(
               "Greenfield, Abc Manchester, 199",

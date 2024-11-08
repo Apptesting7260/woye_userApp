@@ -47,7 +47,7 @@ class OrderConfirmScreen extends StatelessWidget {
               onPressed: () async {
                 await Get.offAllNamed(AppRoutes.restaurantNavbar);
               },
-              child: Text("Continue Shopping"),
+              child: const Text("Continue Shopping"),
             ),
           ],
         ),

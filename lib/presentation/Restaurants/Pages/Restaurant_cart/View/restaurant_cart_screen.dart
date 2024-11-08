@@ -373,7 +373,7 @@ class RestaurantCartScreen extends StatelessWidget {
                     ],
                   ),
                   hBox(15),
-                  PromoCodes().promoCodeList(),
+                  const PromoCodes().promoCodeList(),
                 ],
               ),
             ),

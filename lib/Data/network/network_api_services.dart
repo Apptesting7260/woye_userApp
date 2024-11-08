@@ -28,6 +28,7 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+  @override
   Future<dynamic> getApi(String url, String token) async {
     if (kDebugMode) {
       print(url);
@@ -36,7 +37,7 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
     try {
       final response = await http.get(Uri.parse(url), headers: {
-        "Authorization": "Bearer ${token}"
+        "Authorization": "Bearer $token"
       }).timeout(const Duration(seconds: 50));
 
       responseJson = returnResponse(response);
@@ -62,17 +63,17 @@ class NetworkApiServices extends BaseApiServices {
       print("url@calling : ${url.toString()}");
       final response = await http
           .post(Uri.parse(url),
-              headers: {"Authorization": "Bearer ${token}"}, body: data)
+              headers: {"Authorization": "Bearer $token"}, body: data)
           .timeout(const Duration(seconds: 50));
       responseJson = returnResponse(response);
-      print("data: ${response}");
+      print("data: $response");
     } on SocketException {
       throw InternetException('');
     } on RequestTimeOut {
       throw RequestTimeOut('');
     }
     if (kDebugMode) {
-      print("${responseJson}");
+      print("$responseJson");
     }
     return responseJson;
   }
@@ -102,8 +103,7 @@ class NetworkApiServices extends BaseApiServices {
 
       default:
         throw FetchDataException(
-            'Error accoured while communicating with server ' +
-                response.statusCode.toString());
+            'Error accoured while communicating with server ${response.statusCode}');
       // default:
       //   dynamic responseJson = jsonDecode(response.body);
       //   return responseJson;

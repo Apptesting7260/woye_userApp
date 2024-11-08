@@ -23,18 +23,38 @@ class RestaurantProfileScreen extends StatelessWidget {
           children: [
             profileDetails(context),
             hBox(30),
-            profileOptions(),
+            //
+            editProfile(),
+            //
+            orders(),
+            //
+            deliveryAddress(),
+            //
+            paymentMethod(),
+            //
+            myWallet(),
+            //
+            promotionalCodes(),
+            //
+            inviteFriends(),
+            //
+            settings(),
+            //
+            help(),
+            //
+            logout(),
+            hBox(100),
           ],
         ),
       ),
     );
   }
 
-  Container profileDetails(BuildContext context) {
+  Widget profileDetails(BuildContext context) {
     return Container(
       padding: REdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppColors.lightPrimary,
+        color: AppColors.ultraLightPrimary,
         borderRadius: BorderRadius.circular(15.0.r),
       ),
       child: Row(
@@ -78,142 +98,163 @@ class RestaurantProfileScreen extends StatelessWidget {
     );
   }
 
-  Column profileOptions() {
-    return Column(
-      children: [
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
-          title: Text(
-            'Edit Profile',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.editProfile);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/cart-dark.svg"),
-          title: Text(
-            'Orders',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.orders);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/location-pin-dark.svg"),
-          title: Text(
-            'Delivery Address',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.deliveryAddressScreen);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
-          title: Text(
-            'Payment Method',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to payment method
-            Get.toNamed(AppRoutes.paymentMethod);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/wallet-dark.svg"),
-          title: Text(
-            'My Wallet',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.myWallet);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/coupon-dark.svg"),
-          title: Text(
-            'Promotion Code',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.promoCode);
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
-          title: Text(
-            'Invite Friends',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to invite friends
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/settings-dark.svg"),
-          title: Text(
-            'Settings',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to settings
-          },
-        ),
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/help-dark.svg"),
-          title: Text(
-            'Help',
-            style: AppFontStyle.text_16_500(AppColors.darkText),
-          ),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            // Navigate to help
-          },
-        ),
-        // Logout Option
-        ListTile(
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          leading: SvgPicture.asset("assets/svg/logout.svg"),
-          title: Text(
-            'Logout',
-            style: AppFontStyle.text_16_500(AppColors.primary),
-          ),
-          onTap: () {
-            // Handle logout
-          },
-        ),
-        hBox(100)
-      ],
+  Widget editProfile() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
+      title: Text(
+        'Edit Profile',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Get.toNamed(AppRoutes.editProfile);
+      },
+    );
+  }
+
+  Widget orders() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/cart-dark.svg"),
+      title: Text(
+        'Orders',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Get.toNamed(AppRoutes.orders);
+      },
+    );
+  }
+
+  Widget deliveryAddress() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/location-pin-dark.svg"),
+      title: Text(
+        'Delivery Address',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Get.toNamed(AppRoutes.deliveryAddressScreen);
+      },
+    );
+  }
+
+  Widget paymentMethod() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
+      title: Text(
+        'Payment Method',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        // Navigate to payment method
+        Get.toNamed(AppRoutes.paymentMethod);
+      },
+    );
+  }
+
+  Widget myWallet() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/wallet-dark.svg"),
+      title: Text(
+        'My Wallet',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Get.toNamed(AppRoutes.myWallet);
+      },
+    );
+  }
+
+  Widget promotionalCodes() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/coupon-dark.svg"),
+      title: Text(
+        'Promotion Code',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Get.toNamed(AppRoutes.promoCode);
+      },
+    );
+  }
+
+  Widget inviteFriends() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
+      title: Text(
+        'Invite Friends',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Get.toNamed(AppRoutes.inviteFriends);
+      },
+    );
+  }
+
+  Widget settings() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/settings-dark.svg"),
+      title: Text(
+        'Settings',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        // Navigate to settings
+      },
+    );
+  }
+
+  Widget help() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/help-dark.svg"),
+      title: Text(
+        'Help',
+        style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        // Navigate to help
+      },
+    );
+  }
+
+  Widget logout() {
+    return ListTile(
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/logout.svg"),
+      title: Text(
+        'Logout',
+        style: AppFontStyle.text_16_500(AppColors.primary),
+      ),
+      onTap: () {
+        // Handle logout
+      },
     );
   }
 }

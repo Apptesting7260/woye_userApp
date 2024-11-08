@@ -194,7 +194,7 @@ class PaymentMethodScreen extends StatelessWidget {
               style: AppFontStyle.text_16_400(AppColors.primary),
             ),
             const Spacer(),
-            Icon(Icons.arrow_forward_ios_sharp)
+            const Icon(Icons.arrow_forward_ios_sharp)
           ],
         ),
       ),

@@ -72,7 +72,7 @@ class RestaurantCategoriesScreen extends StatelessWidget {
                                   )
                                 ],
                               ),
-                              Icon(Icons.arrow_forward_ios),
+                              const Icon(Icons.arrow_forward_ios),
                             ],
                           ),
                         ),

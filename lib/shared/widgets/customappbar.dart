@@ -6,10 +6,10 @@ class CustomAppBar1 extends StatelessWidget {
   final bool showBackButton;
 
   const CustomAppBar1({
-    Key? key,
+    super.key,
     required this.title,
     this.showBackButton = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class CustomAppBar1 extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(width: 44), // Empty space to balance the layout
+        const SizedBox(width: 44), // Empty space to balance the layout
       ],
     );
   }

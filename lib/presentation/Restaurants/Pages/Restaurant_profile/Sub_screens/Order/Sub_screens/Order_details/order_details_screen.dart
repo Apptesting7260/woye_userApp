@@ -123,7 +123,7 @@ class OrderDetailsScreen extends StatelessWidget {
             ],
           ),
           hBox(10),
-          Divider(),
+          const Divider(),
           hBox(10),
           Text(
             "Delivery Address",
@@ -163,7 +163,7 @@ class OrderDetailsScreen extends StatelessWidget {
         child: CustomExpansionTile(
           title: "Order Id #1947034",
           children: [
-            Divider(),
+            const Divider(),
             hBox(20),
             Row(
               children: [
@@ -204,7 +204,7 @@ class OrderDetailsScreen extends StatelessWidget {
               ],
             ),
             hBox(15),
-            Divider(),
+            const Divider(),
             hBox(15),
             Row(
               children: [
@@ -245,7 +245,7 @@ class OrderDetailsScreen extends StatelessWidget {
               ],
             ),
             hBox(15),
-            Divider(),
+            const Divider(),
             hBox(15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -289,7 +289,7 @@ class OrderDetailsScreen extends StatelessWidget {
               ],
             ),
             hBox(15),
-            Divider(),
+            const Divider(),
             hBox(15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -315,7 +315,7 @@ class OrderDetailsScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.r),
           border: Border.all(color: AppColors.textFieldBorder)),
       child: CustomExpansionTile(title: "Payments Details", children: [
-        Divider(),
+        const Divider(),
         hBox(15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

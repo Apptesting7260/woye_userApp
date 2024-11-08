@@ -19,148 +19,23 @@ class LoginScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               hBox(100),
-              Text(
-                "Login to your\nAccount",
-                style: AppFontStyle.text_40_600(AppColors.darkText),
-              ),
-              hBox(24),
-              Text(
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-              hBox(50),
-              CustomTextFormField(
-                controller: loginController.mobNoCon.value,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
-                prefix: CountryCodePicker(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
-                    onChanged: (CountryCode countryCode) {
-                      loginController.updateCountryCode(countryCode);
-                      loginController.showError.value = false;
-                      int? countrylength = loginController
-                          .countryPhoneDigits[countryCode.code.toString()];
-                      loginController.chackCountryLength = countrylength!;
-                    },
-                    initialSelection: "IN"),
-                hintText: "Phone Number",
-                textInputType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
-                  }
-                  if (value.length != loginController.chackCountryLength) {
-                    return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
-                  }
-                  return null;
-                },
-              ),
+              //
+              header(),
+              hBox(40),
+              //
+              formField(),
               hBox(20),
-              Obx(() => CustomElevatedButton(
-                    text: "Sign In",
-                    isLoading: loginController.isLoding.value,
-                    onPressed: () {
-                      if (loginController.loginFormKey.currentState!
-                          .validate()) {
-                        loginController.sendOtp();
-                      }
-                    },
-                  )),
-              hBox(30),
-              Row(
-                children: [
-                  Expanded(
-                    child: Divider(
-                      thickness: 1.h,
-                      color: AppColors.greyBackground,
-                      endIndent: 16.w,
-                    ),
-                  ),
-                  Text(
-                    "or continue with",
-                    style: AppFontStyle.text_16_400(AppColors.lightText),
-                  ),
-                  Expanded(
-                    child: Divider(
-                      thickness: 1.h,
-                      color: AppColors.greyBackground,
-                      indent: 16.w,
-                    ),
-                  ),
-                ],
-              ),
-              hBox(30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  facebookButton(),
-                  wBox(15),
-                  googleButton(),
-                  wBox(15),
-                  appleButton(),
-                ],
-              ),
+              //
+              signInButton(),
+              hBox(20),
+              //
+              continueText(),
+              hBox(20),
+              //
+              socialButtons(),
               const Spacer(),
-              Column(
-                children: [
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Get.toNamed(AppRoutes.restaurantNavbar);
-                    },
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: REdgeInsets.only(
-                          bottom: 30,
-                        ),
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: "Home",
-                              style: AppFontStyle.text_16_400(
-                                  AppColors.lightText)),
-                          TextSpan(
-                              text: "screen",
-                              style: AppFontStyle.text_16_600(
-                                AppColors.darkText,
-                              )),
-                        ])),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      Get.toNamed(AppRoutes.signUp);
-                    },
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: REdgeInsets.only(
-                          bottom: 30,
-                        ),
-                        child: RichText(
-                            text: TextSpan(children: [
-                          TextSpan(
-                              text: "Don't have an account? ",
-                              style: AppFontStyle.text_16_400(
-                                  AppColors.lightText)),
-                          TextSpan(
-                              text: "Sign Up",
-                              style: AppFontStyle.text_16_600(
-                                AppColors.darkText,
-                              )),
-                        ])),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              //
+              signUpButton()
             ],
           ),
         ),
@@ -168,35 +43,179 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  CustomRoundedButton facebookButton() {
-    return CustomRoundedButton(
-      onPressed: () {},
-      child: SvgPicture.asset(
-        ImageConstants.fbLogo,
-        height: 26.h,
-        width: 26.h,
+  Widget header() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(
+        "Login to your\nAccount",
+        style: AppFontStyle.text_36_600(AppColors.darkText),
       ),
+      hBox(20),
+      Text(
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+        style: TextStyle(
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
+            color: AppColors.lightText),
+      ),
+    ]);
+  }
+
+  Widget formField() {
+    return CustomTextFormField(
+      controller: loginController.mobNoCon.value,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      prefix: CountryCodePicker(
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
+          onChanged: (CountryCode countryCode) {
+            loginController.updateCountryCode(countryCode);
+            loginController.showError.value = false;
+            int? countrylength =
+                loginController.countryPhoneDigits[countryCode.code.toString()];
+            loginController.chackCountryLength = countrylength!;
+          },
+          initialSelection: "IN"),
+      hintText: "Phone Number",
+      textInputType: TextInputType.phone,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your phone number';
+        }
+        if (value.length != loginController.chackCountryLength) {
+          return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
+        }
+        return null;
+      },
     );
   }
 
-  CustomRoundedButton googleButton() {
-    return CustomRoundedButton(
-        onPressed: () {},
-        child: SvgPicture.asset(
-          ImageConstants.googleLogo,
-          height: 26.h,
-          width: 26.h,
+  Widget signInButton() {
+    return Obx(() => CustomElevatedButton(
+          text: "Sign In",
+          isLoading: loginController.isLoding.value,
+          onPressed: () {
+            if (loginController.loginFormKey.currentState!.validate()) {
+              loginController.sendOtp();
+            }
+          },
         ));
   }
 
-  CustomRoundedButton appleButton() {
-    return CustomRoundedButton(
-      onPressed: () {},
-      child: SvgPicture.asset(
-        ImageConstants.appleLogo,
-        height: 26.h,
-        width: 26.h,
-      ),
+  Widget continueText() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            thickness: 1.h,
+            color: AppColors.greyBackground,
+            endIndent: 16.w,
+          ),
+        ),
+        Text(
+          "or continue with",
+          style: AppFontStyle.text_16_400(AppColors.lightText),
+        ),
+        Expanded(
+          child: Divider(
+            thickness: 1.h,
+            color: AppColors.greyBackground,
+            indent: 16.w,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget socialButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CustomRoundedButton(
+          onPressed: () {},
+          child: SvgPicture.asset(
+            ImageConstants.fbLogo,
+            height: 26.h,
+            width: 26.h,
+          ),
+        ),
+        wBox(15),
+        CustomRoundedButton(
+            onPressed: () {},
+            child: SvgPicture.asset(
+              ImageConstants.googleLogo,
+              height: 26.h,
+              width: 26.h,
+            )),
+        wBox(15),
+        CustomRoundedButton(
+          onPressed: () {},
+          child: SvgPicture.asset(
+            ImageConstants.appleLogo,
+            height: 26.h,
+            width: 26.h,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget signUpButton() {
+    return Column(
+      children: [
+        InkWell(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onTap: () {
+            Get.toNamed(AppRoutes.restaurantNavbar);
+          },
+          child: Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: REdgeInsets.only(
+                bottom: 30,
+              ),
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: "Home",
+                    style: AppFontStyle.text_16_400(AppColors.lightText)),
+                TextSpan(
+                    text: "screen",
+                    style: AppFontStyle.text_16_600(
+                      AppColors.darkText,
+                    )),
+              ])),
+            ),
+          ),
+        ),
+        InkWell(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onTap: () {
+            Get.toNamed(AppRoutes.signUp);
+          },
+          child: Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: REdgeInsets.only(
+                bottom: 30,
+              ),
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                    text: "Don't have an account? ",
+                    style: AppFontStyle.text_16_400(AppColors.lightText)),
+                TextSpan(
+                    text: "Sign Up",
+                    style: AppFontStyle.text_16_600(
+                      AppColors.darkText,
+                    )),
+              ])),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

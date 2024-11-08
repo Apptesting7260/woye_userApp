@@ -6,7 +6,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
-  static DeliveryAddressScreen deliveryAddressScreen = DeliveryAddressScreen();
+  static DeliveryAddressScreen deliveryAddressScreen = const DeliveryAddressScreen();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,9 +85,9 @@ class CheckoutScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
         hBox(15),
-        PaymentMethodScreen().methodList(),
+        const PaymentMethodScreen().methodList(),
         hBox(15),
-        PaymentMethodScreen().addNewCard()
+        const PaymentMethodScreen().addNewCard()
       ],
     );
   }
