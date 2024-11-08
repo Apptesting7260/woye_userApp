@@ -6,7 +6,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 class OtpController extends GetxController {
   final Rx<TextEditingController> otpPin = TextEditingController().obs;
   var otpVerify = false.obs;
-  final OtpScreen _otpScreen = OtpScreen();
+  // final OtpScreen _otpScreen = OtpScreen();
   final FirebaseAuth auth = FirebaseAuth.instance;
   final _api = Repository();
 
@@ -21,7 +21,7 @@ class OtpController extends GetxController {
 
   @override
   void onInit() {
-    mobNumber = _otpScreen.mobileNumber ?? "";
+    // mobNumber = _otpScreen.mobileNumber ?? "";
     super.onInit();
   }
 

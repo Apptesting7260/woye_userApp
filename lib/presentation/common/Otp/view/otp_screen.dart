@@ -4,8 +4,10 @@ import 'package:woye_user/Presentation/Common/Otp/controller/otp_controller.dart
 import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 
 class OtpScreen extends StatelessWidget {
-  String? mobileNumber = Get.arguments["mob"];
-  OtpScreen({super.key, this.mobileNumber});
+  // String? mobileNumber = Get.arguments["mob"];
+  OtpScreen({
+    super.key,
+  });
 
   final LoginController loginController = Get.put(LoginController());
   final SignUpController signUpController = Get.put(SignUpController());
@@ -15,8 +17,7 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = Get.arguments as Map<String, dynamic>;
     final from = arguments['type'];
-    final mob = mobileNumber ;
- 
+    final mob = arguments['mob'];
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -29,16 +30,12 @@ class OtpScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             hBox(20),
-            //
             header(mob),
             hBox(30),
-            //
             otpField(),
             hBox(20),
-            //
             verifyButton(from),
             hBox(10),
-            //
             resendOtp(from)
           ],
         ),
