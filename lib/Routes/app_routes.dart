@@ -40,6 +40,8 @@ import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
 import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Settings/Sub_screens/Notifications_settings/notifications_settings_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Settings/view/settings_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 
 class AppRoutes {
@@ -85,6 +87,8 @@ class AppRoutes {
   static const String myWalletFilter = "/my_wallet_filter";
   static const String inviteFriends = "/invite_friends";
   static const String notifications = "/notifications";
+  static const String settings = "/settings";
+  static const String notificationsSettings = "/notifications_settings";
 
   static List<GetPage> pages = [
     GetPage(
@@ -141,6 +145,10 @@ class AppRoutes {
     GetPage(name: myWallet, page: () => const MyWalletScreen()),
     GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),
     GetPage(name: notifications, page: () => const NotificationsScreen()),
+    GetPage(name: settings, page: () => const SettingsScreen()),
+    GetPage(
+        name: notificationsSettings,
+        page: () => const NotificationsSettingsScreen()),
     GetPage(
         name: transactionHistory, page: () => const TransactionHistoryScreen()),
     GetPage(name: myWalletFilter, page: () => const MyWalletFilter()),
