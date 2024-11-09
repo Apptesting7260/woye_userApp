@@ -55,6 +55,28 @@ class SignUpScreen extends StatelessWidget {
     ]);
   }
 
+  // Widget formField() {
+  //   return CustomTextFormField(
+  //     controller: signUpController.mobNoCon.value,
+  //     inputFormatters: [
+  //       FilteringTextInputFormatter.digitsOnly,
+  //     ],
+  //     prefix: CountryCodePicker(
+  //         showFlag: false,
+  //         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
+  //         onChanged: (CountryCode countryCode) {
+  //           signUpController.updateCountryCode(countryCode);
+  //           signUpController.showError.value = false;
+  //           int? countrylength = signUpController
+  //               .countryPhoneDigits[countryCode.code.toString()];
+  //           signUpController.checkCountryLength = countrylength!;
+  //         },
+  //         initialSelection: "IN"),
+  //     hintText: "Phone Number",
+  //     textInputType: TextInputType.phone,
+  //   );
+  // }
+
   Widget formField() {
     return CustomTextFormField(
       controller: signUpController.mobNoCon.value,
@@ -62,21 +84,29 @@ class SignUpScreen extends StatelessWidget {
         FilteringTextInputFormatter.digitsOnly,
       ],
       prefix: CountryCodePicker(
-          showFlag: false,
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
           onChanged: (CountryCode countryCode) {
             signUpController.updateCountryCode(countryCode);
             signUpController.showError.value = false;
-            int? countrylength = signUpController
-                .countryPhoneDigits[countryCode.code.toString()];
+            int? countrylength =
+            signUpController.countryPhoneDigits[countryCode.code.toString()];
             signUpController.checkCountryLength = countrylength!;
           },
           initialSelection: "IN"),
       hintText: "Phone Number",
       textInputType: TextInputType.phone,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your phone number';
+        }
+        if (value.length != signUpController.checkCountryLength) {
+          return 'Please enter a valid phone number (${signUpController.checkCountryLength} digits required)';
+        }
+        return null;
+      },
     );
   }
-
+  
   Widget signUpButton() {
     return Obx(
       () => CustomElevatedButton(
@@ -94,32 +124,32 @@ class SignUpScreen extends StatelessWidget {
   Widget signInButton() {
     return Column(
       children: [
-        InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            Get.toNamed(AppRoutes.restaurantNavbar);
-          },
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: REdgeInsets.only(
-                bottom: 30,
-              ),
-              child: RichText(
-                  text: TextSpan(children: [
-                TextSpan(
-                    text: "Home",
-                    style: AppFontStyle.text_16_400(AppColors.lightText)),
-                TextSpan(
-                    text: "screen",
-                    style: AppFontStyle.text_16_600(
-                      AppColors.darkText,
-                    )),
-              ])),
-            ),
-          ),
-        ),
+        // InkWell(
+        //   highlightColor: Colors.transparent,
+        //   splashColor: Colors.transparent,
+        //   onTap: () {
+        //     Get.toNamed(AppRoutes.restaurantNavbar);
+        //   },
+        //   child: Align(
+        //     alignment: Alignment.center,
+        //     child: Padding(
+        //       padding: REdgeInsets.only(
+        //         bottom: 30,
+        //       ),
+        //       child: RichText(
+        //           text: TextSpan(children: [
+        //         TextSpan(
+        //             text: "Home",
+        //             style: AppFontStyle.text_16_400(AppColors.lightText)),
+        //         TextSpan(
+        //             text: "screen",
+        //             style: AppFontStyle.text_16_600(
+        //               AppColors.darkText,
+        //             )),
+        //       ])),
+        //     ),
+        //   ),
+        // ),
         InkWell(
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,

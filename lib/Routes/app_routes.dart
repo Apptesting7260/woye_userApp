@@ -108,7 +108,7 @@ class AppRoutes {
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
-      page: () => const HomeScreen(),
+      page: () => HomeScreen(),
       // binding: RestaurantNavbarBinding()
     ),
     GetPage(

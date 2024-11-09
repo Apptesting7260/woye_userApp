@@ -71,33 +71,33 @@ class WelcomeScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    Get.toNamed(AppRoutes.restaurantNavbar);
-                  },
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: REdgeInsets.only(
-                        bottom: 30,
-                      ),
-                      child: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: "Home",
-                            style:
-                                AppFontStyle.text_16_400(AppColors.lightText)),
-                        TextSpan(
-                            text: "screen",
-                            style: AppFontStyle.text_16_600(
-                              AppColors.darkText,
-                            )),
-                      ])),
-                    ),
-                  ),
-                ),
+                // InkWell(
+                //   highlightColor: Colors.transparent,
+                //   splashColor: Colors.transparent,
+                //   onTap: () {
+                //     Get.toNamed(AppRoutes.restaurantNavbar);
+                //   },
+                //   child: Align(
+                //     alignment: Alignment.center,
+                //     child: Padding(
+                //       padding: REdgeInsets.only(
+                //         bottom: 30,
+                //       ),
+                //       child: RichText(
+                //           text: TextSpan(children: [
+                //         TextSpan(
+                //             text: "Home",
+                //             style:
+                //                 AppFontStyle.text_16_400(AppColors.lightText)),
+                //         TextSpan(
+                //             text: "screen",
+                //             style: AppFontStyle.text_16_600(
+                //               AppColors.darkText,
+                //             )),
+                //       ])),
+                //     ),
+                //   ),
+                // ),
                 InkWell(
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,

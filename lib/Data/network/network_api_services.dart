@@ -7,7 +7,6 @@ import '../app_exceptions.dart';
 import 'base_api_services.dart';
 
 class NetworkApiServices extends BaseApiServices {
-
   Future<dynamic> getApiWithoutToken(String url) async {
     if (kDebugMode) {
       print(url);
@@ -87,6 +86,9 @@ class NetworkApiServices extends BaseApiServices {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 401:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
+      case 404:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 503:

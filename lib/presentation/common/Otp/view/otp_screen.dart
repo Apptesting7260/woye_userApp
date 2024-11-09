@@ -1,5 +1,10 @@
+
+
+import 'dart:developer';
+
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_controller.dart';
 import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
 
@@ -12,6 +17,7 @@ class OtpScreen extends StatelessWidget {
   final LoginController loginController = Get.put(LoginController());
   final SignUpController signUpController = Get.put(SignUpController());
   final OtpController otpController = Get.find<OtpController>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +93,37 @@ class OtpScreen extends StatelessWidget {
                     : signUpController.verificationID.value,
                 smsCode: otpController.otpPin.value.text,
                 countryCode: countryCode,
-                mob: mob);
+                mob: mob
+            );
             if (from == 'login') {
               if (verify) {
-                Get.offAllNamed(AppRoutes.restaurantNavbar);
+                final login = await otpController.loginApi(
+                    countryCode: countryCode,
+                    mob: mob
+                );
+                if(login){
+                  log("Step ==>>> ${otpController.userModel.step}");
+                  log("Navigating with step with countryCode: $countryCode, mob: $mob");
+                  otpController.userModel.step == 1 ? Get.toNamed(AppRoutes.signUpFom,arguments: {
+                    "countryCode": countryCode,
+                    "mob": mob
+                  }) :
+                  Get.offAllNamed(AppRoutes.restaurantNavbar);
+                }
               }
             } else {
               if (verify) {
-                Get.offNamed(AppRoutes.signUpFom);
+                final register = await otpController.registerApi(
+                    countryCode: countryCode,
+                    mob: mob
+                );
+                if (register) {
+                  log("Navigating with countryCode: $countryCode, mob: $mob");
+                  Get.offNamed(AppRoutes.signUpFom,arguments: {
+                    "countryCode": countryCode,
+                    "mob": mob
+                  });
+                }
               }
             }
           } // Get.toNamed(AppRoutes.signUp);

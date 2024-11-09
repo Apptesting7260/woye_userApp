@@ -87,25 +87,51 @@ class SignUpFormScreen extends StatelessWidget {
               ),
               prefixConstraints:
                   BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-              hintText: "Last name",
+              hintText: "Mobile Number",
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
               validator: signUpFormController.validateLastName,
             ),
             hBox(15),
-            CustomTextFormField(
-              controller: signUpFormController.dateOfBirthController,
-              prefix: SvgPicture.asset(
-                ImageConstants.calendar,
-              ),
-              prefixConstraints:
-                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-              hintText: "Date of birth",
-              onTapOutside: (event) {
-                FocusScope.of(context).unfocus();
-              },
-              // validator: formSignUpController.validateLastName,
+            // CustomTextFormField(
+            //   controller: signUpFormController.dateOfBirthController,
+            //   prefix: SvgPicture.asset(
+            //     ImageConstants.calendar,
+            //   ),
+            //   prefixConstraints:
+            //       BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+            //   hintText: "Date of birth",
+            //   onTapOutside: (event) {
+            //     FocusScope.of(context).unfocus();
+            //   },
+            //   // validator: formSignUpController.validateLastName,
+            // ),
+            GestureDetector(
+              onTap: () => signUpFormController.selectDate(context),
+              child: Obx(() {
+                return Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                    border: Border.all(color: AppColors.textFieldBorder),
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        ImageConstants.calendar,
+                      ),
+                      SizedBox(width: 10,),
+                      Text(
+                        signUpFormController.selectedDate.value == null
+                            ? "Date of Birth"
+                            : "${signUpFormController.selectedDate.value!.day}/${signUpFormController.selectedDate.value!.month}/${signUpFormController.selectedDate.value!.year}",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                );
+              }),
             ),
             hBox(15),
             CustomTextFormField(
@@ -221,7 +247,8 @@ class SignUpFormScreen extends StatelessWidget {
     return CustomElevatedButton(
         text: "Continue",
         onPressed: () {
-          Get.toNamed(AppRoutes.restaurantNavbar);
+          // signUpFormController.profileupdateApi();
+          Get.offAndToNamed(AppRoutes.restaurantNavbar);
         });
   }
 

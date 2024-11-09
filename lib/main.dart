@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 import 'firebase_options.dart';
@@ -20,11 +21,13 @@ Future<void> main() async {
       systemNavigationBarColor: Colors.white,
       statusBarBrightness: Brightness.light));
   Get.put(NetworkController());
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+
+  UserModel userModel = UserModel();
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +59,8 @@ class MyApp extends StatelessWidget {
               ),
               useMaterial3: true,
               fontFamily: "Gilroy"),
-          initialRoute: AppRoutes.initalRoute,
           getPages: AppRoutes.pages,
+          initialRoute: AppRoutes.initalRoute,
         );
       },
     );
