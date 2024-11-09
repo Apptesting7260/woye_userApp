@@ -17,6 +17,7 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = Get.arguments as Map<String, dynamic>;
     final from = arguments['type'];
+    final countryCode = arguments['countryCode'];
     final mob = arguments['mob'];
 
     return Scaffold(
@@ -30,11 +31,11 @@ class OtpScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             hBox(20),
-            header(mob),
+            header("${countryCode} ${mob}"),
             hBox(30),
             otpField(),
             hBox(20),
-            verifyButton(from),
+            verifyButton(from, countryCode, mob),
             hBox(10),
             resendOtp(from)
           ],
@@ -71,7 +72,7 @@ class OtpScreen extends StatelessWidget {
     );
   }
 
-  Widget verifyButton(from) {
+  Widget verifyButton(from, countryCode, mob) {
     return Obx(
       () => CustomElevatedButton(
         isLoading: otpController.otpVerify.value,
@@ -84,7 +85,9 @@ class OtpScreen extends StatelessWidget {
                 verificationId: from == 'login'
                     ? loginController.verificationID.value
                     : signUpController.verificationID.value,
-                smsCode: otpController.otpPin.value.text);
+                smsCode: otpController.otpPin.value.text,
+                countryCode: countryCode,
+                mob: mob);
             if (from == 'login') {
               if (verify) {
                 Get.offAllNamed(AppRoutes.restaurantNavbar);

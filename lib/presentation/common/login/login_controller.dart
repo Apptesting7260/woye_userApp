@@ -95,8 +95,8 @@ class LoginController extends GetxController {
             AppRoutes.otp,
             arguments: {
               'type': 'login',
-              'mob':
-                  '${selectedCountryCode.value.toString()} ${mobNoCon.value.text.trim().toString()},',
+              'countryCode': '${selectedCountryCode.value.toString()} ',
+              'mob': '${mobNoCon.value.text.trim().toString()},',
             },
           );
           isLoding.value = false;

@@ -83,8 +83,9 @@ class SignUpController extends GetxController {
             AppRoutes.otp,
             arguments: {
               'type': 'signup',
+              'countryCode': '${selectedCountryCode.value.toString()}',
               'mob':
-                  '${selectedCountryCode.value.toString()} ${mobNoCon.value.text.trim().toString()}',
+                  '${mobNoCon.value.text.trim().toString()}',
             },
           );
           isLoding.value = false;

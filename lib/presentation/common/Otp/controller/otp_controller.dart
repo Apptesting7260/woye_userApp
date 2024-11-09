@@ -13,7 +13,6 @@ class OtpController extends GetxController {
   final rxRequestStatus = Status.COMPLETED.obs;
   final registerData = RegisterModel().obs;
   RxString error = ''.obs;
-  String mobNumber = "";
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void signUpSet(RegisterModel _value) => registerData.value = _value;
@@ -65,6 +64,8 @@ class OtpController extends GetxController {
   Future<bool> verifyOtp({
     required String verificationId,
     required String smsCode,
+    required String countryCode,
+    required String mob,
   }) async {
     try {
       otpVerify.value = true;
