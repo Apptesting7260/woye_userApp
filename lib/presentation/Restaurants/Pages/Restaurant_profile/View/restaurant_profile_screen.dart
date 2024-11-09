@@ -222,7 +222,7 @@ class RestaurantProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        // Navigate to settings
+        Get.toNamed(AppRoutes.settings);
       },
     );
   }
