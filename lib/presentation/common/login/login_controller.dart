@@ -40,8 +40,8 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
-    mobNoCon.value.dispose();
-    passController.value.dispose();
+    // mobNoCon.value.dispose();
+    // passController.value.dispose();
 
     super.onClose();
   }
@@ -96,7 +96,7 @@ class LoginController extends GetxController {
             arguments: {
               'type': 'login',
               'countryCode': '${selectedCountryCode.value.toString()} ',
-              'mob': '${mobNoCon.value.text.trim().toString()},',
+              'mob': '${mobNoCon.value.text.trim().toString()}',
             },
           );
           isLoding.value = false;

@@ -1,8 +1,11 @@
+import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Controller/restaurant_profile_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class RestaurantProfileScreen extends StatelessWidget {
-  const RestaurantProfileScreen({super.key});
+   RestaurantProfileScreen({super.key});
+
+  UserModel userModel = UserModel();
 
   static final RestaurantProfileController restaurantProfileController =
       Get.put(RestaurantProfileController());
@@ -253,7 +256,8 @@ class RestaurantProfileScreen extends StatelessWidget {
         style: AppFontStyle.text_16_500(AppColors.primary),
       ),
       onTap: () {
-        // Handle logout
+        userModel.clear();
+        Get.offAllNamed(AppRoutes.welcomeScreen);
       },
     );
   }

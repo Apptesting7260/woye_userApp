@@ -21,7 +21,7 @@ class RestaurantNavbarController extends GetxController {
     const RestaurantCategoriesScreen(),
     const RestaurantWishlistScreen(),
     const RestaurantCartScreen(),
-    const RestaurantProfileScreen(),
+     RestaurantProfileScreen(),
   ];
 
   @override

@@ -1,33 +1,36 @@
 
-
-class RegisterModel {
-  bool? status;
-  String? message;
+class UserModel {
   int? step;
   String? token;
   String? loginType;
+  bool? islogin;
 
-  RegisterModel({
-    this.status,
-    this.message,
+  UserModel({
     this.step,
     this.token,
     this.loginType,
+    this.islogin,
   });
 
-  factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
-    status: json["status"],
-    message: json["message"],
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     step: json["step"],
     token: json["token"],
     loginType: json["loginType"],
+    islogin: json["islogin"],
   );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "message": message,
     "step": step,
     "token": token,
     "loginType": loginType,
+    "islogin": islogin,
   };
+
+  void clear() {
+    step = null;
+    token = null;
+    loginType = null;
+    islogin = null;
+  }
+
 }

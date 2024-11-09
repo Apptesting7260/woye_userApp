@@ -1,33 +1,32 @@
 
-
-class RegisterModel {
+class LoginModel {
   bool? status;
   String? message;
-  int? step;
   String? token;
+  int? step;
   String? loginType;
 
-  RegisterModel({
+  LoginModel({
     this.status,
     this.message,
-    this.step,
     this.token,
+    this.step,
     this.loginType,
   });
 
-  factory RegisterModel.fromJson(Map<String, dynamic> json) => RegisterModel(
+  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
     status: json["status"],
     message: json["message"],
-    step: json["step"],
     token: json["token"],
+    step: json["step"],
     loginType: json["loginType"],
   );
 
   Map<String, dynamic> toJson() => {
     "status": status,
     "message": message,
-    "step": step,
     "token": token,
+    "step": step,
     "loginType": loginType,
   };
 }
