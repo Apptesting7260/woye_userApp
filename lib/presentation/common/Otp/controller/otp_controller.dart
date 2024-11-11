@@ -5,6 +5,7 @@ import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/network/base_api_services.dart';
 import 'package:woye_user/Data/network/network_api_services.dart';
+import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
@@ -17,16 +18,21 @@ class OtpController extends GetxController {
   var logVerify = false.obs;
   // final OtpScreen _otpScreen = OtpScreen();
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final _api = Repository();
+  final api = Repository();
   final apiService = NetworkApiServices();
 
   final rxRequestStatus = Status.COMPLETED.obs;
   final registerData = RegisterModel().obs;
+  // Parse the response into the RegisterModel
+  final loginData = LoginModel().obs;
   RxString error = ''.obs;
   UserModel userModel = UserModel();
 
+  var pref = UserPreference();
+
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void signUpSet(RegisterModel _value) => registerData.value = _value;
+  void signInSet(LoginModel _value) => loginData.value = _value;
   void setError(String _value) => error.value = _value;
 
   @override
@@ -61,6 +67,7 @@ class OtpController extends GetxController {
           color: AppColors.darkText,
         ),
       ));
+
   PinTheme submittedPinTheme = PinTheme(
       width: 54.w,
       height: 56.h,
@@ -97,10 +104,10 @@ class OtpController extends GetxController {
     }
   }
 
-  Future<bool> registerApi({
+  registerApi({
     required String countryCode,
     required String mob,
-  }) async {
+   }) async {
     String? tokenFcm = await FirebaseMessaging.instance.getToken();
 
     final data = {
@@ -108,42 +115,43 @@ class OtpController extends GetxController {
       "fcm_token": tokenFcm,
       "country_code": countryCode,
     };
+    
+    setRxRequestStatus(Status.LOADING);
 
-    try {
-      otpVerify.value = true;
-      var response = await apiService.postApi(data, AppUrls.register, "");
+    api.registerApi(data, "").then((value) {
+      setRxRequestStatus(Status.COMPLETED);
+      signUpSet(value);
 
-      if (response != null && response is Map<String, dynamic>) {
-        // Parse the response into the RegisterModel
-        RegisterModel registerModel = RegisterModel.fromJson(response);
-
-        log("Response: ${registerModel.message}");
-
-        // Check if the status is true
-        if (registerModel.status == true) {
-          UserModel userModel = UserModel();
-          userModel.step = registerModel.step;
-          userModel.token = registerModel.token;
-          userModel.islogin = true;
-          userModel.loginType = registerModel.loginType;
-          return true;
-        }else{
-          otpVerify.value = false;
-          SnackBarUtils.showToastCenter('The mob no has already been taken.');
-          return false;
-        }
+      if(registerData.value.status == true){
+        userModel.step = registerData.value.step;
+        log("Response Step: ${userModel.step}");
+        userModel.token = registerData.value.token;
+        log("Response token: ${userModel.token}");
+        userModel.islogin = true;
+        log("Response islogin: ${userModel.islogin}");
+        userModel.loginType = registerData.value.loginType;
+        log("Response loginType: ${userModel.loginType}");
+        pref.saveUser(userModel);
+        log('data for saveuser:  ${userModel.step}');
+        log("Navigating with countryCode: $countryCode, mob: $mob");
+        Get.offNamed(AppRoutes.signUpFom,arguments: {
+          "countryCode": countryCode,
+          "mob": mob
+        });
+      }else{
+        SnackBarUtils.showToastCenter('The number is already registered.');
       }
 
-      // If the status is not true or the response is not as expected, return false
-      return false;
-    } catch (e) {
-      otpVerify.value = false;
-      log("Error: $e");
-      return false;
-    }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
   }
 
-  Future<bool> loginApi({
+  loginApi({
     required String countryCode,
     required String mob,
   }) async {
@@ -156,48 +164,41 @@ class OtpController extends GetxController {
       "country_code": countryCode,
     };
 
-    try {
-      otpVerify.value = true;
-      var response = await apiService.postApi(data, AppUrls.login, "");
-      print(response);
+    setRxRequestStatus(Status.LOADING);
 
-      if (response != null && response is Map<String, dynamic>) {
-        // Parse the response into the RegisterModel
-        LoginModel loginModel = LoginModel.fromJson(response);
+    api.loginApi(data, "").then((value) {
+      setRxRequestStatus(Status.COMPLETED);
+      signInSet(value);
 
-        log("Response: ${loginModel.message}");
-
-        // Check if the status is true
-        if (loginModel.status == true) {
-          userModel.step = loginModel.step;
-          log("Response Step: ${userModel.step}");
-          userModel.token = loginModel.token;
-          log("Response token: ${userModel.token}");
-          userModel.islogin = true;
-          log("Response islogin: ${userModel.islogin}");
-          userModel.loginType = loginModel.loginType;
-          log("Response loginType: ${userModel.loginType}");
-          otpVerify.value = false;
-          return true;
-        }else{
-          otpVerify.value = false;
-          SnackBarUtils.showToastCenter('${loginModel.message}');
-          return false;
-        }
+      if(loginData.value.status == true){
+        userModel.step = loginData.value.step;
+        log("Response Step: ${userModel.step}");
+        userModel.token = loginData.value.token;
+        log("Response token: ${userModel.token}");
+        userModel.islogin = true;
+        log("Response islogin: ${userModel.islogin}");
+        userModel.loginType = loginData.value.loginType;
+        log("Response loginType: ${userModel.loginType}");
+        pref.saveUser(userModel);
+        log('data for loginuser:  ${userModel.step}');
+        log("Navigating with countryCode: $countryCode, mob: $mob");
+        userModel.step == 1
+            ? Get.toNamed(AppRoutes.signUpFom,arguments: {
+              "countryCode": countryCode,
+              "mob": mob
+            })
+            : Get.offAllNamed(AppRoutes.restaurantNavbar);
       }else{
-        otpVerify.value = false;
         SnackBarUtils.showToastCenter('User not found. Register first.');
-        return false;
       }
 
-      // If the status is not true or the response is not as expected, return false
-      return false;
-    } catch (e) {
-      otpVerify.value = false;
-      SnackBarUtils.showToastCenter('User not found.');
-      log("Errors: $e");
-      return false;
-    }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
   }
 
 // OtpTimerButtonController otpTimerButtonController =
