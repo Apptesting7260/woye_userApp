@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Promo_codes/promo_codes.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Promo_codes/promo_codes.dart';
 
 class RestaurantCartScreen extends StatelessWidget {
   const RestaurantCartScreen({super.key});
