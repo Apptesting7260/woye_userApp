@@ -4,11 +4,30 @@ import 'dart:io';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/network/network_api_services.dart';
+import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_model.dart';
+import 'package:woye_user/presentation/common/Sign_up_form/Model/updateprofile_model.dart';
 
 class SignUpFormController extends GetxController {
+
   GlobalKey<FormState> formSignUpKey = GlobalKey<FormState>();
+
+  final api = Repository();
+
+  final rxRequestStatus = Status.COMPLETED.obs;
+  final profileData = ProfileModel().obs;
+  final updateprofileData = UpdateprofileModel().obs;
+  RxString error = ''.obs;
+  UserModel userModel = UserModel();
+
+  var pref = UserPreference();
+
+  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  void profileSet(ProfileModel _value) => profileData.value = _value;
+  void upprofileSet(UpdateprofileModel _value) => updateprofileData.value = _value;
+  void setError(String _value) => error.value = _value;
+
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
@@ -32,13 +51,12 @@ class SignUpFormController extends GetxController {
 
   var proVerify = false.obs;
   final apiService = NetworkApiServices();
-  UserModel userModel = UserModel();
 
   final ImagePicker _picker = ImagePicker();
   File? image;
 
   late TextEditingController fisrtNameController,
-      lastNameController,
+      mobileController,
       dateOfBirthController,
       emailController,
       genderController;
@@ -49,6 +67,10 @@ class SignUpFormController extends GetxController {
 
   @override
   void onInit() async {
+
+
+
+
     // Retrieve the arguments and provide fallback values if necessary
     var args = Get.arguments;
     if (args != null && args is Map<String, dynamic>) {
@@ -62,7 +84,7 @@ class SignUpFormController extends GetxController {
     }
 
     fisrtNameController = TextEditingController();
-    lastNameController = TextEditingController();
+    mobileController = TextEditingController();
     dateOfBirthController = TextEditingController();
     emailController = TextEditingController();
     genderController = TextEditingController();
@@ -74,6 +96,8 @@ class SignUpFormController extends GetxController {
     // networkController.onInit();
 
     // emailController.text = responseEmail! ?? "";
+
+    getprofileApi();
     super.onInit();
   }
 
@@ -143,45 +167,77 @@ class SignUpFormController extends GetxController {
     update();
   }
 
-  Future<void> profileupdateApi() async {
+  profileupdateApi() async {
 
     final data = {
       "first_name": fisrtNameController.text.toString(),
-      "phone": mob,
-      "dob": dateOfBirthController,
+      "phone": mobileController.text.trim().toString(),
+      "dob": dateOfBirthController.text.trim().toString(),
       "email": emailController.text.trim().toString(),
       "gender": genderController.text.toString(),
-      "country_code": countryCode,
     };
 
     log(data.toString());
 
-    final header = userModel.token;
+    log("update profile");
 
-    try {
-      proVerify.value = true;
-      var response = await apiService.postApi(data, AppUrls.updateProfile, header!);
+    userModel = await pref.getUser();
 
-      if (response != null && response is Map<String, dynamic>) {
-        // Parse the response into the RegisterModel
-        UpdateprofileModel updateprofileModel = UpdateprofileModel.fromJson(response);
+    log("get header : ${userModel.token.toString()}");
 
-        log("Response: ${updateprofileModel.message}");
+    setRxRequestStatus(Status.LOADING);
 
-        // Check if the status is true
-        if (updateprofileModel.status == true) {
-          userModel.step = updateprofileModel.step;
-          log("Response Step: ${userModel.step}");
-          Get.toNamed(AppRoutes.restaurantNavbar);
-        }
+    api.updateprofileApi(data, userModel.token.toString()).then((value) {
+
+      setRxRequestStatus(Status.COMPLETED);
+      upprofileSet(value);
+
+      if (updateprofileData.value.status == true) {
+        userModel.step = updateprofileData.value.step;
+        log("get Response Step: ${userModel.step}");
+        Get.offAllNamed(AppRoutes.restaurantNavbar);
       }
 
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
 
-    } catch (e) {
-      proVerify.value = false;
-      log("Errors: $e");
+  }
 
-    }
+
+  getprofileApi() async {
+
+    log("get profile");
+
+    userModel = await pref.getUser();
+
+    log("get header : ${userModel.token.toString()}");
+
+    setRxRequestStatus(Status.LOADING);
+
+    api.getprofileApi(userModel.token.toString()).then((value) {
+
+      setRxRequestStatus(Status.COMPLETED);
+      profileSet(value);
+
+      if (profileData.value.status == true) {
+        userModel.step = profileData.value.step;
+        log("get Response Step: ${userModel.step}");
+        mobileController.text = profileData.value.data!.phone.toString();
+        log("get Response phone: ${mobileController}");
+      }
+
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
 
   }
 

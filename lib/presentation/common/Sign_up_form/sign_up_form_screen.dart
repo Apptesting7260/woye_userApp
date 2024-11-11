@@ -81,7 +81,7 @@ class SignUpFormScreen extends StatelessWidget {
             ),
             hBox(15),
             CustomTextFormField(
-              controller: signUpFormController.lastNameController,
+              controller: signUpFormController.mobileController,
               prefix: SvgPicture.asset(
                 ImageConstants.profileIcon,
               ),
@@ -245,10 +245,11 @@ class SignUpFormScreen extends StatelessWidget {
 
   Widget continueButton() {
     return CustomElevatedButton(
+      isLoading: signUpFormController.rxRequestStatus.value == Status.LOADING,
         text: "Continue",
         onPressed: () {
-          // signUpFormController.profileupdateApi();
-          Get.offAndToNamed(AppRoutes.restaurantNavbar);
+          signUpFormController.profileupdateApi();
+          // Get.offAndToNamed(AppRoutes.restaurantNavbar);
         });
   }
 

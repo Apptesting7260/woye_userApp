@@ -7,6 +7,7 @@ import '../app_exceptions.dart';
 import 'base_api_services.dart';
 
 class NetworkApiServices extends BaseApiServices {
+
   Future<dynamic> getApiWithoutToken(String url) async {
     if (kDebugMode) {
       print(url);

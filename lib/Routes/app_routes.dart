@@ -104,7 +104,7 @@ class AppRoutes {
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () => const SignUpFormScreen(),
+        page: () =>  SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
