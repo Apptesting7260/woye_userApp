@@ -10,6 +10,12 @@ class SupportScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     RxList supportsPages =
         [activeList(), closedList(), staredList(), allList()].obs;
+    List<Widget> supportPageList = [
+      activeList(),
+      closedList(),
+      staredList(),
+      allList()
+    ];
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -32,20 +38,17 @@ class SupportScreen extends StatelessWidget {
             // ),
             SliverFillRemaining(
               child: Obx(
-                () => IndexedStack(
-                  //  children: supportsPages.obs,
-                )
-                // CustomScrollView(
-                //   slivers: [
-                //     if (supportsController.selectedIndex.value == 0)
-                //       activeList(),
-                //     if (supportsController.selectedIndex.value == 1)
-                //       closedList(),
-                //     if (supportsController.selectedIndex.value == 2)
-                //       staredList(),
-                //     if (supportsController.selectedIndex.value == 3) allList(),
-                //   ],
-                // ),
+                () => CustomScrollView(
+                  slivers: [
+                    if (supportsController.selectedIndex.value == 0)
+                      activeList(),
+                    if (supportsController.selectedIndex.value == 1)
+                      closedList(),
+                    if (supportsController.selectedIndex.value == 2)
+                      staredList(),
+                    if (supportsController.selectedIndex.value == 3) allList(),
+                  ],
+                ),
               ),
             ),
             SliverToBoxAdapter(
