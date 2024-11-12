@@ -3,11 +3,9 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
-import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/core/utils/app_export.dart';
@@ -320,6 +318,7 @@ class LoginController extends GetxController {
     'ZA': 9, // South Africa
     'ES': 9, // Spain
     'LK': 10, // Sri Lanka
+    'AS': 10,
     'SD': 9, // Sudan
     'SR': 7, // Suriname
     'SE': 9, // Sweden
@@ -350,8 +349,9 @@ class LoginController extends GetxController {
     'YE': 9, // Yemen
     'ZM': 9, // Zambia
     'ZW': 9,
+    
+   
   };
-
 
   final api = Repository();
 
@@ -366,7 +366,6 @@ class LoginController extends GetxController {
   void setError(String _value) => error.value = _value;
 
   guestUserApi() async {
-
     String? tokenFCM = await FirebaseMessaging.instance.getToken();
 
     final data = {
@@ -378,7 +377,6 @@ class LoginController extends GetxController {
     setRxRequestStatus(Status.LOADING);
 
     api.guestUserApi(data, "").then((value) {
-
       setRxRequestStatus(Status.COMPLETED);
       guestSet(value);
 
@@ -387,7 +385,6 @@ class LoginController extends GetxController {
         log("get Response Step: ${userModel.step}");
         Get.offAllNamed(AppRoutes.restaurantNavbar);
       }
-
     }).onError((error, stackError) {
       setError(error.toString());
       print('errrrrrrrrrrrr');
@@ -395,7 +392,5 @@ class LoginController extends GetxController {
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
-
   }
-
 }

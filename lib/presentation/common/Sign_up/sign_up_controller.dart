@@ -354,7 +354,7 @@ class SignUpController extends GetxController {
   void guestSet(RegisterModel _value) => guestData.value = _value;
   void setError(String _value) => error.value = _value;
 
-  guestUserApi() async {
+   guestUserApi() async {
 
     String? tokenFCM = await FirebaseMessaging.instance.getToken();
 

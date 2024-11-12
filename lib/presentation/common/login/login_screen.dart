@@ -23,10 +23,13 @@ class LoginScreen extends StatelessWidget {
               header(),
               hBox(40),
               //
-              formField(),
+              phoneNumberField(),
               hBox(20),
               //
               signInButton(),
+              hBox(10),
+              //
+              guestButton(),
               hBox(20),
               //
               continueText(),
@@ -60,15 +63,17 @@ class LoginScreen extends StatelessWidget {
     ]);
   }
 
-  Widget formField() {
+  Widget phoneNumberField() {
     return CustomTextFormField(
       controller: loginController.mobNoCon.value,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],
+      // prefixConstraints: BoxConstraints(maxWidth: 70),
       prefix: CountryCodePicker(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
+          padding: const EdgeInsets.only(left: 10),
           onChanged: (CountryCode countryCode) {
+            print("country code===========> ${countryCode.code}");
             loginController.updateCountryCode(countryCode);
             loginController.showError.value = false;
             int? countrylength =
@@ -99,6 +104,26 @@ class LoginScreen extends StatelessWidget {
               loginController.sendOtp();
             }
           },
+        ));
+  }
+
+  Widget guestButton() {
+    return CustomOutlinedButton(
+        onPressed: () {
+          loginController.guestUserApi();
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "assets/svg/person-primary.svg",
+              height: 26.h,
+              width: 26.h,
+            ),
+            wBox(12),
+            Text("Continue As Guest",
+                style: AppFontStyle.text_16_400(AppColors.darkText))
+          ],
         ));
   }
 
@@ -161,88 +186,31 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget signUpButton() {
-    return Column(
-      children: [
-        // InkWell(
-        //   highlightColor: Colors.transparent,
-        //   splashColor: Colors.transparent,
-        //   onTap: () {
-        //     Get.toNamed(AppRoutes.restaurantNavbar);
-        //   },
-        //   child: Align(
-        //     alignment: Alignment.center,
-        //     child: Padding(
-        //       padding: REdgeInsets.only(
-        //         bottom: 30,
-        //       ),
-        //       child: RichText(
-        //           text: TextSpan(children: [
-        //         TextSpan(
-        //             text: "Home",
-        //             style: AppFontStyle.text_16_400(AppColors.lightText)),
-        //         TextSpan(
-        //             text: "screen",
-        //             style: AppFontStyle.text_16_600(
-        //               AppColors.darkText,
-        //             )),
-        //       ])),
-        //     ),
-        //   ),
-        // ),
-        InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            loginController.guestUserApi();
-          },
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: REdgeInsets.only(
-                bottom: 30,
-              ),
-              child: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: "Guest",
-                        style:
-                        AppFontStyle.text_16_400(AppColors.lightText)),
-                    TextSpan(
-                        text: "user",
-                        style: AppFontStyle.text_16_600(
-                          AppColors.darkText,
-                        )),
-                  ])),
-            ),
+    return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      onTap: () {
+        Get.offNamed(AppRoutes.signUp);
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: REdgeInsets.only(
+            bottom: 30,
           ),
+          child: RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: "Don't have an account? ",
+                style: AppFontStyle.text_16_400(AppColors.lightText)),
+            TextSpan(
+                text: "Sign Up",
+                style: AppFontStyle.text_16_600(
+                  AppColors.darkText,
+                )),
+          ])),
         ),
-        InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            Get.toNamed(AppRoutes.signUp);
-          },
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: REdgeInsets.only(
-                bottom: 30,
-              ),
-              child: RichText(
-                  text: TextSpan(children: [
-                TextSpan(
-                    text: "Don't have an account? ",
-                    style: AppFontStyle.text_16_400(AppColors.lightText)),
-                TextSpan(
-                    text: "Sign Up",
-                    style: AppFontStyle.text_16_600(
-                      AppColors.darkText,
-                    )),
-              ])),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

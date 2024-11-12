@@ -88,8 +88,8 @@ class SignUpScreen extends StatelessWidget {
           onChanged: (CountryCode countryCode) {
             signUpController.updateCountryCode(countryCode);
             signUpController.showError.value = false;
-            int? countrylength =
-            signUpController.countryPhoneDigits[countryCode.code.toString()];
+            int? countrylength = signUpController
+                .countryPhoneDigits[countryCode.code.toString()];
             signUpController.checkCountryLength = countrylength!;
           },
           initialSelection: "IN"),
@@ -106,7 +106,7 @@ class SignUpScreen extends StatelessWidget {
       },
     );
   }
-  
+
   Widget signUpButton() {
     return Obx(
       () => CustomElevatedButton(
@@ -122,88 +122,31 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget signInButton() {
-    return Column(
-      children: [
-        // InkWell(
-        //   highlightColor: Colors.transparent,
-        //   splashColor: Colors.transparent,
-        //   onTap: () {
-        //     Get.toNamed(AppRoutes.restaurantNavbar);
-        //   },
-        //   child: Align(
-        //     alignment: Alignment.center,
-        //     child: Padding(
-        //       padding: REdgeInsets.only(
-        //         bottom: 30,
-        //       ),
-        //       child: RichText(
-        //           text: TextSpan(children: [
-        //         TextSpan(
-        //             text: "Home",
-        //             style: AppFontStyle.text_16_400(AppColors.lightText)),
-        //         TextSpan(
-        //             text: "screen",
-        //             style: AppFontStyle.text_16_600(
-        //               AppColors.darkText,
-        //             )),
-        //       ])),
-        //     ),
-        //   ),
-        // ),
-        InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            signUpController.guestUserApi();
-          },
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: REdgeInsets.only(
-                bottom: 30,
-              ),
-              child: RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: "Guest",
-                        style:
-                        AppFontStyle.text_16_400(AppColors.lightText)),
-                    TextSpan(
-                        text: "user",
-                        style: AppFontStyle.text_16_600(
-                          AppColors.darkText,
-                        )),
-                  ])),
-            ),
+    return InkWell(
+      highlightColor: Colors.transparent,
+      splashColor: Colors.transparent,
+      onTap: () {
+        Get.offNamed(AppRoutes.login);
+      },
+      child: Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: REdgeInsets.only(
+            bottom: 30,
           ),
+          child: RichText(
+              text: TextSpan(children: [
+            TextSpan(
+                text: "Already have an account? ",
+                style: AppFontStyle.text_16_400(AppColors.lightText)),
+            TextSpan(
+                text: "Sign In",
+                style: AppFontStyle.text_16_600(
+                  AppColors.darkText,
+                )),
+          ])),
         ),
-        InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: () {
-            Get.toNamed(AppRoutes.login);
-          },
-          child: Align(
-            alignment: Alignment.center,
-            child: Padding(
-              padding: REdgeInsets.only(
-                bottom: 30,
-              ),
-              child: RichText(
-                  text: TextSpan(children: [
-                TextSpan(
-                    text: "Already have an account? ",
-                    style: AppFontStyle.text_16_400(AppColors.lightText)),
-                TextSpan(
-                    text: "Sign In",
-                    style: AppFontStyle.text_16_600(
-                      AppColors.darkText,
-                    )),
-              ])),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
