@@ -75,11 +75,7 @@ class WelcomeScreen extends StatelessWidget {
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onTap: () {
-<<<<<<< HEAD
                     socialLoginController.guestUserApi();
-=======
-                    Get.toNamed(AppRoutes.restaurantNavbar);
->>>>>>> f4acc4687c36a619de7b396e2d7e5d04b876fb70
                   },
                   child: Align(
                     alignment: Alignment.center,
@@ -90,19 +86,15 @@ class WelcomeScreen extends StatelessWidget {
                       child: RichText(
                           text: TextSpan(children: [
                         TextSpan(
-<<<<<<< HEAD
                             text: "Guest",
                             style:
                                 AppFontStyle.text_16_400(AppColors.lightText)),
                         TextSpan(
                             text: "user",
-=======
-                            text: "Home",
                             style:
                                 AppFontStyle.text_16_400(AppColors.lightText)),
                         TextSpan(
                             text: "screen",
->>>>>>> f4acc4687c36a619de7b396e2d7e5d04b876fb70
                             style: AppFontStyle.text_16_600(
                               AppColors.darkText,
                             )),
