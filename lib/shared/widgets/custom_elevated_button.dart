@@ -53,7 +53,8 @@ class CustomElevatedButton extends StatelessWidget {
                     : LoadingAnimationWidget.inkDrop(
                         color: Colors.white,
                         size: 30.h,
-                      )),
+                      )
+                      ),
       ),
     );
   }

@@ -1,7 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
-import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/View/restaurant_navbar.dart';
 
 class HomeController extends GetxController {
   RxInt mainButtonIndex = 0.obs;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CustomAppBar1 extends StatelessWidget {
   final String title;
@@ -31,7 +32,9 @@ class CustomAppBar1 extends StatelessWidget {
                 color: Colors.grey.shade200,
               ),
               child: Center(
-                child: Image.asset("assets/images/back.png", scale: 4),
+                child: SvgPicture.asset(
+                    "assets/svg/back.svg"
+                ),
               ),
             ),
           ),

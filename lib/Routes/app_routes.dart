@@ -6,32 +6,12 @@ import 'package:woye_user/Presentation/Common/Sign_up_form/Sign_up_form_binding.
 import 'package:woye_user/Presentation/Common/Sign_up_form/sign_up_form_screen.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/Sub_screens/Checkout/checkout_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Edit_profile/edit_profile_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Invite_friends/invite_friends_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/Sub_screens/Filter/my_wallet_filter.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/Sub_screens/Transaction_history/transaction_history_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/My_wallet/View/my_wallet_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Notifications/notifications_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_confirm/order_confirm_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_details/order_details_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_otp/order_otp_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Order_received/order_reveived_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Review_driver/review_driver_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/Sub_screens/Track_order/track_order_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Order/view/orders_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Payment_method/Add_card/add_card_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Promo_codes/promo_codes.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/View/restaurant_navbar.dart';
@@ -40,9 +20,34 @@ import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
 import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Settings/Sub_screens/Notifications_settings/notifications_settings_screen.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_profile/Sub_screens/Settings/view/settings_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Edit_profile/edit_profile_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Invite_friends/invite_friends_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/Sub_screens/Filter/my_wallet_filter.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/Sub_screens/Transaction_history/transaction_history_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/View/my_wallet_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Notifications/notifications_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_confirm/order_confirm_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_otp/order_otp_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_received/order_reveived_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Review_driver/review_driver_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Track_order/track_order_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/view/orders_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/Add_card/add_card_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Promo_codes/promo_codes.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Settings/Sub_screens/Notifications_settings/notifications_settings_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Settings/view/settings_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/faq/faq_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/privacy_policy/privay_policy_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/support/support_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/term_and_conditions/term_and_conditions_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help_screen.dart';
 
 class AppRoutes {
   static const String initalRoute = "/inital_route";
@@ -89,6 +94,11 @@ class AppRoutes {
   static const String notifications = "/notifications";
   static const String settings = "/settings";
   static const String notificationsSettings = "/notifications_settings";
+  static const String help = "/help";
+  static const String faq = "/faq";
+  static const String support = "/support";
+  static const String privayPolicy = "/privacyPolicy";
+  static const String termsAndConditions = "/termAndConditions";
 
   static List<GetPage> pages = [
     GetPage(
@@ -99,12 +109,12 @@ class AppRoutes {
         name: welcomeScreen,
         page: () => WelcomeScreen(),
         binding: WelcomeBinding()),
-    GetPage(name: login, page: () => const LoginScreen()),
+    GetPage(name: login, page: () =>  LoginScreen()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () => const SignUpFormScreen(),
+        page: () =>  SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
@@ -146,6 +156,12 @@ class AppRoutes {
     GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),
     GetPage(name: notifications, page: () => const NotificationsScreen()),
     GetPage(name: settings, page: () => const SettingsScreen()),
+    GetPage(name: help, page: () => const HelpScreen()),
+    GetPage(name: support, page: () => const SupportScreen()),
+    GetPage(name: faq, page: () => const FaqScreen()),
+    GetPage(name: privayPolicy, page: () => const PrivayPolicyScreen()),
+    GetPage(
+        name: termsAndConditions, page: () => const TermAndConditionsScreen()),
     GetPage(
         name: notificationsSettings,
         page: () => const NotificationsSettingsScreen()),

@@ -19,6 +19,7 @@ export 'package:pinput/pinput.dart';
 export 'package:woye_user/Data/Repository/repository.dart';
 export 'package:woye_user/Data/response/status.dart';
 export 'package:woye_user/Presentation/Common/login/login_controller.dart';
+export 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/View/restaurant_navbar.dart';
 // export 'package:woye_user/Presentation/Common/otp/otp_controller.dart';
 export 'package:woye_user/Routes/app_routes.dart';
 export 'package:woye_user/Shared/Widgets/custom_item_banner.dart';

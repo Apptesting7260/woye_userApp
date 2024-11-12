@@ -81,7 +81,7 @@ class OtpScreen extends StatelessWidget {
   Widget verifyButton(from, countryCode, mob) {
     return Obx(
       () => CustomElevatedButton(
-        isLoading: otpController.otpVerify.value,
+        isLoading: otpController.rxRequestStatus.value == Status.LOADING,
         onPressed: () async {
           if (otpController.otpPin.value.text.length < 6) {
             SnackBarUtils.showToastCenter('Please enter a valid 6-digit OTP.');
@@ -97,33 +97,17 @@ class OtpScreen extends StatelessWidget {
             );
             if (from == 'login') {
               if (verify) {
-                final login = await otpController.loginApi(
+                 otpController.loginApi(
                     countryCode: countryCode,
                     mob: mob
                 );
-                if(login){
-                  log("Step ==>>> ${otpController.userModel.step}");
-                  log("Navigating with step with countryCode: $countryCode, mob: $mob");
-                  otpController.userModel.step == 1 ? Get.toNamed(AppRoutes.signUpFom,arguments: {
-                    "countryCode": countryCode,
-                    "mob": mob
-                  }) :
-                  Get.offAllNamed(AppRoutes.restaurantNavbar);
-                }
               }
             } else {
               if (verify) {
-                final register = await otpController.registerApi(
+                 otpController.registerApi(
                     countryCode: countryCode,
                     mob: mob
                 );
-                if (register) {
-                  log("Navigating with countryCode: $countryCode, mob: $mob");
-                  Get.offNamed(AppRoutes.signUpFom,arguments: {
-                    "countryCode": countryCode,
-                    "mob": mob
-                  });
-                }
               }
             }
           } // Get.toNamed(AppRoutes.signUp);
