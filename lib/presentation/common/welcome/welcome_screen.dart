@@ -39,64 +39,7 @@ class WelcomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             signUpButton(),
-
-            Column(
-              children: [
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    socialLoginController.guestUserApi();
-                  },
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: REdgeInsets.only(
-                        bottom: 30,
-                      ),
-                      child: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: "Guest",
-                            style:
-                                AppFontStyle.text_16_400(AppColors.lightText)),
-                        TextSpan(
-                            text: "user",
-                            style:
-                                AppFontStyle.text_16_400(AppColors.lightText)),
-                        TextSpan(
-                            text: "screen",
-                            style: AppFontStyle.text_16_600(
-                              AppColors.darkText,
-                            )),
-                      ])),
-                    ),
-                  ),
-                ),
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () {
-                    Get.toNamed(AppRoutes.signUp);
-                  },
-                  child: Padding(
-                    padding: REdgeInsets.only(bottom: 30),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "Don't have an account? ",
-                          style: AppFontStyle.text_16_400(AppColors.lightText)),
-                      TextSpan(
-                          text: "Sign Up",
-                          style: AppFontStyle.text_16_600(AppColors.darkText)),
-                    ])),
-                  ),
-                ),
-              ],
-            ),
-
           ],
         ),
       ),
@@ -214,7 +157,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget appleButton(context) {
-    return CustomOutlinedButton(  
+    return CustomOutlinedButton(
         onPressed: () {},
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
