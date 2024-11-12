@@ -2,8 +2,6 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
-import 'package:woye_user/Presentation/Common/Sign_up_form/Sign_up_form_binding.dart';
-import 'package:woye_user/Presentation/Common/Sign_up_form/sign_up_form_screen.dart';
 import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
 import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
@@ -48,6 +46,8 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_scree
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/support/support_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/term_and_conditions/term_and_conditions_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help_screen.dart';
+import 'package:woye_user/presentation/common/Sign_up_form/controller/Sign_up_form_binding.dart';
+import 'package:woye_user/presentation/common/Sign_up_form/view/sign_up_form_screen.dart';
 
 class AppRoutes {
   static const String initalRoute = "/inital_route";
@@ -109,12 +109,12 @@ class AppRoutes {
         name: welcomeScreen,
         page: () => WelcomeScreen(),
         binding: WelcomeBinding()),
-    GetPage(name: login, page: () =>  LoginScreen()),
+    GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () =>  SignUpFormScreen(),
+        page: () => SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,

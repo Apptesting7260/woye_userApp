@@ -6,8 +6,12 @@ class PharmacyNavbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: HomeScreen(),
+    return Scaffold(
+      body: Column(
+        children: [
+          HomeScreen(),
+        ],
+      ),
     );
   }
 }

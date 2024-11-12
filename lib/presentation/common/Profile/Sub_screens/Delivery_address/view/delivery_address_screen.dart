@@ -1,4 +1,3 @@
-
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 
@@ -38,27 +37,27 @@ class DeliveryAddressScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               bool isSelected =
                   deliveryAddressController.selectedIndex == index;
-              return Container(
-                padding: EdgeInsets.all(20.r),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.r),
-                    border: Border.all(
-                        color: isSelected
-                            ? AppColors.primary
-                            : AppColors.lightPrimary)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () {
-                          controller.selectedIndex = index;
-                          controller.update();
-                        },
+              return InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {
+                  controller.selectedIndex = index;
+                  controller.update();
+                },
+                child: Container(
+                  padding: EdgeInsets.all(20.r),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(
+                          color: isSelected
+                              ? AppColors.primary
+                              : AppColors.lightPrimary)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
                         child: Container(
                           margin: EdgeInsets.only(top: 5.r),
                           height: 20.h,
@@ -72,60 +71,62 @@ class DeliveryAddressScreen extends StatelessWidget {
                               : null,
                         ),
                       ),
-                    ),
-                    wBox(6),
-                    Expanded(
-                      flex: 9,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                index == 0 ? "Home" : "Office",
-                                style: AppFontStyle.text_20_600(
-                                    AppColors.darkText),
-                              ),
-                              wBox(10),
-                              Text(
-                                "default",
-                                style: AppFontStyle.text_14_400(
-                                    AppColors.lightText),
-                              ),
-                              const Spacer(),
-                              InkWell(
-                                  onTap: () {
-                                    Get.toNamed(AppRoutes.editAddressScreen);
-                                  },
-                                  child:
-                                      SvgPicture.asset("assets/svg/edit.svg"))
-                              // SvgPicture.asset(
-                              //     "assets/svg/green-check-circle.svg")
-                            ],
-                          ),
-                          hBox(10),
-                          Text(
-                            "John doe",
-                            style: AppFontStyle.text_14_400(AppColors.darkText),
-                          ),
-                          hBox(10),
-                          Text(
-                            "D 888 Abc Road, Greenfield, Abc Manchester, 199",
-                            style:
-                                AppFontStyle.text_14_400(AppColors.lightText),
-                          ),
-                          hBox(10),
-                          Text(
-                            "+791 12 123 1234",
-                            style: AppFontStyle.text_14_400(AppColors.darkText),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                      wBox(6),
+                      Expanded(
+                        flex: 9,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  index == 0 ? "Home" : "Office",
+                                  style: AppFontStyle.text_20_600(
+                                      AppColors.darkText),
+                                ),
+                                wBox(10),
+                                Text(
+                                  "default",
+                                  style: AppFontStyle.text_14_400(
+                                      AppColors.lightText),
+                                ),
+                                const Spacer(),
+                                InkWell(
+                                    onTap: () {
+                                      Get.toNamed(AppRoutes.editAddressScreen);
+                                    },
+                                    child:
+                                        SvgPicture.asset("assets/svg/edit.svg"))
+                                // SvgPicture.asset(
+                                //     "assets/svg/green-check-circle.svg")
+                              ],
+                            ),
+                            hBox(10),
+                            Text(
+                              "John doe",
+                              style:
+                                  AppFontStyle.text_14_400(AppColors.darkText),
+                            ),
+                            hBox(10),
+                            Text(
+                              "D 888 Abc Road, Greenfield, Abc Manchester, 199",
+                              style:
+                                  AppFontStyle.text_14_400(AppColors.lightText),
+                            ),
+                            hBox(10),
+                            Text(
+                              "+791 12 123 1234",
+                              style:
+                                  AppFontStyle.text_14_400(AppColors.darkText),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               );
             },
