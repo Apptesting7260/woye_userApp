@@ -214,7 +214,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget appleButton(context) {
-    return CustomOutlinedButton(
+    return CustomOutlinedButton(  
         onPressed: () {},
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

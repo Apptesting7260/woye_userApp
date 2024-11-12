@@ -349,8 +349,42 @@ class LoginController extends GetxController {
     'YE': 9, // Yemen
     'ZM': 9, // Zambia
     'ZW': 9,
-    
-   
+
+    'AI': 7, // Anguilla
+
+    'AW': 7, // Aruba
+
+    'BM': 7, // Bermuda
+
+    'KY': 7, // Cayman Islands
+
+    'CD': 9, // Democratic Republic of the Congo
+    'CI': 9, // Ivory Coast (Côte d'Ivoire)
+    'FK': 7, // Falkland Islands
+    'FO': 7, // Faroe Islands
+    'GF': 9, // French Guiana
+    'PF': 9, // French Polynesia
+    'GI': 7, // Gibraltar
+    'GL': 7, // Greenland
+    'GP': 9, // Guadeloupe
+    'GU': 10, // Guam
+    'HK': 8, // Hong Kong
+    'MO': 8, // Macau
+    'MQ': 9, // Martinique
+    'YT': 9, // Mayotte
+    'MS': 7, // Montserrat
+    'NC': 7, // New Caledonia
+    'NU': 7, // Niue
+    'NF': 7, // Norfolk Island
+    'PR': 10, // Puerto Rico
+    'RE': 9, // Réunion
+    'SZ': 9, // Eswatini (Swaziland)
+    'TL': 9, // Timor-Leste
+    'TK': 7, // Tokelau
+    'TC': 7, // Turks and Caicos Islands
+    'VG': 10, // British Virgin Islands
+    'VI': 10, // United States Virgin Islands
+    'WF': 7, // Wallis and Futuna
   };
 
   final api = Repository();
