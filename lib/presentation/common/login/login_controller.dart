@@ -58,7 +58,7 @@ class LoginController extends GetxController {
         phoneNumber:
             '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         forceResendingToken: !Platform.isIOS
-            ? (resendToken.value != 0 ? resendToken.value : null)
+                                                                                       ? (resendToken.value != 0 ? resendToken.value : null)
             : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await auth.signInWithCredential(credential);
