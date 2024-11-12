@@ -10,6 +10,8 @@ class CustomSearchFilter extends StatelessWidget {
   final BoxConstraints? prefixConstraints;
   final TextStyle? textStyle;
   final TextStyle? hintStyle;
+  final Widget? filterIcon;
+  final Color? filterColor;
 
   const CustomSearchFilter({
     super.key,
@@ -22,6 +24,8 @@ class CustomSearchFilter extends StatelessWidget {
     this.hintStyle,
     this.searchIocnPadding,
     this.searchIconHeight,
+    this.filterIcon,
+    this.filterColor,
   });
 
   @override
@@ -57,13 +61,15 @@ class CustomSearchFilter extends StatelessWidget {
         ),
         SizedBox(width: 8.w),
         InkWell(
-           highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
           onTap: onFilterTap,
           child: Container(
             padding: searchIocnPadding ??
                 REdgeInsets.symmetric(horizontal: 10, vertical: 8),
             decoration: BoxDecoration(
+              color: filterColor,
+
               borderRadius: BorderRadius.circular(10.r),
               border: Border.all(
                   width: 0.8.w,
@@ -71,10 +77,11 @@ class CustomSearchFilter extends StatelessWidget {
                       .textFieldBorder), // Replace AppColors.hintText with a color
             ),
             child: Center(
-              child: Image.asset(
-                "assets/images/filter.png",
-                height: searchIconHeight ?? 20.h,
-              ),
+              child: filterIcon ??
+                  Image.asset(
+                    "assets/images/filter.png",
+                    height: searchIconHeight ?? 20.h,
+                  ),
             ),
           ),
         ),

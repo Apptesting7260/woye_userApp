@@ -42,7 +42,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         color: Colors.grey.shade200,
                       ),
                       child: Center(
-                        child: Image.asset("assets/images/back.png", scale: 4),
+                        child: SvgPicture.asset(
+                            "assets/svg/back.svg"
+                        ),
                       ),
                     ),
                   ),
