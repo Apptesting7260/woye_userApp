@@ -382,7 +382,14 @@ class LoginController extends GetxController {
 
       if (guestData.value.status == true) {
         userModel.step = guestData.value.step;
-        log("get Response Step: ${userModel.step}");
+        log("Response Step: ${userModel.step}");
+        userModel.token = guestData.value.token;
+        log("Response token: ${userModel.token}");
+        userModel.islogin = true;
+        log("Response islogin: ${userModel.islogin}");
+        userModel.loginType = guestData.value.loginType;
+        log("Response loginType: ${userModel.loginType}");
+        pref.saveUser(userModel);
         Get.offAllNamed(AppRoutes.restaurantNavbar);
       }
     }).onError((error, stackError) {
