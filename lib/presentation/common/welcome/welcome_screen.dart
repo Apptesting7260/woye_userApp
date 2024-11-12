@@ -46,7 +46,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Column header() {
+  Widget header() {
     return Column(
       children: [
         SvgPicture.asset(
