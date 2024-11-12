@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -6,6 +9,11 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'package:woye_user/Data/Model/usermodel.dart';
+import 'package:woye_user/Data/Repository/repository.dart';
+import 'package:woye_user/Data/response/status.dart';
+import 'package:woye_user/Data/userPrefrenceController.dart';
+import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import '../../../Core/Utils/snackbar.dart';
 import '../../../shared/theme/colors.dart';
@@ -266,4 +274,55 @@ class SocialLoginController extends GetxController {
       barrierDismissible: false, // Prevents user from dismissing the dialog
     );
   }
+
+
+
+  final api = Repository();
+
+  final rxRequestStatus = Status.COMPLETED.obs;
+  final guestData = RegisterModel().obs;
+  RxString error = ''.obs;
+  UserModel userModel = UserModel();
+
+  var pref = UserPreference();
+
+  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  void guestSet(RegisterModel _value) => guestData.value = _value;
+  void setError(String _value) => error.value = _value;
+
+  guestUserApi() async {
+
+    String? tokenFCM = await FirebaseMessaging.instance.getToken();
+
+    final data = {
+      "fcm_token": tokenFCM.toString(),
+    };
+
+    log(data.toString());
+
+    setRxRequestStatus(Status.LOADING);
+
+    api.guestUserApi(data, "").then((value) {
+
+      setRxRequestStatus(Status.COMPLETED);
+      guestSet(value);
+
+      if (guestData.value.status == true) {
+        userModel.step = guestData.value.step;
+        log("get Response Step: ${userModel.step}");
+        Get.offAllNamed(AppRoutes.restaurantNavbar);
+      }
+
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+
+  }
+
+
+
 }

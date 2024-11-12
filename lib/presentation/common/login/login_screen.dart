@@ -193,6 +193,33 @@ class LoginScreen extends StatelessWidget {
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
           onTap: () {
+            loginController.guestUserApi();
+          },
+          child: Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: REdgeInsets.only(
+                bottom: 30,
+              ),
+              child: RichText(
+                  text: TextSpan(children: [
+                    TextSpan(
+                        text: "Guest",
+                        style:
+                        AppFontStyle.text_16_400(AppColors.lightText)),
+                    TextSpan(
+                        text: "user",
+                        style: AppFontStyle.text_16_600(
+                          AppColors.darkText,
+                        )),
+                  ])),
+            ),
+          ),
+        ),
+        InkWell(
+          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          onTap: () {
             Get.toNamed(AppRoutes.signUp);
           },
           child: Align(

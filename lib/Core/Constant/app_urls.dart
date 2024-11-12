@@ -6,4 +6,5 @@ class AppUrls {
   static const String updateProfile = "$baseUrl/update-profile";
   static const String updateStatus = "$baseUrl/update-status";
   static const String getProfile = "$baseUrl/get-profile";
+  static const String guestUser = "$baseUrl/guest-user";
 }

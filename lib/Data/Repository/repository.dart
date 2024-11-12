@@ -28,5 +28,10 @@ class Repository{
     return UpdateprofileModel.fromJson(response);
   }
 
+  Future<dynamic> guestUserApi(data, token) async{
+    dynamic response = await _apiService.postApi(data, AppUrls.guestUser, token);
+    return RegisterModel.fromJson(response);
+  }
+
 
 }
