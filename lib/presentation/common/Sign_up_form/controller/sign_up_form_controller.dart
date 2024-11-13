@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:woye_user/Core/Constant/app_urls.dart';
+import 'package:location/location.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
@@ -10,7 +10,6 @@ import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_mode
 import 'package:woye_user/presentation/common/Sign_up_form/Model/updateprofile_model.dart';
 
 class SignUpFormController extends GetxController {
-
   GlobalKey<FormState> formSignUpKey = GlobalKey<FormState>();
 
   final api = Repository();
@@ -20,14 +19,17 @@ class SignUpFormController extends GetxController {
   final updateprofileData = UpdateprofileModel().obs;
   RxString error = ''.obs;
   UserModel userModel = UserModel();
+  Location location = Location();
+  bool? serviceEnabled;
+  LocationData? locationData;
 
   var pref = UserPreference();
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void profileSet(ProfileModel _value) => profileData.value = _value;
-  void upprofileSet(UpdateprofileModel _value) => updateprofileData.value = _value;
+  void upprofileSet(UpdateprofileModel _value) =>
+      updateprofileData.value = _value;
   void setError(String _value) => error.value = _value;
-
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
@@ -64,18 +66,14 @@ class SignUpFormController extends GetxController {
   late String countryCode;
   late String mob;
 
-
   @override
   void onInit() async {
-
-
-
-
     // Retrieve the arguments and provide fallback values if necessary
     var args = Get.arguments;
     if (args != null && args is Map<String, dynamic>) {
-      countryCode = args["countryCode"] ?? ""; // Provide a default value, e.g., empty string
-      mob = args["mob"] ?? "";                 // Provide a default value, e.g., empty string
+      countryCode = args["countryCode"] ??
+          ""; // Provide a default value, e.g., empty string
+      mob = args["mob"] ?? ""; // Provide a default value, e.g., empty string
     } else {
       // Handle the case where arguments are missing
       countryCode = "";
@@ -96,11 +94,20 @@ class SignUpFormController extends GetxController {
     // networkController.onInit();
 
     // emailController.text = responseEmail! ?? "";
-
+    checkLocation();
     getprofileApi();
     super.onInit();
   }
 
+  void checkLocation() async {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled!) {
+      serviceEnabled = await location.requestService();
+    }
+    if (!serviceEnabled!) {
+      debugPrint("location====================> location denied");
+    }
+  }
   // @override
   // void onClose() {
   //   fisrtNameController.dispose();
@@ -163,12 +170,10 @@ class SignUpFormController extends GetxController {
 
   void checkValid() {
     isValid = (formSignUpKey.currentState!.validate() && image != null);
-
     update();
   }
 
   profileupdateApi() async {
-
     final data = {
       "first_name": fisrtNameController.text.toString(),
       "phone": mobileController.text.trim().toString(),
@@ -188,7 +193,6 @@ class SignUpFormController extends GetxController {
     setRxRequestStatus(Status.LOADING);
 
     api.updateprofileApi(data, userModel.token.toString()).then((value) {
-
       setRxRequestStatus(Status.COMPLETED);
       upprofileSet(value);
 
@@ -197,7 +201,6 @@ class SignUpFormController extends GetxController {
         log("get Response Step: ${userModel.step}");
         Get.offAllNamed(AppRoutes.restaurantNavbar);
       }
-
     }).onError((error, stackError) {
       setError(error.toString());
       print('errrrrrrrrrrrr');
@@ -205,12 +208,9 @@ class SignUpFormController extends GetxController {
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
-
   }
 
-
   getprofileApi() async {
-
     log("get profile");
 
     userModel = await pref.getUser();
@@ -220,7 +220,6 @@ class SignUpFormController extends GetxController {
     setRxRequestStatus(Status.LOADING);
 
     api.getprofileApi(userModel.token.toString()).then((value) {
-
       setRxRequestStatus(Status.COMPLETED);
       profileSet(value);
 
@@ -230,7 +229,6 @@ class SignUpFormController extends GetxController {
         mobileController.text = profileData.value.data!.phone.toString();
         log("get Response phone: ${mobileController}");
       }
-
     }).onError((error, stackError) {
       setError(error.toString());
       print('errrrrrrrrrrrr');
@@ -238,8 +236,5 @@ class SignUpFormController extends GetxController {
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
-
   }
-
-
 }

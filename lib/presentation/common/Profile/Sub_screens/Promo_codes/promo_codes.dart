@@ -42,8 +42,6 @@ class PromoCodes extends StatelessWidget {
                 Container(
                   height: 80.h,
                   width: 80.w,
-                  // padding: const EdgeInsets.symmetric(
-                  //     horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
                       color:
                           index % 2 == 0 ? AppColors.primary : AppColors.black,
@@ -53,7 +51,7 @@ class PromoCodes extends StatelessWidget {
                     children: [
                       FittedBox(
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
                               "${(index * 5 + 10)}",
@@ -114,7 +112,7 @@ class PromoCodes extends StatelessWidget {
                       CustomElevatedButton(
                           textStyle: AppFontStyle.text_14_600(Colors.white),
                           width: 85.w,
-                          height: 40.h,
+                          height: 36.h,
                           text: "Apply",
                           onPressed: () {})
                     ],

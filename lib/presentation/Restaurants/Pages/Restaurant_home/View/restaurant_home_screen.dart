@@ -47,70 +47,65 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   padding: REdgeInsets.symmetric(
                     horizontal: 24,
                   ),
-                  sliver: SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    pinned: false,
-                    snap: true,
-                    floating: true,
-                    expandedHeight: 80.h,
-                    surfaceTintColor: Colors.transparent,
-                    backgroundColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: SizedBox(
-                        height: 34.h,
-                        child: (CustomSearchFilter(
-                          searchIocnPadding: REdgeInsets.all(8),
-                          searchIconHeight: 16.h,
-                          hintStyle:
-                              AppFontStyle.text_10_400(AppColors.hintText),
-                          textStyle:
-                              AppFontStyle.text_10_400(AppColors.darkText),
-                          prefixConstraints: BoxConstraints(
-                            maxHeight: 18.h,
-                          ),
-                          prefix: Padding(
-                            padding:
-                                REdgeInsets.only(left: 15, right: 5, bottom: 1),
-                            child: SvgPicture.asset(
-                              "assets/svg/search.svg",
-                              height: 12,
-                            ),
-                          ),
-                          padding: REdgeInsets.only(top: 10, bottom: 10),
-                          onFilterTap: () {
-                            Get.toNamed(AppRoutes.restaurantHomeFilter);
-                          },
-                        )),
-                      ),
-                      centerTitle: true,
-                    ),
-                  ),
+                  sliver: serchAndFilter(),
                 ),
                 SliverPadding(
                     padding: REdgeInsets.symmetric(horizontal: 24),
-                    sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                      childCount: 1,
-                      (context, index) => SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            mainBanner(),
-                            hBox(20),
-                            catergories(),
-                            hBox(20),
-                            popularRestaurant(),
-                            hBox(100)
-                          ],
-                        ),
+                    sliver: SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          mainBanner(),
+                          hBox(20),
+                          catergories(),
+                          hBox(20),
+                          popularRestaurant(),
+                          hBox(100)
+                        ],
                       ),
-                    )))
+                    ))
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget serchAndFilter() {
+    return SliverAppBar(
+      automaticallyImplyLeading: false,
+      pinned: false,
+      snap: true,
+      floating: true,
+      expandedHeight: 80.h,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      flexibleSpace: FlexibleSpaceBar(
+        title: SizedBox(
+          height: 34.h,
+          child: (CustomSearchFilter(
+            searchIocnPadding: REdgeInsets.all(8),
+            searchIconHeight: 16.h,
+            hintStyle: AppFontStyle.text_10_400(AppColors.hintText),
+            textStyle: AppFontStyle.text_10_400(AppColors.darkText),
+            prefixConstraints: BoxConstraints(
+              maxHeight: 18.h,
+            ),
+            prefix: Padding(
+              padding: REdgeInsets.only(left: 15, right: 5, bottom: 1),
+              child: SvgPicture.asset(
+                "assets/svg/search.svg",
+                height: 12,
+              ),
+            ),
+            padding: REdgeInsets.only(top: 10, bottom: 10),
+            onFilterTap: () {
+              Get.toNamed(AppRoutes.restaurantHomeFilter);
+            },
+          )),
+        ),
+        centerTitle: true,
       ),
     );
   }
@@ -126,12 +121,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           Flexible(
             flex: 1,
             child: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 30, bottom: 25),
+              padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Order from these restaurants and save.",
+                    overflow: TextOverflow.visible,
                     style: AppFontStyle.text_18_600(AppColors.darkText),
                   ),
                   hBox(16),
