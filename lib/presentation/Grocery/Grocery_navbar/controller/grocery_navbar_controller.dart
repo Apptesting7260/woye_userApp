@@ -1,26 +1,26 @@
 import 'dart:io';
 
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/View/restaurant_wishlist_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/restaurant_home_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_cart_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/view/pharmacy_categories_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/view/pharmacy_home_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/view/pharmacy_wishlist_screen.dart';
 import 'package:woye_user/presentation/common/Profile/View/profile_screen.dart';
 
-class RestaurantNavbarController extends GetxController {
+class GroceryNavbarController extends GetxController {
   int navbarCurrentIndex;
 
-  RestaurantNavbarController({this.navbarCurrentIndex = 0});
+  GroceryNavbarController({this.navbarCurrentIndex = 0});
   NetworkController networkController = Get.find<NetworkController>();
 
   PrefUtils prefUtils = PrefUtils();
   File? profileImage;
 
   List<Widget> widgets = [
-    const RestaurantHomeScreen(),
-    const RestaurantCategoriesScreen(),
-    const RestaurantWishlistScreen(),
-    const RestaurantCartScreen(),
+    const PharmacyHomeScreen(),
+    const PharmacyCategoriesScreen(),
+    const PharmacyWishlistScreen(),
+    const PharmacyCartScreen(),
     ProfileScreen()
   ];
 

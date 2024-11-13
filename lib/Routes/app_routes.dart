@@ -2,8 +2,6 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
-import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
-import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
@@ -18,6 +16,8 @@ import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
 import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
+import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
+import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
@@ -109,16 +109,16 @@ class AppRoutes {
         name: welcomeScreen,
         page: () => WelcomeScreen(),
         binding: WelcomeBinding()),
-    GetPage(name: login, page: () => LoginScreen()),
+    GetPage(name: login, page: () => const LoginScreen()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () => SignUpFormScreen(),
+        page: () => const SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
-      page: () => HomeScreen(),
+      page: () => const HomeScreen(),
       // binding: RestaurantNavbarBinding()
     ),
     GetPage(
