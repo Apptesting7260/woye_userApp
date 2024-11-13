@@ -48,6 +48,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_scree
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help_screen.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/controller/Sign_up_form_binding.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/view/sign_up_form_screen.dart';
+import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 
 class AppRoutes {
   static const String initalRoute = "/inital_route";
@@ -108,8 +109,8 @@ class AppRoutes {
     GetPage(
         name: welcomeScreen,
         page: () => WelcomeScreen(),
-        binding: WelcomeBinding()),
-    GetPage(name: login, page: () => LoginScreen()),
+        bindings: [WelcomeBinding(),GuestBinding()]),
+    GetPage(name: login, page: () => LoginScreen(),binding: GuestBinding()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(

@@ -387,51 +387,51 @@ class LoginController extends GetxController {
     'WF': 7, // Wallis and Futuna
   };
 
-  final api = Repository();
-
-  final guestData = RegisterModel().obs;
-  RxString error = ''.obs;
-  UserModel userModel = UserModel();
-
-  var pref = UserPreference();
-
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void guestSet(RegisterModel _value) => guestData.value = _value;
-  void setError(String _value) => error.value = _value;
-
-  guestUserApi() async {
-    String? tokenFCM = await FirebaseMessaging.instance.getToken();
-
-    final data = {
-      "fcm_token": tokenFCM.toString(),
-    };
-
-    log(data.toString());
-
-    setRxRequestStatus(Status.LOADING);
-
-    api.guestUserApi(data, "").then((value) {
-      setRxRequestStatus(Status.COMPLETED);
-      guestSet(value);
-
-      if (guestData.value.status == true) {
-        userModel.step = guestData.value.step;
-        log("Response Step: ${userModel.step}");
-        userModel.token = guestData.value.token;
-        log("Response token: ${userModel.token}");
-        userModel.islogin = true;
-        log("Response islogin: ${userModel.islogin}");
-        userModel.loginType = guestData.value.loginType;
-        log("Response loginType: ${userModel.loginType}");
-        pref.saveUser(userModel);
-        Get.offAllNamed(AppRoutes.restaurantNavbar);
-      }
-    }).onError((error, stackError) {
-      setError(error.toString());
-      print('errrrrrrrrrrrr');
-      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
-      print(error);
-      setRxRequestStatus(Status.ERROR);
-    });
-  }
+  // final api = Repository();
+  //
+  // final guestData = RegisterModel().obs;
+  // RxString error = ''.obs;
+  // UserModel userModel = UserModel();
+  //
+  // var pref = UserPreference();
+  //
+  // void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
+  // void guestSet(RegisterModel _value) => guestData.value = _value;
+  // void setError(String _value) => error.value = _value;
+  //
+  // guestUserApi() async {
+  //   // String? tokenFCM = await FirebaseMessaging.instance.getToken();
+  //
+  //   final data = {
+  //     "fcm_token": "tokenFCM.toString()",
+  //   };
+  //
+  //   log(data.toString());
+  //
+  //   setRxRequestStatus(Status.LOADING);
+  //
+  //   api.guestUserApi(data, "").then((value) {
+  //     setRxRequestStatus(Status.COMPLETED);
+  //     guestSet(value);
+  //
+  //     if (guestData.value.status == true) {
+  //       userModel.step = guestData.value.step;
+  //       log("Response Step: ${userModel.step}");
+  //       userModel.token = guestData.value.token;
+  //       log("Response token: ${userModel.token}");
+  //       userModel.islogin = true;
+  //       log("Response islogin: ${userModel.islogin}");
+  //       userModel.loginType = guestData.value.loginType;
+  //       log("Response loginType: ${userModel.loginType}");
+  //       pref.saveUser(userModel);
+  //       Get.offAllNamed(AppRoutes.restaurantNavbar);
+  //     }
+  //   }).onError((error, stackError) {
+  //     setError(error.toString());
+  //     print('errrrrrrrrrrrr');
+  //     // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+  //     print(error);
+  //     setRxRequestStatus(Status.ERROR);
+  //   });
+  // }
 }

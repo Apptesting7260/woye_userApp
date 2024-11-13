@@ -2,9 +2,9 @@ import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
-  static HomeController homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
     return Material(
