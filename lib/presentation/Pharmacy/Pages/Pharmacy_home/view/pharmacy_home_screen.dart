@@ -1,9 +1,9 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/restaurant_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/controller/pharmacy_home_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
+import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
 class PharmacyHomeScreen extends StatelessWidget {
   const PharmacyHomeScreen({super.key});
@@ -19,7 +19,7 @@ class PharmacyHomeScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          const HomeScreen(),
+          HomeScreen(),
           Expanded(
             child: CustomScrollView(
               slivers: [
@@ -38,8 +38,10 @@ class PharmacyHomeScreen extends StatelessWidget {
                           hBox(20),
                           catergories(),
                           hBox(20),
-                          popularRestaurant(),
-                          hBox(100)
+                          mostPopular(),
+                          hBox(20),
+                          moreProduct(),
+                          hBox(50)
                         ],
                       ),
                     ))
@@ -81,7 +83,7 @@ class PharmacyHomeScreen extends StatelessWidget {
             ),
             padding: REdgeInsets.only(top: 10, bottom: 10),
             onFilterTap: () {
-              Get.toNamed(AppRoutes.restaurantHomeFilter);
+              Get.toNamed(AppRoutes.pharmcayHomeFilter);
             },
           )),
         ),
@@ -92,47 +94,55 @@ class PharmacyHomeScreen extends StatelessWidget {
 
   Widget mainBanner() {
     return Container(
-      // height: 150.h,
       decoration: BoxDecoration(
-          color: const Color(0xffBB9A65).withOpacity(0.1),
+          image: DecorationImage(
+              image: AssetImage(
+            "assets/images/pharmacy-main-banner.png",
+          )),
           borderRadius: BorderRadius.circular(30.r)),
       child: Row(
         children: [
-          Flexible(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "hey!why",
-                    // "Order from these restaurants and save.",
-                    overflow: TextOverflow.visible,
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
-                  ),
-                  hBox(16),
-                  CustomElevatedButton(
-                    height: 40.h,
-                    width: 100.w,
-                    onPressed: () {},
-                    child: Text(
-                      "Buy now",
-                      style: AppFontStyle.text_12_600(AppColors.white),
+          Padding(
+            padding: const EdgeInsets.only(left: 24, top: 20, bottom: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "30%",
+                      overflow: TextOverflow.visible,
+                      style: AppFontStyle.text_30_600(AppColors.darkText,
+                          height: 1.0),
                     ),
-                  )
-                ],
-              ),
+                    Text(
+                      "off",
+                      // "Order from these restaurants and save.",
+                      overflow: TextOverflow.visible,
+                      style: AppFontStyle.text_16_600(AppColors.darkText),
+                    ),
+                  ],
+                ),
+                hBox(5),
+                Text(
+                  "Today Special!",
+                  overflow: TextOverflow.visible,
+                  style: AppFontStyle.text_16_600(AppColors.darkText),
+                ),
+                hBox(16),
+                CustomElevatedButton(
+                  height: 40.h,
+                  width: 100.w,
+                  onPressed: () {},
+                  child: Text(
+                    "Buy now",
+                    style: AppFontStyle.text_12_600(AppColors.white),
+                  ),
+                )
+              ],
             ),
           ),
-          Flexible(
-            flex: 1,
-            child: Image.asset(
-              "assets/images/pharmacy-main-banner.png",
-              height: 160.h,
-              // width: 100.w,
-            ),
-          )
         ],
       ),
     );
@@ -176,7 +186,7 @@ class PharmacyHomeScreen extends StatelessWidget {
           height: 110.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 4,
+            itemCount: 6,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -185,19 +195,25 @@ class PharmacyHomeScreen extends StatelessWidget {
                     child: ColoredBox(
                       color: AppColors.ultraLightPrimary,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(14.0),
                         child: Image.asset(
-                          "assets/images/pharmacy-cat-$index.png",
-                          height: 40.h,
+                          "assets/images/pharmacy-cat-${index % 3}.png",
+                          height: 30.h,
                           // fit: BoxFit.cover,
                         ),
                       ),
                     ),
                   ),
-                  hBox(15),
-                  Text(
-                    "cat",
-                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                  hBox(10),
+                  SizedBox(
+                    width: 60.w,
+                    child: Text(
+                      "Pesonal Care",
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.visible,
+                      softWrap: true,
+                      style: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
                   )
                 ],
               ).marginOnly(right: 30.w);
@@ -208,14 +224,14 @@ class PharmacyHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget popularRestaurant() {
+  Widget mostPopular() {
     return Column(
       children: [
         Row(
           children: [
             Text(
-              "Popular Restaurant",
-              style: AppFontStyle.text_24_600(AppColors.darkText),
+              "Most Popular",
+              style: AppFontStyle.text_22_600(AppColors.darkText),
             ),
             const Spacer(),
             Text(
@@ -234,104 +250,50 @@ class PharmacyHomeScreen extends StatelessWidget {
         GetBuilder(
             init: pharmacyHomeController,
             builder: (controller) {
-              return ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final restaurantsList =
-                        pharmacyHomeController.restaurantList[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                            image: restaurantsList["image"],
-                            title: restaurantsList["title"]));
-                      },
-                      child: restaurantList(
-                          index: index,
-                          image: restaurantsList["image"],
-                          title: restaurantsList["title"],
-                          isFavourite: restaurantsList["isFavourite"]),
-                    );
-                  },
-                  itemCount: pharmacyHomeController.restaurantList.length,
-                  separatorBuilder: (context, index) => hBox(20));
+              return CustomGridView(
+                itemCount: 2,
+                imageHeight: 100.h,
+                image: "assets/images/tablet.png",
+                onTap: () {},
+              );
             }),
       ],
     );
   }
 
-  Widget restaurantList({index, image, title, type, isFavourite}) {
-    PharmacyHomeController controller = Get.find<PharmacyHomeController>();
+  Widget moreProduct() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Stack(
-          alignment: Alignment.topRight,
+        Row(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              child: Image.asset(
-                image,
-                // height: 200,
-                width: Get.width,
-              ),
+            Text(
+              "More Products",
+              style: AppFontStyle.text_22_600(AppColors.darkText),
             ),
-            GestureDetector(
-              onTap: () => controller.changeFavorite(index),
-              child: Container(
-                margin: REdgeInsets.only(top: 15, right: 15),
-                padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    color: AppColors.greyBackground),
-                child: isFavourite != true
-                    ? Icon(
-                        Icons.favorite_border_outlined,
-                        size: 20.w,
-                      )
-                    : Icon(
-                        Icons.favorite,
-                        size: 20.w,
-                      ),
-
-                // SvgPicture.asset(
-                //   "assets/svg/favorite-inactive.svg",
-                //   height: 15.h,
-                // ),
-              ),
+            const Spacer(),
+            Text(
+              "See All",
+              style: AppFontStyle.text_14_400(AppColors.primary),
+            ),
+            wBox(4),
+            Icon(
+              Icons.arrow_forward_sharp,
+              color: AppColors.primary,
+              size: 18,
             )
           ],
         ),
-        hBox(10),
-        Text(
-          title,
-          textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
-        ),
-        // hBox(10),
-        Row(
-          // crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              "\$7 - \$18",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
-            ),
-            Text(
-              " • ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
-            ),
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
-            Text(
-              "4.5/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-          ],
-        )
+        hBox(20),
+        GetBuilder(
+            init: pharmacyHomeController,
+            builder: (controller) {
+              return CustomGridView(
+                itemCount: 6,
+                imageHeight: 100.h,
+                image: "assets/images/tablet.png",
+                onTap: () {},
+              );
+            }),
       ],
     );
   }

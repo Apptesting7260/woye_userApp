@@ -1,11 +1,13 @@
 import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
 
   static final LoginController loginController = Get.put(LoginController());
+  final GuestController guestController = Get.find<GuestController>();
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +113,9 @@ class LoginScreen extends StatelessWidget {
   Widget guestButton() {
     return Obx(() => CustomOutlinedButton(
         onPressed: () {
-          loginController.guestUserApi();
+          guestController.guestUserApi();
         },
-        child: loginController.rxRequestStatus.value == Status.LOADING ? LoadingAnimationWidget.inkDrop(
+        child: guestController.rxRequestStatus.value == Status.LOADING ? LoadingAnimationWidget.inkDrop(
           color: AppColors.primary,
           size: 30.h,
         ) : Row(

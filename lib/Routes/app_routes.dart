@@ -17,6 +17,8 @@ import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/pharmacy_category_details.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharmacy_home_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
@@ -48,6 +50,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_scree
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help_screen.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/controller/Sign_up_form_binding.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/view/sign_up_form_screen.dart';
+import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 
 class AppRoutes {
   static const String initalRoute = "/inital_route";
@@ -100,6 +103,10 @@ class AppRoutes {
   static const String privayPolicy = "/privacyPolicy";
   static const String termsAndConditions = "/termAndConditions";
 
+  ///`pharmacy=====================================================>`
+  static const String pharmcayHomeFilter = "/pharmcayHomeFilter";
+  static const String pharmacyCategoryDetails = "/pharmacyCategoryDetails";
+
   static List<GetPage> pages = [
     GetPage(
       name: initalRoute,
@@ -109,7 +116,8 @@ class AppRoutes {
         name: welcomeScreen,
         page: () => WelcomeScreen(),
         binding: WelcomeBinding()),
-    GetPage(name: login, page: () => const LoginScreen()),
+    GetPage(name: login, page: () => LoginScreen()),
+    GetPage(name: login, page: () => LoginScreen(), binding: GuestBinding()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
@@ -118,7 +126,7 @@ class AppRoutes {
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
-      page: () => const HomeScreen(),
+      page: () => HomeScreen(),
       // binding: RestaurantNavbarBinding()
     ),
     GetPage(
@@ -185,5 +193,10 @@ class AppRoutes {
     GetPage(
         name: restaurantWishlistFilter,
         page: () => const RestaurantWishlistFilter()),
+
+    ///`pharmacy=====================================================>`
+    GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),
+    GetPage(
+        name: pharmacyCategoryDetails, page: () => PharmacyCategoryDetails()),
   ];
 }

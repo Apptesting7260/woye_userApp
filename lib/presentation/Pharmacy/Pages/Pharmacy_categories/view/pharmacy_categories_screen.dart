@@ -6,12 +6,12 @@ class PharmacyCategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List catItems = [
-      "Pizza",
-      "Burger",
-      "Chicken",
-      "Fried Rice",
-      "Desserts",
-      "Sweet"
+      "Personal Care",
+      "Skin Care",
+      "Digestive Care",
+      "Fever Care",
+      "Heart Care",
+      "Eyes Care"
     ];
     return Scaffold(
         appBar: CustomAppBar(
@@ -32,10 +32,10 @@ class PharmacyCategoriesScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 20,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        Get.toNamed(AppRoutes.restaurantCategoriesDetails,
+                        Get.toNamed(AppRoutes.pharmacyCategoryDetails,
                             arguments: catItems[index % 5]);
                       },
                       child: Container(
@@ -51,27 +51,32 @@ class PharmacyCategoriesScreen extends StatelessWidget {
                             children: [
                               Row(
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10.r)),
-                                    height: 70.w,
-                                    width: 70.w,
-                                    child: Image.asset(
-                                      "assets/images/cat-image${index % 5}.png",
-                                      height: 80.h,
-                                      fit: BoxFit.fill,
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    child: ColoredBox(
+                                      color: AppColors.ultraLightPrimary,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(14.0),
+                                        child: Image.asset(
+                                          "assets/images/pharmacy-cat-${index % 3}.png",
+                                          height: 30.h,
+                                          // fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                   wBox(20),
                                   Text(
                                     catItems[index % 5],
-                                    style: AppFontStyle.text_18_400(
+                                    style: AppFontStyle.text_16_400(
                                         AppColors.darkText),
                                   )
                                 ],
                               ),
-                              const Icon(Icons.arrow_forward_ios),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 18.w,
+                              ),
                             ],
                           ),
                         ),

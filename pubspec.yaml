@@ -63,6 +63,8 @@ dependencies:
   csc_picker: ^0.2.7
   firebase_messaging: ^15.1.4
   location: ^7.0.1
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 
 class AppFontStyle {
   static TextStyle _textStyle(Color color, double size, FontWeight fontWeight,
-       { height}) {
+      {height}) {
     return TextStyle(
         color: color,
         fontSize: size,

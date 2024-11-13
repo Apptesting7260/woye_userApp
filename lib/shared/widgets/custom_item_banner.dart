@@ -1,9 +1,10 @@
 import 'package:woye_user/core/utils/app_export.dart';
 
 class CustomItemBanner extends StatelessWidget {
+  final double? imageHeight;
   int index;
   final String? image;
-  CustomItemBanner({super.key, this.index = 0, this.image});
+  CustomItemBanner({super.key, this.index = 0, this.image, this.imageHeight});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class CustomItemBanner extends StatelessWidget {
               ),
               child: Image.asset(
                 image ?? "assets/images/cat-image${index % 5}.png",
-                height: 160.h,
+                height: imageHeight ?? 160.h,
                 width: Get.width,
                 fit: BoxFit.cover,
                 // width: Get.width,
