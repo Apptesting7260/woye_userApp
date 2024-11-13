@@ -195,59 +195,82 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           ],
         ),
         hBox(20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                CustomRoundedButton(
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Column(
+        //       children: [
+        //         CustomRoundedButton(
+        //             onPressed: () {},
+        //             child: Image.asset("assets/images/cat-pizza.png")),
+        //         hBox(15),
+        //         Text(
+        //           "Pizza",
+        //           style: AppFontStyle.text_14_400(AppColors.darkText),
+        //         )
+        //       ],
+        //     ),
+        //     Column(
+        //       children: [
+        //         CustomRoundedButton(
+        //             onPressed: () {},
+        //             child: Image.asset("assets/images/cat-burger.png")),
+        //         hBox(15),
+        //         Text(
+        //           "Burger",
+        //           style: AppFontStyle.text_14_400(AppColors.darkText),
+        //         )
+        //       ],
+        //     ),
+        //     Column(
+        //       children: [
+        //         CustomRoundedButton(
+        //             onPressed: () {},
+        //             child: Image.asset("assets/images/cat-cake.png")),
+        //         hBox(15),
+        //         Text(
+        //           "Cake",
+        //           style: AppFontStyle.text_14_400(AppColors.darkText),
+        //         )
+        //       ],
+        //     ),
+        //     Column(
+        //       children: [
+        //         CustomRoundedButton(
+        //             onPressed: () {},
+        //             child: Image.asset("assets/images/cat-sweet.png")),
+        //         hBox(15),
+        //         Text(
+        //           "Sweet",
+        //           style: AppFontStyle.text_14_400(AppColors.darkText),
+        //         )
+        //       ],
+        //     ),
+        //   ],
+        // ),
+        Container(
+          height: 87.h,
+          width: 360.w,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: restaurantHomeController.homeData.value.category?.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  CustomRoundedButton(
                     onPressed: () {},
-                    child: Image.asset("assets/images/cat-pizza.png")),
-                hBox(15),
-                Text(
-                  "Pizza",
-                  style: AppFontStyle.text_14_400(AppColors.darkText),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                CustomRoundedButton(
-                    onPressed: () {},
-                    child: Image.asset("assets/images/cat-burger.png")),
-                hBox(15),
-                Text(
-                  "Burger",
-                  style: AppFontStyle.text_14_400(AppColors.darkText),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                CustomRoundedButton(
-                    onPressed: () {},
-                    child: Image.asset("assets/images/cat-cake.png")),
-                hBox(15),
-                Text(
-                  "Cake",
-                  style: AppFontStyle.text_14_400(AppColors.darkText),
-                )
-              ],
-            ),
-            Column(
-              children: [
-                CustomRoundedButton(
-                    onPressed: () {},
-                    child: Image.asset("assets/images/cat-sweet.png")),
-                hBox(15),
-                Text(
-                  "Sweet",
-                  style: AppFontStyle.text_14_400(AppColors.darkText),
-                )
-              ],
-            ),
-          ],
-        ),
+                    child: Image.asset(restaurantHomeController.homeData.value.category![index].imageUrl.toString()),
+                  ),
+                  hBox(15),
+                  Text(
+                    restaurantHomeController.homeData.value.category![index].name.toString(),
+                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                  )
+                ],
+              );
+            },
+          ),
+        )
       ],
     );
   }

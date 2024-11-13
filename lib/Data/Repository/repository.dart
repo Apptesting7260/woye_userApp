@@ -5,6 +5,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/h
 import 'package:woye_user/presentation/common/Otp/model/login_model.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/Model/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 
 class Repository{
   final _apiService = NetworkApiServices();
@@ -39,5 +40,9 @@ class Repository{
     return HomeModel.fromJson(response);
   }
 
+  Future<dynamic> SocialLoginApi(data, token) async{
+    dynamic response = await _apiService.postApi(data, AppUrls.socialLogin, token);
+    return SocialModel.fromJson(response);
+  }
 
 }

@@ -6,7 +6,8 @@ import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_controller.dart';
-import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
+// import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
+import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 
 class OtpScreen extends StatelessWidget {
   // String? mobileNumber = Get.arguments["mob"];
@@ -15,7 +16,7 @@ class OtpScreen extends StatelessWidget {
   });
 
   final LoginController loginController = Get.put(LoginController());
-  final SignUpController signUpController = Get.put(SignUpController());
+  final SignUpController signUpController = Get.find<SignUpController>();
   final OtpController otpController = Get.find<OtpController>();
 
 

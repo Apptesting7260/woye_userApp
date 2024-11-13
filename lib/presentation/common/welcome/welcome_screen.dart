@@ -1,3 +1,4 @@
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
@@ -72,11 +73,14 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget guestButton() {
-    return CustomOutlinedButton(
+    return Obx(() => CustomOutlinedButton(
         onPressed: () {
           signUpController.guestUserApi();
         },
-        child: Row(
+        child: signUpController.rxRequestStatus.value == Status.LOADING ? LoadingAnimationWidget.inkDrop(
+          color: AppColors.primary,
+          size: 30.h,
+        ) : Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
@@ -85,10 +89,12 @@ class WelcomeScreen extends StatelessWidget {
               width: 26.h,
             ),
             wBox(12),
-            Text("Continue As Guest",
-                style: AppFontStyle.text_16_400(AppColors.darkText))
+            Text(
+                "Continue As Guest",
+                style: AppFontStyle.text_16_400(AppColors.darkText)
+            )
           ],
-        ));
+        )),);
   }
 
   Widget divider() {
