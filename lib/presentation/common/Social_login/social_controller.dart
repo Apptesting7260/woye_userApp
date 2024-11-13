@@ -15,6 +15,7 @@ import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Routes/app_routes.dart';
+import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import '../../../Core/Utils/snackbar.dart';
 import '../../../shared/theme/colors.dart';
 
@@ -61,6 +62,7 @@ class SocialLoginController extends GetxController {
       print("UID: ${googleUser?.id}");
       print("Photo: ${googleUser?.photoUrl}");
       print("Phone: ${datad.user?.phoneNumber ?? 'No phone number available'}");
+      print("gender: ${datad.additionalUserInfo?.profile ?? 'No phone number available'}");
       //
       // Map body = {
       //   'socailite_type': 'google',
@@ -87,8 +89,17 @@ class SocialLoginController extends GetxController {
       //   showTostMsg('Login failed.');
       // }
 
-      Get.back();
-      Get.offAllNamed(AppRoutes.signUpFom);
+
+      SocialLoginApi(
+        email: googleUser!.email.toString(),
+        id: googleUser.id.toString(),
+        type: "google",
+        name: displayName.toString(),
+        mobile: datad.user!.phoneNumber.toString(),
+      );
+
+      // Get.back();
+      // Get.offAllNamed(AppRoutes.signUpFom);
 
     } on FirebaseAuthException catch (e) {
       Get.back();
@@ -199,67 +210,80 @@ class SocialLoginController extends GetxController {
     }
   }
 
-// final _api = Repository();
-//
-// final rxRequestStatus = Status.COMPLETED.obs;
-// final socialLoginData = LoginModel().obs;
-// RxString error = ''.obs;
-// String token = '';
-//
-// void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-//
-// void SocialDataSet(LoginModel value) => socialLoginData.value = value;
-//
-// void setError(String value) => error.value = value;
-//
-// UserPreference userPreference = UserPreference();
-//
-// SocialLoginApi({
-//   required String email,
-//   required String type,
-//   required String id,
-//   required String name,
-//   required String mobile,
-//   required String countryCode,
-// }) async {
-//   String? tokenFCM = await FirebaseMessaging.instance.getToken();
-//   Map data = {
-//     'email': email,
-//     'name': name,
-//     'mobile': mobile,
-//     'type': type,
-//     'unique_id': id,
-//     "tokenFCM": tokenFCM.toString(),
-//     "country_code": countryCode.toString(),
-//   };
-//   print("WWWWWWWWWWWW$data");
-//   setRxRequestStatus(Status.LOADING);
-//   _api.SocialLoginApi(data, token).then((value) async {
-//     setRxRequestStatus(Status.COMPLETED);
-//     SocialDataSet(value);
-//     if (socialLoginData.value.status == true) {
-//       print("object ==========  await Analytics.loginEvent");
-//       await Analytics.login_event(email, type);
-//       UserModel userModel = UserModel(
-//           token: socialLoginData.value.token.toString(), isLogin: true);
-//
-//       userPreference.saveUser(userModel).then((value) {
-//         Get.delete<LoginModel>();
-//         Get.offAllNamed(RouteName.tabBarScreen)!.then((value) {});
-//       }).onError((error, stackTrace) {});
-//     } else {
-//       Utils.toastMessage(socialLoginData.value.message.toString());
-//       Get.back();
-//     }
-//   }).onError((error, stackTrace) {
-//     setError(error.toString());
-//     // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
-//     print('errrrrrrrrrrrr');
-//     print(error);
-//     // setRxRequestStatus(Status.ERROR);
-//     Get.back();
-//   });
-// }
+final _api = Repository();
+
+final rxRequestStatus = Status.COMPLETED.obs;
+final socialLoginData = SocialModel().obs;
+RxString error = ''.obs;
+String token = '';
+
+void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
+void SocialDataSet(SocialModel value) => socialLoginData.value = value;
+
+void setError(String value) => error.value = value;
+
+UserPreference userPreference = UserPreference();
+
+SocialLoginApi({
+  required String email,
+  required String type,
+  required String id,
+  required String name,
+  required String mobile,
+}) async {
+  String? tokenFCM = await FirebaseMessaging.instance.getToken();
+
+  UserModel userModel = UserModel();
+  var pref = UserPreference();
+  userModel = await pref.getUser();
+
+  Map data = {
+    'mailto:email': email,
+    "fcm_token": tokenFCM.toString(),
+    'step': userModel.token.toString() == 2 ? '2' : '1',
+    'type': type.toString(),
+    'name': name,
+    'phone': mobile,
+    'dob': "",
+    "gender": "",
+    'uuid': id,
+  };
+  print("WWWWWWWWWWWW$data");
+  setRxRequestStatus(Status.LOADING);
+  _api.SocialLoginApi(data, token).then((value) async {
+    setRxRequestStatus(Status.COMPLETED);
+    SocialDataSet(value);
+    if (socialLoginData.value.status == true) {
+      print("object ==========  await Analytics.loginEvent");
+      // await Analytics.login_event(email, type);
+      UserModel userModel = UserModel(
+          token: socialLoginData.value.token.toString(),
+          islogin: true,
+          loginType: socialLoginData.value.type.toString(),
+          step: socialLoginData.value.step
+      );
+      userPreference.saveUser(userModel).then((value) {
+        Get.delete<SocialModel>();
+        Get.back();
+        Get.offAllNamed(AppRoutes.signUpFom);
+      }).onError((error, stackTrace) {});
+    } else {
+      SnackBarUtils.showToastCenter(socialLoginData.value.message.toString());
+      Get.back();
+    }
+  }).onError((error, stackTrace) {
+    setError(error.toString());
+    // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+    print('errrrrrrrrrrrr');
+    print(error);
+    print(stackTrace);
+    // setRxRequestStatus(Status.ERROR);
+    Get.back();
+  });
+}
+
+
   Future<void> showLoading() async {
     await Get.dialog(
       PopScope(
@@ -274,62 +298,6 @@ class SocialLoginController extends GetxController {
       barrierDismissible: false, // Prevents user from dismissing the dialog
     );
   }
-
-
-
-  final api = Repository();
-
-  final rxRequestStatus = Status.COMPLETED.obs;
-  final guestData = RegisterModel().obs;
-  RxString error = ''.obs;
-  UserModel userModel = UserModel();
-
-  var pref = UserPreference();
-
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void guestSet(RegisterModel _value) => guestData.value = _value;
-  void setError(String _value) => error.value = _value;
-
-  guestUserApi() async {
-
-    String? tokenFCM = await FirebaseMessaging.instance.getToken();
-
-    final data = {
-      "fcm_token": tokenFCM.toString(),
-    };
-
-    log(data.toString());
-
-    setRxRequestStatus(Status.LOADING);
-
-    api.guestUserApi(data, "").then((value) {
-
-      setRxRequestStatus(Status.COMPLETED);
-      guestSet(value);
-
-      if (guestData.value.status == true) {
-        userModel.step = guestData.value.step;
-        log("Response Step: ${userModel.step}");
-        userModel.token = guestData.value.token;
-        log("Response token: ${userModel.token}");
-        userModel.islogin = true;
-        log("Response islogin: ${userModel.islogin}");
-        userModel.loginType = guestData.value.loginType;
-        log("Response loginType: ${userModel.loginType}");
-        pref.saveUser(userModel);
-        Get.offAllNamed(AppRoutes.restaurantNavbar);
-      }
-
-    }).onError((error, stackError) {
-      setError(error.toString());
-      print('errrrrrrrrrrrr');
-      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
-      print(error);
-      setRxRequestStatus(Status.ERROR);
-    });
-
-  }
-
 
 
 }

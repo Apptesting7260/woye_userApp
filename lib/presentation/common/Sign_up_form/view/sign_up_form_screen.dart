@@ -1,14 +1,33 @@
-import 'package:woye_user/Presentation/Common/Sign_up_form/sign_up_form_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/common/Sign_up_form/controller/sign_up_form_controller.dart';
 
-class SignUpFormScreen extends StatelessWidget {
+class SignUpFormScreen extends StatefulWidget {
   const SignUpFormScreen({super.key});
-
   static SignUpFormController signUpFormController =
       Get.find<SignUpFormController>();
+  @override
+  State<SignUpFormScreen> createState() => _SignUpFormScreenState();
+}
+
+class _SignUpFormScreenState extends State<SignUpFormScreen> {
+  SignUpFormController controller = Get.put(SignUpFormController());
+  @override
+  void initState() {
+    // if (controller.serviceEnabled != true) {
+    //   locationRequestPopUp(context);
+    // }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (controller.serviceEnabled != true) {
+        locationRequestPopUp(context);
+      }
+      // locationRequestPopUp(context);
+    });
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -21,7 +40,7 @@ class SignUpFormScreen extends StatelessWidget {
             header(),
             hBox(30),
             //
-            form(signUpFormController, context),
+            form(SignUpFormScreen.signUpFormController, context),
             hBox(20),
             //
             continueButton(),
@@ -121,7 +140,9 @@ class SignUpFormScreen extends StatelessWidget {
                       SvgPicture.asset(
                         ImageConstants.calendar,
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text(
                         signUpFormController.selectedDate.value == null
                             ? "Date of Birth"
@@ -245,10 +266,12 @@ class SignUpFormScreen extends StatelessWidget {
 
   Widget continueButton() {
     return CustomElevatedButton(
-      isLoading: signUpFormController.rxRequestStatus.value == Status.LOADING,
+        isLoading:
+            SignUpFormScreen.signUpFormController.rxRequestStatus.value ==
+                Status.LOADING,
         text: "Continue",
         onPressed: () {
-          signUpFormController.profileupdateApi();
+          SignUpFormScreen.signUpFormController.profileupdateApi();
           // Get.offAndToNamed(AppRoutes.restaurantNavbar);
         });
   }
@@ -370,6 +393,70 @@ class SignUpFormScreen extends StatelessWidget {
                       )
                     ],
                   ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Future<dynamic> locationRequestPopUp(context) {
+    return showCupertinoModalPopup(
+        context: context,
+        builder: (context) {
+          return AlertDialog.adaptive(
+            content: Container(
+              height: 150.h,
+              width: 320.w,
+              padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.r),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Location',
+                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                  ),
+                  // hBox(15),
+                  Text(
+                    'Plz Enable Location Services',
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  // hBox(15),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          color: AppColors.black,
+                          onPressed: () {
+                            Get.back();
+                          },
+                          text: "Cancel",
+                          textStyle:
+                              AppFontStyle.text_14_400(AppColors.darkText),
+                        ),
+                      ),
+                      wBox(15),
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          onPressed: () async {
+                            // await SignUpFormScreen.signUpFormController.location
+                            //     .requestService();
+
+                            controller.locationData =
+                                await controller.location.getLocation();
+                            print(
+                                "location====================> ${controller.locationData}");
+                          },
+                          text: "Yes",
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),

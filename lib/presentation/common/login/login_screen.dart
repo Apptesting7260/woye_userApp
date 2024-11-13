@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -108,11 +109,14 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget guestButton() {
-    return CustomOutlinedButton(
+    return Obx(() => CustomOutlinedButton(
         onPressed: () {
           loginController.guestUserApi();
         },
-        child: Row(
+        child: loginController.rxRequestStatus.value == Status.LOADING ? LoadingAnimationWidget.inkDrop(
+          color: AppColors.primary,
+          size: 30.h,
+        ) : Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset(
@@ -124,7 +128,7 @@ class LoginScreen extends StatelessWidget {
             Text("Continue As Guest",
                 style: AppFontStyle.text_16_400(AppColors.darkText))
           ],
-        ));
+        )),);
   }
 
   Widget continueText() {

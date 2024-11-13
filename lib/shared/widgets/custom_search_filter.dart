@@ -30,6 +30,9 @@ class CustomSearchFilter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Paint paint = Paint();
+    paint.color = AppColors.black;
+    paint.invertColors = true;
     return Row(
       children: [
         Expanded(
