@@ -1,15 +1,15 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
 
-class RestaurantCategoriesFilter extends StatelessWidget {
-  RestaurantCategoriesFilter({super.key});
+class PharmacyCategoriesFilter extends StatelessWidget {
+  PharmacyCategoriesFilter({super.key});
 
   final RxMap<String, dynamic> _options = {
-    "Veg": true.obs,
-    "Non-veg": false.obs,
-    "Jain": false.obs,
-    "Healthy": false.obs,
-    "Vegan": false.obs,
+    "Cremaffin": true.obs,
+    "Digene": false.obs,
+    "Eno": false.obs,
+    "Gelusil": false.obs,
+    "Softvac": false.obs,
   }.obs;
 
   final RxDouble _lowerValue = 20.0.obs;
@@ -41,35 +41,11 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               hBox(30),
               price(),
               hBox(30),
-              quickFilter(),
+              sortBy(),
               hBox(30),
               priceRange(),
               hBox(30),
-              size(),
-              hBox(30),
-              toppings(),
-              hBox(20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                      child: CustomElevatedButton(
-                          height: 55.h,
-                          text: "Clear",
-                          color: AppColors.black,
-                          onPressed: () {
-                            Get.back();
-                          })),
-                  wBox(10),
-                  Expanded(
-                      child: CustomElevatedButton(
-                          height: 55.h,
-                          text: "Apply",
-                          onPressed: () {
-                            Get.back();
-                          }))
-                ],
-              ),
+              buttons(),
               hBox(50)
             ],
           ),
@@ -150,13 +126,13 @@ class RestaurantCategoriesFilter extends StatelessWidget {
     );
   }
 
-  Widget quickFilter() {
+  Widget sortBy() {
     List isSelected = [false.obs, false.obs, false.obs];
-    List labels = ["Near & fast", "Rating 4.5", "Pure Veg"];
+    List labels = ["Newest", "Best sale", "Popular"];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Quick Filter",
+        Text("Sort by",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
         hBox(10),
         Wrap(
@@ -242,102 +218,26 @@ class RestaurantCategoriesFilter extends StatelessWidget {
     );
   }
 
-  Widget size() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Row buttons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text("Size",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-        CustomRadioButton(
-          title: "Small",
-          value: 1.obs,
-          groupValue: sizeRadioValue,
-          onChanged: (value) {
-            sizeRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Medium",
-          value: 2.obs,
-          groupValue: sizeRadioValue,
-          onChanged: (value) {
-            sizeRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Large",
-          value: 3.obs,
-          groupValue: sizeRadioValue,
-          onChanged: (value) {
-            sizeRadioValue.value = value!;
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget toppings() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Toppings",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-        CustomRadioButton(
-          title: "All",
-          value: 1.obs,
-          groupValue: toppingsRadioValue,
-          onChanged: (value) {
-            toppingsRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Vegetables",
-          value: 2.obs,
-          groupValue: toppingsRadioValue,
-          onChanged: (value) {
-            toppingsRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Chicken",
-          value: 3.obs,
-          groupValue: toppingsRadioValue,
-          onChanged: (value) {
-            toppingsRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Paneer",
-          value: 4.obs,
-          groupValue: toppingsRadioValue,
-          onChanged: (value) {
-            toppingsRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Non Veg",
-          value: 5.obs,
-          groupValue: toppingsRadioValue,
-          onChanged: (value) {
-            toppingsRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Sauces And Spices",
-          value: 6.obs,
-          groupValue: toppingsRadioValue,
-          onChanged: (value) {
-            toppingsRadioValue.value = value!;
-          },
-        ),
-        CustomRadioButton(
-          title: "Others",
-          value: 7.obs,
-          groupValue: toppingsRadioValue,
-          onChanged: (value) {
-            toppingsRadioValue.value = value!;
-          },
-        ),
+        Expanded(
+            child: CustomElevatedButton(
+                height: 55.h,
+                text: "Clear",
+                color: AppColors.black,
+                onPressed: () {
+                  Get.back();
+                })),
+        wBox(10),
+        Expanded(
+            child: CustomElevatedButton(
+                height: 55.h,
+                text: "Apply",
+                onPressed: () {
+                  Get.back();
+                }))
       ],
     );
   }

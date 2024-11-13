@@ -4,7 +4,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  final HomeController homeController = Get.find<HomeController>();
+  final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -76,7 +76,7 @@ class HomeScreen extends StatelessWidget {
                         itemCount: homeController.mainButtonbar.length,
                         itemBuilder: (context, index) {
                           bool isSelected =
-                              homeController.mainButtonIndex == index;
+                              homeController.mainButtonIndex.value == index;
                           return GestureDetector(
                             onTap: () {
                               homeController.getIndex(index);

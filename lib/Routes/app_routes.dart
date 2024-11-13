@@ -18,6 +18,7 @@ import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/pharmacy_category_details.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharmacy_categories_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharmacy_home_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
@@ -106,6 +107,7 @@ class AppRoutes {
   ///`pharmacy=====================================================>`
   static const String pharmcayHomeFilter = "/pharmcayHomeFilter";
   static const String pharmacyCategoryDetails = "/pharmacyCategoryDetails";
+  static const String pharmacyCategoryFilter = "/pharmacyCategoryFilter";
 
   static List<GetPage> pages = [
     GetPage(
@@ -198,5 +200,7 @@ class AppRoutes {
     GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),
     GetPage(
         name: pharmacyCategoryDetails, page: () => PharmacyCategoryDetails()),
+    GetPage(
+        name: pharmacyCategoryFilter, page: () => PharmacyCategoriesFilter()),
   ];
 }

@@ -1,9 +1,18 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
 class PharmacyCategoryDetails extends StatelessWidget {
-  const PharmacyCategoryDetails({super.key});
+  PharmacyCategoryDetails({super.key});
 
+  static final List detailCategories = [
+    "All",
+    "Acidity",
+    "Bloating",
+    "Constipation",
+    "Indigestions"
+  ];
+  RxInt selectedIndex = 0.obs;
   @override
   Widget build(BuildContext context) {
     var title = Get.arguments ?? "Your Item";
@@ -37,7 +46,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
                   height: 35.h,
                   child: (CustomSearchFilter(
                     onFilterTap: () {
-                      Get.toNamed(AppRoutes.restaurantCategoriesFilter);
+                      Get.toNamed(AppRoutes.pharmacyCategoryFilter);
                     },
                   )),
                 ),
@@ -47,30 +56,63 @@ class PharmacyCategoryDetails extends StatelessWidget {
             SliverToBoxAdapter(
               child: hBox(10),
             ),
-            SliverGrid(
-                delegate: SliverChildBuilderDelegate(childCount: 20,
-                    (context, index) {
-                  return GestureDetector(
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 50,
+                child: ListView.separated(
+                  itemCount: detailCategories.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (c, i) {
+                    return InkWell(
                       onTap: () {
-                        // Get.to(ProductDetailsScreen(
-                        //     image:
-                        //         "assets/images/pharmacy-cat-image${index % 3}.png",
-                        //     title: "McMushroom Pizza"));
+                        selectedIndex.value = i;
                       },
-                      child: CustomItemBanner(index: index));
-                  //  categoryItem(index);
-                }),
-                gridDelegate: (SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.6.h,
-                  crossAxisSpacing: 16.w,
-                  mainAxisSpacing: 5.h,
-                ))),
+                      child: Text(
+                        detailCategories[i],
+                        style: AppFontStyle.text_14_400(AppColors.lightText),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (c, i) => wBox(20.w),
+                ),
+              ),
+            ),
+            // SliverToBoxAdapter(
+            //     child: IndexedStack(
+            //   children: detailsData,
+            //   index: 0,
+            // )),
             SliverToBoxAdapter(
               child: hBox(50),
             )
           ],
         ),
+      ),
+    );
+  }
+
+  final List<Widget> detailsData =
+      List<Widget>.generate(detailCategories.length, (i) {
+    return SliverToBoxAdapter(
+      child: CustomGridView(
+        image: "assets/images/pharmacy-cat-details.png",
+        imageHeight: 100.h,
+        price: "\$5.00",
+        priceBefore: "\$6.00",
+        description: "She Care Juice",
+        quantity: "1000 ml",
+      ),
+    );
+  });
+  SliverToBoxAdapter all() {
+    return SliverToBoxAdapter(
+      child: CustomGridView(
+        image: "assets/images/pharmacy-cat-details.png",
+        imageHeight: 100.h,
+        price: "\$5.00",
+        priceBefore: "\$6.00",
+        description: "She Care Juice",
+        quantity: "1000 ml",
       ),
     );
   }

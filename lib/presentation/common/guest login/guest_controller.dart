@@ -8,17 +8,13 @@ import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 
-class GuestController extends GetxController{
-
-
+class GuestController extends GetxController {
   final rxRequestStatus = Status.COMPLETED.obs;
   final guestData = RegisterModel().obs;
   RxString error = ''.obs;
   final api = Repository();
   UserModel userModel = UserModel();
   var pref = UserPreference();
-
-
 
   void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
   void guestSet(RegisterModel _value) => guestData.value = _value;
@@ -49,7 +45,7 @@ class GuestController extends GetxController{
         userModel.loginType = guestData.value.loginType;
         log("Response loginType: ${userModel.loginType}");
         pref.saveUser(userModel);
-        Get.offAllNamed(AppRoutes.restaurantNavbar);
+        Get.offAllNamed(AppRoutes.pharmacyNavbar);
       }
     }).onError((error, stackError) {
       setError(error.toString());
@@ -59,5 +55,4 @@ class GuestController extends GetxController{
       setRxRequestStatus(Status.ERROR);
     });
   }
-
 }
