@@ -37,4 +37,5 @@ export 'package:woye_user/shared/theme/font_style.dart';
 export 'package:woye_user/shared/widgets/custom_app_bar.dart';
 export 'package:woye_user/shared/widgets/custom_elevated_button.dart';
 export 'package:woye_user/shared/widgets/custom_outlined_button.dart';
+export 'package:woye_user/shared/widgets/custom_pharmacy_item_banner.dart';
 export 'package:woye_user/shared/widgets/custom_rounded_button.dart';

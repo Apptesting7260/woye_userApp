@@ -102,6 +102,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 jsonData: addOnData),
             hBox(30),
             CustomElevatedButton(
+                // height: 50.h,
                 width: Get.width,
                 color: AppColors.darkText,
                 text: "Add to Cart",
@@ -569,7 +570,7 @@ class ProductDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "See All (20)",
-                style: AppFontStyle.text_14_400(AppColors.primary),
+                style: AppFontStyle.text_14_600(AppColors.primary),
               ),
               Icon(
                 Icons.arrow_forward,
@@ -604,7 +605,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     "See All",
-                    style: AppFontStyle.text_16_400(AppColors.primary),
+                    style: AppFontStyle.text_16_600(AppColors.primary),
                   ),
                   wBox(4),
                   Icon(

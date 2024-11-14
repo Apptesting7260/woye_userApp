@@ -185,7 +185,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 children: [
                   Text(
                     "See All",
-                    style: AppFontStyle.text_14_400(AppColors.primary),
+                    style: AppFontStyle.text_14_600(AppColors.primary),
                   ),
                   wBox(4),
                   Icon(
@@ -367,7 +367,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             const Spacer(),
             Text(
               "See All",
-              style: AppFontStyle.text_14_400(AppColors.primary),
+              style: AppFontStyle.text_14_600(AppColors.primary),
             ),
             wBox(4),
             Icon(

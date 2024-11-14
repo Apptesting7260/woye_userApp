@@ -76,7 +76,7 @@ class PharmacyCartScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.r),
                 child: Image.asset(
-                  "assets/images/cat-image${index % 5}.png",
+                  "assets/images/tablet.png",
                   height: 100.h,
                   width: 100.h,
                   fit: BoxFit.cover,

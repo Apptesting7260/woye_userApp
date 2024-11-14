@@ -20,6 +20,11 @@ import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navba
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/pharmacy_category_details.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharmacy_categories_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharmacy_home_filter.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/More_Products/pharmacy_more_products.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Most_popular/pharmacy_most_popular.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_reviews/pharmacy_product_reviews.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_review/pharmacy_vendor_review_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
@@ -108,6 +113,14 @@ class AppRoutes {
   static const String pharmcayHomeFilter = "/pharmcayHomeFilter";
   static const String pharmacyCategoryDetails = "/pharmacyCategoryDetails";
   static const String pharmacyCategoryFilter = "/pharmacyCategoryFilter";
+  static const String pharmacyWishlistFilter = "/pharmacyWishlistFilter";
+  static const String pharmacyMoreProduct = "/pharmacyMoreProduct";
+  static const String pharmacyMostPopular = "/pharmacyMostPopular";
+  static const String pharmacyProductDetailsScreen =
+      "/pharmacyProductDetailsScreen";
+  static const String pharmacyProductReviews = "/pharmacyProductReviews";
+  static const String pharmacyVendorDetails = "/pharmacyVendorDetails";
+  static const String pharmacyVendorReview = "/pharmacyVendorReview";
 
   static List<GetPage> pages = [
     GetPage(
@@ -202,5 +215,16 @@ class AppRoutes {
         name: pharmacyCategoryDetails, page: () => PharmacyCategoryDetails()),
     GetPage(
         name: pharmacyCategoryFilter, page: () => PharmacyCategoriesFilter()),
+    GetPage(name: pharmacyWishlistFilter, page: () => PharmacyWishlistFilter()),
+    GetPage(name: pharmacyMoreProduct, page: () => PharmacyMoreProducts()),
+    GetPage(name: pharmacyMostPopular, page: () => PharmacyMostPopular()),
+    GetPage(name: pharmacyProductReviews, page: () => PharmacyProductReviews()),
+    GetPage(
+        name: pharmacyVendorReview, page: () => PharmacyVendorReviewScreen()),
+    // GetPage(
+    //     name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),
+    // GetPage(
+    //     name: pharmacyProductDetailsScreen,
+    //     page: () => PharmacyProductDetailsScreen()),
   ];
 }

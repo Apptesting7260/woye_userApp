@@ -157,7 +157,7 @@ class PharmacyHomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     "See All",
-                    style: AppFontStyle.text_14_400(AppColors.primary),
+                    style: AppFontStyle.text_14_600(AppColors.primary),
                   ),
                   wBox(4),
                   Icon(
@@ -267,7 +267,7 @@ class PharmacyHomeScreen extends StatelessWidget {
             const Spacer(),
             Text(
               "See All",
-              style: AppFontStyle.text_14_400(AppColors.primary),
+              style: AppFontStyle.text_14_600(AppColors.primary),
             ),
             wBox(4),
             Icon(

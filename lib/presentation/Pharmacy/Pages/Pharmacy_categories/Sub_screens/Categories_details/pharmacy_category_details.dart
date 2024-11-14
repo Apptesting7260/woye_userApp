@@ -13,6 +13,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
     "Indigestions"
   ];
   RxInt selectedIndex = 0.obs;
+  // int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     var title = Get.arguments ?? "Your Item";
@@ -56,32 +57,8 @@ class PharmacyCategoryDetails extends StatelessWidget {
             SliverToBoxAdapter(
               child: hBox(10),
             ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 50,
-                child: ListView.separated(
-                  itemCount: detailCategories.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (c, i) {
-                    return InkWell(
-                      onTap: () {
-                        selectedIndex.value = i;
-                      },
-                      child: Text(
-                        detailCategories[i],
-                        style: AppFontStyle.text_14_400(AppColors.lightText),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (c, i) => wBox(20.w),
-                ),
-              ),
-            ),
-            // SliverToBoxAdapter(
-            //     child: IndexedStack(
-            //   children: detailsData,
-            //   index: 0,
-            // )),
+            categoriesList(),
+            itemGrid(),
             SliverToBoxAdapter(
               child: hBox(50),
             )
@@ -91,24 +68,39 @@ class PharmacyCategoryDetails extends StatelessWidget {
     );
   }
 
-  final List<Widget> detailsData =
-      List<Widget>.generate(detailCategories.length, (i) {
+  SliverToBoxAdapter categoriesList() {
     return SliverToBoxAdapter(
-      child: CustomGridView(
-        image: "assets/images/pharmacy-cat-details.png",
-        imageHeight: 100.h,
-        price: "\$5.00",
-        priceBefore: "\$6.00",
-        description: "She Care Juice",
-        quantity: "1000 ml",
+      child: SizedBox(
+        height: 50,
+        child: ListView.separated(
+          itemCount: detailCategories.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (c, i) {
+            // bool isSelected = i == selectedIndex.value;
+            return Obx(
+              () => InkWell(
+                onTap: () {
+                  selectedIndex.value = i;
+                },
+                child: Text(
+                  detailCategories[i],
+                  style: AppFontStyle.text_14_400(selectedIndex.value == i
+                      ? AppColors.primary
+                      : AppColors.lightText),
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (c, i) => wBox(20.w),
+        ),
       ),
     );
-  });
-  SliverToBoxAdapter all() {
+  }
+
+  SliverToBoxAdapter itemGrid() {
     return SliverToBoxAdapter(
       child: CustomGridView(
         image: "assets/images/pharmacy-cat-details.png",
-        imageHeight: 100.h,
         price: "\$5.00",
         priceBefore: "\$6.00",
         description: "She Care Juice",

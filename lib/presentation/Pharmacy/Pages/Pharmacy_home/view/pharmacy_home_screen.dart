@@ -11,7 +11,7 @@ class PharmacyHomeScreen extends StatelessWidget {
   static final PharmacyHomeController pharmacyHomeController =
       Get.put(PharmacyHomeController());
 
-  static final PharmacyNavbarController restaurantNavbarController =
+  static final PharmacyNavbarController pharmacyNavbarController =
       Get.put(PharmacyNavbarController());
 
   @override
@@ -155,20 +155,20 @@ class PharmacyHomeScreen extends StatelessWidget {
           children: [
             Text(
               "Catergories",
-              style: AppFontStyle.text_24_600(AppColors.darkText),
+              style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
             const Spacer(),
             InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
-                restaurantNavbarController.getIndex(1);
+                pharmacyNavbarController.getIndex(1);
               },
               child: Row(
                 children: [
                   Text(
                     "See All",
-                    style: AppFontStyle.text_14_400(AppColors.primary),
+                    style: AppFontStyle.text_14_600(AppColors.primary),
                   ),
                   wBox(4),
                   Icon(
@@ -212,7 +212,7 @@ class PharmacyHomeScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.visible,
                       softWrap: true,
-                      style: AppFontStyle.text_14_400(AppColors.darkText),
+                      style: AppFontStyle.text_14_600(AppColors.darkText),
                     ),
                   )
                 ],
@@ -231,12 +231,17 @@ class PharmacyHomeScreen extends StatelessWidget {
           children: [
             Text(
               "Most Popular",
-              style: AppFontStyle.text_22_600(AppColors.darkText),
+              style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
             const Spacer(),
-            Text(
-              "See All",
-              style: AppFontStyle.text_14_400(AppColors.primary),
+            InkWell(
+              onTap: () {
+                Get.toNamed(AppRoutes.pharmacyMostPopular);
+              },
+              child: Text(
+                "See All",
+                style: AppFontStyle.text_14_600(AppColors.primary),
+              ),
             ),
             wBox(4),
             Icon(
@@ -252,7 +257,6 @@ class PharmacyHomeScreen extends StatelessWidget {
             builder: (controller) {
               return CustomGridView(
                 itemCount: 2,
-                imageHeight: 100.h,
                 image: "assets/images/tablet.png",
                 onTap: () {},
               );
@@ -268,12 +272,17 @@ class PharmacyHomeScreen extends StatelessWidget {
           children: [
             Text(
               "More Products",
-              style: AppFontStyle.text_22_600(AppColors.darkText),
+              style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
             const Spacer(),
-            Text(
-              "See All",
-              style: AppFontStyle.text_14_400(AppColors.primary),
+            InkWell(
+              onTap: () {
+                Get.toNamed(AppRoutes.pharmacyMoreProduct);
+              },
+              child: Text(
+                "See All",
+                style: AppFontStyle.text_14_600(AppColors.primary),
+              ),
             ),
             wBox(4),
             Icon(
@@ -289,7 +298,6 @@ class PharmacyHomeScreen extends StatelessWidget {
             builder: (controller) {
               return CustomGridView(
                 itemCount: 6,
-                imageHeight: 100.h,
                 image: "assets/images/tablet.png",
                 onTap: () {},
               );

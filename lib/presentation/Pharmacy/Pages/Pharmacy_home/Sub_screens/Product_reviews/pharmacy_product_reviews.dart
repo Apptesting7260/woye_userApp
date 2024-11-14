@@ -1,7 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
-class ProductReviews extends StatelessWidget {
-  const ProductReviews({super.key});
+class PharmacyProductReviews extends StatelessWidget {
+  const PharmacyProductReviews({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,8 @@ class ProductReviews extends StatelessWidget {
                               Text(
                                 "Ronald Richards",
                                 style: AppFontStyle.text_16_400(
-                                    AppColors.darkText,),
+                                  AppColors.darkText,
+                                ),
                               ),
                               hBox(5),
                               Row(
@@ -136,6 +137,7 @@ class ProductReviews extends StatelessWidget {
                               hBox(10),
                               Text(
                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                overflow: TextOverflow.visible,
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
                               ),

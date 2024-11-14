@@ -1,18 +1,28 @@
 import 'package:woye_user/core/utils/app_export.dart';
 
-class CustomItemBanner extends StatelessWidget {
+class CustomPharmacyItemBanner extends StatelessWidget {
   int index;
+
+  final String? price;
+  final String? priceBefore;
+  final String? description;
+  final String? quantity;
+
   final String? image;
-  final double? imageHeight;
+
   final EdgeInsetsGeometry? padding;
   final Color? backgroundColor;
-  CustomItemBanner(
+  CustomPharmacyItemBanner(
       {super.key,
       this.index = 0,
       this.image,
-      this.imageHeight,
+
       this.padding,
-      this.backgroundColor});
+      this.backgroundColor,
+      this.price,
+      this.priceBefore,
+      this.description,
+      this.quantity});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +44,7 @@ class CustomItemBanner extends StatelessWidget {
               child: Center(
                 child: Image.asset(
                   image ?? "assets/images/cat-image${index % 5}.png",
-                  height: imageHeight ?? 160.h,
+                  height: 160.h,
                   width: Get.width,
                   fit: BoxFit.cover,
                   // width: Get.width,
@@ -67,13 +77,13 @@ class CustomItemBanner extends StatelessWidget {
         Row(
           children: [
             Text(
-              "\$18.00",
+              price ?? "\$18.00",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_600(AppColors.primary),
             ),
             wBox(5),
             Text(
-              "\$20",
+              priceBefore ?? "\$20",
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
 
@@ -90,28 +100,18 @@ class CustomItemBanner extends StatelessWidget {
         ),
         // hBox(10),
         Text(
-          "McMushroom Pizza",
+          description ?? "Azithral XP 150mg...",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_16_400(AppColors.darkText),
         ),
         // hBox(10),
         Text(
-          "The Pizza Hub And Restaurant",
+          quantity ?? "Strip of 10 tablets",
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: AppFontStyle.text_14_300(AppColors.lightText),
         ),
         // hBox(10),
-        Row(
-          children: [
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
-            Text(
-              "4.5/5",
-              style: AppFontStyle.text_14_300(AppColors.lightText),
-            ),
-          ],
-        )
       ],
     );
   }
