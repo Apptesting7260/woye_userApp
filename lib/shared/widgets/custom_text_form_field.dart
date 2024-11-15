@@ -31,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onTapOutside,
     this.borderRadius,
     this.inputFormatters,
+    this.minLines,
   });
 
   final Alignment? alignment;
@@ -53,6 +54,8 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? textInputType;
 
   final int? maxLines;
+
+  final int? minLines;
 
   final String? hintText;
 
@@ -111,7 +114,7 @@ class CustomTextFormField extends StatelessWidget {
           // maxLines: null,
           // minLines: null,
           maxLines: maxLines ?? 1,
-          minLines: 1,
+          minLines: minLines ?? 1,
           decoration: decoration,
           validator: validator,
           inputFormatters: inputFormatters,

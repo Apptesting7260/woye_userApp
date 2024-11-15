@@ -211,7 +211,7 @@ class RestaurantCartScreen extends StatelessWidget {
       radius: Radius.circular(15.r),
       color: AppColors.primary,
       dashPattern: [6.w, 3.w],
-      padding: REdgeInsets.symmetric(horizontal: 25, vertical: 20),
+      padding: REdgeInsets.symmetric(horizontal: 25, vertical: 16),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(15.r)),
         child: Row(
@@ -373,7 +373,7 @@ class RestaurantCartScreen extends StatelessWidget {
                     ],
                   ),
                   hBox(15),
-                  const PromoCodes().promoCodeList(),
+                  const PromoCodes().restaurantPromoCodeList(),
                 ],
               ),
             ),

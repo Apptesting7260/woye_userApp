@@ -1,5 +1,7 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_reviews/pharmacy_product_reviews.dart';
 
 class PharmacyVendorReviewScreen extends StatefulWidget {
   const PharmacyVendorReviewScreen({super.key});
@@ -39,12 +41,11 @@ class _PharmacyVendorReviewScreenState extends State<PharmacyVendorReviewScreen>
           children: [
             hBox(20),
             ratings(),
+            hBox(20),
+            reviewButton(),
+            hBox(30),
+            shopReviews(),
             hBox(50),
-            LinearProgressIndicator(
-              backgroundColor: AppColors.greyBackground,
-              value: _animationController.value,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
-            ),
           ],
         ),
       ),
@@ -61,7 +62,7 @@ class _PharmacyVendorReviewScreenState extends State<PharmacyVendorReviewScreen>
               Text(
                 "4.5",
                 style:
-                    AppFontStyle.text_36_600(AppColors.darkText, height: 1.0),
+                    AppFontStyle.text_40_600(AppColors.darkText, height: 1.0),
               ),
               Text(
                 "Rating",
@@ -76,43 +77,183 @@ class _PharmacyVendorReviewScreenState extends State<PharmacyVendorReviewScreen>
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Row(
                 children: [
-                  RatingBar(
-                      itemSize: 16.h,
-                      initialRating: 4,
-                      allowHalfRating: false,
-                      ratingWidget: RatingWidget(
-                          full: SvgPicture.asset("assets/svg/star-yellow.svg"),
-                          half: SvgPicture.asset("assets/svg/star-white.svg"),
-                          empty: SvgPicture.asset("assets/svg/star-white.svg")),
-                      onRatingUpdate: (v) {}),
-                  SizedBox(
-                    width: 100,
-                    child: LinearProgressIndicator(
-                      backgroundColor: AppColors.greyBackground,
-                      value: 50,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.yellow),
-                    ),
+                  IgnorePointer(
+                    child: RatingBar(
+                        itemSize: 14.h,
+                        initialRating: 5,
+                        allowHalfRating: false,
+                        ratingWidget: RatingWidget(
+                            full:
+                                SvgPicture.asset("assets/svg/star-yellow.svg"),
+                            half: SvgPicture.asset("assets/svg/star-white.svg"),
+                            empty:
+                                SvgPicture.asset("assets/svg/star-white.svg")),
+                        onRatingUpdate: (v) {}),
+                  ),
+                  LinearPercentIndicator(
+                    width: 120.0,
+                    lineHeight: 4.0,
+                    percent: 0.8,
+                    backgroundColor: AppColors.greyBackground,
+                    progressColor: Colors.yellow,
+                  ),
+                  Text(
+                    "85.5%",
+                    style: AppFontStyle.text_14_400(AppColors.darkText),
                   )
                 ],
-              )
+              ),
+              hBox(5),
+              Row(
+                children: [
+                  IgnorePointer(
+                    child: RatingBar(
+                        itemSize: 14.h,
+                        initialRating: 4,
+                        allowHalfRating: false,
+                        ratingWidget: RatingWidget(
+                            full:
+                                SvgPicture.asset("assets/svg/star-yellow.svg"),
+                            half: SvgPicture.asset("assets/svg/star-white.svg"),
+                            empty:
+                                SvgPicture.asset("assets/svg/star-white.svg")),
+                        onRatingUpdate: (v) {}),
+                  ),
+                  LinearPercentIndicator(
+                    width: 120.0.w,
+                    lineHeight: 4.0.h,
+                    percent: 0.75,
+                    backgroundColor: AppColors.greyBackground,
+                    progressColor: Colors.yellow,
+                  ),
+                  Text(
+                    "7.5%",
+                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                  )
+                ],
+              ),
+              hBox(5),
+              Row(
+                children: [
+                  IgnorePointer(
+                    child: RatingBar(
+                        itemSize: 14.h,
+                        initialRating: 3,
+                        allowHalfRating: false,
+                        ratingWidget: RatingWidget(
+                            full:
+                                SvgPicture.asset("assets/svg/star-yellow.svg"),
+                            half: SvgPicture.asset("assets/svg/star-white.svg"),
+                            empty:
+                                SvgPicture.asset("assets/svg/star-white.svg")),
+                        onRatingUpdate: (v) {}),
+                  ),
+                  LinearPercentIndicator(
+                    width: 120.0.w,
+                    lineHeight: 4.0.h,
+                    percent: 0.25,
+                    backgroundColor: AppColors.greyBackground,
+                    progressColor: Colors.yellow,
+                  ),
+                  Text(
+                    "2.5%",
+                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                  )
+                ],
+              ),
+              hBox(5),
+              Row(
+                children: [
+                  IgnorePointer(
+                    child: RatingBar(
+                        itemSize: 14.h,
+                        initialRating: 2,
+                        allowHalfRating: false,
+                        ratingWidget: RatingWidget(
+                            full:
+                                SvgPicture.asset("assets/svg/star-yellow.svg"),
+                            half: SvgPicture.asset("assets/svg/star-white.svg"),
+                            empty:
+                                SvgPicture.asset("assets/svg/star-white.svg")),
+                        onRatingUpdate: (v) {}),
+                  ),
+                  LinearPercentIndicator(
+                    width: 120.0.w,
+                    lineHeight: 4.0.h,
+                    percent: 0.15,
+                    backgroundColor: AppColors.greyBackground,
+                    progressColor: Colors.yellow,
+                  ),
+                  Text(
+                    "1.5%",
+                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                  )
+                ],
+              ),
+              hBox(5),
+              Row(
+                children: [
+                  IgnorePointer(
+                    child: RatingBar(
+                        itemSize: 14.h,
+                        initialRating: 1,
+                        allowHalfRating: false,
+                        ratingWidget: RatingWidget(
+                            full:
+                                SvgPicture.asset("assets/svg/star-yellow.svg"),
+                            half: SvgPicture.asset("assets/svg/star-white.svg"),
+                            empty:
+                                SvgPicture.asset("assets/svg/star-white.svg")),
+                        onRatingUpdate: (v) {}),
+                  ),
+                  LinearPercentIndicator(
+                    width: 120.0.w,
+                    lineHeight: 4.0.h,
+                    percent: 0.32,
+                    backgroundColor: AppColors.greyBackground,
+                    progressColor: Colors.yellow,
+                  ),
+                  Text(
+                    "3.2%",
+                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                  )
+                ],
+              ),
             ])),
       ],
     );
   }
 
-  List<SalesData> getChartData() {
-    return [
-      SalesData('2015', 30, 70),
-      SalesData('2016', 40, 60),
-      SalesData('2017', 50, 50),
-      SalesData('2018', 60, 40),
-    ];
+  Widget reviewButton() {
+    return CustomElevatedButton(
+      onPressed: () {
+        Get.toNamed(AppRoutes.pharmacyRateVendor);
+      },
+      text: "Write A Review",
+    );
   }
-}
 
-class SalesData {
-  SalesData(this.year, this.sales1, this.sales2);
-  final String year;
-  final double sales1;
-  final double sales2;
+  Widget shopReviews() {
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Shop Reviews",
+              style: AppFontStyle.text_22_600(AppColors.darkText, height: 1.0),
+            ),
+            Text(
+              "  (120 Reviews)",
+              style: AppFontStyle.text_14_400(
+                AppColors.darkText,
+              ),
+            ),
+          ],
+        ),
+        hBox(20),
+        PharmacyProductReviews().reviews()
+      ],
+    );
+  }
 }

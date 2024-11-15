@@ -373,7 +373,7 @@ class PharmacyCartScreen extends StatelessWidget {
                     ],
                   ),
                   hBox(15),
-                  const PromoCodes().promoCodeList(),
+                  const PromoCodes().pharmacyPromoCodeList(),
                 ],
               ),
             ),

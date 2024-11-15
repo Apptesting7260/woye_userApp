@@ -211,7 +211,7 @@ class PharmacyCartScreen extends StatelessWidget {
       radius: Radius.circular(15.r),
       color: AppColors.primary,
       dashPattern: [6.w, 3.w],
-      padding: REdgeInsets.symmetric(horizontal: 25, vertical: 20),
+      padding: REdgeInsets.symmetric(horizontal: 25, vertical: 16),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(15.r)),
         child: Row(
@@ -318,16 +318,14 @@ class PharmacyCartScreen extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
+        CustomElevatedButton(
           width: 200.w,
           height: 55.h,
-          child: CustomElevatedButton(
-            onPressed: () {
-              Get.toNamed(AppRoutes.checkoutScreen);
-            },
-            text: "Checkout",
-            textStyle: AppFontStyle.text_16_600(AppColors.white),
-          ),
+          onPressed: () {
+            Get.toNamed(AppRoutes.pharmacyCheckout);
+          },
+          text: "Checkout",
+          textStyle: AppFontStyle.text_16_600(AppColors.white),
         )
       ],
     );
@@ -373,7 +371,7 @@ class PharmacyCartScreen extends StatelessWidget {
                     ],
                   ),
                   hBox(15),
-                  const PromoCodes().promoCodeList(),
+                  const PromoCodes().pharmacyPromoCodeList(),
                 ],
               ),
             ),

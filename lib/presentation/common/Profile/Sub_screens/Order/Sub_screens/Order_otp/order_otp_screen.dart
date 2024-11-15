@@ -1,4 +1,3 @@
-
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_otp/order_otp_controller.dart';
 
@@ -22,7 +21,7 @@ class OrderOtpScreen extends StatelessWidget {
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [hBox(50), pin(), hBox(20), continueButton()],
+          children: [hBox(50), pin(), hBox(30), continueButton()],
         ),
       ),
     );
@@ -35,7 +34,7 @@ class OrderOtpScreen extends StatelessWidget {
           "Please Enter Your PIN",
           style: AppFontStyle.text_16_600(AppColors.darkText),
         ),
-        hBox(15),
+        hBox(20),
         Pinput(
           obscureText: true,
           key: orderOtpController.orderOtpFormKey,

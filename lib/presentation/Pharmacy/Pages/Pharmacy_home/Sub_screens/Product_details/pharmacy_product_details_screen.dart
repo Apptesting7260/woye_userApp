@@ -70,7 +70,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             description(),
             hBox(30),
             //
-            shopBox(),
+            shopCard(),
             hBox(20),
             //
             buttons(),
@@ -297,7 +297,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget shopBox() {
+  Widget shopCard() {
     return InkWell(
       onTap: () {
         Get.to(PharmacyVendorDetailsScreen(
@@ -340,9 +340,14 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                         style: AppFontStyle.text_14_400(AppColors.lightText),
                       ),
                       wBox(4),
-                      Text(
-                        "(120 Reviews)",
-                        style: AppFontStyle.text_12_400(AppColors.lightText),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed(AppRoutes.pharmacyVendorReview);
+                        },
+                        child: Text(
+                          "(120 Reviews)",
+                          style: AppFontStyle.text_12_400(AppColors.lightText),
+                        ),
                       ),
                     ],
                   ),

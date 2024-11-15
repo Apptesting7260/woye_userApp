@@ -99,13 +99,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
 
   SliverToBoxAdapter itemGrid() {
     return SliverToBoxAdapter(
-      child: CustomGridView(
-        image: "assets/images/pharmacy-cat-details.png",
-        price: "\$5.00",
-        priceBefore: "\$6.00",
-        description: "She Care Juice",
-        quantity: "1000 ml",
-      ),
+      child: CustomGridView(),
     );
   }
 }

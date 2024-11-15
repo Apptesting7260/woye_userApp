@@ -130,7 +130,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     hBox(10),
-                    CustomOutlinedButton(
+                    CustomElevatedButton(
                         height: 40.h,
                         onPressed: () {},
                         child: Text("Favorite Shop"))
