@@ -38,9 +38,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   Widget build(BuildContext context) {
     return Obx(
       () => restaurantHomeController.rxRequestStatus.value == Status.LOADING
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : restaurantHomeController.rxRequestStatus.value == Status.ERROR
-              ? Text('Error')
+              ? const Text('Error')
               : Scaffold(
                   body: Column(
                     children: [
@@ -320,7 +320,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                               height: 60.h,
                               width: 60.h,
                               errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
+                                  const Icon(Icons.error),
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: AppColors.gray,
                                 highlightColor: AppColors.lightText,
@@ -391,7 +391,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       onTap: () {
                         Get.to(RestaurantDetailsScreen(
                             image: restaurantsList!.shopImage.toString(),
-                            title: restaurantsList!.shopName.toString()));
+                            title: restaurantsList.shopName.toString()));
                       },
                       child: restaurantList(
                           index: index,
@@ -486,7 +486,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "${rating}",
+              "$rating",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],

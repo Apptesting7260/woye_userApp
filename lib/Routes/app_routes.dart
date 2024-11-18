@@ -17,6 +17,9 @@ import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/grocery_home_filter.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/More_Products/grocery_more_products.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Most_popular/grocery_most_popular.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Checkout/pharmacy_checkout_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/pharmacy_category_details.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharmacy_categories_filter.dart';
@@ -62,6 +65,8 @@ import 'package:woye_user/presentation/common/Sign_up_form/view/sign_up_form_scr
 import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 
 class AppRoutes {
+  ///`common=====================================================>`
+
   static const String initalRoute = "/inital_route";
   static const String welcomeScreen = "/welcome_screen";
   static const String login = "/login_screen";
@@ -73,6 +78,9 @@ class AppRoutes {
   static const String groceryNavbar = "/grocery_navbar";
   static const String otpVerification = "/otp_verification";
   static const String homeScreen = "/home_screen";
+
+  ///`restaurant=====================================================>`
+
   static const String restaurantHomeFilter = "/restaurant_home_filter";
   static const String restaurantDetailsScreen = "/restaurant_details_screen";
   static const String productDetailsScreen = "/product_details_screen";
@@ -128,6 +136,13 @@ class AppRoutes {
   static const String pharmacyVendorReview = "/pharmacyVendorReview";
   static const String pharmacyRateVendor = "/pharmacyRateVendor";
   static const String pharmacyCheckout = "/pharmacyCheckout";
+
+  ///`grocery=====================================================>`
+  static const String groceryHomeFilter = "/groceryHomeFilter";
+  static const String groceryMostPopular = "/groceryMostPopular";
+  static const String groceryMoreProducts = "/groceryMoreProducts";
+  static const String groceryProductDetails = "/groceryProductDetails";
+  static const String groceryVendorDetails = "/groceryVendorDetails";
 
   static List<GetPage> pages = [
     GetPage(
@@ -226,18 +241,32 @@ class AppRoutes {
     GetPage(
         name: pharmacyCategoryFilter, page: () => PharmacyCategoriesFilter()),
     GetPage(name: pharmacyWishlistFilter, page: () => PharmacyWishlistFilter()),
-    GetPage(name: pharmacyMoreProduct, page: () => PharmacyMoreProducts()),
-    GetPage(name: pharmacyMostPopular, page: () => PharmacyMostPopular()),
-    GetPage(name: pharmacyProductReviews, page: () => PharmacyProductReviews()),
     GetPage(
-        name: pharmacyVendorReview, page: () => PharmacyVendorReviewScreen()),
-    GetPage(name: pharmacyRateVendor, page: () => PharmacyRateVendorScreen()),
-    GetPage(name: pharmacyCheckout, page: () => PharmacyCheckoutScreen()),
+        name: pharmacyMoreProduct, page: () => const PharmacyMoreProducts()),
+    GetPage(name: pharmacyMostPopular, page: () => const PharmacyMostPopular()),
+    GetPage(
+        name: pharmacyProductReviews,
+        page: () => const PharmacyProductReviews()),
+    GetPage(
+        name: pharmacyVendorReview,
+        page: () => const PharmacyVendorReviewScreen()),
+    GetPage(
+        name: pharmacyRateVendor, page: () => const PharmacyRateVendorScreen()),
+    GetPage(name: pharmacyCheckout, page: () => const PharmacyCheckoutScreen()),
 
     // GetPage(
     //     name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),
     // GetPage(
     //     name: pharmacyProductDetailsScreen,
     //     page: () => PharmacyProductDetailsScreen()),
+
+    ///`pharmacy=====================================================>`
+    GetPage(name: groceryHomeFilter, page: () => GroceryHomeFilter()),
+    GetPage(name: groceryMostPopular, page: () => GroceryMostPopular()),
+    GetPage(name: groceryMoreProducts, page: () => GroceryMoreProducts()),
+    // GetPage(
+    //     name: groceryVendorDetails, page: () => GroceryVendorDetailsScreen()),
+    // GetPage(
+    //     name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
   ];
 }

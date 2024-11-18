@@ -16,9 +16,9 @@ class GuestController extends GetxController {
   UserModel userModel = UserModel();
   var pref = UserPreference();
 
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void guestSet(RegisterModel _value) => guestData.value = _value;
-  void setError(String _value) => error.value = _value;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void guestSet(RegisterModel value) => guestData.value = value;
+  void setError(String value) => error.value = value;
 
   guestUserApi() async {
     // String? tokenFCM = await FirebaseMessaging.instance.getToken();
@@ -32,6 +32,7 @@ class GuestController extends GetxController {
     setRxRequestStatus(Status.LOADING);
 
     api.guestUserApi(data, "").then((value) {
+      Get.offAllNamed(AppRoutes.groceryNavbar);
       setRxRequestStatus(Status.COMPLETED);
       guestSet(value);
 
@@ -45,7 +46,7 @@ class GuestController extends GetxController {
         userModel.loginType = guestData.value.loginType;
         log("Response loginType: ${userModel.loginType}");
         pref.saveUser(userModel);
-        Get.offAllNamed(AppRoutes.pharmacyNavbar);
+        // Get.offAllNamed(AppRoutes.groceryNavbar);
       }
     }).onError((error, stackError) {
       setError(error.toString());

@@ -12,7 +12,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RxInt selectedIndex = 0.obs;
-    String mainBanner = image;
+    String mainBannerImage = image;
     String title = this.title;
 
     return Scaffold(
@@ -61,7 +61,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            mainContainer(mainBanner, title, selectedIndex),
+            mainBanner(mainBannerImage, title, selectedIndex),
             hBox(10),
             //
             titleAndDetails(),
@@ -96,7 +96,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget mainContainer(String mainBanner, String title, selectedIndex) {
+  Widget mainBanner(String mainBannerImage, String title, selectedIndex) {
     // RxBool isSelected = false.obs;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +104,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(20.r),
           child: Image.asset(
-            mainBanner,
+            mainBannerImage,
             height: 340.h,
             width: Get.width,
             fit: BoxFit.cover,
@@ -133,7 +133,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                                 ? AppColors.primary
                                 : Colors.transparent)),
                     child: Image.asset(
-                      mainBanner,
+                      mainBannerImage,
                       height: 50.h,
                       width: 50.w,
                       fit: BoxFit.cover,
@@ -160,7 +160,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       Text(
         title,
         overflow: TextOverflow.visible,
-        style: AppFontStyle.text_18_600(AppColors.darkText, height: 1.0),
+        style: AppFontStyle.text_18_600(
+          AppColors.darkText,
+        ),
       ),
       hBox(10),
       Row(
@@ -189,9 +191,14 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             style: AppFontStyle.text_12_400(AppColors.lightText),
           ),
           wBox(5),
-          Image.asset(
-            "assets/images/tablet-rounded.png",
-            height: 18,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(50.r),
+            child: Image.asset(
+              "assets/images/tablet-rounded.png",
+              height: 20.h,
+              width: 20.h,
+              fit: BoxFit.cover,
+            ),
           ),
           wBox(5),
           Text(
@@ -355,7 +362,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                   CustomOutlinedButton(
                       height: 40.h,
                       onPressed: () {},
-                      child: Text("Favorite Shop"))
+                      child: const Text("Favorite Shop"))
                 ],
               ),
             ),
@@ -717,7 +724,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           ],
         ),
         hBox(20),
-        CustomGridView(
+        const CustomGridView(
           itemCount: 2,
         )
       ],

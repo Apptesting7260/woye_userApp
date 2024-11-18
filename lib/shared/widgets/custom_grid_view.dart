@@ -35,12 +35,13 @@ class CustomGridView extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           return InkWell(
-            onTap: () {
-              Get.to(PharmacyProductDetailsScreen(
-                  image: "assets/images/tablet.png",
-                  title: "Azithral Stat 100mg / Azee 100mg Tablet DT"));
-            },
-            child: CustomPharmacyItemBanner(
+            onTap: onTap ??
+                () {
+                  Get.to(const PharmacyProductDetailsScreen(
+                      image: "assets/images/tablet.png",
+                      title: "Azithral Stat 100mg / Azee 100mg Tablet DT"));
+                },
+            child: CustomBanner(
               image: image ?? "assets/images/tablet.png",
               price: price,
               priceBefore: priceBefore,

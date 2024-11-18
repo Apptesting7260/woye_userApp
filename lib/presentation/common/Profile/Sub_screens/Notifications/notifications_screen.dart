@@ -27,8 +27,8 @@ class NotificationsScreen extends StatelessWidget {
 
   Widget notificationsList() {
     return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.symmetric(horizontal: 24),
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 24),
       shrinkWrap: true,
       itemCount: 20,
       itemBuilder: (context, index) {

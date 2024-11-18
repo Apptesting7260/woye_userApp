@@ -1,6 +1,6 @@
 import 'package:woye_user/core/utils/app_export.dart';
 
-class CustomPharmacyItemBanner extends StatelessWidget {
+class CustomBanner extends StatelessWidget {
   int index;
 
   final String? price;
@@ -12,11 +12,10 @@ class CustomPharmacyItemBanner extends StatelessWidget {
 
   final EdgeInsetsGeometry? padding;
   final Color? backgroundColor;
-  CustomPharmacyItemBanner(
+  CustomBanner(
       {super.key,
       this.index = 0,
       this.image,
-
       this.padding,
       this.backgroundColor,
       this.price,
@@ -102,14 +101,14 @@ class CustomPharmacyItemBanner extends StatelessWidget {
         Text(
           description ?? "Azithral XP 150mg...",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_16_400(AppColors.darkText),
+          style: AppFontStyle.text_14_500(AppColors.darkText),
         ),
         // hBox(10),
         Text(
           quantity ?? "Strip of 10 tablets",
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_14_300(AppColors.lightText),
+          style: AppFontStyle.text_14_400(AppColors.lightText),
         ),
         // hBox(10),
       ],

@@ -40,9 +40,9 @@ class RestaurantHomeController extends GetxController {
   final homeData = HomeModel().obs;
   RxString error = ''.obs;
 
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void homeSet(HomeModel _value) => homeData.value = _value;
-  void setError(String _value) => error.value = _value;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void homeSet(HomeModel value) => homeData.value = value;
+  void setError(String value) => error.value = value;
 
   @override
   void onInit() {

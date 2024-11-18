@@ -133,7 +133,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
                     CustomElevatedButton(
                         height: 40.h,
                         onPressed: () {},
-                        child: Text("Favorite Shop"))
+                        child: const Text("Favorite Shop"))
                   ],
                 ),
               ),
@@ -210,6 +210,6 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
   }
 
   Widget itemsGrid() {
-    return CustomGridView();
+    return const CustomGridView();
   }
 }

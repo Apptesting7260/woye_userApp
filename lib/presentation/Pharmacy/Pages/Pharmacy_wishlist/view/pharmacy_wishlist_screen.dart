@@ -43,7 +43,7 @@ class PharmacyWishlistScreen extends StatelessWidget {
                 centerTitle: true,
               ),
             ),
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: CustomGridView(),
             ),
             SliverToBoxAdapter(

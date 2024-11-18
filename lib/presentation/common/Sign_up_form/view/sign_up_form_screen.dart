@@ -22,7 +22,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (controller.serviceEnabled != true) {
         locationRequestPopUp(context);
       }
@@ -130,7 +130,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               onTap: () => signUpFormController.selectDate(context),
               child: Obx(() {
                 return Container(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.0),
                     border: Border.all(color: AppColors.textFieldBorder),
@@ -140,14 +140,14 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                       SvgPicture.asset(
                         ImageConstants.calendar,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
                         signUpFormController.selectedDate.value == null
                             ? "Date of Birth"
                             : "${signUpFormController.selectedDate.value!.day}/${signUpFormController.selectedDate.value!.month}/${signUpFormController.selectedDate.value!.year}",
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ],
                   ),

@@ -25,7 +25,7 @@ class CustomExpansionTile extends StatelessWidget {
           title,
           style: titleTextStyle ?? AppFontStyle.text_18_600(AppColors.darkText),
         ),
-        children: children,
-        onExpansionChanged: onExpansionChanged);
+        onExpansionChanged: onExpansionChanged,
+        children: children);
   }
 }

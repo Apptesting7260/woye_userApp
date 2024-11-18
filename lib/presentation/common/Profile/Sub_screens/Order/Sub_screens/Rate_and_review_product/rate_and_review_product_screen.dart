@@ -62,7 +62,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
         style: AppFontStyle.text_18_600(AppColors.darkText),
       ),
       hBox(20),
-      CustomTextFormField(
+      const CustomTextFormField(
         maxLines: 7,
         minLines: 7,
         hintText: "Write your review...",

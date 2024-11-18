@@ -23,6 +23,6 @@ class PharmacyMostPopular extends StatelessWidget {
   }
 
   Widget productList() {
-    return CustomGridView();
+    return const CustomGridView();
   }
 }

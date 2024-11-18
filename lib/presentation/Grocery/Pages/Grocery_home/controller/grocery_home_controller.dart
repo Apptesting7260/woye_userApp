@@ -5,7 +5,7 @@ import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
 
-class PharmacyHomeController extends GetxController {
+class GroceryHomeController extends GetxController {
   List<Map<dynamic, dynamic>> restaurantList = [
     {
       "title": "The Pizza Hub And Restaurants",
@@ -40,9 +40,9 @@ class PharmacyHomeController extends GetxController {
   final homeData = HomeModel().obs;
   RxString error = ''.obs;
 
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void homeSet(HomeModel _value) => homeData.value = _value;
-  void setError(String _value) => error.value = _value;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void homeSet(HomeModel value) => homeData.value = value;
+  void setError(String value) => error.value = value;
 
   @override
   void onInit() {

@@ -30,10 +30,10 @@ class OtpController extends GetxController {
 
   var pref = UserPreference();
 
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void signUpSet(RegisterModel _value) => registerData.value = _value;
-  void signInSet(LoginModel _value) => loginData.value = _value;
-  void setError(String _value) => error.value = _value;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void signUpSet(RegisterModel value) => registerData.value = value;
+  void signInSet(LoginModel value) => loginData.value = value;
+  void setError(String value) => error.value = value;
 
   @override
   void onInit() {
@@ -156,7 +156,7 @@ class OtpController extends GetxController {
     required String mob,
   }) async {
     String? tokenFcm = await FirebaseMessaging.instance.getToken();
-    log("mobile ==>> ${mob}");
+    log("mobile ==>> $mob");
 
     final data = {
       "mob_no": mob,

@@ -41,7 +41,7 @@ class PharmacyHomeScreen extends StatelessWidget {
                           mostPopular(),
                           hBox(20),
                           moreProduct(),
-                          hBox(50)
+                          hBox(80)
                         ],
                       ),
                     ))
@@ -95,7 +95,7 @@ class PharmacyHomeScreen extends StatelessWidget {
   Widget mainBanner() {
     return Container(
       decoration: BoxDecoration(
-          image: DecorationImage(
+          image: const DecorationImage(
               image: AssetImage(
             "assets/images/pharmacy-main-banner.png",
           )),
@@ -212,7 +212,7 @@ class PharmacyHomeScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.visible,
                       softWrap: true,
-                      style: AppFontStyle.text_14_600(AppColors.darkText),
+                      style: AppFontStyle.text_14_500(AppColors.darkText),
                     ),
                   )
                 ],
