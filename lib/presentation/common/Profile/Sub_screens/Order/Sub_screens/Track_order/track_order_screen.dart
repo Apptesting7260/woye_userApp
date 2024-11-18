@@ -45,7 +45,7 @@ class TrackOrderScreen extends StatelessWidget {
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
-          color: AppColors.lightPrimary),
+          color: AppColors.primary.withOpacity(0.1)),
       child: Row(
         children: [
           CircleAvatar(

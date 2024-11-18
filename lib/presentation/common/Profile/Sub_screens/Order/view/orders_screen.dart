@@ -22,7 +22,7 @@ class OrdersScreen extends StatelessWidget {
             builder: (orderScreenController) {
               return Column(
                 children: [
-                  buttonList(orderScreenController),
+                  orderStatusList(orderScreenController),
                   hBox(30),
                   IndexedStack(
                     index: orderScreenController.pageIndex,
@@ -39,7 +39,7 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget buttonList(OrderScreenController orderScreenController) {
+  Widget orderStatusList(OrderScreenController orderScreenController) {
     return SizedBox(
       height: 45.h,
       child: ListView.separated(
@@ -443,7 +443,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.toNamed(AppRoutes.reviewDriver);
+                  Get.toNamed(AppRoutes.rateAndReviewProductScreen);
                 },
                 child: Container(
                   padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),

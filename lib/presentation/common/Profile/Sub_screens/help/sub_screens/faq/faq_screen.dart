@@ -32,7 +32,7 @@ class FaqScreen extends StatelessWidget {
 
   Widget faqList(List<dynamic> headings) {
     return ListView.separated(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: 5,
       itemBuilder: (context, index) {

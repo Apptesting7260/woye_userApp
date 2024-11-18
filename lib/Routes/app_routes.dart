@@ -2,8 +2,6 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
-import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
-import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
@@ -18,6 +16,21 @@ import 'package:woye_user/presentation/Common/sign_up/sign_up_screen.dart';
 import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
+import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/grocery_home_filter.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/More_Products/grocery_more_products.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Most_popular/grocery_most_popular.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Checkout/pharmacy_checkout_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/pharmacy_category_details.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharmacy_categories_filter.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharmacy_home_filter.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/More_Products/pharmacy_more_products.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Most_popular/pharmacy_most_popular.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_reviews/pharmacy_product_reviews.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Rate_vendor/pharmacy_rate_vendor_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_review/pharmacy_vendor_review_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
+import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
@@ -33,6 +46,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_scre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_otp/order_otp_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_received/order_reveived_screen.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Rate_and_review_product/rate_and_review_product_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Review_driver/review_driver_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Track_order/track_order_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/view/orders_screen.dart';
@@ -48,8 +62,11 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_scree
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help_screen.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/controller/Sign_up_form_binding.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/view/sign_up_form_screen.dart';
+import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 
 class AppRoutes {
+  ///`common=====================================================>`
+
   static const String initalRoute = "/inital_route";
   static const String welcomeScreen = "/welcome_screen";
   static const String login = "/login_screen";
@@ -61,6 +78,9 @@ class AppRoutes {
   static const String groceryNavbar = "/grocery_navbar";
   static const String otpVerification = "/otp_verification";
   static const String homeScreen = "/home_screen";
+
+  ///`restaurant=====================================================>`
+
   static const String restaurantHomeFilter = "/restaurant_home_filter";
   static const String restaurantDetailsScreen = "/restaurant_details_screen";
   static const String productDetailsScreen = "/product_details_screen";
@@ -99,6 +119,30 @@ class AppRoutes {
   static const String support = "/support";
   static const String privayPolicy = "/privacyPolicy";
   static const String termsAndConditions = "/termAndConditions";
+  static const String rateAndReviewProductScreen =
+      "/rateAndReviewProductScreen";
+
+  ///`pharmacy=====================================================>`
+  static const String pharmcayHomeFilter = "/pharmcayHomeFilter";
+  static const String pharmacyCategoryDetails = "/pharmacyCategoryDetails";
+  static const String pharmacyCategoryFilter = "/pharmacyCategoryFilter";
+  static const String pharmacyWishlistFilter = "/pharmacyWishlistFilter";
+  static const String pharmacyMoreProduct = "/pharmacyMoreProduct";
+  static const String pharmacyMostPopular = "/pharmacyMostPopular";
+  static const String pharmacyProductDetailsScreen =
+      "/pharmacyProductDetailsScreen";
+  static const String pharmacyProductReviews = "/pharmacyProductReviews";
+  static const String pharmacyVendorDetails = "/pharmacyVendorDetails";
+  static const String pharmacyVendorReview = "/pharmacyVendorReview";
+  static const String pharmacyRateVendor = "/pharmacyRateVendor";
+  static const String pharmacyCheckout = "/pharmacyCheckout";
+
+  ///`grocery=====================================================>`
+  static const String groceryHomeFilter = "/groceryHomeFilter";
+  static const String groceryMostPopular = "/groceryMostPopular";
+  static const String groceryMoreProducts = "/groceryMoreProducts";
+  static const String groceryProductDetails = "/groceryProductDetails";
+  static const String groceryVendorDetails = "/groceryVendorDetails";
 
   static List<GetPage> pages = [
     GetPage(
@@ -110,11 +154,12 @@ class AppRoutes {
         page: () => WelcomeScreen(),
         binding: WelcomeBinding()),
     GetPage(name: login, page: () => LoginScreen()),
+    GetPage(name: login, page: () => LoginScreen(), binding: GuestBinding()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () => SignUpFormScreen(),
+        page: () => const SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
@@ -185,5 +230,43 @@ class AppRoutes {
     GetPage(
         name: restaurantWishlistFilter,
         page: () => const RestaurantWishlistFilter()),
+    GetPage(
+        name: rateAndReviewProductScreen,
+        page: () => const RateAndReviewProductScreen()),
+
+    ///`pharmacy=====================================================>`
+    GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),
+    GetPage(
+        name: pharmacyCategoryDetails, page: () => PharmacyCategoryDetails()),
+    GetPage(
+        name: pharmacyCategoryFilter, page: () => PharmacyCategoriesFilter()),
+    GetPage(name: pharmacyWishlistFilter, page: () => PharmacyWishlistFilter()),
+    GetPage(
+        name: pharmacyMoreProduct, page: () => const PharmacyMoreProducts()),
+    GetPage(name: pharmacyMostPopular, page: () => const PharmacyMostPopular()),
+    GetPage(
+        name: pharmacyProductReviews,
+        page: () => const PharmacyProductReviews()),
+    GetPage(
+        name: pharmacyVendorReview,
+        page: () => const PharmacyVendorReviewScreen()),
+    GetPage(
+        name: pharmacyRateVendor, page: () => const PharmacyRateVendorScreen()),
+    GetPage(name: pharmacyCheckout, page: () => const PharmacyCheckoutScreen()),
+
+    // GetPage(
+    //     name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),
+    // GetPage(
+    //     name: pharmacyProductDetailsScreen,
+    //     page: () => PharmacyProductDetailsScreen()),
+
+    ///`pharmacy=====================================================>`
+    GetPage(name: groceryHomeFilter, page: () => GroceryHomeFilter()),
+    GetPage(name: groceryMostPopular, page: () => GroceryMostPopular()),
+    GetPage(name: groceryMoreProducts, page: () => GroceryMoreProducts()),
+    // GetPage(
+    //     name: groceryVendorDetails, page: () => GroceryVendorDetailsScreen()),
+    // GetPage(
+    //     name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
   ];
 }

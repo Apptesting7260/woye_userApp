@@ -2,6 +2,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});
@@ -9,6 +10,7 @@ class WelcomeScreen extends StatelessWidget {
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
   static final SignUpController signUpController = Get.put(SignUpController());
+  final GuestController guestController = Get.put(GuestController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,28 +75,30 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget guestButton() {
-    return Obx(() => CustomOutlinedButton(
-        onPressed: () {
-          signUpController.guestUserApi();
-        },
-        child: signUpController.rxRequestStatus.value == Status.LOADING ? LoadingAnimationWidget.inkDrop(
-          color: AppColors.primary,
-          size: 30.h,
-        ) : Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              "assets/svg/person-primary.svg",
-              height: 26.h,
-              width: 26.h,
-            ),
-            wBox(12),
-            Text(
-                "Continue As Guest",
-                style: AppFontStyle.text_16_400(AppColors.darkText)
-            )
-          ],
-        )),);
+    return Obx(
+      () => CustomOutlinedButton(
+          onPressed: () {
+            guestController.guestUserApi();
+          },
+          child: guestController.rxRequestStatus.value == Status.LOADING
+              ? LoadingAnimationWidget.inkDrop(
+                  color: AppColors.primary,
+                  size: 30.h,
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/svg/person-primary.svg",
+                      height: 26.h,
+                      width: 26.h,
+                    ),
+                    wBox(12),
+                    Text("Continue As Guest",
+                        style: AppFontStyle.text_16_400(AppColors.darkText))
+                  ],
+                )),
+    );
   }
 
   Widget divider() {

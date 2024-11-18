@@ -1,8 +1,18 @@
 import 'package:woye_user/core/utils/app_export.dart';
 
 class CustomItemBanner extends StatelessWidget {
-  final int index;
-  const CustomItemBanner({super.key, required this.index});
+  int index;
+  final String? image;
+  final double? imageHeight;
+  final EdgeInsetsGeometry? padding;
+  final Color? backgroundColor;
+  CustomItemBanner(
+      {super.key,
+      this.index = 0,
+      this.image,
+      this.imageHeight,
+      this.padding,
+      this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,17 +26,19 @@ class CustomItemBanner extends StatelessWidget {
           alignment: Alignment.topRight,
           children: [
             Container(
+              padding: padding,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              child: Image.asset(
-                // "assets/images/rk.jpg",
-                "assets/images/cat-image${index % 5}.png",
-                height: 160.h,
-                width: Get.width,
-                fit: BoxFit.cover,
-                // width: Get.width,
+                  borderRadius: BorderRadius.circular(20.r),
+                  color: backgroundColor),
+              child: Center(
+                child: Image.asset(
+                  image ?? "assets/images/cat-image${index % 5}.png",
+                  height: imageHeight ?? 160.h,
+                  width: Get.width,
+                  fit: BoxFit.cover,
+                  // width: Get.width,
+                ),
               ),
             ),
             Obx(

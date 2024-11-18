@@ -25,11 +25,11 @@ class SignUpFormController extends GetxController {
 
   var pref = UserPreference();
 
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void profileSet(ProfileModel _value) => profileData.value = _value;
-  void upprofileSet(UpdateprofileModel _value) =>
-      updateprofileData.value = _value;
-  void setError(String _value) => error.value = _value;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void profileSet(ProfileModel value) => profileData.value = value;
+  void upprofileSet(UpdateprofileModel value) =>
+      updateprofileData.value = value;
+  void setError(String value) => error.value = value;
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
 
@@ -227,7 +227,7 @@ class SignUpFormController extends GetxController {
         userModel.step = profileData.value.step;
         log("get Response Step: ${userModel.step}");
         mobileController.text = profileData.value.data!.phone.toString();
-        log("get Response phone: ${mobileController}");
+        log("get Response phone: $mobileController");
       }
     }).onError((error, stackError) {
       setError(error.toString());

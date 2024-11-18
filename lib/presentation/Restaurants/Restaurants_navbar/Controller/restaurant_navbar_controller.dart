@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/View/restaurant_home_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/View/restaurant_wishlist_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/restaurant_home_screen.dart';
 import 'package:woye_user/presentation/common/Profile/View/profile_screen.dart';
 
 class RestaurantNavbarController extends GetxController {

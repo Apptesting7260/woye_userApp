@@ -1,4 +1,3 @@
-
 class HomeModel {
   bool? status;
   Userdata? userdata;
@@ -15,20 +14,32 @@ class HomeModel {
   });
 
   factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
-    status: json["status"],
-    userdata: json["userdata"] == null ? null : Userdata.fromJson(json["userdata"]),
-    category: json["category"] == null ? [] : List<Category>.from(json["category"]!.map((x) => Category.fromJson(x))),
-    restaurants: json["restaurants"] == null ? [] : List<Restaurant>.from(json["restaurants"]!.map((x) => Restaurant.fromJson(x))),
-    message: json["message"],
-  );
+        status: json["status"],
+        userdata: json["userdata"] == null
+            ? null
+            : Userdata.fromJson(json["userdata"]),
+        category: json["category"] == null
+            ? []
+            : List<Category>.from(
+                json["category"]!.map((x) => Category.fromJson(x))),
+        restaurants: json["restaurants"] == null
+            ? []
+            : List<Restaurant>.from(
+                json["restaurants"]!.map((x) => Restaurant.fromJson(x))),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "userdata": userdata?.toJson(),
-    "category": category == null ? [] : List<dynamic>.from(category!.map((x) => x.toJson())),
-    "restaurants": restaurants == null ? [] : List<dynamic>.from(restaurants!.map((x) => x.toJson())),
-    "message": message,
-  };
+        "status": status,
+        "userdata": userdata?.toJson(),
+        "category": category == null
+            ? []
+            : List<dynamic>.from(category!.map((x) => x.toJson())),
+        "restaurants": restaurants == null
+            ? []
+            : List<dynamic>.from(restaurants!.map((x) => x.toJson())),
+        "message": message,
+      };
 }
 
 class Category {
@@ -55,48 +66,45 @@ class Category {
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-    id: json["id"],
-    name: json["name"],
-    image: json["image"],
-    parentCategory: parentCategoryValues.map[json["parent_category"]]!,
-    userId: userIdValues.map[json["user_id"]]!,
-    status: json["status"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    imageUrl: json["image_url"],
-  );
+        id: json["id"],
+        name: json["name"],
+        image: json["image"],
+        parentCategory: parentCategoryValues.map[json["parent_category"]]!,
+        userId: userIdValues.map[json["user_id"]]!,
+        status: json["status"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
+        imageUrl: json["image_url"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "image": image,
-    "parent_category": parentCategoryValues.reverse[parentCategory],
-    "user_id": userIdValues.reverse[userId],
-    "status": status,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-    "image_url": imageUrl,
-  };
+        "id": id,
+        "name": name,
+        "image": image,
+        "parent_category": parentCategoryValues.reverse[parentCategory],
+        "user_id": userIdValues.reverse[userId],
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "image_url": imageUrl,
+      };
 }
 
-enum ParentCategory {
-  RESTAURANT
-}
+enum ParentCategory { RESTAURANT }
 
-final parentCategoryValues = EnumValues({
-  "restaurant": ParentCategory.RESTAURANT
-});
+final parentCategoryValues =
+    EnumValues({"restaurant": ParentCategory.RESTAURANT});
 
-enum UserId {
-  ALL
-}
+enum UserId { ALL }
 
-final userIdValues = EnumValues({
-  "all": UserId.ALL
-});
+final userIdValues = EnumValues({"all": UserId.ALL});
 
 class Restaurant {
-  int? id;
+  String? id;
   String? name;
   String? email;
   dynamic otp;
@@ -111,16 +119,16 @@ class Restaurant {
   String? shopAddress;
   String? shopDes;
   OpeningHours? openingHours;
-  int? countryId;
-  int? stateId;
-  int? cityId;
+  String? countryId;
+  String? stateId;
+  String? cityId;
   List<String>? categoryId;
   String? opensAt;
   String? closesAt;
   String? role;
-  int? status;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
 
   Restaurant({
     this.id,
@@ -151,60 +159,66 @@ class Restaurant {
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
-    id: json["id"],
-    name: json["name"],
-    email: json["email"],
-    otp: json["otp"],
-    password: json["password"],
-    rating: json["rating"],
-    avgPrice: json["avg_price"],
-    currentStatus: json["current_status"],
-    phone: json["phone"],
-    shopImage: json["shop_image"],
-    shopName: json["shop_name"],
-    shopEmail: json["shop_email"],
-    shopAddress: json["shop_address"],
-    shopDes: json["shop_des"],
-    openingHours: json["opening_hours"] == null ? null : OpeningHours.fromJson(json["opening_hours"]),
-    countryId: json["country_id"],
-    stateId: json["state_id"],
-    cityId: json["city_id"],
-    categoryId: json["category_id"] == null ? [] : List<String>.from(json["category_id"]!.map((x) => x)),
-    opensAt: json["opens_at"],
-    closesAt: json["closes_at"],
-    role: json["role"],
-    status: json["status"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-  );
+        id: json["id"].toString(),
+        name: json["name"].toString(),
+        email: json["email"].toString(),
+        otp: json["otp"].toString(),
+        password: json["password"].toString(),
+        rating: json["rating"].toString(),
+        avgPrice: json["avg_price"].toString(),
+        currentStatus: json["current_status"].toString(),
+        phone: json["phone"].toString(),
+        shopImage: json["shop_image"].toString(),
+        shopName: json["shop_name"].toString(),
+        shopEmail: json["shop_email"].toString(),
+        shopAddress: json["shop_address"].toString(),
+        shopDes: json["shop_des"].toString(),
+        openingHours: json["opening_hours"] == null
+            ? null
+            : OpeningHours.fromJson(json["opening_hours"]),
+        countryId: json["country_id"].toString(),
+        stateId: json["state_id"].toString(),
+        cityId: json["city_id"].toString(),
+        categoryId: json["category_id"] == null
+            ? []
+            : List<String>.from(json["category_id"]!.map((x) => x)),
+        opensAt: json["opens_at"].toString(),
+        closesAt: json["closes_at"].toString(),
+        role: json["role"].toString(),
+        status: json["status"].toString(),
+        createdAt: json["created_at"].toString(),
+        updatedAt: json["updated_at"].toString(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "email": email,
-    "otp": otp,
-    "password": password,
-    "rating": rating,
-    "avg_price": avgPrice,
-    "current_status": currentStatus,
-    "phone": phone,
-    "shop_image": shopImage,
-    "shop_name": shopName,
-    "shop_email": shopEmail,
-    "shop_address": shopAddress,
-    "shop_des": shopDes,
-    "opening_hours": openingHours?.toJson(),
-    "country_id": countryId,
-    "state_id": stateId,
-    "city_id": cityId,
-    "category_id": categoryId == null ? [] : List<dynamic>.from(categoryId!.map((x) => x)),
-    "opens_at": opensAt,
-    "closes_at": closesAt,
-    "role": role,
-    "status": status,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-  };
+        "id": id,
+        "name": name,
+        "email": email,
+        "otp": otp,
+        "password": password,
+        "rating": rating,
+        "avg_price": avgPrice,
+        "current_status": currentStatus,
+        "phone": phone,
+        "shop_image": shopImage,
+        "shop_name": shopName,
+        "shop_email": shopEmail,
+        "shop_address": shopAddress,
+        "shop_des": shopDes,
+        "opening_hours": openingHours?.toJson(),
+        "country_id": countryId,
+        "state_id": stateId,
+        "city_id": cityId,
+        "category_id": categoryId == null
+            ? []
+            : List<dynamic>.from(categoryId!.map((x) => x)),
+        "opens_at": opensAt,
+        "closes_at": closesAt,
+        "role": role,
+        "status": status,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }
 
 class OpeningHours {
@@ -221,18 +235,19 @@ class OpeningHours {
   });
 
   factory OpeningHours.fromJson(Map<String, dynamic> json) => OpeningHours(
-    sunday: json["Sunday"] == null ? null : Day.fromJson(json["Sunday"]),
-    monday: json["Monday"] == null ? null : Day.fromJson(json["Monday"]),
-    tuesday: json["Tuesday"] == null ? null : Day.fromJson(json["Tuesday"]),
-    wednesday: json["Wednesday"] == null ? null : Day.fromJson(json["Wednesday"]),
-  );
+        sunday: json["Sunday"] == null ? null : Day.fromJson(json["Sunday"]),
+        monday: json["Monday"] == null ? null : Day.fromJson(json["Monday"]),
+        tuesday: json["Tuesday"] == null ? null : Day.fromJson(json["Tuesday"]),
+        wednesday:
+            json["Wednesday"] == null ? null : Day.fromJson(json["Wednesday"]),
+      );
 
   Map<String, dynamic> toJson() => {
-    "Sunday": sunday?.toJson(),
-    "Monday": monday?.toJson(),
-    "Tuesday": tuesday?.toJson(),
-    "Wednesday": wednesday?.toJson(),
-  };
+        "Sunday": sunday?.toJson(),
+        "Monday": monday?.toJson(),
+        "Tuesday": tuesday?.toJson(),
+        "Wednesday": wednesday?.toJson(),
+      };
 }
 
 class Day {
@@ -247,20 +262,20 @@ class Day {
   });
 
   factory Day.fromJson(Map<String, dynamic> json) => Day(
-    status: json["status"],
-    open: json["open"],
-    close: json["close"],
-  );
+        status: json["status"],
+        open: json["open"],
+        close: json["close"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "open": open,
-    "close": close,
-  };
+        "status": status,
+        "open": open,
+        "close": close,
+      };
 }
 
 class Userdata {
-  int? id;
+  String? id;
   String? firstName;
   dynamic lastName;
   dynamic email;
@@ -275,15 +290,15 @@ class Userdata {
   dynamic otp;
   String? fcmToken;
   dynamic status;
-  int? step;
+  String? step;
   dynamic uuid;
   String? type;
   dynamic userType;
   String? mobileVerified;
   String? emailVerified;
   dynamic deletedAt;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? createdAt;
+  String? updatedAt;
 
   Userdata({
     this.id,
@@ -313,58 +328,58 @@ class Userdata {
   });
 
   factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
-    id: json["id"],
-    firstName: json["first_name"],
-    lastName: json["last_name"],
-    email: json["email"],
-    plainPassword: json["plain_password"],
-    proImg: json["pro_img"],
-    imageUrl: json["image_url"],
-    dob: json["dob"],
-    gender: json["gender"],
-    phone: json["phone"],
-    countryCode: json["country_code"],
-    terms: json["terms"],
-    otp: json["otp"],
-    fcmToken: json["fcm_token"],
-    status: json["status"],
-    step: json["step"],
-    uuid: json["uuid"],
-    type: json["type"],
-    userType: json["user_type"],
-    mobileVerified: json["mobile_verified"],
-    emailVerified: json["email_verified"],
-    deletedAt: json["deleted_at"],
-    createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-    updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-  );
+        id: json["id"].toString(),
+        firstName: json["first_name"].toString(),
+        lastName: json["last_name"].toString(),
+        email: json["email"].toString(),
+        plainPassword: json["plain_password"].toString(),
+        proImg: json["pro_img"].toString(),
+        imageUrl: json["image_url"].toString(),
+        dob: json["dob"].toString(),
+        gender: json["gender"].toString(),
+        phone: json["phone"].toString(),
+        countryCode: json["country_code"].toString(),
+        terms: json["terms"].toString(),
+        otp: json["otp"].toString(),
+        fcmToken: json["fcm_token"].toString(),
+        status: json["status"].toString(),
+        step: json["step"].toString(),
+        uuid: json["uuid"].toString(),
+        type: json["type"].toString(),
+        userType: json["user_type"].toString(),
+        mobileVerified: json["mobile_verified"].toString(),
+        emailVerified: json["email_verified"].toString(),
+        deletedAt: json["deleted_at"].toString(),
+        createdAt: json["created_at"].toString(),
+        updatedAt: json["updated_at"].toString(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "first_name": firstName,
-    "last_name": lastName,
-    "email": email,
-    "plain_password": plainPassword,
-    "pro_img": proImg,
-    "image_url": imageUrl,
-    "dob": dob,
-    "gender": gender,
-    "phone": phone,
-    "country_code": countryCode,
-    "terms": terms,
-    "otp": otp,
-    "fcm_token": fcmToken,
-    "status": status,
-    "step": step,
-    "uuid": uuid,
-    "type": type,
-    "user_type": userType,
-    "mobile_verified": mobileVerified,
-    "email_verified": emailVerified,
-    "deleted_at": deletedAt,
-    "created_at": createdAt?.toIso8601String(),
-    "updated_at": updatedAt?.toIso8601String(),
-  };
+        "id": id,
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "plain_password": plainPassword,
+        "pro_img": proImg,
+        "image_url": imageUrl,
+        "dob": dob,
+        "gender": gender,
+        "phone": phone,
+        "country_code": countryCode,
+        "terms": terms,
+        "otp": otp,
+        "fcm_token": fcmToken,
+        "status": status,
+        "step": step,
+        "uuid": uuid,
+        "type": type,
+        "user_type": userType,
+        "mobile_verified": mobileVerified,
+        "email_verified": emailVerified,
+        "deleted_at": deletedAt,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+      };
 }
 
 class EnumValues<T> {

@@ -34,18 +34,15 @@ class RestaurantHomeController extends GetxController {
     update();
   }
 
-
-
   final api = Repository();
 
   final rxRequestStatus = Status.COMPLETED.obs;
   final homeData = HomeModel().obs;
   RxString error = ''.obs;
 
-
-  void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-  void homeSet(HomeModel _value) => homeData.value = _value;
-  void setError(String _value) => error.value = _value;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void homeSet(HomeModel value) => homeData.value = value;
+  void setError(String value) => error.value = value;
 
   @override
   void onInit() {
@@ -54,9 +51,7 @@ class RestaurantHomeController extends GetxController {
     super.onInit();
   }
 
-
   homeApi() async {
-
     UserModel userModel = UserModel();
     var pref = UserPreference();
     userModel = await pref.getUser();
@@ -64,24 +59,19 @@ class RestaurantHomeController extends GetxController {
     setRxRequestStatus(Status.LOADING);
 
     api.homeApi(userModel.token.toString()).then((value) {
-
       setRxRequestStatus(Status.COMPLETED);
       homeSet(value);
 
       if (homeData.value.status == true) {
         log('home data ==>>${homeData.toString()}');
       }
-
     }).onError((error, stackError) {
       setError(error.toString());
+      print(stackError);
       print('errrrrrrrrrrrr');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
-
   }
-
-
-
 }

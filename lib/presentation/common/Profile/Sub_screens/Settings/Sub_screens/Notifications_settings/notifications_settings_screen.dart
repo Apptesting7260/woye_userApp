@@ -32,7 +32,7 @@ class NotificationsSettingsScreen extends StatelessWidget {
                       width: 55,
                       child: Switch.adaptive(
                           trackOutlineColor:
-                              WidgetStatePropertyAll(Colors.transparent),
+                              const WidgetStatePropertyAll(Colors.transparent),
                           inactiveThumbColor: Colors.white,
                           value: isPushed.value,
                           onChanged: (v) {
@@ -51,7 +51,7 @@ class NotificationsSettingsScreen extends StatelessWidget {
                 ),
                 Obx(() => Switch.adaptive(
                     trackOutlineColor:
-                        WidgetStatePropertyAll(Colors.transparent),
+                        const WidgetStatePropertyAll(Colors.transparent),
                     inactiveThumbColor: Colors.white,
                     value: isEmail.value,
                     onChanged: (v) {

@@ -1,9 +1,7 @@
-import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,7 +11,6 @@ import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/Repository/repository.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
-import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import '../../../Core/Utils/snackbar.dart';

@@ -38,7 +38,7 @@ class OtpScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             hBox(20),
-            header("${countryCode} ${mob}"),
+            header("$countryCode $mob"),
             hBox(30),
             otpField(),
             hBox(20),

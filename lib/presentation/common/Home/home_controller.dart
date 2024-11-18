@@ -1,6 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Grocery/Grocery_navbar/grocery_navbar.dart';
-import 'package:woye_user/Presentation/Pharmacy/Pharmacy_navbar/pharmacy_navbar.dart';
+import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
+import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 
 class HomeController extends GetxController {
   RxInt mainButtonIndex = 0.obs;
@@ -37,6 +37,7 @@ class HomeController extends GetxController {
         Get.toNamed(AppRoutes.pharmacyNavbar);
       case 2:
         Get.toNamed(AppRoutes.groceryNavbar);
+        update();
     }
     update();
   }

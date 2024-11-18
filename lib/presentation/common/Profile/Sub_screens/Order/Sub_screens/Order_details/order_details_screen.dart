@@ -366,6 +366,7 @@ class OrderDetailsScreen extends StatelessWidget {
   Widget buttons() {
     return Column(children: [
       CustomOutlinedButton(
+          padding: EdgeInsets.symmetric(horizontal: 20),
           onPressed: () {},
           child: Row(
             children: [
@@ -388,6 +389,7 @@ class OrderDetailsScreen extends StatelessWidget {
           )),
       hBox(15),
       CustomOutlinedButton(
+          padding: EdgeInsets.symmetric(horizontal: 20),
           onPressed: () {},
           child: Row(
             children: [
