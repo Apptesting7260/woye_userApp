@@ -115,7 +115,9 @@ class PromoCodes extends StatelessWidget {
                         width: 85.w,
                         height: 36.h,
                         text: "Apply",
-                        onPressed: () {})
+                        onPressed: () {
+                          Get.back();
+                        })
                   ],
                 ),
               )

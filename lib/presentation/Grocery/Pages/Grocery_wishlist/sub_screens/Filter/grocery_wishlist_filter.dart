@@ -1,15 +1,16 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
 
-class PharmacyWishlistFilter extends StatelessWidget {
-  PharmacyWishlistFilter({super.key});
+class GroceryWishlistFilter extends StatelessWidget {
+  GroceryWishlistFilter({super.key});
 
   final RxMap<String, dynamic> _options = {
-    "Personal Care": true.obs,
-    "Skin Care": false.obs,
-    "Digestive Care": false.obs,
-    "Fever Care": false.obs,
-    "Heart Care": false.obs,
+    "vegetables": true.obs,
+    "Fruits": false.obs,
+    "Milk & Eggs": false.obs,
+    "Drinks": false.obs,
+    "Candy": false.obs,
+    "Dairy": false.obs,
   }.obs;
 
   final RxDouble _lowerValue = 20.0.obs;

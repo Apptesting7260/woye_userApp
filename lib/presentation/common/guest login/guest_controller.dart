@@ -26,13 +26,14 @@ class GuestController extends GetxController {
     final data = {
       "fcm_token": "tokenFCM.toString()",
     };
-
-    log(data.toString());
+    log(
+      name: "get this log",
+      data.toString(),
+    );
 
     setRxRequestStatus(Status.LOADING);
 
     api.guestUserApi(data, "").then((value) {
-      Get.offAllNamed(AppRoutes.groceryNavbar);
       setRxRequestStatus(Status.COMPLETED);
       guestSet(value);
 
@@ -46,11 +47,11 @@ class GuestController extends GetxController {
         userModel.loginType = guestData.value.loginType;
         log("Response loginType: ${userModel.loginType}");
         pref.saveUser(userModel);
-        // Get.offAllNamed(AppRoutes.groceryNavbar);
+        Get.offAllNamed(AppRoutes.groceryNavbar);
       }
     }).onError((error, stackError) {
       setError(error.toString());
-      print('errrrrrrrrrrrr');
+      print('error at guest user api ============================> $error');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);

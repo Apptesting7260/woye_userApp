@@ -5,22 +5,22 @@ class CustomBanner extends StatelessWidget {
 
   final String? price;
   final String? priceBefore;
-  final String? description;
+  final String? title;
   final String? quantity;
 
-  final String? image;
+  final String? imageAddress;
 
   final EdgeInsetsGeometry? padding;
   final Color? backgroundColor;
   CustomBanner(
       {super.key,
       this.index = 0,
-      this.image,
+      this.imageAddress,
       this.padding,
       this.backgroundColor,
       this.price,
       this.priceBefore,
-      this.description,
+      this.title,
       this.quantity});
 
   @override
@@ -42,7 +42,7 @@ class CustomBanner extends StatelessWidget {
                   color: backgroundColor),
               child: Center(
                 child: Image.asset(
-                  image ?? "assets/images/cat-image${index % 5}.png",
+                  imageAddress ?? "assets/images/cat-image${index % 5}.png",
                   height: 160.h,
                   width: Get.width,
                   fit: BoxFit.cover,
@@ -99,7 +99,7 @@ class CustomBanner extends StatelessWidget {
         ),
         // hBox(10),
         Text(
-          description ?? "Azithral XP 150mg...",
+          title ?? "Azithral XP 150mg...",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_14_500(AppColors.darkText),
         ),

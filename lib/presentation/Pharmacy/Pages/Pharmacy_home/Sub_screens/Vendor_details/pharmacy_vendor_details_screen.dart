@@ -61,16 +61,22 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            mainBanner(mainBannerImage, title),
-            hBox(30),
-            categoriesList(),
-            itemsGrid(),
-            hBox(50)
+            Expanded(
+              flex: 36,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  mainBanner(mainBannerImage, title),
+
+                  // hBox(50)
+                ],
+              ),
+            ),
+            Expanded(flex: 64, child: tabBar()),
           ],
         ),
       ),
@@ -92,9 +98,13 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             children: [
               Expanded(
                 flex: 2,
-                child: Image.asset(
-                  mainBannerImage,
-                  height: 60.h,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50.r),
+                  child: Image.asset(
+                    mainBannerImage,
+                    height: 60.h,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               wBox(10),
@@ -162,7 +172,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             const Icon(Icons.mail_outline_rounded),
             wBox(8),
             Text(
-              "restaurants@gmail.com",
+              "shopname@gmail.com",
               style: AppFontStyle.text_14_400(AppColors.darkText),
             )
           ],
@@ -182,34 +192,83 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget categoriesList() {
-    return SizedBox(
-      height: 50,
-      child: ListView.separated(
-        itemCount: detailCategories.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (c, i) {
-          // bool isSelected = i == selectedIndex.value;
-          return Obx(
-            () => InkWell(
-              onTap: () {
-                selectedIndex.value = i;
-              },
-              child: Text(
-                detailCategories[i],
-                style: AppFontStyle.text_14_400(selectedIndex.value == i
-                    ? AppColors.primary
-                    : AppColors.lightText),
-              ),
+  // Widget categoriesList() {
+  //   return SizedBox(
+  //     height: 50,
+  //     child: ListView.separated(
+  //       itemCount: detailCategories.length,
+  //       scrollDirection: Axis.horizontal,
+  //       itemBuilder: (c, i) {
+  //         // bool isSelected = i == selectedIndex.value;
+  //         return Obx(
+  //           () => InkWell(
+  //             onTap: () {
+  //               selectedIndex.value = i;
+  //             },
+  //             child: Text(
+  //               detailCategories[i],
+  //               style: AppFontStyle.text_14_400(selectedIndex.value == i
+  //                   ? AppColors.primary
+  //                   : AppColors.lightText),
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //       separatorBuilder: (c, i) => wBox(20.w),
+  //     ),
+  //   );
+  // }
+
+  // Widget itemsGrid() {
+  //   return const CustomGridView();
+  // }
+
+  Widget tabBar() {
+    return DefaultTabController(
+      length: 5, // Number of tabs
+      child: Column(
+        children: <Widget>[
+          const TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            dividerHeight: 0,
+            tabs: [
+              Tab(text: 'All'),
+              Tab(text: 'Acidity'),
+              Tab(text: 'Bloating'),
+              Tab(text: 'Constipation'),
+              Tab(text: 'Fruits'),
+            ],
+          ),
+          hBox(20),
+          Expanded(
+            child: TabBarView(
+              children: [
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 20,
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 20,
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 20,
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 20,
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 20,
+                ),
+              ],
             ),
-          );
-        },
-        separatorBuilder: (c, i) => wBox(20.w),
+          ),
+        ],
       ),
     );
-  }
-
-  Widget itemsGrid() {
-    return const CustomGridView();
   }
 }

@@ -1,17 +1,17 @@
 import 'package:woye_user/core/utils/app_export.dart';
 
-class PharmacyCategoriesScreen extends StatelessWidget {
-  const PharmacyCategoriesScreen({super.key});
+class GroceryCategoriesScreen extends StatelessWidget {
+  const GroceryCategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     List catItems = [
-      "Personal Care",
-      "Skin Care",
-      "Digestive Care",
-      "Fever Care",
-      "Heart Care",
-      "Eyes Care"
+      "Vegetables",
+      "Fruits",
+      "Milk & Eggs",
+      "Drinks",
+      "Snacks",
+      "Dairy"
     ];
     return Scaffold(
         appBar: CustomAppBar(
@@ -35,7 +35,7 @@ class PharmacyCategoriesScreen extends StatelessWidget {
                   itemBuilder: (context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        Get.toNamed(AppRoutes.pharmacyCategoryDetails,
+                        Get.toNamed(AppRoutes.groceryCategoriesDetails,
                             arguments: catItems[index % 5]);
                       },
                       child: Container(
@@ -58,7 +58,7 @@ class PharmacyCategoriesScreen extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(14.0),
                                         child: Image.asset(
-                                          "assets/images/pharmacy-cat-${index % 3}.png",
+                                          "assets/images/grocery-cat-${index % 4}.png",
                                           height: 30.h,
                                           // fit: BoxFit.cover,
                                         ),

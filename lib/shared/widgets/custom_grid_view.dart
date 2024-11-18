@@ -5,26 +5,28 @@ class CustomGridView extends StatelessWidget {
   final int? itemCount;
   final String? price;
   final String? priceBefore;
-  final String? description;
+  final String? title;
   final String? quantity;
+  final ScrollPhysics? physics;
 
-  final String? image;
+  final String? imageAddress;
 
   final VoidCallback? onTap;
   const CustomGridView(
       {super.key,
-      this.image,
+      this.imageAddress,
       this.onTap,
       this.price,
       this.priceBefore,
-      this.description,
+      this.title,
       this.quantity,
-      this.itemCount});
+      this.itemCount,
+      this.physics});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: physics ?? const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: itemCount ?? 10,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -42,10 +44,10 @@ class CustomGridView extends StatelessWidget {
                       title: "Azithral Stat 100mg / Azee 100mg Tablet DT"));
                 },
             child: CustomBanner(
-              image: image ?? "assets/images/tablet.png",
+              imageAddress: imageAddress ?? "assets/images/tablet.png",
               price: price,
               priceBefore: priceBefore,
-              description: description,
+              title: title,
               quantity: quantity,
             ),
           );

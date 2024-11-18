@@ -1,4 +1,5 @@
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
 class GroceryVendorDetailsScreen extends StatelessWidget {
@@ -61,16 +62,20 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            mainBanner(mainBannerImage, title),
-            hBox(30),
-            categoriesList(),
-            itemsGrid(),
-            hBox(50)
+            Expanded(
+              flex: 36,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  mainBanner(mainBannerImage, title),
+                ],
+              ),
+            ),
+            Expanded(flex: 64, child: tabBar()),
           ],
         ),
       ),
@@ -92,9 +97,13 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
             children: [
               Expanded(
                 flex: 2,
-                child: Image.asset(
-                  mainBannerImage,
-                  height: 60.h,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(50.r),
+                  child: Image.asset(
+                    mainBannerImage,
+                    height: 60.h,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
               wBox(10),
@@ -182,34 +191,94 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget categoriesList() {
-    return SizedBox(
-      height: 50,
-      child: ListView.separated(
-        itemCount: detailCategories.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (c, i) {
-          // bool isSelected = i == selectedIndex.value;
-          return Obx(
-            () => InkWell(
-              onTap: () {
-                selectedIndex.value = i;
-              },
-              child: Text(
-                detailCategories[i],
-                style: AppFontStyle.text_14_400(selectedIndex.value == i
-                    ? AppColors.primary
-                    : AppColors.lightText),
-              ),
+ 
+
+  Widget tabBar() {
+    return DefaultTabController(
+      length: 5, // Number of tabs
+      child: Column(
+        children: <Widget>[
+          const TabBar(
+            isScrollable: true,
+            tabAlignment: TabAlignment.start,
+            dividerHeight: 0,
+            tabs: [
+              Tab(text: 'All'),
+              Tab(text: 'Vegetables'),
+              Tab(text: 'Fruits'),
+              Tab(text: 'Milk & Eggs'),
+              Tab(text: 'Fruits'),
+            ],
+          ),
+          hBox(20),
+          Expanded(
+            child: TabBarView(
+              children: [
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 20,
+                  imageAddress: "assets/images/grocery-item.png",
+                  title: "Arla DANO Full Cream Milk Powder Instant",
+                  quantity: "50gm",
+                  onTap: () {
+                    Get.to(() => const GroceryProductDetailsScreen(
+                        image: "assets/images/grocery-item.png",
+                        title: "Arla DANO Full Cream Milk Powder Instant"));
+                  },
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 4,
+                  imageAddress: "assets/images/grocery-item.png",
+                  title: "Arla DANO Full Cream Milk Powder Instant",
+                  quantity: "50gm",
+                  onTap: () {
+                    Get.to(() => const GroceryProductDetailsScreen(
+                        image: "assets/images/grocery-item.png",
+                        title: "Arla DANO Full Cream Milk Powder Instant"));
+                  },
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 6,
+                  imageAddress: "assets/images/grocery-item.png",
+                  title: "Arla DANO Full Cream Milk Powder Instant",
+                  quantity: "50gm",
+                  onTap: () {
+                    Get.to(() => const GroceryProductDetailsScreen(
+                        image: "assets/images/grocery-item.png",
+                        title: "Arla DANO Full Cream Milk Powder Instant"));
+                  },
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 8,
+                  imageAddress: "assets/images/grocery-item.png",
+                  title: "Arla DANO Full Cream Milk Powder Instant",
+                  quantity: "50gm",
+                  onTap: () {
+                    Get.to(() => const GroceryProductDetailsScreen(
+                        image: "assets/images/grocery-item.png",
+                        title: "Arla DANO Full Cream Milk Powder Instant"));
+                  },
+                ),
+                CustomGridView(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: 10,
+                  imageAddress: "assets/images/grocery-item.png",
+                  title: "Arla DANO Full Cream Milk Powder Instant",
+                  quantity: "50gm",
+                  onTap: () {
+                    Get.to(() => const GroceryProductDetailsScreen(
+                        image: "assets/images/grocery-item.png",
+                        title: "Arla DANO Full Cream Milk Powder Instant"));
+                  },
+                ),
+              ],
             ),
-          );
-        },
-        separatorBuilder: (c, i) => wBox(20.w),
+          ),
+        ],
       ),
     );
-  }
-
-  Widget itemsGrid() {
-    return const CustomGridView();
   }
 }

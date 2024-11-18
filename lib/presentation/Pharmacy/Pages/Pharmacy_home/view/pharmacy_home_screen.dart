@@ -257,7 +257,7 @@ class PharmacyHomeScreen extends StatelessWidget {
             builder: (controller) {
               return CustomGridView(
                 itemCount: 2,
-                image: "assets/images/tablet.png",
+                imageAddress: "assets/images/tablet.png",
                 onTap: () {},
               );
             }),
@@ -298,7 +298,7 @@ class PharmacyHomeScreen extends StatelessWidget {
             builder: (controller) {
               return CustomGridView(
                 itemCount: 6,
-                image: "assets/images/tablet.png",
+                imageAddress: "assets/images/tablet.png",
                 onTap: () {},
               );
             }),

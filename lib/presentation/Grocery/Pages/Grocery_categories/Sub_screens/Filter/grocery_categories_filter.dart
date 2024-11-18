@@ -1,8 +1,8 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
 
-class PharmacyCategoriesFilter extends StatelessWidget {
-  PharmacyCategoriesFilter({super.key});
+class GroceryCategoriesFilter extends StatelessWidget {
+  GroceryCategoriesFilter({super.key});
 
   final RxMap<String, dynamic> _options = {
     "Cremaffin": true.obs,

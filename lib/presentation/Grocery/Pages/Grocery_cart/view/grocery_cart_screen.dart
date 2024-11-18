@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Promo_codes/promo_codes.dart';
 
-class PharmacyCartScreen extends StatelessWidget {
-  const PharmacyCartScreen({super.key});
+class GroceryCartScreen extends StatelessWidget {
+  const GroceryCartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +26,6 @@ class PharmacyCartScreen extends StatelessWidget {
             promoCode(context),
             hBox(40),
             paymentDetails(),
-            hBox(30),
-            Divider(
-              thickness: .5.w,
-              color: AppColors.hintText,
-            ),
             hBox(15),
             checkoutButton(),
             hBox(100)
@@ -76,7 +71,7 @@ class PharmacyCartScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.r),
                 child: Image.asset(
-                  "assets/images/tablet.png",
+                  "assets/images/grocery-item.png",
                   height: 100.h,
                   width: 100.h,
                   fit: BoxFit.cover,
@@ -296,6 +291,11 @@ class PharmacyCartScreen extends StatelessWidget {
               style: AppFontStyle.text_14_600(AppColors.darkText),
             ),
           ],
+        ),
+        hBox(30),
+        Divider(
+          thickness: .5.w,
+          color: AppColors.hintText,
         ),
       ],
     );

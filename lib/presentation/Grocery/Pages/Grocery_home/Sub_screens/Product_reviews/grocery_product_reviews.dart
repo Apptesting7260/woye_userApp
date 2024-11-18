@@ -1,7 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
-class PharmacyProductReviews extends StatelessWidget {
-  const PharmacyProductReviews({super.key});
+class GroceryProductReviews extends StatelessWidget {
+  const GroceryProductReviews({super.key});
 
   @override
   Widget build(BuildContext context) {

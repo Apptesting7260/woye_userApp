@@ -1,8 +1,8 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 
-class PharmacyRateVendorScreen extends StatelessWidget {
-  const PharmacyRateVendorScreen({super.key});
+class GroceryRateVendorScreen extends StatelessWidget {
+  const GroceryRateVendorScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

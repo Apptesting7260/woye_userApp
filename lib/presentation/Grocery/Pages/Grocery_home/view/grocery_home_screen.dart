@@ -260,8 +260,8 @@ class GroceryHomeScreen extends StatelessWidget {
         hBox(20),
         CustomGridView(
           itemCount: 2,
-          image: "assets/images/grocery-item.png",
-          description: "Arla DANO Full Cream Milk Powder Instant",
+          imageAddress: "assets/images/grocery-item.png",
+          title: "Arla DANO Full Cream Milk Powder Instant",
           quantity: "50gm",
           onTap: () {
             Get.to(() => GroceryProductDetailsScreen(
@@ -303,8 +303,8 @@ class GroceryHomeScreen extends StatelessWidget {
         hBox(20),
         CustomGridView(
           itemCount: 10,
-          image: "assets/images/grocery-item.png",
-          description: "Arla DANO Full Cream Milk Powder Instant",
+          imageAddress: "assets/images/grocery-item.png",
+          title: "Arla DANO Full Cream Milk Powder Instant",
           quantity: "50gm",
           onTap: () {
             Get.to(() => GroceryProductDetailsScreen(

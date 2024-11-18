@@ -3,22 +3,22 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_reviews/pharmacy_product_reviews.dart';
 
-class PharmacyVendorReviewScreen extends StatefulWidget {
-  const PharmacyVendorReviewScreen({super.key});
+class GroceryVendorReviewScreen extends StatefulWidget {
+  const GroceryVendorReviewScreen({super.key});
 
   @override
-  State<PharmacyVendorReviewScreen> createState() =>
+  State<GroceryVendorReviewScreen> createState() =>
       _PharmacyVendorReviewScreenState();
 }
 
-class _PharmacyVendorReviewScreenState extends State<PharmacyVendorReviewScreen>
+class _PharmacyVendorReviewScreenState extends State<GroceryVendorReviewScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
     _animationController.animateTo(0.5);
     _animationController.forward();
     super.initState();
@@ -227,7 +227,7 @@ class _PharmacyVendorReviewScreenState extends State<PharmacyVendorReviewScreen>
   Widget reviewButton() {
     return CustomElevatedButton(
       onPressed: () {
-        Get.toNamed(AppRoutes.pharmacyRateVendor);
+        Get.toNamed(AppRoutes.groceryRateVendor);
       },
       text: "Write A Review",
     );

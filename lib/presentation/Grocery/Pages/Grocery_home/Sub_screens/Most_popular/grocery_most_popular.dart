@@ -26,8 +26,8 @@ class GroceryMostPopular extends StatelessWidget {
   Widget productList() {
     return CustomGridView(
       itemCount: 2,
-      image: "assets/images/grocery-item.png",
-      description: "Arla DANO Full Cream Milk Powder Instant",
+      imageAddress: "assets/images/grocery-item.png",
+      title: "Arla DANO Full Cream Milk Powder Instant",
       quantity: "50gm",
       onTap: () {
         Get.to(() => GroceryProductDetailsScreen(

@@ -26,11 +26,6 @@ class RestaurantCartScreen extends StatelessWidget {
             promoCode(context),
             hBox(40),
             paymentDetails(),
-            hBox(30),
-            Divider(
-              thickness: .5.w,
-              color: AppColors.hintText,
-            ),
             hBox(15),
             checkoutButton(),
             hBox(100)
@@ -296,6 +291,11 @@ class RestaurantCartScreen extends StatelessWidget {
               style: AppFontStyle.text_14_600(AppColors.darkText),
             ),
           ],
+        ),
+        hBox(30),
+        Divider(
+          thickness: .5.w,
+          color: AppColors.hintText,
         ),
       ],
     );

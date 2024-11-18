@@ -1,19 +1,11 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
-class PharmacyCategoryDetails extends StatelessWidget {
-  PharmacyCategoryDetails({super.key});
+class GroceryCategoryDetails extends StatelessWidget {
+  GroceryCategoryDetails({super.key});
 
-  static final List detailCategories = [
-    "All",
-    "Acidity",
-    "Bloating",
-    "Constipation",
-    "Indigestions"
-  ];
-  RxInt selectedIndex = 0.obs;
-  // int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     var title = Get.arguments ?? "Your Item";
@@ -57,7 +49,6 @@ class PharmacyCategoryDetails extends StatelessWidget {
             SliverToBoxAdapter(
               child: hBox(10),
             ),
-            categoriesList(),
             itemGrid(),
             SliverToBoxAdapter(
               child: hBox(50),
@@ -68,38 +59,18 @@ class PharmacyCategoryDetails extends StatelessWidget {
     );
   }
 
-  SliverToBoxAdapter categoriesList() {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 50,
-        child: ListView.separated(
-          itemCount: detailCategories.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (c, i) {
-            // bool isSelected = i == selectedIndex.value;
-            return Obx(
-              () => InkWell(
-                onTap: () {
-                  selectedIndex.value = i;
-                },
-                child: Text(
-                  detailCategories[i],
-                  style: AppFontStyle.text_14_400(selectedIndex.value == i
-                      ? AppColors.primary
-                      : AppColors.lightText),
-                ),
-              ),
-            );
-          },
-          separatorBuilder: (c, i) => wBox(20.w),
-        ),
-      ),
-    );
-  }
-
   SliverToBoxAdapter itemGrid() {
-    return const SliverToBoxAdapter(
-      child: CustomGridView(),
-    );
+    return SliverToBoxAdapter(
+        child: CustomGridView(
+      itemCount: 10,
+      imageAddress: "assets/images/grocery-item.png",
+      title: "Arla DANO Full Cream Milk Powder Instant",
+      quantity: "50gm",
+      onTap: () {
+        Get.to(() => const GroceryProductDetailsScreen(
+            image: "assets/images/grocery-item.png",
+            title: "Arla DANO Full Cream Milk Powder Instant"));
+      },
+    ));
   }
 }

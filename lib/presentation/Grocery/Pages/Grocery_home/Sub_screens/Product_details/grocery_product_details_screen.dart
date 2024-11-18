@@ -1,6 +1,5 @@
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
-import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
 import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
 class GroceryProductDetailsScreen extends StatelessWidget {
@@ -74,9 +73,6 @@ class GroceryProductDetailsScreen extends StatelessWidget {
             hBox(20),
             //
             buttons(),
-            hBox(30),
-            //
-            dropdownsSection(),
             hBox(30),
             //
             productReviews(),
@@ -287,7 +283,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
   Widget shopCard() {
     return InkWell(
       onTap: () {
-        Get.to(PharmacyVendorDetailsScreen(
+        Get.to(GroceryVendorDetailsScreen(
             title: "Micro Labs Ltd", image: "assets/images/dairy-shop.jpg"));
       },
       child: Container(
@@ -300,15 +296,24 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: 2,
-              child: Image.asset(
-                "assets/images/dairy-shop.jpg",
-                height: 50.h,
+              flex: 15,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50.r),
+                child: Image.asset(
+                  "assets/images/dairy-shop.jpg",
+                  height: 45.h,
+                  // width: 40.h,
+                  fit: BoxFit.cover,
+                ),
               ),
+              //  Image.asset(
+              //   "assets/images/dairy-shop.jpg",
+              //   height: 50.h,
+              // ),
             ),
             wBox(10),
             Expanded(
-              flex: 8,
+              flex: 85,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -370,121 +375,6 @@ class GroceryProductDetailsScreen extends StatelessWidget {
               text: "Buy now",
               onPressed: () {}),
         ),
-      ],
-    );
-  }
-
-  Widget dropdownsSection() {
-    List dropdownTitles = [
-      "How to Use?",
-      "Usage, Direction and Dosage",
-      "Interactions",
-      "Side Effects",
-      "Expert advice and Concern",
-      "When not to use?",
-      "General Instructions & Warnings",
-      "Other Details"
-    ];
-    return Column(
-      children: [
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: 8,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-            RxBool isExpanded = false.obs;
-
-            return Obx(
-              () => Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      border: Border.all(
-                          color: isExpanded.value == false
-                              ? AppColors.textFieldBorder
-                              : AppColors.darkText)),
-                  child: CustomExpansionTile(
-                      onExpansionChanged: (value) {
-                        isExpanded.value = value;
-                      },
-                      title: dropdownTitles[i],
-                      titleTextStyle:
-                          AppFontStyle.text_16_600(AppColors.darkText),
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                "•",
-                                style: AppFontStyle.text_14_600(
-                                    AppColors.darkText),
-                              ),
-                            ),
-                            wBox(10),
-                            Expanded(
-                              flex: 39,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Missed Dose",
-                                    style: AppFontStyle.text_14_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(10),
-                                  Text(
-                                    "Lorem Ipsum has been the industry's text ever since the 1500s, when an unknown printer took a galley of type and  it to make a type specimen book.",
-                                    overflow: TextOverflow.visible,
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.lightText),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        hBox(20),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                "•",
-                                style: AppFontStyle.text_14_600(
-                                    AppColors.darkText),
-                              ),
-                            ),
-                            wBox(10),
-                            Expanded(
-                              flex: 39,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Overdose",
-                                    style: AppFontStyle.text_14_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(10),
-                                  Text(
-                                    "Lorem Ipsum has been the industry's text ever since the 1500s, when an unknown printer took a galley of type and  it to make a type specimen book.",
-                                    overflow: TextOverflow.visible,
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.lightText),
-                                  ),
-                                  hBox(10)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ])),
-            );
-          },
-          separatorBuilder: (context, index) => hBox(20),
-        )
       ],
     );
   }
@@ -647,7 +537,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () {
-            Get.toNamed(AppRoutes.pharmacyProductReviews);
+            Get.toNamed(AppRoutes.groceryproductReviews);
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -680,7 +570,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.toNamed(AppRoutes.pharmacyMoreProduct);
+                Get.toNamed(AppRoutes.groceryVendorReviews);
               },
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
@@ -703,8 +593,16 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           ],
         ),
         hBox(20),
-        const CustomGridView(
+        CustomGridView(
           itemCount: 2,
+          imageAddress: "assets/images/grocery-item.png",
+          title: "Arla DANO Full Cream Milk Powder Instant",
+          quantity: "50gm",
+          onTap: () {
+            Get.to(() => GroceryProductDetailsScreen(
+                image: "assets/images/grocery-item.png",
+                title: "Arla DANO Full Cream Milk Powder Instant"));
+          },
         )
       ],
     );
