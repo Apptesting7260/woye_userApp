@@ -80,7 +80,8 @@ class HomeScreen extends StatelessWidget {
                           return GestureDetector(
                             onTap: () {
                               if(index ==2){
-
+                                homeController.getIndex(index);
+                                homeController.navigate(index);
                               }else {
                                 homeController.getIndex(index);
                                 homeController.navigate(index);

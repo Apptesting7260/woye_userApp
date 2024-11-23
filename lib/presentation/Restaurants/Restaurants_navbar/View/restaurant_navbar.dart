@@ -8,8 +8,7 @@ class RestaurantNavbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RestaurantNavbarController>(
-        init:
-            RestaurantNavbarController(navbarCurrentIndex: navbarInitialIndex),
+        init: RestaurantNavbarController(navbarCurrentIndex: navbarInitialIndex),
         builder: (navbarController) {
           return PopScope(
             canPop: false,
