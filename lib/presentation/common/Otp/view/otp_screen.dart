@@ -16,7 +16,8 @@ class OtpScreen extends StatelessWidget {
   });
 
   final LoginController loginController = Get.put(LoginController());
-  final SignUpController signUpController = Get.find<SignUpController>();
+  final SignUpController signUpController = Get.put(SignUpController());
+  // final SignUpController signUpController = Get.find<SignUpController>();
   final OtpController otpController = Get.find<OtpController>();
 
 

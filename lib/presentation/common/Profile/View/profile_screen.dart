@@ -3,6 +3,8 @@ import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
 
+import '../../Social_login/social_controller.dart';
+
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
@@ -10,6 +12,10 @@ class ProfileScreen extends StatelessWidget {
 
   static final ProfileController restaurantProfileController =
       Get.put(ProfileController());
+
+  final SocialLoginController socialLoginController =
+      Get.put(SocialLoginController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -307,6 +313,7 @@ class ProfileScreen extends StatelessWidget {
                         child: CustomElevatedButton(
                           height: 40.h,
                           onPressed: () {
+                            socialLoginController.signout();
                             userModel.clear();
                             Get.offAllNamed(AppRoutes.welcomeScreen);
                           },

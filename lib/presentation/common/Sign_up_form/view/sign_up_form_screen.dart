@@ -4,14 +4,17 @@ import 'package:woye_user/presentation/common/Sign_up_form/controller/sign_up_fo
 
 class SignUpFormScreen extends StatefulWidget {
   const SignUpFormScreen({super.key});
+
   static SignUpFormController signUpFormController =
       Get.find<SignUpFormController>();
+
   @override
   State<SignUpFormScreen> createState() => _SignUpFormScreenState();
 }
 
 class _SignUpFormScreenState extends State<SignUpFormScreen> {
   SignUpFormController controller = Get.put(SignUpFormController());
+
   @override
   void initState() {
     // if (controller.serviceEnabled != true) {
@@ -22,12 +25,12 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (controller.serviceEnabled != true) {
-        locationRequestPopUp(context);
-      }
-      // locationRequestPopUp(context);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   if (controller.serviceEnabled != true) {
+    //     locationRequestPopUp(context);
+    //   }
+    //   // locationRequestPopUp(context);
+    // });
     return Scaffold(
       appBar: const CustomAppBar(),
       body: SingleChildScrollView(
@@ -400,67 +403,67 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         });
   }
 
-  Future<dynamic> locationRequestPopUp(context) {
-    return showCupertinoModalPopup(
-        context: context,
-        builder: (context) {
-          return AlertDialog.adaptive(
-            content: Container(
-              height: 150.h,
-              width: 320.w,
-              padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.r),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Location',
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
-                  ),
-                  // hBox(15),
-                  Text(
-                    'Plz Enable Location Services',
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
-                  ),
-                  // hBox(15),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          color: AppColors.black,
-                          onPressed: () {
-                            Get.back();
-                          },
-                          text: "Cancel",
-                          textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
-                        ),
-                      ),
-                      wBox(15),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          onPressed: () async {
-                            // await SignUpFormScreen.signUpFormController.location
-                            //     .requestService();
-
-                            controller.locationData =
-                                await controller.location.getLocation();
-                            print(
-                                "location====================> ${controller.locationData}");
-                          },
-                          text: "Yes",
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // Future<dynamic> locationRequestPopUp(context) {
+  //   return showCupertinoModalPopup(
+  //       context: context,
+  //       builder: (context) {
+  //         return AlertDialog.adaptive(
+  //           content: Container(
+  //             height: 150.h,
+  //             width: 320.w,
+  //             padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(30.r),
+  //             ),
+  //             child: Column(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Text(
+  //                   'Location',
+  //                   style: AppFontStyle.text_18_600(AppColors.darkText),
+  //                 ),
+  //                 // hBox(15),
+  //                 Text(
+  //                   'Plz Enable Location Services',
+  //                   style: AppFontStyle.text_14_400(AppColors.lightText),
+  //                 ),
+  //                 // hBox(15),
+  //                 Row(
+  //                   children: [
+  //                     Expanded(
+  //                       child: CustomElevatedButton(
+  //                         height: 40.h,
+  //                         color: AppColors.black,
+  //                         onPressed: () {
+  //                           Get.back();
+  //                         },
+  //                         text: "Cancel",
+  //                         textStyle:
+  //                             AppFontStyle.text_14_400(AppColors.darkText),
+  //                       ),
+  //                     ),
+  //                     wBox(15),
+  //                     Expanded(
+  //                       child: CustomElevatedButton(
+  //                         height: 40.h,
+  //                         onPressed: () async {
+  //                           // await SignUpFormScreen.signUpFormController.location
+  //                           //     .requestService();
+  //
+  //                           controller.locationData =
+  //                               await controller.location.getLocation();
+  //                           print(
+  //                               "location====================> ${controller.locationData}");
+  //                         },
+  //                         text: "Yes",
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 )
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 }

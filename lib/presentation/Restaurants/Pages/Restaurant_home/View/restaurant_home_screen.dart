@@ -303,8 +303,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             itemCount:
                 restaurantHomeController.homeData.value.category?.length ?? 0,
             itemBuilder: (context, index) {
-              print(
-                  'image url == ${restaurantHomeController.homeData.value.category![index].imageUrl}');
+              // print(
+              //     'image url == ${restaurantHomeController.homeData.value.category![index].imageUrl}');
               return Column(
                 children: [
                   ClipRRect(
@@ -390,14 +390,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     return GestureDetector(
                       onTap: () {
                         Get.to(RestaurantDetailsScreen(
-                            image: restaurantsList!.shopImage.toString(),
+                            image: restaurantsList!.shopImageUrl.toString(),
                             title: restaurantsList.shopName.toString()));
                       },
                       child: restaurantList(
                           index: index,
-                          image: restaurantsList?.shopImage,
+                          image: restaurantsList?.shopImageUrl,
                           title: restaurantsList?.shopName,
-                          rating: restaurantsList?.rating),
+                          rating: restaurantsList?.rating,
+                          price: restaurantsList?.avgPrice),
                     );
                   },
                   itemCount: restaurantHomeController
@@ -409,7 +410,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     );
   }
 
-  Widget restaurantList({index, image, title, type, isFavourite, rating}) {
+  Widget restaurantList(
+      {index, String? image, title, type, isFavourite, rating, price}) {
     // RestaurantHomeController controller = Get.find<RestaurantHomeController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -474,7 +476,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              "\$7 - \$18",
+              price,
+              // "\$7 - \$18",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_600(AppColors.primary),
             ),

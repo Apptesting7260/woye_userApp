@@ -26,9 +26,12 @@ class SignUpFormController extends GetxController {
   var pref = UserPreference();
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
   void profileSet(ProfileModel value) => profileData.value = value;
+
   void upprofileSet(UpdateprofileModel value) =>
       updateprofileData.value = value;
+
   void setError(String value) => error.value = value;
 
   Rx<DateTime?> selectedDate = Rx<DateTime?>(null);
@@ -94,20 +97,20 @@ class SignUpFormController extends GetxController {
     // networkController.onInit();
 
     // emailController.text = responseEmail! ?? "";
-    checkLocation();
+    // checkLocation();
     getprofileApi();
     super.onInit();
   }
 
-  void checkLocation() async {
-    serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled!) {
-      serviceEnabled = await location.requestService();
-    }
-    if (!serviceEnabled!) {
-      debugPrint("location====================> location denied");
-    }
-  }
+  // void checkLocation() async {
+  //   serviceEnabled = await location.serviceEnabled();
+  //   if (!serviceEnabled!) {
+  //     serviceEnabled = await location.requestService();
+  //   }
+  //   if (!serviceEnabled!) {
+  //     debugPrint("location====================> location denied");
+  //   }
+  // }
   // @override
   // void onClose() {
   //   fisrtNameController.dispose();
@@ -226,8 +229,14 @@ class SignUpFormController extends GetxController {
       if (profileData.value.status == true) {
         userModel.step = profileData.value.step;
         log("get Response Step: ${userModel.step}");
-        mobileController.text = profileData.value.data!.phone.toString();
-        log("get Response phone: $mobileController");
+        // mobileController.text = profileData.value.data!.phone ?? "";
+        // emailController.text = profileData.value.data!.email ?? "";
+        // fisrtNameController.text = profileData.value.data!.firstName ?? "";
+        mobileController.text = profileData.value.data?.phone ?? "";
+        emailController.text = profileData.value.data?.email ?? "";
+        fisrtNameController.text = profileData.value.data?.firstName ?? "";
+
+        log("get Response phone: ${profileData.value.data?.phone}");
       }
     }).onError((error, stackError) {
       setError(error.toString());

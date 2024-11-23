@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
+import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});

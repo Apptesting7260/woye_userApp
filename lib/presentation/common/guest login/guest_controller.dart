@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/Repository/repository.dart';
@@ -17,14 +18,16 @@ class GuestController extends GetxController {
   var pref = UserPreference();
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
   void guestSet(RegisterModel value) => guestData.value = value;
+
   void setError(String value) => error.value = value;
 
   guestUserApi() async {
-    // String? tokenFCM = await FirebaseMessaging.instance.getToken();
+    String? tokenFCM = await FirebaseMessaging.instance.getToken();
 
     final data = {
-      "fcm_token": "tokenFCM.toString()",
+      "fcm_token": tokenFCM.toString(),
     };
 
     log(data.toString());
@@ -32,7 +35,7 @@ class GuestController extends GetxController {
     setRxRequestStatus(Status.LOADING);
 
     api.guestUserApi(data, "").then((value) {
-      Get.offAllNamed(AppRoutes.groceryNavbar);
+      Get.offAllNamed(AppRoutes.restaurantNavbar);
       setRxRequestStatus(Status.COMPLETED);
       guestSet(value);
 

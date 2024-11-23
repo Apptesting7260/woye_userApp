@@ -79,8 +79,12 @@ class HomeScreen extends StatelessWidget {
                               homeController.mainButtonIndex.value == index;
                           return GestureDetector(
                             onTap: () {
-                              homeController.getIndex(index);
-                              homeController.navigate(index);
+                              if(index ==2){
+
+                              }else {
+                                homeController.getIndex(index);
+                                homeController.navigate(index);
+                              }
                             },
                             child: MainButtonBar(
                               title: homeController.mainButtonbar[index]
