@@ -5,6 +5,7 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final HomeController homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -79,25 +80,25 @@ class HomeScreen extends StatelessWidget {
                               homeController.mainButtonIndex.value == index;
                           return GestureDetector(
                             onTap: () {
-                              if(index ==2){
+                              if (index == 2) {
                                 homeController.getIndex(index);
                                 homeController.navigate(index);
-                              }else {
+                              } else {
                                 homeController.getIndex(index);
                                 homeController.navigate(index);
                               }
                             },
                             child: MainButtonBar(
                               title: homeController.mainButtonbar[index]
-                                      ["title"] ??
+                              ["title"] ??
                                   "",
                               image: isSelected
                                   ? homeController.mainButtonbar[index]
-                                          ["imageEnabled"] ??
-                                      ""
+                              ["imageEnabled"] ??
+                                  ""
                                   : homeController.mainButtonbar[index]
-                                          ["imageDisabled"] ??
-                                      "",
+                              ["imageDisabled"] ??
+                                  "",
                               backgroundColor: isSelected
                                   ? AppColors.primary
                                   : Colors.transparent,
@@ -129,6 +130,7 @@ class MainButtonBar extends StatelessWidget {
   final String title;
   final Color backgroundColor;
   final Color titleColor;
+
   const MainButtonBar({
     super.key,
     required this.image,

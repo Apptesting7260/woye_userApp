@@ -55,41 +55,31 @@ class SocialLoginController extends GetxController {
       print("UID: ${googleUser?.id}");
       print("Photo: ${googleUser?.photoUrl}");
       print("Phone: ${datad.user?.phoneNumber ?? 'No phone number available'}");
+      print("Phone: ${datad.user?.phoneNumber ?? 'No phone number available'}");
       print(
           "gender: ${datad.additionalUserInfo?.profile ?? 'No phone number available'}");
-      //
-      // Map body = {
-      //   'socailite_type': 'google',
-      //   'socailite_id': '${googleUser?.id}',
-      //   'first_name': firstName,
-      //   'last_name': lastName,
-      //   'email': '${googleUser?.email}',
-      //   'fcm_token': FirebaseApi.fcmToken
-      // };
-      //
-      // final response = await api.post(EndPoints.socialLoginUrl, body);
-      // print(response.body);
-      // print(response.statusCode);
-      // if(response.statusCode == 200){
-      //   var data = SocialLoginModel.fromJson(response.body);
-      //   if(data.status == true){
-      //     LocalStorage.saveToken(data.data!.accessToken.toString());
-      //     LocalStorage.saveUid(data.data!.userId.toString());
-      //     Get.offAllNamed(Routes.navbarUi);
-      //   }
-      // }else if(response.statusCode == 401){
-      //   showTostMsg('Login failed.It seems your account has been deleted.');
-      // }else{
-      //   showTostMsg('Login failed.');
-      // }
-
+      String Mobilenumber = "";
+      String countryCode = "";
+      String? phoneNumber = datad.user?.phoneNumber;
+      if (phoneNumber != null) {
+        countryCode =
+            phoneNumber.substring(0, phoneNumber.indexOf(' ') + 1).trim();
+        String phoneNumberWithoutCountryCode =
+            phoneNumber.substring(phoneNumber.indexOf(' ') + 1).trim();
+        print("Phone Number: $phoneNumberWithoutCountryCode");
+        print("Country Code: $countryCode");
+        Mobilenumber = phoneNumberWithoutCountryCode;
+        countryCode = countryCode;
+      } else {
+        print("Phone Number: Not available");
+      }
       SocialLoginApi(
-        email: googleUser!.email.toString(),
-        id: googleUser.id.toString(),
-        type: "google",
-        name: displayName ?? "",
-        mobile: datad.user!.phoneNumber ?? "",
-      );
+          email: googleUser!.email.toString(),
+          id: googleUser.id.toString(),
+          type: "google",
+          name: displayName ?? "",
+          mobile: Mobilenumber ?? "",
+          countryCode: countryCode ?? "");
 
       // Get.back();
       // Get.offAllNamed(AppRoutes.signUpFom);
@@ -104,6 +94,7 @@ class SocialLoginController extends GetxController {
   }
 
   Future<void> facebookLogin(BuildContext context) async {
+    showLoading();
     try {
       final LoginResult result = await FacebookAuth.instance.login(
         // permissions: ['email'],
@@ -136,15 +127,16 @@ class SocialLoginController extends GetxController {
         print("Country Code: $countryCode");
         print("Phone Number: $phoneNumber");
 
-        // await SocialLoginApi(
-        //   type: "facebook",
-        //   email: email,
-        //   id: accessToken.userId,
-        //   name: name,
-        //   mobile: phoneNumber,
-        //   countryCode: countryCode,
-        // );
+        await SocialLoginApi(
+          type: "facebook",
+          email: email,
+          id: accessToken.userId,
+          name: name,
+          mobile: phoneNumber,
+          countryCode: countryCode,
+        );
       } else {
+        Get.back();
         print(result.message);
         SnackBarUtils.showToastCenter("${result.message}");
         Get.back();
@@ -225,6 +217,7 @@ class SocialLoginController extends GetxController {
     required String id,
     required String name,
     required String mobile,
+    required String countryCode,
   }) async {
     String? tokenFCM = await FirebaseMessaging.instance.getToken();
 
@@ -239,6 +232,7 @@ class SocialLoginController extends GetxController {
       'type': type.toString(),
       'fname': name,
       'mob_no': mobile,
+      'country_code': countryCode,
       'dob': "",
       "gender": "",
       'uuid': id,

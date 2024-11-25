@@ -128,7 +128,9 @@ class WelcomeScreen extends StatelessWidget {
 
   Widget facebookButton(context) {
     return CustomOutlinedButton(
-        onPressed: () {},
+        onPressed: () {
+          // socialLoginController.facebookLogin(context);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
