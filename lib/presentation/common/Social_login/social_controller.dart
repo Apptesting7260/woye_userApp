@@ -161,6 +161,7 @@ class SocialLoginController extends GetxController {
   }
 
   Future<void> appleLogin(BuildContext context) async {
+    showLoading();
     try {
       final credential = await SignInWithApple.getAppleIDCredential(
         scopes: [
@@ -179,15 +180,16 @@ class SocialLoginController extends GetxController {
       print("userIdentifier:${credential.userIdentifier}");
       print("userIdentifier:${credential.email}");
 
-      // await SocialLoginApi(
-      //   type: "apple",
-      //   email: credential.email.toString(),
-      //   id: credential.userIdentifier.toString(),
-      //   name: "${credential.givenName ?? ''} ${credential.familyName ?? ''}",
-      //   mobile: "",
-      //   countryCode: "",
-      // );
+      await SocialLoginApi(
+        type: "google",
+        email: credential.email.toString(),
+        id: credential.userIdentifier.toString(),
+        name: "${credential.givenName ?? ''} ${credential.familyName ?? ''}",
+        mobile: "",
+        countryCode: "",
+      );
     } catch (e) {
+      Get.back();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('An error occurred: ${e.toString()}')),
       );
@@ -219,7 +221,7 @@ class SocialLoginController extends GetxController {
     required String mobile,
     required String countryCode,
   }) async {
-    String? tokenFCM = await FirebaseMessaging.instance.getToken();
+    // String? tokenFCM = await FirebaseMessaging.instance.getToken();
 
     UserModel userModel = UserModel();
     var pref = UserPreference();
@@ -227,7 +229,7 @@ class SocialLoginController extends GetxController {
 
     Map data = {
       'email': email,
-      "fcm_token": tokenFCM.toString(),
+      "fcm_token": "tokenFCM.toString()",
       'step': userModel.token.toString() == 2 ? '2' : '1',
       'type': type.toString(),
       'fname': name,

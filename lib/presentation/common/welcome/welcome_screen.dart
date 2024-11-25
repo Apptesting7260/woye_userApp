@@ -169,6 +169,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget appleButton(context) {
+    socialLoginController.appleLogin(context);
     return CustomOutlinedButton(
         onPressed: () {},
         child: Row(
