@@ -34,22 +34,22 @@ class RestaurantHomeController extends GetxController {
     update();
   }
 
-  final api = Repository();
-
-  final rxRequestStatus = Status.COMPLETED.obs;
-  final homeData = HomeModel().obs;
-  RxString error = ''.obs;
-
-  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-  void homeSet(HomeModel value) => homeData.value = value;
-  void setError(String value) => error.value = value;
-
   @override
   void onInit() {
     homeApi();
     // TODO: implement onInit
     super.onInit();
   }
+
+  final api = Repository();
+  final rxRequestStatus = Status.COMPLETED.obs;
+  final homeData = HomeModel().obs;
+
+  RxString error = ''.obs;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void homeSet(HomeModel value) => homeData.value = value;
+
+  void setError(String value) => error.value = value;
 
   homeApi() async {
     UserModel userModel = UserModel();

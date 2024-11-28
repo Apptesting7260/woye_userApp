@@ -18,7 +18,7 @@ class RestaurantNavbarController extends GetxController {
 
   List<Widget> widgets = [
     const RestaurantHomeScreen(),
-    const RestaurantCategoriesScreen(),
+     RestaurantCategoriesScreen(),
     const RestaurantWishlistScreen(),
     const RestaurantCartScreen(),
     ProfileScreen()

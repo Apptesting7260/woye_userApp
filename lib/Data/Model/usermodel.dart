@@ -3,34 +3,34 @@ class UserModel {
   int? step;
   String? token;
   String? loginType;
-  bool? islogin;
+  bool? isLogin;
 
   UserModel({
     this.step,
     this.token,
     this.loginType,
-    this.islogin,
+    this.isLogin,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
     step: json["step"],
     token: json["token"],
     loginType: json["loginType"],
-    islogin: json["islogin"],
+    isLogin: json["islogin"],
   );
 
   Map<String, dynamic> toJson() => {
     "step": step,
     "token": token,
     "loginType": loginType,
-    "islogin": islogin,
+    "islogin": isLogin,
   };
 
   void clear() {
     step = null;
     token = null;
     loginType = null;
-    islogin = null;
+    isLogin = null;
   }
 
 }

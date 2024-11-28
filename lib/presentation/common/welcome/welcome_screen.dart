@@ -39,6 +39,7 @@ class WelcomeScreen extends StatelessWidget {
                   googleButton(context),
                   hBox(15),
                   appleButton(context),
+                  hBox(0),
                 ],
               ),
             ),
@@ -129,7 +130,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget facebookButton(context) {
     return CustomOutlinedButton(
         onPressed: () {
-          // socialLoginController.facebookLogin(context);
+          socialLoginController.facebookLogin(context);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -169,9 +170,12 @@ class WelcomeScreen extends StatelessWidget {
   }
 
   Widget appleButton(context) {
-    socialLoginController.appleLogin(context);
+
     return CustomOutlinedButton(
-        onPressed: () {},
+        onPressed: () {
+          print("APPLE LOGIN");
+          // socialLoginController.appleLogin(context);
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

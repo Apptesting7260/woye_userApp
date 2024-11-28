@@ -3,11 +3,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../components/InternetException.dart';
 import '../app_exceptions.dart';
+import '../components/RequestTimeOut.dart';
 import 'base_api_services.dart';
 
 class NetworkApiServices extends BaseApiServices {
-
   Future<dynamic> getApiWithoutToken(String url) async {
     if (kDebugMode) {
       print(url);
@@ -20,9 +21,13 @@ class NetworkApiServices extends BaseApiServices {
 
       responseJson = returnResponse(response);
     } on SocketException {
-      throw InternetException('');
+      throw InternetExceptionWidget(
+        onPress: () {},
+      );
     } on RequestTimeOut {
-      throw RequestTimeOut('');
+      throw RequestTimeOut(
+        onPress: () {},
+      );
     }
     print(responseJson);
     return responseJson;
@@ -30,6 +35,8 @@ class NetworkApiServices extends BaseApiServices {
 
   @override
   Future<dynamic> getApi(String url, String token) async {
+    print("tocken@calling : ${token.toString()}");
+    print("Get url@calling : ${url.toString()}");
     if (kDebugMode) {
       print(url);
     }
@@ -42,9 +49,13 @@ class NetworkApiServices extends BaseApiServices {
 
       responseJson = returnResponse(response);
     } on SocketException {
-      throw InternetException('');
+      throw InternetExceptionWidget(
+        onPress: () {},
+      );
     } on RequestTimeOut {
-      throw RequestTimeOut('');
+      throw RequestTimeOut(
+        onPress: () {},
+      );
     }
     print(responseJson);
     return responseJson;
@@ -60,7 +71,7 @@ class NetworkApiServices extends BaseApiServices {
     dynamic responseJson;
     try {
       print("tocken@calling : ${token.toString()}");
-      print("url@calling : ${url.toString()}");
+      print("post url@calling : ${url.toString()}");
       final response = await http
           .post(Uri.parse(url),
               headers: {"Authorization": "Bearer $token"}, body: data)
@@ -68,9 +79,13 @@ class NetworkApiServices extends BaseApiServices {
       responseJson = returnResponse(response);
       print("data: $response");
     } on SocketException {
-      throw InternetException('');
+      throw InternetExceptionWidget(
+        onPress: () {},
+      );
     } on RequestTimeOut {
-      throw RequestTimeOut('');
+      throw RequestTimeOut(
+        onPress: () {},
+      );
     }
     if (kDebugMode) {
       print("$responseJson");

@@ -202,6 +202,7 @@ class SignUpFormController extends GetxController {
       if (updateprofileData.value.status == true) {
         userModel.step = updateprofileData.value.step;
         log("get Response Step: ${userModel.step}");
+        pref.saveStep(userModel.step!);
         Get.offAllNamed(AppRoutes.restaurantNavbar);
       }
     }).onError((error, stackError) {

@@ -221,7 +221,7 @@ class SocialLoginController extends GetxController {
     required String mobile,
     required String countryCode,
   }) async {
-    // String? tokenFCM = await FirebaseMessaging.instance.getToken();
+    String? tokenFCM = await FirebaseMessaging.instance.getToken();
 
     UserModel userModel = UserModel();
     var pref = UserPreference();
@@ -229,7 +229,7 @@ class SocialLoginController extends GetxController {
 
     Map data = {
       'email': email,
-      "fcm_token": "tokenFCM.toString()",
+      "fcm_token": tokenFCM.toString(),
       'step': userModel.token.toString() == 2 ? '2' : '1',
       'type': type.toString(),
       'fname': name,
@@ -249,7 +249,7 @@ class SocialLoginController extends GetxController {
         // await Analytics.login_event(email, type);
         UserModel userModel = UserModel(
             token: socialLoginData.value.token.toString(),
-            islogin: true,
+            isLogin: true,
             loginType: socialLoginData.value.type.toString(),
             step: socialLoginData.value.step);
         userPreference.saveUser(userModel).then((value) {

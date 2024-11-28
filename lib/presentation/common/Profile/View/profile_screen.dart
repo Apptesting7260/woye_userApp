@@ -3,18 +3,21 @@ import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
 
+import '../../../../Data/userPrefrenceController.dart';
 import '../../Social_login/social_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
 
-  UserModel userModel = UserModel();
+  // UserModel userModel = UserModel();
 
   static final ProfileController restaurantProfileController =
       Get.put(ProfileController());
 
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
+
+  UserPreference userPreference = UserPreference();
 
   @override
   Widget build(BuildContext context) {
@@ -313,8 +316,9 @@ class ProfileScreen extends StatelessWidget {
                         child: CustomElevatedButton(
                           height: 40.h,
                           onPressed: () {
+
                             socialLoginController.signout();
-                            userModel.clear();
+                            userPreference.removeUser();
                             Get.offAllNamed(AppRoutes.welcomeScreen);
                           },
                           text: "Yes,Logout",

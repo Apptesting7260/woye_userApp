@@ -2,12 +2,17 @@ import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
+import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   static final LoginController loginController = Get.put(LoginController());
   final GuestController guestController = Get.find<GuestController>();
+
+  final SocialLoginController socialLoginController =
+  Get.put(SocialLoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class LoginScreen extends StatelessWidget {
               continueText(),
               hBox(20),
               //
-              socialButtons(),
+              socialButtons(context),
               const Spacer(),
               //
               signUpButton()
@@ -158,12 +163,14 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget socialButtons() {
+  Widget socialButtons(context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         CustomRoundedButton(
-          onPressed: () {},
+          onPressed: () {
+            socialLoginController.facebookLogin(context);
+          },
           child: SvgPicture.asset(
             ImageConstants.fbLogo,
             height: 26.h,
@@ -172,7 +179,9 @@ class LoginScreen extends StatelessWidget {
         ),
         wBox(15),
         CustomRoundedButton(
-            onPressed: () {},
+            onPressed: () {
+              socialLoginController.signInWithGoogle(context);
+            },
             child: SvgPicture.asset(
               ImageConstants.googleLogo,
               height: 26.h,
@@ -180,7 +189,9 @@ class LoginScreen extends StatelessWidget {
             )),
         wBox(15),
         CustomRoundedButton(
-          onPressed: () {},
+          onPressed: () {
+            socialLoginController.appleLogin(context);
+          },
           child: SvgPicture.asset(
             ImageConstants.appleLogo,
             height: 26.h,

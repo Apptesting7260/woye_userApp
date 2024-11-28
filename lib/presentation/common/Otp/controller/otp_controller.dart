@@ -127,8 +127,8 @@ class OtpController extends GetxController {
         log("Response Step: ${userModel.step}");
         userModel.token = registerData.value.token;
         log("Response token: ${userModel.token}");
-        userModel.islogin = true;
-        log("Response islogin: ${userModel.islogin}");
+        userModel.isLogin = true;
+        log("Response islogin: ${userModel.isLogin}");
         userModel.loginType = registerData.value.loginType;
         log("Response loginType: ${userModel.loginType}");
         pref.saveUser(userModel);
@@ -175,8 +175,8 @@ class OtpController extends GetxController {
         log("Response Step: ${userModel.step}");
         userModel.token = loginData.value.token;
         log("Response token: ${userModel.token}");
-        userModel.islogin = true;
-        log("Response islogin: ${userModel.islogin}");
+        userModel.isLogin = true;
+        log("Response islogin: ${userModel.isLogin}");
         userModel.loginType = loginData.value.loginType;
         log("Response loginType: ${userModel.loginType}");
         pref.saveUser(userModel);

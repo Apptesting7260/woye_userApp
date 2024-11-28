@@ -7,6 +7,11 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/control
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 
+import '../../../../../Data/components/GeneralException.dart';
+import '../../../../../Data/components/InternetException.dart';
+import '../../../../../shared/widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
+
 class RestaurantHomeScreen extends StatefulWidget {
   const RestaurantHomeScreen({super.key});
 
@@ -28,6 +33,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     if (keyContext != null) height = keyContext.size!.height;
   }
 
+  final RestaurantCategoriesDetailsController
+      restaurantCategoriesDeatilsController =
+      Get.put(RestaurantCategoriesDetailsController());
+
   @override
   void initState() {
     super.initState();
@@ -36,47 +45,67 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => restaurantHomeController.rxRequestStatus.value == Status.LOADING
-          ? const Center(child: CircularProgressIndicator())
-          : restaurantHomeController.rxRequestStatus.value == Status.ERROR
-              ? const Text('Error')
-              : Scaffold(
-                  body: Column(
-                    children: [
-                      HomeScreen(
-                        key: homeWidgetKey,
-                      ),
-                      Expanded(
-                        child: CustomScrollView(
-                          slivers: [
-                            SliverPadding(
-                              padding: REdgeInsets.symmetric(
-                                horizontal: 24,
-                              ),
-                              sliver: serchAndFilter(),
-                            ),
-                            SliverPadding(
-                                padding: REdgeInsets.symmetric(horizontal: 24),
-                                sliver: SliverToBoxAdapter(
-                                  child: Column(
-                                    children: [
-                                      mainBanner(),
-                                      hBox(20),
-                                      catergories(),
-                                      hBox(20),
-                                      popularRestaurant(),
-                                      hBox(100)
-                                    ],
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                    ],
+    return Obx(() {
+      switch (restaurantHomeController.rxRequestStatus.value) {
+        case Status.LOADING:
+          return Center(child: circularProgressIndicator());
+        case Status.ERROR:
+          if (restaurantHomeController.error.value == 'No internet') {
+            return InternetExceptionWidget(
+              onPress: () {
+                restaurantHomeController.homeApi();
+              },
+            );
+          } else {
+            return GeneralExceptionWidget(
+              onPress: () {
+                restaurantHomeController.homeApi();
+              },
+            );
+          }
+        case Status.COMPLETED:
+          return Scaffold(
+            body: RefreshIndicator(
+              onRefresh: () async {
+                restaurantHomeController.homeApi();
+              },
+              child: Column(
+                children: [
+                  HomeScreen(
+                    key: homeWidgetKey,
                   ),
-                ),
-    );
+                  Expanded(
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverPadding(
+                          padding: REdgeInsets.symmetric(
+                            horizontal: 24,
+                          ),
+                          sliver: serchAndFilter(),
+                        ),
+                        SliverPadding(
+                            padding: REdgeInsets.symmetric(horizontal: 24),
+                            sliver: SliverToBoxAdapter(
+                              child: Column(
+                                children: [
+                                  mainBanner(),
+                                  hBox(20),
+                                  catergories(),
+                                  hBox(20),
+                                  popularRestaurant(),
+                                  hBox(100)
+                                ],
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+      }
+    });
   }
 
   Widget serchAndFilter() {
@@ -199,102 +228,6 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           ],
         ),
         hBox(20),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //   children: [
-        //     Column(
-        //       children: [
-        //         CustomRoundedButton(
-        //             onPressed: () {},
-        //             child: Image.asset("assets/images/cat-pizza.png")),
-        //         hBox(15),
-        //         Text(
-        //           "Pizza",
-        //           style: AppFontStyle.text_14_400(AppColors.darkText),
-        //         )
-        //       ],
-        //     ),
-        //     Column(
-        //       children: [
-        //         CustomRoundedButton(
-        //             onPressed: () {},
-        //             child: Image.asset("assets/images/cat-burger.png")),
-        //         hBox(15),
-        //         Text(
-        //           "Burger",
-        //           style: AppFontStyle.text_14_400(AppColors.darkText),
-        //         )
-        //       ],
-        //     ),
-        //     Column(
-        //       children: [
-        //         CustomRoundedButton(
-        //             onPressed: () {},
-        //             child: Image.asset("assets/images/cat-cake.png")),
-        //         hBox(15),
-        //         Text(
-        //           "Cake",
-        //           style: AppFontStyle.text_14_400(AppColors.darkText),
-        //         )
-        //       ],
-        //     ),
-        //     Column(
-        //       children: [
-        //         CustomRoundedButton(
-        //             onPressed: () {},
-        //             child: Image.asset("assets/images/cat-sweet.png")),
-        //         hBox(15),
-        //         Text(
-        //           "Sweet",
-        //           style: AppFontStyle.text_14_400(AppColors.darkText),
-        //         )
-        //       ],
-        //     ),
-        //   ],
-        // ),
-        // Container(
-        //   height: 100.h,
-        //   // width: 360.w,
-        //   child: ListView.separated(
-        //     scrollDirection: Axis.horizontal,
-        //     shrinkWrap: true,
-        //     itemCount: restaurantHomeController.homeData.value.category?.length ?? 0,
-        //     itemBuilder: (context, index) {
-        //       print('image url == ${restaurantHomeController.homeData.value.category![index].imageUrl.toString()}');
-        //       return Column(
-        //         children: [
-        //           CustomRoundedButton(
-        //             onPressed: () {},
-        //             child: CachedNetworkImage(
-        //               imageUrl: restaurantHomeController.homeData.value.category![index].imageUrl.toString(),
-        //               fit: BoxFit.cover,
-        //               errorWidget: (context, url, error) => Icon(Icons.error),
-        //               placeholder: (context, url) => Shimmer.fromColors(
-        //                 baseColor: AppColors.gray.withOpacity(0.4),
-        //                 highlightColor: AppColors.lightText,
-        //                 child: Container(
-        //                   decoration: BoxDecoration(
-        //                     color: AppColors.gray.withOpacity(0.4),
-        //                     borderRadius: BorderRadius.circular(100),
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //           hBox(15),
-        //           Flexible(
-        //             child: Text(
-        //               restaurantHomeController.homeData.value.category![index].name.toString(),
-        //               style: AppFontStyle.text_14_400(AppColors.darkText),
-        //             ),
-        //           )
-        //         ],
-        //       );
-        //     }, separatorBuilder: (BuildContext context, int index) {
-        //       return SizedBox(width: 20,);
-        //   },
-        //   ),
-        // )
         SizedBox(
           height: 110.h,
           child: ListView.separated(
@@ -303,39 +236,49 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             itemCount:
                 restaurantHomeController.homeData.value.category?.length ?? 0,
             itemBuilder: (context, index) {
-              // print(
-              //     'image url == ${restaurantHomeController.homeData.value.category![index].imageUrl}');
               return Column(
                 children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(50.r),
-                      child: restaurantHomeController
-                                  .homeData.value.category![index].imageUrl !=
-                              null
-                          ? CachedNetworkImage(
-                              imageUrl: restaurantHomeController
-                                  .homeData.value.category![index].imageUrl
-                                  .toString(),
-                              fit: BoxFit.cover,
-                              height: 60.h,
-                              width: 60.h,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.gray,
-                                highlightColor: AppColors.lightText,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.gray,
-                                    borderRadius: BorderRadius.circular(100),
-                                  ),
-                                ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.restaurantCategoriesDetails,
+                          arguments: {
+                            'name': restaurantHomeController
+                                .homeData.value.category![index].name
+                                .toString(),
+                            'id': int.parse(restaurantHomeController
+                                .homeData.value.category![index].id
+                                .toString()),
+                          });
+                      restaurantCategoriesDeatilsController
+                          .restaurant_Categories_Details_Api(
+                        id: restaurantHomeController
+                            .homeData.value.category![index].id
+                            .toString(),
+                      );
+                    },
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50.r),
+                        child: CachedNetworkImage(
+                          imageUrl: restaurantHomeController
+                              .homeData.value.category![index].imageUrl
+                              .toString(),
+                          fit: BoxFit.cover,
+                          height: 60.h,
+                          width: 60.h,
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: AppColors.gray,
+                            highlightColor: AppColors.lightText,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.gray,
+                                borderRadius: BorderRadius.circular(100),
                               ),
-                            )
-                          : SizedBox(
-                              height: 60.h,
-                              width: 60.h,
-                              child: const Icon(Icons.person))),
+                            ),
+                          ),
+                        )),
+                  ),
                   hBox(15),
                   Text(
                     restaurantHomeController
@@ -439,30 +382,30 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 ),
               ),
             ),
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                margin: REdgeInsets.only(top: 15, right: 15),
-                padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    color: AppColors.greyBackground),
-                child: isFavourite != true
-                    ? Icon(
-                        Icons.favorite_border_outlined,
-                        size: 20.w,
-                      )
-                    : Icon(
-                        Icons.favorite,
-                        size: 20.w,
-                      ),
-
-                // SvgPicture.asset(
-                //   "assets/svg/favorite-inactive.svg",
-                //   height: 15.h,
-                // ),
-              ),
-            )
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Container(
+            //     margin: REdgeInsets.only(top: 15, right: 15),
+            //     padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(10.r),
+            //         color: AppColors.greyBackground),
+            //     child: isFavourite != true
+            //         ? Icon(
+            //             Icons.favorite_border_outlined,
+            //             size: 20.w,
+            //           )
+            //         : Icon(
+            //             Icons.favorite,
+            //             size: 20.w,
+            //           ),
+            //
+            //     // SvgPicture.asset(
+            //     //   "assets/svg/favorite-inactive.svg",
+            //     //   height: 15.h,
+            //     // ),
+            //   ),
+            // )
           ],
         ),
         hBox(10),

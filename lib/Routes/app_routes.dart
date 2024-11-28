@@ -87,7 +87,7 @@ class AppRoutes {
   static const String restaurantCategories = "/restaurant_categories";
   static const String restaurantCategoriesFilter =
       "/restaurant_categories_filter";
-  static const String restaurantCategoriesDetails =
+  static  String restaurantCategoriesDetails =
       "/restaurant_categories_details";
   static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
   static const String productReviews = "/product_reviews";
@@ -217,7 +217,7 @@ class AppRoutes {
         name: deliveryAddressScreen, page: () => const DeliveryAddressScreen()),
     GetPage(
         name: restaurantCategories,
-        page: () => const RestaurantCategoriesScreen()),
+        page: () =>  RestaurantCategoriesScreen()),
     GetPage(
         name: restaurantCategoriesFilter,
         page: () => RestaurantCategoriesFilter()),
@@ -226,7 +226,7 @@ class AppRoutes {
         page: () => RestaurantCategoriesFilter()),
     GetPage(
         name: restaurantCategoriesDetails,
-        page: () => const RestaurantCategoryDetails()),
+        page: () =>  RestaurantCategoryDetails()),
     GetPage(
         name: restaurantWishlistFilter,
         page: () => const RestaurantWishlistFilter()),

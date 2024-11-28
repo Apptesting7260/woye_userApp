@@ -7,6 +7,11 @@ import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_mode
 import 'package:woye_user/presentation/common/Sign_up_form/Model/updateprofile_model.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
+
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+
+
 class Repository{
   final _apiService = NetworkApiServices();
 
@@ -35,14 +40,24 @@ class Repository{
     return RegisterModel.fromJson(response);
   }
 
+  Future<dynamic> SocialLoginApi(data, token) async{
+    dynamic response = await _apiService.postApi(data, AppUrls.socialLogin, token);
+    return SocialModel.fromJson(response);
+  }
+
   Future<dynamic> homeApi(token) async{
     dynamic response = await _apiService.getApi(AppUrls.homeApi, token);
     return HomeModel.fromJson(response);
   }
 
-  Future<dynamic> SocialLoginApi(data, token) async{
-    dynamic response = await _apiService.postApi(data, AppUrls.socialLogin, token);
-    return SocialModel.fromJson(response);
+  Future<dynamic>restaurant_Categories_Api(token) async{
+    dynamic response = await _apiService.getApi(AppUrls.restaurant_Categories, token);
+    return restaurant_Categories_Modal.fromJson(response);
+  }
+
+  Future<dynamic>Restaurant_Category_Details_Api(var data , token) async{
+    dynamic response = await _apiService.postApi(data,AppUrls.restaurant_category_Details, token);
+    return RestaurantCategoryDetailsModal.fromJson(response);
   }
 
 }

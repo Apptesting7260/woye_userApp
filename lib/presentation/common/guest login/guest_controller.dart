@@ -44,8 +44,8 @@ class GuestController extends GetxController {
         log("Response Step: ${userModel.step}");
         userModel.token = guestData.value.token;
         log("Response token: ${userModel.token}");
-        userModel.islogin = true;
-        log("Response islogin: ${userModel.islogin}");
+        userModel.isLogin = true;
+        log("Response islogin: ${userModel.isLogin}");
         userModel.loginType = guestData.value.loginType;
         log("Response loginType: ${userModel.loginType}");
         pref.saveUser(userModel);

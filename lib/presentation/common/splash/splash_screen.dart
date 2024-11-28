@@ -1,4 +1,5 @@
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/common/splash/splash_services.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -8,30 +9,12 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  // PrefUtils prefUtils = PrefUtils();
+  SplashServices splashScreen = SplashServices();
+
   @override
   void initState() {
-    checkToken();
     super.initState();
-  }
-
-  void checkToken() async {
-    // String? responseToken = await prefUtils.getToken();
-    // bool? isRegister = await prefUtils.getRegistrationDetails();
-
-    Future.delayed(const Duration(seconds: 1), () {
-      // if (responseToken == null) {
-      //   Get.toNamed(AppRoutes.login);
-      // }
-      // if (responseToken != null && !isRegister!) {
-      //   Get.toNamed(AppRoutes.login);
-      // }
-      // if (responseToken != null && isRegister!) {
-      //   Get.toNamed(AppRoutes.navbar);
-      // }
-      // Get.Of(AppRoutes.welcomeScreen);
-      Get.offAllNamed(AppRoutes.welcomeScreen);
-    });
+    splashScreen.isLogin();
   }
 
   @override
