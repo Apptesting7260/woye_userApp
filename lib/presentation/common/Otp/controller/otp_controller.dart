@@ -90,15 +90,15 @@ class OtpController extends GetxController {
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: verificationId, smsCode: smsCode));
-      SnackBarUtils.showToastCenter('Otp Verify Successfully');
+      SnackBarUtils.showToast('Otp Verify Successfully');
       return credential.user == null ? false : true;
     } on FirebaseAuthException catch (e) {
       print('otp error == ${e.code}');
       otpVerify.value = false;
       if (e.code == 'invalid-verification-code') {
-        SnackBarUtils.showToastCenter('Invalid otp.');
+        SnackBarUtils.showToast('Invalid otp.');
       } else {
-        SnackBarUtils.showToastCenter('Please check your otp and try again.');
+        SnackBarUtils.showToast('Please check your otp and try again.');
       }
       return false;
     }
@@ -118,7 +118,7 @@ class OtpController extends GetxController {
     
     setRxRequestStatus(Status.LOADING);
 
-    api.registerApi(data, "").then((value) {
+    api.registerApi(data,).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       signUpSet(value);
 
@@ -139,7 +139,7 @@ class OtpController extends GetxController {
           "mob": mob
         });
       }else{
-        SnackBarUtils.showToastCenter('The number is already registered.');
+        SnackBarUtils.showToast('The number is already registered.');
       }
 
     }).onError((error, stackError) {
@@ -166,7 +166,7 @@ class OtpController extends GetxController {
 
     setRxRequestStatus(Status.LOADING);
 
-    api.loginApi(data, "").then((value) {
+    api.loginApi(data,).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       signInSet(value);
 
@@ -189,7 +189,7 @@ class OtpController extends GetxController {
             })
             : Get.offAllNamed(AppRoutes.restaurantNavbar);
       }else{
-        SnackBarUtils.showToastCenter('User not found. Register first.');
+        SnackBarUtils.showToast('User not found. Register first.');
       }
 
     }).onError((error, stackError) {

@@ -46,19 +46,17 @@ class RestaurantHomeController extends GetxController {
   final homeData = HomeModel().obs;
 
   RxString error = ''.obs;
+
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
   void homeSet(HomeModel value) => homeData.value = value;
 
   void setError(String value) => error.value = value;
 
   homeApi() async {
-    UserModel userModel = UserModel();
-    var pref = UserPreference();
-    userModel = await pref.getUser();
-
     setRxRequestStatus(Status.LOADING);
 
-    api.homeApi(userModel.token.toString()).then((value) {
+    api.homeApi().then((value) {
       setRxRequestStatus(Status.COMPLETED);
       homeSet(value);
 

@@ -1,8 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
 
-import '../../../../../Data/Model/usermodel.dart';
-import '../../../../../Data/userPrefrenceController.dart';
 
 class RestaurantCategoriesController extends GetxController {
   @override
@@ -26,13 +24,10 @@ class RestaurantCategoriesController extends GetxController {
   void setError(String value) => error.value = value;
 
   restaurant_Categories_Api() async {
-    UserModel userModel = UserModel();
-    var pref = UserPreference();
-    userModel = await pref.getUser();
 
     setRxRequestStatus(Status.LOADING);
 
-    api.restaurant_Categories_Api(userModel.token.toString()).then((value) {
+    api.restaurant_Categories_Api().then((value) {
       categories_Set(value);
       setRxRequestStatus(Status.COMPLETED);
       print("categoriesData.value.status${categoriesData.value.status}");

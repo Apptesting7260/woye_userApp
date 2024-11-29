@@ -34,7 +34,34 @@ class RestaurantCategoriesDetailsController extends GetxController {
     userModel = await pref.getUser();
     Map data = {"category_id": id};
 
-    api.Restaurant_Category_Details_Api(data, userModel.token.toString())
+    api.Restaurant_Category_Details_Api(data)
+        .then((value) {
+      categories_Set(value);
+      setRxRequestStatus(Status.COMPLETED);
+      print("categoriesData.value.status${categoriesDetailsData.value.status}");
+      // if (categoriesDetailsData.value.status == true) {
+      //   Get.toNamed(AppRoutes.restaurantCategoriesDetails, arguments: title);
+      // }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  restaurant_Categories_Details_Api2({
+    required String id,
+  }) async {
+    // setRxRequestStatus(Status.LOADING);
+    UserModel userModel = UserModel();
+    var pref = UserPreference();
+    userModel = await pref.getUser();
+    Map data = {"category_id": id};
+
+    api.Restaurant_Category_Details_Api(data)
         .then((value) {
       categories_Set(value);
       setRxRequestStatus(Status.COMPLETED);

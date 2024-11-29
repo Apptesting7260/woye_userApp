@@ -168,7 +168,7 @@ class AppRoutes {
     ),
     GetPage(
         name: restaurantNavbar,
-        page: () => const RestaurantNavbar(
+        page: () =>  RestaurantNavbar(
               navbarInitialIndex: 0,
             ),
         bindings: [RestaurantNavbarBinding(), HomeBinding()]),

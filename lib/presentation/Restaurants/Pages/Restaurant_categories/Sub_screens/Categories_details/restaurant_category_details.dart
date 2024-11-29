@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 
 import '../../../../../../Data/components/GeneralException.dart';
 import '../../../../../../Data/components/InternetException.dart';
@@ -14,6 +14,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   final RestaurantCategoriesDetailsController controller =
       Get.put(RestaurantCategoriesDetailsController());
+
+  final add_Product_Wishlist_Controller add_Wishlist_Controller =
+      Get.put(add_Product_Wishlist_Controller());
 
   @override
   Widget build(BuildContext context) {
@@ -144,42 +147,107 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             ),
                                           ),
                                         ),
+                                        // Obx(
+                                        //   () => Container(
+                                        //     margin: REdgeInsets.only(
+                                        //         top: 10, right: 10),
+                                        //     padding: REdgeInsets.all(6),
+                                        //     decoration: BoxDecoration(
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(10.r),
+                                        //         color:
+                                        //             AppColors.greyBackground),
+                                        //     child: InkWell(
+                                        //       highlightColor:
+                                        //           Colors.transparent,
+                                        //       splashColor: Colors.transparent,
+                                        //       onTap: () {
+                                        //         add_Wishlist_Controller
+                                        //             .restaurant_add_product_wishlist(
+                                        //           categoryId:
+                                        //               categoryId.toString(),
+                                        //           product_id: controller
+                                        //               .categoriesDetailsData
+                                        //               .value
+                                        //               .categoryProduct![index]
+                                        //               .id
+                                        //               .toString(),
+                                        //         );
+                                        //         print(
+                                        //             "product_id ${controller.categoriesDetailsData.value.categoryProduct![index].id.toString()}");
+                                        //       },
+                                        //       child: Icon(
+                                        //         controller
+                                        //                     .categoriesDetailsData
+                                        //                     .value
+                                        //                     .categoryProduct![
+                                        //                         index]
+                                        //                     .isInWishlist ==
+                                        //                 true
+                                        //             ? Icons.favorite
+                                        //             : Icons
+                                        //                 .favorite_border_outlined,
+                                        //         size: 22,
+                                        //       ),
+                                        //     ),
+                                        //   ),
+                                        // )
+
                                         Obx(
                                           () => Container(
                                             margin: REdgeInsets.only(
                                                 top: 10, right: 10),
                                             padding: REdgeInsets.all(6),
                                             decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.r),
-                                                color:
-                                                    AppColors.greyBackground),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
+                                              color: AppColors.greyBackground,
+                                            ),
                                             child: InkWell(
                                               highlightColor:
                                                   Colors.transparent,
                                               splashColor: Colors.transparent,
                                               onTap: () {
-                                                // print(
-                                                //     "${controller.isFavorite.value}");
-                                                // controller.isFavorite.value =
-                                                //     !controller
-                                                //         .isFavorite.value;
-                                                // print(
-                                                //     "${controller.isFavorite.value}");
-                                              },
-                                              child: Icon(
                                                 controller
-                                                            .categoriesDetailsData
-                                                            .value
-                                                            .categoryProduct![
-                                                                index]
-                                                            .isInWishlist ==
-                                                        true
-                                                    ? Icons.favorite
-                                                    : Icons
-                                                        .favorite_border_outlined,
-                                                size: 22,
-                                              ),
+                                                    .categoriesDetailsData
+                                                    .value
+                                                    .categoryProduct![index]
+                                                    .isLoading
+                                                    .value = true;
+                                                add_Wishlist_Controller
+                                                    .restaurant_add_product_wishlist(
+                                                  categoryId:
+                                                      categoryId.toString(),
+                                                  product_id: controller
+                                                      .categoriesDetailsData
+                                                      .value
+                                                      .categoryProduct![index]
+                                                      .id
+                                                      .toString(),
+                                                );
+                                                print(
+                                                    "product_id ${controller.categoriesDetailsData.value.categoryProduct![index].id.toString()}");
+                                              },
+                                              child: controller
+                                                      .categoriesDetailsData
+                                                      .value
+                                                      .categoryProduct![index]
+                                                      .isLoading
+                                                      .value
+                                                  ? circularProgressIndicator(size: 18)
+                                                  : Icon(
+                                                      controller
+                                                                  .categoriesDetailsData
+                                                                  .value
+                                                                  .categoryProduct![
+                                                                      index]
+                                                                  .isInWishlist ==
+                                                              true
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                              .favorite_border_outlined,
+                                                      size: 22,
+                                                    ),
                                             ),
                                           ),
                                         )

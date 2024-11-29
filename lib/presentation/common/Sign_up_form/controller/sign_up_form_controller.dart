@@ -195,7 +195,7 @@ class SignUpFormController extends GetxController {
 
     setRxRequestStatus(Status.LOADING);
 
-    api.updateprofileApi(data, userModel.token.toString()).then((value) {
+    api.updateprofileApi(data).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       upprofileSet(value);
 
@@ -223,7 +223,7 @@ class SignUpFormController extends GetxController {
 
     setRxRequestStatus(Status.LOADING);
 
-    api.getprofileApi(userModel.token.toString()).then((value) {
+    api.getprofileApi().then((value) {
       setRxRequestStatus(Status.COMPLETED);
       profileSet(value);
 

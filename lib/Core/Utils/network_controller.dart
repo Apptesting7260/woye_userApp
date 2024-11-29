@@ -1,7 +1,9 @@
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:woye_user/core/Utils/app_export.dart';
 
 class NetworkController extends GetxController {
   bool isConnected = true;
+
   @override
   void onInit() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -13,7 +15,8 @@ class NetworkController extends GetxController {
       isConnected = true;
     }
     isConnected != true
-        ? SnackBarUtils.showToastTop(message: "Internet Not Connected")
+        ? SnackBarUtils.showToast("Internet Not Connected",
+            gravity: ToastGravity.TOP)
         : "";
 
     super.onInit();

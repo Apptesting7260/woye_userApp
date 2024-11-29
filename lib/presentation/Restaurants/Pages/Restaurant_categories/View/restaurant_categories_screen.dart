@@ -64,13 +64,15 @@ class RestaurantCategoriesScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.toNamed(
-                                  AppRoutes.restaurantCategoriesDetails,
+                              Get.toNamed(AppRoutes.restaurantCategoriesDetails,
                                   arguments: {
-                                    'name': controller.categoriesData.value.allcategory![index].name.toString(),
-                                    'id': int.parse(controller.categoriesData.value.allcategory![index].id.toString()),
-                                  }
-                              );
+                                    'name': controller.categoriesData.value
+                                        .allcategory![index].name
+                                        .toString(),
+                                    'id': int.parse(controller.categoriesData
+                                        .value.allcategory![index].id
+                                        .toString()),
+                                  });
                               restaurantCategoriesDeatilsController
                                   .restaurant_Categories_Details_Api(
                                 id: controller
@@ -112,7 +114,7 @@ class RestaurantCategoriesScreen extends StatelessWidget {
                                               // Set width here to maintain the size
                                               fit: BoxFit.fill,
                                               placeholder: (context, url) =>
-                                                  const CircularProgressIndicator(),
+                                                  circularProgressIndicator(),
 
                                               errorWidget:
                                                   (context, url, error) =>

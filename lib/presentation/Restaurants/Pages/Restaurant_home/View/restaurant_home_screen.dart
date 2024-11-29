@@ -34,8 +34,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   }
 
   final RestaurantCategoriesDetailsController
-      restaurantCategoriesDeatilsController =
-      Get.put(RestaurantCategoriesDetailsController());
+      restaurantCategoriesDeatilsController = Get.find();
 
   @override
   void initState() {

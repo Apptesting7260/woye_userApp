@@ -421,7 +421,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.offAll(const RestaurantNavbar(
+                  Get.offAll( RestaurantNavbar(
                     navbarInitialIndex: 3,
                   ));
                 },
@@ -642,7 +642,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.offAll(const RestaurantNavbar(
+                  Get.offAll( RestaurantNavbar(
                     navbarInitialIndex: 3,
                   ));
                 },

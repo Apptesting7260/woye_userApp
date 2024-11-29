@@ -34,7 +34,7 @@ class GuestController extends GetxController {
 
     setRxRequestStatus(Status.LOADING);
 
-    api.guestUserApi(data, "").then((value) {
+    api.guestUserApi(data).then((value) {
       Get.offAllNamed(AppRoutes.restaurantNavbar);
       setRxRequestStatus(Status.COMPLETED);
       guestSet(value);

@@ -86,7 +86,7 @@ class OtpScreen extends StatelessWidget {
         isLoading: otpController.rxRequestStatus.value == Status.LOADING,
         onPressed: () async {
           if (otpController.otpPin.value.text.length < 6) {
-            SnackBarUtils.showToastCenter('Please enter a valid 6-digit OTP.');
+            SnackBarUtils.showToast('Please enter a valid 6-digit OTP.');
             return;
           } else {
             final verify = await otpController.verifyOtp(

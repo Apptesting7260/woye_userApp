@@ -64,11 +64,11 @@ class LoginController extends GetxController {
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             print('${e.code}');
-            SnackBarUtils.showToastCenter(
+            SnackBarUtils.showToast(
                 'The provided phone number is not valid.');
             isLoding.value = false;
           } else {
-            SnackBarUtils.showToastCenter('Something went wrong');
+            SnackBarUtils.showToast('Something went wrong');
             isLoding.value = false;
           }
           print(e.toString());
@@ -126,17 +126,17 @@ class LoginController extends GetxController {
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
             print('${e.code}');
-            SnackBarUtils.showToastCenter(
+            SnackBarUtils.showToast(
                 'The provided phone number is not valid.');
           } else {
-            SnackBarUtils.showToastCenter('Something went wrong');
+            SnackBarUtils.showToast('Something went wrong');
           }
           otpTimerButtonController.enableButton();
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           print('codesent');
-          SnackBarUtils.showToastCenter('otp has been send successfully.');
+          SnackBarUtils.showToast('otp has been send successfully.');
           verificationID.value = verificationId;
           otpTimerButtonController.startTimer();
           completer.complete(true);

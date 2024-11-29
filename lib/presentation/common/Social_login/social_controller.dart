@@ -89,7 +89,7 @@ class SocialLoginController extends GetxController {
     } catch (e) {
       Get.back();
       print('error == ${e.toString()}');
-      SnackBarUtils.showToastCenter('Login failed. Please try again.');
+      SnackBarUtils.showToast('Login failed. Please try again.');
     }
   }
 
@@ -138,7 +138,7 @@ class SocialLoginController extends GetxController {
       } else {
         Get.back();
         print(result.message);
-        SnackBarUtils.showToastCenter("${result.message}");
+        SnackBarUtils.showToast("${result.message}");
         Get.back();
       }
     } catch (e) {
@@ -147,7 +147,7 @@ class SocialLoginController extends GetxController {
         SnackBar(content: Text('An error occurred: ${e.toString()}')),
       );
       print("An error occurred during Facebook login: $e");
-      SnackBarUtils.showToastCenter(
+      SnackBarUtils.showToast(
           "An error occurred during Facebook login: $e");
       Get.back();
     }
@@ -222,10 +222,10 @@ class SocialLoginController extends GetxController {
     required String countryCode,
   }) async {
     String? tokenFCM = await FirebaseMessaging.instance.getToken();
-
-    UserModel userModel = UserModel();
-    var pref = UserPreference();
-    userModel = await pref.getUser();
+    //
+    // UserModel userModel = UserModel();
+    // var pref = UserPreference();
+    // userModel = await pref.getUser();
 
     Map data = {
       'email': email,
@@ -241,7 +241,7 @@ class SocialLoginController extends GetxController {
     };
     print("WWWWWWWWWWWW$data");
     setRxRequestStatus(Status.LOADING);
-    _api.SocialLoginApi(data, token).then((value) async {
+    _api.SocialLoginApi(data,).then((value) async {
       setRxRequestStatus(Status.COMPLETED);
       SocialDataSet(value);
       if (socialLoginData.value.status == true) {
@@ -264,7 +264,7 @@ class SocialLoginController extends GetxController {
           }
         }).onError((error, stackTrace) {});
       } else {
-        SnackBarUtils.showToastCenter(socialLoginData.value.message.toString());
+        SnackBarUtils.showToast(socialLoginData.value.message.toString());
         Get.back();
       }
     }).onError((error, stackTrace) {

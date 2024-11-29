@@ -6,7 +6,7 @@ class HomeController extends GetxController {
   RxInt mainButtonIndex = 0.obs;
 
   List<Widget> homeWidgets = [
-    const RestaurantNavbar(),
+     RestaurantNavbar(),
     const PharmacyNavbar(),
     const GroceryNavbar()
   ];

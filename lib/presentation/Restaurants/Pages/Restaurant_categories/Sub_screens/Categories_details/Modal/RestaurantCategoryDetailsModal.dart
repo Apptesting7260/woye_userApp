@@ -1,3 +1,5 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 class RestaurantCategoryDetailsModal {
   bool? status;
   List<CategoryProduct>? categoryProduct;
@@ -28,6 +30,7 @@ class RestaurantCategoryDetailsModal {
 }
 
 class CategoryProduct {
+  int? id;
   String? salePrice;
   String? regularPrice;
   String? title;
@@ -35,8 +38,10 @@ class CategoryProduct {
   String? restoName;
   String? urlImage;
   var rating;
+  Rx<bool> isLoading = false.obs;
 
   CategoryProduct({
+    this.id,
     this.salePrice,
     this.regularPrice,
     this.title,
@@ -47,6 +52,7 @@ class CategoryProduct {
   });
 
   CategoryProduct.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     salePrice = json['sale_price'];
     regularPrice = json['regular_price'];
     title = json['title'];
@@ -58,6 +64,7 @@ class CategoryProduct {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
+    data['id'] = this.id;
     data['sale_price'] = this.salePrice;
     data['regular_price'] = this.regularPrice;
     data['title'] = this.title;
