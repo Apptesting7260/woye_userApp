@@ -1,14 +1,13 @@
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 
 class RestaurantNavbar extends StatelessWidget {
   final int navbarInitialIndex;
 
-  RestaurantNavbar({super.key, this.navbarInitialIndex = 0});
+  const RestaurantNavbar({super.key, this.navbarInitialIndex = 0});
 
-  final RestaurantWishlistController controller =
-      Get.put(RestaurantWishlistController());
+  // final RestaurantWishlistController controller =
+  //     Get.put(RestaurantWishlistController());
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +69,6 @@ class RestaurantNavbar extends StatelessWidget {
                 splashColor: Colors.transparent,
                 onTap: () {
                   navbarController.getIndex(index);
-                  print(index);
-                  if (index == 2) {
-                    controller.restaurant_product_wishlist_api();
-                  }
                 },
                 child: Padding(
                   padding: REdgeInsets.symmetric(horizontal: 12),

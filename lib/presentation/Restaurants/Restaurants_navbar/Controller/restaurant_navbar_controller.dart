@@ -7,11 +7,11 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/restaurant_home_screen.dart';
 import 'package:woye_user/presentation/common/Profile/View/profile_screen.dart';
 
-
 class RestaurantNavbarController extends GetxController {
   int navbarCurrentIndex;
 
   RestaurantNavbarController({this.navbarCurrentIndex = 0});
+
   NetworkController networkController = Get.find<NetworkController>();
 
   PrefUtils prefUtils = PrefUtils();
@@ -19,8 +19,8 @@ class RestaurantNavbarController extends GetxController {
 
   List<Widget> widgets = [
     const RestaurantHomeScreen(),
-     RestaurantCategoriesScreen(),
-     RestaurantWishlistScreen(),
+    RestaurantCategoriesScreen(),
+    RestaurantWishlistScreen(),
     const RestaurantCartScreen(),
     ProfileScreen()
   ];

@@ -8,8 +8,22 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Con
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
-class RestaurantWishlistScreen extends StatelessWidget {
-  RestaurantWishlistScreen({super.key});
+class RestaurantWishlistScreen extends StatefulWidget {
+  const RestaurantWishlistScreen({super.key});
+
+  @override
+  State<RestaurantWishlistScreen> createState() =>
+      _RestaurantWishlistScreenState();
+}
+
+class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    print('thjjfrioey irt mt2');
+    controller.restaurant_product_wishlist_api();
+    super.initState();
+  }
 
   final RestaurantWishlistController controller =
       Get.put(RestaurantWishlistController());

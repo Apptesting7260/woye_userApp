@@ -1,6 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/controller/sign_up_form_controller.dart';
+import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class SignUpFormScreen extends StatefulWidget {
   const SignUpFormScreen({super.key});
@@ -25,33 +29,47 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   if (controller.serviceEnabled != true) {
-    //     locationRequestPopUp(context);
-    //   }
-    //   // locationRequestPopUp(context);
-    // });
     return Scaffold(
-      appBar: const CustomAppBar(),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(
-          horizontal: 24,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            header(),
-            hBox(30),
-            //
-            form(SignUpFormScreen.signUpFormController, context),
-            hBox(20),
-            //
-            continueButton(),
-            hBox(40),
-          ],
-        ),
-      ),
-    );
+        appBar: const CustomAppBar(),
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet') {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.getprofileApi();
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.getprofileApi();
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return SingleChildScrollView(
+                padding: REdgeInsets.symmetric(
+                  horizontal: 24,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    header(),
+                    hBox(30),
+                    //
+                    form(SignUpFormScreen.signUpFormController, context),
+                    hBox(20),
+                    //
+                    continueButton(),
+                    hBox(40),
+                  ],
+                ),
+              );
+          }
+        }));
   }
 
   Widget header() {
@@ -77,9 +95,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
   Widget form(SignUpFormController signUpFormController, BuildContext context) {
     return Form(
         key: signUpFormController.formSignUpKey,
-        onChanged: () {
-          signUpFormController.checkValid();
-        },
+        // onChanged: () {
+        //   signUpFormController.checkValid();
+        // },
         child: Column(
           children: [
             Align(
@@ -113,22 +131,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
-              validator: signUpFormController.validateLastName,
+              validator: signUpFormController.validateMobile,
             ),
             hBox(15),
-            // CustomTextFormField(
-            //   controller: signUpFormController.dateOfBirthController,
-            //   prefix: SvgPicture.asset(
-            //     ImageConstants.calendar,
-            //   ),
-            //   prefixConstraints:
-            //       BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-            //   hintText: "Date of birth",
-            //   onTapOutside: (event) {
-            //     FocusScope.of(context).unfocus();
-            //   },
-            //   // validator: formSignUpController.validateLastName,
-            // ),
             GestureDetector(
               onTap: () => signUpFormController.selectDate(context),
               child: Obx(() {
@@ -147,9 +152,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                         width: 10,
                       ),
                       Text(
-                        signUpFormController.selectedDate.value == null
+                        signUpFormController.formattedCurrentDate.value.isEmpty
                             ? "Date of Birth"
-                            : "${signUpFormController.selectedDate.value!.day}/${signUpFormController.selectedDate.value!.month}/${signUpFormController.selectedDate.value!.year}",
+                            : signUpFormController.formattedCurrentDate.value,
                         style: const TextStyle(fontSize: 16),
                       ),
                     ],
@@ -174,7 +179,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
             hBox(15),
             DropdownButtonFormField(
               hint: Text(
-                "Gender",
+                signUpFormController.genderController.text.isEmpty
+                    ? "Gender"
+                    : signUpFormController.genderController.text,
                 style: AppFontStyle.text_16_400(AppColors.darkText),
               ),
               style: AppFontStyle.text_16_400(AppColors.darkText),
@@ -182,6 +189,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               decoration: InputDecoration(
                   contentPadding:
                       REdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.textFieldBorder),
+                      borderRadius: BorderRadius.circular(15.r)),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppColors.textFieldBorder),
                       borderRadius: BorderRadius.circular(15.r)),
@@ -195,6 +205,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                   .toList(),
               onChanged: (value) {
                 signUpFormController.genderController.text = value.toString();
+                print("${signUpFormController.genderController.text}");
               },
             )
           ],
@@ -211,32 +222,91 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         height: 140.h,
         child: Stack(
           children: [
-            Container(
-                width: 120.h,
-                height: 120.h,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100.r),
-                    // shape: BoxShape.circle,
-                    border: Border.all(
-                        color: signUpFormController.image == null
-                            ? Colors.red
-                            : Colors.transparent)),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(100.r),
-                  child: signUpFormController.image == null
-                      ? CircleAvatar(
-                          backgroundColor:
-                              AppColors.greyBackground.withOpacity(0.5),
-                          child: Icon(
-                            Icons.person,
-                            size: 60.h,
-                            color: AppColors.lightText.withOpacity(0.5),
+            signUpFormController.profileImageFromAPI.value.isNotEmpty
+                ? Container(
+                    width: 120.h,
+                    height: 120.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100.r),
+                      border: Border.all(color: Colors.transparent),
+                    ),
+                    child: signUpFormController.profileImageGetUrl.value.isEmpty
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(100.r),
+                            child: CircleAvatar(
+                              backgroundColor:
+                                  AppColors.greyBackground.withOpacity(0.5),
+                              child: CachedNetworkImage(
+                                imageUrl: signUpFormController
+                                    .profileImageFromAPI.value,
+                                placeholder: (context, url) =>
+                                    circularProgressIndicator(),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.person,
+                                  size: 60.h,
+                                  color: AppColors.lightText.withOpacity(0.5),
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: 120.h,
+                            height: 120.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(100.r),
+                              // Round container
+                              border: Border.all(color: Colors.transparent),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100.r),
+                              // Round the image inside the container
+                              child: Image.file(
+                                signUpFormController.image.value,
+                                // The image file you want to display
+                                fit: BoxFit
+                                    .cover, // Ensures the image fills the circular container
+                              ),
+                            ),
                           ))
-                      : Image.file(
-                          signUpFormController.image!,
-                          fit: BoxFit.cover,
-                        ),
-                )),
+                : Container(
+                    width: 120.h,
+                    height: 120.h,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
+                        // shape: BoxShape.circle,
+                        border: Border.all(color: Colors.transparent)),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100.r),
+                        child: signUpFormController
+                                .profileImageGetUrl.value.isEmpty
+                            ? CircleAvatar(
+                                backgroundColor:
+                                    AppColors.greyBackground.withOpacity(0.5),
+                                child: Icon(
+                                  Icons.person,
+                                  size: 60.h,
+                                  color: AppColors.lightText.withOpacity(0.5),
+                                ))
+                            : Container(
+                                width: 120.h,
+                                height: 120.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  // Round container
+                                  border: Border.all(color: Colors.transparent),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  // Round the image inside the container
+                                  child: Image.file(
+                                    signUpFormController.image.value,
+                                    // The image file you want to display
+                                    fit: BoxFit
+                                        .cover, // Ensures the image fills the circular container
+                                  ),
+                                ),
+                              ))),
             Positioned(
               bottom: 28.h,
               right: 4.w,
@@ -254,27 +324,50 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                 ),
               ),
             ),
-            if (signUpFormController.image == null)
-              Positioned(
-                  bottom: 0,
-                  child: Text(
-                    "      Please choose an image",
-                    style: TextStyle(color: Colors.red, fontSize: 8.sp),
-                  ))
+            // if (signUpFormController.image == null)
+            //   Positioned(
+            //       bottom: 0,
+            //       child: Text(
+            //         "      Please choose an image",
+            //         style: TextStyle(color: Colors.red, fontSize: 8.sp),
+            //       ))
           ],
         ),
       ),
     );
   }
 
+  void checkValid() {
+    print(
+        "SignUpFormScreen.signUpFormController.image${SignUpFormScreen.signUpFormController.image}");
+    // if (SignUpFormScreen.signUpFormController.image != null) {
+    //   SnackBarUtils.showToast("Please choose an image");
+    // }
+    if (SignUpFormScreen
+        .signUpFormController.formattedCurrentDate.value.isEmpty) {
+      SnackBarUtils.showToast("Please Select Date of Birth");
+    }
+    if (SignUpFormScreen.signUpFormController.genderController.text.isEmpty) {
+      SnackBarUtils.showToast("Please choose your gender");
+    } else {
+      SignUpFormScreen.signUpFormController.isValid = (SignUpFormScreen
+          .signUpFormController.formSignUpKey.currentState!
+          .validate());
+    }
+  }
+
   Widget continueButton() {
     return CustomElevatedButton(
         isLoading:
-            SignUpFormScreen.signUpFormController.rxRequestStatus.value ==
+            SignUpFormScreen.signUpFormController.rxRequestStatus2.value ==
                 Status.LOADING,
         text: "Continue",
         onPressed: () {
-          SignUpFormScreen.signUpFormController.profileupdateApi();
+          checkValid();
+
+          if (SignUpFormScreen.signUpFormController.isValid) {
+            SignUpFormScreen.signUpFormController.profileupdateApi();
+          }
           // Get.offAndToNamed(AppRoutes.restaurantNavbar);
         });
   }
@@ -326,7 +419,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          controller.pickImageFromCamera();
+                          controller.pickImage(ImageSource.camera);
                           // _pickImageFromCamera();
                           Navigator.pop(context);
                         },
@@ -361,8 +454,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          controller.pickImageFromGallery();
-
+                          controller.pickImage(ImageSource.gallery);
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -402,6 +494,4 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
           );
         });
   }
-
-
 }

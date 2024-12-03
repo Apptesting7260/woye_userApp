@@ -33,8 +33,8 @@ class Data {
   dynamic lastName;
   dynamic email;
   dynamic plainPassword;
-  dynamic proImg;
-  dynamic dob;
+  dynamic imageUrl;
+  var dob;
   dynamic gender;
   String? phone;
   String? countryCode;
@@ -58,7 +58,7 @@ class Data {
     this.lastName,
     this.email,
     this.plainPassword,
-    this.proImg,
+    this.imageUrl,
     this.dob,
     this.gender,
     this.phone,
@@ -84,7 +84,7 @@ class Data {
     lastName: json["last_name"],
     email: json["email"],
     plainPassword: json["plain_password"],
-    proImg: json["pro_img"],
+    imageUrl: json["image_url"],
     dob: json["dob"],
     gender: json["gender"],
     phone: json["phone"],
@@ -110,7 +110,7 @@ class Data {
     "last_name": lastName,
     "email": email,
     "plain_password": plainPassword,
-    "pro_img": proImg,
+    "pro_img": imageUrl,
     "dob": dob,
     "gender": gender,
     "phone": phone,

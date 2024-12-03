@@ -34,12 +34,12 @@ class RestaurantHomeController extends GetxController {
     update();
   }
 
-  @override
-  void onInit() {
-    homeApi();
-    // TODO: implement onInit
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   homeApi();
+  //   // TODO: implement onInit
+  //   super.onInit();
+  // }
 
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;

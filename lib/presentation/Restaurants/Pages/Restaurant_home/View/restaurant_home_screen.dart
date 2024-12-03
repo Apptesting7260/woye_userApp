@@ -34,12 +34,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   }
 
   final RestaurantCategoriesDetailsController
-      restaurantCategoriesDeatilsController = Get.find();
+      restaurantCategoriesDeatilsController =
+      Get.put(RestaurantCategoriesDetailsController());
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_getHeight);
+    restaurantHomeController.homeApi();
   }
 
   @override
@@ -70,9 +72,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               },
               child: Column(
                 children: [
-                  HomeScreen(
-                    key: homeWidgetKey,
-                  ),
+                  HomeScreen(key: homeWidgetKey),
                   Expanded(
                     child: CustomScrollView(
                       slivers: [

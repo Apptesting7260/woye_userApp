@@ -4,11 +4,11 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/M
 
 class RestaurantCategoriesController extends GetxController {
   @override
-  void onInit() {
-    restaurant_Categories_Api();
-    // TODO: implement onInit
-    super.onInit();
-  }
+  // void onInit() {
+  //   restaurant_Categories_Api();
+  //   // TODO: implement onInit
+  //   super.onInit();
+  // }
 
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
