@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 
@@ -96,14 +97,21 @@ class RestaurantCategoryDetails extends StatelessWidget {
                               childCount: controller.categoriesDetailsData.value
                                   .categoryProduct?.length, (context, index) {
                             return GestureDetector(
+                                // onTap: () {
+                                //   // Get.to(ProductDetailsScreen(
+                                //   //     image: controller.categoriesDetailsData
+                                //   //         .value.categoryProduct![index].image
+                                //   //         .toString(),
+                                //   //     title: controller.categoriesDetailsData
+                                //   //         .value.categoryProduct![index].title
+                                //   //         .toString()));
+                                //
+                                // },
+
                                 onTap: () {
-                                  // Get.to(ProductDetailsScreen(
-                                  //     image: controller.categoriesDetailsData
-                                  //         .value.categoryProduct![index].image
-                                  //         .toString(),
-                                  //     title: controller.categoriesDetailsData
-                                  //         .value.categoryProduct![index].title
-                                  //         .toString()));
+                                  Get.to(ProductDetailsScreen(
+                                      image: "assets/images/cat-image${index % 5}.png",
+                                      title: "McMushroom Pizza"));
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

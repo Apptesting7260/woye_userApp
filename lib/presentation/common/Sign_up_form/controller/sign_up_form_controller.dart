@@ -235,10 +235,12 @@ class SignUpFormController extends GetxController {
           log("get Response Step: ${userModel.step}");
           pref.saveStep(userModel.step!);
           rxRequestStatus2(Status.COMPLETED);
-          // Get.offAllNamed(AppRoutes.restaurantNavbar);
+          Get.offAllNamed(AppRoutes.restaurantNavbar);
         }
       } else {
+        SnackBarUtils.showToast("Failed to update profile");
         log('Failed to update profile. Status code: ${response.statusCode}');
+        rxRequestStatus2(Status.ERROR);
       }
     } catch (error) {
       // Handle error
