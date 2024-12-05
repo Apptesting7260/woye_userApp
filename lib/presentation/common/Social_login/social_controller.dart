@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -147,8 +148,7 @@ class SocialLoginController extends GetxController {
         SnackBar(content: Text('An error occurred: ${e.toString()}')),
       );
       print("An error occurred during Facebook login: $e");
-      SnackBarUtils.showToast(
-          "An error occurred during Facebook login: $e");
+      SnackBarUtils.showToast("An error occurred during Facebook login: $e");
       Get.back();
     }
   }
@@ -222,10 +222,6 @@ class SocialLoginController extends GetxController {
     required String countryCode,
   }) async {
     String? tokenFCM = await FirebaseMessaging.instance.getToken();
-    //
-    // UserModel userModel = UserModel();
-    // var pref = UserPreference();
-    // userModel = await pref.getUser();
 
     Map data = {
       'email': email,
@@ -239,14 +235,14 @@ class SocialLoginController extends GetxController {
       "gender": "",
       'uuid': id,
     };
-    print("WWWWWWWWWWWW$data");
     setRxRequestStatus(Status.LOADING);
-    _api.SocialLoginApi(data,).then((value) async {
+    _api.SocialLoginApi(
+      data,
+    ).then((value) async {
       setRxRequestStatus(Status.COMPLETED);
       SocialDataSet(value);
       if (socialLoginData.value.status == true) {
         print("object ==========  await Analytics.loginEvent");
-        // await Analytics.login_event(email, type);
         UserModel userModel = UserModel(
             token: socialLoginData.value.token.toString(),
             isLogin: true,
@@ -264,13 +260,14 @@ class SocialLoginController extends GetxController {
           }
         }).onError((error, stackTrace) {});
       } else {
-        SnackBarUtils.showToast(socialLoginData.value.message.toString());
+        SnackBarUtils.showToast(socialLoginData.value.message.toString(),
+            gravity: ToastGravity.BOTTOM);
         Get.back();
       }
     }).onError((error, stackTrace) {
       setError(error.toString());
-      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
-      print('errrrrrrrrrrrr');
+      SnackBarUtils.showToast(error.toString(), gravity: ToastGravity.BOTTOM);
+
       print(error);
       print(stackTrace);
       // setRxRequestStatus(Status.ERROR);
@@ -281,7 +278,7 @@ class SocialLoginController extends GetxController {
   Future<void> showLoading() async {
     await Get.dialog(
       PopScope(
-        canPop: false, // Prevents dialog from being dismissed
+        canPop: false,
         child: Center(
           child: LoadingAnimationWidget.inkDrop(
             color: AppColors.primary,
@@ -289,7 +286,7 @@ class SocialLoginController extends GetxController {
           ),
         ),
       ),
-      barrierDismissible: false, // Prevents user from dismissing the dialog
+      barrierDismissible: false,
     );
   }
 }

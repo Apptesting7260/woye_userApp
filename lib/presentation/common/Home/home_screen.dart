@@ -1,8 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
+import '../../../shared/widgets/CircularProgressIndicator.dart';
+
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+  final String? profileImage;
+
+  HomeScreen({super.key, this.profileImage});
 
   final HomeController homeController = Get.put(HomeController());
 
@@ -16,11 +21,53 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  ImageConstants.profileImage,
-                  height: 50.h,
-                  width: 50.h,
-                ),
+                // Image.asset(
+                //   ImageConstants.profileImage,
+                //   height: 50.h,
+                //   width: 50.h,
+                // ),
+                profileImage?.isEmpty ?? true
+                    ? Container(
+                        width: 50.h,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.r),
+                          border: Border.all(color: Colors.transparent),
+                        ),
+                        child: CircleAvatar(
+                          backgroundColor:
+                              AppColors.greyBackground.withOpacity(0.5),
+
+                          // radius: 20.h,
+                          child: Icon(
+                            Icons.person,
+                            size: 30.h,
+                            color: AppColors.lightText.withOpacity(0.5),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: 50.h,
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.r),
+                          border: Border.all(color: Colors.transparent),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.r),
+                          child: CachedNetworkImage(
+                            imageUrl: profileImage.toString(),
+                            placeholder: (context, url) =>
+                                circularProgressIndicator(),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.person,
+                              size: 60.h,
+                              color: AppColors.lightText.withOpacity(0.5),
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                 Container(
                   padding: REdgeInsets.all(9),
                   height: 44.h,
@@ -90,15 +137,15 @@ class HomeScreen extends StatelessWidget {
                             },
                             child: MainButtonBar(
                               title: homeController.mainButtonbar[index]
-                              ["title"] ??
+                                      ["title"] ??
                                   "",
                               image: isSelected
                                   ? homeController.mainButtonbar[index]
-                              ["imageEnabled"] ??
-                                  ""
+                                          ["imageEnabled"] ??
+                                      ""
                                   : homeController.mainButtonbar[index]
-                              ["imageDisabled"] ??
-                                  "",
+                                          ["imageDisabled"] ??
+                                      "",
                               backgroundColor: isSelected
                                   ? AppColors.primary
                                   : Colors.transparent,

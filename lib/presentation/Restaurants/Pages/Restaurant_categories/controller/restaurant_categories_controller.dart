@@ -1,14 +1,13 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
 
-
 class RestaurantCategoriesController extends GetxController {
   @override
-  // void onInit() {
-  //   restaurant_Categories_Api();
-  //   // TODO: implement onInit
-  //   super.onInit();
-  // }
+  void onInit() {
+    restaurant_Categories_Api();
+
+    super.onInit();
+  }
 
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
@@ -24,7 +23,6 @@ class RestaurantCategoriesController extends GetxController {
   void setError(String value) => error.value = value;
 
   restaurant_Categories_Api() async {
-
     setRxRequestStatus(Status.LOADING);
 
     api.restaurant_Categories_Api().then((value) {

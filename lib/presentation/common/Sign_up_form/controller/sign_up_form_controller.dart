@@ -6,7 +6,6 @@ import 'package:location/location.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_model.dart';
@@ -172,23 +171,19 @@ class SignUpFormController extends GetxController {
     final pickedImage = await ImagePicker().pickImage(source: source);
 
     if (pickedImage != null) {
-      // Get the original image file
       File originalImage = File(pickedImage.path);
-
-      // You can print the size of the original image if needed
       int originalSize = await originalImage.length();
       print('Original image size: $originalSize bytes');
 
-      // No compression, just use the selected image directly
       image.value = originalImage;
 
-      // Upload or further process the image if necessary
       profileImageGetUrl.value = image.value.path;
       print("Path ---> ${image.value.path}");
     }
   }
 
-  profileupdateApi() async {
+  profileupdateApi(String type) async {
+    print("Path ---> ${"0"}");
     rxRequestStatus2(Status.LOADING);
     final data = {
       "first_name": fisrtNameController.text.toString(),
@@ -231,11 +226,20 @@ class SignUpFormController extends GetxController {
         upprofileSet(profileData);
 
         if (updateprofileData.value.status == true) {
-          userModel.step = updateprofileData.value.step;
-          log("get Response Step: ${userModel.step}");
-          pref.saveStep(userModel.step!);
-          rxRequestStatus2(Status.COMPLETED);
-          Get.offAllNamed(AppRoutes.restaurantNavbar);
+          if (type == "back") {
+            // userModel.step = updateprofileData.value.step;
+            // log("get Response Step: ${userModel.step}");
+            // pref.saveStep(userModel.step!);
+            SnackBarUtils.showToast("Your profile has been updated.");
+            Get.back();
+            rxRequestStatus2(Status.COMPLETED);
+          } else {
+            userModel.step = updateprofileData.value.step;
+            log("get Response Step: ${userModel.step}");
+            pref.saveStep(userModel.step!);
+            Get.offAllNamed(AppRoutes.restaurantNavbar);
+            rxRequestStatus2(Status.COMPLETED);
+          }
         }
       } else {
         SnackBarUtils.showToast("Failed to update profile");

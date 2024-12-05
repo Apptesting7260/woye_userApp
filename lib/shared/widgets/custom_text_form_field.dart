@@ -100,6 +100,7 @@ class CustomTextFormField extends StatelessWidget {
         height: height,
         child: TextFormField(
           // expands: true,
+
           onTapOutside: onTapOutside,
           onChanged: onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,

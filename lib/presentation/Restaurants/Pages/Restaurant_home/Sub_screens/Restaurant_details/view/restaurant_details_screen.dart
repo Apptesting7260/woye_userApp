@@ -1,34 +1,26 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
+import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
-  final String image;
-  final String title;
-  const RestaurantDetailsScreen(
-      {super.key, required this.title, required this.image});
+  final String id;
+
+  RestaurantDetailsScreen({super.key, required this.id});
+
+  final RestaurantDetailsController controller =
+      Get.put(RestaurantDetailsController());
 
   @override
   Widget build(BuildContext context) {
-    String mainBannerImage = image;
-    String title = this.title;
     return Scaffold(
-      appBar: CustomAppBar(
-        isLeading: true,
-        actions: [
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: Icon(
-              Icons.share_outlined,
-              size: 24.w,
-            ),
-          ),
-          wBox(8),
-          Container(
+        appBar: CustomAppBar(
+          isLeading: true,
+          actions: [
+            Container(
               padding: REdgeInsets.all(9),
               height: 44.h,
               width: 44.h,
@@ -36,56 +28,119 @@ class RestaurantDetailsScreen extends StatelessWidget {
                   color: AppColors.greyBackground,
                   borderRadius: BorderRadius.circular(12.r)),
               child: Icon(
-                Icons.favorite_outline_sharp,
+                Icons.share_outlined,
                 size: 24.w,
-              )),
-          wBox(8),
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: SvgPicture.asset(
-              ImageConstants.notification,
+              ),
             ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            mainBanner(mainBannerImage, title),
-            hBox(30),
-            openHours(),
-            hBox(30),
-            description(),
-            hBox(30),
-            moreProducts(context),
-            hBox(30),
+            wBox(8),
+            Container(
+                padding: REdgeInsets.all(9),
+                height: 44.h,
+                width: 44.h,
+                decoration: BoxDecoration(
+                    color: AppColors.greyBackground,
+                    borderRadius: BorderRadius.circular(12.r)),
+                child: Icon(
+                  Icons.favorite_outline_sharp,
+                  size: 24.w,
+                )),
+            wBox(8),
+            Container(
+              padding: REdgeInsets.all(9),
+              height: 44.h,
+              width: 44.h,
+              decoration: BoxDecoration(
+                  color: AppColors.greyBackground,
+                  borderRadius: BorderRadius.circular(12.r)),
+              child: SvgPicture.asset(
+                ImageConstants.notification,
+              ),
+            ),
           ],
         ),
-      ),
-    );
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet') {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.restaurant_Details_Api(id: id);
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.restaurant_Details_Api(id: id);
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return Scaffold(
+                body: RefreshIndicator(
+                    onRefresh: () async {
+                      controller.restaurant_Details_Api(id: id);
+                    },
+                    child: SingleChildScrollView(
+                      padding: REdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          mainBanner(
+                            mainBannerImage: controller
+                                .restaurant_Data.value.restaurant!.shopimage
+                                .toString(),
+                            title: controller
+                                .restaurant_Data.value.restaurant!.shopName
+                                .toString(),
+                            address: controller
+                                .restaurant_Data.value.restaurant!.shopAddress
+                                .toString(),
+                            email: controller
+                                .restaurant_Data.value.restaurant!.email
+                                .toString(),
+                            ownerName: controller
+                                .restaurant_Data.value.restaurant!.name
+                                .toString(),
+                          ),
+                          hBox(30),
+                          openHours(),
+                          hBox(30),
+                          description(),
+                          hBox(30),
+                          moreProducts(context),
+                          hBox(30),
+                        ],
+                      ),
+                    )),
+              );
+          }
+        }));
   }
 
-  Widget mainBanner(String mainBannerImage, String title) {
+  Widget mainBanner({
+    required String mainBannerImage,
+    required String title,
+    required String ownerName,
+    required String email,
+    required String address,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(20.r),
-          child: Image.asset(
-            // "assets/images/rk.jpg",
-            mainBannerImage,
-            height: 250,
-            width: Get.width,
-            fit: BoxFit.cover,
-          ),
-        ),
+            borderRadius: BorderRadius.circular(20.r),
+            child: CachedNetworkImage(
+              imageUrl: mainBannerImage,
+              placeholder: (context, url) => circularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(
+                Icons.error,
+                size: 60.h,
+                color: AppColors.lightText.withOpacity(0.5),
+              ),
+              fit: BoxFit.cover,
+            )),
         hBox(15),
         Text(
           title,
@@ -128,7 +183,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             const Icon(Icons.person_outline_rounded),
             wBox(8),
             Text(
-              "John Doe",
+              ownerName,
               style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.primary,
@@ -144,7 +199,8 @@ class RestaurantDetailsScreen extends StatelessWidget {
             const Icon(Icons.mail_outline_rounded),
             wBox(8),
             Text(
-              "restaurants@gmail.com",
+              email,
+              overflow: TextOverflow.ellipsis,
               style: AppFontStyle.text_14_400(AppColors.darkText),
             )
           ],
@@ -155,8 +211,11 @@ class RestaurantDetailsScreen extends StatelessWidget {
             const Icon(Icons.location_on_outlined),
             wBox(8),
             Text(
-              "Greenfield, Abc Manchester, 199",
-              style: AppFontStyle.text_14_400(AppColors.darkText),
+              address,
+              overflow: TextOverflow.ellipsis,
+              style: AppFontStyle.text_14_400(
+                AppColors.darkText,
+              ),
             )
           ],
         ),

@@ -2,10 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/restaurant_details_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
@@ -37,11 +38,30 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
       restaurantCategoriesDeatilsController =
       Get.put(RestaurantCategoriesDetailsController());
 
+  final RestaurantDetailsController restaurantDeatilsController =
+      Get.put(RestaurantDetailsController());
+
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_getHeight);
-    restaurantHomeController.homeApi();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        if (restaurantHomeController.noLoading.value != true) {
+          if (!restaurantHomeController.isLoading.value) {
+            restaurantHomeController.isLoading.value = true;
+            restaurantHomeController.currentPage++;
+            print(
+                "currentPage value ${restaurantHomeController.currentPage.value}");
+            restaurantHomeController
+                .homeApi(restaurantHomeController.currentPage.value);
+          }
+        }
+      }
+    });
   }
 
   @override
@@ -54,13 +74,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           if (restaurantHomeController.error.value == 'No internet') {
             return InternetExceptionWidget(
               onPress: () {
-                restaurantHomeController.homeApi();
+                restaurantHomeController.homeApiRefresh(1);
               },
             );
           } else {
             return GeneralExceptionWidget(
               onPress: () {
-                restaurantHomeController.homeApi();
+                restaurantHomeController.homeApiRefresh(1);
               },
             );
           }
@@ -68,13 +88,21 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           return Scaffold(
             body: RefreshIndicator(
               onRefresh: () async {
-                restaurantHomeController.homeApi();
+                restaurantHomeController.homeApiRefresh(1);
+                print(restaurantHomeController.homeData.value.userdata?.image
+                    .toString());
               },
               child: Column(
                 children: [
-                  HomeScreen(key: homeWidgetKey),
+                  HomeScreen(
+                    key: homeWidgetKey,
+                    profileImage: restaurantHomeController
+                        .homeData.value.userdata?.image
+                        .toString(),
+                  ),
                   Expanded(
                     child: CustomScrollView(
+                      controller: _scrollController,
                       slivers: [
                         SliverPadding(
                           padding: REdgeInsets.symmetric(
@@ -320,41 +348,76 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           ],
         ),
         hBox(20),
-        GetBuilder(
-            init: restaurantHomeController,
-            builder: (controller) {
+        // GetBuilder(
+        //     init: restaurantHomeController,
+        //     builder: (controller) {
+        //       return ListView.separated(
+        //           physics: const NeverScrollableScrollPhysics(),
+        //           shrinkWrap: true,
+        //           itemBuilder: (context, index) {
+        //             final restaurantsList = restaurantHomeController
+        //                 .homeData.value.restaurants!.data?[index];
+        //             return GestureDetector(
+        //               onTap: () {
+        //                 Get.to(RestaurantDetailsScreen(
+        //                     image: restaurantsList!.shopImageUrl.toString(),
+        //                     title: restaurantsList.shopName.toString()));
+        //               },
+        //               child: restaurantList(
+        //                   index: index,
+        //                   image: restaurantsList?.shopImageUrl,
+        //                   title: restaurantsList?.shopName,
+        //                   rating: restaurantsList?.rating,
+        //                   price: restaurantsList?.avgPrice),
+        //             );
+        //           },
+        //           itemCount: restaurantHomeController
+        //                   .homeData.value.restaurants?.data?.length ??
+        //               0,
+        //           separatorBuilder: (context, index) => hBox(20));
+        //     }),
+        GetBuilder<RestaurantHomeController>(
+          init: restaurantHomeController,
+          builder: (controller) {
+            return Obx(() {
+              final restaurants = restaurantHomeController.restaurantList;
               return ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final restaurantsList = restaurantHomeController
-                        .homeData.value.restaurants?[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                            image: restaurantsList!.shopImageUrl.toString(),
-                            title: restaurantsList.shopName.toString()));
-                      },
-                      child: restaurantList(
-                          index: index,
-                          image: restaurantsList?.shopImageUrl,
-                          title: restaurantsList?.shopName,
-                          rating: restaurantsList?.rating,
-                          price: restaurantsList?.avgPrice),
-                    );
-                  },
-                  itemCount: restaurantHomeController
-                          .homeData.value.restaurants?.length ??
-                      0,
-                  separatorBuilder: (context, index) => hBox(20));
-            }),
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: restaurants.length,
+                itemBuilder: (context, index) {
+                  final restaurant = restaurants[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(RestaurantDetailsScreen(
+                        id: restaurants[index].id.toString(),
+                      ));
+                      restaurantDeatilsController.restaurant_Details_Api(
+                        id: restaurants[index].id.toString(),
+                      );
+                    },
+                    child: restaurantList(
+                      index: index,
+                      image: restaurant.shopImageUrl,
+                      title: restaurant.shopName,
+                      rating: restaurant.rating,
+                      price: restaurant.avgPrice,
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => hBox(20),
+              );
+            });
+          },
+        ),
+        if (restaurantHomeController.isLoading.value)
+          circularProgressIndicator(),
       ],
     );
   }
 
   Widget restaurantList(
       {index, String? image, title, type, isFavourite, rating, price}) {
-    // RestaurantHomeController controller = Get.find<RestaurantHomeController>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

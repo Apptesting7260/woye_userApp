@@ -122,7 +122,13 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.editProfile);
+        Get.toNamed(
+          AppRoutes.signUpFom,
+          arguments: {
+            'typefrom': "back",
+          },
+        );
+        // Get.toNamed(AppRoutes.editProfile);
       },
     );
   }
@@ -316,7 +322,6 @@ class ProfileScreen extends StatelessWidget {
                         child: CustomElevatedButton(
                           height: 40.h,
                           onPressed: () {
-
                             socialLoginController.signout();
                             userPreference.removeUser();
                             Get.offAllNamed(AppRoutes.welcomeScreen);

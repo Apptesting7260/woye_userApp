@@ -1,34 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/controller/sign_up_form_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
-class SignUpFormScreen extends StatefulWidget {
+class SignUpFormScreen extends StatelessWidget {
   const SignUpFormScreen({super.key});
 
-  static SignUpFormController signUpFormController =
-      Get.find<SignUpFormController>();
-
-  @override
-  State<SignUpFormScreen> createState() => _SignUpFormScreenState();
-}
-
-class _SignUpFormScreenState extends State<SignUpFormScreen> {
-  SignUpFormController controller = Get.put(SignUpFormController());
-
-  @override
-  void initState() {
-    // if (controller.serviceEnabled != true) {
-    //   locationRequestPopUp(context);
-    // }
-    super.initState();
-  }
+  static SignUpFormController controller = Get.find<SignUpFormController>();
 
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments;
+    String? typeFrom = arguments?['typefrom'];
     return Scaffold(
         appBar: const CustomAppBar(),
         body: Obx(() {
@@ -60,10 +45,10 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                     header(),
                     hBox(30),
                     //
-                    form(SignUpFormScreen.signUpFormController, context),
+                    form(controller, context),
                     hBox(20),
                     //
-                    continueButton(),
+                    continueButton(typeFrom ?? ""),
                     hBox(40),
                   ],
                 ),
@@ -95,9 +80,6 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
   Widget form(SignUpFormController signUpFormController, BuildContext context) {
     return Form(
         key: signUpFormController.formSignUpKey,
-        // onChanged: () {
-        //   signUpFormController.checkValid();
-        // },
         child: Column(
           children: [
             Align(
@@ -174,7 +156,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
-              // validator: formSignUpController.validateLastName,
+              validator: signUpFormController.validateEmail,
             ),
             hBox(15),
             DropdownButtonFormField(
@@ -205,7 +187,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                   .toList(),
               onChanged: (value) {
                 signUpFormController.genderController.text = value.toString();
-                print("${signUpFormController.genderController.text}");
+                // print("${signUpFormController.genderController.text}");
               },
             )
           ],
@@ -338,37 +320,34 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
   }
 
   void checkValid() {
-    print(
-        "SignUpFormScreen.signUpFormController.image${SignUpFormScreen.signUpFormController.image}");
-    // if (SignUpFormScreen.signUpFormController.image != null) {
-    //   SnackBarUtils.showToast("Please choose an image");
-    // }
-    if (SignUpFormScreen
-        .signUpFormController.formattedCurrentDate.value.isEmpty) {
-      SnackBarUtils.showToast("Please Select Date of Birth");
-    }
-    if (SignUpFormScreen.signUpFormController.genderController.text.isEmpty) {
-      SnackBarUtils.showToast("Please choose your gender");
-    } else {
-      SignUpFormScreen.signUpFormController.isValid = (SignUpFormScreen
-          .signUpFormController.formSignUpKey.currentState!
-          .validate());
+    SignUpFormScreen.controller.isValid =
+        SignUpFormScreen.controller.formSignUpKey.currentState!.validate();
+
+    if (SignUpFormScreen.controller.isValid) {
+      if (SignUpFormScreen.controller.formattedCurrentDate.value.isEmpty) {
+        SnackBarUtils.showToast("Please Select Date of Birth");
+        SignUpFormScreen.controller.isValid = false;
+      } else if (SignUpFormScreen.controller.genderController.text.isEmpty) {
+        SnackBarUtils.showToast("Please choose your gender");
+        SignUpFormScreen.controller.isValid = false;
+      }else if (controller.profileImageFromAPI.value.isEmpty && controller.profileImageGetUrl.value.isEmpty) {
+        SnackBarUtils.showToast("Please choose your profile image");
+        SignUpFormScreen.controller.isValid = false;
+      }
     }
   }
 
-  Widget continueButton() {
+  // void checkValid() {
+  Widget continueButton(String type) {
     return CustomElevatedButton(
-        isLoading:
-            SignUpFormScreen.signUpFormController.rxRequestStatus2.value ==
-                Status.LOADING,
+        isLoading: controller.rxRequestStatus2.value == Status.LOADING,
         text: "Continue",
         onPressed: () {
           checkValid();
 
-          if (SignUpFormScreen.signUpFormController.isValid) {
-            SignUpFormScreen.signUpFormController.profileupdateApi();
+          if (controller.isValid) {
+            controller.profileupdateApi(type);
           }
-          // Get.offAndToNamed(AppRoutes.restaurantNavbar);
         });
   }
 

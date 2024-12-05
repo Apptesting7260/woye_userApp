@@ -19,16 +19,18 @@ class _RestaurantCategoriesScreenState
   final RestaurantCategoriesController controller =
       Get.put(RestaurantCategoriesController());
 
+
   final RestaurantCategoriesDetailsController
       restaurantCategoriesDeatilsController =
       Get.put(RestaurantCategoriesDetailsController());
 
-  @override
-  void initState() {
-    controller.restaurant_Categories_Api();
-    // TODO: implement initState
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   controller.restaurant_Categories_Api();
+  //   print('init cat');
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

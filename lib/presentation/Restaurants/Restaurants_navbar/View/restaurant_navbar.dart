@@ -20,10 +20,11 @@ class RestaurantNavbar extends StatelessWidget {
             child: Scaffold(
               body: Stack(
                 children: [
-                  IndexedStack(
-                    index: navbarController.navbarCurrentIndex,
-                    children: navbarController.widgets,
-                  ),
+                  navbarController.widgets[navbarController.navbarCurrentIndex],
+                  // IndexedStack(
+                  //   index: navbarController.navbarCurrentIndex,
+                  //   children: navbarController.widgets,
+                  // ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: navbar(navbarController),
