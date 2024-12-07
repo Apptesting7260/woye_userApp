@@ -1,30 +1,30 @@
-name: Flutter CI
+name: Flutter Test
 
-# Trigger the pipeline on pushes to the test branch
 on:
   push:
     branches:
-      - test  # This triggers the workflow on the test branch
+      - test
+  pull_request:
+    branches:
+      - test
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from the repository
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      # Step 2: Set up Flutter SDK (using version 3.24)
-      - name: Set up Flutter 3.24
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.24'  # Set the Flutter version to 3.24
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 'stable'
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: flutter pub get  # This installs the dependencies listed in pubspec.yaml
+    - name: Install dependencies
+      run: |
+        flutter pub get
 
-      # Step 4: Run tests
-      - name: Run tests
-        run: flutter test  # This will run the unit tests in your Flutter project
+    - name: Run tests
+      run: |
+        flutter test
