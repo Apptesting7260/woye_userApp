@@ -1,4 +1,4 @@
-name: Test Branch CI Pipeline
+name: Flutter CI
 
 # Trigger the pipeline on pushes to the test branch
 on:
@@ -8,35 +8,23 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # Use the latest available Ubuntu runner
+    runs-on: ubuntu-latest  # Use the latest Ubuntu runner
 
     steps:
       # Step 1: Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Cache Flutter SDK
-      - name: Cache Flutter SDK
-        uses: actions/cache@v4
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-flutter-
-
-      # Step 3: Set up Flutter SDK
-      - name: Set up Flutter SDK
+      # Step 2: Set up Flutter SDK (using version 3.24)
+      - name: Set up Flutter 3.24
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'  # Automatically use the latest stable version
+          flutter-version: '3.24'  # Set the Flutter version to 3.24
 
-      # Step 4: Install dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: |
-          flutter pub get  # This installs all the dependencies defined in pubspec.yaml
+        run: flutter pub get  # This installs the dependencies listed in pubspec.yaml
 
-      # Step 5: Run tests
+      # Step 4: Run tests
       - name: Run tests
-        run: flutter test  # This will run the unit tests for the Flutter project
-
-      # Optional: Additional steps can be added here for more testing or code quality checks
+        run: flutter test  # This will run the unit tests in your Flutter project
