@@ -8,8 +8,9 @@ import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_model.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/Model/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/Sign_up_form_editProfile/Model/getprofile_model.dart';
+import 'package:woye_user/presentation/common/Sign_up_form_editProfile/Model/updateprofile_model.dart';
+
 
 class SignUpFormController extends GetxController {
   @override

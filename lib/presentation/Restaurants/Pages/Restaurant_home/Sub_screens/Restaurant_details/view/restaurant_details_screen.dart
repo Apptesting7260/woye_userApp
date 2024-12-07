@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
@@ -11,6 +12,9 @@ class RestaurantDetailsScreen extends StatelessWidget {
 
   final RestaurantDetailsController controller =
       Get.put(RestaurantDetailsController());
+
+  final specific_Product_Controller specific_product_controllerontroller =
+      Get.put(specific_Product_Controller());
 
   RestaurantDetailsScreen({super.key, required this.id});
 
@@ -87,23 +91,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          mainBanner(
-                            mainBannerImage: controller
-                                .restaurant_Data.value.restaurant!.shopimage
-                                .toString(),
-                            title: controller
-                                .restaurant_Data.value.restaurant!.shopName
-                                .toString(),
-                            address: controller
-                                .restaurant_Data.value.restaurant!.shopAddress
-                                .toString(),
-                            email: controller
-                                .restaurant_Data.value.restaurant!.email
-                                .toString(),
-                            ownerName: controller
-                                .restaurant_Data.value.restaurant!.name
-                                .toString(),
-                          ),
+                          mainBanner(),
                           hBox(30),
                           openHours(),
                           hBox(30),
@@ -119,20 +107,15 @@ class RestaurantDetailsScreen extends StatelessWidget {
         }));
   }
 
-  Widget mainBanner({
-    required String mainBannerImage,
-    required String title,
-    required String ownerName,
-    required String email,
-    required String address,
-  }) {
+  Widget mainBanner() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
-              imageUrl: mainBannerImage,
+              imageUrl: controller.restaurant_Data.value.restaurant!.shopimage
+                  .toString(),
               placeholder: (context, url) => circularProgressIndicator(),
               errorWidget: (context, url, error) => Icon(
                 Icons.error,
@@ -143,7 +126,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             )),
         hBox(15),
         Text(
-          title,
+          controller.restaurant_Data.value.restaurant!.shopName.toString(),
           style: AppFontStyle.text_24_400(AppColors.darkText),
         ),
         hBox(15),
@@ -183,7 +166,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             const Icon(Icons.person_outline_rounded),
             wBox(8),
             Text(
-              ownerName,
+              controller.restaurant_Data.value.restaurant!.name.toString(),
               style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.primary,
@@ -199,7 +182,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             const Icon(Icons.mail_outline_rounded),
             wBox(8),
             Text(
-              email,
+              controller.restaurant_Data.value.restaurant!.email.toString(),
               overflow: TextOverflow.ellipsis,
               style: AppFontStyle.text_14_400(AppColors.darkText),
             )
@@ -211,7 +194,8 @@ class RestaurantDetailsScreen extends StatelessWidget {
             const Icon(Icons.location_on_outlined),
             wBox(8),
             Text(
-              address,
+              controller.restaurant_Data.value.restaurant!.shopAddress
+                  .toString(),
               overflow: TextOverflow.ellipsis,
               style: AppFontStyle.text_14_400(
                 AppColors.darkText,
@@ -263,139 +247,6 @@ class RestaurantDetailsScreen extends StatelessWidget {
     );
   }
 
-  // Widget openHours() {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         "Open Hours",
-  //         style: AppFontStyle.text_20_600(AppColors.darkText),
-  //       ),
-  //       hBox(14),
-  //       SizedBox(
-  //         width: Get.width * 0.7,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               controller.restaurant_Data.value.restaurant!.openingHours.,
-  //               // "Tuesday",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //               overflow: TextOverflow.ellipsis,
-  //             ),
-  //             Text(
-  //               "10 AM - 11 PM",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       hBox(10),
-  //       SizedBox(
-  //         width: Get.width * 0.7,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Wednesday",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "10 AM - 11 PM",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       hBox(10),
-  //       SizedBox(
-  //         width: Get.width * 0.7,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Thursday",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "10 AM - 11 PM",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       hBox(10),
-  //       SizedBox(
-  //         width: Get.width * 0.7,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Friday",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "10 AM - 11 PM",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       hBox(10),
-  //       SizedBox(
-  //         width: Get.width * 0.7,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Saturday",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "10 AM - 11 PM",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       hBox(10),
-  //       SizedBox(
-  //         width: Get.width * 0.7,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Sunday",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "10 AM - 11 PM",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //       hBox(10),
-  //       SizedBox(
-  //         width: Get.width * 0.70,
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Monday",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "10 AM - 11 PM",
-  //               style: AppFontStyle.text_16_400(AppColors.lightText),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Widget description() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -424,11 +275,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
         hBox(15),
-        // MoreProducts().productList()
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 10,
+            itemCount: controller.restaurant_Data.value.moreProducts!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.6.h,
@@ -438,13 +288,55 @@ class RestaurantDetailsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () {
+                    specific_product_controllerontroller.specific_Product_Api(
+                      product_id: controller
+                          .restaurant_Data.value.moreProducts![index].id
+                          .toString(),
+                      category_id: controller
+                          .restaurant_Data.value.moreProducts![index].categoryId
+                          .toString(),
+                    );
                     Get.to(ProductDetailsScreen(
-                      product_id: '',
-                      category_id: '',
-                      category_name: '',
+                      product_id: controller
+                          .restaurant_Data.value.moreProducts![index].id
+                          .toString(),
+                      category_id: controller
+                          .restaurant_Data.value.moreProducts![index].categoryId
+                          .toString(),
+                      category_name: controller.restaurant_Data.value
+                          .moreProducts![index].categoryName
+                          .toString(),
                     ));
                   },
-                  child: CustomItemBanner(index: index));
+                  child: CustomItemBanner(
+                    index: index,
+                    product_id: controller
+                        .restaurant_Data.value.moreProducts![index].id
+                        .toString(),
+                    categoryId: controller
+                        .restaurant_Data.value.moreProducts![index].categoryId
+                        .toString(),
+                    image: controller
+                        .restaurant_Data.value.moreProducts![index].urlImage,
+                    title: controller
+                        .restaurant_Data.value.moreProducts![index].title,
+                    rating: controller
+                        .restaurant_Data.value.moreProducts![index].rating
+                        .toString(),
+                    is_in_wishlist: controller.restaurant_Data.value
+                        .moreProducts![index].isInWishlist,
+                    isLoading: controller
+                        .restaurant_Data.value.moreProducts![index].isLoading,
+                    sale_price: controller
+                        .restaurant_Data.value.moreProducts![index].salePrice
+                        .toString(),
+                    regular_price: controller
+                        .restaurant_Data.value.moreProducts![index].regularPrice
+                        .toString(),
+                    resto_name: controller
+                        .restaurant_Data.value.moreProducts![index].restoName
+                        .toString(),
+                  ));
             })
       ],
     );

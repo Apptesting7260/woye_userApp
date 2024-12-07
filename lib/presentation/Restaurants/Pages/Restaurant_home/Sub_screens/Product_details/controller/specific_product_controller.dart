@@ -1,5 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/modal/specific_product_modal.dart';
+import 'package:intl/intl.dart';
 
 class specific_Product_Controller extends GetxController {
   final api = Repository();
@@ -19,7 +20,6 @@ class specific_Product_Controller extends GetxController {
     required String category_id,
   }) async {
     setRxRequestStatus(Status.LOADING);
-
     Map data = {
       "product_id": product_id,
       "category_id": category_id,
@@ -36,5 +36,20 @@ class specific_Product_Controller extends GetxController {
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
+  }
+
+  String formatDate(String? dateString) {
+    if (dateString == null) {
+      return "";
+    }
+    try {
+      DateTime date = DateTime.parse(dateString);
+      String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(date);
+      print("Formatted Date: $formattedDate");
+      return formattedDate;
+    } catch (e) {
+      print("Error formatting date: $e");
+      return "";
+    }
   }
 }

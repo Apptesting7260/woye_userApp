@@ -3,7 +3,6 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 
-
 class add_Product_Wishlist_Controller extends GetxController {
   final RestaurantCategoriesDetailsController
       restaurantCategoriesDetailsController =
@@ -25,14 +24,14 @@ class add_Product_Wishlist_Controller extends GetxController {
 
   void setError(String value) => error.value = value;
 
-  restaurant_add_product_wishlist({
+  Future<void> restaurant_add_product_wishlist({
     required String categoryId,
     required String product_id,
   }) async {
     setRxRequestStatus(Status.LOADING);
     Map data = {"product_id": product_id};
 
-    api.add_Product_Wishlist(data).then((value) {
+    await api.add_Product_Wishlist(data).then((value) {
       categories_Set(value);
       setRxRequestStatus(Status.COMPLETED);
       if (add_Wishlist.value.status == true) {

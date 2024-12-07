@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/controller/sign_up_form_controller.dart';
+import 'package:woye_user/presentation/common/Sign_up_form_editProfile/controller/sign_up_form_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class SignUpFormScreen extends StatelessWidget {

@@ -25,14 +25,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var title = Get.arguments ?? "Your Item";
     var args = Get.arguments;
-    String categorytitle = args['name'];
+    String categoryTitle = args['name'];
     int categoryId = args['id'];
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
-          categorytitle,
+          categoryTitle,
           style: AppFontStyle.text_22_600(
             AppColors.darkText,
           ),
@@ -129,7 +128,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                         .categoryProduct![index]
                                         .id
                                         .toString(),
-                                    category_name: categorytitle,
+                                    category_name: categoryTitle,
                                   ));
                                 },
                                 child: Column(
@@ -174,52 +173,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        // Obx(
-                                        //   () => Container(
-                                        //     margin: REdgeInsets.only(
-                                        //         top: 10, right: 10),
-                                        //     padding: REdgeInsets.all(6),
-                                        //     decoration: BoxDecoration(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(10.r),
-                                        //         color:
-                                        //             AppColors.greyBackground),
-                                        //     child: InkWell(
-                                        //       highlightColor:
-                                        //           Colors.transparent,
-                                        //       splashColor: Colors.transparent,
-                                        //       onTap: () {
-                                        //         add_Wishlist_Controller
-                                        //             .restaurant_add_product_wishlist(
-                                        //           categoryId:
-                                        //               categoryId.toString(),
-                                        //           product_id: controller
-                                        //               .categoriesDetailsData
-                                        //               .value
-                                        //               .categoryProduct![index]
-                                        //               .id
-                                        //               .toString(),
-                                        //         );
-                                        //         print(
-                                        //             "product_id ${controller.categoriesDetailsData.value.categoryProduct![index].id.toString()}");
-                                        //       },
-                                        //       child: Icon(
-                                        //         controller
-                                        //                     .categoriesDetailsData
-                                        //                     .value
-                                        //                     .categoryProduct![
-                                        //                         index]
-                                        //                     .isInWishlist ==
-                                        //                 true
-                                        //             ? Icons.favorite
-                                        //             : Icons
-                                        //                 .favorite_border_outlined,
-                                        //         size: 22,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // )
-
                                         Obx(
                                           () => Container(
                                             margin: REdgeInsets.only(
@@ -332,14 +285,19 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               AppColors.lightText),
                                         ),
                                         wBox(4),
-                                        Text(
-                                          controller.categoriesDetailsData.value
-                                              .categoryProduct![index].restoName
-                                              .toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: AppFontStyle.text_14_300(
-                                              AppColors.lightText),
+                                        Flexible(
+                                          child: Text(
+                                            controller
+                                                .categoriesDetailsData
+                                                .value
+                                                .categoryProduct![index]
+                                                .restoName
+                                                .toString(),
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.left,
+                                            style: AppFontStyle.text_14_300(
+                                                AppColors.lightText),
+                                          ),
                                         ),
                                       ],
                                     )

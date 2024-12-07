@@ -10,8 +10,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/h
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/common/Otp/model/login_model.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_model.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/Model/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/Sign_up_form_editProfile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
 

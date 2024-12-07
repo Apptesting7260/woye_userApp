@@ -1,6 +1,9 @@
+import 'package:get/get.dart';
+
 class SpecificRestaurantModal {
   bool? status;
   Restaurant? restaurant;
+  List<MoreProducts>? moreProducts;
   String? message;
 
   SpecificRestaurantModal({this.status, this.restaurant, this.message});
@@ -10,6 +13,12 @@ class SpecificRestaurantModal {
     restaurant = json['restaurant'] != null
         ? Restaurant.fromJson(json['restaurant'])
         : null;
+    if (json['moreProducts'] != null) {
+      moreProducts = <MoreProducts>[];
+      json['moreProducts'].forEach((v) {
+        moreProducts!.add(new MoreProducts.fromJson(v));
+      });
+    }
     message = json['message'];
   }
 
@@ -18,6 +27,9 @@ class SpecificRestaurantModal {
     data['status'] = this.status;
     if (this.restaurant != null) {
       data['restaurant'] = this.restaurant!.toJson();
+    }
+    if (this.moreProducts != null) {
+      data['moreProducts'] = this.moreProducts!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     return data;
@@ -43,7 +55,7 @@ class Restaurant {
   String? shopimage;
   String? shopAddress;
   String? shopDes;
-  List<OpeningHours>? openingHours;  // Changed to a List
+  List<OpeningHours>? openingHours; // Changed to a List
   int? countryId;
   int? stateId;
   int? cityId;
@@ -151,7 +163,8 @@ class Restaurant {
     data['shop_des'] = this.shopDes;
 
     if (this.openingHours != null) {
-      data['opening_hours'] = this.openingHours!.map((v) => v.toJson()).toList();
+      data['opening_hours'] =
+          this.openingHours!.map((v) => v.toJson()).toList();
     }
 
     data['country_id'] = this.countryId;
@@ -189,6 +202,80 @@ class OpeningHours {
     data['open'] = this.open;
     data['close'] = this.close;
     data['status'] = this.status;
+    return data;
+  }
+}
+
+class MoreProducts {
+  int? id;
+  String? image;
+  int? rating;
+  String? salePrice;
+  String? regularPrice;
+  String? title;
+  String? addimg;
+  int? userId;
+  bool? isInWishlist;
+  String? restoName;
+  List<String>? urlAddimg;
+  String? urlImage;
+  int? categoryId;
+  String? categoryName;
+  Rx<bool> isLoading = false.obs;
+
+  MoreProducts({
+    this.id,
+    this.image,
+    this.rating,
+    this.salePrice,
+    this.regularPrice,
+    this.title,
+    this.addimg,
+    this.userId,
+    this.isInWishlist,
+    this.restoName,
+    this.urlAddimg,
+    this.urlImage,
+    this.categoryId,
+    this.categoryName,
+  });
+
+  MoreProducts.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+    rating = json['rating'];
+    salePrice = json['sale_price'];
+    regularPrice = json['regular_price'];
+    title = json['title'];
+    addimg = json['addimg'];
+    userId = json['user_id'];
+    isInWishlist = json['is_in_wishlist'];
+    restoName = json['resto_name'];
+    urlAddimg = json['url_addimg'].cast<String>();
+    urlImage = json['url_image'];
+
+    // Assign values to the new keys
+    categoryId = json['category_id'];
+    categoryName = json['category_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image'] = this.image;
+    data['rating'] = this.rating;
+    data['sale_price'] = this.salePrice;
+    data['regular_price'] = this.regularPrice;
+    data['title'] = this.title;
+    data['addimg'] = this.addimg;
+    data['user_id'] = this.userId;
+    data['is_in_wishlist'] = this.isInWishlist;
+    data['resto_name'] = this.restoName;
+    data['url_addimg'] = this.urlAddimg;
+    data['url_image'] = this.urlImage;
+    data['category_id'] = this.categoryId;
+    data['category_name'] = this.categoryName;
+
     return data;
   }
 }

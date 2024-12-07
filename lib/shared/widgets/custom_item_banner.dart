@@ -1,22 +1,49 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
+
+import 'CircularProgressIndicator.dart';
 
 class CustomItemBanner extends StatelessWidget {
-  int index;
+  int? index;
   final String? image;
   final double? imageHeight;
   final EdgeInsetsGeometry? padding;
   final Color? backgroundColor;
+  final String? sale_price;
+  final String? regular_price;
+  final String? title;
+  bool? is_in_wishlist;
+  final String? resto_name;
+  final String? rating;
+  final String? categoryId;
+  final String? product_id;
+  Rx<bool>? isLoading;
+
   CustomItemBanner(
       {super.key,
-      this.index = 0,
+      this.index,
       this.image,
       this.imageHeight,
       this.padding,
-      this.backgroundColor});
+      this.backgroundColor,
+      this.sale_price,
+      this.regular_price,
+      this.title,
+      this.is_in_wishlist,
+      this.resto_name,
+      this.rating,
+      this.categoryId,
+      this.product_id,
+      this.isLoading});
+
+  final add_Product_Wishlist_Controller add_Wishlist_Controller =
+      Get.put(add_Product_Wishlist_Controller());
 
   @override
   Widget build(BuildContext context) {
-    RxBool isFavorite = false.obs;
+    // RxBool isFavorite = false.obs;
     IconData favorite = Icons.favorite;
     IconData favoriteNot = Icons.favorite_border_outlined;
     return Column(
@@ -26,40 +53,57 @@ class CustomItemBanner extends StatelessWidget {
           alignment: Alignment.topRight,
           children: [
             Container(
-              padding: padding,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  color: backgroundColor),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
               child: Center(
-                child: Image.asset(
-                  image ?? "assets/images/cat-image${index % 5}.png",
-                  height: imageHeight ?? 160.h,
-                  width: Get.width,
+                child: CachedNetworkImage(
+                  imageUrl: image.toString(),
                   fit: BoxFit.cover,
-                  // width: Get.width,
+                  height: 160.h,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  placeholder: (context, url) => Shimmer.fromColors(
+                    baseColor: AppColors.gray,
+                    highlightColor: AppColors.lightText,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.gray,
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
             Obx(
               () => Container(
-                  margin: REdgeInsets.only(top: 10, right: 10),
-                  padding: REdgeInsets.all(6),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.r),
-                      color: AppColors.greyBackground),
-                  child: InkWell(
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      isFavorite.value = !isFavorite.value;
-                    },
-                    child: Icon(
-                      isFavorite.value ? favorite : favoriteNot,
-                      // Icons.favorite_border_outlined,
-                      size: 22,
-                    ),
-                  )),
+                margin: REdgeInsets.only(top: 10, right: 10),
+                padding: REdgeInsets.all(6),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: AppColors.greyBackground),
+                child: InkWell(
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  onTap: () async {
+                    is_in_wishlist = !is_in_wishlist!;
+                    isLoading?.value = true;
+                    await add_Wishlist_Controller
+                        .restaurant_add_product_wishlist(
+                      categoryId: categoryId.toString(),
+                      product_id: product_id.toString(),
+                    );
+                    isLoading?.value = false;
+                  },
+                  child: isLoading!.value
+                      ? circularProgressIndicator(size: 18)
+                      : Icon(
+                          is_in_wishlist! ? favorite : favoriteNot,
+                          size: 22,
+                        ),
+                ),
+              ),
             )
           ],
         ),
@@ -67,13 +111,13 @@ class CustomItemBanner extends StatelessWidget {
         Row(
           children: [
             Text(
-              "\$18.00",
+              "\$${sale_price}",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_600(AppColors.primary),
             ),
             wBox(5),
             Text(
-              "\$20",
+              "\$${regular_price}",
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
 
@@ -90,13 +134,13 @@ class CustomItemBanner extends StatelessWidget {
         ),
         // hBox(10),
         Text(
-          "McMushroom Pizza",
+          title.toString(),
           textAlign: TextAlign.left,
           style: AppFontStyle.text_16_400(AppColors.darkText),
         ),
         // hBox(10),
         Text(
-          "The Pizza Hub And Restaurant",
+          resto_name.toString(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
           style: AppFontStyle.text_14_300(AppColors.lightText),
@@ -107,7 +151,7 @@ class CustomItemBanner extends StatelessWidget {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "4.5/5",
+              "${rating}/5",
               style: AppFontStyle.text_14_300(AppColors.lightText),
             ),
           ],

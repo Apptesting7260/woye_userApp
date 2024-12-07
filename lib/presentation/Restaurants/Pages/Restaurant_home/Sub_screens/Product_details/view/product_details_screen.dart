@@ -6,6 +6,7 @@ import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String product_id;
@@ -24,33 +25,6 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // String mainBanner = image;
-    // String title = this.title;
-
-    // List sizeData = [
-    //   {"title": "Small", "price": "\$18.00"},
-    //   {"title": "Medium", "price": "\$22.00"},
-    //   {"title": "Large", "price": "\$28.00"},
-    // ];
-    RxInt baseSectionValue = 1.obs;
-    List baseSectionData = [
-      {"title": "White Base", "price": "\$5.00"},
-      {"title": "Cheese Burst", "price": "\$7.00"},
-      {"title": "Cheese Burst", "price": "\$8.00"},
-    ];
-    RxInt addOnValue = 1.obs;
-    List addOnData = [
-      {"title": "Capsicum", "price": "\$1.00"},
-      {"title": "Tomato", "price": "\$2.00"},
-      {"title": "Onion", "price": "\$3.00"},
-      {"title": "Extra Cheese", "price": "\$4.00"},
-      {"title": "Golden Corn", "price": "\$5.00"},
-      {"title": "Red Paprika", "price": "\$6.00"},
-      {"title": "Capsicum", "price": "\$1.00"},
-      {"title": "Tomato", "price": "\$2.00"},
-      {"title": "Onion", "price": "\$3.00"},
-    ];
-
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -68,17 +42,23 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ),
           wBox(8),
-          Container(
+          Obx(() {
+            return Container(
               padding: REdgeInsets.all(9),
               height: 44.h,
               width: 44.h,
               decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
+                color: AppColors.greyBackground,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
               child: Icon(
-                Icons.favorite_outline_sharp,
+                controller.product_Data.value.product?.isInWishlist != true
+                    ? Icons.favorite_outline_sharp
+                    : Icons.favorite_outlined,
                 size: 24.w,
-              )),
+              ),
+            );
+          }),
           wBox(8),
           Container(
             padding: REdgeInsets.all(9),
@@ -137,9 +117,9 @@ class ProductDetailsScreen extends StatelessWidget {
                         hBox(20),
                       if (controller.product_Data.value.product!.addOn != null)
                         addOn(
-                            context: context,
-                            checkBoxGroupValues: true.obs,
-                            jsonData: addOnData),
+                          context: context,
+                          checkBoxGroupValues: true.obs,
+                        ),
                       if (controller.product_Data.value.product!.addOn != null)
                         hBox(30),
                       CustomElevatedButton(
@@ -178,7 +158,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 controller.product_Data.value.product!.urlImage.toString(),
             fit: BoxFit.cover,
             height: 340.h,
-            errorWidget: (context, url, error) => const Icon(Icons.error),
+            errorWidget: (context, url, error) =>
+                const Center(child: Icon(Icons.error)),
             placeholder: (context, url) => Shimmer.fromColors(
               baseColor: AppColors.gray,
               highlightColor: AppColors.lightText,
@@ -291,64 +272,6 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  // Widget extra({context}) {
-  //   return ListView.builder(
-  //     shrinkWrap: true,
-  //     physics: const NeverScrollableScrollPhysics(),
-  //     itemCount: controller.product_Data.value.product!.extra?.length ?? 0,
-  //     itemBuilder: (context, index) {
-  //       var extra = controller.product_Data.value.product!.extra![index];
-  //       return Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text(
-  //             extra.title.toString(),
-  //             style: AppFontStyle.text_20_600(AppColors.darkText),
-  //           ),
-  //           hBox(5),
-  //           Row(
-  //             children: [
-  //               Text(
-  //                 "Required",
-  //                 style: AppFontStyle.text_16_300(AppColors.lightText),
-  //               ),
-  //               Text(
-  //                 "•",
-  //                 style: AppFontStyle.text_16_300(AppColors.lightText),
-  //               ),
-  //               wBox(4),
-  //               Text(
-  //                 "Select any 1 option",
-  //                 style: AppFontStyle.text_16_300(AppColors.lightText),
-  //               ),
-  //             ],
-  //           ),
-  //           hBox(5),
-  //           ListView.separated(
-  //             shrinkWrap: true,
-  //             physics: const NeverScrollableScrollPhysics(),
-  //             itemCount: extra.item?.length ?? 0,
-  //             itemBuilder: (context, itemIndex) {
-  //               var item = extra.item![itemIndex];
-  //               return CustomTitleRadioButton(
-  //                 title: item.name.toString(),
-  //                 value: itemIndex.obs,
-  //                 groupValue: item.Selcted,
-  //                 onChanged: (value) {
-  //                   print("$value");
-  //                   item.Selcted.value = value!;
-  //                 },
-  //                 priceValue: item.price.toString(),
-  //               );
-  //             },
-  //             separatorBuilder: (context, itemIndex) => hBox(8),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
   Widget extra({context}) {
     return ListView.builder(
       shrinkWrap: true,
@@ -408,9 +331,11 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget addOn({context, checkBoxGroupValues, jsonData}) {
+  Widget addOn({
+    context,
+    checkBoxGroupValues,
+  }) {
     RxBool showAll = false.obs;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -517,36 +442,25 @@ class ProductDetailsScreen extends StatelessWidget {
         ),
         hBox(10),
         Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              fit: BoxFit.cover,
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-white.svg",
+            RatingBar.readOnly(
+              filledIcon: Icons.star,
+              emptyIcon: Icons.star,
+              filledColor: AppColors.goldStar,
+              emptyColor: AppColors.normalStar,
+              initialRating: controller.product_Data.value.product!.rating!,
+              maxRating: 5,
+              size: 20.h,
             ),
             wBox(8),
             Text(
-              "4.5/5",
+              "${controller.product_Data.value.product!.rating.toString()}/5",
               style: AppFontStyle.text_16_400(AppColors.darkText),
             ),
             wBox(8),
             Text(
-              "(120 reviews)",
+              "(${controller.product_Data.value.product!.productreview_count.toString()} reviews)",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],
@@ -563,22 +477,34 @@ class ProductDetailsScreen extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: 2,
+              itemCount:
+                  controller.product_Data.value.product!.productreview!.length,
               itemBuilder: (context, index) {
                 return Column(
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Flexible(
-                          flex: 1,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.r),
-                            child: Image.asset(
-                              "assets/images/profile-review.png",
-                              height: 50.h,
-                              width: 50.h,
-                              fit: BoxFit.cover,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(50.r),
+                          child: CachedNetworkImage(
+                            imageUrl: controller.product_Data.value.product!
+                                .productreview![index].user!.imageUrl
+                                .toString(),
+                            fit: BoxFit.cover,
+                            height: 50.h,
+                            width: 50.h,
+                            errorWidget: (context, url, error) =>
+                                const Center(child: Icon(Icons.error)),
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: AppColors.gray,
+                              highlightColor: AppColors.lightText,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.gray,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -589,52 +515,43 @@ class ProductDetailsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Ronald Richards",
+                                controller.product_Data.value.product!
+                                    .productreview![index].user!.firstName
+                                    .toString(),
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
                               ),
                               hBox(5),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    fit: BoxFit.cover,
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-white.svg",
-                                  ),
-                                ],
+                              RatingBar.readOnly(
+                                filledIcon: Icons.star,
+                                emptyIcon: Icons.star,
+                                filledColor: AppColors.goldStar,
+                                emptyColor: AppColors.normalStar,
+                                initialRating: controller.product_Data.value
+                                    .product!.productreview![index].rating!,
+                                maxRating: 5,
+                                size: 20.h,
                               ),
                               hBox(10),
                               Text(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+                                controller.product_Data.value.product!
+                                    .productreview![index].message
+                                    .toString(),
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
+                                maxLines: 2,
                               ),
                               hBox(10),
                               Row(
                                 children: [
                                   Text(
-                                    "01-09-2024",
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.lightText),
-                                  ),
-                                  wBox(10),
-                                  Text(
-                                    "12:20",
+                                    controller.formatDate(controller
+                                        .product_Data
+                                        .value
+                                        .product!
+                                        .productreview![index]
+                                        .updatedAt
+                                        .toString()),
                                     style: AppFontStyle.text_16_400(
                                         AppColors.lightText),
                                   ),
@@ -652,10 +569,6 @@ class ProductDetailsScreen extends StatelessWidget {
                   ],
                 );
               },
-              // separatorBuilder: (context, inxex) => Padding(
-              //   padding: REdgeInsets.symmetric(vertical: 10),
-              //   child: const Divider(),
-              // ),
             ),
           ],
         ),
@@ -723,7 +636,7 @@ class ProductDetailsScreen extends StatelessWidget {
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 2,
+            itemCount: controller.product_Data.value.moreProducts!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.6.h,
@@ -734,154 +647,48 @@ class ProductDetailsScreen extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     Get.to(ProductDetailsScreen(
-                      product_id: '',
-                      category_id: '',
-                      category_name: '',
+                      product_id: controller
+                          .product_Data.value.moreProducts![index].id
+                          .toString(),
+                      category_id: category_id,
+                      category_name: category_name,
                     ));
+
+                    controller.specific_Product_Api(
+                        product_id: controller
+                            .product_Data.value.moreProducts![index].id
+                            .toString(),
+                        category_id: category_id.toString());
                   },
-                  child: CustomItemBanner(index: index));
+                  child: CustomItemBanner(
+                    index: index,
+                    product_id: controller
+                        .product_Data.value.moreProducts![index].id
+                        .toString(),
+                    categoryId: category_id,
+                    image: controller
+                        .product_Data.value.moreProducts![index].urlImage,
+                    title: controller
+                        .product_Data.value.moreProducts![index].title,
+                    rating: controller
+                        .product_Data.value.moreProducts![index].rating
+                        .toString(),
+                    is_in_wishlist: controller
+                        .product_Data.value.moreProducts![index].isInWishlist,
+                    isLoading: controller
+                        .product_Data.value.moreProducts![index].isLoading,
+                    sale_price: controller
+                        .product_Data.value.moreProducts![index].salePrice
+                        .toString(),
+                    regular_price: controller
+                        .product_Data.value.moreProducts![index].regularPrice
+                        .toString(),
+                    resto_name: controller
+                        .product_Data.value.moreProducts![index].restoName
+                        .toString(),
+                  ));
             })
       ],
     );
   }
-
-// Widget baseSection({context, radioGroupValue, jsonData}) {
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       Text(
-//         "Base Bread Section",
-//         style: AppFontStyle.text_20_600(AppColors.darkText),
-//       ),
-//       hBox(10),
-//       Row(
-//         children: [
-//           Text(
-//             "Required",
-//             style: AppFontStyle.text_16_300(AppColors.lightText),
-//           ),
-//           Text(
-//             "•",
-//             style: AppFontStyle.text_16_300(AppColors.lightText),
-//           ),
-//           wBox(4),
-//           Text(
-//             "Select any 1 option",
-//             style: AppFontStyle.text_16_300(AppColors.lightText),
-//           ),
-//         ],
-//       ),
-//       hBox(10),
-//       ListView.separated(
-//         shrinkWrap: true,
-//         physics: const NeverScrollableScrollPhysics(),
-//         itemCount: jsonData.length,
-//         itemBuilder: (context, index) {
-//           final data = jsonData[index];
-//           return CustomTitleRadioButton(
-//               title: data["title"],
-//               value: index.obs,
-//               groupValue: radioGroupValue,
-//               onChanged: (value) {
-//                 radioGroupValue.value = value!;
-//               },
-//               priceValue: data["price"]);
-//         },
-//         separatorBuilder: (context, inxex) => hBox(8),
-//       ),
-//     ],
-//   );
-// }
-
-// Widget addOn({context, radioGroupValue, jsonData}) {
-//   RxBool showAll = false.obs;
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       Text(
-//         "Base Bread Section",
-//         style: AppFontStyle.text_20_600(AppColors.darkText),
-//       ),
-//       hBox(10),
-//       Row(
-//         children: [
-//           Text(
-//             "Required",
-//             style: AppFontStyle.text_16_300(AppColors.lightText),
-//           ),
-//           Text(
-//             "•",
-//             style: AppFontStyle.text_16_300(AppColors.lightText),
-//           ),
-//           wBox(4),
-//           Text(
-//             "Select any 1 option",
-//             style: AppFontStyle.text_16_300(AppColors.lightText),
-//           ),
-//         ],
-//       ),
-//       hBox(10),
-//       Obx(
-//         () => ListView.separated(
-//           shrinkWrap: true,
-//           physics: const NeverScrollableScrollPhysics(),
-//           itemCount: showAll.value ? jsonData.length : 5,
-//           itemBuilder: (context, index) {
-//             final data = jsonData[index];
-//             return CustomTitleRadioButton(
-//                 title: data["title"],
-//                 value: index.obs,
-//                 groupValue: radioGroupValue,
-//                 onChanged: (value) {
-//                   radioGroupValue.value = value!;
-//                 },
-//                 priceValue: data["price"]);
-//           },
-//           separatorBuilder: (context, inxex) => hBox(8),
-//         ),
-//       ),
-//       hBox(10),
-//       Obx(
-//         () => InkWell(
-//           splashColor: Colors.transparent,
-//           highlightColor: Colors.transparent,
-//           onTap: () {
-//             showAll.value = !showAll.value;
-//           },
-//           child: showAll.value
-//               ? Row(
-//                   children: [
-//                     Text(
-//                       "Hide",
-//                       style: AppFontStyle.text_16_600(AppColors.primary),
-//                     ),
-//                     Icon(
-//                       Icons.keyboard_arrow_up_sharp,
-//                       color: AppColors.primary,
-//                       size: 30.h,
-//                     )
-//                   ],
-//                 )
-//               : Row(
-//                   children: [
-//                     // Text(
-//                     //   "+",
-//                     //   style: AppFontStyle.text_18_600(AppColors.primary),
-//                     // ),
-//                     Text(
-//                       "Show More",
-//                       style: AppFontStyle.text_16_600(AppColors.primary),
-//                     ),
-//                     Icon(
-//                       Icons.keyboard_arrow_down_sharp,
-//                       color: AppColors.primary,
-//                       size: 30.h,
-//                     )
-//                   ],
-//                 ),
-//         ),
-//       )
-//     ],
-//   );
-// }
 }
