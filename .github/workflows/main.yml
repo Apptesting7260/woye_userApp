@@ -1,15 +1,12 @@
 name: Test Branch CI Pipeline
 
-# This specifies the event that triggers the pipeline
 on:
   push:
     branches:
       - test  # Trigger on push to the test branch
 
-# Define the jobs that will run in this workflow
 jobs:
   test:
-    # Specify the operating system where tests will run
     runs-on: ubuntu-latest
 
     steps:
@@ -17,14 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Dart (or any other required language) environment
-      - name: Set up Dart
-        uses: dart-lang/setup-dart@v1
+      # Set up Flutter SDK
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.5.0'  # Adjust to the version you need
 
-      # Install dependencies (for Dart project example)
+      # Install dependencies using Flutter (not Dart)
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
 
-      # Run tests (for Dart project example)
+      # Run tests using Flutter (not Dart)
       - name: Run tests
-        run: dart test
+        run: flutter test
