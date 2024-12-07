@@ -1,29 +1,33 @@
 name: Test Branch CI Pipeline
 
+# Trigger the pipeline on pushes to the test branch
 on:
   push:
     branches:
-      - test  # Trigger on push to the test branch
+      - test  # Adjust this to the name of your test branch if needed
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Use the latest available Ubuntu runner
 
     steps:
-      # Checkout the repository
+      # Step 1: Checkout the code from the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Flutter SDK
-      - name: Set up Flutter
+      # Step 2: Set up Flutter SDK
+      - name: Set up Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.5.0'  # Adjust to the version you need
+          flutter-version: 'stable'  # Automatically use the latest stable version of Flutter
 
-      # Install dependencies using Flutter (not Dart)
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          flutter pub get  # This will install all the Dart and Flutter dependencies
 
-      # Run tests using Flutter (not Dart)
+      # Step 4: Run tests
       - name: Run tests
-        run: flutter test
+        run: flutter test  # This will run the Flutter unit tests
+
+      # Optional: Additional steps can be added here for more testing or code quality checks
