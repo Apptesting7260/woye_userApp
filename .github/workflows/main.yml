@@ -4,7 +4,7 @@ name: Test Branch CI Pipeline
 on:
   push:
     branches:
-      - test  # Adjust this to the name of your test branch if needed
+      - test  # This triggers the workflow on the test branch
 
 jobs:
   test:
@@ -15,19 +15,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Flutter SDK
+      # Step 2: Cache Flutter SDK
+      - name: Cache Flutter SDK
+        uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      # Step 3: Set up Flutter SDK
       - name: Set up Flutter SDK
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'  # Automatically use the latest stable version of Flutter
+          flutter-version: 'stable'  # Automatically use the latest stable version
 
-      # Step 3: Install dependencies
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: |
-          flutter pub get  # This will install all the Dart and Flutter dependencies
+          flutter pub get  # This installs all the dependencies defined in pubspec.yaml
 
-      # Step 4: Run tests
+      # Step 5: Run tests
       - name: Run tests
-        run: flutter test  # This will run the Flutter unit tests
+        run: flutter test  # This will run the unit tests for the Flutter project
 
       # Optional: Additional steps can be added here for more testing or code quality checks
