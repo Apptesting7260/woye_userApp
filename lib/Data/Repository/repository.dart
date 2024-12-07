@@ -3,7 +3,9 @@ import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/singal_restaurant_modal.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/modal/specific_product_modal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/modal/singal_restaurant_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
@@ -11,10 +13,7 @@ import 'package:woye_user/presentation/common/Otp/model/login_model.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Sign_up_form/Model/updateprofile_model.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
-
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
-
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
 
 class Repository {
   final _apiService = NetworkApiServices();
@@ -58,12 +57,12 @@ class Repository {
     return ProfileModel.fromJson(response);
   }
 
-  Future<dynamic> updateprofileApi(data) async {
-    await initializeUser();
-    dynamic response =
-        await _apiService.postApi(data, AppUrls.updateProfile, token);
-    return UpdateprofileModel.fromJson(response);
-  }
+  // Future<dynamic> updateprofileApi(data) async {
+  //   await initializeUser();
+  //   dynamic response =
+  //       await _apiService.postApi(data, AppUrls.updateProfile, token);
+  //   return UpdateprofileModel.fromJson(response);
+  // }
 
   /* ------------------------------------------------ Restaurant ----------------------------------------------------*/
 
@@ -88,11 +87,19 @@ class Repository {
         data, AppUrls.restaurant_category_Details, token);
     return RestaurantCategoryDetailsModal.fromJson(response);
   }
+
   Future<dynamic> specific_Restaurant_Api(var data) async {
     await initializeUser();
-    dynamic response = await _apiService.postApi(
-        data, AppUrls.specific_restaurant, token);
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.specific_restaurant, token);
     return SpecificRestaurantModal.fromJson(response);
+  }
+
+  Future<dynamic> specific_Product_Api(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.specific_product, token);
+    return specificProduct.fromJson(response);
   }
 
   Future<dynamic> add_Product_Wishlist(

@@ -9,7 +9,7 @@ class RestaurantWishlistController extends GetxController {
   // }
 
   final api = Repository();
-  final rxRequestStatus = Status.COMPLETED.obs;
+  final rxRequestStatus = Status.LOADING.obs;
   final wishlistData = restaurant_product_wishlist_modal().obs;
 
   RxString error = ''.obs;
@@ -22,9 +22,7 @@ class RestaurantWishlistController extends GetxController {
   void setError(String value) => error.value = value;
 
   restaurant_product_wishlist_api() async {
-    print('thjjfrioey irt mt');
-    setRxRequestStatus(Status.LOADING);
-
+    // setRxRequestStatus(Status.LOADING);
     api.Restaurant_All_product_wishlist_Api().then((value) {
       wishlist_Set(value);
       setRxRequestStatus(Status.COMPLETED);

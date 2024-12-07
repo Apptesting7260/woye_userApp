@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
@@ -35,22 +36,27 @@ class SignUpFormScreen extends StatelessWidget {
                 );
               }
             case Status.COMPLETED:
-              return SingleChildScrollView(
-                padding: REdgeInsets.symmetric(
-                  horizontal: 24,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    header(),
-                    hBox(30),
-                    //
-                    form(controller, context),
-                    hBox(20),
-                    //
-                    continueButton(typeFrom ?? ""),
-                    hBox(40),
-                  ],
+              return RefreshIndicator(
+                onRefresh: () async {
+                  controller.getprofileApi();
+                },
+                child: SingleChildScrollView(
+                  padding: REdgeInsets.symmetric(
+                    horizontal: 24,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      header(),
+                      hBox(30),
+                      //
+                      form(controller, context),
+                      hBox(20),
+                      //
+                      continueButton(typeFrom ?? ""),
+                      hBox(40),
+                    ],
+                  ),
                 ),
               );
           }
@@ -104,16 +110,34 @@ class SignUpFormScreen extends StatelessWidget {
             hBox(15),
             CustomTextFormField(
               controller: signUpFormController.mobileController,
-              prefix: SvgPicture.asset(
-                ImageConstants.profileIcon,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              prefix: CountryCodePicker(
+                padding: const EdgeInsets.only(left: 10),
+                onChanged: (CountryCode countryCode) {
+                  print("country code===========> ${countryCode.code}");
+                  signUpFormController.updateCountryCode(countryCode);
+                  signUpFormController.showError.value = false;
+                  int? countrylength = signUpFormController
+                      .countryPhoneDigits[countryCode.code.toString()];
+                  signUpFormController.chackCountryLength = countrylength!;
+                },
+                // initialSelection: "IN"
+                initialSelection:
+                    signUpFormController.selectedCountryCode.value.code,
               ),
-              prefixConstraints:
-                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-              hintText: "Mobile Number",
-              onTapOutside: (event) {
-                FocusScope.of(context).unfocus();
+              hintText: "Phone Number",
+              textInputType: TextInputType.phone,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your phone number';
+                }
+                if (value.length != signUpFormController.chackCountryLength) {
+                  return 'Please enter a valid phone number (${signUpFormController.chackCountryLength} digits required)';
+                }
+                return null;
               },
-              validator: signUpFormController.validateMobile,
             ),
             hBox(15),
             GestureDetector(
@@ -330,7 +354,8 @@ class SignUpFormScreen extends StatelessWidget {
       } else if (SignUpFormScreen.controller.genderController.text.isEmpty) {
         SnackBarUtils.showToast("Please choose your gender");
         SignUpFormScreen.controller.isValid = false;
-      }else if (controller.profileImageFromAPI.value.isEmpty && controller.profileImageGetUrl.value.isEmpty) {
+      } else if (controller.profileImageFromAPI.value.isEmpty &&
+          controller.profileImageGetUrl.value.isEmpty) {
         SnackBarUtils.showToast("Please choose your profile image");
         SignUpFormScreen.controller.isValid = false;
       }

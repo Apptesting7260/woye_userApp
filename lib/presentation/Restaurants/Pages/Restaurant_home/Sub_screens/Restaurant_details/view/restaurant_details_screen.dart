@@ -1,18 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
   final String id;
 
-  RestaurantDetailsScreen({super.key, required this.id});
-
   final RestaurantDetailsController controller =
       Get.put(RestaurantDetailsController());
+
+  RestaurantDetailsScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +172,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "4.5/5",
+              "${controller.restaurant_Data.value.restaurant!.rating}",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],
@@ -224,6 +224,9 @@ class RestaurantDetailsScreen extends StatelessWidget {
   }
 
   Widget openHours() {
+    var openingHours =
+        controller.restaurant_Data.value.restaurant!.openingHours;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -232,127 +235,166 @@ class RestaurantDetailsScreen extends StatelessWidget {
           style: AppFontStyle.text_20_600(AppColors.darkText),
         ),
         hBox(14),
-        SizedBox(
-          width: Get.width * 0.7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Tuesday",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
+        for (var openingHour in openingHours!)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: SizedBox(
+              width: Get.width * 0.7,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    openingHour.day ?? "",
+                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    openingHour.status == null
+                        ? 'Closed'
+                        : "${openingHour.open} - ${openingHour.close}",
+                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
               ),
-              Text(
-                "10 AM - 11 PM",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-            ],
+            ),
           ),
-        ),
-        hBox(10),
-        SizedBox(
-          width: Get.width * 0.7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Wednesday",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-              Text(
-                "10 AM - 11 PM",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-            ],
-          ),
-        ),
-        hBox(10),
-        SizedBox(
-          width: Get.width * 0.7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Thursday",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-              Text(
-                "10 AM - 11 PM",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-            ],
-          ),
-        ),
-        hBox(10),
-        SizedBox(
-          width: Get.width * 0.7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Friday",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-              Text(
-                "10 AM - 11 PM",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-            ],
-          ),
-        ),
-        hBox(10),
-        SizedBox(
-          width: Get.width * 0.7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Saturday",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-              Text(
-                "10 AM - 11 PM",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-            ],
-          ),
-        ),
-        hBox(10),
-        SizedBox(
-          width: Get.width * 0.7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Sunday",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-              Text(
-                "10 AM - 11 PM",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-            ],
-          ),
-        ),
-        hBox(10),
-        SizedBox(
-          width: Get.width * 0.70,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Monday",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-              Text(
-                "10 AM - 11 PM",
-                style: AppFontStyle.text_16_400(AppColors.lightText),
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }
+
+  // Widget openHours() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         "Open Hours",
+  //         style: AppFontStyle.text_20_600(AppColors.darkText),
+  //       ),
+  //       hBox(14),
+  //       SizedBox(
+  //         width: Get.width * 0.7,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               controller.restaurant_Data.value.restaurant!.openingHours.,
+  //               // "Tuesday",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //               overflow: TextOverflow.ellipsis,
+  //             ),
+  //             Text(
+  //               "10 AM - 11 PM",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       hBox(10),
+  //       SizedBox(
+  //         width: Get.width * 0.7,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Wednesday",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "10 AM - 11 PM",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       hBox(10),
+  //       SizedBox(
+  //         width: Get.width * 0.7,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Thursday",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "10 AM - 11 PM",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       hBox(10),
+  //       SizedBox(
+  //         width: Get.width * 0.7,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Friday",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "10 AM - 11 PM",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       hBox(10),
+  //       SizedBox(
+  //         width: Get.width * 0.7,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Saturday",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "10 AM - 11 PM",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       hBox(10),
+  //       SizedBox(
+  //         width: Get.width * 0.7,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Sunday",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "10 AM - 11 PM",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       hBox(10),
+  //       SizedBox(
+  //         width: Get.width * 0.70,
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Monday",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "10 AM - 11 PM",
+  //               style: AppFontStyle.text_16_400(AppColors.lightText),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget description() {
     return Column(
@@ -364,8 +406,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
         ),
         hBox(10),
         Text(
-          "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+          controller.restaurant_Data.value.restaurant!.shopDes.toString(),
+          //"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
           style: AppFontStyle.text_16_400(AppColors.lightText),
+          maxLines: 6,
         ),
       ],
     );
@@ -395,8 +439,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     Get.to(ProductDetailsScreen(
-                        image: "assets/images/cat-image${index % 5}.png",
-                        title: "McMushroom Pizza"));
+                      product_id: '',
+                      category_id: '',
+                      category_name: '',
+                    ));
                   },
                   child: CustomItemBanner(index: index));
             })

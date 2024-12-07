@@ -1,30 +1,32 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/modal/singal_restaurant_modal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/modal/specific_product_modal.dart';
 
-
-class RestaurantDetailsController extends GetxController {
+class specific_Product_Controller extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
-  final restaurant_Data = SpecificRestaurantModal().obs;
+  final product_Data = specificProduct().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void restaurant_Set(SpecificRestaurantModal value) =>
-      restaurant_Data.value = value;
+  void productdata_Set(specificProduct value) => product_Data.value = value;
 
   void setError(String value) => error.value = value;
 
-  restaurant_Details_Api({
-    required String id,
+  specific_Product_Api({
+    required String product_id,
+    required String category_id,
   }) async {
     setRxRequestStatus(Status.LOADING);
 
-    Map data = {"restaurant_id": id};
+    Map data = {
+      "product_id": product_id,
+      "category_id": category_id,
+    };
 
-    api.specific_Restaurant_Api(data).then((value) {
-      restaurant_Set(value);
+    api.specific_Product_Api(data).then((value) {
+      productdata_Set(value);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());

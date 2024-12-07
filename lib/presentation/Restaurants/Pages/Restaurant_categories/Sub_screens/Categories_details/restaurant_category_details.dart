@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/product_details_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 
 import '../../../../../../Data/components/GeneralException.dart';
@@ -19,17 +20,19 @@ class RestaurantCategoryDetails extends StatelessWidget {
   final add_Product_Wishlist_Controller add_Wishlist_Controller =
       Get.put(add_Product_Wishlist_Controller());
 
+  final specific_Product_Controller specific_product_controllerontroller =
+      Get.put(specific_Product_Controller());
+
   @override
   Widget build(BuildContext context) {
     // var title = Get.arguments ?? "Your Item";
     var args = Get.arguments;
-    String title = args['name'];
+    String categorytitle = args['name'];
     int categoryId = args['id'];
-
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
-          title,
+          categorytitle,
           style: AppFontStyle.text_22_600(
             AppColors.darkText,
           ),
@@ -109,9 +112,25 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 // },
 
                                 onTap: () {
+                                  specific_product_controllerontroller
+                                      .specific_Product_Api(
+                                          product_id: controller
+                                              .categoriesDetailsData
+                                              .value
+                                              .categoryProduct![index]
+                                              .id
+                                              .toString(),
+                                          category_id: categoryId.toString());
                                   Get.to(ProductDetailsScreen(
-                                      image: "assets/images/cat-image${index % 5}.png",
-                                      title: "McMushroom Pizza"));
+                                    product_id: categoryId.toString(),
+                                    category_id: controller
+                                        .categoriesDetailsData
+                                        .value
+                                        .categoryProduct![index]
+                                        .id
+                                        .toString(),
+                                    category_name: categorytitle,
+                                  ));
                                 },
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -242,7 +261,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                       .categoryProduct![index]
                                                       .isLoading
                                                       .value
-                                                  ? circularProgressIndicator(size: 18)
+                                                  ? circularProgressIndicator(
+                                                      size: 18)
                                                   : Icon(
                                                       controller
                                                                   .categoriesDetailsData

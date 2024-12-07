@@ -93,7 +93,7 @@ class LoginController extends GetxController {
             AppRoutes.otp,
             arguments: {
               'type': 'login',
-              'countryCode': '${selectedCountryCode.value.toString()} ',
+              'countryCode': '${selectedCountryCode.value.toString()}',
               'mob': '${mobNoCon.value.text.trim().toString()}',
             },
           );
