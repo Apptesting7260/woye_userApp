@@ -1,0 +1,28 @@
+name: Flutter Test
+
+on:
+  push:
+    branches:
+      - test  # Trigger only for the 'test' branch
+  pull_request:
+    branches:
+      - test  # Trigger on pull request to the 'test' branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3'  # Set the Flutter version to 3.24.3
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Run tests
+      run: flutter test
