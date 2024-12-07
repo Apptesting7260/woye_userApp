@@ -1,0 +1,30 @@
+name: Test Branch CI Pipeline
+
+# This specifies the event that triggers the pipeline
+on:
+  push:
+    branches:
+      - test  # Trigger on push to the test branch
+
+# Define the jobs that will run in this workflow
+jobs:
+  test:
+    # Specify the operating system where tests will run
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Dart (or any other required language) environment
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v1
+
+      # Install dependencies (for Dart project example)
+      - name: Install dependencies
+        run: dart pub get
+
+      # Run tests (for Dart project example)
+      - name: Run tests
+        run: dart test
