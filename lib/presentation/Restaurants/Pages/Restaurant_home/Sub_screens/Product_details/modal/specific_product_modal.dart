@@ -35,139 +35,14 @@ class specificProduct {
   }
 }
 
-// class Product {
-//   int? id;
-//   String? title;
-//   int? userId;
-//   int? categoryId;
-//   String? regularPrice;
-//   String? salePrice;
-//   String? quanInStock;
-//   String? description;
-//   String? discount;
-//   String? cuisineType;
-//   int? rating;
-//   int? productreview_count;
-//   String? image;
-//   String? addimg;
-//   List<AddOn>? addOn;
-//   List<Extra>? extra;
-//   int? status;
-//   String? createdAt;
-//   String? updatedAt;
-//   List<String>? urlAddimg;
-//   String? urlImage;
-//   List<Productreview>? productreview;
-//   bool? isInWishlist;
-//
-//   Product(
-//       {this.id,
-//       this.title,
-//       this.userId,
-//       this.categoryId,
-//       this.regularPrice,
-//       this.salePrice,
-//       this.quanInStock,
-//       this.description,
-//       this.discount,
-//       this.cuisineType,
-//       this.rating,
-//       this.productreview_count,
-//       this.image,
-//       this.addimg,
-//       this.addOn,
-//       this.extra,
-//       this.status,
-//       this.createdAt,
-//       this.updatedAt,
-//       this.urlAddimg,
-//       this.urlImage,
-//       this.productreview,
-//       this.isInWishlist});
-//
-//   Product.fromJson(Map<String, dynamic> json) {
-//     id = json['id'];
-//     title = json['title'];
-//     userId = json['user_id'];
-//     categoryId = json['category_id'];
-//     regularPrice = json['regular_price'];
-//     salePrice = json['sale_price'];
-//     quanInStock = json['quan_in_stock'];
-//     description = json['description'];
-//     discount = json['discount'];
-//     cuisineType = json['cuisine_type'];
-//     rating = json['rating'];
-//     productreview_count = json['productreview_count'];
-//     image = json['image'];
-//     addimg = json['addimg'];
-//     if (json['add_on'] != null) {
-//       addOn = <AddOn>[];
-//       json['add_on'].forEach((v) {
-//         addOn!.add(new AddOn.fromJson(v));
-//       });
-//     }
-//     if (json['extra'] != null) {
-//       extra = <Extra>[];
-//       json['extra'].forEach((v) {
-//         extra!.add(new Extra.fromJson(v));
-//       });
-//     }
-//     status = json['status'];
-//     createdAt = json['created_at'];
-//     updatedAt = json['updated_at'];
-//     urlAddimg = json['url_addimg'].cast<String>();
-//     urlImage = json['url_image'];
-//     if (json['productreview'] != null) {
-//       productreview = <Productreview>[];
-//       json['productreview'].forEach((v) {
-//         productreview!.add(new Productreview.fromJson(v));
-//       });
-//     }
-//     isInWishlist = json['is_in_wishlist'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['id'] = this.id;
-//     data['title'] = this.title;
-//     data['user_id'] = this.userId;
-//     data['category_id'] = this.categoryId;
-//     data['regular_price'] = this.regularPrice;
-//     data['sale_price'] = this.salePrice;
-//     data['quan_in_stock'] = this.quanInStock;
-//     data['description'] = this.description;
-//     data['discount'] = this.discount;
-//     data['cuisine_type'] = this.cuisineType;
-//     data['rating'] = this.rating;
-//     data['productreview_count'] = this.productreview_count;
-//     data['image'] = this.image;
-//     data['addimg'] = this.addimg;
-//     if (this.addOn != null) {
-//       data['add_on'] = this.addOn!.map((v) => v.toJson()).toList();
-//     }
-//     if (this.extra != null) {
-//       data['extra'] = this.extra!.map((v) => v.toJson()).toList();
-//     }
-//     data['status'] = this.status;
-//     data['created_at'] = this.createdAt;
-//     data['updated_at'] = this.updatedAt;
-//     data['url_addimg'] = this.urlAddimg;
-//     data['url_image'] = this.urlImage;
-//     if (this.productreview != null) {
-//       data['productreview'] =
-//           this.productreview!.map((v) => v.toJson()).toList();
-//     }
-//     data['is_in_wishlist'] = this.isInWishlist;
-//     return data;
-//   }
-// }
+
 class Product {
   int? id;
   String? title;
   int? userId;
   int? categoryId;
   String? regularPrice;
-  String? salePrice;
+  int? salePrice;
   String? quanInStock;
   String? description;
   String? discount;
@@ -359,58 +234,7 @@ class Item {
 }
 
 
-// class Productreview {
-//   int? id;
-//   int? userId;
-//   String? username;
-//   int? productId;
-//   int? rating;
-//   String? message;
-//   String? createdAt;
-//   String? updatedAt;
-//   User? user; // New user field
-//
-//   Productreview(
-//       {this.id,
-//       this.userId,
-//       this.username,
-//       this.productId,
-//       this.rating,
-//       this.message,
-//       this.createdAt,
-//       this.updatedAt,
-//       this.user}); // Include user in the constructor
-//
-//   Productreview.fromJson(Map<String, dynamic> json) {
-//     id = json['id'];
-//     userId = json['user_id'];
-//     username = json['username'];
-//     productId = json['product_id'];
-//     rating = json['rating'];
-//     message = json['message'];
-//     createdAt = json['created_at'];
-//     updatedAt = json['updated_at'];
-//     user =
-//         json['user'] != null ? User.fromJson(json['user']) : null; // Parse user
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['id'] = this.id;
-//     data['user_id'] = this.userId;
-//     data['username'] = this.username;
-//     data['product_id'] = this.productId;
-//     data['rating'] = this.rating;
-//     data['message'] = this.message;
-//     data['created_at'] = this.createdAt;
-//     data['updated_at'] = this.updatedAt;
-//     if (this.user != null) {
-//       data['user'] =
-//           this.user!.toJson(); // Convert user to JSON if it's not null
-//     }
-//     return data;
-//   }
-// }
+
 
 class Productreview {
   int? id;
@@ -490,7 +314,7 @@ class MoreProducts {
   int? id;
   String? image;
   int? rating;
-  String? salePrice;
+  int? salePrice;
   String? regularPrice;
   String? title;
   String? addimg;

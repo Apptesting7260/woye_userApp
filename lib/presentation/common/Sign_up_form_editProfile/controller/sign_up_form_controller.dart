@@ -7,10 +7,10 @@ import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:woye_user/Data/userPrefrenceController.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up_form_editProfile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Sign_up_form_editProfile/Model/updateprofile_model.dart';
-
 
 class SignUpFormController extends GetxController {
   @override
@@ -67,29 +67,34 @@ class SignUpFormController extends GetxController {
     setRxRequestStatus(Status.LOADING);
 
     api.getprofileApi().then((value) {
-      setRxRequestStatus(Status.COMPLETED);
       profileSet(value);
 
       if (profileData.value.status == true) {
         userModel.step = profileData.value.step;
         log("get Response Step: ${userModel.step}");
         String countryCodeFromAPI = profileData.value.data?.countryCode ?? "";
+        print("Country code from API: $countryCodeFromAPI");
         if (countryCodeFromAPI.isNotEmpty) {
           String dialCode = countryCodeFromAPI;
           String countryCode = countryCodeFromAPI.substring(1);
-
           selectedCountryCode.value =
               CountryCode(dialCode: dialCode, code: countryCode);
+          print(
+              "Updated selected country code: ${selectedCountryCode.value.code}");
         }
+
         mobileController.text = profileData.value.data?.phone ?? "";
         emailController.text = profileData.value.data?.email ?? "";
         fisrtNameController.text = profileData.value.data?.firstName ?? "";
         formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";
         profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
-
+        update();
+        print(
+            "Updated selected country code: ${selectedCountryCode.value.code}");
         log("get Response phone: ${profileData.value.data?.countryCode}");
         log("get Response phone: ${selectedCountryCode.value}");
+        setRxRequestStatus(Status.COMPLETED);
       }
     }).onError((error, stackError) {
       setError(error.toString());
@@ -196,8 +201,12 @@ class SignUpFormController extends GetxController {
 
       profileImageGetUrl.value = image.value.path;
       print("Path ---> ${image.value.path}");
+      update();
     }
   }
+
+  final RestaurantHomeController restaurantHomeController =
+      Get.put(RestaurantHomeController());
 
   profileupdateApi(String type) async {
     print("Path ---> ${"0"}");
@@ -242,12 +251,9 @@ class SignUpFormController extends GetxController {
 
         log('Profile update success: $profileData');
         upprofileSet(profileData);
-
         if (updateprofileData.value.status == true) {
           if (type == "back") {
-            // userModel.step = updateprofileData.value.step;
-            // log("get Response Step: ${userModel.step}");
-            // pref.saveStep(userModel.step!);
+            restaurantHomeController.homeApi(1);
             SnackBarUtils.showToast("Your profile has been updated.");
             Get.back();
             rxRequestStatus2(Status.COMPLETED);

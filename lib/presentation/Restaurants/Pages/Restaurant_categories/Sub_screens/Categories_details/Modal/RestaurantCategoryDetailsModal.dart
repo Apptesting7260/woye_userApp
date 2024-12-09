@@ -31,7 +31,7 @@ class RestaurantCategoryDetailsModal {
 
 class CategoryProduct {
   int? id;
-  String? salePrice;
+  int? salePrice;
   String? regularPrice;
   String? title;
   bool? isInWishlist;

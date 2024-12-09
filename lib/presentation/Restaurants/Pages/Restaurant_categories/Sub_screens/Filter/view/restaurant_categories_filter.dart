@@ -1,8 +1,16 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/modal/CategoriesFilter_modal.dart';
 
 class RestaurantCategoriesFilter extends StatelessWidget {
   RestaurantCategoriesFilter({super.key});
+
+  final RestaurantCategoriesController controller =
+      Get.put(RestaurantCategoriesController());
 
   final RxMap<String, dynamic> _options = {
     "Veg": true.obs,
@@ -31,65 +39,151 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
-      body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 24.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              brand(),
-              hBox(30),
-              price(),
-              hBox(30),
-              quickFilter(),
-              hBox(30),
-              priceRange(),
-              hBox(30),
-              size(),
-              hBox(30),
-              toppings(),
-              hBox(20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                      child: CustomElevatedButton(
-                          height: 55.h,
-                          text: "Clear",
-                          color: AppColors.black,
-                          onPressed: () {
-                            Get.back();
-                          })),
-                  wBox(10),
-                  Expanded(
-                      child: CustomElevatedButton(
-                          height: 55.h,
-                          text: "Apply",
-                          onPressed: () {
-                            Get.back();
-                          }))
-                ],
-              ),
-              hBox(50)
-            ],
-          ),
-        ),
-      ),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.restaurant_get_CategoriesFilter_Api();
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.restaurant_get_CategoriesFilter_Api();
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+                onRefresh: () async {
+                  controller.restaurant_get_CategoriesFilter_Api();
+                },
+                child: Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 24.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Cuisines(),
+                        hBox(30),
+                        price(),
+                        hBox(30),
+                        quickFilter(),
+                        hBox(30),
+                        priceRange(),
+                        hBox(30),
+                        size(),
+                        hBox(30),
+                        toppings(),
+                        hBox(20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                                child: CustomElevatedButton(
+                                    height: 55.h,
+                                    text: "Clear",
+                                    color: AppColors.black,
+                                    onPressed: () {
+                                      Get.back();
+                                    })),
+                            wBox(10),
+                            Expanded(
+                                child: CustomElevatedButton(
+                                    height: 55.h,
+                                    text: "Apply",
+                                    onPressed: () {
+                                      Get.back();
+                                    }))
+                          ],
+                        ),
+                        hBox(50)
+                      ],
+                    ),
+                  ),
+                ));
+        }
+      }),
     );
   }
 
-  Widget brand() {
+  // Widget Cuisines() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //           "Cuisines",
+  //           style: TextStyle(
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: 18.sp,
+  //               fontFamily: 'Gilroy')),
+  //       ..._options.keys.map((String key) {
+  //         return Obx(
+  //           () => Transform.translate(
+  //             offset: Offset(-10.w, 0),
+  //             child: SizedBox(
+  //               height: 35.h,
+  //               child: CheckboxListTile(
+  //                 title: Transform.translate(
+  //                   offset: Offset(-15.w, 0),
+  //                   child: Text(
+  //                     key,
+  //                     style: TextStyle(
+  //                       fontWeight: FontWeight.w400,
+  //                       fontSize: 18.sp,
+  //                       fontFamily: 'Gilroy-Regular',
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 value: _options[key].value,
+  //                 onChanged: (value) {
+  //                   _options[key].value = value!;
+  //                 },
+  //                 checkboxShape: RoundedRectangleBorder(
+  //                     borderRadius: BorderRadius.circular(5.r),
+  //                     side: BorderSide(width: 1, color: AppColors.darkText)),
+  //                 activeColor: Colors.black,
+  //                 controlAffinity: ListTileControlAffinity.leading,
+  //                 contentPadding: EdgeInsets.zero,
+  //               ),
+  //             ),
+  //           ),
+  //         );
+  //       }),
+  //     ],
+  //   );
+  // }
+  Widget Cuisines() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Brand",
+        // Container(
+        //   height: 500,
+        //   child: GridView.builder(
+        //     itemCount: controller.getFilterData.value.cuisineType?.length,
+        //     scrollDirection: Axis.horizontal,
+        //     gridDelegate:
+        //     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 6),
+        //     itemBuilder: (context, index) {
+        //       return Text(controller.getFilterData.value.cuisineType![index].name
+        //           .toString());
+        //     },
+        //   ),
+        // ),
+        Text("Cuisines",
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.sp,
                 fontFamily: 'Gilroy')),
-        ..._options.keys.map((String key) {
-          return Obx(
-            () => Transform.translate(
+        ...?controller.getFilterData.value.cuisineType
+            ?.map((CuisineType cuisine) {
+          return Obx(() {
+            bool? isChecked = _options[cuisine.name]?.value ?? false;
+            return Transform.translate(
               offset: Offset(-10.w, 0),
               child: SizedBox(
                 height: 35.h,
@@ -97,7 +191,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                   title: Transform.translate(
                     offset: Offset(-15.w, 0),
                     child: Text(
-                      key,
+                      cuisine.name ?? "",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 18.sp,
@@ -105,9 +199,15 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       ),
                     ),
                   ),
-                  value: _options[key].value,
+                  value: isChecked,
                   onChanged: (value) {
-                    _options[key].value = value!;
+                    if (value == true) {
+                      controller.selectedCuisines.add(cuisine.name.toString());
+                    } else {
+                      controller.selectedCuisines
+                          .remove(cuisine.name.toString());
+                    }
+                    controller.update();
                   },
                   checkboxShape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5.r),
@@ -117,8 +217,8 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                 ),
               ),
-            ),
-          );
+            );
+          });
         }),
       ],
     );
@@ -372,7 +472,8 @@ class FilterChipWidget extends StatelessWidget {
             color: isSelect.value ? AppColors.white : AppColors.darkText,
           ),
         ),
-        selected: isSelect.value, // Use isSelect's value
+        selected: isSelect.value,
+        // Use isSelect's value
         onSelected: (isSelected) {
           isSelect.value = isSelected; // Update isSelect's value
         },

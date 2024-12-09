@@ -210,7 +210,7 @@ class MoreProducts {
   int? id;
   String? image;
   int? rating;
-  String? salePrice;
+  int? salePrice;
   String? regularPrice;
   String? title;
   String? addimg;
@@ -275,7 +275,6 @@ class MoreProducts {
     data['url_image'] = this.urlImage;
     data['category_id'] = this.categoryId;
     data['category_name'] = this.categoryName;
-
     return data;
   }
 }

@@ -14,29 +14,29 @@ class HomeModel {
   });
 
   factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
-    status: json["status"],
-    userdata: json["userdata"] == null
-        ? null
-        : Userdata.fromJson(json["userdata"]),
-    category: json["category"] == null
-        ? []
-        : List<Category>.from(
-        json["category"]!.map((x) => Category.fromJson(x))),
-    restaurants: json["restaurants"] == null
-        ? null
-        : RestaurantsData.fromJson(json["restaurants"]),
-    message: json["message"],
-  );
+        status: json["status"],
+        userdata: json["userdata"] == null
+            ? null
+            : Userdata.fromJson(json["userdata"]),
+        category: json["category"] == null
+            ? []
+            : List<Category>.from(
+                json["category"]!.map((x) => Category.fromJson(x))),
+        restaurants: json["restaurants"] == null
+            ? null
+            : RestaurantsData.fromJson(json["restaurants"]),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "status": status,
-    "userdata": userdata?.toJson(),
-    "category": category == null
-        ? []
-        : List<dynamic>.from(category!.map((x) => x.toJson())),
-    "restaurants": restaurants?.toJson(),
-    "message": message,
-  };
+        "status": status,
+        "userdata": userdata?.toJson(),
+        "category": category == null
+            ? []
+            : List<dynamic>.from(category!.map((x) => x.toJson())),
+        "restaurants": restaurants?.toJson(),
+        "message": message,
+      };
 }
 
 class Category {
@@ -53,18 +53,18 @@ class Category {
   });
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
-    id: json["id"],
-    name: json["name"],
-    image: json["image"],
-    imageUrl: json["image_url"],
-  );
+        id: json["id"],
+        name: json["name"],
+        image: json["image"],
+        imageUrl: json["image_url"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "image": image,
-    "image_url": imageUrl,
-  };
+        "id": id,
+        "name": name,
+        "image": image,
+        "image_url": imageUrl,
+      };
 }
 
 class Restaurant {
@@ -89,26 +89,26 @@ class Restaurant {
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
-    id: json["id"],
-    rating: json["rating"].toString(),
-    avgPrice: json["avg_price"]?.toString() ?? "",
-    shopName: json["shop_name"].toString(),
-    shopDes: json["shop_des"].toString(),
-    currentStatus: json["current_status"],
-    shopImageUrl: json["shopimage"],
-    isInWishlist: json["is_in_wishlist"],
-  );
+        id: json["id"],
+        rating: json["rating"].toString(),
+        avgPrice: json["avg_price"]?.toString() ?? "",
+        shopName: json["shop_name"].toString(),
+        shopDes: json["shop_des"].toString(),
+        currentStatus: json["current_status"],
+        shopImageUrl: json["shopimage"],
+        isInWishlist: json["is_in_wishlist"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "rating": rating,
-    "avg_price": avgPrice,
-    "shop_name": shopName,
-    "shop_des": shopDes,
-    "current_status": currentStatus,
-    "shopimage": shopImageUrl,
-    "is_in_wishlist": isInWishlist,
-  };
+        "id": id,
+        "rating": rating,
+        "avg_price": avgPrice,
+        "shop_name": shopName,
+        "shop_des": shopDes,
+        "current_status": currentStatus,
+        "shopimage": shopImageUrl,
+        "is_in_wishlist": isInWishlist,
+      };
 }
 
 class RestaurantsData {
@@ -118,6 +118,7 @@ class RestaurantsData {
   int? from;
   int? lastPage;
   String? lastPageUrl;
+
   // List<Link>? links;
   String? nextPageUrl;
   String? path;
@@ -148,7 +149,7 @@ class RestaurantsData {
         data: json["data"] == null
             ? []
             : List<Restaurant>.from(
-            json["data"]!.map((x) => Restaurant.fromJson(x))),
+                json["data"]!.map((x) => Restaurant.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -165,24 +166,24 @@ class RestaurantsData {
       );
 
   Map<String, dynamic> toJson() => {
-    "current_page": currentPage,
-    "data": data == null
-        ? []
-        : List<dynamic>.from(data!.map((x) => x.toJson())),
-    "first_page_url": firstPageUrl,
-    "from": from,
-    "last_page": lastPage,
-    "last_page_url": lastPageUrl,
-    // "links": links == null
-    //     ? []
-    //     : List<dynamic>.from(links!.map((x) => x.toJson())),
-    "next_page_url": nextPageUrl,
-    "path": path,
-    "per_page": perPage,
-    "prev_page_url": prevPageUrl,
-    "to": to,
-    "total": total,
-  };
+        "current_page": currentPage,
+        "data": data == null
+            ? []
+            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "first_page_url": firstPageUrl,
+        "from": from,
+        "last_page": lastPage,
+        "last_page_url": lastPageUrl,
+        // "links": links == null
+        //     ? []
+        //     : List<dynamic>.from(links!.map((x) => x.toJson())),
+        "next_page_url": nextPageUrl,
+        "path": path,
+        "per_page": perPage,
+        "prev_page_url": prevPageUrl,
+        "to": to,
+        "total": total,
+      };
 }
 
 class Userdata {
@@ -191,6 +192,8 @@ class Userdata {
   String? phone;
   String? fcmToken;
   String? image;
+  String? email;
+  String? type;
 
   Userdata({
     this.id,
@@ -198,47 +201,27 @@ class Userdata {
     this.phone,
     this.fcmToken,
     this.image,
+    this.email,
+    this.type,
   });
 
   factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
-    id: json["id"].toString(),
-    firstName: json["first_name"].toString(),
-    phone: json["phone"].toString(),
-    fcmToken: json["fcm_token"].toString(),
-    image: json["image_url"].toString(),
-  );
+        id: json["id"].toString(),
+        firstName: json["first_name"].toString(),
+        phone: json["phone"].toString(),
+        fcmToken: json["fcm_token"].toString(),
+        image: json["image_url"].toString(),
+        email: json["email"].toString(),
+        type: json["user_type"].toString(),
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "first_name": firstName,
-    "phone": phone,
-    "fcm_token": fcmToken,
-    "image_url": image,
-  };
+        "id": id,
+        "first_name": firstName,
+        "phone": phone,
+        "fcm_token": fcmToken,
+        "image_url": image,
+        "email": email,
+        "user_type": type,
+      };
 }
-
-// class Link {
-//   String? url;
-//   String? label;
-//   bool? active;
-//
-//   Link({
-//     this.url,
-//     this.label,
-//     this.active,
-//   });
-//
-//   factory Link.fromJson(Map<String, dynamic> json) => Link(
-//     url: json["url"],
-//     label: json["label"],
-//     active: json["active"],
-//   );
-//
-//   Map<String, dynamic> toJson() => {
-//     "url": url,
-//     "label": label,
-//     "active": active,
-//   };
-// }
-
-

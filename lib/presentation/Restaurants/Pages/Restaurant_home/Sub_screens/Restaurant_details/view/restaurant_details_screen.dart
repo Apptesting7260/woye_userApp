@@ -36,18 +36,18 @@ class RestaurantDetailsScreen extends StatelessWidget {
                 size: 24.w,
               ),
             ),
-            wBox(8),
-            Container(
-                padding: REdgeInsets.all(9),
-                height: 44.h,
-                width: 44.h,
-                decoration: BoxDecoration(
-                    color: AppColors.greyBackground,
-                    borderRadius: BorderRadius.circular(12.r)),
-                child: Icon(
-                  Icons.favorite_outline_sharp,
-                  size: 24.w,
-                )),
+            // wBox(8),
+            // Container(
+            //     padding: REdgeInsets.all(9),
+            //     height: 44.h,
+            //     width: 44.h,
+            //     decoration: BoxDecoration(
+            //         color: AppColors.greyBackground,
+            //         borderRadius: BorderRadius.circular(12.r)),
+            //     child: Icon(
+            //       Icons.favorite_outline_sharp,
+            //       size: 24.w,
+            //     )),
             wBox(8),
             Container(
               padding: REdgeInsets.all(9),
@@ -97,7 +97,9 @@ class RestaurantDetailsScreen extends StatelessWidget {
                           hBox(30),
                           description(),
                           hBox(30),
-                          moreProducts(context),
+                          if (controller.restaurant_Data.value.moreProducts !=
+                              null)
+                            moreProducts(context),
                           hBox(30),
                         ],
                       ),
@@ -128,6 +130,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
         Text(
           controller.restaurant_Data.value.restaurant!.shopName.toString(),
           style: AppFontStyle.text_24_400(AppColors.darkText),
+          maxLines: 2,
         ),
         hBox(15),
         Row(
@@ -155,7 +158,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "${controller.restaurant_Data.value.restaurant!.rating}",
+              "${controller.restaurant_Data.value.restaurant!.rating}/5",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],
@@ -165,14 +168,16 @@ class RestaurantDetailsScreen extends StatelessWidget {
           children: [
             const Icon(Icons.person_outline_rounded),
             wBox(8),
-            Text(
-              controller.restaurant_Data.value.restaurant!.name.toString(),
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w400,
-                  decoration: TextDecoration.underline,
-                  decorationColor: AppColors.primary),
+            Flexible(
+              child: Text(
+                controller.restaurant_Data.value.restaurant!.name.toString(),
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.underline,
+                    decorationColor: AppColors.primary),
+              ),
             )
           ],
         ),
@@ -181,10 +186,12 @@ class RestaurantDetailsScreen extends StatelessWidget {
           children: [
             const Icon(Icons.mail_outline_rounded),
             wBox(8),
-            Text(
-              controller.restaurant_Data.value.restaurant!.email.toString(),
-              overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_14_400(AppColors.darkText),
+            Flexible(
+              child: Text(
+                controller.restaurant_Data.value.restaurant!.email.toString(),
+                overflow: TextOverflow.ellipsis,
+                style: AppFontStyle.text_14_400(AppColors.darkText),
+              ),
             )
           ],
         ),
@@ -193,12 +200,15 @@ class RestaurantDetailsScreen extends StatelessWidget {
           children: [
             const Icon(Icons.location_on_outlined),
             wBox(8),
-            Text(
-              controller.restaurant_Data.value.restaurant!.shopAddress
-                  .toString(),
-              overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_14_400(
-                AppColors.darkText,
+            Flexible(
+              child: Text(
+                controller.restaurant_Data.value.restaurant!.shopAddress
+                    .toString(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: AppFontStyle.text_14_400(
+                  AppColors.darkText,
+                ),
               ),
             )
           ],

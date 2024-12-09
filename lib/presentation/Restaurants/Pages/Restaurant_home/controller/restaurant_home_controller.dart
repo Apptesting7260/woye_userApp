@@ -13,9 +13,6 @@ class RestaurantHomeController extends GetxController {
     super.onInit();
   }
 
-  // int currentPage = 1;
-  // bool isLoading = false;
-
   RxInt currentPage = 1.obs;
   RxBool noLoading = false.obs;
   RxBool isLoading = false.obs;

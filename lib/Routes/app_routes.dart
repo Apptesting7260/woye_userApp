@@ -3,7 +3,6 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
@@ -32,6 +31,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
@@ -216,9 +216,9 @@ class AppRoutes {
         name: deliveryAddressScreen, page: () => const DeliveryAddressScreen()),
     GetPage(
         name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
-    GetPage(
-        name: restaurantCategoriesFilter,
-        page: () => RestaurantCategoriesFilter()),
+    // GetPage(
+    //     name: restaurantCategoriesFilter,
+    //     page: () => RestaurantCategoriesFilter()),
     GetPage(
         name: restaurantCategoriesFilter,
         page: () => RestaurantCategoriesFilter()),

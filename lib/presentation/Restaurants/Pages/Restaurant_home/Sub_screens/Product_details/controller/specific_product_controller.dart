@@ -4,6 +4,12 @@ import 'package:intl/intl.dart';
 
 class specific_Product_Controller extends GetxController {
   final api = Repository();
+
+  RxString selectedImageUrl = ''.obs;
+  RxInt isSelected = (-1).obs;
+  RxBool isLoading = false.obs;
+  var pageController = PageController();
+
   final rxRequestStatus = Status.COMPLETED.obs;
   final product_Data = specificProduct().obs;
 
@@ -26,6 +32,7 @@ class specific_Product_Controller extends GetxController {
     };
 
     api.specific_Product_Api(data).then((value) {
+      isSelected = (-1).obs;
       productdata_Set(value);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {

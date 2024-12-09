@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
 
@@ -13,6 +16,9 @@ class ProfileScreen extends StatelessWidget {
 
   static final ProfileController restaurantProfileController =
       Get.put(ProfileController());
+
+  final RestaurantHomeController restaurantHomeController =
+      Get.put(RestaurantHomeController());
 
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
@@ -74,38 +80,70 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.center,
-            child: Container(
-                width: 80.h,
-                height: 80.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100.r),
-                ),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100.r),
-                    child: CircleAvatar(
-                        backgroundColor:
-                            AppColors.greyBackground.withOpacity(0.5),
-                        child: Icon(
-                          Icons.person,
-                          size: 40.h,
-                          color: AppColors.lightText.withOpacity(0.5),
-                        )))),
+            child: restaurantHomeController.homeData.value.userdata?.image
+                        .toString() !=
+                    null
+                ? Container(
+                    width: 80.h,
+                    height: 80.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100.r),
+                    ),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100.r),
+                        child: CachedNetworkImage(
+                          imageUrl: restaurantHomeController
+                              .homeData.value.userdata!.image
+                              .toString(),
+                          placeholder: (context, url) =>
+                              circularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.person,
+                            size: 40.h,
+                            color: AppColors.lightText.withOpacity(0.5),
+                          ),
+                          fit: BoxFit.cover,
+                        )))
+                : Container(
+                    width: 80.h,
+                    height: 80.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100.r),
+                    ),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100.r),
+                        child: CircleAvatar(
+                            backgroundColor:
+                                AppColors.greyBackground.withOpacity(0.5),
+                            child: Icon(
+                              Icons.person,
+                              size: 40.h,
+                              color: AppColors.lightText.withOpacity(0.5),
+                            )))),
           ),
           wBox(15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Jone Deo',
-                style: AppFontStyle.text_18_600(AppColors.darkText),
-              ),
-              hBox(10),
-              Text(
-                'yourname@gmail.com',
-                style: AppFontStyle.text_14_400(AppColors.darkText),
-              ),
-            ],
-          ),
+          restaurantHomeController.homeData.value.userdata?.type != "guestUser"
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      restaurantHomeController
+                              .homeData.value.userdata?.firstName ??
+                          "",
+                      style: AppFontStyle.text_18_600(AppColors.darkText),
+                    ),
+                    hBox(10),
+                    Text(
+                      restaurantHomeController.homeData.value.userdata?.email ??
+                          "",
+                      style: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
+                  ],
+                )
+              : Text(
+                  "guest User".toUpperCase(),
+                  style: AppFontStyle.text_14_800(AppColors.darkText),
+                ),
         ],
       ),
     );
@@ -122,13 +160,17 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(
-          AppRoutes.signUpFom,
-          arguments: {
-            'typefrom': "back",
-          },
-        );
-        // Get.toNamed(AppRoutes.editProfile);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(
+            AppRoutes.signUpFom,
+            arguments: {
+              'typefrom': "back",
+            },
+          );
+        }
       },
     );
   }
@@ -144,7 +186,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.orders);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.orders);
+        }
       },
     );
   }
@@ -160,7 +207,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.deliveryAddressScreen);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.deliveryAddressScreen);
+        }
       },
     );
   }
@@ -176,8 +228,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        // Navigate to payment method
-        Get.toNamed(AppRoutes.paymentMethod);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.paymentMethod);
+        }
       },
     );
   }
@@ -193,7 +249,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.myWallet);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.myWallet);
+        }
       },
     );
   }
@@ -209,7 +270,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.promoCode);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.promoCode);
+        }
       },
     );
   }
@@ -225,7 +291,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.inviteFriends);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.inviteFriends);
+        }
       },
     );
   }
@@ -241,7 +312,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.settings);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.settings);
+        }
       },
     );
   }
@@ -257,7 +333,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        Get.toNamed(AppRoutes.help);
+        if (restaurantHomeController.homeData.value.userdata?.type ==
+            "guestUser") {
+          showLoginPopup();
+        } else {
+          Get.toNamed(AppRoutes.help);
+        }
       },
     );
   }
@@ -336,5 +417,28 @@ class ProfileScreen extends StatelessWidget {
             ),
           );
         });
+  }
+
+  void showLoginPopup() {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Login Required'),
+        content: const Text('You need to log in first'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.offAllNamed(AppRoutes.welcomeScreen);
+            },
+            child: const Text('Login'),
+          ),
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
   }
 }

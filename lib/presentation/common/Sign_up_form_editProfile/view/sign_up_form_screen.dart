@@ -125,7 +125,7 @@ class SignUpFormScreen extends StatelessWidget {
                 },
                 // initialSelection: "IN"
                 initialSelection:
-                    signUpFormController.selectedCountryCode.value.code,
+                    signUpFormController.selectedCountryCode.value.dialCode,
               ),
               hintText: "Phone Number",
               textInputType: TextInputType.phone,

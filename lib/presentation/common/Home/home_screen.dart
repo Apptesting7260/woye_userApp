@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                                 circularProgressIndicator(),
                             errorWidget: (context, url, error) => Icon(
                               Icons.person,
-                              size: 60.h,
+                              size: 40.h,
                               color: AppColors.lightText.withOpacity(0.5),
                             ),
                             fit: BoxFit.cover,

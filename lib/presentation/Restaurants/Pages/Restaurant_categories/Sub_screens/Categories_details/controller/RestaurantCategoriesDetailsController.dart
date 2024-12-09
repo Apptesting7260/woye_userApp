@@ -29,9 +29,7 @@ class RestaurantCategoriesDetailsController extends GetxController {
     required String id,
   }) async {
     setRxRequestStatus(Status.LOADING);
-    UserModel userModel = UserModel();
-    var pref = UserPreference();
-    userModel = await pref.getUser();
+
     Map data = {"category_id": id};
 
     api.Restaurant_Category_Details_Api(data)
