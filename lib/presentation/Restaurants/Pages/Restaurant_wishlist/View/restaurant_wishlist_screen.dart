@@ -4,6 +4,8 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
@@ -30,6 +32,9 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
 
   final add_Product_Wishlist_Controller add_Wishlist_Controller =
       Get.put(add_Product_Wishlist_Controller());
+
+  final specific_Product_Controller specific_product_controller =
+      Get.put(specific_Product_Controller());
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +120,26 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                 .categoryProduct?.length, (context, index) {
                           return GestureDetector(
                               onTap: () {
-                                // Get.to(ProductDetailsScreen(
-                                //     image: controller.categoriesDetailsData
-                                //         .value.categoryProduct![index].image
-                                //         .toString(),
-                                //     title: controller.categoriesDetailsData
-                                //         .value.categoryProduct![index].title
-                                //         .toString()));
+                                Get.to(ProductDetailsScreen(
+                                  product_id: controller.wishlistData.value
+                                      .categoryProduct![index].id
+                                      .toString(),
+                                  category_id: controller.wishlistData.value
+                                      .categoryProduct![index].categoryId
+                                      .toString(),
+                                  category_name: controller.wishlistData.value
+                                      .categoryProduct![index].categoryName
+                                      .toString(),
+                                ));
+                                specific_product_controller
+                                    .specific_Product_Api(
+                                  product_id: controller.wishlistData.value
+                                      .categoryProduct![index].id
+                                      .toString(),
+                                  category_id: controller.wishlistData.value
+                                      .categoryProduct![index].categoryId
+                                      .toString(),
+                                );
                               },
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

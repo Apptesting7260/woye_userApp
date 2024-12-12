@@ -4,6 +4,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
@@ -26,6 +27,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
   final specific_Product_Controller controller =
       Get.put(specific_Product_Controller());
+
+  final seeAll_Product_Controller seeallproductcontroller =
+      Get.put(seeAll_Product_Controller());
 
   @override
   Widget build(BuildContext context) {
@@ -78,18 +82,18 @@ class ProductDetailsScreen extends StatelessWidget {
               ),
             );
           }),
-          wBox(8),
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: SvgPicture.asset(
-              ImageConstants.notification,
-            ),
-          ),
+          // wBox(8),
+          // Container(
+          //   padding: REdgeInsets.all(9),
+          //   height: 44.h,
+          //   width: 44.h,
+          //   decoration: BoxDecoration(
+          //       color: AppColors.greyBackground,
+          //       borderRadius: BorderRadius.circular(12.r)),
+          //   child: SvgPicture.asset(
+          //     ImageConstants.notification,
+          //   ),
+          // ),
         ],
       ),
       body: Obx(() {
@@ -151,10 +155,18 @@ class ProductDetailsScreen extends StatelessWidget {
                       productReviews(),
                       hBox(8),
                       const Divider(),
-                      hBox(30),
-                      reviews(),
-                      hBox(30),
-                      moreProducts(),
+                      if (controller.product_Data.value.product!.productreview!
+                          .isNotEmpty)
+                        hBox(30),
+                      if (controller.product_Data.value.product!.productreview!
+                          .isNotEmpty)
+                        reviews(),
+                      if (controller
+                          .product_Data.value.moreProducts!.isNotEmpty)
+                        hBox(30),
+                      if (controller
+                          .product_Data.value.moreProducts!.isNotEmpty)
+                        moreProducts(),
                       hBox(20),
                     ],
                   ),
@@ -194,169 +206,61 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
-        hBox(10),
-        SizedBox(
-          height: 100.h,
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemCount:
-                controller.product_Data.value.product?.urlAddimg!.length ?? 0,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              return Obx(
-                () => GestureDetector(
-                  onTap: () {
-                    controller.isSelected.value = index;
+        if (controller.product_Data.value.product!.urlAddimg!.isNotEmpty)
+          hBox(10),
+        if (controller.product_Data.value.product!.urlAddimg!.isNotEmpty)
+          SizedBox(
+            height: 75.h,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount:
+                  controller.product_Data.value.product?.urlAddimg!.length ?? 0,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Obx(
+                  () => GestureDetector(
+                    onTap: () {
+                      controller.isSelected.value = index;
 
-                    controller.selectedImageUrl.value = controller
-                        .product_Data.value.product!.urlAddimg![index];
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: controller.isSelected.value == index
-                          ? Border.all(color: AppColors.primary, width: 2)
-                          : null,
-                      borderRadius: BorderRadius.circular(18.r),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15.r),
-                      child: CachedNetworkImage(
-                        imageUrl: controller
-                            .product_Data.value.product!.urlAddimg![index],
-                        fit: BoxFit.cover,
-                        height: 90.h,
-                        width: 100.h,
-                        errorWidget: (context, url, error) =>
-                            const Center(child: Icon(Icons.error)),
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: AppColors.gray,
-                          highlightColor: AppColors.lightText,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.gray,
-                              borderRadius: BorderRadius.circular(18.r),
+                      controller.selectedImageUrl.value = controller
+                          .product_Data.value.product!.urlAddimg![index];
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: controller.isSelected.value == index
+                            ? Border.all(color: AppColors.primary, width: 2)
+                            : null,
+                        borderRadius: BorderRadius.circular(18.r),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.r),
+                        child: CachedNetworkImage(
+                          imageUrl: controller
+                              .product_Data.value.product!.urlAddimg![index],
+                          fit: BoxFit.cover,
+                          width: 75.h,
+                          // height: 10.h,
+                          errorWidget: (context, url, error) =>
+                              const Center(child: Icon(Icons.error)),
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: AppColors.gray,
+                            highlightColor: AppColors.lightText,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.gray,
+                                borderRadius: BorderRadius.circular(18.r),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            },
-            separatorBuilder: (context, itemIndex) => wBox(10.w),
+                );
+              },
+              separatorBuilder: (context, itemIndex) => wBox(10.w),
+            ),
           ),
-        ),
-
-        // Obx(
-        //   () => Column(
-        //     children: [
-        //       // PageView to allow sliding between images
-        //       SizedBox(
-        //         height: 340.h,
-        //         child: PageView.builder(
-        //           controller: controller.pageController,
-        //           // Optional: For programmatic control
-        //           itemCount: controller
-        //                   .product_Data.value.product?.urlAddimg?.length ??
-        //               0,
-        //           onPageChanged: (index) {
-        //             // Update selected image URL when sliding
-        //             controller.selectedImageUrl.value = controller
-        //                 .product_Data.value.product!.urlAddimg![index];
-        //           },
-        //           itemBuilder: (context, index) {
-        //             String imageUrl = controller
-        //                 .product_Data.value.product!.urlAddimg![index];
-        //             return ClipRRect(
-        //               borderRadius: BorderRadius.circular(20.r),
-        //               child: CachedNetworkImage(
-        //                 imageUrl: imageUrl,
-        //                 fit: BoxFit.cover,
-        //                 height: 340.h,
-        //                 errorWidget: (context, url, error) =>
-        //                     const Center(child: Icon(Icons.error)),
-        //                 placeholder: (context, url) => Shimmer.fromColors(
-        //                   baseColor: AppColors.gray,
-        //                   highlightColor: AppColors.lightText,
-        //                   child: Container(
-        //                     decoration: BoxDecoration(
-        //                       color: AppColors.gray,
-        //                       borderRadius: BorderRadius.circular(20.r),
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ),
-        //             );
-        //           },
-        //         ),
-        //       ),
-        //
-        //       hBox(10),
-        //
-        //       // Image thumbnails for selection
-        //       SizedBox(
-        //         height: 100.h,
-        //         child: ListView.separated(
-        //           shrinkWrap: true,
-        //           itemCount: controller
-        //                   .product_Data.value.product?.urlAddimg?.length ??
-        //               0,
-        //           scrollDirection: Axis.horizontal,
-        //           itemBuilder: (context, index) {
-        //             bool isSelected = controller.selectedImageUrl.value ==
-        //                 controller
-        //                     .product_Data.value.product!.urlAddimg![index];
-        //
-        //             return GestureDetector(
-        //               onTap: () {
-        //                 // Update selected image URL and move the PageView to the selected image
-        //                 controller.selectedImageUrl.value = controller
-        //                     .product_Data.value.product!.urlAddimg![index];
-        //                 controller.pageController.jumpToPage(
-        //                     index); // Move the PageView to the selected image
-        //               },
-        //               child: Container(
-        //                 decoration: BoxDecoration(
-        //                   border: isSelected
-        //                       ? Border.all(
-        //                           color: AppColors.primary,
-        //                           width: 2) // Change border color when selected
-        //                       : null,
-        //                   borderRadius: BorderRadius.circular(18.r),
-        //                 ),
-        //                 child: ClipRRect(
-        //                   borderRadius: BorderRadius.circular(15.r),
-        //                   child: CachedNetworkImage(
-        //                     imageUrl: controller
-        //                         .product_Data.value.product!.urlAddimg![index],
-        //                     fit: BoxFit.cover,
-        //                     height: 90.h,
-        //                     width: 100.h,
-        //                     errorWidget: (context, url, error) =>
-        //                         const Center(child: Icon(Icons.error)),
-        //                     placeholder: (context, url) => Shimmer.fromColors(
-        //                       baseColor: AppColors.gray,
-        //                       highlightColor: AppColors.lightText,
-        //                       child: Container(
-        //                         decoration: BoxDecoration(
-        //                           color: AppColors.gray,
-        //                           borderRadius: BorderRadius.circular(20.r),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ),
-        //             );
-        //           },
-        //           separatorBuilder: (context, itemIndex) => wBox(10.w),
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-
         hBox(10),
         Text(
           category_name,
@@ -473,21 +377,21 @@ class ProductDetailsScreen extends StatelessWidget {
               extra.title.toString(),
               style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
-            hBox(5),
+            hBox(1.h),
             Row(
               children: [
                 Text(
                   "Required",
-                  style: AppFontStyle.text_16_300(AppColors.lightText),
+                  style: AppFontStyle.text_12_200(AppColors.lightText),
                 ),
                 Text(
                   "•",
-                  style: AppFontStyle.text_16_300(AppColors.lightText),
+                  style: AppFontStyle.text_12_200(AppColors.lightText),
                 ),
                 wBox(4),
                 Text(
                   "Select any 1 option",
-                  style: AppFontStyle.text_16_300(AppColors.lightText),
+                  style: AppFontStyle.text_12_200(AppColors.lightText),
                 ),
               ],
             ),
@@ -510,7 +414,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   priceValue: item.price.toString(),
                 );
               },
-              separatorBuilder: (context, itemIndex) => hBox(8),
+              separatorBuilder: (context, itemIndex) => hBox(10.h),
             ),
           ],
         );
@@ -759,7 +663,9 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ],
         ),
-        hBox(10),
+        if (controller.product_Data.value.product!.productreview_count != 0)
+          hBox(10),
+        // if(controller.product_Data.value.product!.productreview_count != 0)
         InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -770,7 +676,7 @@ class ProductDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "See All (20)",
+                "See All (${controller.product_Data.value.product!.productreview_count.toString()})",
                 style: AppFontStyle.text_14_600(AppColors.primary),
               ),
               Icon(
@@ -797,7 +703,12 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                Get.toNamed(AppRoutes.moreProducts);
+                seeallproductcontroller.seeAll_Product_Api(
+                    restaurant_id: '', category_id: category_id.toString());
+                Get.toNamed(AppRoutes.moreProducts, arguments: {
+                  'restaurant_id': '',
+                  'category_id': category_id.toString()
+                });
               },
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,

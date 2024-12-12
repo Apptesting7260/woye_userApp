@@ -36,8 +36,9 @@ class CategoryProduct {
   String? title;
   int? userId;
   int? categoryId;
+  String? categoryName;
   String? regularPrice;
-  String? salePrice;
+  int? salePrice;
   String? description;
   String? discount;
   int? rating;
@@ -46,25 +47,28 @@ class CategoryProduct {
   String? urlImage;
   Rx<bool> isLoading = false.obs;
 
-  CategoryProduct(
-      {this.id,
-        this.title,
-        this.userId,
-        this.categoryId,
-        this.regularPrice,
-        this.salePrice,
-        this.description,
-        this.discount,
-        this.rating,
-        this.image,
-        this.isInWishlist,
-        this.urlImage});
+  CategoryProduct({
+    this.id,
+    this.title,
+    this.userId,
+    this.categoryId,
+    this.categoryName,
+    this.regularPrice,
+    this.salePrice,
+    this.description,
+    this.discount,
+    this.rating,
+    this.image,
+    this.isInWishlist,
+    this.urlImage,
+  });
 
   CategoryProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     userId = json['user_id'];
     categoryId = json['category_id'];
+    categoryName = json['category_name'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
     description = json['description'];
@@ -76,11 +80,12 @@ class CategoryProduct {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
     data['title'] = this.title;
     data['user_id'] = this.userId;
     data['category_id'] = this.categoryId;
+    data['category_name'] = this.categoryName;
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
     data['description'] = this.description;
@@ -92,6 +97,3 @@ class CategoryProduct {
     return data;
   }
 }
-
-
-

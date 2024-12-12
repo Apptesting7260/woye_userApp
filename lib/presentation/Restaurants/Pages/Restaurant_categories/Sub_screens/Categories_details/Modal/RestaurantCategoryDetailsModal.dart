@@ -3,9 +3,11 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 class RestaurantCategoryDetailsModal {
   bool? status;
   List<CategoryProduct>? categoryProduct;
+  List<CategoryProduct>? filterProduct;
   String? message;
 
-  RestaurantCategoryDetailsModal({this.status, this.categoryProduct, this.message});
+  RestaurantCategoryDetailsModal(
+      {this.status, this.categoryProduct, this.message});
 
   RestaurantCategoryDetailsModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -15,6 +17,12 @@ class RestaurantCategoryDetailsModal {
         categoryProduct!.add(CategoryProduct.fromJson(v));
       });
     }
+    if (json['filterProduct'] != null) {
+      filterProduct = <CategoryProduct>[];
+      json['filterProduct'].forEach((v) {
+        filterProduct!.add(CategoryProduct.fromJson(v));
+      });
+    }
     message = json['message'];
   }
 
@@ -22,7 +30,12 @@ class RestaurantCategoryDetailsModal {
     final Map<String, dynamic> data = {};
     data['status'] = this.status;
     if (this.categoryProduct != null) {
-      data['categoryProduct'] = this.categoryProduct!.map((v) => v.toJson()).toList();
+      data['categoryProduct'] =
+          this.categoryProduct!.map((v) => v.toJson()).toList();
+    }
+    if (this.filterProduct != null) {
+      data['filterProduct'] =
+          this.filterProduct!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     return data;
@@ -75,4 +88,3 @@ class CategoryProduct {
     return data;
   }
 }
-

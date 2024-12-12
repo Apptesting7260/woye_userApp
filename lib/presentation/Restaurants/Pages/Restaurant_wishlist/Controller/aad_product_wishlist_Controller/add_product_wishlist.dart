@@ -36,10 +36,7 @@ class add_Product_Wishlist_Controller extends GetxController {
       setRxRequestStatus(Status.COMPLETED);
       if (add_Wishlist.value.status == true) {
         if (categoryId == "") {
-          restaurantWishlistController.restaurant_product_wishlist_api1();
-        } else {
-          restaurantCategoriesDetailsController
-              .restaurant_Categories_Details_Api2(id: categoryId.toString());
+          restaurantWishlistController.restaurant_product_wishlist_api();
         }
       }
     }).onError((error, stackError) {

@@ -346,6 +346,7 @@ class SignUpFormScreen extends StatelessWidget {
   void checkValid() {
     SignUpFormScreen.controller.isValid =
         SignUpFormScreen.controller.formSignUpKey.currentState!.validate();
+    print("Path ---> ${controller.profileImageGetUrl.value}");
 
     if (SignUpFormScreen.controller.isValid) {
       if (SignUpFormScreen.controller.formattedCurrentDate.value.isEmpty) {
@@ -354,11 +355,12 @@ class SignUpFormScreen extends StatelessWidget {
       } else if (SignUpFormScreen.controller.genderController.text.isEmpty) {
         SnackBarUtils.showToast("Please choose your gender");
         SignUpFormScreen.controller.isValid = false;
-      } else if (controller.profileImageFromAPI.value.isEmpty &&
-          controller.profileImageGetUrl.value.isEmpty) {
-        SnackBarUtils.showToast("Please choose your profile image");
-        SignUpFormScreen.controller.isValid = false;
       }
+      // else if (controller.profileImageFromAPI.value.isEmpty &&
+      //     controller.profileImageGetUrl.value.isEmpty) {
+      //   SnackBarUtils.showToast("Please choose your profile image");
+      //   SignUpFormScreen.controller.isValid = false;
+      // }
     }
   }
 

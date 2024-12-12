@@ -50,7 +50,6 @@ class Product {
   double? rating;  // Changed to double
   int? productreview_count;
   String? image;
-  String? addimg;
   List<AddOn>? addOn;
   List<Extra>? extra;
   int? status;
@@ -75,7 +74,6 @@ class Product {
         this.rating,  // Changed to double
         this.productreview_count,
         this.image,
-        this.addimg,
         this.addOn,
         this.extra,
         this.status,
@@ -100,7 +98,6 @@ class Product {
     rating = json['rating']?.toDouble();  // Changed to double
     productreview_count = json['productreview_count'];
     image = json['image'];
-    addimg = json['addimg'];
     if (json['add_on'] != null) {
       addOn = <AddOn>[];
       json['add_on'].forEach((v) {
@@ -142,7 +139,6 @@ class Product {
     data['rating'] = rating;  // Rating is now double
     data['productreview_count'] = productreview_count;
     data['image'] = image;
-    data['addimg'] = addimg;
     if (addOn != null) {
       data['add_on'] = addOn!.map((v) => v.toJson()).toList();
     }
@@ -317,7 +313,6 @@ class MoreProducts {
   int? salePrice;
   String? regularPrice;
   String? title;
-  String? addimg;
   int? userId;
   bool? isInWishlist;
   String? restoName;
@@ -332,7 +327,6 @@ class MoreProducts {
       this.salePrice,
       this.regularPrice,
       this.title,
-      this.addimg,
       this.userId,
       this.isInWishlist,
       this.restoName,
@@ -346,11 +340,10 @@ class MoreProducts {
     salePrice = json['sale_price'];
     regularPrice = json['regular_price'];
     title = json['title'];
-    addimg = json['addimg'];
     userId = json['user_id'];
     isInWishlist = json['is_in_wishlist'];
     restoName = json['resto_name'];
-    urlAddimg = json['url_addimg'].cast<String>();
+    urlAddimg = List<String>.from(json['url_addimg'] ?? []);
     urlImage = json['url_image'];
   }
 
@@ -362,7 +355,6 @@ class MoreProducts {
     data['sale_price'] = this.salePrice;
     data['regular_price'] = this.regularPrice;
     data['title'] = this.title;
-    data['addimg'] = this.addimg;
     data['user_id'] = this.userId;
     data['is_in_wishlist'] = this.isInWishlist;
     data['resto_name'] = this.restoName;

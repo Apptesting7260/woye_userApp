@@ -115,7 +115,6 @@ class OtpController extends GetxController {
       "fcm_token": tokenFcm,
       "country_code": countryCode,
     };
-    
     setRxRequestStatus(Status.LOADING);
 
     api.registerApi(data,).then((value) {
@@ -140,6 +139,7 @@ class OtpController extends GetxController {
         });
       }else{
         SnackBarUtils.showToast('The number is already registered.');
+        setRxRequestStatus(Status.COMPLETED);
       }
 
     }).onError((error, stackError) {
@@ -147,7 +147,7 @@ class OtpController extends GetxController {
       print('errrrrrrrrrrrr');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
-      setRxRequestStatus(Status.ERROR);
+      setRxRequestStatus(Status.COMPLETED);
     });
   }
 
@@ -189,6 +189,7 @@ class OtpController extends GetxController {
             })
             : Get.offAllNamed(AppRoutes.restaurantNavbar);
       }else{
+        setRxRequestStatus(Status.COMPLETED);
         SnackBarUtils.showToast('User not found. Register first.');
       }
 
@@ -197,7 +198,7 @@ class OtpController extends GetxController {
       print('errrrrrrrrrrrr');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
-      setRxRequestStatus(Status.ERROR);
+      setRxRequestStatus(Status.COMPLETED);
     });
   }
 

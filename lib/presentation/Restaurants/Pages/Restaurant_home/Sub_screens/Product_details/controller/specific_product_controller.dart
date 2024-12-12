@@ -30,7 +30,6 @@ class specific_Product_Controller extends GetxController {
       "product_id": product_id,
       "category_id": category_id,
     };
-
     api.specific_Product_Api(data).then((value) {
       isSelected = (-1).obs;
       productdata_Set(value);

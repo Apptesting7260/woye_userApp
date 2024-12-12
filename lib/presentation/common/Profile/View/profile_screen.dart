@@ -83,27 +83,29 @@ class ProfileScreen extends StatelessWidget {
             child: restaurantHomeController.homeData.value.userdata?.image
                         .toString() !=
                     null
-                ? Container(
-                    width: 80.h,
-                    height: 80.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100.r),
-                    ),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.r),
-                        child: CachedNetworkImage(
-                          imageUrl: restaurantHomeController
-                              .homeData.value.userdata!.image
-                              .toString(),
-                          placeholder: (context, url) =>
-                              circularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(
-                            Icons.person,
-                            size: 40.h,
-                            color: AppColors.lightText.withOpacity(0.5),
-                          ),
-                          fit: BoxFit.cover,
-                        )))
+                ? Obx(
+                    () => Container(
+                        width: 80.h,
+                        height: 80.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.r),
+                        ),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.r),
+                            child: CachedNetworkImage(
+                              imageUrl: restaurantHomeController
+                                  .homeData.value.userdata!.image
+                                  .toString(),
+                              placeholder: (context, url) =>
+                                  circularProgressIndicator(),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.person,
+                                size: 40.h,
+                                color: AppColors.lightText.withOpacity(0.5),
+                              ),
+                              fit: BoxFit.cover,
+                            ))),
+                  )
                 : Container(
                     width: 80.h,
                     height: 80.h,
@@ -123,22 +125,25 @@ class ProfileScreen extends StatelessWidget {
           ),
           wBox(15),
           restaurantHomeController.homeData.value.userdata?.type != "guestUser"
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      restaurantHomeController
-                              .homeData.value.userdata?.firstName ??
-                          "",
-                      style: AppFontStyle.text_18_600(AppColors.darkText),
-                    ),
-                    hBox(10),
-                    Text(
-                      restaurantHomeController.homeData.value.userdata?.email ??
-                          "",
-                      style: AppFontStyle.text_14_400(AppColors.darkText),
-                    ),
-                  ],
+              ? Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        restaurantHomeController
+                                .homeData.value.userdata?.firstName ??
+                            "",
+                        style: AppFontStyle.text_18_600(AppColors.darkText),
+                      ),
+                      hBox(10),
+                      Text(
+                        restaurantHomeController
+                                .homeData.value.userdata?.email ??
+                            "",
+                        style: AppFontStyle.text_14_400(AppColors.darkText),
+                      ),
+                    ],
+                  ),
                 )
               : Text(
                   "guest User".toUpperCase(),

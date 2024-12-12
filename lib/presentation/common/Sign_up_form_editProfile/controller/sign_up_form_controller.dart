@@ -15,23 +15,10 @@ import 'package:woye_user/presentation/common/Sign_up_form_editProfile/Model/upd
 class SignUpFormController extends GetxController {
   @override
   void onInit() async {
-    // Retrieve the arguments and provide fallback values if necessary
-    // var args = Get.arguments;
-    // if (args != null && args is Map<String, dynamic>) {
-    //   countryCode = args["countryCode"] ?? "";
-    //   mob = args["mob"] ?? "";
-    // } else {
-    //   // Handle the case where arguments are missing
-    //   countryCode = "";
-    //   mob = "";
-    //   log("Warning: Arguments for countryCode and mob are missing.");
-    // }
-
     fisrtNameController = TextEditingController();
     mobileController = TextEditingController();
     emailController = TextEditingController();
     genderController = TextEditingController();
-
     getprofileApi();
     super.onInit();
   }
@@ -58,31 +45,26 @@ class SignUpFormController extends GetxController {
   var profileImageFromAPI = "".obs;
 
   getprofileApi() async {
-    log("get profile");
-
     userModel = await pref.getUser();
-
     log("get header : ${userModel.token.toString()}");
-
+    profileImageGetUrl.value = "";
     setRxRequestStatus(Status.LOADING);
-
     api.getprofileApi().then((value) {
       profileSet(value);
-
       if (profileData.value.status == true) {
         userModel.step = profileData.value.step;
-        log("get Response Step: ${userModel.step}");
         String countryCodeFromAPI = profileData.value.data?.countryCode ?? "";
-        print("Country code from API: $countryCodeFromAPI");
         if (countryCodeFromAPI.isNotEmpty) {
           String dialCode = countryCodeFromAPI;
           String countryCode = countryCodeFromAPI.substring(1);
           selectedCountryCode.value =
               CountryCode(dialCode: dialCode, code: countryCode);
-          print(
-              "Updated selected country code: ${selectedCountryCode.value.code}");
-        }
 
+          CountryCode country = CountryCode.fromDialCode(dialCode);
+          String? countryCodename = country.code;
+          chackCountryLength = countryPhoneDigits[countryCodename]!;
+          print("chackCountryLength: ${chackCountryLength}");
+        }
         mobileController.text = profileData.value.data?.phone ?? "";
         emailController.text = profileData.value.data?.email ?? "";
         fisrtNameController.text = profileData.value.data?.firstName ?? "";
@@ -90,16 +72,12 @@ class SignUpFormController extends GetxController {
         genderController.text = profileData.value.data?.gender ?? "";
         profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
         update();
-        print(
-            "Updated selected country code: ${selectedCountryCode.value.code}");
-        log("get Response phone: ${profileData.value.data?.countryCode}");
-        log("get Response phone: ${selectedCountryCode.value}");
+
         setRxRequestStatus(Status.COMPLETED);
       }
     }).onError((error, stackError) {
       setError(error.toString());
       print('errrrrrrrrrrrr');
-      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
@@ -201,7 +179,7 @@ class SignUpFormController extends GetxController {
 
       profileImageGetUrl.value = image.value.path;
       print("Path ---> ${image.value.path}");
-      update();
+      print("Path ---> ${profileImageGetUrl.value}");
     }
   }
 

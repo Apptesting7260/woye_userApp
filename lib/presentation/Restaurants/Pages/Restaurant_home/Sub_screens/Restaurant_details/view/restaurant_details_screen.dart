@@ -97,8 +97,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                           hBox(30),
                           description(),
                           hBox(30),
-                          if (controller.restaurant_Data.value.moreProducts !=
-                              null)
+                          if (controller.restaurant_Data.value.moreProducts!.isNotEmpty)
                             moreProducts(context),
                           hBox(30),
                         ],

@@ -149,6 +149,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
         title: SizedBox(
           height: 34.h,
           child: (CustomSearchFilter(
+            showfilterIcon: false,
             searchIocnPadding: REdgeInsets.all(8),
             searchIconHeight: 16.h,
             hintStyle: AppFontStyle.text_10_400(AppColors.hintText),
@@ -260,8 +261,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
-            itemCount:
-                restaurantHomeController.homeData.value.category?.length ?? 0,
+            // itemCount:
+            //     restaurantHomeController.homeData.value.category?.length ?? 0,
+            itemCount: 4,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -311,10 +313,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     restaurantHomeController
                         .homeData.value.category![index].name
                         .toString(),
-                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                    style: AppFontStyle.text_16_400(AppColors.darkText),
                   ),
                 ],
-              ).marginOnly(right: 30.w);
+              ).marginOnly(right: 0.w);
             },
             separatorBuilder: (BuildContext context, int index) {
               return wBox(20);

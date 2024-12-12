@@ -1,3 +1,5 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 class CategoriesFilter_modal {
   bool? status;
   List<CuisineType>? cuisineType;
@@ -40,6 +42,7 @@ class CategoriesFilter_modal {
 
 class CuisineType {
   String? name;
+  RxBool isSelected = false.obs;
 
   CuisineType({this.name});
 
