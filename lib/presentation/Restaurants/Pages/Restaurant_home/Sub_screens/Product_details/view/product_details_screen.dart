@@ -571,94 +571,117 @@ class ProductDetailsScreen extends StatelessWidget {
               itemCount:
                   controller.product_Data.value.product!.productreview!.length,
               itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(50.r),
-                          child: CachedNetworkImage(
-                            imageUrl: controller.product_Data.value.product!
-                                .productreview![index].user!.imageUrl
-                                .toString(),
-                            fit: BoxFit.cover,
-                            height: 50.h,
-                            width: 50.h,
-                            errorWidget: (context, url, error) =>
-                                const Center(child: Icon(Icons.error)),
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: AppColors.gray,
-                              highlightColor: AppColors.lightText,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.gray,
-                                  borderRadius: BorderRadius.circular(20.r),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        wBox(15),
-                        Flexible(
-                          flex: 4,
-                          child: Column(
+                return controller.product_Data.value.product!
+                            .productreview![index].user !=
+                        null
+                    ? Column(
+                        children: [
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                controller.product_Data.value.product!
-                                    .productreview![index].user!.firstName
-                                    .toString(),
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.darkText),
-                              ),
-                              hBox(5),
-                              RatingBar.readOnly(
-                                filledIcon: Icons.star,
-                                emptyIcon: Icons.star,
-                                filledColor: AppColors.goldStar,
-                                emptyColor: AppColors.normalStar,
-                                initialRating: controller.product_Data.value
-                                    .product!.productreview![index].rating!,
-                                maxRating: 5,
-                                size: 20.h,
-                              ),
-                              hBox(10),
-                              Text(
-                                controller.product_Data.value.product!
-                                    .productreview![index].message
-                                    .toString(),
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.darkText),
-                                maxLines: 2,
-                              ),
-                              hBox(10),
-                              Row(
-                                children: [
-                                  Text(
-                                    controller.formatDate(controller
-                                        .product_Data
-                                        .value
-                                        .product!
-                                        .productreview![index]
-                                        .updatedAt
-                                        .toString()),
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.lightText),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(50.r),
+                                child: CachedNetworkImage(
+                                  imageUrl: controller
+                                      .product_Data
+                                      .value
+                                      .product!
+                                      .productreview![index]
+                                      .user!
+                                      .imageUrl
+                                      .toString(),
+                                  fit: BoxFit.cover,
+                                  height: 50.h,
+                                  width: 50.h,
+                                  errorWidget: (context, url, error) => Center(
+                                      child: Container(
+                                    height: 50.h,
+                                    width: 50.h,
+                                    color: AppColors.gray.withOpacity(.2),
+                                    child: Icon(
+                                      Icons.person,
+                                      color: AppColors.gray,
+                                    ),
+                                  )),
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                    baseColor: AppColors.gray,
+                                    highlightColor: AppColors.lightText,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.gray,
+                                        borderRadius:
+                                            BorderRadius.circular(20.r),
+                                      ),
+                                    ),
                                   ),
-                                ],
+                                ),
+                              ),
+                              wBox(15),
+                              Flexible(
+                                flex: 4,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.product_Data.value.product!
+                                          .productreview![index].user!.firstName
+                                          .toString(),
+                                      style: AppFontStyle.text_16_400(
+                                          AppColors.darkText),
+                                    ),
+                                    hBox(5),
+                                    RatingBar.readOnly(
+                                      filledIcon: Icons.star,
+                                      emptyIcon: Icons.star,
+                                      filledColor: AppColors.goldStar,
+                                      emptyColor: AppColors.normalStar,
+                                      initialRating: controller
+                                          .product_Data
+                                          .value
+                                          .product!
+                                          .productreview![index]
+                                          .rating!,
+                                      maxRating: 5,
+                                      size: 20.h,
+                                    ),
+                                    hBox(10),
+                                    Text(
+                                      controller.product_Data.value.product!
+                                          .productreview![index].message
+                                          .toString(),
+                                      style: AppFontStyle.text_16_400(
+                                          AppColors.darkText),
+                                      maxLines: 2,
+                                    ),
+                                    hBox(10),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          controller.formatDate(controller
+                                              .product_Data
+                                              .value
+                                              .product!
+                                              .productreview![index]
+                                              .updatedAt
+                                              .toString()),
+                                          style: AppFontStyle.text_16_400(
+                                              AppColors.lightText),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               )
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: REdgeInsets.symmetric(vertical: 10),
-                      child: const Divider(),
-                    ),
-                  ],
-                );
+                          Padding(
+                            padding: REdgeInsets.symmetric(vertical: 10),
+                            child: const Divider(),
+                          ),
+                        ],
+                      )
+                    : SizedBox();
               },
             ),
           ],

@@ -60,8 +60,8 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_scree
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/support/support_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/term_and_conditions/term_and_conditions_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help_screen.dart';
-import 'package:woye_user/presentation/common/Sign_up_form_editProfile/controller/Sign_up_form_binding.dart';
-import 'package:woye_user/presentation/common/Sign_up_form_editProfile/view/sign_up_form_screen.dart';
+import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_binding.dart';
+import 'package:woye_user/presentation/common/Update_profile/view/Update_profile_Screen.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 
 class AppRoutes {
@@ -158,7 +158,7 @@ class AppRoutes {
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () => const SignUpFormScreen(),
+        page: () =>  SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,

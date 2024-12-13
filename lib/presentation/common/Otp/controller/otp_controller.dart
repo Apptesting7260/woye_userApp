@@ -90,15 +90,15 @@ class OtpController extends GetxController {
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: verificationId, smsCode: smsCode));
-      SnackBarUtils.showToast('Otp Verify Successfully');
+      Utils.showToast('Otp Verify Successfully');
       return credential.user == null ? false : true;
     } on FirebaseAuthException catch (e) {
       print('otp error == ${e.code}');
       otpVerify.value = false;
       if (e.code == 'invalid-verification-code') {
-        SnackBarUtils.showToast('Invalid otp.');
+        Utils.showToast('Invalid otp.');
       } else {
-        SnackBarUtils.showToast('Please check your otp and try again.');
+        Utils.showToast('Please check your otp and try again.');
       }
       return false;
     }
@@ -138,7 +138,7 @@ class OtpController extends GetxController {
           "mob": mob
         });
       }else{
-        SnackBarUtils.showToast('The number is already registered.');
+        Utils.showToast('The number is already registered.');
         setRxRequestStatus(Status.COMPLETED);
       }
 
@@ -190,7 +190,7 @@ class OtpController extends GetxController {
             : Get.offAllNamed(AppRoutes.restaurantNavbar);
       }else{
         setRxRequestStatus(Status.COMPLETED);
-        SnackBarUtils.showToast('User not found. Register first.');
+        Utils.showToast('User not found. Register first.');
       }
 
     }).onError((error, stackError) {

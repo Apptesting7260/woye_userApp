@@ -369,7 +369,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   return GestureDetector(
                     onTap: () {
                       Get.to(RestaurantDetailsScreen(
-                        id: restaurants[index].id.toString(),
+                        Restaurantid: restaurants[index].id.toString(),
                       ));
                       restaurantDeatilsController.restaurant_Details_Api(
                         id: restaurants[index].id.toString(),

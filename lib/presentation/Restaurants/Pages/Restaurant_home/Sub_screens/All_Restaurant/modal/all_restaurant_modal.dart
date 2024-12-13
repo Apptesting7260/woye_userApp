@@ -35,17 +35,19 @@ class Restaurants {
   String? shopDes;
   String? currentStatus;
   String? shopimage;
-  bool? isInWishlist;
 
-  Restaurants(
-      {this.id,
-        this.rating,
-        this.avgPrice,
-        this.shopName,
-        this.shopDes,
-        this.currentStatus,
-        this.shopimage,
-        this.isInWishlist});
+  // bool? isInWishlist;
+
+  Restaurants({
+    this.id,
+    this.rating,
+    this.avgPrice,
+    this.shopName,
+    this.shopDes,
+    this.currentStatus,
+    this.shopimage,
+    // this.isInWishlist
+  });
 
   Restaurants.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -55,7 +57,7 @@ class Restaurants {
     shopDes = json['shop_des'];
     currentStatus = json['current_status'];
     shopimage = json['shopimage'];
-    isInWishlist = json['is_in_wishlist'];
+    // isInWishlist = json['is_in_wishlist'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,7 +69,7 @@ class Restaurants {
     data['shop_des'] = this.shopDes;
     data['current_status'] = this.currentStatus;
     data['shopimage'] = this.shopimage;
-    data['is_in_wishlist'] = this.isInWishlist;
+    // data['is_in_wishlist'] = this.isInWishlist;
     return data;
   }
 }

@@ -55,11 +55,11 @@ class Restaurant {
   String? shopimage;
   String? shopAddress;
   String? shopDes;
-  List<OpeningHours>? openingHours; // Changed to a List
+  List<OpeningHours>? openingHours;
   int? countryId;
   int? stateId;
   int? cityId;
-  List<String>? categoryId;
+  // List<String>? categoryId;
   String? opensAt;
   String? closesAt;
   String? role;
@@ -90,7 +90,7 @@ class Restaurant {
     this.countryId,
     this.stateId,
     this.cityId,
-    this.categoryId,
+    // this.categoryId,
     this.opensAt,
     this.closesAt,
     this.role,
@@ -130,9 +130,9 @@ class Restaurant {
     countryId = json['country_id'];
     stateId = json['state_id'];
     cityId = json['city_id'];
-    categoryId = json['category_id'] != null
-        ? List<String>.from(json['category_id'])
-        : null;
+    // categoryId = json['category_id'] != null
+    //     ? List<String>.from(json['category_id'])
+    //     : null;
     opensAt = json['opens_at'];
     closesAt = json['closes_at'];
     role = json['role'];
@@ -170,7 +170,7 @@ class Restaurant {
     data['country_id'] = this.countryId;
     data['state_id'] = this.stateId;
     data['city_id'] = this.cityId;
-    data['category_id'] = this.categoryId;
+    // data['category_id'] = this.categoryId;
     data['opens_at'] = this.opensAt;
     data['closes_at'] = this.closesAt;
     data['role'] = this.role;

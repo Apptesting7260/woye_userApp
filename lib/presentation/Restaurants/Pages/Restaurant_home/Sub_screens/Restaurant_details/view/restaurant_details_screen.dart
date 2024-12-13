@@ -2,13 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
-  final String id;
+  final String Restaurantid;
 
   final RestaurantDetailsController controller =
       Get.put(RestaurantDetailsController());
@@ -16,7 +17,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
   final specific_Product_Controller specific_product_controllerontroller =
       Get.put(specific_Product_Controller());
 
-  RestaurantDetailsScreen({super.key, required this.id});
+  final seeAll_Product_Controller seeallproductcontroller =
+      Get.put(seeAll_Product_Controller());
+
+  RestaurantDetailsScreen({super.key, required this.Restaurantid});
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +52,18 @@ class RestaurantDetailsScreen extends StatelessWidget {
             //       Icons.favorite_outline_sharp,
             //       size: 24.w,
             //     )),
-            wBox(8),
-            Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: SvgPicture.asset(
-                ImageConstants.notification,
-              ),
-            ),
+            // wBox(8),
+            // Container(
+            //   padding: REdgeInsets.all(9),
+            //   height: 44.h,
+            //   width: 44.h,
+            //   decoration: BoxDecoration(
+            //       color: AppColors.greyBackground,
+            //       borderRadius: BorderRadius.circular(12.r)),
+            //   child: SvgPicture.asset(
+            //     ImageConstants.notification,
+            //   ),
+            // ),
           ],
         ),
         body: Obx(() {
@@ -70,13 +74,13 @@ class RestaurantDetailsScreen extends StatelessWidget {
               if (controller.error.value == 'No internet') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    controller.restaurant_Details_Api(id: id);
+                    controller.restaurant_Details_Api(id: Restaurantid);
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    controller.restaurant_Details_Api(id: id);
+                    controller.restaurant_Details_Api(id: Restaurantid);
                   },
                 );
               }
@@ -84,7 +88,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
               return Scaffold(
                 body: RefreshIndicator(
                     onRefresh: () async {
-                      controller.restaurant_Details_Api(id: id);
+                      controller.restaurant_Details_Api(id: Restaurantid);
                     },
                     child: SingleChildScrollView(
                       padding: REdgeInsets.symmetric(horizontal: 24),
@@ -96,8 +100,11 @@ class RestaurantDetailsScreen extends StatelessWidget {
                           openHours(),
                           hBox(30),
                           description(),
-                          hBox(30),
-                          if (controller.restaurant_Data.value.moreProducts!.isNotEmpty)
+                          if (controller
+                              .restaurant_Data.value.moreProducts!.isNotEmpty)
+                            hBox(30),
+                          if (controller
+                              .restaurant_Data.value.moreProducts!.isNotEmpty)
                             moreProducts(context),
                           hBox(30),
                         ],
@@ -267,9 +274,8 @@ class RestaurantDetailsScreen extends StatelessWidget {
         hBox(10),
         Text(
           controller.restaurant_Data.value.restaurant!.shopDes.toString(),
-          //"Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
           style: AppFontStyle.text_16_400(AppColors.lightText),
-          maxLines: 6,
+          maxLines: 30,
         ),
       ],
     );
@@ -279,9 +285,41 @@ class RestaurantDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "More Products",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "More Products",
+              style: AppFontStyle.text_22_600(AppColors.darkText),
+            ),
+            InkWell(
+              onTap: () {
+                seeallproductcontroller.seeAll_Product_Api(
+                    restaurant_id: Restaurantid.toString(), category_id: "");
+                Get.toNamed(AppRoutes.moreProducts, arguments: {
+                  'restaurant_id': Restaurantid.toString(),
+                  'category_id': '',
+                });
+              },
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "See All",
+                    style: AppFontStyle.text_16_600(AppColors.primary),
+                  ),
+                  wBox(4),
+                  Icon(
+                    Icons.arrow_forward_sharp,
+                    color: AppColors.primary,
+                    size: 18,
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
         hBox(15),
         GridView.builder(

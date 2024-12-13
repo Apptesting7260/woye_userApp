@@ -43,23 +43,23 @@ class ProfileScreen extends StatelessWidget {
             profileDetails(context),
             hBox(30),
             //
-            editProfile(),
+            editProfile(context),
             //
-            orders(),
+            orders(context),
             //
-            deliveryAddress(),
+            deliveryAddress(context),
             //
-            paymentMethod(),
+            paymentMethod(context),
             //
-            myWallet(),
+            myWallet(context),
             //
-            promotionalCodes(),
+            promotionalCodes(context),
             //
-            inviteFriends(),
+            inviteFriends(context),
             //
-            settings(),
+            settings(context),
             //
-            help(),
+            help(context),
             //
             logout(context),
             hBox(100),
@@ -154,7 +154,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget editProfile() {
+  Widget editProfile(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -167,7 +167,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(
             AppRoutes.signUpFom,
@@ -180,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget orders() {
+  Widget orders(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -193,7 +193,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.orders);
         }
@@ -201,7 +201,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget deliveryAddress() {
+  Widget deliveryAddress(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -214,7 +214,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.deliveryAddressScreen);
         }
@@ -222,7 +222,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget paymentMethod() {
+  Widget paymentMethod(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -235,7 +235,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.paymentMethod);
         }
@@ -243,7 +243,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget myWallet() {
+  Widget myWallet(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -256,7 +256,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.myWallet);
         }
@@ -264,7 +264,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget promotionalCodes() {
+  Widget promotionalCodes(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -277,7 +277,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.promoCode);
         }
@@ -285,7 +285,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget inviteFriends() {
+  Widget inviteFriends(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -298,7 +298,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.inviteFriends);
         }
@@ -306,7 +306,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget settings() {
+  Widget settings(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -319,7 +319,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.settings);
         }
@@ -327,7 +327,7 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget help() {
+  Widget help(context) {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
@@ -340,7 +340,7 @@ class ProfileScreen extends StatelessWidget {
       onTap: () {
         if (restaurantHomeController.homeData.value.userdata?.type ==
             "guestUser") {
-          showLoginPopup();
+          showLoginRequired(context);
         } else {
           Get.toNamed(AppRoutes.help);
         }
@@ -424,26 +424,63 @@ class ProfileScreen extends StatelessWidget {
         });
   }
 
-  void showLoginPopup() {
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Login Required'),
-        content: const Text('You need to log in first'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Get.offAllNamed(AppRoutes.welcomeScreen);
-            },
-            child: const Text('Login'),
-          ),
-          TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: const Text('Cancel'),
-          ),
-        ],
-      ),
-    );
+  Future showLoginRequired(context) {
+    return showCupertinoModalPopup(
+        // barrierDismissible: true,/
+        context: context,
+        builder: (context) {
+          return AlertDialog.adaptive(
+            content: Container(
+              height: 150.h,
+              width: 320.w,
+              padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.r),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Login Required',
+                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                  ),
+                  // hBox(15),
+                  Text(
+                    'You need to log in first',
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  // hBox(15),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          color: AppColors.black,
+                          onPressed: () {
+                            Get.back();
+                          },
+                          text: "Cancel",
+                          textStyle:
+                              AppFontStyle.text_14_400(AppColors.darkText),
+                        ),
+                      ),
+                      wBox(15),
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          onPressed: () {
+                            userPreference.removeUser();
+                            Get.offAllNamed(AppRoutes.signUp);
+                          },
+                          text: "Login",
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

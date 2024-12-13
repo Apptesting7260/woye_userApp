@@ -78,7 +78,7 @@ class All_Restaurant extends StatelessWidget {
                               return GestureDetector(
                                 onTap: () {
                                   Get.to(RestaurantDetailsScreen(
-                                    id: restaurant.id.toString(),
+                                    Restaurantid: restaurant.id.toString(),
                                   ));
                                   restaurantDeatilsController
                                       .restaurant_Details_Api(
