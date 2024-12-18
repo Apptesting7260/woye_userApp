@@ -1,11 +1,15 @@
 import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
+import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
   final SignUpController signUpController = Get.put(SignUpController());
+
+  final SocialLoginController socialLoginController =
+  Get.put(SocialLoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,14 @@ class SignUpScreen extends StatelessWidget {
               hBox(20),
               //
               signUpButton(),
+
+              hBox(20),
+              //
+              continueText(),
+              hBox(20),
+              //
+              socialButtons(context),
+              hBox(20),
               const Spacer(),
               //
               signInButton(),
@@ -54,28 +66,6 @@ class SignUpScreen extends StatelessWidget {
       ),
     ]);
   }
-
-  // Widget formField() {
-  //   return CustomTextFormField(
-  //     controller: signUpController.mobNoCon.value,
-  //     inputFormatters: [
-  //       FilteringTextInputFormatter.digitsOnly,
-  //     ],
-  //     prefix: CountryCodePicker(
-  //         showFlag: false,
-  //         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
-  //         onChanged: (CountryCode countryCode) {
-  //           signUpController.updateCountryCode(countryCode);
-  //           signUpController.showError.value = false;
-  //           int? countrylength = signUpController
-  //               .countryPhoneDigits[countryCode.code.toString()];
-  //           signUpController.checkCountryLength = countrylength!;
-  //         },
-  //         initialSelection: "IN"),
-  //     hintText: "Phone Number",
-  //     textInputType: TextInputType.phone,
-  //   );
-  // }
 
   Widget formField() {
     return CustomTextFormField(
@@ -118,6 +108,70 @@ class SignUpScreen extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+
+  Widget continueText() {
+    return Row(
+      children: [
+        Expanded(
+          child: Divider(
+            thickness: 1.h,
+            color: AppColors.greyBackground,
+            endIndent: 16.w,
+          ),
+        ),
+        Text(
+          "or continue with",
+          style: AppFontStyle.text_16_400(AppColors.lightText),
+        ),
+        Expanded(
+          child: Divider(
+            thickness: 1.h,
+            color: AppColors.greyBackground,
+            indent: 16.w,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget socialButtons(context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        CustomRoundedButton(
+          onPressed: () {
+            socialLoginController.facebookLogin(context);
+          },
+          child: SvgPicture.asset(
+            ImageConstants.fbLogo,
+            height: 26.h,
+            width: 26.h,
+          ),
+        ),
+        wBox(15),
+        CustomRoundedButton(
+            onPressed: () {
+              socialLoginController.signInWithGoogle(context);
+            },
+            child: SvgPicture.asset(
+              ImageConstants.googleLogo,
+              height: 26.h,
+              width: 26.h,
+            )),
+        wBox(15),
+        CustomRoundedButton(
+          onPressed: () {
+            socialLoginController.appleLogin(context);
+          },
+          child: SvgPicture.asset(
+            ImageConstants.appleLogo,
+            height: 26.h,
+            width: 26.h,
+          ),
+        ),
+      ],
     );
   }
 

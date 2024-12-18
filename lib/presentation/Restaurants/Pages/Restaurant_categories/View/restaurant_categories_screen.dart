@@ -19,7 +19,6 @@ class _RestaurantCategoriesScreenState
   final RestaurantCategoriesController controller =
       Get.put(RestaurantCategoriesController());
 
-
   final RestaurantCategoriesDetailsController
       restaurantCategoriesDeatilsController =
       Get.put(RestaurantCategoriesDetailsController());
@@ -146,7 +145,10 @@ class _RestaurantCategoriesScreenState
                                         )
                                       ],
                                     ),
-                                    const Icon(Icons.arrow_forward_ios),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      weight: 1,
+                                    ),
                                   ],
                                 ),
                               ),

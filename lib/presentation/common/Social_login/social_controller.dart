@@ -90,7 +90,7 @@ class SocialLoginController extends GetxController {
     } catch (e) {
       Get.back();
       print('error == ${e.toString()}');
-      SnackBarUtils.showToast('Login failed. Please try again.');
+      Utils.showToast('Login failed. Please try again.');
     }
   }
 
@@ -139,7 +139,7 @@ class SocialLoginController extends GetxController {
       } else {
         Get.back();
         print(result.message);
-        SnackBarUtils.showToast("${result.message}");
+        Utils.showToast("${result.message}");
         Get.back();
       }
     } catch (e) {
@@ -148,7 +148,7 @@ class SocialLoginController extends GetxController {
         SnackBar(content: Text('An error occurred: ${e.toString()}')),
       );
       print("An error occurred during Facebook login: $e");
-      SnackBarUtils.showToast("An error occurred during Facebook login: $e");
+      Utils.showToast("An error occurred during Facebook login: $e");
       Get.back();
     }
   }
@@ -260,13 +260,13 @@ class SocialLoginController extends GetxController {
           }
         }).onError((error, stackTrace) {});
       } else {
-        SnackBarUtils.showToast(socialLoginData.value.message.toString(),
+        Utils.showToast(socialLoginData.value.message.toString(),
             gravity: ToastGravity.BOTTOM);
         Get.back();
       }
     }).onError((error, stackTrace) {
       setError(error.toString());
-      SnackBarUtils.showToast(error.toString(), gravity: ToastGravity.BOTTOM);
+      Utils.showToast(error.toString(), gravity: ToastGravity.BOTTOM);
 
       print(error);
       print(stackTrace);

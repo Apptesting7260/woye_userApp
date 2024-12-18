@@ -34,7 +34,7 @@ class CustomElevatedButton extends StatelessWidget {
       width: width ?? Get.width,
       height: height ?? 56.h,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading != true ? onPressed : (){},
         style: ElevatedButton.styleFrom(
           foregroundColor: forGroundColor ?? AppColors.white,
           backgroundColor: color,
@@ -53,8 +53,7 @@ class CustomElevatedButton extends StatelessWidget {
                     : LoadingAnimationWidget.inkDrop(
                         color: Colors.white,
                         size: 30.h,
-                      )
-                      ),
+                      )),
       ),
     );
   }

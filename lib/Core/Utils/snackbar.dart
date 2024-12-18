@@ -1,19 +1,9 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:woye_user/core/Utils/app_export.dart';
 
-class SnackBarUtils {
-  // static String? showToast(String msg) {
-  //   Fluttertoast.showToast(
-  //     msg: msg,
-  //     backgroundColor: AppColors.primary,
-  //     gravity: ToastGravity.CENTER,
-  //     textColor: AppColors.white,
-  //   );
-  //   return null;
-  // }
-
+class Utils {
   static String? showToast(String msg,
-      {ToastGravity gravity = ToastGravity.CENTER}) {
+      {ToastGravity gravity = ToastGravity.BOTTOM}) {
     Fluttertoast.showToast(
       msg: msg,
       backgroundColor: AppColors.primary,
@@ -22,16 +12,6 @@ class SnackBarUtils {
     );
     return null;
   }
-
-  // static void showToastTop({required String message}) {
-  //   Fluttertoast.showToast(
-  //     toastLength: Toast.LENGTH_LONG,
-  //     msg: message,
-  //     backgroundColor: AppColors.white,
-  //     gravity: ToastGravity.TOP,
-  //     textColor: AppColors.primary,
-  //   );
-  // }
 
   static String? showSnackbar(
       {required BuildContext context, required String message}) {

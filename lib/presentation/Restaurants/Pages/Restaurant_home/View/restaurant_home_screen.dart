@@ -5,9 +5,9 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/view/all_restaurant.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
-
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../shared/widgets/CircularProgressIndicator.dart';
@@ -149,6 +149,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
         title: SizedBox(
           height: 34.h,
           child: (CustomSearchFilter(
+            showfilterIcon: false,
             searchIocnPadding: REdgeInsets.all(8),
             searchIconHeight: 16.h,
             hintStyle: AppFontStyle.text_10_400(AppColors.hintText),
@@ -260,8 +261,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             shrinkWrap: true,
-            itemCount:
-                restaurantHomeController.homeData.value.category?.length ?? 0,
+            // itemCount:
+            //     restaurantHomeController.homeData.value.category?.length ?? 0,
+            itemCount: 4,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -311,10 +313,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     restaurantHomeController
                         .homeData.value.category![index].name
                         .toString(),
-                    style: AppFontStyle.text_14_400(AppColors.darkText),
+                    style: AppFontStyle.text_16_400(AppColors.darkText),
                   ),
                 ],
-              ).marginOnly(right: 30.w);
+              ).marginOnly(right: 0.w);
             },
             separatorBuilder: (BuildContext context, int index) {
               return wBox(20);
@@ -335,9 +337,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               style: AppFontStyle.text_24_600(AppColors.darkText),
             ),
             const Spacer(),
-            Text(
-              "See All",
-              style: AppFontStyle.text_14_600(AppColors.primary),
+            GestureDetector(
+              onTap: () {
+                Get.to(All_Restaurant());
+              },
+              child: Text(
+                "See All",
+                style: AppFontStyle.text_14_600(AppColors.primary),
+              ),
             ),
             wBox(4),
             Icon(
@@ -348,34 +355,6 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           ],
         ),
         hBox(20),
-        // GetBuilder(
-        //     init: restaurantHomeController,
-        //     builder: (controller) {
-        //       return ListView.separated(
-        //           physics: const NeverScrollableScrollPhysics(),
-        //           shrinkWrap: true,
-        //           itemBuilder: (context, index) {
-        //             final restaurantsList = restaurantHomeController
-        //                 .homeData.value.restaurants!.data?[index];
-        //             return GestureDetector(
-        //               onTap: () {
-        //                 Get.to(RestaurantDetailsScreen(
-        //                     image: restaurantsList!.shopImageUrl.toString(),
-        //                     title: restaurantsList.shopName.toString()));
-        //               },
-        //               child: restaurantList(
-        //                   index: index,
-        //                   image: restaurantsList?.shopImageUrl,
-        //                   title: restaurantsList?.shopName,
-        //                   rating: restaurantsList?.rating,
-        //                   price: restaurantsList?.avgPrice),
-        //             );
-        //           },
-        //           itemCount: restaurantHomeController
-        //                   .homeData.value.restaurants?.data?.length ??
-        //               0,
-        //           separatorBuilder: (context, index) => hBox(20));
-        //     }),
         GetBuilder<RestaurantHomeController>(
           init: restaurantHomeController,
           builder: (controller) {
@@ -390,7 +369,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   return GestureDetector(
                     onTap: () {
                       Get.to(RestaurantDetailsScreen(
-                        id: restaurants[index].id.toString(),
+                        Restaurantid: restaurants[index].id.toString(),
                       ));
                       restaurantDeatilsController.restaurant_Details_Api(
                         id: restaurants[index].id.toString(),
@@ -430,15 +409,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: CachedNetworkImage(
-                imageUrl: image ??
-                    "https://images.pexels.com/photos/18903434/pexels-photo-18903434/free-photo-of-stuttgart-library.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                imageUrl: image.toString(),
+                height: 220.h,
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: AppColors.gray,
                   highlightColor: AppColors.lightText,
                   child: Container(
                     decoration: BoxDecoration(
                       color: AppColors.gray,
-                      borderRadius: BorderRadius.circular(100),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                   ),
                 ),
@@ -482,7 +461,6 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           children: [
             Text(
               price,
-              // "\$7 - \$18",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_600(AppColors.primary),
             ),
@@ -494,7 +472,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "$rating",
+              "$rating/5",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],

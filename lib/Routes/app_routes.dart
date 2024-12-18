@@ -3,7 +3,6 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/restaurant_categories_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
@@ -32,6 +31,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/categoriesfilter_binding.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
@@ -60,10 +61,9 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_scree
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/support/support_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/term_and_conditions/term_and_conditions_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help_screen.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/controller/Sign_up_form_binding.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/view/sign_up_form_screen.dart';
+import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_binding.dart';
+import 'package:woye_user/presentation/common/Update_profile/view/Update_profile_Screen.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
-
 
 class AppRoutes {
   ///`common=====================================================>`
@@ -88,8 +88,7 @@ class AppRoutes {
   static const String restaurantCategories = "/restaurant_categories";
   static const String restaurantCategoriesFilter =
       "/restaurant_categories_filter";
-  static  String restaurantCategoriesDetails =
-      "/restaurant_categories_details";
+  static String restaurantCategoriesDetails = "/restaurant_categories_details";
   static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
   static const String productReviews = "/product_reviews";
   static const String moreProducts = "/more_products";
@@ -160,7 +159,7 @@ class AppRoutes {
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () => const SignUpFormScreen(),
+        page: () => SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
@@ -169,7 +168,7 @@ class AppRoutes {
     ),
     GetPage(
         name: restaurantNavbar,
-        page: () =>  RestaurantNavbar(
+        page: () => RestaurantNavbar(
               navbarInitialIndex: 0,
             ),
         bindings: [RestaurantNavbarBinding(), HomeBinding()]),
@@ -183,7 +182,7 @@ class AppRoutes {
     ),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
     GetPage(name: productReviews, page: () => const ProductReviews()),
-    GetPage(name: moreProducts, page: () => const MoreProducts()),
+    GetPage(name: moreProducts, page: () => MoreProducts()),
     GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
     GetPage(name: addAddressScreen, page: () => const AddAddressScreen()),
     GetPage(name: editAddressScreen, page: () => const EditAddressScreen()),
@@ -217,17 +216,17 @@ class AppRoutes {
     GetPage(
         name: deliveryAddressScreen, page: () => const DeliveryAddressScreen()),
     GetPage(
-        name: restaurantCategories,
-        page: () =>  RestaurantCategoriesScreen()),
+        name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
+    // GetPage(
+    //     name: restaurantCategoriesFilter,
+    //     page: () => RestaurantCategoriesFilter()),
     GetPage(
         name: restaurantCategoriesFilter,
-        page: () => RestaurantCategoriesFilter()),
-    GetPage(
-        name: restaurantCategoriesFilter,
-        page: () => RestaurantCategoriesFilter()),
+        page: () => RestaurantCategoriesFilter(),
+        binding: CategoriesFilterBinding()),
     GetPage(
         name: restaurantCategoriesDetails,
-        page: () =>  RestaurantCategoryDetails()),
+        page: () => RestaurantCategoryDetails()),
     GetPage(
         name: restaurantWishlistFilter,
         page: () => const RestaurantWishlistFilter()),

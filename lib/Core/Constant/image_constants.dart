@@ -14,7 +14,9 @@ class ImageConstants {
   static String profileIcon = "$svgPath/profile-icon.svg";
   static String calendar = "$svgPath/calendar.svg";
   static String email = "$svgPath/email.svg";
+  static String wishlistEmpty = "$imagePath/wishlistEmpty.png";
 
+  static String noData = "$svgPath/No-data-cuate.svg";
   static String home = "$svgPath/home.svg";
   static String homeFilled = "$svgPath/home-filled.svg";
   static String categories = "$svgPath/categories.svg";

@@ -35,16 +35,4 @@ class RestaurantWishlistController extends GetxController {
     });
   }
 
-  restaurant_product_wishlist_api1() async {
-    api.Restaurant_All_product_wishlist_Api().then((value) {
-      wishlist_Set(value);
-      setRxRequestStatus(Status.COMPLETED);
-    }).onError((error, stackError) {
-      setError(error.toString());
-      print(stackError);
-      print('errrrrrrrrrrrr');
-      print(error);
-      setRxRequestStatus(Status.ERROR);
-    });
-  }
 }

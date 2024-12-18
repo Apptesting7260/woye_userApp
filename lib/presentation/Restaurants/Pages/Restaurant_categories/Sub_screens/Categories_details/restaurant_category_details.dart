@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
@@ -23,16 +24,18 @@ class RestaurantCategoryDetails extends StatelessWidget {
   final specific_Product_Controller specific_product_controllerontroller =
       Get.put(specific_Product_Controller());
 
+  final Categories_FilterController categoriesFilterController =
+      Get.put(Categories_FilterController());
+
   @override
   Widget build(BuildContext context) {
-    // var title = Get.arguments ?? "Your Item";
     var args = Get.arguments;
-    String categorytitle = args['name'];
+    String categoryTitle = args['name'];
     int categoryId = args['id'];
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
-          categorytitle,
+          categoryTitle,
           style: AppFontStyle.text_22_600(
             AppColors.darkText,
           ),
@@ -83,9 +86,16 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           title: SizedBox(
                             height: 35.h,
                             child: (CustomSearchFilter(
+                              controller: controller.searchController,
                               onFilterTap: () {
                                 Get.toNamed(
-                                    AppRoutes.restaurantCategoriesFilter);
+                                  AppRoutes.restaurantCategoriesFilter,
+                                  arguments: {
+                                    'categoryId': categoryId.toString()
+                                  },
+                                );
+                                categoriesFilterController
+                                    .restaurant_get_CategoriesFilter_Api();
                               },
                             )),
                           ),
@@ -95,41 +105,285 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: hBox(10),
                       ),
-                      SliverGrid(
-                          delegate: SliverChildBuilderDelegate(
-                              childCount: controller.categoriesDetailsData.value
-                                  .categoryProduct?.length, (context, index) {
-                            return GestureDetector(
-                                // onTap: () {
-                                //   // Get.to(ProductDetailsScreen(
-                                //   //     image: controller.categoriesDetailsData
-                                //   //         .value.categoryProduct![index].image
-                                //   //         .toString(),
-                                //   //     title: controller.categoriesDetailsData
-                                //   //         .value.categoryProduct![index].title
-                                //   //         .toString()));
-                                //
-                                // },
+                      if (controller.categoriesDetailsData.value.filterProduct!
+                              .isEmpty &&
+                          controller.categoriesDetailsData.value
+                              .categoryProduct!.isEmpty)
+                        SliverToBoxAdapter(
+                          child: Column(
+                            children: [
+                              // hBox(Get.height / 4),
+                              Center(
+                                child: SvgPicture.asset(
+                                  ImageConstants.noData,
+                                  height: 300.h,
+                                  width: 200.h,
+                                ),
+                              ),
+                              Text(
+                                "We couldn't find any results",
+                                style: AppFontStyle.text_20_600(
+                                    AppColors.darkText),
+                              ),
+                              hBox(5.h),
+                              Text(
+                                "Explore more and shortlist some items",
+                                style: AppFontStyle.text_16_400(
+                                    AppColors.mediumText),
+                              ),
+                            ],
+                          ),
+                        ),
+                      if (controller
+                          .categoriesDetailsData.value.filterProduct!.isEmpty)
+                        SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                                childCount: controller
+                                    .categoriesDetailsData
+                                    .value
+                                    .categoryProduct
+                                    ?.length, (context, index) {
+                              return GestureDetector(
+                                  onTap: () {
+                                    specific_product_controllerontroller
+                                        .specific_Product_Api(
+                                            product_id: controller
+                                                .categoriesDetailsData
+                                                .value
+                                                .categoryProduct![index]
+                                                .id
+                                                .toString(),
+                                            category_id: categoryId.toString());
+                                    Get.to(ProductDetailsScreen(
+                                      product_id: controller
+                                          .categoriesDetailsData
+                                          .value
+                                          .categoryProduct![index]
+                                          .id
+                                          .toString(),
+                                      category_id: categoryId.toString(),
+                                      category_name: categoryTitle,
+                                    ));
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Stack(
+                                        alignment: Alignment.topRight,
+                                        children: [
+                                          Container(
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.r),
+                                            ),
+                                            child: Center(
+                                              child: CachedNetworkImage(
+                                                imageUrl: controller
+                                                    .categoriesDetailsData
+                                                    .value
+                                                    .categoryProduct![index]
+                                                    .urlImage
+                                                    .toString(),
+                                                fit: BoxFit.cover,
+                                                height: 160.h,
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                                placeholder: (context, url) =>
+                                                    Shimmer.fromColors(
+                                                  baseColor: AppColors.gray,
+                                                  highlightColor:
+                                                      AppColors.lightText,
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color: AppColors.gray,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20.r),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Obx(
+                                            () => Container(
+                                              margin: REdgeInsets.only(
+                                                  top: 10, right: 10),
+                                              padding: REdgeInsets.all(6),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.r),
+                                                color: AppColors.greyBackground,
+                                              ),
+                                              child: InkWell(
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                splashColor: Colors.transparent,
+                                                onTap: () async {
+                                                  controller
+                                                          .categoriesDetailsData
+                                                          .value
+                                                          .categoryProduct![index]
+                                                          .isInWishlist =
+                                                      !controller
+                                                          .categoriesDetailsData
+                                                          .value
+                                                          .categoryProduct![
+                                                              index]
+                                                          .isInWishlist!;
+                                                  controller
+                                                      .categoriesDetailsData
+                                                      .value
+                                                      .categoryProduct![index]
+                                                      .isLoading
+                                                      .value = true;
+                                                  await add_Wishlist_Controller
+                                                      .restaurant_add_product_wishlist(
+                                                    categoryId:
+                                                        categoryId.toString(),
+                                                    product_id: controller
+                                                        .categoriesDetailsData
+                                                        .value
+                                                        .categoryProduct![index]
+                                                        .id
+                                                        .toString(),
+                                                  );
+                                                  controller
+                                                      .categoriesDetailsData
+                                                      .value
+                                                      .categoryProduct![index]
+                                                      .isLoading
+                                                      .value = false;
+                                                },
+                                                child: controller
+                                                        .categoriesDetailsData
+                                                        .value
+                                                        .categoryProduct![index]
+                                                        .isLoading
+                                                        .value
+                                                    ? circularProgressIndicator(
+                                                        size: 18)
+                                                    : Icon(
+                                                        controller
+                                                                    .categoriesDetailsData
+                                                                    .value
+                                                                    .categoryProduct![
+                                                                        index]
+                                                                    .isInWishlist ==
+                                                                true
+                                                            ? Icons.favorite
+                                                            : Icons
+                                                                .favorite_border_outlined,
+                                                        size: 22,
+                                                      ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      hBox(10),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "\$${controller.categoriesDetailsData.value.categoryProduct![index].salePrice}",
+                                            textAlign: TextAlign.left,
+                                            style: AppFontStyle.text_16_600(
+                                                AppColors.primary),
+                                          ),
+                                          wBox(5),
+                                          Text(
+                                            "\$${controller.categoriesDetailsData.value.categoryProduct![index].regularPrice}",
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.left,
 
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.w300,
+                                                color: AppColors.lightText,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                decorationColor:
+                                                    AppColors.lightText),
+
+                                            //  AppFontStyle.text_14_300(AppColors.lightText),
+                                          ),
+                                        ],
+                                      ),
+                                      // hBox(10),
+                                      Text(
+                                        controller.categoriesDetailsData.value
+                                            .categoryProduct![index].title
+                                            .toString(),
+                                        textAlign: TextAlign.left,
+                                        style: AppFontStyle.text_16_400(
+                                            AppColors.darkText),
+                                      ),
+                                      // hBox(10),
+
+                                      // hBox(10),
+                                      Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                              "assets/svg/star-yellow.svg"),
+                                          wBox(4),
+                                          Text(
+                                            "${controller.categoriesDetailsData.value.categoryProduct![index].rating.toString()}/5",
+                                            style: AppFontStyle.text_14_300(
+                                                AppColors.lightText),
+                                          ),
+                                          wBox(4),
+                                          Flexible(
+                                            child: Text(
+                                              controller
+                                                  .categoriesDetailsData
+                                                  .value
+                                                  .categoryProduct![index]
+                                                  .restoName
+                                                  .toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.left,
+                                              style: AppFontStyle.text_14_300(
+                                                  AppColors.lightText),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ));
+                              //  categoryItem(index);
+                            }),
+                            gridDelegate:
+                                (SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.6.h,
+                              crossAxisSpacing: 16.w,
+                              mainAxisSpacing: 5.h,
+                            ))),
+                      if (controller.categoriesDetailsData.value.filterProduct!
+                          .isNotEmpty)
+                        SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            childCount: controller.categoriesDetailsData.value
+                                .filterProduct?.length,
+                            (context, index) {
+                              return GestureDetector(
                                 onTap: () {
                                   specific_product_controllerontroller
                                       .specific_Product_Api(
-                                          product_id: controller
-                                              .categoriesDetailsData
-                                              .value
-                                              .categoryProduct![index]
-                                              .id
-                                              .toString(),
-                                          category_id: categoryId.toString());
-                                  Get.to(ProductDetailsScreen(
-                                    product_id: categoryId.toString(),
-                                    category_id: controller
-                                        .categoriesDetailsData
-                                        .value
-                                        .categoryProduct![index]
-                                        .id
+                                    product_id: controller.categoriesDetailsData
+                                        .value.filterProduct![index].id
                                         .toString(),
-                                    category_name: categorytitle,
+                                    category_id: categoryId.toString(),
+                                  );
+                                  Get.to(ProductDetailsScreen(
+                                    product_id: controller.categoriesDetailsData
+                                        .value.filterProduct![index].id
+                                        .toString(),
+                                    category_id: categoryId.toString(),
+                                    category_name: categoryTitle,
                                   ));
                                 },
                                 child: Column(
@@ -149,7 +403,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               imageUrl: controller
                                                   .categoriesDetailsData
                                                   .value
-                                                  .categoryProduct![index]
+                                                  .filterProduct![index]
                                                   .urlImage
                                                   .toString(),
                                               fit: BoxFit.cover,
@@ -174,52 +428,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             ),
                                           ),
                                         ),
-                                        // Obx(
-                                        //   () => Container(
-                                        //     margin: REdgeInsets.only(
-                                        //         top: 10, right: 10),
-                                        //     padding: REdgeInsets.all(6),
-                                        //     decoration: BoxDecoration(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(10.r),
-                                        //         color:
-                                        //             AppColors.greyBackground),
-                                        //     child: InkWell(
-                                        //       highlightColor:
-                                        //           Colors.transparent,
-                                        //       splashColor: Colors.transparent,
-                                        //       onTap: () {
-                                        //         add_Wishlist_Controller
-                                        //             .restaurant_add_product_wishlist(
-                                        //           categoryId:
-                                        //               categoryId.toString(),
-                                        //           product_id: controller
-                                        //               .categoriesDetailsData
-                                        //               .value
-                                        //               .categoryProduct![index]
-                                        //               .id
-                                        //               .toString(),
-                                        //         );
-                                        //         print(
-                                        //             "product_id ${controller.categoriesDetailsData.value.categoryProduct![index].id.toString()}");
-                                        //       },
-                                        //       child: Icon(
-                                        //         controller
-                                        //                     .categoriesDetailsData
-                                        //                     .value
-                                        //                     .categoryProduct![
-                                        //                         index]
-                                        //                     .isInWishlist ==
-                                        //                 true
-                                        //             ? Icons.favorite
-                                        //             : Icons
-                                        //                 .favorite_border_outlined,
-                                        //         size: 22,
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        // )
-
                                         Obx(
                                           () => Container(
                                             margin: REdgeInsets.only(
@@ -234,31 +442,45 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               highlightColor:
                                                   Colors.transparent,
                                               splashColor: Colors.transparent,
-                                              onTap: () {
+                                              onTap: () async {
+                                                controller
+                                                        .categoriesDetailsData
+                                                        .value
+                                                        .filterProduct![index]
+                                                        .isInWishlist =
+                                                    !controller
+                                                        .categoriesDetailsData
+                                                        .value
+                                                        .filterProduct![index]
+                                                        .isInWishlist!;
                                                 controller
                                                     .categoriesDetailsData
                                                     .value
-                                                    .categoryProduct![index]
+                                                    .filterProduct![index]
                                                     .isLoading
                                                     .value = true;
-                                                add_Wishlist_Controller
+                                                await add_Wishlist_Controller
                                                     .restaurant_add_product_wishlist(
                                                   categoryId:
                                                       categoryId.toString(),
                                                   product_id: controller
                                                       .categoriesDetailsData
                                                       .value
-                                                      .categoryProduct![index]
+                                                      .filterProduct![index]
                                                       .id
                                                       .toString(),
                                                 );
-                                                print(
-                                                    "product_id ${controller.categoriesDetailsData.value.categoryProduct![index].id.toString()}");
+                                                controller
+                                                    .categoriesDetailsData
+                                                    .value
+                                                    .filterProduct![index]
+                                                    .isLoading
+                                                    .value = false;
                                               },
                                               child: controller
                                                       .categoriesDetailsData
                                                       .value
-                                                      .categoryProduct![index]
+                                                      .filterProduct![index]
                                                       .isLoading
                                                       .value
                                                   ? circularProgressIndicator(
@@ -267,7 +489,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                       controller
                                                                   .categoriesDetailsData
                                                                   .value
-                                                                  .categoryProduct![
+                                                                  .filterProduct![
                                                                       index]
                                                                   .isInWishlist ==
                                                               true
@@ -278,82 +500,83 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     ),
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                     hBox(10),
                                     Row(
                                       children: [
                                         Text(
-                                          "\$${controller.categoriesDetailsData.value.categoryProduct![index].salePrice}",
+                                          "\$${controller.categoriesDetailsData.value.filterProduct![index].salePrice}",
                                           textAlign: TextAlign.left,
                                           style: AppFontStyle.text_16_600(
                                               AppColors.primary),
                                         ),
                                         wBox(5),
                                         Text(
-                                          "\$${controller.categoriesDetailsData.value.categoryProduct![index].regularPrice}",
+                                          "\$${controller.categoriesDetailsData.value.filterProduct![index].regularPrice}",
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.left,
-
                                           style: TextStyle(
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w300,
-                                              color: AppColors.lightText,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              decorationColor:
-                                                  AppColors.lightText),
-
-                                          //  AppFontStyle.text_14_300(AppColors.lightText),
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w300,
+                                            color: AppColors.lightText,
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            decorationColor:
+                                                AppColors.lightText,
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    // hBox(10),
                                     Text(
                                       controller.categoriesDetailsData.value
-                                          .categoryProduct![index].title
+                                          .filterProduct![index].title
                                           .toString(),
                                       textAlign: TextAlign.left,
                                       style: AppFontStyle.text_16_400(
                                           AppColors.darkText),
                                     ),
-                                    // hBox(10),
-
-                                    // hBox(10),
                                     Row(
                                       children: [
                                         SvgPicture.asset(
                                             "assets/svg/star-yellow.svg"),
                                         wBox(4),
                                         Text(
-                                          "${controller.categoriesDetailsData.value.categoryProduct![index].rating.toString()}/5",
+                                          "${controller.categoriesDetailsData.value.filterProduct![index].rating.toString()}/5",
                                           style: AppFontStyle.text_14_300(
                                               AppColors.lightText),
                                         ),
                                         wBox(4),
-                                        Text(
-                                          controller.categoriesDetailsData.value
-                                              .categoryProduct![index].restoName
-                                              .toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: AppFontStyle.text_14_300(
-                                              AppColors.lightText),
+                                        Flexible(
+                                          child: Text(
+                                            controller
+                                                .categoriesDetailsData
+                                                .value
+                                                .filterProduct![index]
+                                                .restoName
+                                                .toString(),
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.left,
+                                            style: AppFontStyle.text_14_300(
+                                                AppColors.lightText),
+                                          ),
                                         ),
                                       ],
-                                    )
+                                    ),
                                   ],
-                                ));
-                            //  categoryItem(index);
-                          }),
+                                ),
+                              );
+                            },
+                          ),
                           gridDelegate:
-                              (SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 0.6.h,
                             crossAxisSpacing: 16.w,
                             mainAxisSpacing: 5.h,
-                          ))),
+                          ),
+                        ),
                       SliverToBoxAdapter(
                         child: hBox(50),
                       )
