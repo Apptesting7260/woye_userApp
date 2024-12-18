@@ -86,6 +86,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           title: SizedBox(
                             height: 35.h,
                             child: (CustomSearchFilter(
+                              controller: controller.searchController,
                               onFilterTap: () {
                                 Get.toNamed(
                                   AppRoutes.restaurantCategoriesFilter,
@@ -104,6 +105,35 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: hBox(10),
                       ),
+                      if (controller.categoriesDetailsData.value.filterProduct!
+                              .isEmpty &&
+                          controller.categoriesDetailsData.value
+                              .categoryProduct!.isEmpty)
+                        SliverToBoxAdapter(
+                          child: Column(
+                            children: [
+                              // hBox(Get.height / 4),
+                              Center(
+                                child: SvgPicture.asset(
+                                  ImageConstants.noData,
+                                  height: 300.h,
+                                  width: 200.h,
+                                ),
+                              ),
+                              Text(
+                                "We couldn't find any results",
+                                style: AppFontStyle.text_20_600(
+                                    AppColors.darkText),
+                              ),
+                              hBox(5.h),
+                              Text(
+                                "Explore more and shortlist some items",
+                                style: AppFontStyle.text_16_400(
+                                    AppColors.mediumText),
+                              ),
+                            ],
+                          ),
+                        ),
                       if (controller
                           .categoriesDetailsData.value.filterProduct!.isEmpty)
                         SliverGrid(

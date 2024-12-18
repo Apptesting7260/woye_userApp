@@ -13,6 +13,28 @@ class RestaurantCategoriesDetailsController extends GetxController {
   //   super.onInit();
   // }
   // RxBool isFavorite = true.obs;
+  TextEditingController searchController = TextEditingController();
+
+  void filterProducts(String searchText) {
+    print("Categories Length: ${categoriesDetailsData.value.filterProduct?.length}");
+    if (categoriesDetailsData.value.filterProduct != null &&
+        categoriesDetailsData.value.filterProduct!.isNotEmpty) {
+      if (searchText.isEmpty) {
+        print("Showing all products");
+        categoriesDetailsData.value.filterProduct = categoriesDetailsData.value.categoryProduct!;
+      } else {
+        // Filter the products based on title
+        categoriesDetailsData.value.filterProduct = categoriesDetailsData.value.categoryProduct!
+            .where((product) =>
+            product.title!.toLowerCase().contains(searchText.toLowerCase()))
+            .toList();
+      }
+      print("Filtered Products Length: ${categoriesDetailsData.value.filterProduct?.length}");
+    } else {
+      print("No products available to filter.");
+    }
+  }
+
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
