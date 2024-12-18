@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   google_fonts: ^6.2.1
   flutter_screenutil: ^5.9.3
-  image_picker: ^1.1.2
+  image_picker:
   pinput: ^5.0.0
   flutter_svg: ^2.0.10+1
   connectivity_plus: ^6.0.5
@@ -60,7 +60,7 @@ dependencies:
   sign_in_with_apple:
   dotted_border: ^2.1.0
   get: ^4.6.6
-  csc_picker: ^0.2.7
+  csc_picker:
   firebase_messaging: ^15.1.4
   location: ^7.0.1
   cached_network_image: ^3.4.1
