@@ -90,7 +90,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                           height: 35.h,
                           child: (CustomSearchFilter(
                             onFilterTap: () {
-                              Get.toNamed(AppRoutes.restaurantCategoriesFilter);
+                              // Get.toNamed(AppRoutes.restaurantCategoriesFilter);
                             },
                           )),
                         ),

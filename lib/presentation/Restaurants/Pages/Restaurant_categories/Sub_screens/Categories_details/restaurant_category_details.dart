@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
@@ -22,6 +23,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   final specific_Product_Controller specific_product_controllerontroller =
       Get.put(specific_Product_Controller());
+
+  final Categories_FilterController categoriesFilterController =
+      Get.put(Categories_FilterController());
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +93,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     'categoryId': categoryId.toString()
                                   },
                                 );
+                                categoriesFilterController
+                                    .restaurant_get_CategoriesFilter_Api();
                               },
                             )),
                           ),

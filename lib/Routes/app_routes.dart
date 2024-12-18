@@ -31,6 +31,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/categoriesfilter_binding.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
@@ -158,7 +159,7 @@ class AppRoutes {
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(
         name: signUpFom,
-        page: () =>  SignUpFormScreen(),
+        page: () => SignUpFormScreen(),
         binding: SignUpFormBinding()),
     GetPage(
       name: homeScreen,
@@ -181,7 +182,7 @@ class AppRoutes {
     ),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
     GetPage(name: productReviews, page: () => const ProductReviews()),
-    GetPage(name: moreProducts, page: () =>  MoreProducts()),
+    GetPage(name: moreProducts, page: () => MoreProducts()),
     GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
     GetPage(name: addAddressScreen, page: () => const AddAddressScreen()),
     GetPage(name: editAddressScreen, page: () => const EditAddressScreen()),
@@ -221,7 +222,8 @@ class AppRoutes {
     //     page: () => RestaurantCategoriesFilter()),
     GetPage(
         name: restaurantCategoriesFilter,
-        page: () => RestaurantCategoriesFilter()),
+        page: () => RestaurantCategoriesFilter(),
+        binding: CategoriesFilterBinding()),
     GetPage(
         name: restaurantCategoriesDetails,
         page: () => RestaurantCategoryDetails()),

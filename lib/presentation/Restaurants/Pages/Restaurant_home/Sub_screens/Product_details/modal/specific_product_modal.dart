@@ -35,7 +35,6 @@ class specificProduct {
   }
 }
 
-
 class Product {
   int? id;
   String? title;
@@ -46,8 +45,9 @@ class Product {
   String? quanInStock;
   String? description;
   String? discount;
-  String? cuisineType;
-  double? rating;  // Changed to double
+
+  // String? cuisineType;
+  double? rating; // Changed to double
   int? productreview_count;
   String? image;
   List<AddOn>? addOn;
@@ -62,27 +62,27 @@ class Product {
 
   Product(
       {this.id,
-        this.title,
-        this.userId,
-        this.categoryId,
-        this.regularPrice,
-        this.salePrice,
-        this.quanInStock,
-        this.description,
-        this.discount,
-        this.cuisineType,
-        this.rating,  // Changed to double
-        this.productreview_count,
-        this.image,
-        this.addOn,
-        this.extra,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.urlAddimg,
-        this.urlImage,
-        this.productreview,
-        this.isInWishlist});
+      this.title,
+      this.userId,
+      this.categoryId,
+      this.regularPrice,
+      this.salePrice,
+      this.quanInStock,
+      this.description,
+      this.discount,
+      // this.cuisineType,
+      this.rating, // Changed to double
+      this.productreview_count,
+      this.image,
+      this.addOn,
+      this.extra,
+      this.status,
+      this.createdAt,
+      this.updatedAt,
+      this.urlAddimg,
+      this.urlImage,
+      this.productreview,
+      this.isInWishlist});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -94,13 +94,13 @@ class Product {
     quanInStock = json['quan_in_stock'];
     description = json['description'];
     discount = json['discount'];
-    cuisineType = json['cuisine_type'];
-    rating = json['rating']?.toDouble();  // Changed to double
+    // cuisineType = json['cuisine_type'];
+    rating = json['rating']?.toDouble(); // Changed to double
     productreview_count = json['productreview_count'];
     image = json['image'];
-    if (json['add_on'] != null) {
+    if (json['add_on_with_names'] != null) {
       addOn = <AddOn>[];
-      json['add_on'].forEach((v) {
+      json['add_on_with_names'].forEach((v) {
         addOn!.add(AddOn.fromJson(v));
       });
     }
@@ -135,12 +135,12 @@ class Product {
     data['quan_in_stock'] = quanInStock;
     data['description'] = description;
     data['discount'] = discount;
-    data['cuisine_type'] = cuisineType;
-    data['rating'] = rating;  // Rating is now double
+    // data['cuisine_type'] = cuisineType;
+    data['rating'] = rating; // Rating is now double
     data['productreview_count'] = productreview_count;
     data['image'] = image;
     if (addOn != null) {
-      data['add_on'] = addOn!.map((v) => v.toJson()).toList();
+      data['add_on_with_names'] = addOn!.map((v) => v.toJson()).toList();
     }
     if (extra != null) {
       data['extra'] = extra!.map((v) => v.toJson()).toList();
@@ -161,6 +161,7 @@ class Product {
 class AddOn {
   String? name;
   String? price;
+  String? id;
   RxBool isChecked; // Add this field to track checkbox state
 
   AddOn({this.name, this.price, bool? isChecked})
@@ -168,12 +169,14 @@ class AddOn {
 
   AddOn.fromJson(Map<String, dynamic> json)
       : name = json['name'],
+        id = json['id'],
         price = json['price'],
         isChecked = RxBool(json['isChecked'] ?? false);
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
+      'id': id,
       'price': price,
       'isChecked': isChecked.value,
     };
@@ -229,15 +232,12 @@ class Item {
   }
 }
 
-
-
-
 class Productreview {
   int? id;
   int? userId;
   String? username;
   int? productId;
-  double? rating;  // Changed to double
+  double? rating; // Changed to double
   String? message;
   String? createdAt;
   String? updatedAt;
@@ -245,21 +245,21 @@ class Productreview {
 
   Productreview(
       {this.id,
-        this.userId,
-        this.username,
-        this.productId,
-        this.rating,  // Changed to double
-        this.message,
-        this.createdAt,
-        this.updatedAt,
-        this.user});
+      this.userId,
+      this.username,
+      this.productId,
+      this.rating, // Changed to double
+      this.message,
+      this.createdAt,
+      this.updatedAt,
+      this.user});
 
   Productreview.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     username = json['username'];
     productId = json['product_id'];
-    rating = json['rating']?.toDouble();  // Changed to double
+    rating = json['rating']?.toDouble(); // Changed to double
     message = json['message'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -272,7 +272,7 @@ class Productreview {
     data['user_id'] = userId;
     data['username'] = username;
     data['product_id'] = productId;
-    data['rating'] = rating;  // Rating is now double
+    data['rating'] = rating; // Rating is now double
     data['message'] = message;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
@@ -282,7 +282,6 @@ class Productreview {
     return data;
   }
 }
-
 
 class User {
   int? id;
