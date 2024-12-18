@@ -48,7 +48,7 @@ class UnauthenticatedException extends AppExceptions {
     userPreference.removeUser().then((value) {
       socialLoginController.signout();
       Get.offAllNamed(AppRoutes.login);
-      SnackBarUtils.showToast("Your Session is Expired Please Re-login");
+      Utils.showToast("Your Session is Expired Please Re-login");
     });
   }
 }

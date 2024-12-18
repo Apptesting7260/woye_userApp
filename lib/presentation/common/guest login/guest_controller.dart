@@ -28,12 +28,11 @@ class GuestController extends GetxController {
 
     final data = {
       "fcm_token": tokenFCM.toString(),
+      "user_type": "guestUser",
     };
 
     log(data.toString());
-
     setRxRequestStatus(Status.LOADING);
-
     api.guestUserApi(data).then((value) {
       Get.offAllNamed(AppRoutes.restaurantNavbar);
       setRxRequestStatus(Status.COMPLETED);

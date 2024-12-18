@@ -34,7 +34,9 @@ class AppFontStyle {
   static text_12_400(Color color, {height}) {
     return _textStyle(color, 12.sp, FontWeight.w400, height: height);
   }
-
+  static text_12_200(Color color, {height}) {
+    return _textStyle(color, 12.sp, FontWeight.w200, height: height);
+  }
   static text_13_400(Color color, {height}) {
     return _textStyle(color, 13.sp, FontWeight.w400, height: height);
   }
@@ -47,9 +49,14 @@ class AppFontStyle {
     return _textStyle(color, 15.sp, FontWeight.w400, height: height);
   }
 
-  static text_16_400(Color color, {height}) {
-    return _textStyle(color, 16.sp, FontWeight.w400, height: height);
+  // static text_16_400(Color color, {height, FontWeight}) {
+  //   return _textStyle(color, 16.sp, FontWeight ?? FontWeight.w400,
+  //       height: height);
+  // }
+  static text_16_400(Color color, {double? height, FontWeight? fontWeight}) {
+    return _textStyle(color, 16.sp, fontWeight ?? FontWeight.w400, height: height);
   }
+
 
   static text_18_400(Color color, {height}) {
     return _textStyle(color, 18.sp, FontWeight.w400, height: height);
@@ -143,8 +150,6 @@ class AppFontStyle {
     return _textStyle(color, 40.sp, FontWeight.w600, height: height);
   }
 
-  ///`font-weight:800 ===========>`
-  ///
   static text_14_800(Color color, {height}) {
     return _textStyle(color, 14.sp, FontWeight.w800, height: height);
   }

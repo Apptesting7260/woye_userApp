@@ -12,6 +12,9 @@ class CustomSearchFilter extends StatelessWidget {
   final TextStyle? hintStyle;
   final Widget? filterIcon;
   final Color? filterColor;
+  final bool? showfilterIcon;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
 
   const CustomSearchFilter({
     super.key,
@@ -26,6 +29,9 @@ class CustomSearchFilter extends StatelessWidget {
     this.searchIconHeight,
     this.filterIcon,
     this.filterColor,
+    this.showfilterIcon = true,
+    this.controller,
+    this.onChanged,
   });
 
   @override
@@ -37,6 +43,8 @@ class CustomSearchFilter extends StatelessWidget {
       children: [
         Expanded(
           child: CustomTextFormField(
+            onChanged: onChanged,
+            controller: controller,
             borderDecoration: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide:
@@ -62,32 +70,34 @@ class CustomSearchFilter extends StatelessWidget {
                 hintStyle ?? AppFontStyle.text_10_400(AppColors.hintText),
           ),
         ),
-        SizedBox(width: 8.w),
-        InkWell(
-          highlightColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          onTap: onFilterTap,
-          child: Container(
-            padding: searchIocnPadding ??
-                REdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            decoration: BoxDecoration(
-              color: filterColor,
+        SizedBox(width: showfilterIcon == true ? 8.w : 0),
+        showfilterIcon == true
+            ? InkWell(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                onTap: onFilterTap,
+                child: Container(
+                  padding: searchIocnPadding ??
+                      REdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: filterColor,
 
-              borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(
-                  width: 0.8.w,
-                  color: AppColors
-                      .textFieldBorder), // Replace AppColors.hintText with a color
-            ),
-            child: Center(
-              child: filterIcon ??
-                  Image.asset(
-                    "assets/images/filter.png",
-                    height: searchIconHeight ?? 20.h,
+                    borderRadius: BorderRadius.circular(10.r),
+                    border: Border.all(
+                        width: 0.8.w,
+                        color: AppColors
+                            .textFieldBorder), // Replace AppColors.hintText with a color
                   ),
-            ),
-          ),
-        ),
+                  child: Center(
+                    child: filterIcon ??
+                        Image.asset(
+                          "assets/images/filter.png",
+                          height: searchIconHeight ?? 20.h,
+                        ),
+                  ),
+                ),
+              )
+            : SizedBox(),
       ],
     );
   }

@@ -15,7 +15,7 @@ class NetworkController extends GetxController {
       isConnected = true;
     }
     isConnected != true
-        ? SnackBarUtils.showToast("Internet Not Connected",
+        ? Utils.showToast("Internet Not Connected",
             gravity: ToastGravity.TOP)
         : "";
 

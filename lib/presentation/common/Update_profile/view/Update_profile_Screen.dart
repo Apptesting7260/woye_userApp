@@ -3,20 +3,21 @@ import 'package:flutter/services.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/common/Sign_up_form/controller/sign_up_form_controller.dart';
+import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class SignUpFormScreen extends StatelessWidget {
-  const SignUpFormScreen({super.key});
+  SignUpFormScreen({super.key});
 
-  static SignUpFormController controller = Get.find<SignUpFormController>();
+  final SignUpForm_editProfileController controller =
+      Get.put(SignUpForm_editProfileController());
 
   @override
   Widget build(BuildContext context) {
     var arguments = Get.arguments;
     String? typeFrom = arguments?['typefrom'];
     return Scaffold(
-        appBar: const CustomAppBar(),
+        appBar: CustomAppBar(isLeading: typeFrom == "back" ? false : true),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
             case Status.LOADING:
@@ -47,7 +48,7 @@ class SignUpFormScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      header(),
+                      header(typeFrom ?? ""),
                       hBox(30),
                       //
                       form(controller, context),
@@ -63,12 +64,12 @@ class SignUpFormScreen extends StatelessWidget {
         }));
   }
 
-  Widget header() {
+  Widget header(typeFrom) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Fill your profile",
+          typeFrom == "back" ? "Update your profile" : "Fill your profile",
           style: AppFontStyle.text_36_600(AppColors.darkText),
         ),
         hBox(15),
@@ -83,7 +84,8 @@ class SignUpFormScreen extends StatelessWidget {
     );
   }
 
-  Widget form(SignUpFormController signUpFormController, BuildContext context) {
+  Widget form(SignUpForm_editProfileController signUpFormController,
+      BuildContext context) {
     return Form(
         key: signUpFormController.formSignUpKey,
         child: Column(
@@ -125,7 +127,7 @@ class SignUpFormScreen extends StatelessWidget {
                 },
                 // initialSelection: "IN"
                 initialSelection:
-                    signUpFormController.selectedCountryCode.value.code,
+                    signUpFormController.selectedCountryCode.value.dialCode,
               ),
               hintText: "Phone Number",
               textInputType: TextInputType.phone,
@@ -218,8 +220,8 @@ class SignUpFormScreen extends StatelessWidget {
         ));
   }
 
-  Widget imagePicker(
-      BuildContext context, SignUpFormController signUpFormController) {
+  Widget imagePicker(BuildContext context,
+      SignUpForm_editProfileController signUpFormController) {
     return GestureDetector(
       onTap: () {
         bottomSheet(context);
@@ -344,29 +346,30 @@ class SignUpFormScreen extends StatelessWidget {
   }
 
   void checkValid() {
-    SignUpFormScreen.controller.isValid =
-        SignUpFormScreen.controller.formSignUpKey.currentState!.validate();
+    controller.isValid =
+   controller.formSignUpKey.currentState!.validate();
+    print("Path ---> ${controller.profileImageGetUrl.value}");
 
-    if (SignUpFormScreen.controller.isValid) {
-      if (SignUpFormScreen.controller.formattedCurrentDate.value.isEmpty) {
-        SnackBarUtils.showToast("Please Select Date of Birth");
-        SignUpFormScreen.controller.isValid = false;
-      } else if (SignUpFormScreen.controller.genderController.text.isEmpty) {
-        SnackBarUtils.showToast("Please choose your gender");
-        SignUpFormScreen.controller.isValid = false;
-      } else if (controller.profileImageFromAPI.value.isEmpty &&
-          controller.profileImageGetUrl.value.isEmpty) {
-        SnackBarUtils.showToast("Please choose your profile image");
-        SignUpFormScreen.controller.isValid = false;
+    if (controller.isValid) {
+      if (controller.formattedCurrentDate.value.isEmpty) {
+        Utils.showToast("Please Select Date of Birth");
+       controller.isValid = false;
+      } else if (controller.genderController.text.isEmpty) {
+        Utils.showToast("Please choose your gender");
+        controller.isValid = false;
       }
+      // else if (controller.profileImageFromAPI.value.isEmpty &&
+      //     controller.profileImageGetUrl.value.isEmpty) {
+      //   Utils.showToast("Please choose your profile image");
+      //   SignUpFormScreen.controller.isValid = false;
+      // }
     }
   }
 
-  // void checkValid() {
   Widget continueButton(String type) {
     return CustomElevatedButton(
         isLoading: controller.rxRequestStatus2.value == Status.LOADING,
-        text: "Continue",
+        text: type == "back" ? "Update" : "Continue",
         onPressed: () {
           checkValid();
 
@@ -377,7 +380,8 @@ class SignUpFormScreen extends StatelessWidget {
   }
 
   Future bottomSheet(BuildContext context) {
-    final SignUpFormController controller = Get.find<SignUpFormController>();
+    final SignUpForm_editProfileController controller =
+        Get.find<SignUpForm_editProfileController>();
     return showModalBottomSheet(
         backgroundColor: Colors.white,
         shape: OutlineInputBorder(
