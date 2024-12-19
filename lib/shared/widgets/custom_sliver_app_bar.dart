@@ -1,7 +1,14 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
-  const CustomSliverAppBar({super.key});
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+
+  const CustomSliverAppBar({
+    super.key,
+    this.controller,
+    this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +24,8 @@ class CustomSliverAppBar extends StatelessWidget {
           title: SizedBox(
             height: 35.h,
             child: CustomTextFormField(
+              controller: controller,
+              onChanged: onChanged,
               textStyle: AppFontStyle.text_10_400(AppColors.darkText),
               contentPadding: REdgeInsets.symmetric(vertical: 10),
               borderRadius: BorderRadius.circular(10.r),

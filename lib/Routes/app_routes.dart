@@ -181,7 +181,7 @@ class AppRoutes {
       page: () => const GroceryNavbar(),
     ),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
-    GetPage(name: productReviews, page: () => const ProductReviews()),
+    GetPage(name: productReviews, page: () =>  ProductReviews()),
     GetPage(name: moreProducts, page: () => MoreProducts()),
     GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
     GetPage(name: addAddressScreen, page: () => const AddAddressScreen()),

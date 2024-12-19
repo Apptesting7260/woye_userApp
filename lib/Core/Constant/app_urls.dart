@@ -27,4 +27,5 @@ class AppUrls {
   static const String restaurant_product_wishlist = "$baseUrl/all-product-wishlist";
   static const String get_CategoriesFilter = "$baseUrl/inner-search-data";
   static const String seeAllProducts = "$baseUrl/seeAll-specific-product";
+  static const String seeAllReview = "$baseUrl/review-all";
 }

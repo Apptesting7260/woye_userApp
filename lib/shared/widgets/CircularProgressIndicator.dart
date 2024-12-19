@@ -7,3 +7,15 @@ Widget circularProgressIndicator({double size = 30.0}) {
     size: size,
   );
 }
+
+Widget circularProgressIndicator2({double size = 30.0}) {
+  return LoadingAnimationWidget.fourRotatingDots(
+    color: AppColors.primary,
+    size: size,
+  );
+
+  // return LoadingAnimationWidget.waveDots(
+  //   color: AppColors.primary,
+  //   size: size,
+  // );
+}

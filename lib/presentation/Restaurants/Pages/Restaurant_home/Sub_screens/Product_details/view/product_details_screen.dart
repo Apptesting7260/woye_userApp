@@ -6,6 +6,7 @@ import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
@@ -30,6 +31,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
   final seeAll_Product_Controller seeallproductcontroller =
       Get.put(seeAll_Product_Controller());
+
+  final SeeAllProductReviewController seeAllProductReviewController =
+      Get.put(SeeAllProductReviewController());
 
   @override
   Widget build(BuildContext context) {
@@ -655,20 +659,16 @@ class ProductDetailsScreen extends StatelessWidget {
                                       maxLines: 2,
                                     ),
                                     hBox(10),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          controller.formatDate(controller
-                                              .product_Data
-                                              .value
-                                              .product!
-                                              .productreview![index]
-                                              .updatedAt
-                                              .toString()),
-                                          style: AppFontStyle.text_16_400(
-                                              AppColors.lightText),
-                                        ),
-                                      ],
+                                    Text(
+                                      controller.formatDate(controller
+                                          .product_Data
+                                          .value
+                                          .product!
+                                          .productreview![index]
+                                          .updatedAt
+                                          .toString()),
+                                      style: AppFontStyle.text_16_400(
+                                          AppColors.lightText),
                                     )
                                   ],
                                 ),
@@ -681,35 +681,45 @@ class ProductDetailsScreen extends StatelessWidget {
                           ),
                         ],
                       )
-                    : SizedBox();
+                    : const SizedBox();
               },
             ),
           ],
         ),
-        if (controller.product_Data.value.product!.productreview_count != 0)
-          hBox(10),
-        // if(controller.product_Data.value.product!.productreview_count != 0)
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            Get.toNamed(AppRoutes.productReviews);
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "See All (${controller.product_Data.value.product!.productreview_count.toString()})",
-                style: AppFontStyle.text_14_600(AppColors.primary),
-              ),
-              Icon(
-                Icons.arrow_forward,
-                color: AppColors.primary,
-                size: 20.h,
+        controller.product_Data.value.product!.productreview_count!.toInt() > 0
+            ? Column(
+                children: [
+                  hBox(10),
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      Get.toNamed(AppRoutes.productReviews,arguments: {
+                        'product_id': product_id.toString(),
+                        'product_review': controller.product_Data.value.product!.rating,
+                        'review_count': controller.product_Data.value.product!.productreview_count.toString(),
+                      },);
+                      seeAllProductReviewController.seeAllProductReviewApi(
+                          productId: product_id.toString());
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "See All (${controller.product_Data.value.product!.productreview_count.toString()})",
+                          style: AppFontStyle.text_14_600(AppColors.primary),
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: AppColors.primary,
+                          size: 20.h,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               )
-            ],
-          ),
-        ),
+            : SizedBox(),
       ],
     );
   }
