@@ -55,20 +55,20 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
             if (controller.error.value == 'No internet') {
               return InternetExceptionWidget(
                 onPress: () {
-                  controller.restaurant_product_wishlist_api();
+                  controller.restaurantProductWishlistRefreshApi();
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
-                  controller.restaurant_product_wishlist_api();
+                  controller.restaurantProductWishlistRefreshApi();
                 },
               );
             }
           case Status.COMPLETED:
             return RefreshIndicator(
               onRefresh: () async {
-                controller.restaurant_product_wishlist_api();
+                controller.restaurantProductWishlistRefreshApi();
               },
               child: Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24.w),
@@ -114,11 +114,13 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                               titlePadding: REdgeInsets.only(bottom: 15),
                               title: SizedBox(
                                 height: 35.h,
-                                child: (CustomSearchFilter(
-                                  onFilterTap: () {
-                                    // Get.toNamed(AppRoutes.restaurantCategoriesFilter);
+                                child: CustomSearchFilter(
+                                  onChanged: (value) {
+                                    controller.filterWishlistData(value);
                                   },
-                                )),
+                                  controller: controller.searchController,
+                                  showfilterIcon: false,
+                                ),
                               ),
                               centerTitle: true,
                             ),
@@ -127,11 +129,10 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                               .wishlistData.value.categoryProduct!.isNotEmpty)
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
-                                    childCount: controller
-                                        .wishlistData
-                                        .value
-                                        .categoryProduct
-                                        ?.length, (context, index) {
+                                    childCount: controller.filteredWishlistData
+                                        .length, (context, index) {
+                                  var product =
+                                      controller.filteredWishlistData[index];
                                   return GestureDetector(
                                       onTap: () {
                                         Get.to(ProductDetailsScreen(
@@ -180,11 +181,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
-                                                    imageUrl: controller
-                                                        .wishlistData
-                                                        .value
-                                                        .categoryProduct![index]
-                                                        .urlImage
+                                                    imageUrl: product.urlImage
                                                         .toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
@@ -229,43 +226,23 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                     splashColor:
                                                         Colors.transparent,
                                                     onTap: () {
-                                                      controller
-                                                          .wishlistData
-                                                          .value
-                                                          .categoryProduct![
-                                                              index]
-                                                          .isLoading
-                                                          .value = true;
+                                                      product.isLoading.value =
+                                                          true;
                                                       add_Wishlist_Controller
                                                           .restaurant_add_product_wishlist(
                                                         categoryId: "",
-                                                        product_id: controller
-                                                            .wishlistData
-                                                            .value
-                                                            .categoryProduct![
-                                                                index]
-                                                            .id
+                                                        product_id: product.id
                                                             .toString(),
                                                       );
                                                       print(
-                                                          "product_id ${controller.wishlistData.value.categoryProduct![index].id.toString()}");
+                                                          "product_id ${product.id.toString()}");
                                                     },
-                                                    child: controller
-                                                            .wishlistData
-                                                            .value
-                                                            .categoryProduct![
-                                                                index]
-                                                            .isLoading
-                                                            .value
+                                                    child: product
+                                                            .isLoading.value
                                                         ? circularProgressIndicator(
                                                             size: 18)
                                                         : Icon(
-                                                            controller
-                                                                        .wishlistData
-                                                                        .value
-                                                                        .categoryProduct![
-                                                                            index]
-                                                                        .isInWishlist ==
+                                                            product.isInWishlist ==
                                                                     true
                                                                 ? Icons.favorite
                                                                 : Icons
@@ -277,18 +254,18 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                               )
                                             ],
                                           ),
-                                          hBox(10),
+                                          hBox(10.h),
                                           Row(
                                             children: [
                                               Text(
-                                                "\$${controller.wishlistData.value.categoryProduct![index].salePrice}",
+                                                "\$${product.salePrice}",
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle.text_16_600(
                                                     AppColors.primary),
                                               ),
                                               wBox(5),
                                               Text(
-                                                "\$${controller.wishlistData.value.categoryProduct![index].regularPrice}",
+                                                "\$${product.regularPrice}",
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
 
@@ -305,25 +282,19 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                               ),
                                             ],
                                           ),
-                                          // hBox(10),
                                           Text(
-                                            controller.wishlistData.value
-                                                .categoryProduct![index].title
-                                                .toString(),
+                                            product.title.toString(),
                                             textAlign: TextAlign.left,
                                             style: AppFontStyle.text_16_400(
                                                 AppColors.darkText),
                                           ),
-                                          // hBox(10),
-
-                                          // hBox(10),
                                           Row(
                                             children: [
                                               SvgPicture.asset(
                                                   "assets/svg/star-yellow.svg"),
                                               wBox(4),
                                               Text(
-                                                "${controller.wishlistData.value.categoryProduct![index].rating.toString()}/5",
+                                                "${product.rating.toString()}/5",
                                                 style: AppFontStyle.text_14_300(
                                                     AppColors.lightText),
                                               ),

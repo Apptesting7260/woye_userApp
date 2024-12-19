@@ -2,7 +2,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 
 class CustomSearchFilter extends StatelessWidget {
   final String hintText;
-  final VoidCallback onFilterTap;
+  final VoidCallback? onFilterTap;
   final EdgeInsets? padding;
   final EdgeInsets? searchIocnPadding;
   final double? searchIconHeight;
@@ -19,7 +19,7 @@ class CustomSearchFilter extends StatelessWidget {
   const CustomSearchFilter({
     super.key,
     this.hintText = "Search",
-    required this.onFilterTap,
+    this.onFilterTap,
     this.padding,
     this.prefix,
     this.prefixConstraints,
