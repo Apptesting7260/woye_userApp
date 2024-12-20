@@ -17,7 +17,7 @@ class SignUpFormScreen extends StatelessWidget {
     var arguments = Get.arguments;
     String? typeFrom = arguments?['typefrom'];
     return Scaffold(
-        appBar: CustomAppBar(isLeading: typeFrom == "back" ? false : true),
+        appBar: CustomAppBar(isLeading: typeFrom != "back" ? false : true),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
             case Status.LOADING:
@@ -346,14 +346,13 @@ class SignUpFormScreen extends StatelessWidget {
   }
 
   void checkValid() {
-    controller.isValid =
-   controller.formSignUpKey.currentState!.validate();
+    controller.isValid = controller.formSignUpKey.currentState!.validate();
     print("Path ---> ${controller.profileImageGetUrl.value}");
 
     if (controller.isValid) {
       if (controller.formattedCurrentDate.value.isEmpty) {
         Utils.showToast("Please Select Date of Birth");
-       controller.isValid = false;
+        controller.isValid = false;
       } else if (controller.genderController.text.isEmpty) {
         Utils.showToast("Please choose your gender");
         controller.isValid = false;

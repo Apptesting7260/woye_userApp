@@ -29,6 +29,8 @@ class CustomTextFormField extends StatelessWidget {
     this.enabled,
     this.onChanged,
     this.onTapOutside,
+    this.onTap,
+    this.readOnly = false,
     this.borderRadius,
     this.inputFormatters,
     this.minLines,
@@ -83,6 +85,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool? enabled;
   final Function(String value)? onChanged;
   final TapRegionCallback? onTapOutside;
+  final Function()? onTap;
+  final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
 
   @override
@@ -100,25 +104,24 @@ class CustomTextFormField extends StatelessWidget {
         height: height,
         child: TextFormField(
           // expands: true,
-
+          onTap: onTap,
           onTapOutside: onTapOutside,
           onChanged: onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           enabled: enabled ?? true,
           controller: controller,
           // focusNode: focusNode ?? FocusNode(),
-          // autofocus: autofocus!,
+          autofocus: autofocus ?? false,
           style: textStyle ?? AppFontStyle.text_16_400(AppColors.darkText),
           obscureText: obscureText!,
           textInputAction: textInputAction,
           keyboardType: textInputType,
-          // maxLines: null,
-          // minLines: null,
           maxLines: maxLines ?? 1,
           minLines: minLines ?? 1,
           decoration: decoration,
           validator: validator,
           inputFormatters: inputFormatters,
+          readOnly: readOnly,
         ),
       );
   InputDecoration get decoration => InputDecoration(

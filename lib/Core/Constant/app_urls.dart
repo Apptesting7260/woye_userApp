@@ -28,4 +28,5 @@ class AppUrls {
   static const String get_CategoriesFilter = "$baseUrl/inner-search-data";
   static const String seeAllProducts = "$baseUrl/seeAll-specific-product";
   static const String seeAllReview = "$baseUrl/review-all";
+  static const String homeSearch = "$baseUrl/home-search";
 }

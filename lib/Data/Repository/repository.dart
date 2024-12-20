@@ -12,11 +12,13 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/modal/see_all_review_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/modal/singal_restaurant_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/modal/homesearchmodal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/common/Otp/model/login_model.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
+import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
 
 class Repository {
   final _apiService = NetworkApiServices();
@@ -60,12 +62,12 @@ class Repository {
     return ProfileModel.fromJson(response);
   }
 
-  // Future<dynamic> updateprofileApi(data) async {
-  //   await initializeUser();
-  //   dynamic response =
-  //       await _apiService.postApi(data, AppUrls.updateProfile, token);
-  //   return UpdateprofileModel.fromJson(response);
-  // }
+  Future<dynamic> updateprofileApi(data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.updateProfile, token);
+    return UpdateprofileModel.fromJson(response);
+  }
 
   /* ------------------------------------------------ Restaurant ----------------------------------------------------*/
 
@@ -146,5 +148,11 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.seeAllReview, token);
     return ReviewResponse.fromJson(response);
+  }
+  Future<dynamic> homeSearchApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.homeSearch, token);
+    return HomeSearchModal.fromJson(response);
   }
 }

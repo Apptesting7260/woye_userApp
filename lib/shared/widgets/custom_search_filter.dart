@@ -15,6 +15,9 @@ class CustomSearchFilter extends StatelessWidget {
   final bool? showfilterIcon;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final Function()? onTap;
+  final bool? enabled;
+  final bool readOnly;
 
   const CustomSearchFilter({
     super.key,
@@ -32,6 +35,9 @@ class CustomSearchFilter extends StatelessWidget {
     this.showfilterIcon = true,
     this.controller,
     this.onChanged,
+    this.onTap,
+    this.enabled = true,
+    this.readOnly = false,
   });
 
   @override
@@ -43,7 +49,10 @@ class CustomSearchFilter extends StatelessWidget {
       children: [
         Expanded(
           child: CustomTextFormField(
+            readOnly: readOnly,
             onChanged: onChanged,
+            enabled: enabled,
+            onTap: onTap,
             controller: controller,
             borderDecoration: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),

@@ -180,118 +180,22 @@ class SignUpForm_editProfileController extends GetxController {
       profileImageGetUrl.value = image.value.path;
       print("Path ---> ${image.value.path}");
       print("Path ---> ${profileImageGetUrl.value}");
+      imageUploadApi();
     }
   }
 
   final RestaurantHomeController restaurantHomeController =
       Get.put(RestaurantHomeController());
 
-  // profileupdateApi(String type) async {
-  //   print("Path ---> ${"0"}");
-  //   print("Path ---> ${profileImageGetUrl.value}");
-  //   rxRequestStatus2(Status.LOADING);
-  //   final data = {
-  //     "first_name": fisrtNameController.text.toString(),
-  //     "country_code": selectedCountryCode.value.toString(),
-  //     "phone": mobileController.text.trim().toString(),
-  //     "dob": formattedCurrentDate.value,
-  //     "email": emailController.text.trim().toString(),
-  //     "gender": genderController.text.toString(),
-  //   };
-  //
-  //   var uri = Uri.parse(AppUrls.updateProfile);
-  //   var request = http.MultipartRequest('POST', uri);
-  //
-  //   data.forEach((key, value) {
-  //     request.fields[key] = value;
-  //   });
-  //   request.headers['Authorization'] = 'Bearer ${userModel.token.toString()}';
-  //   print("userModel.token.toString()${userModel.token.toString()}");
-  //   if (profileImageGetUrl.value != "") {
-  //     var pic = await http.MultipartFile.fromPath("image", image.value.path);
-  //
-  //     request.files.add(pic);
-  //     print("hhhhhhhhhhhhhhhh${image.value.path}");
-  //   }
-  //
-  //   try {
-  //     var response = await request.send();
-  //     if (response.statusCode == 200) {
-  //       // var responseBody = await response.stream.bytesToString();
-  //       // var responseData = json.decode(responseBody);
-  //       // log('Profile update success: $responseData');
-  //       // upprofileSet(responseData);
-  //
-  //       var responseBody = await response.stream.bytesToString();
-  //       var responseData = json.decode(responseBody);
-  //
-  //       UpdateprofileModel profileData =
-  //           UpdateprofileModel.fromJson(responseData);
-  //
-  //       log('Profile update success: $profileData');
-  //       upprofileSet(profileData);
-  //       if (updateprofileData.value.status == true) {
-  //         if (type == "back") {
-  //           restaurantHomeController.homeApi(1);
-  //           Utils.showToast("Your profile has been updated.");
-  //           Get.back();
-  //           rxRequestStatus2(Status.COMPLETED);
-  //         } else {
-  //           userModel.step = updateprofileData.value.step;
-  //           log("get Response Step: ${userModel.step}");
-  //           pref.saveStep(userModel.step!);
-  //           Get.offAllNamed(AppRoutes.restaurantNavbar);
-  //           rxRequestStatus2(Status.COMPLETED);
-  //         }
-  //       }
-  //     } else {
-  //       Utils.showToast("Failed to update profile");
-  //       log('Failed to update profile. Status code: ${response.statusCode}');
-  //       rxRequestStatus2(Status.ERROR);
-  //     }
-  //   } catch (error) {
-  //     // Handle error
-  //     log('Error occurred: $error');
-  //     setError(error.toString());
-  //     rxRequestStatus2(Status.ERROR);
-  //   }
-  // }
-
-  profileupdateApi(String type) async {
-    print("Path ---> ${"0"}");
-    print("Path ---> ${profileImageGetUrl.value}");
-    rxRequestStatus2(Status.LOADING);
-
-    // Create data map
-    final data = {
-      "first_name": fisrtNameController.text.toString(),
-      "country_code": selectedCountryCode.value.toString(),
-      "phone": mobileController.text.trim().toString(),
-      "dob": formattedCurrentDate.value,
-      "email": emailController.text.trim().toString(),
-      "gender": genderController.text.toString(),
-    };
-
-    // Print the data being sent
-    print("Sending data: $data");
-
-    // Print the URL
+  imageUploadApi() async {
     var uri = Uri.parse(AppUrls.updateProfile);
     print("URL: $uri");
 
     var request = http.MultipartRequest('POST', uri);
 
-    // Add fields to the request
-    data.forEach((key, value) {
-      print("Adding field: $key = $value"); // Print each field being added
-      request.fields[key] = value;
-    });
-
-    // Set headers
     request.headers['Authorization'] = 'Bearer ${userModel.token.toString()}';
     print("Authorization Header: Bearer ${userModel.token.toString()}");
 
-    // If there's a profile image, add it to the request
     if (profileImageGetUrl.value != "") {
       var pic = await http.MultipartFile.fromPath("image", image.value.path);
       print("Adding image with path: ${image.value.path}");
@@ -306,34 +210,208 @@ class SignUpForm_editProfileController extends GetxController {
         var responseData = json.decode(responseBody);
         UpdateprofileModel profileData =
             UpdateprofileModel.fromJson(responseData);
-        log('Profile update success: $profileData');
         upprofileSet(profileData);
         if (updateprofileData.value.status == true) {
-          if (type == "back") {
-            restaurantHomeController.homeApi(1);
-            Utils.showToast("Your profile has been updated.");
-            Get.back();
-            getprofileApi();
-            rxRequestStatus2(Status.COMPLETED);
-          } else {
-            userModel.step = updateprofileData.value.step;
-            log("get Response Step: ${userModel.step}");
-            pref.saveStep(userModel.step!);
-            Get.offAllNamed(AppRoutes.restaurantNavbar);
-            rxRequestStatus2(Status.COMPLETED);
-            getprofileApi();
-          }
+          Utils.showToast("Your profile image has been updated.");
         }
       } else {
-        Utils.showToast("Failed to update profile");
+        Utils.showToast("Failed to update profile image");
         log('Failed to update profile. Status code: ${response.statusCode}');
-        rxRequestStatus2(Status.ERROR);
       }
     } catch (error) {
       log('Error occurred: $error');
       setError(error.toString());
-      rxRequestStatus2(Status.ERROR);
     }
+  }
+
+  // profileupdateApi(String type) async {
+  //   print("Path ---> ${"0"}");
+  //   print("Path ---> ${profileImageGetUrl.value}");
+  //   rxRequestStatus2(Status.LOADING);
+  //
+  //   // Create data map
+  //   final data = {
+  //     "first_name": fisrtNameController.text.toString(),
+  //     "country_code": selectedCountryCode.value.toString(),
+  //     "phone": mobileController.text.trim().toString(),
+  //     "dob": formattedCurrentDate.value,
+  //     "email": emailController.text.trim().toString(),
+  //     "gender": genderController.text.toString(),
+  //   };
+  //
+  //   // Print the data being sent
+  //   print("Sending data: $data");
+  //
+  //   // Print the URL
+  //   var uri = Uri.parse(AppUrls.updateProfile);
+  //   print("URL: $uri");
+  //
+  //   var request = http.MultipartRequest('POST', uri);
+  //
+  //   // Add fields to the request
+  //   data.forEach((key, value) {
+  //     print("Adding field: $key = $value"); // Print each field being added
+  //     request.fields[key] = value;
+  //   });
+  //
+  //   // Set headers
+  //   request.headers['Authorization'] = 'Bearer ${userModel.token.toString()}';
+  //   print("Authorization Header: Bearer ${userModel.token.toString()}");
+  //
+  //   // If there's a profile image, add it to the request
+  //   if (profileImageGetUrl.value != "") {
+  //     var pic = await http.MultipartFile.fromPath("image", image.value.path);
+  //     print("Adding image with path: ${image.value.path}");
+  //     request.files.add(pic);
+  //   }
+  //
+  //   try {
+  //     var response = await request.send();
+  //     print("Response status code: ${response.statusCode}");
+  //     if (response.statusCode == 200) {
+  //       var responseBody = await response.stream.bytesToString();
+  //       var responseData = json.decode(responseBody);
+  //       UpdateprofileModel profileData =
+  //           UpdateprofileModel.fromJson(responseData);
+  //       log('Profile update success: $profileData');
+  //       upprofileSet(profileData);
+  //       if (updateprofileData.value.status == true) {
+  //         if (type == "back") {
+  //           restaurantHomeController.homeApi(1);
+  //           Utils.showToast("Your profile has been updated.");
+  //           Get.back();
+  //           getprofileApi();
+  //           rxRequestStatus2(Status.COMPLETED);
+  //         } else {
+  //           userModel.step = updateprofileData.value.step;
+  //           log("get Response Step: ${userModel.step}");
+  //           pref.saveStep(userModel.step!);
+  //           Get.offAllNamed(AppRoutes.restaurantNavbar);
+  //           rxRequestStatus2(Status.COMPLETED);
+  //           getprofileApi();
+  //         }
+  //       }
+  //     } else {
+  //       Utils.showToast("Failed to update profile");
+  //       log('Failed to update profile. Status code: ${response.statusCode}');
+  //       rxRequestStatus2(Status.ERROR);
+  //     }
+  //   } catch (error) {
+  //     log('Error occurred: $error');
+  //     setError(error.toString());
+  //     rxRequestStatus2(Status.ERROR);
+  //   }
+  // }
+
+  // profileupdateApi(String type) async {
+  //   rxRequestStatus2(Status.LOADING);
+  //   final data = {
+  //     "first_name": fisrtNameController.text.toString(),
+  //     "country_code": selectedCountryCode.value.toString(),
+  //     "phone": mobileController.text.trim().toString(),
+  //     "dob": formattedCurrentDate.value,
+  //     "email": emailController.text.trim().toString(),
+  //     "gender": genderController.text.toString(),
+  //   };
+  //
+  //   print("Sending data: $data");
+  //
+  //   var uri = Uri.parse(AppUrls.updateProfile);
+  //   print("URL: $uri");
+  //
+  //   var request = http.MultipartRequest('POST', uri);
+  //
+  //   data.forEach((key, value) {
+  //     request.fields[key] = value;
+  //   });
+  //
+  //   request.headers['Authorization'] = 'Bearer ${userModel.token.toString()}';
+  //   try {
+  //     var response = await request.send();
+  //     print("Response status code: ${response.statusCode}");
+  //     if (response.statusCode == 200) {
+  //       var responseBody = await response.stream.bytesToString();
+  //       var responseData = json.decode(responseBody);
+  //       UpdateprofileModel profileData =
+  //           UpdateprofileModel.fromJson(responseData);
+  //       upprofileSet(profileData);
+  //       if (updateprofileData.value.status == true) {
+  //         if (type == "back") {
+  //           restaurantHomeController.homeApi(1);
+  //           Utils.showToast("Your profile has been updated.");
+  //           Get.back();
+  //           getprofileApi();
+  //           rxRequestStatus2(Status.COMPLETED);
+  //         } else {
+  //           userModel.step = updateprofileData.value.step;
+  //           log("get Response Step: ${userModel.step}");
+  //           pref.saveStep(userModel.step!);
+  //           Get.offAllNamed(AppRoutes.restaurantNavbar);
+  //           rxRequestStatus2(Status.COMPLETED);
+  //           getprofileApi();
+  //         }
+  //       }
+  //     } else {
+  //       Utils.showToast("Failed to update profile");
+  //       log('Failed to update profile. Status code: ${response.statusCode}');
+  //       rxRequestStatus2(Status.ERROR);
+  //     }
+  //   } catch (error) {
+  //     log('Error occurred: $error');
+  //     setError(error.toString());
+  //     rxRequestStatus2(Status.ERROR);
+  //   }
+  // }
+
+  profileupdateApi(String type) async {
+    final data = {
+      "first_name": fisrtNameController.text.toString(),
+      "country_code": selectedCountryCode.value.toString(),
+      "phone": mobileController.text.trim().toString(),
+      "dob": formattedCurrentDate.value,
+      "email": emailController.text.trim().toString(),
+      "gender": genderController.text.toString(),
+    };
+
+    log(data.toString());
+
+    log("update profile");
+
+    userModel = await pref.getUser();
+
+    log("get header : ${userModel.token.toString()}");
+
+    setRxRequestStatus(Status.LOADING);
+
+    api.updateprofileApi(data).then((value) {
+      upprofileSet(value);
+      if (updateprofileData.value.status == true) {
+        if (type == "back") {
+          restaurantHomeController.homeApi(1);
+          Utils.showToast("Your profile has been updated.");
+          Get.back();
+          setRxRequestStatus(Status.COMPLETED);
+          getprofileApi();
+          rxRequestStatus2(Status.COMPLETED);
+        } else {
+          userModel.step = updateprofileData.value.step;
+          log("get Response Step: ${userModel.step}");
+          pref.saveStep(userModel.step!);
+          Get.offAllNamed(AppRoutes.restaurantNavbar);
+          rxRequestStatus2(Status.COMPLETED);
+          setRxRequestStatus(Status.COMPLETED);
+          getprofileApi();
+        }
+      } else {
+        Utils.showToast(updateprofileData.value.message.toString());
+        log('Failed to update profile. Status code: ${updateprofileData.value.message}');
+        rxRequestStatus2(Status.ERROR);
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      Utils.showToast(error.toString());
+      setRxRequestStatus(Status.ERROR);
+    });
   }
 
   int chackCountryLength = 10;

@@ -144,11 +144,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
       expandedHeight: 80.h,
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       flexibleSpace: FlexibleSpaceBar(
         title: SizedBox(
           height: 34.h,
           child: (CustomSearchFilter(
+            // enabled: false,
+            readOnly: true,
+            onTap: () {
+              Get.toNamed(AppRoutes.restaurantHomeFilter);
+            },
             showfilterIcon: false,
             searchIocnPadding: REdgeInsets.all(8),
             searchIconHeight: 16.h,
@@ -158,15 +162,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               maxHeight: 18.h,
             ),
             prefix: Padding(
-              padding: REdgeInsets.only(left: 15, right: 5, bottom: 1),
+              padding: REdgeInsets.only(left: 15.h, right: 5.h, bottom: 1.h),
               child: SvgPicture.asset(
                 "assets/svg/search.svg",
-                height: 12,
+                height: 12.h,
               ),
             ),
             padding: REdgeInsets.only(top: 10, bottom: 10),
             onFilterTap: () {
-              Get.toNamed(AppRoutes.restaurantHomeFilter);
+              // Get.toNamed(AppRoutes.restaurantHomeFilter);
             },
           )),
         ),
