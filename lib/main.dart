@@ -21,11 +21,11 @@ Future<void> main() async {
       systemNavigationBarColor: Colors.white,
       statusBarBrightness: Brightness.light));
   Get.put(NetworkController());
-  runApp( MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
   UserModel userModel = UserModel();
 

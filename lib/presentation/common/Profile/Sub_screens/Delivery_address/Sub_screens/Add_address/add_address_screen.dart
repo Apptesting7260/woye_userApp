@@ -4,9 +4,11 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_controller.dart';
 
 class AddAddressScreen extends StatelessWidget {
-  const AddAddressScreen({super.key});
+  AddAddressScreen({super.key});
 
   static final controller = Get.put(AddAddressController(), permanent: true);
+
+  final locationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class AddAddressScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
+        padding: REdgeInsets.symmetric(horizontal: 24.h),
         child: Column(
           children: [
             hBox(20),
@@ -28,12 +30,12 @@ class AddAddressScreen extends StatelessWidget {
             phoneNumber(),
             hBox(15),
             houseNo(),
-            hBox(15),
-            countryStateCityPicker(),
+            // hBox(15),
+            // countryStateCityPicker(),
             hBox(15),
             address(),
-            hBox(15),
-            zipPostalCode(),
+            // hBox(15),
+            // zipPostalCode(),
             hBox(15),
             toggleButtons(),
             hBox(20),
@@ -95,54 +97,54 @@ class AddAddressScreen extends StatelessWidget {
     );
   }
 
-  Widget countryStateCityPicker() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 20),
-      child: Column(
-        children: [
-          Transform.scale(
-              scale: 1.28,
-              child: GetBuilder(
-                  init: controller,
-                  builder: (context) {
-                    return CSCPicker(
-                      dropdownHeadingStyle:
-                          AppFontStyle.text_12_400(AppColors.darkText),
-                      selectedItemStyle:
-                          AppFontStyle.text_12_400(AppColors.darkText),
-                      layout: Layout.vertical,
-                      disabledDropdownDecoration: BoxDecoration(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(
-                            12.r,
-                          ),
-                          border: Border.all(color: AppColors.textFieldBorder)),
-                      dropdownDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                            12.r,
-                          ),
-                          border: Border.all(color: AppColors.textFieldBorder)),
-                      onCountryChanged: (value) {
-                        controller.countryValue = value;
-                      },
-                      onStateChanged: (value) {
-                        controller.stateValue = value ?? "";
-                      },
-                      onCityChanged: (value) {
-                        controller.cityValue = value ?? "";
-                      },
-                    );
-                  }))
-        ],
-      ),
-    );
-  }
-
-  Widget zipPostalCode() {
-    return const CustomTextFormField(
-      hintText: "Zip/Postal Code",
-    );
-  }
+  // Widget countryStateCityPicker() {
+  //   return Padding(
+  //     padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 20),
+  //     child: Column(
+  //       children: [
+  //         Transform.scale(
+  //             scale: 1.28,
+  //             child: GetBuilder(
+  //                 init: controller,
+  //                 builder: (context) {
+  //                   return CSCPicker(
+  //                     dropdownHeadingStyle:
+  //                         AppFontStyle.text_12_400(AppColors.darkText),
+  //                     selectedItemStyle:
+  //                         AppFontStyle.text_12_400(AppColors.darkText),
+  //                     layout: Layout.vertical,
+  //                     disabledDropdownDecoration: BoxDecoration(
+  //                         color: Colors.transparent,
+  //                         borderRadius: BorderRadius.circular(
+  //                           12.r,
+  //                         ),
+  //                         border: Border.all(color: AppColors.textFieldBorder)),
+  //                     dropdownDecoration: BoxDecoration(
+  //                         borderRadius: BorderRadius.circular(
+  //                           12.r,
+  //                         ),
+  //                         border: Border.all(color: AppColors.textFieldBorder)),
+  //                     onCountryChanged: (value) {
+  //                       controller.countryValue = value;
+  //                     },
+  //                     onStateChanged: (value) {
+  //                       controller.stateValue = value ?? "";
+  //                     },
+  //                     onCityChanged: (value) {
+  //                       controller.cityValue = value ?? "";
+  //                     },
+  //                   );
+  //                 }))
+  //       ],
+  //     ),
+  //   );
+  // }
+  //
+  // Widget zipPostalCode() {
+  //   return const CustomTextFormField(
+  //     hintText: "Zip/Postal Code",
+  //   );
+  // }
 
   Widget toggleButtons() {
     return Row(children: [

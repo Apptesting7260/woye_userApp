@@ -13,6 +13,8 @@ import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_mo
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
 
 class SignUpForm_editProfileController extends GetxController {
+  String typeFrom = "";
+
   @override
   void onInit() async {
     getprofileApi();
@@ -20,6 +22,9 @@ class SignUpForm_editProfileController extends GetxController {
     mobileController = TextEditingController();
     emailController = TextEditingController();
     genderController = TextEditingController();
+    var arguments = Get.arguments;
+    typeFrom = arguments?['typefrom'];
+    print("objectyyyyyyyyyyyyyyyy$typeFrom");
     super.onInit();
   }
 
@@ -212,6 +217,9 @@ class SignUpForm_editProfileController extends GetxController {
             UpdateprofileModel.fromJson(responseData);
         upprofileSet(profileData);
         if (updateprofileData.value.status == true) {
+          if (typeFrom == "back") {
+            restaurantHomeController.homeApi(1);
+          }
           Utils.showToast("Your profile image has been updated.");
         }
       } else {

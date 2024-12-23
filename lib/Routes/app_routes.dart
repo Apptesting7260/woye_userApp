@@ -104,7 +104,7 @@ class AppRoutes {
   static const String orderReveived = "/order_reveived";
   static const String reviewDriver = "/review_driver";
   static const String orderOtp = "/order_otp";
-  static const String editProfile = "/edit_profile";
+  // static const String editProfile = "/edit_profile";
   static const String orders = "/orders";
   static const String orderDetails = "/order_details";
   static const String myWallet = "/my_wallet";
@@ -184,7 +184,7 @@ class AppRoutes {
     GetPage(name: productReviews, page: () => ProductReviews()),
     GetPage(name: moreProducts, page: () => MoreProducts()),
     GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
-    GetPage(name: addAddressScreen, page: () => const AddAddressScreen()),
+    GetPage(name: addAddressScreen, page: () =>  AddAddressScreen()),
     GetPage(name: editAddressScreen, page: () => const EditAddressScreen()),
     GetPage(name: promoCode, page: () => const PromoCodes()),
     GetPage(name: paymentMethod, page: () => const PaymentMethodScreen()),
@@ -194,7 +194,7 @@ class AppRoutes {
     GetPage(name: orderReveived, page: () => const OrderReveivedScreen()),
     GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
-    GetPage(name: editProfile, page: () => const EditProfileScreen()),
+    // GetPage(name: editProfile, page: () => const EditProfileScreen()),
     GetPage(name: orders, page: () => const OrdersScreen()),
     GetPage(name: orderDetails, page: () => const OrderDetailsScreen()),
     GetPage(name: myWallet, page: () => const MyWalletScreen()),
