@@ -7,7 +7,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
-  await dotenv.load(fileName: "assets/.env");
+  // await dotenv.load(fileName: "assets/.env");
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(
