@@ -1,14 +1,13 @@
-import 'package:csc_picker/csc_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_controller.dart';
+import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
+import 'package:woye_user/shared/widgets/address_fromgoogle/AddressFromGoogleTextField.dart';
 
 class AddAddressScreen extends StatelessWidget {
   AddAddressScreen({super.key});
 
-  static final controller = Get.put(AddAddressController(), permanent: true);
-
-  final locationController = TextEditingController();
+  final controller = Get.put(AddAddressController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +29,54 @@ class AddAddressScreen extends StatelessWidget {
             phoneNumber(),
             hBox(15),
             houseNo(),
-            // hBox(15),
-            // countryStateCityPicker(),
             hBox(15),
-            address(),
-            // hBox(15),
-            // zipPostalCode(),
+            AddressFromGoogleAPI(
+              controller: controller.locationController,
+              onChanged: (value) {
+                controller.isValidAddress = false;
+                // addressSetController.house_noController.value.clear();
+              },
+              suggestionsCallback: (query) async {
+                return await controller.searchAutocomplete(query);
+              },
+              itemBuilder: (context, Predictions suggestion) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      title: Text(
+                        suggestion.description ?? "",
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    const Divider(
+                      height: 0,
+                    ),
+                  ],
+                );
+              },
+              onSelected: (Predictions selectedAddress) {
+                controller.locationController.text =
+                    selectedAddress.description ?? "";
+                controller.getLatLang(controller.locationController.text);
+                controller.selectedLocation =
+                    controller.locationController.text;
+                controller.isValidAddress = true;
+                controller.searchPlace.clear();
+                print("SelectedLocation ${controller.selectedLocation}");
+              },
+              hintText: 'Address',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'enter your address';
+                }
+                if (!controller.isValidAddress) {
+                  return 'Select an valid address.';
+                }
+                return null;
+              },
+            ),
             hBox(15),
             toggleButtons(),
             hBox(20),
@@ -96,55 +137,6 @@ class AddAddressScreen extends StatelessWidget {
       hintText: "Address",
     );
   }
-
-  // Widget countryStateCityPicker() {
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 38, vertical: 20),
-  //     child: Column(
-  //       children: [
-  //         Transform.scale(
-  //             scale: 1.28,
-  //             child: GetBuilder(
-  //                 init: controller,
-  //                 builder: (context) {
-  //                   return CSCPicker(
-  //                     dropdownHeadingStyle:
-  //                         AppFontStyle.text_12_400(AppColors.darkText),
-  //                     selectedItemStyle:
-  //                         AppFontStyle.text_12_400(AppColors.darkText),
-  //                     layout: Layout.vertical,
-  //                     disabledDropdownDecoration: BoxDecoration(
-  //                         color: Colors.transparent,
-  //                         borderRadius: BorderRadius.circular(
-  //                           12.r,
-  //                         ),
-  //                         border: Border.all(color: AppColors.textFieldBorder)),
-  //                     dropdownDecoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.circular(
-  //                           12.r,
-  //                         ),
-  //                         border: Border.all(color: AppColors.textFieldBorder)),
-  //                     onCountryChanged: (value) {
-  //                       controller.countryValue = value;
-  //                     },
-  //                     onStateChanged: (value) {
-  //                       controller.stateValue = value ?? "";
-  //                     },
-  //                     onCityChanged: (value) {
-  //                       controller.cityValue = value ?? "";
-  //                     },
-  //                   );
-  //                 }))
-  //       ],
-  //     ),
-  //   );
-  // }
-  //
-  // Widget zipPostalCode() {
-  //   return const CustomTextFormField(
-  //     hintText: "Zip/Postal Code",
-  //   );
-  // }
 
   Widget toggleButtons() {
     return Row(children: [

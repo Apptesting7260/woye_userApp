@@ -1,4 +1,8 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
+import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 
 class AddAddressController extends GetxController {
   Rx<TextEditingController>? mobNoCon;
@@ -7,6 +11,8 @@ class AddAddressController extends GetxController {
   String countryValue = " ";
   String stateValue = " ";
   String cityValue = " ";
+
+  final locationController = TextEditingController();
 
   Rx<CountryCode> selectedCountryCode =
       CountryCode(dialCode: '+91', code: 'IN').obs;
@@ -220,4 +226,42 @@ class AddAddressController extends GetxController {
     'ZM': 9, // Zambia
     'ZW': 9,
   };
+
+  // ---------------------- Place API -------------------
+  bool isValidAddress = true;
+  final List<Predictions> searchPlace = [];
+  String? selectedLocation;
+  String googleAPIKey = "${dotenv.env['googleAPIKey']}";
+
+  Future<List<Predictions>> searchAutocomplete(String query) async {
+    Uri uri =
+        Uri.https("maps.googleapis.com", "maps/api/place/autocomplete/json", {
+      "input": query,
+      "key": googleAPIKey,
+    });
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final parse = jsonDecode(response.body);
+        if (parse['status'] == "OK") {
+          SearchPlaceModel searchPlaceModel = SearchPlaceModel.fromJson(parse);
+          return searchPlaceModel.predictions ?? [];
+        }
+      }
+    } catch (err) {
+      print("Error: $err");
+    }
+    return [];
+  }
+
+  Future<void> getLatLang(String address) async {
+    List<Location> locations = await locationFromAddress(address);
+    if (locations.isNotEmpty) {
+      var first = locations.first;
+      double lat = first.latitude;
+      double long = first.longitude;
+      print("Latitude: $lat, Longitude: $long");
+    }
+  }
 }
