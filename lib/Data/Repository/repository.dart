@@ -4,6 +4,7 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/modal/CategoriesFilter_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/modal/all_restaurant_modal.dart';
@@ -149,10 +150,18 @@ class Repository {
         await _apiService.postApi(data, AppUrls.seeAllReview, token);
     return ReviewResponse.fromJson(response);
   }
+
   Future<dynamic> homeSearchApi(var data) async {
     await initializeUser();
     dynamic response =
         await _apiService.postApi(data, AppUrls.homeSearch, token);
     return HomeSearchModal.fromJson(response);
+  }
+
+  Future<dynamic> addToCartApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.addToCart, token);
+    return AddToCart.fromJson(response);
   }
 }

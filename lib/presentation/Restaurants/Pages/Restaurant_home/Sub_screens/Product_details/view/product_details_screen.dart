@@ -4,6 +4,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/controller/more_products_controller.dart';
@@ -28,6 +29,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
   final specific_Product_Controller controller =
       Get.put(specific_Product_Controller());
+
+  final AddToCartController addToCartController =
+      Get.put(AddToCartController());
 
   final seeAll_Product_Controller seeallproductcontroller =
       Get.put(seeAll_Product_Controller());
@@ -150,11 +154,27 @@ class ProductDetailsScreen extends StatelessWidget {
                       if (controller.product_Data.value.product!.addOn != null)
                         hBox(30),
                       CustomElevatedButton(
-                          // height: 50.h,
                           width: Get.width,
                           color: AppColors.darkText,
+                          isLoading:
+                              addToCartController.rxRequestStatus.value ==
+                                  (Status.LOADING),
                           text: "Add to Cart",
-                          onPressed: () {}),
+                          onPressed: () {
+                            controller.productPriceFun();
+                            addToCartController.addToCartApi(
+                              productId: controller
+                                  .product_Data.value.product!.id
+                                  .toString(),
+                              productPrice: controller
+                                  .product_Data.value.product!.salePrice
+                                  .toString(),
+                              productQuantity: controller.cartCount.toString(),
+                              restaurantId: controller
+                                  .product_Data.value.product!.restaurantId
+                                  .toString(),
+                            );
+                          }),
                       hBox(30),
                       productReviews(),
                       hBox(8),
@@ -181,7 +201,6 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Widget mainContainer() {
-    RxInt cartCount = 1.obs;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -318,8 +337,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // if (cartCount.value != 0) cartCount.value--;
-                        if (cartCount.value > 1) cartCount.value--;
+                        if (controller.cartCount.value > 1) {
+                          controller.cartCount.value--;
+                        }
                       },
                       child: Icon(
                         Icons.remove,
@@ -327,12 +347,12 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${cartCount.value}",
+                      "${controller.cartCount.value}",
                       style: AppFontStyle.text_14_400(AppColors.darkText),
                     ),
                     GestureDetector(
                       onTap: () {
-                        cartCount.value++;
+                        controller.cartCount.value++;
                       },
                       child: Icon(
                         Icons.add,
@@ -694,11 +714,17 @@ class ProductDetailsScreen extends StatelessWidget {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      Get.toNamed(AppRoutes.productReviews,arguments: {
-                        'product_id': product_id.toString(),
-                        'product_review': controller.product_Data.value.product!.rating,
-                        'review_count': controller.product_Data.value.product!.productreview_count.toString(),
-                      },);
+                      Get.toNamed(
+                        AppRoutes.productReviews,
+                        arguments: {
+                          'product_id': product_id.toString(),
+                          'product_review':
+                              controller.product_Data.value.product!.rating,
+                          'review_count': controller
+                              .product_Data.value.product!.productreview_count
+                              .toString(),
+                        },
+                      );
                       seeAllProductReviewController.seeAllProductReviewApi(
                           productId: product_id.toString());
                     },

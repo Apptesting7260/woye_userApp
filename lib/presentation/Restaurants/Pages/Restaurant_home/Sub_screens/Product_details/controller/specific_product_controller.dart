@@ -8,10 +8,21 @@ class specific_Product_Controller extends GetxController {
   RxString selectedImageUrl = ''.obs;
   RxInt isSelected = (-1).obs;
   RxBool isLoading = false.obs;
+  RxInt cartCount = 1.obs;
   var pageController = PageController();
+  var productPrice = 0;
 
   final rxRequestStatus = Status.COMPLETED.obs;
   final product_Data = specificProduct().obs;
+
+  void productPriceFun() {
+    int count = cartCount.value;
+    int? price = product_Data.value.product!.salePrice;
+
+    int totalPrice = count * price!;
+    productPrice = totalPrice;
+    print("Total Price: $totalPrice");
+  }
 
   RxString error = ''.obs;
 

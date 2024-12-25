@@ -38,7 +38,7 @@ class specificProduct {
 class Product {
   int? id;
   String? title;
-  int? userId;
+  int? restaurantId;
   int? categoryId;
   String? regularPrice;
   int? salePrice;
@@ -63,7 +63,7 @@ class Product {
   Product(
       {this.id,
       this.title,
-      this.userId,
+      this.restaurantId,
       this.categoryId,
       this.regularPrice,
       this.salePrice,
@@ -87,7 +87,7 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    userId = json['user_id'];
+    restaurantId = json['user_id'];
     categoryId = json['category_id'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
@@ -128,7 +128,7 @@ class Product {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['title'] = title;
-    data['user_id'] = userId;
+    data['user_id'] = restaurantId;
     data['category_id'] = categoryId;
     data['regular_price'] = regularPrice;
     data['sale_price'] = salePrice;
