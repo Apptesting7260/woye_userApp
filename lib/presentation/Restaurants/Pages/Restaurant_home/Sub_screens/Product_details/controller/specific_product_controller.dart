@@ -11,6 +11,8 @@ class specific_Product_Controller extends GetxController {
   RxInt cartCount = 1.obs;
   var productPrice = 0;
 
+  RxBool goToCart = false.obs;
+
   final rxRequestStatus = Status.COMPLETED.obs;
   final product_Data = specificProduct().obs;
 
@@ -26,6 +28,7 @@ class specific_Product_Controller extends GetxController {
     required String product_id,
     required String category_id,
   }) async {
+    goToCart.value = false;
     selectedAddOnIds.clear();
     extrasTitlesIdsId.clear();
     extrasItemIdsId.clear();

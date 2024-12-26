@@ -8,7 +8,9 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Control
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Promo_codes/promo_codes.dart';
 
 class RestaurantCartScreen extends StatefulWidget {
-  const RestaurantCartScreen({super.key});
+  bool isBack;
+
+  RestaurantCartScreen({super.key, this.isBack = false});
 
   @override
   State<RestaurantCartScreen> createState() => _RestaurantCartScreenState();
@@ -28,90 +30,94 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        isLeading: false,
+        isLeading: widget.isBack,
         isActions: true,
         title: Text(
           "My Cart",
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
       ),
-      // body: SingleChildScrollView(
-      //   padding: REdgeInsets.symmetric(horizontal: 24),
-      //   child: Column(
-      //     children: [
-      //       cartItems(),
-      //       hBox(40),
-      //       promoCode(context),
-      //       hBox(40),
-      //       paymentDetails(),
-      //       hBox(30),
-      //       Divider(
-      //         thickness: .5.w,
-      //         color: AppColors.hintText,
-      //       ),
-      //       hBox(15),
-      //       checkoutButton(),
-      //       hBox(100)
-      //     ],
-      //   ),
-      // ),
-        body: Obx(() {
-          switch (controller.rxRequestStatus.value) {
-            case Status.LOADING:
-              return Center(child: circularProgressIndicator());
-            case Status.ERROR:
-              if (controller.error.value == 'No internet') {
-                return InternetExceptionWidget(
-                  onPress: () {
-                    controller.getRestaurantCartApi();
-                  },
-                );
-              } else {
-                return GeneralExceptionWidget(
-                  onPress: () {
-                    controller.getRestaurantCartApi();
-                  },
-                );
-              }
-            case Status.COMPLETED:
-              return RefreshIndicator(
-                onRefresh: () async {
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
                   controller.getRestaurantCartApi();
                 },
-                child:SingleChildScrollView(
-                  padding: REdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      cartItems(),
-                      hBox(40),
-                      promoCode(context),
-                      hBox(40),
-                      paymentDetails(),
-                      hBox(30),
-                      Divider(
-                        thickness: .5.w,
-                        color: AppColors.hintText,
-                      ),
-                      hBox(15),
-                      checkoutButton(),
-                      hBox(100)
-                    ],
-                  ),
-                ),
               );
-          }
-        }),
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.getRestaurantCartApi();
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+              onRefresh: () async {
+                controller.getRestaurantCartApi();
+              },
+              child: SingleChildScrollView(
+                padding: REdgeInsets.symmetric(horizontal: 24),
+                child: controller.cartData.value.cart == 0
+                    ? Column(
+                        // mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          hBox(Get.height / 3),
+                          Center(
+                            child: Image.asset(
+                              ImageConstants.wishlistEmpty,
+                              height: 70.h,
+                              width: 100.h,
+                            ),
+                          ),
+                          hBox(10.h),
+                          Text(
+                            "Your cart is empty!",
+                            style: AppFontStyle.text_20_600(AppColors.darkText),
+                          ),
+                          hBox(5.h),
+                          Text(
+                            "Explore more and shortlist some items",
+                            style:
+                                AppFontStyle.text_16_400(AppColors.mediumText),
+                          ),
+                        ],
+                      )
+                    : Column(
+                        children: [
+                          cartItems(),
+                          hBox(40),
+                          promoCode(context),
+                          hBox(40),
+                          paymentDetails(),
+                          hBox(30),
+                          Divider(
+                            thickness: .5.w,
+                            color: AppColors.hintText,
+                          ),
+                          hBox(15),
+                          checkoutButton(),
+                          hBox(100)
+                        ],
+                      ),
+              ),
+            );
+        }
+      }),
     );
   }
 
   Widget cartItems() {
     return ListView.separated(
-      itemCount: 10,
+      itemCount: controller.cartData.value.cart!.decodedAttribute!.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        RxInt cartCount = 1.obs;
-        RxBool isSelected = false.obs;
         return Row(
           // mainAxisSize: MainAxisSize.min,
           children: [
@@ -124,41 +130,29 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                       activeColor: AppColors.black,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
-                      value: isSelected.value,
+                      value: controller.isSelected.value,
                       side: BorderSide(
                         color: AppColors.black,
                       ),
                       onChanged: (value) {
-                        isSelected.value = !isSelected.value;
+                        controller.isSelected.value =
+                            !controller.isSelected.value;
                       }),
                 ),
               ),
             ),
             wBox(10),
-            // Expanded(
-            //   flex: 3,
-            //   child: ClipRRect(
-            //     borderRadius: BorderRadius.circular(20.r),
-            //     child: Image.asset(
-            //       "assets/images/cat-image${index % 5}.png",
-            //       height: 100.h,
-            //       width: 100.h,
-            //       fit: BoxFit.cover,
-            //     ),
-            //   ),
-            // ),
             ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: CachedNetworkImage(
-                imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
-               height: 100.h,
-               width: 100.h,
+                imageUrl: controller
+                    .cartData.value.cart!.decodedAttribute![index].productImage
+                    .toString(),
+                height: 100.h,
+                width: 100.h,
                 fit: BoxFit.fill,
-                placeholder: (context, url) =>
-                    circularProgressIndicator(),
-                errorWidget:
-                    (context, url, error) =>
-                const Icon(Icons.error),
+                placeholder: (context, url) => circularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             wBox(10),
@@ -176,7 +170,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         width: 110.w,
                         child: FittedBox(
                           child: Text(
-                            controller.cartData.value.cart!.decodedAttribute![index].productName.toString(),
+                            controller.cartData.value.cart!
+                                .decodedAttribute![index].productName
+                                .toString(),
                             overflow: TextOverflow.ellipsis,
                             style: AppFontStyle.text_14_500(AppColors.darkText),
                           ),
@@ -189,11 +185,73 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     ],
                   ),
                   hBox(10),
-                  Text(
-                    "Small",
-                    style: AppFontStyle.text_12_400(AppColors.lightText),
-                  ),
-                  // hBox(10),
+                  // Text(
+                  //   "Small",
+                  //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                  // ),
+                  if (controller.cartData.value.cart!.decodedAttribute![index]
+                      .addonName!.isNotEmpty)
+                    Wrap(
+                      children: List.generate(
+                        (controller
+                                    .cartData
+                                    .value
+                                    .cart!
+                                    .decodedAttribute![index]
+                                    .addonName!
+                                    .length /
+                                2)
+                            .ceil(), // Divide by 2 for two items per row
+                        (rowIndex) {
+                          int firstItemIndex = rowIndex * 2;
+                          int secondItemIndex = firstItemIndex + 1;
+
+                          return Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // First item (current row, first item)
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                // Adjust spacing as needed
+                                child: Text(
+                                  controller
+                                      .cartData
+                                      .value
+                                      .cart!
+                                      .decodedAttribute![index]
+                                      .addonName![firstItemIndex],
+                                  style: AppFontStyle.text_12_400(
+                                      AppColors.lightText),
+                                ),
+                              ),
+                              // Second item (current row, second item)
+                              if (secondItemIndex <
+                                  controller
+                                      .cartData
+                                      .value
+                                      .cart!
+                                      .decodedAttribute![index]
+                                      .addonName!
+                                      .length) // Check if second item exists
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    controller
+                                        .cartData
+                                        .value
+                                        .cart!
+                                        .decodedAttribute![index]
+                                        .addonName![secondItemIndex],
+                                    style: AppFontStyle.text_12_400(
+                                        AppColors.lightText),
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  hBox(10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -237,7 +295,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () {
-                                  if (cartCount.value != 0) cartCount.value--;
+                                  // if (controller.cartCount.value != 0) controller.cartCount.value--;
                                 },
                                 child: Icon(
                                   Icons.remove,
@@ -245,7 +303,10 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 ),
                               ),
                               Text(
-                                "${cartCount.value}",
+                                controller.cartData.value.cart!
+                                    .decodedAttribute![index].quantity
+                                    .toString(),
+                                // "${controller.cartCount.value}",
                                 style: AppFontStyle.text_14_400(
                                     AppColors.darkText),
                               ),
@@ -253,7 +314,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () {
-                                  cartCount.value++;
+                                  // controller.cartCount.value++;
                                 },
                                 child: Icon(
                                   Icons.add,

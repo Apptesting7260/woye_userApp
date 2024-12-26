@@ -83,7 +83,7 @@ class Cart {
 
 class DecodedAttribute {
   String? productId;
-  String? quantity;
+  var quantity;
   String? price;
   List<String>? addons;
   List<Attribute>? attribute;

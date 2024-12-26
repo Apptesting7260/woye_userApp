@@ -88,23 +88,23 @@ class OtpScreen extends StatelessWidget {
             Utils.showToast('Please enter a valid 6-digit OTP.');
             return;
           } else {
-            final verify = await otpController.verifyOtp(
-                verificationId: from == 'login'
-                    ? loginController.verificationID.value
-                    : signUpController.verificationID.value,
-                smsCode: otpController.otpPin.value.text,
-                countryCode: countryCode,
-                mob: mob);
-            if (from == 'login') {
-              if (verify) {
-                otpController.loginApi(countryCode: countryCode, mob: mob);
-              }
-            } else {
-              if (verify) {
+            // final verify = await otpController.verifyOtp(
+            //     verificationId: from == 'login'
+            //         ? loginController.verificationID.value
+            //         : signUpController.verificationID.value,
+            //     smsCode: otpController.otpPin.value.text,
+            //     countryCode: countryCode,
+            //     mob: mob);
+            // if (from == 'login') {
+            //   if (verify) {
+            //     otpController.loginApi(countryCode: countryCode, mob: mob);
+            //   }
+            // } else {
+            //   if (verify) {
                 otpController.registerApi(countryCode: countryCode, mob: mob);
-              }
-            }
-          } // Get.toNamed(AppRoutes.signUp);
+          //     }
+             //}
+           } // Get.toNamed(AppRoutes.signUp);
         },
         text: "Verify",
       ),

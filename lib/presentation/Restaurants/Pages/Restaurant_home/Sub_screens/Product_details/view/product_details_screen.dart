@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
@@ -154,34 +155,56 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       if (controller.product_Data.value.product!.addOn != null)
                         hBox(30),
-                      CustomElevatedButton(
-                          width: Get.width,
-                          color: AppColors.darkText,
-                          isLoading:
-                              addToCartController.rxRequestStatus.value ==
-                                  (Status.LOADING),
-                          text: "Add to Cart",
-                          onPressed: () {
-                            controller.productPriceFun();
-                            addToCartController.addToCartApi(
-                              productId: controller
-                                  .product_Data.value.product!.id
-                                  .toString(),
-                              productPrice: controller
-                                  .product_Data.value.product!.salePrice
-                                  .toString(),
-                              productQuantity: controller.cartCount.toString(),
-                              restaurantId: controller
-                                  .product_Data.value.product!.restaurantId
-                                  .toString(),
-                              addons: controller.selectedAddOnIds.toList(),
-                              extrasIds: controller.extrasTitlesIdsId,
-                              extrasItemIds: controller.extrasItemIdsId.toList(),
-                              extrasItemNames: controller.extrasItemIdsName.toList(),
-                              extrasItemPrices: controller.extrasItemIdsPrice.toList(),
-                            );
-                            print("object ${controller.extrasItemIdsName}");
-                          }),
+                      Obx(
+                        () => controller.goToCart.value == true
+                            ? CustomElevatedButton(
+                                width: Get.width,
+                                color: AppColors.primary,
+                                isLoading:
+                                    addToCartController.rxRequestStatus.value ==
+                                        (Status.LOADING),
+                                text: "Go to Cart",
+                                onPressed:() {
+                                        Get.to(
+                                            RestaurantCartScreen(isBack: true));
+                                      }
+                                   )
+                            : CustomElevatedButton(
+                                width: Get.width,
+                                color: AppColors.darkText,
+                                isLoading:
+                                    addToCartController.rxRequestStatus.value ==
+                                        (Status.LOADING),
+                                text: "Add to Cart",
+                                onPressed: () {
+                                  // ---------- add to cart api -----------
+                                  controller.productPriceFun();
+                                  addToCartController.addToCartApi(
+                                    productId: controller
+                                        .product_Data.value.product!.id
+                                        .toString(),
+                                    productPrice: controller
+                                        .product_Data.value.product!.salePrice
+                                        .toString(),
+                                    productQuantity:
+                                        controller.cartCount.toString(),
+                                    restaurantId: controller.product_Data.value
+                                        .product!.restaurantId
+                                        .toString(),
+                                    addons:
+                                        controller.selectedAddOnIds.toList(),
+                                    extrasIds: controller.extrasTitlesIdsId,
+                                    extrasItemIds:
+                                        controller.extrasItemIdsId.toList(),
+                                    extrasItemNames:
+                                        controller.extrasItemIdsName.toList(),
+                                    extrasItemPrices:
+                                        controller.extrasItemIdsPrice.toList(),
+                                  );
+                                  print(
+                                      "object ${controller.extrasItemIdsName}");
+                                }),
+                      ),
                       hBox(30),
                       productReviews(),
                       hBox(8),
@@ -469,18 +492,23 @@ class ProductDetailsScreen extends StatelessWidget {
                     // print(
                     //     "Updated selected names: ${controller.extrasItemIdsName}");
                     if (controller.extrasItemIdsName.length > index) {
-                      controller.extrasItemIdsName[index] = item.name.toString();
+                      controller.extrasItemIdsName[index] =
+                          item.name.toString();
                       controller.extrasItemIdsId[index] = item.id.toString();
-                      controller.extrasItemIdsPrice[index] = item.price.toString();
+                      controller.extrasItemIdsPrice[index] =
+                          item.price.toString();
                     } else {
                       controller.extrasItemIdsName.add(item.name.toString());
                       controller.extrasItemIdsId.add(item.id.toString());
                       controller.extrasItemIdsPrice.add(item.price.toString());
                     }
 
-                    print("Updated selected names: ${controller.extrasItemIdsName}");
-                    print("Updated selected IDs: ${controller.extrasItemIdsId}");
-                    print("Updated selected prices: ${controller.extrasItemIdsPrice}");
+                    print(
+                        "Updated selected names: ${controller.extrasItemIdsName}");
+                    print(
+                        "Updated selected IDs: ${controller.extrasItemIdsId}");
+                    print(
+                        "Updated selected prices: ${controller.extrasItemIdsPrice}");
                   },
                   priceValue: item.price.toString(),
                 );

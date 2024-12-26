@@ -7,7 +7,8 @@ class RestaurantCartController extends GetxController {
   //   restaurant_Categories_Api();
   //   super.onInit();
   // }
-
+  // RxInt cartCount = 1.obs;
+  RxBool isSelected = false.obs;
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
