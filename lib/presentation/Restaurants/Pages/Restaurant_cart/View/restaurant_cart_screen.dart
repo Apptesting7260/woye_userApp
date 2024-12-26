@@ -1,10 +1,28 @@
 import 'dart:math';
-
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Promo_codes/promo_codes.dart';
 
-class RestaurantCartScreen extends StatelessWidget {
+class RestaurantCartScreen extends StatefulWidget {
   const RestaurantCartScreen({super.key});
+
+  @override
+  State<RestaurantCartScreen> createState() => _RestaurantCartScreenState();
+}
+
+class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
+  final RestaurantCartController controller =
+      Get.put(RestaurantCartController());
+
+  void initState() {
+    // TODO: implement initState
+    controller.getRestaurantCartApi();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,26 +35,72 @@ class RestaurantCartScreen extends StatelessWidget {
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            cartItems(),
-            hBox(40),
-            promoCode(context),
-            hBox(40),
-            paymentDetails(),
-            hBox(30),
-            Divider(
-              thickness: .5.w,
-              color: AppColors.hintText,
-            ),
-            hBox(15),
-            checkoutButton(),
-            hBox(100)
-          ],
-        ),
-      ),
+      // body: SingleChildScrollView(
+      //   padding: REdgeInsets.symmetric(horizontal: 24),
+      //   child: Column(
+      //     children: [
+      //       cartItems(),
+      //       hBox(40),
+      //       promoCode(context),
+      //       hBox(40),
+      //       paymentDetails(),
+      //       hBox(30),
+      //       Divider(
+      //         thickness: .5.w,
+      //         color: AppColors.hintText,
+      //       ),
+      //       hBox(15),
+      //       checkoutButton(),
+      //       hBox(100)
+      //     ],
+      //   ),
+      // ),
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet') {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.getRestaurantCartApi();
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.getRestaurantCartApi();
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return RefreshIndicator(
+                onRefresh: () async {
+                  controller.getRestaurantCartApi();
+                },
+                child:SingleChildScrollView(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      cartItems(),
+                      hBox(40),
+                      promoCode(context),
+                      hBox(40),
+                      paymentDetails(),
+                      hBox(30),
+                      Divider(
+                        thickness: .5.w,
+                        color: AppColors.hintText,
+                      ),
+                      hBox(15),
+                      checkoutButton(),
+                      hBox(100)
+                    ],
+                  ),
+                ),
+              );
+          }
+        }),
     );
   }
 
@@ -71,16 +135,30 @@ class RestaurantCartScreen extends StatelessWidget {
               ),
             ),
             wBox(10),
-            Expanded(
-              flex: 3,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20.r),
-                child: Image.asset(
-                  "assets/images/cat-image${index % 5}.png",
-                  height: 100.h,
-                  width: 100.h,
-                  fit: BoxFit.cover,
-                ),
+            // Expanded(
+            //   flex: 3,
+            //   child: ClipRRect(
+            //     borderRadius: BorderRadius.circular(20.r),
+            //     child: Image.asset(
+            //       "assets/images/cat-image${index % 5}.png",
+            //       height: 100.h,
+            //       width: 100.h,
+            //       fit: BoxFit.cover,
+            //     ),
+            //   ),
+            // ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
+              child: CachedNetworkImage(
+                imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
+               height: 100.h,
+               width: 100.h,
+                fit: BoxFit.fill,
+                placeholder: (context, url) =>
+                    circularProgressIndicator(),
+                errorWidget:
+                    (context, url, error) =>
+                const Icon(Icons.error),
               ),
             ),
             wBox(10),
@@ -98,7 +176,7 @@ class RestaurantCartScreen extends StatelessWidget {
                         width: 110.w,
                         child: FittedBox(
                           child: Text(
-                            "McMushroom Pizza",
+                            controller.cartData.value.cart!.decodedAttribute![index].productName.toString(),
                             overflow: TextOverflow.ellipsis,
                             style: AppFontStyle.text_14_500(AppColors.darkText),
                           ),
@@ -108,10 +186,6 @@ class RestaurantCartScreen extends StatelessWidget {
                         "assets/svg/delete-outlined.svg",
                         height: 20,
                       )
-                      // Icon(
-                      //   Icons.delete_outlined,
-                      //   color: AppColors.lightText,
-                      // )
                     ],
                   ),
                   hBox(10),
@@ -127,24 +201,24 @@ class RestaurantCartScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            "\$${index * Random.secure().nextInt(100)}",
+                            "\$${controller.cartData.value.cart!.decodedAttribute![index].totalPrice.toString()}",
                             overflow: TextOverflow.ellipsis,
                             style: AppFontStyle.text_14_600(AppColors.primary),
                           ),
-                          wBox(4),
-                          SizedBox(
-                            width: 50,
-                            child: Text(
-                              "\$20.00",
-                              style: TextStyle(
-                                  overflow: TextOverflow.ellipsis,
-                                  fontSize: 12.sp,
-                                  color: AppColors.mediumText,
-                                  fontWeight: FontWeight.w400,
-                                  decoration: TextDecoration.lineThrough,
-                                  decorationColor: AppColors.mediumText),
-                            ),
-                          ),
+                          // wBox(4),
+                          // SizedBox(
+                          //   width: 50,
+                          //   child: Text(
+                          //     "\$${ controller.cartData.value.cart!.decodedAttribute![index].totalPrice.toString()}",
+                          //     style: TextStyle(
+                          //         overflow: TextOverflow.ellipsis,
+                          //         fontSize: 12.sp,
+                          //         color: AppColors.mediumText,
+                          //         fontWeight: FontWeight.w400,
+                          //         decoration: TextDecoration.lineThrough,
+                          //         decorationColor: AppColors.mediumText),
+                          //   ),
+                          // ),
                         ],
                       ),
                       Container(

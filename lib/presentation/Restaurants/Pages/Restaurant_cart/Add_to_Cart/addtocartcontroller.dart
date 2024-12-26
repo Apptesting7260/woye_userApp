@@ -2,7 +2,6 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/modal.dart';
 
 class AddToCartController extends GetxController {
-  @override
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final addToCartData = AddToCart().obs;
@@ -20,23 +19,31 @@ class AddToCartController extends GetxController {
     required String productQuantity,
     required String productPrice,
     required String restaurantId,
+    required List<dynamic> addons,
+    required List<dynamic> extrasIds,
+    required List<dynamic> extrasItemIds,
+    required List<dynamic> extrasItemNames,
+    required List<dynamic> extrasItemPrices,
   }) async {
     setRxRequestStatus(Status.LOADING);
-    Map data = {
+    var body = jsonEncode({
       "product_id": productId,
       "quantity": productQuantity,
       "price": productPrice,
       "resto_id": restaurantId,
-    };
-    api.addToCartApi(data).then((value) {
+      "addon": addons,
+      "title_id": extrasIds,
+      "item_id": extrasItemIds,
+      "item_name": extrasItemNames,
+      "item_price": extrasItemPrices,
+    });
+    api.addToCartApi(body).then((value) {
       setData(value);
-      print("RRRRRRRRRRRRRRRRR${addToCartData.value.message}");
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
+      print("Error: $error");
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
-      print(error);
       setRxRequestStatus(Status.ERROR);
     });
   }

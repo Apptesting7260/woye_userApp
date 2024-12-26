@@ -162,7 +162,7 @@ class AddOn {
   String? name;
   String? price;
   String? id;
-  RxBool isChecked; // Add this field to track checkbox state
+  RxBool isChecked;
 
   AddOn({this.name, this.price, bool? isChecked})
       : isChecked = RxBool(isChecked ?? false);
@@ -185,17 +185,19 @@ class AddOn {
 
 class Extra {
   String? title;
+  String? titleid;
   List<Item>? item;
   RxInt selectedIndex = (0).obs;
 
-  Extra({this.title, this.item});
+  Extra({this.title, this.titleid, this.item});
 
   Extra.fromJson(Map<String, dynamic> json) {
     title = json['title'];
+    titleid = json['titleid'];
     if (json['item'] != null) {
       item = <Item>[];
       json['item'].forEach((v) {
-        item!.add(new Item.fromJson(v));
+        item!.add(Item.fromJson(v));
       });
     }
   }
@@ -203,6 +205,7 @@ class Extra {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
+    data['titleid'] = this.titleid;
     if (this.item != null) {
       data['item'] = this.item!.map((v) => v.toJson()).toList();
     }

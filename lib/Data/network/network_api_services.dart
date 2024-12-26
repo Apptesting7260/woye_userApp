@@ -74,7 +74,38 @@ class NetworkApiServices extends BaseApiServices {
       print("post url@calling : ${url.toString()}");
       final response = await http
           .post(Uri.parse(url),
-              headers: {"Authorization": "Bearer $token"}, body: data)
+              headers: {"Authorization": "Bearer $token",}, body: data)
+          .timeout(const Duration(seconds: 50));
+      responseJson = returnResponse(response);
+      print("data: $response");
+    } on SocketException {
+      throw InternetExceptionWidget(
+        onPress: () {},
+      );
+    } on RequestTimeOut {
+      throw RequestTimeOut(
+        onPress: () {},
+      );
+    }
+    if (kDebugMode) {
+      print("$responseJson");
+    }
+    return responseJson;
+  }
+
+  Future<dynamic> postApi2(var data, String url, String token) async {
+    if (kDebugMode) {
+      print(url);
+      print(data);
+    }
+
+    dynamic responseJson;
+    try {
+      print("tocken@calling : ${token.toString()}");
+      print("post url@calling : ${url.toString()}");
+      final response = await http
+          .post(Uri.parse(url),
+          headers: {"Authorization": "Bearer $token",'Content-Type': 'application/json',}, body: data)
           .timeout(const Duration(seconds: 50));
       responseJson = returnResponse(response);
       print("data: $response");
@@ -94,6 +125,7 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   dynamic returnResponse(http.Response response) {
+    print("response.statusCode ${response.statusCode}");
     switch (response.statusCode) {
       case 200:
         dynamic responseJson = jsonDecode(response.body);

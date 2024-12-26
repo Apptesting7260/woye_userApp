@@ -30,4 +30,5 @@ class AppUrls {
   static const String seeAllReview = "$baseUrl/review-all";
   static const String homeSearch = "$baseUrl/home-search";
   static const String addToCart = "$baseUrl/make-cart";
+  static const String getCartData = "$baseUrl/get-cart";
 }

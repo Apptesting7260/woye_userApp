@@ -143,7 +143,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       hBox(30),
                       description(),
                       hBox(30),
-                      extra(context: context),
+                      if (controller.product_Data.value.product!.extra != null)
+                        extra(context: context),
                       if (controller.product_Data.value.product!.extra != null)
                         hBox(20),
                       if (controller.product_Data.value.product!.addOn != null)
@@ -173,7 +174,13 @@ class ProductDetailsScreen extends StatelessWidget {
                               restaurantId: controller
                                   .product_Data.value.product!.restaurantId
                                   .toString(),
+                              addons: controller.selectedAddOnIds.toList(),
+                              extrasIds: controller.extrasTitlesIdsId,
+                              extrasItemIds: controller.extrasItemIdsId.toList(),
+                              extrasItemNames: controller.extrasItemIdsName.toList(),
+                              extrasItemPrices: controller.extrasItemIdsPrice.toList(),
                             );
+                            print("object ${controller.extrasItemIdsName}");
                           }),
                       hBox(30),
                       productReviews(),
@@ -391,9 +398,27 @@ class ProductDetailsScreen extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.product_Data.value.product!.extra?.length ?? 0,
+      itemCount: controller.product_Data.value.product!.extra?.length,
       itemBuilder: (context, index) {
         var extra = controller.product_Data.value.product!.extra![index];
+        if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
+          controller.extrasTitlesIdsId.add(extra.titleid);
+          print("itemIdsIds ${controller.extrasTitlesIdsId}");
+        }
+
+        if (controller.extrasItemIdsName.isEmpty) {
+          controller.product_Data.value.product!.extra?.forEach((extra) {
+            if (extra.item?.isNotEmpty ?? false) {
+              controller.extrasItemIdsId.add(extra.item![0].id.toString());
+              controller.extrasItemIdsName.add(extra.item![0].name.toString());
+              controller.extrasItemIdsPrice
+                  .add(extra.item![0].price.toString());
+            }
+          });
+          print("Final List of IDs: ${controller.extrasItemIdsId}");
+          print("Final List of Names: ${controller.extrasItemIdsName}");
+          print("Final List of Prices: ${controller.extrasItemIdsPrice}");
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -434,6 +459,28 @@ class ProductDetailsScreen extends StatelessWidget {
                   onChanged: (value) {
                     controller.product_Data.value.product!.extra![index]
                         .selectedIndex.value = value!;
+
+                    // if (controller.extrasItemIdsName.length > index) {
+                    //   controller.extrasItemIdsName[index] =
+                    //       item.name.toString();
+                    // } else {
+                    //   controller.extrasItemIdsName.add(item.name.toString());
+                    // }
+                    // print(
+                    //     "Updated selected names: ${controller.extrasItemIdsName}");
+                    if (controller.extrasItemIdsName.length > index) {
+                      controller.extrasItemIdsName[index] = item.name.toString();
+                      controller.extrasItemIdsId[index] = item.id.toString();
+                      controller.extrasItemIdsPrice[index] = item.price.toString();
+                    } else {
+                      controller.extrasItemIdsName.add(item.name.toString());
+                      controller.extrasItemIdsId.add(item.id.toString());
+                      controller.extrasItemIdsPrice.add(item.price.toString());
+                    }
+
+                    print("Updated selected names: ${controller.extrasItemIdsName}");
+                    print("Updated selected IDs: ${controller.extrasItemIdsId}");
+                    print("Updated selected prices: ${controller.extrasItemIdsPrice}");
                   },
                   priceValue: item.price.toString(),
                 );
@@ -489,6 +536,12 @@ class ProductDetailsScreen extends StatelessWidget {
                   groupValue: checkBoxGroupValues,
                   onChanged: (value) {
                     addOn.isChecked.value = value;
+                    if (value) {
+                      controller.selectedAddOnIds.add(addOn.id.toString());
+                    } else {
+                      controller.selectedAddOnIds.remove(addOn.id.toString());
+                    }
+                    print("selectedAddOnIds${controller.selectedAddOnIds}");
                   },
                   priceValue: addOn.price.toString(),
                   isChecked: addOn.isChecked,
