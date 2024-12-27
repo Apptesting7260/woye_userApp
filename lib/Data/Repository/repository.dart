@@ -4,7 +4,7 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/modal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/modal/CategoriesFilter_modal.dart';
@@ -163,6 +163,13 @@ class Repository {
     await initializeUser();
     dynamic response =
         await _apiService.postApi2(data, AppUrls.addToCart, token);
+    return AddToCart.fromJson(response);
+  }
+
+  Future<dynamic> updateCartApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi2(data, AppUrls.updateCart, token);
     return AddToCart.fromJson(response);
   }
 

@@ -81,33 +81,35 @@ class OtpScreen extends StatelessWidget {
 
   Widget verifyButton(from, countryCode, mob) {
     return Obx(
-      () => CustomElevatedButton(
-        isLoading: otpController.rxRequestStatus.value == Status.LOADING,
-        onPressed: () async {
-          if (otpController.otpPin.value.text.length < 6) {
-            Utils.showToast('Please enter a valid 6-digit OTP.');
-            return;
-          } else {
-            // final verify = await otpController.verifyOtp(
-            //     verificationId: from == 'login'
-            //         ? loginController.verificationID.value
-            //         : signUpController.verificationID.value,
-            //     smsCode: otpController.otpPin.value.text,
-            //     countryCode: countryCode,
-            //     mob: mob);
-            // if (from == 'login') {
-            //   if (verify) {
-            //     otpController.loginApi(countryCode: countryCode, mob: mob);
-            //   }
-            // } else {
-            //   if (verify) {
-                otpController.registerApi(countryCode: countryCode, mob: mob);
-          //     }
-             //}
-           } // Get.toNamed(AppRoutes.signUp);
-        },
-        text: "Verify",
-      ),
+          () =>
+          CustomElevatedButton(
+            isLoading: otpController.rxRequestStatus.value == Status.LOADING,
+            onPressed: () async {
+              if (otpController.otpPin.value.text.length < 6) {
+                Utils.showToast('Please enter a valid 6-digit OTP.');
+                return;
+              } else {
+                final verify = await otpController.verifyOtp(
+                    verificationId: from == 'login'
+                        ? loginController.verificationID.value
+                        : signUpController.verificationID.value,
+                    smsCode: otpController.otpPin.value.text,
+                    countryCode: countryCode,
+                    mob: mob);
+                if (from == 'login') {
+                  if (verify) {
+                    otpController.loginApi(countryCode: countryCode, mob: mob);
+                  }
+                } else {
+                  if (verify) {
+                    otpController.registerApi(
+                        countryCode: countryCode, mob: mob);
+                  }
+                }
+              } // Get.toNamed(AppRoutes.signUp);
+            },
+            text: "Verify",
+          ),
     );
   }
 
@@ -122,37 +124,37 @@ class OtpScreen extends StatelessWidget {
         ),
         from == 'login'
             ? OtpTimerButton(
-                buttonType: ButtonType.text_button,
-                controller: loginController.otpTimerButtonController,
-                loadingIndicatorColor: AppColors.primary,
-                onPressed: () {
-                  print('Resending OTP');
-                  loginController.resendOtp();
-                  otpController.otpPin.value.clear();
-                },
-                text: Text(
-                  'Resend',
-                  style: AppFontStyle.text_16_400(AppColors.lightText,
-                      fontWeight: FontWeight.w500),
-                ),
-                duration: 60,
-              )
+          buttonType: ButtonType.text_button,
+          controller: loginController.otpTimerButtonController,
+          loadingIndicatorColor: AppColors.primary,
+          onPressed: () {
+            print('Resending OTP');
+            loginController.resendOtp();
+            otpController.otpPin.value.clear();
+          },
+          text: Text(
+            'Resend',
+            style: AppFontStyle.text_16_400(AppColors.lightText,
+                fontWeight: FontWeight.w500),
+          ),
+          duration: 60,
+        )
             : OtpTimerButton(
-                buttonType: ButtonType.text_button,
-                controller: signUpController.otpTimerButtonController,
-                loadingIndicatorColor: Colors.green,
-                onPressed: () {
-                  print('Resending OTP');
-                  signUpController.resendOtp();
-                  otpController.otpPin.value.clear();
-                },
-                text: Text(
-                  'Resend',
-                  style: AppFontStyle.text_16_400(AppColors.lightText,
-                      fontWeight: FontWeight.w500),
-                ),
-                duration: 60,
-              ),
+          buttonType: ButtonType.text_button,
+          controller: signUpController.otpTimerButtonController,
+          loadingIndicatorColor: Colors.green,
+          onPressed: () {
+            print('Resending OTP');
+            signUpController.resendOtp();
+            otpController.otpPin.value.clear();
+          },
+          text: Text(
+            'Resend',
+            style: AppFontStyle.text_16_400(AppColors.lightText,
+                fontWeight: FontWeight.w500),
+          ),
+          duration: 60,
+        ),
       ],
     );
   }
