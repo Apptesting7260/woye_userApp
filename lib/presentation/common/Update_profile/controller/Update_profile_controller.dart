@@ -71,7 +71,7 @@ class SignUpForm_editProfileController extends GetxController {
           print("chackCountryLength: ${chackCountryLength}");
         }
         mobileController.text = profileData.value.data?.phone ?? "";
-        emailController.text = profileData.value.data?.email ?? "";
+        emailController.text = profileData.value.data?.email != 'null' ? profileData.value.data?.email ?? "" : '';
         fisrtNameController.text = profileData.value.data?.firstName ?? "";
         formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";

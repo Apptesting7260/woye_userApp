@@ -174,7 +174,7 @@ class WelcomeScreen extends StatelessWidget {
     return CustomOutlinedButton(
         onPressed: () {
           print("APPLE LOGIN");
-          // socialLoginController.appleLogin(context);
+          socialLoginController.appleLogin(context);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
