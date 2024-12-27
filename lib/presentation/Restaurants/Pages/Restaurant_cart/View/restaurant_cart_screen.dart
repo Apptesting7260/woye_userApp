@@ -45,27 +45,25 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             if (controller.error.value == 'No internet') {
               return InternetExceptionWidget(
                 onPress: () {
-                  controller.getRestaurantCartApi();
+                  controller.refreshApi();
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
-                  controller.getRestaurantCartApi();
+                  controller.refreshApi();
                 },
               );
             }
           case Status.COMPLETED:
             return RefreshIndicator(
               onRefresh: () async {
-                controller.getRestaurantCartApi();
+                controller.refreshApi();
               },
               child: SingleChildScrollView(
                 padding: REdgeInsets.symmetric(horizontal: 24),
-                child: controller.cartData.value.cart == 0
+                child: controller.cartData.value.cartContent != "Notempty"
                     ? Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           hBox(Get.height / 3),
                           Center(
@@ -96,10 +94,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           hBox(40),
                           paymentDetails(),
                           hBox(30),
-                          Divider(
-                            thickness: .5.w,
-                            color: AppColors.hintText,
-                          ),
+                          Divider(thickness: .5.w, color: AppColors.hintText),
                           hBox(15),
                           checkoutButton(),
                           hBox(100)
@@ -168,20 +163,19 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     children: [
                       SizedBox(
                         width: 110.w,
-                        child: FittedBox(
-                          child: Text(
-                            controller.cartData.value.cart!
-                                .decodedAttribute![index].productName
-                                .toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: AppFontStyle.text_14_500(AppColors.darkText),
-                          ),
+                        child: Text(
+                          controller.cartData.value.cart!
+                              .decodedAttribute![index].productName
+                              .toString(),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: AppFontStyle.text_14_500(AppColors.darkText),
                         ),
                       ),
                       SvgPicture.asset(
                         "assets/svg/delete-outlined.svg",
                         height: 20,
-                      )
+                      ),
                     ],
                   ),
                   hBox(10),
@@ -201,7 +195,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                     .addonName!
                                     .length /
                                 2)
-                            .ceil(), // Divide by 2 for two items per row
+                            .ceil(),
                         (rowIndex) {
                           int firstItemIndex = rowIndex * 2;
                           int secondItemIndex = firstItemIndex + 1;
@@ -209,10 +203,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           return Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              // First item (current row, first item)
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
-                                // Adjust spacing as needed
                                 child: Text(
                                   controller
                                       .cartData
@@ -224,7 +216,6 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                       AppColors.lightText),
                                 ),
                               ),
-                              // Second item (current row, second item)
                               if (secondItemIndex <
                                   controller
                                       .cartData
@@ -232,7 +223,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                       .cart!
                                       .decodedAttribute![index]
                                       .addonName!
-                                      .length) // Check if second item exists
+                                      .length)
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Text(
@@ -399,7 +390,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
             Text(
-              "\$${Random.secure().nextInt(100) + 40}.00",
+              "\$${controller.cartData.value.cart!.regularPrice.toString()}",
               style: AppFontStyle.text_14_600(AppColors.darkText),
             ),
           ],
@@ -413,7 +404,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
             Text(
-              "\$${Random.secure().nextInt(20)}.00",
+              "\$${controller.cartData.value.cart!.saveAmount.toString()}",
               style: AppFontStyle.text_14_600(AppColors.darkText),
             ),
           ],
@@ -427,7 +418,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
             Text(
-              "\$${Random.secure().nextInt(20)}.00",
+              "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
               style: AppFontStyle.text_14_600(AppColors.darkText),
             ),
           ],
@@ -448,7 +439,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               style: AppFontStyle.text_14_500(AppColors.darkText),
             ),
             Text(
-              "\$${Random.secure().nextInt(100)}.00",
+              "\$${controller.cartData.value.cart!.totalPrice.toString()}",
               style: AppFontStyle.text_26_600(AppColors.primary),
             ),
           ],

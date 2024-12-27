@@ -164,11 +164,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                     addToCartController.rxRequestStatus.value ==
                                         (Status.LOADING),
                                 text: "Go to Cart",
-                                onPressed:() {
-                                        Get.to(
-                                            RestaurantCartScreen(isBack: true));
-                                      }
-                                   )
+                                onPressed: () {
+                                  Get.to(RestaurantCartScreen(isBack: true));
+                                  controller.goToCart.value = false;
+                                  controller.cartCount.value =1;
+                                })
                             : CustomElevatedButton(
                                 width: Get.width,
                                 color: AppColors.darkText,
@@ -292,7 +292,6 @@ class ProductDetailsScreen extends StatelessWidget {
                               .product_Data.value.product!.urlAddimg![index],
                           fit: BoxFit.cover,
                           width: 75.h,
-                          // height: 10.h,
                           errorWidget: (context, url, error) =>
                               const Center(child: Icon(Icons.error)),
                           placeholder: (context, url) => Shimmer.fromColors(
