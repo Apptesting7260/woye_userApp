@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Data/Model/usermodel.dart';
-import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 
@@ -13,14 +11,15 @@ class AddToCartController extends GetxController {
   final updateCartData = AddToCart().obs;
   RxString error = ''.obs;
   String token = "";
-  UserModel userModel = UserModel();
-  var pref = UserPreference();
 
-  Future<void> initializeUser() async {
-    userModel = await pref.getUser();
-    token = userModel.loginType!;
-    print("RRRRRRRRRRRRR${token}");
-  }
+  // UserModel userModel = UserModel();
+  // var pref = UserPreference();
+  //
+  // Future<void> initializeUser() async {
+  //   userModel = await pref.getUser();
+  //   token = userModel.loginType!;
+  //   print("RRRRRRRRRRRRR${token}");
+  // }
 
   final specific_Product_Controller specificProductController =
       Get.put(specific_Product_Controller());
@@ -47,8 +46,7 @@ class AddToCartController extends GetxController {
     required List<dynamic> extrasItemPrices,
   }) async {
     setRxRequestStatus(Status.LOADING);
-    initializeUser();
-
+    // initializeUser();
 
     var body = jsonEncode({
       "product_id": productId,

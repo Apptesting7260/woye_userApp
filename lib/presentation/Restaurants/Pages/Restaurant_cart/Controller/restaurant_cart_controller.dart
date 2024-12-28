@@ -2,7 +2,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 
 class RestaurantCartController extends GetxController {
-  RxBool isSelected = false.obs;
+
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;

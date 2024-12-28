@@ -34,6 +34,7 @@ class specific_Product_Controller extends GetxController {
     extrasItemIdsId.clear();
     extrasItemIdsName.clear();
     extrasItemIdsPrice.clear();
+    selectedImageUrl.value = "";
     cartCount.value =1;
     setRxRequestStatus(Status.LOADING);
     Map data = {
