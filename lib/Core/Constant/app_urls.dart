@@ -35,4 +35,7 @@ class AppUrls {
   static const String getCartData = "$baseUrl/get-cart";
   static const String updateQuantity = "$baseUrl/update-product-quantity";
   static const String deleteProduct = "$baseUrl/delete-product";
+  static const String getAddress = "$baseUrl/get-address";
+  static const String addAddress = "$baseUrl/add-address";
+  static const String editAddress = "$baseUrl/edit-address";
 }

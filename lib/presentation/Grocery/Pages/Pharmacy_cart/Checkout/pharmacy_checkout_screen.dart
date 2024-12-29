@@ -5,9 +5,10 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 
 class PharmacyCheckoutScreen extends StatelessWidget {
-  const PharmacyCheckoutScreen({super.key});
-  static DeliveryAddressScreen deliveryAddressScreen =
-      const DeliveryAddressScreen();
+  PharmacyCheckoutScreen({super.key});
+
+  final DeliveryAddressScreen deliveryAddressScreen = DeliveryAddressScreen();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

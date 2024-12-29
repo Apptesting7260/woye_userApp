@@ -7,7 +7,6 @@ class DeleteProductController extends GetxController {
   final rxRequestStatus = Status.COMPLETED.obs;
   final deleteProductData = DeleteProductModal().obs;
   RxString error = ''.obs;
-  String token = "";
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/common/current_location/current_location.dart';
 
 import '../../../shared/widgets/CircularProgressIndicator.dart';
 
@@ -10,9 +11,59 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key, this.profileImage});
 
   final HomeController homeController = Get.put(HomeController());
+  final CurrentLocationController currentLocationController =
+      Get.put(CurrentLocationController());
+
+  void showLocationDialog() {
+    if (homeController.location.value.isEmpty) {
+      Future.delayed(const Duration(seconds: 3), () {
+        Get.dialog(
+          AlertDialog(
+            title: Text(
+              "Precise Location is off",
+              style: AppFontStyle.text_14_400(AppColors.darkText),
+            ),
+            content: Padding(
+              padding: REdgeInsets.all(20.h),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Text explaining the need for precise location
+                  Text(
+                    "Turning on precise location will ensure accurate address and hassle-free delivery.",
+                    style: AppFontStyle.text_12_400(AppColors.lightText),
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 20.h),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await currentLocationController.getCurrentPosition(back: true);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 30),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Text("Grant Location"),
+                  ),
+                  SizedBox(height: 10.h),
+                ],
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    showLocationDialog();
     return Material(
       child: Column(
         children: [
@@ -97,9 +148,11 @@ class HomeScreen extends StatelessWidget {
                           style: AppFontStyle.text_12_400(AppColors.lightText),
                         ),
                         hBox(5),
-                        Text(
-                          "32 Llanberis Close, Tonteg, CF38 1HR",
-                          style: AppFontStyle.text_14_400(AppColors.darkText),
+                        Obx(
+                          () => Text(
+                            homeController.location.value,
+                            style: AppFontStyle.text_14_400(AppColors.darkText),
+                          ),
                         ),
                       ],
                     ),

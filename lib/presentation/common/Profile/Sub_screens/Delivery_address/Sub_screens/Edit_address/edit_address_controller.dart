@@ -1,33 +1,242 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
+import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 
 class EditAdressController extends GetxController {
-  Rx<TextEditingController>? mobNoCon;
-  RxBool showError = true.obs;
+  final Rx<TextEditingController> nameController = TextEditingController().obs;
+  final Rx<TextEditingController> mobNoController = TextEditingController().obs;
+  final Rx<TextEditingController> houseNoController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> deliveryInstructionController =
+      TextEditingController().obs;
+  var location = ''.obs;
+  var addressType = "Home".obs;
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  final locationController = TextEditingController();
+  RxBool defaultSet = true.obs;
   RxInt radioValue = 0.obs;
-  String countryValue = " ";
-  String stateValue = " ";
-  String cityValue = " ";
+  String addressId = "";
 
   Rx<CountryCode> selectedCountryCode =
       CountryCode(dialCode: '+91', code: 'IN').obs;
 
   @override
   void onInit() {
-    mobNoCon = TextEditingController().obs;
+    // setAddressData();
     super.onInit();
   }
 
   @override
   void onClose() {
-    mobNoCon!.value.dispose();
     super.onClose();
   }
+
+  // ---------------------------------------- Place API ---------------------------------------------
+  RxBool isValidAddress = true.obs;
+  final List<Predictions> searchPlace = [];
+  String? selectedLocation;
+  String googleAPIKey = "${dotenv.env['googleAPIKey']}";
+
+  Future<List<Predictions>> searchAutocomplete(String query) async {
+    Uri uri =
+        Uri.https("maps.googleapis.com", "maps/api/place/autocomplete/json", {
+      "input": query,
+      "key": googleAPIKey,
+    });
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final parse = jsonDecode(response.body);
+        if (parse['status'] == "OK") {
+          SearchPlaceModel searchPlaceModel = SearchPlaceModel.fromJson(parse);
+          return searchPlaceModel.predictions ?? [];
+        }
+      }
+    } catch (err) {
+      print("Error: $err");
+    }
+    return [];
+  }
+
+  Future<void> getLatLang(String address) async {
+    List<Location> locations = await locationFromAddress(address);
+    if (locations.isNotEmpty) {
+      var first = locations.first;
+      latitude.value = first.latitude;
+      longitude.value = first.longitude;
+      print("Latitude: ${latitude.value}, Longitude: ${longitude.value}");
+    }
+  }
+
+  // ------------------------------------------- Add address API ------------------------------
+  final api = Repository();
+  final rxRequestStatus = Status.COMPLETED.obs;
+  final addAddress = EditAddressModal().obs;
+  RxString error = ''.obs;
+  String token = "";
+
+  // final int index = Get.arguments;
+
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
+  void setData(EditAddressModal value) => addAddress.value = value;
+
+  final DeliveryAddressController deliveryAddressController =
+      Get.put(DeliveryAddressController());
+
+  // setAddressData(int index) {
+  //   addressId = deliveryAddressController.deliveryAddressData.value.data![index].id.toString();
+  //   nameController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].fullName.toString().trim();
+  //   if (index == (-1)) {
+  //     String countryCodeFromAPI = deliveryAddressController.deliveryAddressData.value.data![index].countryCode.toString() ?? "";
+  //     if (countryCodeFromAPI.isNotEmpty) {
+  //       String dialCode = countryCodeFromAPI;
+  //       String countryCode = countryCodeFromAPI.substring(1);
+  //       selectedCountryCode.value =
+  //           CountryCode(dialCode: dialCode, code: countryCode);
+  //
+  //       CountryCode country = CountryCode.fromDialCode(dialCode);
+  //       String? countryCodename = country.code;
+  //       chackCountryLength = countryPhoneDigits[countryCodename]!;
+  //       print("chackCountryLength: ${chackCountryLength}");
+  //     }
+  //   mobNoController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].phoneNumber.toString().trim();
+  //   houseNoController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].houseDetails.toString().trim();
+  //   locationController.text = deliveryAddressController.deliveryAddressData.value.data![index].address.toString().trim();
+  //   latitude.value = double.parse(deliveryAddressController.deliveryAddressData.value.data![index].latitude);
+  //   longitude.value = double.parse(deliveryAddressController.deliveryAddressData.value.data![index].longitude);
+  //   deliveryInstructionController.value.text  = deliveryAddressController.deliveryAddressData.value.data![index].deliveryInstruction.toString().trim();
+  //   int isDefaultValue = deliveryAddressController.deliveryAddressData.value.data![index].isDefault ?? 0;
+  //   defaultSet.value = isDefaultValue == 1;
+  //
+  //   String addressTypeApi = deliveryAddressController.deliveryAddressData.value.data![index].addressType.toString().trim();
+  //
+  //   if (addressTypeApi == "Home") {
+  //     radioValue.value = 1;
+  //   } else if (addressTypeApi == "Office") {
+  //     radioValue.value = 2;
+  //   } else if (addressTypeApi == "Other") {
+  //     radioValue.value = 3;
+  //   }
+  // }}
+  setAddressData(int index) {
+    addressId = deliveryAddressController.deliveryAddressData.value.data![index].id.toString();
+    print("Address ID: $addressId");
+
+    nameController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].fullName.toString().trim();
+    print("Full Name: ${nameController.value.text}");
+
+    // if (index != (-1)) {
+    //   String countryCodeFromAPI = deliveryAddressController.deliveryAddressData.value.data![index].countryCode.toString() ?? "";
+    //   print("Country Code From API: $countryCodeFromAPI");
+    //
+    //   if (countryCodeFromAPI.isNotEmpty) {
+    //     String dialCode = countryCodeFromAPI;
+    //     String countryCode = countryCodeFromAPI.substring(1);
+    //     selectedCountryCode.value = CountryCode(dialCode: dialCode, code: countryCode);
+    //     print("Dial Code: $dialCode, Country Code: $countryCode");
+    //
+    //     CountryCode country = CountryCode.fromDialCode(dialCode);
+    //     String? countryCodename = country.code;
+    //     chackCountryLength = countryPhoneDigits[countryCodename]!;
+    //     print("chackCountryLength: $chackCountryLength");
+    //   }
+    // }
+
+    mobNoController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].phoneNumber.toString().trim();
+    print("Phone Number: ${mobNoController.value.text}");
+
+    houseNoController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].houseDetails.toString().trim();
+    print("House Details: ${houseNoController.value.text}");
+
+    locationController.text = deliveryAddressController.deliveryAddressData.value.data![index].address.toString().trim();
+    print("Address: ${locationController.text}");
+
+    latitude.value = double.parse(deliveryAddressController.deliveryAddressData.value.data![index].latitude);
+    print("Latitude: ${latitude.value}");
+
+    longitude.value = double.parse(deliveryAddressController.deliveryAddressData.value.data![index].longitude);
+    print("Longitude: ${longitude.value}");
+
+    deliveryInstructionController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].deliveryInstruction.toString().trim();
+    print("Delivery Instruction: ${deliveryInstructionController.value.text}");
+
+    int isDefaultValue = deliveryAddressController.deliveryAddressData.value.data![index].isDefault ?? 0;
+    defaultSet.value = isDefaultValue == 1;
+    print("Is Default: $defaultSet");
+
+    String addressTypeApi = deliveryAddressController.deliveryAddressData.value.data![index].addressType.toString().trim();
+    print("Address Type From API: $addressTypeApi");
+
+    if (addressTypeApi == "Home") {
+      radioValue.value = 1;
+      print("Address Type: Home");
+    } else if (addressTypeApi == "Office") {
+      radioValue.value = 2;
+      print("Address Type: Office");
+    } else if (addressTypeApi == "Other") {
+      radioValue.value = 3;
+      print("Address Type: Other");
+    }
+  }
+
+  editAddressApi() async {
+    setRxRequestStatus(Status.LOADING);
+    var body = {
+      'address_id': addressId,
+      'full_name': nameController.value.text,
+      'country_code': selectedCountryCode.value.toString(),
+      'phone_number': mobNoController.value.text,
+      'house_details': houseNoController.value.text,
+      'address': locationController.text,
+      'address_type': addressType.value,
+      'latitude': latitude.value.toString(),
+      'longitude': longitude.value.toString(),
+      'delivery_instruction': deliveryInstructionController.value.text,
+      'is_default': defaultSet.value == true ? "1" : "0",
+    };
+    api.editAddressApi(body).then((value) {
+      setData(value);
+      deliveryAddressController.getDeliveryAddressApi();
+      if (addAddress.value.status == true) {
+        Future.delayed(const Duration(seconds: 2), () {
+          Utils.showToast(addAddress.value.message.toString());
+          setRxRequestStatus(Status.COMPLETED);
+          Get.back();
+          nameController.value.clear();
+          mobNoController.value.clear();
+          houseNoController.value.clear();
+          deliveryInstructionController.value.clear();
+          locationController.clear();
+        });
+      } else {
+        Utils.showToast(addAddress.value.message.toString());
+      }
+    }).onError((error, stackError) {
+      print("Error: $error");
+      setError(error.toString());
+      print(stackError);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  void setError(String value) => error.value = value;
+
+// ------------------------------------------------------------- ------------------------------
 
   void updateCountryCode(CountryCode countryCode) {
     selectedCountryCode.value = countryCode;
   }
 
-  int checkCountryLength = 10;
+  RxBool showError = true.obs;
+
+  int chackCountryLength = 10;
   final Map<String, int> countryPhoneDigits = {
     'AF': 9, // Afghanistan
     'AL': 9, // Albania

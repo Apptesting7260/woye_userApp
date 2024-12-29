@@ -20,6 +20,9 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/common/Otp/model/login_model.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delivery_address_modal/delivery_address_modal.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
@@ -193,5 +196,25 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.deleteProduct, token);
     return DeleteProductModal.fromJson(response);
+  }
+
+// -------------------------- Delivery Address --------------------
+  Future<dynamic> getAddressApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getAddress, token);
+    return DeliveryAddressModal.fromJson(response);
+  }
+
+  Future<dynamic> addAddressApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.addAddress, token);
+    return AddAddressModal.fromJson(response);
+  }
+  Future<dynamic> editAddressApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.editAddress, token);
+    return EditAddressModal.fromJson(response);
   }
 }

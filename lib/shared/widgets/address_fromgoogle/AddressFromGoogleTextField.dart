@@ -56,6 +56,7 @@ class AddressFromGoogleAPI extends StatelessWidget {
               focusNode: focusNode,
               onChanged: onChanged,
               validator: validator,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: AppFontStyle.text_14_400(AppColors.hintText),
