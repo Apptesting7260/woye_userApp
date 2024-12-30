@@ -95,16 +95,20 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         physics: AlwaysScrollableScrollPhysics(),
                         child: Column(
                           children: [
+                            if (controller.cartData.value.addressExists == true)
+                              address(),
+                            if (controller.cartData.value.addressExists == true)
+                              hBox(20.h),
                             cartItems(),
-                            hBox(40),
+                            hBox(40.h),
                             promoCode(context),
-                            hBox(40),
+                            hBox(40.h),
                             paymentDetails(),
-                            hBox(30),
+                            hBox(30.h),
                             Divider(thickness: .5.w, color: AppColors.hintText),
-                            hBox(15),
+                            hBox(15.h),
                             checkoutButton(),
-                            hBox(100)
+                            hBox(100.h)
                           ],
                         ),
                       ),
@@ -112,6 +116,73 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             );
         }
       }),
+    );
+  }
+
+  Widget address() {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              "Delivery Address",
+              style: AppFontStyle.text_20_600(AppColors.darkText),
+            ),
+            const Spacer(),
+            InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: () {
+                Get.toNamed(AppRoutes.deliveryAddressScreen);
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Change Address",
+                    style: AppFontStyle.text_14_600(AppColors.primary),
+                  ),
+                  wBox(4),
+                  Icon(
+                    Icons.arrow_forward_sharp,
+                    color: AppColors.primary,
+                    size: 18,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+        hBox(10.h),
+        Container(
+          height: 82.h,
+          width: Get.width,
+          padding: EdgeInsets.all(20.r),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: AppColors.mediumText)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                controller.cartData.value.address!.addressType.toString(),
+                style: AppFontStyle.text_15_600(AppColors.primary),
+              ),
+              VerticalDivider(thickness: 1.w, color: AppColors.hintText),
+              Container(
+                width: Get.width * 0.6,
+                child: Text(
+                  controller.cartData.value.address!.address.toString(),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -498,6 +569,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           ],
         ),
         hBox(10),
+        if(controller.cartData.value.addressExists == true)
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -532,34 +604,48 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             ),
           ],
         ),
-        SizedBox(
-            width: 200.w,
-            height: 55.h,
-            child: CustomElevatedButton(
-              onPressed: () {
-                var selectedItems = controller
-                    .cartData.value.cart!.decodedAttribute!
-                    .where((item) => item.isSelected.value)
-                    .map((item) => {
-                          'name': item.productName,
-                          'price': "\$${item.totalPrice.toString()}"
-                        })
-                    .toList();
+        controller.cartData.value.addressExists == true
+            ? SizedBox(
+                width: 200.w,
+                height: 55.h,
+                child: CustomElevatedButton(
+                  onPressed: () {
+                    var selectedItems = controller
+                        .cartData.value.cart!.decodedAttribute!
+                        .where((item) => item.isSelected.value)
+                        .map((item) => {
+                              'name': item.productName,
+                              'price': "\$${item.totalPrice.toString()}"
+                            })
+                        .toList();
 
-                if (selectedItems.isNotEmpty) {
-                  selectedItems.forEach((item) {
-                    print(
-                        "Selected Product: ${item['name']}, Price: ${item['price']}");
-                    Get.toNamed(AppRoutes.checkoutScreen);
-                  });
-                } else {
-                  Utils.showToast(
-                      "Please select product to proceed to checkout");
-                }
-              },
-              text: "Checkout",
-              textStyle: AppFontStyle.text_16_600(AppColors.white),
-            ))
+                    if (selectedItems.isNotEmpty) {
+                      selectedItems.forEach((item) {
+                        print(
+                            "Selected Product: ${item['name']}, Price: ${item['price']}");
+                        Get.toNamed(AppRoutes.checkoutScreen);
+                      });
+                    } else {
+                      Utils.showToast(
+                          "Please select product to proceed to checkout");
+                    }
+                  },
+                  text: "Checkout",
+                  textStyle: AppFontStyle.text_16_600(AppColors.white),
+                ))
+            : SizedBox(
+                width: 200.w,
+                height: 55.h,
+                child: CustomElevatedButton(
+                  onPressed: () {
+                    Get.toNamed(
+                        AppRoutes.addAddressScreen,
+                        arguments: {'cartKey': "RestaurantCart"}
+                    );
+                  },
+                  text: "Add Address",
+                  textStyle: AppFontStyle.text_16_600(AppColors.white),
+                )),
       ],
     );
   }

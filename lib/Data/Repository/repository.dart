@@ -22,6 +22,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Con
 import 'package:woye_user/presentation/common/Otp/model/login_model.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delete_address/delete_product_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delivery_address_modal/delivery_address_modal.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
@@ -216,5 +217,11 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.editAddress, token);
     return EditAddressModal.fromJson(response);
+  }
+  Future<dynamic> deleteAddressApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.deleteAddress, token);
+    return DeleteAddressModal.fromJson(response);
   }
 }

@@ -4,12 +4,16 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delete_address/delete_address_controller.dart';
 
 class DeliveryAddressScreen extends StatelessWidget {
   DeliveryAddressScreen({super.key});
 
   final DeliveryAddressController controller =
       Get.put(DeliveryAddressController());
+
+  final DeleteAddressController deleteAddressController =
+      Get.put(DeleteAddressController());
 
   final EditAdressController editController = Get.put(EditAdressController());
 
@@ -48,7 +52,7 @@ class DeliveryAddressScreen extends StatelessWidget {
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: REdgeInsets.symmetric(horizontal: 24),
+                padding: REdgeInsets.symmetric(horizontal: 24.h),
                 child: Column(
                   children: [
                     if (controller.deliveryAddressData.value.data!.isNotEmpty)
@@ -124,7 +128,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                               style:
                                   AppFontStyle.text_20_600(AppColors.darkText),
                             ),
-                            wBox(10),
+                            wBox(10.h),
                             if (controller.deliveryAddressData.value
                                     .data![index].isDefault ==
                                 1)
@@ -134,34 +138,59 @@ class DeliveryAddressScreen extends StatelessWidget {
                                     AppColors.lightText),
                               ),
                             const Spacer(),
+                            if (controller.deliveryAddressData.value
+                                    .data![index].isDefault !=
+                                1)
+                              GestureDetector(
+                                onTap: () {
+                                  showDeleteAddressDialog(
+                                      addressId: controller.deliveryAddressData
+                                          .value.data![index].id
+                                          .toString());
+                                },
+                                child: SvgPicture.asset(
+                                  "assets/svg/delete-outlined.svg",
+                                  height: 20,
+                                ),
+                              ),
+                            wBox(5.h),
                             InkWell(
                                 onTap: () {
                                   editController.setAddressData(index);
                                   Get.toNamed(AppRoutes.editAddressScreen);
                                 },
-                                child: SvgPicture.asset("assets/svg/edit.svg"))
-                            // SvgPicture.asset(
-                            //     "assets/svg/green-check-circle.svg")
+                                child: SvgPicture.asset("assets/svg/edit.svg")),
                           ],
                         ),
-                        hBox(10),
+                        hBox(10.h),
                         Text(
                           controller
                               .deliveryAddressData.value.data![index].fullName
                               .toString(),
                           style: AppFontStyle.text_14_400(AppColors.darkText),
                         ),
-                        hBox(10),
+                        hBox(10.h),
                         Text(
                           "${controller.deliveryAddressData.value.data![index].houseDetails.toString()}\n${controller.deliveryAddressData.value.data![index].address.toString()}",
                           style: AppFontStyle.text_14_400(AppColors.lightText),
                           maxLines: 4,
                         ),
-                        hBox(10),
+                        hBox(10.h),
                         Text(
-                          "+${controller.deliveryAddressData.value.data![index].countryCode.toString()} ${controller.deliveryAddressData.value.data![index].phoneNumber.toString()}",
+                          "${controller.deliveryAddressData.value.data![index].countryCode.toString()} ${controller.deliveryAddressData.value.data![index].phoneNumber.toString()}",
                           style: AppFontStyle.text_14_400(AppColors.darkText),
                         ),
+                        if (controller.deliveryAddressData.value.data![index]
+                            .deliveryInstruction != null)
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.h),
+                            child: Text(
+                              "Delivery Instruction: ${controller.deliveryAddressData.value.data![index].deliveryInstruction.toString()}",
+                              maxLines: 2,
+                              style:
+                                  AppFontStyle.text_14_400(AppColors.darkText),
+                            ),
+                          ),
                       ],
                     ),
                   )
@@ -223,5 +252,70 @@ class DeliveryAddressScreen extends StatelessWidget {
     //     ],
     //   ),
     // );
+  }
+
+  Future showDeleteAddressDialog({
+    required String addressId,
+  }) {
+    return Get.dialog(
+      AlertDialog.adaptive(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Delete Address', // Updated text
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            Text(
+              'Are you sure you want to delete this address?',
+              // Updated message
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 15.h),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomElevatedButton(
+                    height: 40.h,
+                    color: AppColors.black,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    text: "Cancel",
+                    textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+                  ),
+                ),
+                wBox(15),
+                Obx(
+                  () => Expanded(
+                    child: CustomElevatedButton(
+                      height: 40.h,
+                      isLoading:
+                          deleteAddressController.rxRequestStatus.value ==
+                              (Status.LOADING),
+                      onPressed: () {
+                        deleteAddressController.deleteAddressApi(
+                            addressId: addressId);
+                      },
+                      text: "Yes",
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+      barrierDismissible: false,
+    );
   }
 }

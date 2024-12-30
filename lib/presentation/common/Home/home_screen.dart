@@ -37,7 +37,8 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(height: 20.h),
                   ElevatedButton(
                     onPressed: () async {
-                      await currentLocationController.getCurrentPosition(back: true);
+                      await currentLocationController.getCurrentPosition(
+                          back: true);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
@@ -136,25 +137,34 @@ class HomeScreen extends StatelessWidget {
           Column(
             children: [
               Padding(
-                padding: REdgeInsets.symmetric(horizontal: 24),
+                padding: REdgeInsets.symmetric(horizontal: 24.h),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Your Location",
-                          style: AppFontStyle.text_12_400(AppColors.lightText),
-                        ),
-                        hBox(5),
-                        Obx(
-                          () => Text(
-                            homeController.location.value,
-                            style: AppFontStyle.text_14_400(AppColors.darkText),
+                    Container(
+                      width: Get.width * 0.8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Your Location",
+                            style:
+                                AppFontStyle.text_12_400(AppColors.lightText),
                           ),
-                        ),
-                      ],
+                          hBox(5.w),
+                          Obx(
+                            () => Text(
+                              homeController.location.value,
+                              style:
+                                  AppFontStyle.text_14_400(AppColors.darkText),
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     Icon(
                       Icons.arrow_forward_ios_sharp,
@@ -223,6 +233,71 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
+  // Future showDeleteAddressDialog({
+  //   required String addressId,
+  // }) {
+  //   return Get.dialog(
+  //     AlertDialog.adaptive(
+  //       content: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         children: [
+  //           Text(
+  //             'Delete Address', // Updated text
+  //             style: TextStyle(
+  //               fontSize: 18.sp,
+  //               fontWeight: FontWeight.w600,
+  //               color: Colors.black,
+  //             ),
+  //           ),
+  //           SizedBox(height: 15.h),
+  //           Text(
+  //             'Are you sure you want to delete this address?',
+  //             // Updated message
+  //             style: TextStyle(
+  //               fontSize: 14.sp,
+  //               fontWeight: FontWeight.w400,
+  //               color: Colors.grey,
+  //             ),
+  //           ),
+  //           SizedBox(height: 15.h),
+  //           Row(
+  //             children: [
+  //               Expanded(
+  //                 child: CustomElevatedButton(
+  //                   height: 40.h,
+  //                   color: AppColors.black,
+  //                   onPressed: () {
+  //                     Get.back();
+  //                   },
+  //                   text: "Cancel",
+  //                   textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+  //                 ),
+  //               ),
+  //               wBox(15),
+  //               Obx(
+  //                     () => Expanded(
+  //                   child: CustomElevatedButton(
+  //                     height: 40.h,
+  //                     isLoading:
+  //                     deleteAddressController.rxRequestStatus.value ==
+  //                         (Status.LOADING),
+  //                     onPressed: () {
+  //                       deleteAddressController.deleteAddressApi(
+  //                           addressId: addressId);
+  //                     },
+  //                     text: "Yes",
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //     barrierDismissible: false,
+  //   );
+  // }
 }
 
 class MainButtonBar extends StatelessWidget {

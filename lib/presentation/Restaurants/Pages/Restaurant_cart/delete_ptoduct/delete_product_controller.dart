@@ -13,7 +13,7 @@ class DeleteProductController extends GetxController {
   void setData(DeleteProductModal value) => deleteProductData.value = value;
 
   final RestaurantCartController restaurantCartController =
-  Get.put(RestaurantCartController());
+      Get.put(RestaurantCartController());
 
   deleteProductApi({
     required String productId,
@@ -25,8 +25,7 @@ class DeleteProductController extends GetxController {
     api.deleteProductApi(body).then((value) {
       setData(value);
       if (deleteProductData.value.status == true) {
-        restaurantCartController.getRestaurantCartApi();
-        Future.delayed(const Duration(seconds: 1), () {
+        restaurantCartController.getRestaurantCartApi().then((value) {
           setRxRequestStatus(Status.COMPLETED);
         });
       } else {

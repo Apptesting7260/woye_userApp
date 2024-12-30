@@ -38,4 +38,6 @@ class AppUrls {
   static const String getAddress = "$baseUrl/get-address";
   static const String addAddress = "$baseUrl/add-address";
   static const String editAddress = "$baseUrl/edit-address";
+  static const String deleteAddress = "$baseUrl/delete-address";
+
 }

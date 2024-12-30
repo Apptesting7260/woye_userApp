@@ -33,7 +33,7 @@ class Data {
   int? id;
   int? userId;
   String? fullName;
-  int? countryCode;
+  String? countryCode;
   String? phoneNumber;
   String? houseDetails;
   String? address;
@@ -44,6 +44,8 @@ class Data {
   String? deliveryInstruction;
   String? createdAt;
   String? updatedAt;
+  Rx<bool> isDelete = false.obs;
+
 
   Data(
       {this.id,

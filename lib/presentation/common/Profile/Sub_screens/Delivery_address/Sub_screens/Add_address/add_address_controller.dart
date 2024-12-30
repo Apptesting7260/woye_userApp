@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
@@ -120,7 +121,13 @@ class AddAddressController extends GetxController {
   final DeliveryAddressController deliveryAddressController =
       Get.put(DeliveryAddressController());
 
+  final RestaurantCartController restaurantCartController =
+      Get.put(RestaurantCartController());
+
   addAddressApi() async {
+    var arguments = Get.arguments;
+    String cart = arguments['cartKey'];
+    print("cart--------------------------------$cart");
     setRxRequestStatus(Status.LOADING);
     var body = {
       'full_name': nameController.value.text,
@@ -136,18 +143,34 @@ class AddAddressController extends GetxController {
     };
     api.addAddressApi(body).then((value) {
       setData(value);
-      deliveryAddressController.getDeliveryAddressApi();
       if (addAddress.value.status == true) {
-        Future.delayed(const Duration(seconds: 2), () {
-          Utils.showToast(addAddress.value.message.toString());
-          setRxRequestStatus(Status.COMPLETED);
-          Get.back();
-          nameController.value.clear();
-          mobNoController.value.clear();
-          houseNoController.value.clear();
-          deliveryInstructionController.value.clear();
-          locationController.clear();
-        });
+        if (cart == "RestaurantCart") {
+          restaurantCartController.getRestaurantCartApi().then((value) {
+            Utils.showToast(addAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            radioValue.value = 0;
+            return;
+          });
+        } else {
+          deliveryAddressController.getDeliveryAddressApi().then((value) {
+            Utils.showToast(addAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            radioValue.value = 0;
+            return;
+          });
+        }
       } else {
         Utils.showToast(addAddress.value.message.toString());
       }
