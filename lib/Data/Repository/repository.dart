@@ -24,6 +24,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delete_address/delete_product_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delivery_address_modal/delivery_address_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/wallet_modal/wallet_modal.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
@@ -75,6 +76,41 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.updateProfile, token);
     return UpdateprofileModel.fromJson(response);
+  }
+
+  /* ------------------------------------------------ User Address ----------------------------------------------------*/
+
+  Future<dynamic> getAddressApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getAddress, token);
+    return DeliveryAddressModal.fromJson(response);
+  }
+
+  Future<dynamic> addAddressApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.addAddress, token);
+    return AddAddressModal.fromJson(response);
+  }
+
+  Future<dynamic> editAddressApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.editAddress, token);
+    return EditAddressModal.fromJson(response);
+  }
+
+  Future<dynamic> deleteAddressApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.deleteAddress, token);
+    return DeleteAddressModal.fromJson(response);
+  }
+  /* ------------------------------------------------ User Wallet ----------------------------------------------------*/
+  Future<dynamic> userWalletApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.userWallet, token);
+    return WalletModal.fromJson(response);
   }
 
   /* ------------------------------------------------ Restaurant ----------------------------------------------------*/
@@ -197,31 +233,5 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.deleteProduct, token);
     return DeleteProductModal.fromJson(response);
-  }
-
-// -------------------------- Delivery Address --------------------
-  Future<dynamic> getAddressApi() async {
-    await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.getAddress, token);
-    return DeliveryAddressModal.fromJson(response);
-  }
-
-  Future<dynamic> addAddressApi(var data) async {
-    await initializeUser();
-    dynamic response =
-        await _apiService.postApi(data, AppUrls.addAddress, token);
-    return AddAddressModal.fromJson(response);
-  }
-  Future<dynamic> editAddressApi(var data) async {
-    await initializeUser();
-    dynamic response =
-        await _apiService.postApi(data, AppUrls.editAddress, token);
-    return EditAddressModal.fromJson(response);
-  }
-  Future<dynamic> deleteAddressApi(var data) async {
-    await initializeUser();
-    dynamic response =
-    await _apiService.postApi(data, AppUrls.deleteAddress, token);
-    return DeleteAddressModal.fromJson(response);
   }
 }

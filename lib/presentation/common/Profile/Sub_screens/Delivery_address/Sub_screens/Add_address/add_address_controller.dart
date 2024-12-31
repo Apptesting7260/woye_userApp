@@ -126,7 +126,7 @@ class AddAddressController extends GetxController {
 
   addAddressApi() async {
     var arguments = Get.arguments;
-    String cart = arguments['cartKey'];
+    String? cart = arguments['cartKey'];
     print("cart--------------------------------$cart");
     setRxRequestStatus(Status.LOADING);
     var body = {
@@ -144,11 +144,13 @@ class AddAddressController extends GetxController {
     api.addAddressApi(body).then((value) {
       setData(value);
       if (addAddress.value.status == true) {
-        if (cart == "RestaurantCart") {
-          restaurantCartController.getRestaurantCartApi().then((value) {
+        if (location.value.isEmpty) {
+          deliveryAddressController.getDeliveryAddressApi().then((value) {
+            location.value = locationController.text;
+            storage.write('location', location.value);
             Utils.showToast(addAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);
-            Get.back();
+            Get.offAllNamed(AppRoutes.restaurantNavbar);
             nameController.value.clear();
             mobNoController.value.clear();
             houseNoController.value.clear();
@@ -158,18 +160,33 @@ class AddAddressController extends GetxController {
             return;
           });
         } else {
-          deliveryAddressController.getDeliveryAddressApi().then((value) {
-            Utils.showToast(addAddress.value.message.toString());
-            setRxRequestStatus(Status.COMPLETED);
-            Get.back();
-            nameController.value.clear();
-            mobNoController.value.clear();
-            houseNoController.value.clear();
-            deliveryInstructionController.value.clear();
-            locationController.clear();
-            radioValue.value = 0;
-            return;
-          });
+          if (cart == "RestaurantCart") {
+            restaurantCartController.getRestaurantCartApi().then((value) {
+              Utils.showToast(addAddress.value.message.toString());
+              setRxRequestStatus(Status.COMPLETED);
+              Get.back();
+              nameController.value.clear();
+              mobNoController.value.clear();
+              houseNoController.value.clear();
+              deliveryInstructionController.value.clear();
+              locationController.clear();
+              radioValue.value = 0;
+              return;
+            });
+          } else {
+            deliveryAddressController.getDeliveryAddressApi().then((value) {
+              Utils.showToast(addAddress.value.message.toString());
+              setRxRequestStatus(Status.COMPLETED);
+              Get.back();
+              nameController.value.clear();
+              mobNoController.value.clear();
+              houseNoController.value.clear();
+              deliveryInstructionController.value.clear();
+              locationController.clear();
+              radioValue.value = 0;
+              return;
+            });
+          }
         }
       } else {
         Utils.showToast(addAddress.value.message.toString());

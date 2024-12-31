@@ -181,7 +181,8 @@ class DeliveryAddressScreen extends StatelessWidget {
                           style: AppFontStyle.text_14_400(AppColors.darkText),
                         ),
                         if (controller.deliveryAddressData.value.data![index]
-                            .deliveryInstruction != null)
+                                .deliveryInstruction !=
+                            null)
                           Padding(
                             padding: EdgeInsets.only(top: 10.h),
                             child: Text(
@@ -211,7 +212,7 @@ class DeliveryAddressScreen extends StatelessWidget {
           border: Border.all(color: AppColors.primary)),
       child: ListTile(
         onTap: () {
-          Get.toNamed(AppRoutes.addAddressScreen);
+          Get.toNamed(AppRoutes.addAddressScreen, arguments: {'cartKey': ""});
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
         horizontalTitleGap: 10.w,
@@ -229,7 +230,6 @@ class DeliveryAddressScreen extends StatelessWidget {
         ),
       ),
     );
-
     // Container(
     //   padding: REdgeInsetsDirectional.all(15),
     //   height: 60.h,
@@ -258,61 +258,63 @@ class DeliveryAddressScreen extends StatelessWidget {
     required String addressId,
   }) {
     return Get.dialog(
-      AlertDialog.adaptive(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Delete Address', // Updated text
-              style: TextStyle(
-                fontSize: 18.sp,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 15.h),
-            Text(
-              'Are you sure you want to delete this address?',
-              // Updated message
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey,
-              ),
-            ),
-            SizedBox(height: 15.h),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomElevatedButton(
-                    height: 40.h,
-                    color: AppColors.black,
-                    onPressed: () {
-                      Get.back();
-                    },
-                    text: "Cancel",
-                    textStyle: AppFontStyle.text_14_400(AppColors.darkText),
-                  ),
+      PopScope(
+        canPop: false,
+        child: AlertDialog.adaptive(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Delete Address',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
                 ),
-                wBox(15),
-                Obx(
-                  () => Expanded(
+              ),
+              SizedBox(height: 15.h),
+              Text(
+                'Are you sure you want to delete this address?',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Row(
+                children: [
+                  Expanded(
                     child: CustomElevatedButton(
                       height: 40.h,
-                      isLoading:
-                          deleteAddressController.rxRequestStatus.value ==
-                              (Status.LOADING),
+                      color: AppColors.black,
                       onPressed: () {
-                        deleteAddressController.deleteAddressApi(
-                            addressId: addressId);
+                        Get.back();
                       },
-                      text: "Yes",
+                      text: "Cancel",
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                  wBox(15),
+                  Obx(
+                    () => Expanded(
+                      child: CustomElevatedButton(
+                        height: 40.h,
+                        isLoading:
+                            deleteAddressController.rxRequestStatus.value ==
+                                (Status.LOADING),
+                        onPressed: () {
+                          deleteAddressController.deleteAddressApi(
+                              addressId: addressId);
+                        },
+                        text: "Yes",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       barrierDismissible: false,

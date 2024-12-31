@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 
 class CurrentLocationController extends GetxController {
@@ -45,9 +46,19 @@ class CurrentLocationController extends GetxController {
     return true;
   }
 
+  int hasPermissionForSettings = 0;
+
   Future<void> getCurrentPosition({bool back = false}) async {
+    hasPermissionForSettings++;
+    print("hasPermissionForSettings $hasPermissionForSettings");
     final hasPermission = await _handleLocationPermission();
 
+    if (hasPermissionForSettings > 1 && !hasPermission) {
+      print("hasPermissionForSettingsagain $hasPermissionForSettings");
+      Get.back();
+      _showPermissionDialog();
+      return;
+    }
     if (!hasPermission) return;
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) {
@@ -58,6 +69,28 @@ class CurrentLocationController extends GetxController {
     }).catchError((e) {
       debugPrint(e);
     });
+  }
+
+  void _showPermissionDialog() {
+    Get.dialog(
+      PopScope(
+        canPop: false,
+        child: AlertDialog(
+          title: const Text("Permission Denied"),
+          content: const Text(
+              "Location permission is required to continue. Please go to settings and enable location access."),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Open Settings"),
+              onPressed: () {
+                Get.back();
+                openAppSettings();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _getAddressFromLatLng(Position position, bool back) async {

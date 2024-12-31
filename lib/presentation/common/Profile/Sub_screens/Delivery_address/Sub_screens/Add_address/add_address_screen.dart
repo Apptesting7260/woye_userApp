@@ -14,86 +14,89 @@ class AddAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     controller.loadLocationData();
-    return Scaffold(
-      appBar: CustomAppBar(
-        isLeading: true,
-        title: Text(
-          "Add New Address",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+    return PopScope(
+      canPop: controller.location.value == "" ? false : true,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          isLeading: controller.location.value == "" ? false : true,
+          title: Text(
+            "Add New Address",
+            style: AppFontStyle.text_22_600(AppColors.darkText),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24.h),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              hBox(20.h),
-              fullName(),
-              hBox(15.h),
-              phoneNumber(),
-              hBox(15.h),
-              houseNo(),
-              hBox(15.h),
-              AddressFromGoogleAPI(
-                controller: controller.locationController,
-                onChanged: (value) {
-                  controller.isValidAddress.value = false;
-                  print("SelectedLocation 1${controller.isValidAddress.value}");
-                  // addressSetController.house_noController.value.clear();
-                },
-                suggestionsCallback: (query) async {
-                  return await controller.searchAutocomplete(query);
-                },
-                itemBuilder: (context, Predictions suggestion) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ListTile(
-                        title: Text(
-                          suggestion.description ?? "",
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
+        body: SingleChildScrollView(
+          padding: REdgeInsets.symmetric(horizontal: 24.h),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                hBox(20.h),
+                fullName(),
+                hBox(15.h),
+                phoneNumber(),
+                hBox(15.h),
+                houseNo(),
+                hBox(15.h),
+                AddressFromGoogleAPI(
+                  controller: controller.locationController,
+                  onChanged: (value) {
+                    controller.isValidAddress.value = false;
+                    print(
+                        "SelectedLocation 1${controller.isValidAddress.value}");
+                  },
+                  suggestionsCallback: (query) async {
+                    return await controller.searchAutocomplete(query);
+                  },
+                  itemBuilder: (context, Predictions suggestion) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ListTile(
+                          title: Text(
+                            suggestion.description ?? "",
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                      ),
-                      const Divider(
-                        height: 0,
-                      ),
-                    ],
-                  );
-                },
-                onSelected: (Predictions selectedAddress) {
-                  controller.locationController.text =
-                      selectedAddress.description ?? "";
-                  controller.getLatLang(controller.locationController.text);
-                  controller.selectedLocation =
-                      controller.locationController.text;
-                  controller.isValidAddress.value = true;
-                  controller.searchPlace.clear();
-                  print("SelectedLocation ${controller.selectedLocation}");
-                  print("SelectedLocation 2${controller.isValidAddress}");
-                },
-                hintText: 'Address',
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Enter your address';
-                  }
-                  if (!controller.isValidAddress.value) {
-                    return 'Select an valid address.';
-                  }
-                  return null;
-                },
-              ),
-              hBox(15.h),
-              deliveryInstruction(),
-              hBox(15.h),
-              toggleButtons(),
-              hBox(20.h),
-              defaultSet(),
-              hBox(30.h),
-              saveButton(),
-              hBox(50.h)
-            ],
+                        const Divider(
+                          height: 0,
+                        ),
+                      ],
+                    );
+                  },
+                  onSelected: (Predictions selectedAddress) {
+                    controller.locationController.text =
+                        selectedAddress.description ?? "";
+                    controller.getLatLang(controller.locationController.text);
+                    controller.selectedLocation =
+                        controller.locationController.text;
+                    controller.isValidAddress.value = true;
+                    controller.searchPlace.clear();
+                    print("SelectedLocation ${controller.selectedLocation}");
+                    print("SelectedLocation 2${controller.isValidAddress}");
+                  },
+                  hintText: 'Address',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your address';
+                    }
+                    if (!controller.isValidAddress.value) {
+                      return 'Select an valid address.';
+                    }
+                    return null;
+                  },
+                ),
+                hBox(15.h),
+                deliveryInstruction(),
+                hBox(15.h),
+                toggleButtons(),
+                hBox(20.h),
+                defaultSet(),
+                hBox(30.h),
+                saveButton(),
+                hBox(50.h)
+              ],
+            ),
           ),
         ),
       ),

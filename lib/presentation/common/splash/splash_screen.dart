@@ -11,13 +11,14 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   SplashServices splashScreen = SplashServices();
-  final CurrentLocationController currentLocationController =
-      Get.put(CurrentLocationController());
+
+  // final CurrentLocationController currentLocationController =
+  //     Get.put(CurrentLocationController());
 
   @override
   void initState() {
     super.initState();
-    currentLocationController.getCurrentPosition();
+    // currentLocationController.getCurrentPosition();
     splashScreen.isLogin();
   }
 

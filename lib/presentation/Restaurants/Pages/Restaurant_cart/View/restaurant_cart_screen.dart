@@ -569,20 +569,20 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           ],
         ),
         hBox(10),
-        if(controller.cartData.value.addressExists == true)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Delivery Charge",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-            Text(
-              "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
-              style: AppFontStyle.text_14_600(AppColors.darkText),
-            ),
-          ],
-        ),
+        if (controller.cartData.value.addressExists == true)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Delivery Charge",
+                style: AppFontStyle.text_14_400(AppColors.lightText),
+              ),
+              Text(
+                "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
+                style: AppFontStyle.text_14_600(AppColors.darkText),
+              ),
+            ],
+          ),
       ],
     );
   }
@@ -638,10 +638,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                 height: 55.h,
                 child: CustomElevatedButton(
                   onPressed: () {
-                    Get.toNamed(
-                        AppRoutes.addAddressScreen,
-                        arguments: {'cartKey': "RestaurantCart"}
-                    );
+                    Get.toNamed(AppRoutes.addAddressScreen,
+                        arguments: {'cartKey': "RestaurantCart"});
                   },
                   text: "Add Address",
                   textStyle: AppFontStyle.text_16_600(AppColors.white),

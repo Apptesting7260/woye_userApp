@@ -16,45 +16,78 @@ class HomeScreen extends StatelessWidget {
 
   void showLocationDialog() {
     if (homeController.location.value.isEmpty) {
-      Future.delayed(const Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 0), () {
         Get.dialog(
-          AlertDialog(
-            title: Text(
-              "Precise Location is off",
-              style: AppFontStyle.text_14_400(AppColors.darkText),
-            ),
-            content: Padding(
-              padding: REdgeInsets.all(20.h),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Text explaining the need for precise location
-                  Text(
-                    "Turning on precise location will ensure accurate address and hassle-free delivery.",
-                    style: AppFontStyle.text_12_400(AppColors.lightText),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 20.h),
-                  ElevatedButton(
-                    onPressed: () async {
-                      await currentLocationController.getCurrentPosition(
-                          back: true);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 30),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text("Grant Location"),
-                  ),
-                  SizedBox(height: 10.h),
-                ],
+          PopScope(
+            canPop: false,
+            child: AlertDialog(
+              title: Image.asset(
+                "assets/images/Location.png",
+                height: 100.h,
               ),
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              content: Padding(
+                padding: REdgeInsets.all(0.h),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Location Permission is off",
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: AppFontStyle.text_22_600(AppColors.darkText),
+                    ),
+                    hBox(10.h),
+                    Text(
+                      "Getting location permission will ensure accurate address and hassle free delivery",
+                      style: AppFontStyle.text_16_400(AppColors.lightText),
+                      maxLines: 4,
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20.h),
+                    CustomElevatedButton(
+                      height: 50.h,
+                      color: AppColors.primary,
+                      onPressed: () async {
+                        await currentLocationController.getCurrentPosition(
+                            back: true);
+                      },
+                      text: "Allow Location Access",
+                      textStyle: AppFontStyle.text_14_400(AppColors.white),
+                    ),
+                    SizedBox(height: 10.h),
+                    GestureDetector(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.addAddressScreen,
+                            arguments: {'cartKey': ""});
+                      },
+                      child: Container(
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50.r),
+                              border: Border.all(color: AppColors.primary)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(
+                                "assets/svg/pin_location.svg",
+                                height: 22.h,
+                              ),
+                              SizedBox(width: 5.h),
+                              Text(
+                                "Add Address",
+                                style:
+                                    AppFontStyle.text_16_400(AppColors.primary),
+                              ),
+                            ],
+                          )),
+                    ),
+                  ],
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
             ),
           ),
         );
@@ -120,15 +153,20 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                Container(
-                  padding: REdgeInsets.all(9),
-                  height: 44.h,
-                  width: 44.h,
-                  decoration: BoxDecoration(
-                      color: AppColors.greyBackground,
-                      borderRadius: BorderRadius.circular(12.r)),
-                  child: SvgPicture.asset(
-                    ImageConstants.notification,
+                GestureDetector(
+                  onTap: () {
+                    showLocationDialog();
+                  },
+                  child: Container(
+                    padding: REdgeInsets.all(9),
+                    height: 44.h,
+                    width: 44.h,
+                    decoration: BoxDecoration(
+                        color: AppColors.greyBackground,
+                        borderRadius: BorderRadius.circular(12.r)),
+                    child: SvgPicture.asset(
+                      ImageConstants.notification,
+                    ),
                   ),
                 ),
               ],
@@ -234,70 +272,70 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  // Future showDeleteAddressDialog({
-  //   required String addressId,
-  // }) {
-  //   return Get.dialog(
-  //     AlertDialog.adaptive(
-  //       content: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           Text(
-  //             'Delete Address', // Updated text
-  //             style: TextStyle(
-  //               fontSize: 18.sp,
-  //               fontWeight: FontWeight.w600,
-  //               color: Colors.black,
-  //             ),
-  //           ),
-  //           SizedBox(height: 15.h),
-  //           Text(
-  //             'Are you sure you want to delete this address?',
-  //             // Updated message
-  //             style: TextStyle(
-  //               fontSize: 14.sp,
-  //               fontWeight: FontWeight.w400,
-  //               color: Colors.grey,
-  //             ),
-  //           ),
-  //           SizedBox(height: 15.h),
-  //           Row(
-  //             children: [
-  //               Expanded(
-  //                 child: CustomElevatedButton(
-  //                   height: 40.h,
-  //                   color: AppColors.black,
-  //                   onPressed: () {
-  //                     Get.back();
-  //                   },
-  //                   text: "Cancel",
-  //                   textStyle: AppFontStyle.text_14_400(AppColors.darkText),
-  //                 ),
-  //               ),
-  //               wBox(15),
-  //               Obx(
-  //                     () => Expanded(
-  //                   child: CustomElevatedButton(
-  //                     height: 40.h,
-  //                     isLoading:
-  //                     deleteAddressController.rxRequestStatus.value ==
-  //                         (Status.LOADING),
-  //                     onPressed: () {
-  //                       deleteAddressController.deleteAddressApi(
-  //                           addressId: addressId);
-  //                     },
-  //                     text: "Yes",
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //     barrierDismissible: false,
-  //   );
-  // }
+// Future showDeleteAddressDialog({
+//   required String addressId,
+// }) {
+//   return Get.dialog(
+//     AlertDialog.adaptive(
+//       content: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           Text(
+//             'Delete Address', // Updated text
+//             style: TextStyle(
+//               fontSize: 18.sp,
+//               fontWeight: FontWeight.w600,
+//               color: Colors.black,
+//             ),
+//           ),
+//           SizedBox(height: 15.h),
+//           Text(
+//             'Are you sure you want to delete this address?',
+//             // Updated message
+//             style: TextStyle(
+//               fontSize: 14.sp,
+//               fontWeight: FontWeight.w400,
+//               color: Colors.grey,
+//             ),
+//           ),
+//           SizedBox(height: 15.h),
+//           Row(
+//             children: [
+//               Expanded(
+//                 child: CustomElevatedButton(
+//                   height: 40.h,
+//                   color: AppColors.black,
+//                   onPressed: () {
+//                     Get.back();
+//                   },
+//                   text: "Cancel",
+//                   textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+//                 ),
+//               ),
+//               wBox(15),
+//               Obx(
+//                     () => Expanded(
+//                   child: CustomElevatedButton(
+//                     height: 40.h,
+//                     isLoading:
+//                     deleteAddressController.rxRequestStatus.value ==
+//                         (Status.LOADING),
+//                     onPressed: () {
+//                       deleteAddressController.deleteAddressApi(
+//                           addressId: addressId);
+//                     },
+//                     text: "Yes",
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     ),
+//     barrierDismissible: false,
+//   );
+// }
 }
 
 class MainButtonBar extends StatelessWidget {
