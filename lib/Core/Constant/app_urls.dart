@@ -29,16 +29,16 @@ class AppUrls {
   /* ------------------------------ Restaurant ---------------------------------*/
 
   static const String homeApi = "$baseUrl/home-api";
-  static const String restaurant_Categories = "$baseUrl/all-category";
-  static const String all_Restaurant = "$baseUrl/all-restaurant";
-  static const String restaurant_category_Details = "$baseUrl/category-product";
-  static const String specific_restaurant = "$baseUrl/specific-restaurant";
-  static const String specific_product = "$baseUrl/specific-product";
-  static const String restaurant_aad_product_wishlist =
+  static const String restaurantCategories = "$baseUrl/all-category";
+  static const String allRestaurant = "$baseUrl/all-restaurant";
+  static const String restaurantCategoryDetails = "$baseUrl/category-product";
+  static const String specificRestaurant = "$baseUrl/specific-restaurant";
+  static const String specificProduct = "$baseUrl/specific-product";
+  static const String addProductWishlist =
       "$baseUrl/product-wishlist";
-  static const String restaurant_product_wishlist =
+  static const String restaurantProductWishlist =
       "$baseUrl/all-product-wishlist";
-  static const String get_CategoriesFilter = "$baseUrl/inner-search-data";
+  static const String getCategoriesFilter = "$baseUrl/inner-search-data";
   static const String seeAllProducts = "$baseUrl/seeAll-specific-product";
   static const String seeAllReview = "$baseUrl/review-all";
   static const String homeSearch = "$baseUrl/home-search";
@@ -47,4 +47,6 @@ class AppUrls {
   static const String getCartData = "$baseUrl/get-cart";
   static const String updateQuantity = "$baseUrl/update-product-quantity";
   static const String deleteProduct = "$baseUrl/delete-product";
+  static const String applyCoupons = "$baseUrl/apply-coupons";
+  static const String checkedUnchecked = "$baseUrl/checked-unchecked";
 }

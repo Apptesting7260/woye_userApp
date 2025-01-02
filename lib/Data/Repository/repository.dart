@@ -5,6 +5,8 @@ import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/checked_unchecked/checked_unchecked_modal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_coupon_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantity_update/modal.dart';
@@ -125,35 +127,35 @@ class Repository {
 
   Future<dynamic> all_Restaurant_Api() async {
     await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.all_Restaurant, token);
+    dynamic response = await _apiService.getApi(AppUrls.allRestaurant, token);
     return all_restaurant_modal.fromJson(response);
   }
 
   Future<dynamic> restaurant_Categories_Api() async {
     await initializeUser();
     dynamic response =
-        await _apiService.getApi(AppUrls.restaurant_Categories, token);
+        await _apiService.getApi(AppUrls.restaurantCategories, token);
     return restaurant_Categories_Modal.fromJson(response);
   }
 
   Future<dynamic> Restaurant_Category_Details_Api(var data) async {
     await initializeUser();
     dynamic response = await _apiService.postApi(
-        data, AppUrls.restaurant_category_Details, token);
+        data, AppUrls.restaurantCategoryDetails, token);
     return RestaurantCategoryDetailsModal.fromJson(response);
   }
 
   Future<dynamic> specific_Restaurant_Api(var data) async {
     await initializeUser();
     dynamic response =
-        await _apiService.postApi(data, AppUrls.specific_restaurant, token);
+        await _apiService.postApi(data, AppUrls.specificRestaurant, token);
     return SpecificRestaurantModal.fromJson(response);
   }
 
   Future<dynamic> specific_Product_Api(var data) async {
     await initializeUser();
     dynamic response =
-        await _apiService.postApi(data, AppUrls.specific_product, token);
+        await _apiService.postApi(data, AppUrls.specificProduct, token);
     return specificProduct.fromJson(response);
   }
 
@@ -162,21 +164,21 @@ class Repository {
   ) async {
     await initializeUser();
     dynamic response = await _apiService.postApi(
-        data, AppUrls.restaurant_aad_product_wishlist, token);
+        data, AppUrls.addProductWishlist, token);
     return restaurant_add_product_wishlist_modal.fromJson(response);
   }
 
   Future<dynamic> Restaurant_All_product_wishlist_Api() async {
     await initializeUser();
     dynamic response =
-        await _apiService.getApi(AppUrls.restaurant_product_wishlist, token);
+        await _apiService.getApi(AppUrls.restaurantProductWishlist, token);
     return restaurant_product_wishlist_modal.fromJson(response);
   }
 
   Future<dynamic> get_CategoriesFilter_Api() async {
     await initializeUser();
     dynamic response =
-        await _apiService.getApi(AppUrls.get_CategoriesFilter, token);
+        await _apiService.getApi(AppUrls.getCategoriesFilter, token);
     return CategoriesFilter_modal.fromJson(response);
   }
 
@@ -233,5 +235,17 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.deleteProduct, token);
     return DeleteProductModal.fromJson(response);
+  }
+  Future<dynamic> applyCouponsApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.applyCoupons, token);
+    return ApplyCouponModal.fromJson(response);
+  }
+  Future<dynamic> checkedUncheckedApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.checkedUnchecked, token);
+    return CheckedUncheckedModal.fromJson(response);
   }
 }
