@@ -1,4 +1,5 @@
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/common/current_location/current_location.dart';
 import 'package:woye_user/presentation/common/splash/splash_services.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,9 +12,13 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   SplashServices splashScreen = SplashServices();
 
+  // final CurrentLocationController currentLocationController =
+  //     Get.put(CurrentLocationController());
+
   @override
   void initState() {
     super.initState();
+    // currentLocationController.getCurrentPosition();
     splashScreen.isLogin();
   }
 

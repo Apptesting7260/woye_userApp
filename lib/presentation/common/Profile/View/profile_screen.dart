@@ -216,7 +216,7 @@ class ProfileScreen extends StatelessWidget {
             "guestUser") {
           showLoginRequired(context);
         } else {
-          Get.toNamed(AppRoutes.deliveryAddressScreen);
+          Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {'type': "Profile"});
         }
       },
     );

@@ -35,9 +35,9 @@ class LoginScreen extends StatelessWidget {
               hBox(20),
               //
               signInButton(),
-              hBox(10),
+              // hBox(10),
               //
-              guestButton(),
+              // guestButton(),
               hBox(20),
               //
               continueText(),

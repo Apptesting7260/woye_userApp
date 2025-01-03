@@ -181,7 +181,7 @@ class SocialLoginController extends GetxController {
       print("userIdentifier:${credential.email}");
 
       await SocialLoginApi(
-        type: "google",
+        type: "apple",
         email: credential.email.toString(),
         id: credential.userIdentifier.toString(),
         name: "${credential.givenName ?? ''} ${credential.familyName ?? ''}",
@@ -224,13 +224,13 @@ class SocialLoginController extends GetxController {
     String? tokenFCM = await FirebaseMessaging.instance.getToken();
 
     Map data = {
-      'email': email,
+      'email': email.toString(),
       "fcm_token": tokenFCM.toString(),
       'step': userModel.token.toString() == 2 ? '2' : '1',
       'type': type.toString(),
-      'fname': name,
-      'mob_no': mobile,
-      'country_code': countryCode,
+      'fname': name ?? "",
+      'mob_no': mobile ?? "",
+      'country_code': countryCode ?? "",
       'dob': "",
       "gender": "",
       'uuid': id,

@@ -16,6 +16,7 @@ class OtpController extends GetxController {
   var otpVerify = false.obs;
   var regVerify = false.obs;
   var logVerify = false.obs;
+
   // final OtpScreen _otpScreen = OtpScreen();
   final FirebaseAuth auth = FirebaseAuth.instance;
   final api = Repository();
@@ -23,6 +24,7 @@ class OtpController extends GetxController {
 
   final rxRequestStatus = Status.COMPLETED.obs;
   final registerData = RegisterModel().obs;
+
   // Parse the response into the RegisterModel
   final loginData = LoginModel().obs;
   RxString error = ''.obs;
@@ -31,8 +33,11 @@ class OtpController extends GetxController {
   var pref = UserPreference();
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
   void signUpSet(RegisterModel value) => registerData.value = value;
+
   void signInSet(LoginModel value) => loginData.value = value;
+
   void setError(String value) => error.value = value;
 
   @override
@@ -87,14 +92,16 @@ class OtpController extends GetxController {
   }) async {
     try {
       otpVerify.value = true;
+      setRxRequestStatus(Status.LOADING);
       var credential = await auth.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: verificationId, smsCode: smsCode));
       Utils.showToast('Otp Verify Successfully');
       return credential.user == null ? false : true;
     } on FirebaseAuthException catch (e) {
+      setRxRequestStatus(Status.COMPLETED);
       print('otp error == ${e.code}');
-      otpVerify.value = false;
+      // otpVerify.value = false;
       if (e.code == 'invalid-verification-code') {
         Utils.showToast('Invalid otp.');
       } else {
@@ -107,7 +114,7 @@ class OtpController extends GetxController {
   registerApi({
     required String countryCode,
     required String mob,
-   }) async {
+  }) async {
     String? tokenFcm = await FirebaseMessaging.instance.getToken();
 
     final data = {
@@ -115,13 +122,13 @@ class OtpController extends GetxController {
       "fcm_token": tokenFcm,
       "country_code": countryCode,
     };
-    setRxRequestStatus(Status.LOADING);
-
-    api.registerApi(data,).then((value) {
-      setRxRequestStatus(Status.COMPLETED);
+    api
+        .registerApi(
+      data,
+    )
+        .then((value) {
       signUpSet(value);
-
-      if(registerData.value.status == true){
+      if (registerData.value.status == true) {
         userModel.step = registerData.value.step;
         log("Response Step: ${userModel.step}");
         userModel.token = registerData.value.token;
@@ -133,15 +140,14 @@ class OtpController extends GetxController {
         pref.saveUser(userModel);
         log('data for saveuser:  ${userModel.step}');
         log("Navigating with countryCode: $countryCode, mob: $mob");
-        Get.offNamed(AppRoutes.signUpFom,arguments: {
-          "countryCode": countryCode,
-          "mob": mob
-        });
-      }else{
-        Utils.showToast('The number is already registered.');
+        setRxRequestStatus(Status.COMPLETED);
+        Get.offNamed(AppRoutes.signUpFom,
+            arguments: {"countryCode": countryCode, "mob": mob});
+      } else {
+        Utils.showToast(registerData.value.message.toString());
+        // Utils.showToast('The number is already registered.');
         setRxRequestStatus(Status.COMPLETED);
       }
-
     }).onError((error, stackError) {
       setError(error.toString());
       print('errrrrrrrrrrrr');
@@ -166,11 +172,13 @@ class OtpController extends GetxController {
 
     setRxRequestStatus(Status.LOADING);
 
-    api.loginApi(data,).then((value) {
-      setRxRequestStatus(Status.COMPLETED);
+    api
+        .loginApi(
+      data,
+    )
+        .then((value) {
       signInSet(value);
-
-      if(loginData.value.status == true){
+      if (loginData.value.status == true) {
         userModel.step = loginData.value.step;
         log("Response Step: ${userModel.step}");
         userModel.token = loginData.value.token;
@@ -182,17 +190,16 @@ class OtpController extends GetxController {
         pref.saveUser(userModel);
         log('data for loginuser:  ${userModel.step}');
         log("Navigating with countryCode: $countryCode, mob: $mob");
-        userModel.step == 1
-            ? Get.toNamed(AppRoutes.signUpFom,arguments: {
-              "countryCode": countryCode,
-              "mob": mob
-            })
-            : Get.offAllNamed(AppRoutes.restaurantNavbar);
-      }else{
         setRxRequestStatus(Status.COMPLETED);
-        Utils.showToast('User not found. Register first.');
+        userModel.step == 1
+            ? Get.toNamed(AppRoutes.signUpFom,
+                arguments: {"countryCode": countryCode, "mob": mob})
+            : Get.offAllNamed(AppRoutes.restaurantNavbar);
+      } else {
+        Utils.showToast(loginData.value.status.toString());
+        // Utils.showToast('User not found. Register first.');
+        setRxRequestStatus(Status.COMPLETED);
       }
-
     }).onError((error, stackError) {
       setError(error.toString());
       print('errrrrrrrrrrrr');

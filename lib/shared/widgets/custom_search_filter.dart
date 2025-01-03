@@ -2,7 +2,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 
 class CustomSearchFilter extends StatelessWidget {
   final String hintText;
-  final VoidCallback onFilterTap;
+  final VoidCallback? onFilterTap;
   final EdgeInsets? padding;
   final EdgeInsets? searchIocnPadding;
   final double? searchIconHeight;
@@ -15,11 +15,14 @@ class CustomSearchFilter extends StatelessWidget {
   final bool? showfilterIcon;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final Function()? onTap;
+  final bool? enabled;
+  final bool readOnly;
 
   const CustomSearchFilter({
     super.key,
     this.hintText = "Search",
-    required this.onFilterTap,
+    this.onFilterTap,
     this.padding,
     this.prefix,
     this.prefixConstraints,
@@ -32,6 +35,9 @@ class CustomSearchFilter extends StatelessWidget {
     this.showfilterIcon = true,
     this.controller,
     this.onChanged,
+    this.onTap,
+    this.enabled = true,
+    this.readOnly = false,
   });
 
   @override
@@ -43,7 +49,10 @@ class CustomSearchFilter extends StatelessWidget {
       children: [
         Expanded(
           child: CustomTextFormField(
+            readOnly: readOnly,
             onChanged: onChanged,
+            enabled: enabled,
+            onTap: onTap,
             controller: controller,
             borderDecoration: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),

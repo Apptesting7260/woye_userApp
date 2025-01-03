@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
@@ -5,8 +7,15 @@ import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_na
 class HomeController extends GetxController {
   RxInt mainButtonIndex = 0.obs;
 
+  @override
+  void onInit() {
+    loadLocationData();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
   List<Widget> homeWidgets = [
-     RestaurantNavbar(),
+    RestaurantNavbar(),
     const PharmacyNavbar(),
     const GroceryNavbar()
   ];
@@ -45,5 +54,19 @@ class HomeController extends GetxController {
   void getIndex(index) {
     mainButtonIndex.value = index;
     update();
+  }
+
+  var location = ''.obs;
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+
+  void loadLocationData() async {
+    var storage = GetStorage();
+    location.value = storage.read('location') ?? '';
+    latitude.value = storage.read('latitude') ?? 0.0;
+    longitude.value = storage.read('longitude') ?? 0.0;
+    print('Stored Location: ${location.value}');
+    print('Stored Latitude: ${latitude.value}');
+    print('Stored Longitude: ${longitude.value}');
   }
 }

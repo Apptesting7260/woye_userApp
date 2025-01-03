@@ -7,7 +7,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method
 class PharmacyCheckoutScreen extends StatelessWidget {
   const PharmacyCheckoutScreen({super.key});
   static DeliveryAddressScreen deliveryAddressScreen =
-      const DeliveryAddressScreen();
+       DeliveryAddressScreen();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

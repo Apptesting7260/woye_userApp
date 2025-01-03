@@ -20,5 +20,4 @@ class AppColors {
   static Color gray = const Color.fromRGBO(107, 107, 107, 1);
   static Color goldStar = const Color.fromRGBO(248, 189, 0, 1);
   static Color normalStar = const Color.fromRGBO(218, 218, 218, 1);
-
 }

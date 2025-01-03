@@ -6,8 +6,9 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
-  static DeliveryAddressScreen deliveryAddressScreen =
-      const DeliveryAddressScreen();
+
+  // static DeliveryAddressScreen deliveryAddressScreen = DeliveryAddressScreen();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +23,8 @@ class CheckoutScreen extends StatelessWidget {
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            deliveryAddress(),
-            hBox(30),
+            // deliveryAddress(),
+            // hBox(30),
             paymentMethod(),
             hBox(30),
             paymentDetails(),
@@ -51,9 +52,9 @@ class CheckoutScreen extends StatelessWidget {
         ),
         hBox(15),
         // DeliveryAddressScreen()
-        deliveryAddressScreen.addressList(),
-        hBox(15),
-        deliveryAddressScreen.addAddress(),
+        // deliveryAddressScreen.addressList(),
+        // hBox(15),
+        // deliveryAddressScreen.addAddress(),
         // Container(
         //   padding: REdgeInsetsDirectional.all(15),
         //   height: 60.h,

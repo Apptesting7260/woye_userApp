@@ -1,25 +1,67 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:http/http.dart' as http;
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
+import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 
 class AddAddressController extends GetxController {
-  Rx<TextEditingController>? mobNoCon;
+  final Rx<TextEditingController> nameController = TextEditingController().obs;
+  final Rx<TextEditingController> mobNoController = TextEditingController().obs;
+  final Rx<TextEditingController> houseNoController =
+      TextEditingController().obs;
+  final Rx<TextEditingController> deliveryInstructionController =
+      TextEditingController().obs;
+  var storage = GetStorage();
+  var location = ''.obs;
+  var addressType = "Home".obs;
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  final locationController = TextEditingController();
+  RxBool defaultSet = true.obs;
+
   RxBool showError = true.obs;
   RxInt radioValue = 0.obs;
   String countryValue = " ";
   String stateValue = " ";
   String cityValue = " ";
 
+  void loadLocationData() async {
+    locationController.clear();
+    var storage = GetStorage();
+    location.value = storage.read('location') ?? '';
+    latitude.value = storage.read('latitude') ?? 0.0;
+    longitude.value = storage.read('longitude') ?? 0.0;
+    print('Stored Location: ${location.value}');
+    print('Stored Latitude: ${latitude.value}');
+    print('Stored Longitude: ${longitude.value}');
+    locationController.text = location.value;
+  }
+
   Rx<CountryCode> selectedCountryCode =
       CountryCode(dialCode: '+91', code: 'IN').obs;
 
   @override
   void onInit() {
-    mobNoCon = TextEditingController().obs;
+    loadLocationData();
+    print("objectiiiii");
     super.onInit();
   }
 
   @override
+  void onReady() {
+    super.onReady();
+    print("objectiiiii111115");
+    loadLocationData();
+  }
+
+  @override
   void onClose() {
-    mobNoCon!.value.dispose();
+    mobNoController.value.dispose();
+    locationController.clear();
     super.onClose();
   }
 
@@ -27,7 +69,141 @@ class AddAddressController extends GetxController {
     selectedCountryCode.value = countryCode;
   }
 
-  int checkCountryLength = 10;
+  // ---------------------------------------- Place API ---------------------------------------------
+  RxBool isValidAddress = true.obs;
+  final List<Predictions> searchPlace = [];
+  String? selectedLocation;
+  String googleAPIKey = "${dotenv.env['googleAPIKey']}";
+
+  Future<List<Predictions>> searchAutocomplete(String query) async {
+    Uri uri =
+        Uri.https("maps.googleapis.com", "maps/api/place/autocomplete/json", {
+      "input": query,
+      "key": googleAPIKey,
+    });
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final parse = jsonDecode(response.body);
+        if (parse['status'] == "OK") {
+          SearchPlaceModel searchPlaceModel = SearchPlaceModel.fromJson(parse);
+          return searchPlaceModel.predictions ?? [];
+        }
+      }
+    } catch (err) {
+      print("Error: $err");
+    }
+    return [];
+  }
+
+  Future<void> getLatLang(String address) async {
+    List<Location> locations = await locationFromAddress(address);
+    if (locations.isNotEmpty) {
+      var first = locations.first;
+      latitude.value = first.latitude;
+      longitude.value = first.longitude;
+      print("Latitude: ${latitude.value}, Longitude: ${longitude.value}");
+    }
+  }
+
+  // ------------------------------------------- Add address API ------------------------------
+  final api = Repository();
+  final rxRequestStatus = Status.COMPLETED.obs;
+  final addAddress = AddAddressModal().obs;
+  RxString error = ''.obs;
+  String token = "";
+
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
+  void setData(AddAddressModal value) => addAddress.value = value;
+
+  final DeliveryAddressController deliveryAddressController =
+      Get.put(DeliveryAddressController());
+
+  final RestaurantCartController restaurantCartController =
+      Get.put(RestaurantCartController());
+
+  addAddressApi() async {
+    var arguments = Get.arguments;
+    String? type = arguments['type'];
+    print("cart--------------------------------$type");
+    setRxRequestStatus(Status.LOADING);
+    var body = {
+      'full_name': nameController.value.text,
+      'country_code': selectedCountryCode.value.toString(),
+      'phone_number': mobNoController.value.text,
+      'house_details': houseNoController.value.text,
+      'address': locationController.text,
+      'address_type': addressType.value,
+      'latitude': latitude.value.toString(),
+      'longitude': longitude.value.toString(),
+      'delivery_instruction': deliveryInstructionController.value.text,
+      'is_default': defaultSet.value == true ? "1" : "0",
+    };
+    api.addAddressApi(body).then((value) {
+      setData(value);
+      if (addAddress.value.status == true) {
+        if (location.value.isEmpty) {
+          deliveryAddressController.getDeliveryAddressApi().then((value) {
+            location.value = locationController.text;
+            storage.write('location', location.value);
+            Utils.showToast(addAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.offAllNamed(AppRoutes.restaurantNavbar);
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            radioValue.value = 0;
+            return;
+          });
+        } else {
+          if (type == "RestaurantCart") {
+            restaurantCartController.getRestaurantCartApi().then((value) {
+              Utils.showToast(addAddress.value.message.toString());
+              setRxRequestStatus(Status.COMPLETED);
+              Get.back();
+              nameController.value.clear();
+              mobNoController.value.clear();
+              houseNoController.value.clear();
+              deliveryInstructionController.value.clear();
+              locationController.clear();
+              radioValue.value = 0;
+              return;
+            });
+          } else {
+            deliveryAddressController.getDeliveryAddressApi().then((value) {
+              Utils.showToast(addAddress.value.message.toString());
+              setRxRequestStatus(Status.COMPLETED);
+              Get.back();
+              nameController.value.clear();
+              mobNoController.value.clear();
+              houseNoController.value.clear();
+              deliveryInstructionController.value.clear();
+              locationController.clear();
+              radioValue.value = 0;
+              return;
+            });
+          }
+        }
+      } else {
+        Utils.showToast(addAddress.value.message.toString());
+      }
+    }).onError((error, stackError) {
+      print("Error: $error");
+      setError(error.toString());
+      print(stackError);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  void setError(String value) => error.value = value;
+
+  // ------------------------------------------------------------- ------------------------------
+
+  int chackCountryLength = 10;
   final Map<String, int> countryPhoneDigits = {
     'AF': 9, // Afghanistan
     'AL': 9, // Albania
@@ -189,6 +365,7 @@ class AddAddressController extends GetxController {
     'ZA': 9, // South Africa
     'ES': 9, // Spain
     'LK': 10, // Sri Lanka
+    'AS': 10,
     'SD': 9, // Sudan
     'SR': 7, // Suriname
     'SE': 9, // Sweden
@@ -219,5 +396,41 @@ class AddAddressController extends GetxController {
     'YE': 9, // Yemen
     'ZM': 9, // Zambia
     'ZW': 9,
+
+    'AI': 7, // Anguilla
+
+    'AW': 7, // Aruba
+
+    'BM': 7, // Bermuda
+
+    'KY': 7, // Cayman Islands
+
+    'CD': 9, // Democratic Republic of the Congo
+    'CI': 9, // Ivory Coast (Côte d'Ivoire)
+    'FK': 7, // Falkland Islands
+    'FO': 7, // Faroe Islands
+    'GF': 9, // French Guiana
+    'PF': 9, // French Polynesia
+    'GI': 7, // Gibraltar
+    'GL': 7, // Greenland
+    'GP': 9, // Guadeloupe
+    'GU': 10, // Guam
+    'HK': 8, // Hong Kong
+    'MO': 8, // Macau
+    'MQ': 9, // Martinique
+    'YT': 9, // Mayotte
+    'MS': 7, // Montserrat
+    'NC': 7, // New Caledonia
+    'NU': 7, // Niue
+    'NF': 7, // Norfolk Island
+    'PR': 10, // Puerto Rico
+    'RE': 9, // Réunion
+    'SZ': 9, // Eswatini (Swaziland)
+    'TL': 9, // Timor-Leste
+    'TK': 7, // Tokelau
+    'TC': 7, // Turks and Caicos Islands
+    'VG': 10, // British Virgin Islands
+    'VI': 10, // United States Virgin Islands
+    'WF': 7, // Wallis and Futuna
   };
 }

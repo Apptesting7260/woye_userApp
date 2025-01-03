@@ -6,7 +6,7 @@ class Utils {
       {ToastGravity gravity = ToastGravity.BOTTOM}) {
     Fluttertoast.showToast(
       msg: msg,
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.black,
       gravity: gravity,
       textColor: AppColors.white,
     );

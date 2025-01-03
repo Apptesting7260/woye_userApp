@@ -1,7 +1,13 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/wallet_controller/wallet_controller.dart';
 
 class MyWalletScreen extends StatelessWidget {
-  const MyWalletScreen({super.key});
+  MyWalletScreen({super.key});
+
+  final UserWalletController controller = Get.put(UserWalletController());
 
   @override
   Widget build(BuildContext context) {
@@ -13,12 +19,43 @@ class MyWalletScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [balance(), hBox(20), transactionHistory(), hBox(50)],
-        ),
-      ),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.refreshUserWalletApi();
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.refreshUserWalletApi();
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+              onRefresh: () async {
+                controller.refreshUserWalletApi();
+              },
+              child: SingleChildScrollView(
+                padding: REdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    balance(),
+                    hBox(20),
+                    transactionHistory(),
+                    hBox(50)
+                  ],
+                ),
+              ),
+            );
+        }
+      }),
     );
   }
 
@@ -38,7 +75,7 @@ class MyWalletScreen extends StatelessWidget {
           ),
           hBox(10),
           Text(
-            "\$400.00 ",
+            "\$${controller.userWalletData.value.wallet!.currentBalance}",
             style: AppFontStyle.text_24_600(AppColors.primary),
           ),
         ],

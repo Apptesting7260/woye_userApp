@@ -38,7 +38,7 @@ class specificProduct {
 class Product {
   int? id;
   String? title;
-  int? userId;
+  int? restaurantId;
   int? categoryId;
   String? regularPrice;
   int? salePrice;
@@ -63,7 +63,7 @@ class Product {
   Product(
       {this.id,
       this.title,
-      this.userId,
+      this.restaurantId,
       this.categoryId,
       this.regularPrice,
       this.salePrice,
@@ -87,7 +87,7 @@ class Product {
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    userId = json['user_id'];
+    restaurantId = json['user_id'];
     categoryId = json['category_id'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
@@ -128,7 +128,7 @@ class Product {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['title'] = title;
-    data['user_id'] = userId;
+    data['user_id'] = restaurantId;
     data['category_id'] = categoryId;
     data['regular_price'] = regularPrice;
     data['sale_price'] = salePrice;
@@ -162,7 +162,7 @@ class AddOn {
   String? name;
   String? price;
   String? id;
-  RxBool isChecked; // Add this field to track checkbox state
+  RxBool isChecked;
 
   AddOn({this.name, this.price, bool? isChecked})
       : isChecked = RxBool(isChecked ?? false);
@@ -185,17 +185,19 @@ class AddOn {
 
 class Extra {
   String? title;
+  String? titleid;
   List<Item>? item;
   RxInt selectedIndex = (0).obs;
 
-  Extra({this.title, this.item});
+  Extra({this.title, this.titleid, this.item});
 
   Extra.fromJson(Map<String, dynamic> json) {
     title = json['title'];
+    titleid = json['titleid'];
     if (json['item'] != null) {
       item = <Item>[];
       json['item'].forEach((v) {
-        item!.add(new Item.fromJson(v));
+        item!.add(Item.fromJson(v));
       });
     }
   }
@@ -203,6 +205,7 @@ class Extra {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
+    data['titleid'] = this.titleid;
     if (this.item != null) {
       data['item'] = this.item!.map((v) => v.toJson()).toList();
     }

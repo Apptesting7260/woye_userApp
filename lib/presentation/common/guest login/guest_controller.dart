@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/Repository/repository.dart';
 import 'package:woye_user/Data/response/status.dart';
@@ -34,7 +35,6 @@ class GuestController extends GetxController {
     log(data.toString());
     setRxRequestStatus(Status.LOADING);
     api.guestUserApi(data).then((value) {
-      Get.offAllNamed(AppRoutes.restaurantNavbar);
       setRxRequestStatus(Status.COMPLETED);
       guestSet(value);
 
@@ -45,10 +45,14 @@ class GuestController extends GetxController {
         log("Response token: ${userModel.token}");
         userModel.isLogin = true;
         log("Response islogin: ${userModel.isLogin}");
-        userModel.loginType = guestData.value.loginType;
+        userModel.loginType = "Guest";
+        // userModel.loginType = guestData.value.loginType;
         log("Response loginType: ${userModel.loginType}");
         pref.saveUser(userModel);
-        // Get.offAllNamed(AppRoutes.groceryNavbar);
+        Get.offAllNamed(AppRoutes.restaurantNavbar);
+      } else {
+        setRxRequestStatus(Status.COMPLETED);
+        Utils.showToast(guestData.value.message.toString());
       }
     }).onError((error, stackError) {
       setError(error.toString());

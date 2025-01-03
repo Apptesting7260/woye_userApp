@@ -23,13 +23,12 @@ class _RestaurantCategoriesScreenState
       restaurantCategoriesDeatilsController =
       Get.put(RestaurantCategoriesDetailsController());
 
-  // @override
-  // void initState() {
-  //   controller.restaurant_Categories_Api();
-  //   print('init cat');
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
+  void initState() {
+    // TODO: implement initState
+    print('thjjfr');
+    controller.restaurant_Categories_Api();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,38 +68,44 @@ class _RestaurantCategoriesScreenState
                 padding: REdgeInsets.symmetric(horizontal: 24),
                 child: CustomScrollView(
                   slivers: [
-                    const CustomSliverAppBar(),
+                    CustomSliverAppBar(
+                      onChanged: (value) {
+                        controller.filterCategories(value);
+                      },
+                      controller: controller.searchController,
+                    ),
                     SliverToBoxAdapter(
                       child: ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount:
-                            controller.categoriesData.value.allcategory!.length,
+                        itemCount: controller.filteredWishlistData.value.length,
+                        // Use the filtered list
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
                               Get.toNamed(AppRoutes.restaurantCategoriesDetails,
                                   arguments: {
-                                    'name': controller.categoriesData.value
-                                        .allcategory![index].name
+                                    'name': controller
+                                        .filteredWishlistData[index].name
                                         .toString(),
-                                    'id': int.parse(controller.categoriesData
-                                        .value.allcategory![index].id
+                                    'id': int.parse(controller
+                                        .filteredWishlistData[index].id
                                         .toString()),
                                   });
                               restaurantCategoriesDeatilsController
                                   .restaurant_Categories_Details_Api(
                                 id: controller
-                                    .categoriesData.value.allcategory![index].id
+                                    .filteredWishlistData[index].id
                                     .toString(),
                               );
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 0.8.w,
-                                      color: AppColors.lightPrimary),
-                                  borderRadius: BorderRadius.circular(15.r)),
+                                border: Border.all(
+                                    width: 0.8.w,
+                                    color: AppColors.lightPrimary),
+                                borderRadius: BorderRadius.circular(15.r),
+                              ),
                               child: Padding(
                                 padding: REdgeInsets.only(
                                     left: 10, right: 15, top: 10, bottom: 10),
@@ -111,44 +116,39 @@ class _RestaurantCategoriesScreenState
                                     Row(
                                       children: [
                                         Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                        10.r)),
-                                            height: 70.w,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          height: 70.w,
+                                          width: 70.w,
+                                          child: CachedNetworkImage(
+                                            imageUrl: controller
+                                                .filteredWishlistData
+                                                [index]
+                                                .imageUrl
+                                                .toString(),
+                                            height: 80.h,
                                             width: 70.w,
-                                            child: CachedNetworkImage(
-                                              imageUrl: controller
-                                                  .categoriesData
-                                                  .value
-                                                  .allcategory![index]
-                                                  .imageUrl
-                                                  .toString(),
-                                              height: 80.h,
-                                              width: 70.w,
-                                              // Set width here to maintain the size
-                                              fit: BoxFit.fill,
-                                              placeholder: (context, url) =>
-                                                  circularProgressIndicator(),
-
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
-                                            )),
+                                            fit: BoxFit.fill,
+                                            placeholder: (context, url) =>
+                                                circularProgressIndicator(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
+                                        ),
                                         wBox(20),
                                         Text(
-                                          controller.categoriesData.value
-                                              .allcategory![index].name
+                                          controller.filteredWishlistData
+                                              [index].name
                                               .toString(),
                                           style: AppFontStyle.text_18_400(
                                               AppColors.darkText),
                                         )
                                       ],
                                     ),
-                                    const Icon(
-                                      Icons.arrow_forward_ios,
-                                      weight: 1,
-                                    ),
+                                    const Icon(Icons.arrow_forward_ios,
+                                        weight: 1),
                                   ],
                                 ),
                               ),

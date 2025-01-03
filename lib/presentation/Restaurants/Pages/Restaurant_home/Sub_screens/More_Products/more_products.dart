@@ -3,6 +3,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 
 class MoreProducts extends StatelessWidget {
@@ -10,6 +11,9 @@ class MoreProducts extends StatelessWidget {
 
   final seeAll_Product_Controller controller =
       Get.put(seeAll_Product_Controller());
+
+  final specific_Product_Controller specific_product_controllerontroller =
+      Get.put(specific_Product_Controller());
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +28,6 @@ class MoreProducts extends StatelessWidget {
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
       ),
-      // body: SingleChildScrollView(
-      //     padding: EdgeInsets.symmetric(horizontal: 24.r),
-      //     child: productList()),
       body: Obx(() {
         switch (controller.rxRequestStatus.value) {
           case Status.LOADING:
@@ -75,12 +76,23 @@ class MoreProducts extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
               onTap: () {
+                specific_product_controllerontroller.specific_Product_Api(
+                  product_id: controller
+                      .seeAll_Data.value.moreProducts![index].id
+                      .toString(),
+                  category_id: controller
+                      .seeAll_Data.value.moreProducts![index].categoryId
+                      .toString(),
+                );
                 Get.to(ProductDetailsScreen(
-                  product_id: controller.seeAll_Data.value.moreProducts![index].id
+                  product_id: controller
+                      .seeAll_Data.value.moreProducts![index].id
                       .toString(),
-                  category_id: controller.seeAll_Data.value.moreProducts![index].categoryId
+                  category_id: controller
+                      .seeAll_Data.value.moreProducts![index].categoryId
                       .toString(),
-                  category_name: controller.seeAll_Data.value.moreProducts![index].categoryName
+                  category_name: controller
+                      .seeAll_Data.value.moreProducts![index].categoryName
                       .toString(),
                 ));
               },
@@ -91,7 +103,8 @@ class MoreProducts extends StatelessWidget {
                 categoryId: controller
                     .seeAll_Data.value.moreProducts![index].categoryId
                     .toString(),
-                image: controller.seeAll_Data.value.moreProducts![index].urlImage
+                image: controller
+                    .seeAll_Data.value.moreProducts![index].urlImage
                     .toString(),
                 is_in_wishlist: controller
                     .seeAll_Data.value.moreProducts![index].isInWishlist,

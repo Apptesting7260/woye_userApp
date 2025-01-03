@@ -8,7 +8,10 @@ class specific_Product_Controller extends GetxController {
   RxString selectedImageUrl = ''.obs;
   RxInt isSelected = (-1).obs;
   RxBool isLoading = false.obs;
-  var pageController = PageController();
+  RxInt cartCount = 1.obs;
+  var productPrice = 0;
+
+  RxBool goToCart = false.obs;
 
   final rxRequestStatus = Status.COMPLETED.obs;
   final product_Data = specificProduct().obs;
@@ -25,6 +28,14 @@ class specific_Product_Controller extends GetxController {
     required String product_id,
     required String category_id,
   }) async {
+    goToCart.value = false;
+    selectedAddOnIds.clear();
+    extrasTitlesIdsId.clear();
+    extrasItemIdsId.clear();
+    extrasItemIdsName.clear();
+    extrasItemIdsPrice.clear();
+    selectedImageUrl.value = "";
+    cartCount.value =1;
     setRxRequestStatus(Status.LOADING);
     Map data = {
       "product_id": product_id,
@@ -38,7 +49,6 @@ class specific_Product_Controller extends GetxController {
       setError(error.toString());
       print(stackError);
       print('errrrrrrrrrrrr');
-      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
@@ -57,5 +67,21 @@ class specific_Product_Controller extends GetxController {
       print("Error formatting date: $e");
       return "";
     }
+  }
+
+  // ----------------- add to cart data -----------------
+  RxList selectedAddOnIds = [].obs;
+  RxList extrasTitlesIdsId = [].obs;
+  RxList extrasItemIdsId = [].obs;
+  RxList extrasItemIdsName = [].obs;
+  RxList extrasItemIdsPrice = [].obs;
+
+  void productPriceFun() {
+    int count = cartCount.value;
+    int? price = product_Data.value.product!.salePrice;
+
+    int totalPrice = count * price!;
+    productPrice = totalPrice;
+    print("Total Price: $totalPrice");
   }
 }

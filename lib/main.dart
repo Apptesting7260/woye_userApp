@@ -1,11 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 
 import 'firebase_options.dart';
 
 Future<void> main() async {
+  await dotenv.load(fileName: "assets/.env");
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp(
@@ -21,11 +24,12 @@ Future<void> main() async {
       systemNavigationBarColor: Colors.white,
       statusBarBrightness: Brightness.light));
   Get.put(NetworkController());
-  runApp( MyApp());
+  await GetStorage.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  MyApp({super.key});
 
   UserModel userModel = UserModel();
 

@@ -4,7 +4,6 @@ import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Filter/restaurant_home_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
@@ -33,6 +32,7 @@ import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_na
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/categoriesfilter_binding.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/view/restaurant_home_filter.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
@@ -104,7 +104,8 @@ class AppRoutes {
   static const String orderReveived = "/order_reveived";
   static const String reviewDriver = "/review_driver";
   static const String orderOtp = "/order_otp";
-  static const String editProfile = "/edit_profile";
+
+  // static const String editProfile = "/edit_profile";
   static const String orders = "/orders";
   static const String orderDetails = "/order_details";
   static const String myWallet = "/my_wallet";
@@ -181,11 +182,11 @@ class AppRoutes {
       page: () => const GroceryNavbar(),
     ),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
-    GetPage(name: productReviews, page: () => const ProductReviews()),
+    GetPage(name: productReviews, page: () => ProductReviews()),
     GetPage(name: moreProducts, page: () => MoreProducts()),
     GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
-    GetPage(name: addAddressScreen, page: () => const AddAddressScreen()),
-    GetPage(name: editAddressScreen, page: () => const EditAddressScreen()),
+    GetPage(name: addAddressScreen, page: () => AddAddressScreen()),
+    GetPage(name: editAddressScreen, page: () =>  EditAddressScreen()),
     GetPage(name: promoCode, page: () => const PromoCodes()),
     GetPage(name: paymentMethod, page: () => const PaymentMethodScreen()),
     GetPage(name: addCard, page: () => const AddCardScreen()),
@@ -194,10 +195,10 @@ class AppRoutes {
     GetPage(name: orderReveived, page: () => const OrderReveivedScreen()),
     GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
-    GetPage(name: editProfile, page: () => const EditProfileScreen()),
+    // GetPage(name: editProfile, page: () => const EditProfileScreen()),
     GetPage(name: orders, page: () => const OrdersScreen()),
     GetPage(name: orderDetails, page: () => const OrderDetailsScreen()),
-    GetPage(name: myWallet, page: () => const MyWalletScreen()),
+    GetPage(name: myWallet, page: () =>  MyWalletScreen()),
     GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),
     GetPage(name: notifications, page: () => const NotificationsScreen()),
     GetPage(name: settings, page: () => const SettingsScreen()),
@@ -213,8 +214,7 @@ class AppRoutes {
     GetPage(
         name: transactionHistory, page: () => const TransactionHistoryScreen()),
     GetPage(name: myWalletFilter, page: () => const MyWalletFilter()),
-    GetPage(
-        name: deliveryAddressScreen, page: () => const DeliveryAddressScreen()),
+    GetPage(name: deliveryAddressScreen, page: () => DeliveryAddressScreen()),
     GetPage(
         name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
     // GetPage(
