@@ -377,7 +377,7 @@ class DecodedAttribute {
   String? productImage;
   int? totalPrice;
   List<String>? addonName;
-  Rx<bool> isSelected = true.obs;
+  Rx<bool> isSelectedLoading = false.obs;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
   var checked;

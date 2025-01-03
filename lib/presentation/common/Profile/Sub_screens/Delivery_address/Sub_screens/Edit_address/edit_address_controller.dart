@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
@@ -79,7 +80,7 @@ class EditAdressController extends GetxController {
   final DeliveryAddressController deliveryAddressController =
       Get.put(DeliveryAddressController());
 
-  setAddressData(int index) async {
+  setAddressData(int index,) async {
     addressId = deliveryAddressController
         .deliveryAddressData.value.data![index].id
         .toString();
@@ -133,9 +134,7 @@ class EditAdressController extends GetxController {
     print("Longitude: ${longitude.value}");
 
     deliveryInstructionController.value.text = deliveryAddressController
-        .deliveryAddressData.value.data![index].deliveryInstruction
-        .toString()
-        .trim();
+        .deliveryAddressData.value.data![index].deliveryInstruction ?? "";
     print("Delivery Instruction: ${deliveryInstructionController.value.text}");
 
     int isDefaultValue = deliveryAddressController
@@ -201,6 +200,63 @@ class EditAdressController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+
+  final RestaurantCartController restaurantCartController =
+  Get.put(RestaurantCartController());
+
+  changeAddressApi({
+    required String addressId,
+    required String name,
+    required String selectedCountryCode,
+    required String mobNo,
+    required String houseNo,
+    required String location,
+    required String addressTypeName,
+    required String latitude,
+    required String longitude,
+    required String deliveryInstruction,
+}) async {
+    setRxRequestStatus(Status.LOADING);
+    var body = {
+      'address_id': addressId,
+      'full_name': name,
+      'country_code': selectedCountryCode,
+      'phone_number': mobNo,
+      'house_details': houseNo,
+      'address': location,
+      'address_type': addressTypeName,
+      'latitude': latitude,
+      'longitude': longitude,
+      'delivery_instruction': deliveryInstruction,
+      'is_default': "1",
+    };
+    api.editAddressApi(body).then((value) {
+      setData(value);
+      deliveryAddressController.getDeliveryAddressApi();
+      if (editAddress.value.status == true) {
+        restaurantCartController.getRestaurantCartApi().then((value) {
+          Utils.showToast(editAddress.value.message.toString());
+          setRxRequestStatus(Status.COMPLETED);
+          Get.back();
+          nameController.value.clear();
+          mobNoController.value.clear();
+          houseNoController.value.clear();
+          deliveryInstructionController.value.clear();
+          locationController.clear();
+          return;
+        });
+      } else {
+        Utils.showToast(editAddress.value.message.toString());
+      }
+    }).onError((error, stackError) {
+      print("Error: $error");
+      setError(error.toString());
+      print(stackError);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
 
   void setError(String value) => error.value = value;
 

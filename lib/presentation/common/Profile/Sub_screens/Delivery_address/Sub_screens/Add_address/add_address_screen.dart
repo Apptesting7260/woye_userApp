@@ -74,6 +74,7 @@ class AddAddressScreen extends StatelessWidget {
                     controller.searchPlace.clear();
                     print("SelectedLocation ${controller.selectedLocation}");
                     print("SelectedLocation 2${controller.isValidAddress}");
+                    return;
                   },
                   hintText: 'Address',
                   validator: (value) {
