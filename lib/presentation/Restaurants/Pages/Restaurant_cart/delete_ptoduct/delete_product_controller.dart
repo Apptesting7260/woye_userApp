@@ -25,7 +25,8 @@ class DeleteProductController extends GetxController {
     api.deleteProductApi(body).then((value) {
       setData(value);
       if (deleteProductData.value.status == true) {
-        restaurantCartController.getRestaurantCartApi().then((value) {
+        restaurantCartController.getRestaurantCartApi().then((value) async {
+          await Future.delayed(const Duration( milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
         });
       } else {

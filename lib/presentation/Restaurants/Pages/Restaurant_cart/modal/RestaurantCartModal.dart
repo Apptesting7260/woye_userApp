@@ -144,7 +144,7 @@ class Cart {
   int? totalPrice;
   int? couponId;
   int? couponDiscount;
-  CouponApplied? couponApplied; // Nullable
+  CouponApplied? couponApplied;
 
   Cart({
     this.id,
@@ -380,7 +380,7 @@ class DecodedAttribute {
   Rx<bool> isSelected = true.obs;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
-  bool checked = true; // New field added
+  var checked;
 
   DecodedAttribute({
     this.productId,
@@ -392,7 +392,7 @@ class DecodedAttribute {
     this.productImage,
     this.totalPrice,
     this.addonName,
-    this.checked = true, // Set default value as true
+    this.checked,
   });
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
@@ -410,7 +410,7 @@ class DecodedAttribute {
       productImage: json['product_image'],
       totalPrice: json['total_price'],
       addonName: List<String>.from(json['addon_name'] ?? []),
-      checked: json['checked'] ?? true,
+      checked: json['checked'],
     );
   }
 

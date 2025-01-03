@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
@@ -13,7 +16,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantit
 class RestaurantCartScreen extends StatefulWidget {
   final bool isBack;
 
-  RestaurantCartScreen({super.key, this.isBack = false});
+  const RestaurantCartScreen({super.key, this.isBack = false});
 
   @override
   State<RestaurantCartScreen> createState() => _RestaurantCartScreenState();
@@ -219,45 +222,27 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
       itemBuilder: (context, index) {
         return Row(
           children: [
-            // Obx(
-            //   () => Expanded(
-            //     flex: 1,
-            //     child: Transform.scale(
-            //       scale: 1.2,
-            //       child: Checkbox(
-            //           activeColor: AppColors.black,
-            //           shape: RoundedRectangleBorder(
-            //               borderRadius: BorderRadius.circular(5)),
-            //           value: controller.cartData.value.cart!
-            //               .decodedAttribute![index].isSelected.value,
-            //           side: BorderSide(
-            //             color: AppColors.black,
-            //           ),
-            //           onChanged: (value) {
-            //             controller.cartData.value.cart!.decodedAttribute![index]
-            //                     .isSelected.value =
-            //                 !controller.cartData.value.cart!
-            //                     .decodedAttribute![index].isSelected.value;
-            //           }),
-            //     ),
-            //   ),
-            // ),
             Expanded(
               flex: 1,
               child: Transform.scale(
                 scale: 1.2,
                 child: Checkbox(
-                    activeColor: AppColors.black,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    value: controller
-                        .cartData.value.cart!.decodedAttribute![index].checked,
-                    side: BorderSide(
-                      color: AppColors.black,
-                    ),
-                    onChanged: (value) {
+                  activeColor: AppColors.black,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  value: controller.cartData.value.cart!
+                          .decodedAttribute![index].checked ==
+                      'true',
+                  side: BorderSide(
+                    color: AppColors.black,
+                  ),
+                  onChanged: (value) {
+                    if (checkedUncheckedController.rxRequestStatus.value !=
+                        Status.LOADING) {
                       bool newCheckedStatus = !(controller.cartData.value.cart!
-                          .decodedAttribute![index].checked);
+                              .decodedAttribute![index].checked ==
+                          'true');
+
                       checkedUncheckedController.checkedUncheckedApi(
                         productId: controller.cartData.value.cart!
                             .decodedAttribute![index].productId
@@ -265,7 +250,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         cartId: controller.cartData.value.cart!.id.toString(),
                         status: newCheckedStatus.toString(),
                       );
-                    }),
+                    }
+                  },
+                ),
               ),
             ),
             wBox(10),
@@ -288,7 +275,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  hBox(5),
+                  hBox(5.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,7 +303,12 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                         .value ==
                                     true
                             ? Center(
-                                child: circularProgressIndicator(size: 18.h))
+                                child: Row(
+                                children: [
+                                  circularProgressIndicator(size: 15.h),
+                                  wBox(2.h),
+                                ],
+                              ))
                             : GestureDetector(
                                 onTap: () {
                                   controller
@@ -568,10 +560,13 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         readOnly: controller.readOnly.value,
                         focusNode: focusNode,
                         onTap: () {
-                          // focusNode.unfocus();
-                          // FocusScope.of(context).unfocus();
-                          if (controller.readOnly.value) {
-                            bottomBar(context);
+                          if (controller.cartData.value.coupons!.isNotEmpty) {
+                            if (controller.readOnly.value) {
+                              bottomBar(context);
+                            }
+                          } else {
+                            controller.readOnly.value = false;
+                            Utils.showToast("Coupon Not available");
                           }
                         },
                         alignment: Alignment.center,
@@ -709,6 +704,11 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
   }
 
   Widget paymentDetails() {
+    bool isLoading =
+        checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
+            deleteProductController.rxRequestStatus.value == Status.LOADING ||
+            quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -717,72 +717,85 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
         hBox(20.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Regular Price",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-            Text(
-              "\$${controller.cartData.value.cart!.regularPrice.toString()}",
-              style: AppFontStyle.text_14_600(AppColors.darkText),
-            ),
-          ],
-        ),
-        hBox(10.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Save Amount",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-            Text(
-              "\$${controller.cartData.value.cart!.saveAmount.toString()}",
-              style: AppFontStyle.text_14_600(AppColors.darkText),
-            ),
-          ],
-        ),
-        if (controller.cartData.value.cart!.couponApplied != null)
-          Padding(
-            padding: EdgeInsets.only(top: 10.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Coupon Discount",
-                  style: AppFontStyle.text_14_400(AppColors.lightText),
-                ),
-                Text(
-                  "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-                  style: AppFontStyle.text_14_600(AppColors.darkText),
-                ),
-              ],
-            ),
+        if (isLoading) ...[
+          shimmerItem("Regular Price"),
+          shimmerItem("Save Amount"),
+          shimmerItem("Coupon Discount"),
+          shimmerItem("Delivery Charge"),
+        ],
+        if (!isLoading) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Regular Price",
+                style: AppFontStyle.text_14_400(AppColors.lightText),
+              ),
+              Text(
+                "\$${controller.cartData.value.cart!.regularPrice.toString()}",
+                style: AppFontStyle.text_14_600(AppColors.darkText),
+              ),
+            ],
           ),
-        if (controller.cartData.value.addressExists == true)
-          Padding(
-            padding: EdgeInsets.only(top: 10.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Delivery Charge",
-                  style: AppFontStyle.text_14_400(AppColors.lightText),
-                ),
-                Text(
-                  "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
-                  style: AppFontStyle.text_14_600(AppColors.darkText),
-                ),
-              ],
-            ),
+          hBox(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Save Amount",
+                style: AppFontStyle.text_14_400(AppColors.lightText),
+              ),
+              Text(
+                "\$${controller.cartData.value.cart!.saveAmount.toString()}",
+                style: AppFontStyle.text_14_600(AppColors.darkText),
+              ),
+            ],
           ),
+          if (controller.cartData.value.cart!.couponApplied != null)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  Text(
+                    "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                  ),
+                ],
+              ),
+            ),
+          if (controller.cartData.value.addressExists == true)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Delivery Charge",
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  Text(
+                    "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ],
     );
   }
 
   Widget checkoutButton() {
+    bool isLoading =
+        checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
+            deleteProductController.rxRequestStatus.value == Status.LOADING ||
+            quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -793,53 +806,108 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               "Total Price",
               style: AppFontStyle.text_14_500(AppColors.darkText),
             ),
-            Text(
-              "\$${controller.cartData.value.cart!.totalPrice.toString()}",
-              style: AppFontStyle.text_26_600(AppColors.primary),
-            ),
+            isLoading
+                ? shimmerItem('\$0.00',
+                    width: 70, height: 40, secondShimmer: false)
+                : Text(
+                    "\$${controller.cartData.value.cart!.totalPrice.toString()}",
+                    style: AppFontStyle.text_26_600(AppColors.primary),
+                  ),
           ],
         ),
-        controller.cartData.value.addressExists == true
-            ? SizedBox(
-                width: 200.w,
-                height: 55.h,
-                child: CustomElevatedButton(
-                  onPressed: () {
-                    var selectedItems = controller
-                        .cartData.value.cart!.decodedAttribute!
-                        .where((item) => item.isSelected.value)
-                        .map((item) => {
-                              'name': item.productName,
-                              'price': "\$${item.totalPrice.toString()}"
-                            })
-                        .toList();
+        isLoading
+            ? shimmerButton()
+            : controller.cartData.value.addressExists == true
+                ? SizedBox(
+                    width: 200.w,
+                    height: 55.h,
+                    child: CustomElevatedButton(
+                      onPressed: () {
+                        var selectedItems = controller
+                            .cartData.value.cart!.decodedAttribute!
+                            .where((item) => item.checked == "true")
+                            .map((item) => {
+                                  'name': item.productName,
+                                  'price': "\$${item.totalPrice.toString()}"
+                                })
+                            .toList();
 
-                    if (selectedItems.isNotEmpty) {
-                      selectedItems.forEach((item) {
-                        print(
-                            "Selected Product: ${item['name']}, Price: ${item['price']}");
-                        Get.toNamed(AppRoutes.checkoutScreen);
-                      });
-                    } else {
-                      Utils.showToast(
-                          "Please select product to proceed to checkout");
-                    }
-                  },
-                  text: "Checkout",
-                  textStyle: AppFontStyle.text_16_600(AppColors.white),
-                ))
-            : SizedBox(
-                width: 200.w,
-                height: 55.h,
-                child: CustomElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.addAddressScreen,
-                        arguments: {'cartKey': "RestaurantCart"});
-                  },
-                  text: "Add Address",
-                  textStyle: AppFontStyle.text_16_600(AppColors.white),
-                )),
+                        if (selectedItems.isNotEmpty) {
+                          selectedItems.forEach((item) {
+                            print(
+                                "Selected Product: ${item['name']}, Price: ${item['price']}");
+                            Get.toNamed(AppRoutes.checkoutScreen);
+                          });
+                        } else {
+                          Utils.showToast(
+                              "Please select product to proceed to checkout");
+                        }
+                      },
+                      text: "Checkout",
+                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                    ),
+                  )
+                : SizedBox(
+                    width: 200.w,
+                    height: 55.h,
+                    child: CustomElevatedButton(
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.addAddressScreen,
+                            arguments: {'type': "RestaurantCart"});
+                      },
+                      text: "Complete Address",
+                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                    ),
+                  ),
       ],
+    );
+  }
+
+  Widget shimmerButton() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: 200.w,
+        height: 55.h,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  Widget shimmerItem(
+    String label, {
+    double width = 120.0,
+    double height = 14.0,
+    bool secondShimmer = true,
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(top: 10.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              width: width.w,
+              height: height.h,
+              color: Colors.white,
+            ),
+          ),
+          secondShimmer == true
+              ? Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    width: 80.h,
+                    height: 14.h,
+                    color: Colors.white,
+                  ),
+                )
+              : const SizedBox(),
+        ],
+      ),
     );
   }
 

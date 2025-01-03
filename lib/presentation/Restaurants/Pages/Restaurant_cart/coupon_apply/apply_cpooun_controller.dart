@@ -27,10 +27,12 @@ class ApplyCouponController extends GetxController {
     api.applyCouponsApi(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        restaurantCartController.getRestaurantCartApi().then((value) {
+        restaurantCartController.getRestaurantCartApi().then((value) async {
+          await Future.delayed(const Duration(milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
           Utils.showToast(applyCouponData.value.message.toString());
         });
+
       } else {
         Utils.showToast(applyCouponData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);

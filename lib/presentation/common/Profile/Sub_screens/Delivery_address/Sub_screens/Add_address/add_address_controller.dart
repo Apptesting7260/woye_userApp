@@ -126,8 +126,8 @@ class AddAddressController extends GetxController {
 
   addAddressApi() async {
     var arguments = Get.arguments;
-    String? cart = arguments['cartKey'];
-    print("cart--------------------------------$cart");
+    String? type = arguments['type'];
+    print("cart--------------------------------$type");
     setRxRequestStatus(Status.LOADING);
     var body = {
       'full_name': nameController.value.text,
@@ -160,7 +160,7 @@ class AddAddressController extends GetxController {
             return;
           });
         } else {
-          if (cart == "RestaurantCart") {
+          if (type == "RestaurantCart") {
             restaurantCartController.getRestaurantCartApi().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);

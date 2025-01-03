@@ -28,7 +28,8 @@ class QuantityController extends GetxController {
     api.updateQuantityApi(body).then((value) {
       setData(value);
       if (quantityData.value.status == true) {
-        restaurantCartController.getRestaurantCartApi().then((value) {
+        restaurantCartController.getRestaurantCartApi().then((value) async {
+          await Future.delayed(const Duration( milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
         });
       } else {
