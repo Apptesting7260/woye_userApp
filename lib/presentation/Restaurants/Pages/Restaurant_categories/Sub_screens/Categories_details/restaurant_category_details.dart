@@ -18,8 +18,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
   final RestaurantCategoriesDetailsController controller =
       Get.put(RestaurantCategoriesDetailsController());
 
-  final add_Product_Wishlist_Controller add_Wishlist_Controller =
-      Get.put(add_Product_Wishlist_Controller());
+  final AddProductWishlistController add_Wishlist_Controller =
+      Get.put(AddProductWishlistController());
 
   final specific_Product_Controller specific_product_controllerontroller =
       Get.put(specific_Product_Controller());

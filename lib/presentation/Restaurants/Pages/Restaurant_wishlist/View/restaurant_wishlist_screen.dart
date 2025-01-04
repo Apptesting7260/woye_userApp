@@ -30,8 +30,8 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
   final RestaurantWishlistController controller =
       Get.put(RestaurantWishlistController());
 
-  final add_Product_Wishlist_Controller add_Wishlist_Controller =
-      Get.put(add_Product_Wishlist_Controller());
+  final AddProductWishlistController add_Wishlist_Controller =
+      Get.put(AddProductWishlistController());
 
   final specific_Product_Controller specific_product_controller =
       Get.put(specific_Product_Controller());

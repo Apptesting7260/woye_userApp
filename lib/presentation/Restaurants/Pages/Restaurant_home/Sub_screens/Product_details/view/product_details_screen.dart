@@ -25,8 +25,8 @@ class ProductDetailsScreen extends StatelessWidget {
     required this.categoryName,
   });
 
-  final add_Product_Wishlist_Controller add_Wishlist_Controller =
-      Get.put(add_Product_Wishlist_Controller());
+  final AddProductWishlistController add_Wishlist_Controller =
+      Get.put(AddProductWishlistController());
 
   final specific_Product_Controller controller =
       Get.put(specific_Product_Controller());
