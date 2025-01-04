@@ -156,9 +156,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             product_id: product.id.toString(),
                                             category_id: categoryId.toString());
                                     Get.to(ProductDetailsScreen(
-                                      product_id: product.id.toString(),
-                                      category_id: categoryId.toString(),
-                                      category_name: categoryTitle,
+                                      productId: product.id.toString(),
+                                      categoryId: categoryId.toString(),
+                                      categoryName: categoryTitle,
                                     ));
                                   },
                                   child: Column(
@@ -320,8 +320,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           .isNotEmpty)
                         SliverGrid(
                             delegate: SliverChildBuilderDelegate(
-                                childCount: controller.filterProductSearchData.length,
-                                (context, index) {
+                                childCount: controller.filterProductSearchData
+                                    .length, (context, index) {
                               var product =
                                   controller.filterProductSearchData[index];
                               return GestureDetector(
@@ -331,9 +331,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             product_id: product.id.toString(),
                                             category_id: categoryId.toString());
                                     Get.to(ProductDetailsScreen(
-                                      product_id: product.id.toString(),
-                                      category_id: categoryId.toString(),
-                                      category_name: categoryTitle,
+                                      productId: product.id.toString(),
+                                      categoryId: categoryId.toString(),
+                                      categoryName: categoryTitle,
                                     ));
                                   },
                                   child: Column(

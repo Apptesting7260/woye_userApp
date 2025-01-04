@@ -14,15 +14,15 @@ import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final String product_id;
-  final String category_id;
-  final String category_name;
+  final String productId;
+  final String categoryId;
+  final String categoryName;
 
   ProductDetailsScreen({
     super.key,
-    required this.product_id,
-    required this.category_id,
-    required this.category_name,
+    required this.productId,
+    required this.categoryId,
+    required this.categoryName,
   });
 
   final add_Product_Wishlist_Controller add_Wishlist_Controller =
@@ -66,8 +66,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 controller.product_Data.value.product?.isInWishlist =
                     !controller.product_Data.value.product!.isInWishlist!;
                 await add_Wishlist_Controller.restaurant_add_product_wishlist(
-                  categoryId: category_id,
-                  product_id: product_id.toString(),
+                  categoryId: categoryId,
+                  product_id: productId.toString(),
                 );
                 controller.isLoading.value = false;
               },
@@ -114,16 +114,16 @@ class ProductDetailsScreen extends StatelessWidget {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.specific_Product_Api(
-                      product_id: product_id,
-                      category_id: category_id.toString());
+                      product_id: productId,
+                      category_id: categoryId.toString());
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
                   controller.specific_Product_Api(
-                      product_id: product_id,
-                      category_id: category_id.toString());
+                      product_id: productId,
+                      category_id: categoryId.toString());
                 },
               );
             }
@@ -131,8 +131,8 @@ class ProductDetailsScreen extends StatelessWidget {
             return RefreshIndicator(
                 onRefresh: () async {
                   controller.specific_Product_Api(
-                      product_id: product_id,
-                      category_id: category_id.toString());
+                      product_id: productId,
+                      category_id: categoryId.toString());
                 },
                 child: SingleChildScrollView(
                   padding: REdgeInsets.symmetric(horizontal: 24),
@@ -148,7 +148,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         extra(context: context),
                       if (controller.product_Data.value.product!.extra != null)
                         hBox(20),
-                      if (controller.product_Data.value.product!.addOn != null)
+                      if (controller.product_Data.value.product!.addOn!.isNotEmpty)
                         addOn(
                           context: context,
                           checkBoxGroupValues: true.obs,
@@ -315,7 +315,7 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         hBox(10),
         Text(
-          category_name,
+          categoryName,
           style: AppFontStyle.text_16_400(AppColors.primary,
               fontWeight: FontWeight.bold),
         ),
@@ -797,7 +797,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       Get.toNamed(
                         AppRoutes.productReviews,
                         arguments: {
-                          'product_id': product_id.toString(),
+                          'product_id': productId.toString(),
                           'product_review':
                               controller.product_Data.value.product!.rating,
                           'review_count': controller
@@ -806,7 +806,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         },
                       );
                       seeAllProductReviewController.seeAllProductReviewApi(
-                          productId: product_id.toString());
+                          productId: productId.toString());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -843,10 +843,10 @@ class ProductDetailsScreen extends StatelessWidget {
             InkWell(
               onTap: () {
                 seeallproductcontroller.seeAll_Product_Api(
-                    restaurant_id: '', category_id: category_id.toString());
+                    restaurant_id: '', category_id: categoryId.toString());
                 Get.toNamed(AppRoutes.moreProducts, arguments: {
                   'restaurant_id': '',
-                  'category_id': category_id.toString()
+                  'category_id': categoryId.toString()
                 });
               },
               splashColor: Colors.transparent,
@@ -884,25 +884,25 @@ class ProductDetailsScreen extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     Get.to(ProductDetailsScreen(
-                      product_id: controller
+                      productId: controller
                           .product_Data.value.moreProducts![index].id
                           .toString(),
-                      category_id: category_id,
-                      category_name: category_name,
+                      categoryId: categoryId,
+                      categoryName: categoryName,
                     ));
 
                     controller.specific_Product_Api(
                         product_id: controller
                             .product_Data.value.moreProducts![index].id
                             .toString(),
-                        category_id: category_id.toString());
+                        category_id: categoryId.toString());
                   },
                   child: CustomItemBanner(
                     index: index,
                     product_id: controller
                         .product_Data.value.moreProducts![index].id
                         .toString(),
-                    categoryId: category_id,
+                    categoryId: categoryId,
                     image: controller
                         .product_Data.value.moreProducts![index].urlImage,
                     title: controller

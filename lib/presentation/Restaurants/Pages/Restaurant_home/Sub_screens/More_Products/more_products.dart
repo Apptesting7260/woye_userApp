@@ -85,15 +85,13 @@ class MoreProducts extends StatelessWidget {
                       .toString(),
                 );
                 Get.to(ProductDetailsScreen(
-                  product_id: controller
+                  productId: controller
                       .seeAll_Data.value.moreProducts![index].id
                       .toString(),
-                  category_id: controller
-                      .seeAll_Data.value.moreProducts![index].categoryId
-                      .toString(),
-                  category_name: controller
-                      .seeAll_Data.value.moreProducts![index].categoryName
-                      .toString(),
+                  categoryId: controller
+                      .seeAll_Data.value.moreProducts![index].categoryId.toString(),
+                  categoryName: controller
+                      .seeAll_Data.value.moreProducts![index].categoryName.toString(),
                 ));
               },
               child: CustomItemBanner(

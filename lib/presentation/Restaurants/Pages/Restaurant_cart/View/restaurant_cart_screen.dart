@@ -612,34 +612,31 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                       ),
                     )
                   : GestureDetector(
-                onTap: () {
+                      onTap: () {
+                        if (checkedUncheckedController.rxRequestStatus.value !=
+                            Status.LOADING) {
+                          controller
+                              .cartData
+                              .value
+                              .cart!
+                              .decodedAttribute?[index]
+                              .isSelectedLoading
+                              .value = true;
+                          bool newCheckedStatus = !(controller.cartData.value
+                                  .cart!.decodedAttribute![index].checked ==
+                              'true');
 
-                  if (checkedUncheckedController
-                      .rxRequestStatus.value !=
-                      Status.LOADING) {
-                    controller
-                        .cartData
-                        .value
-                        .cart!
-                        .decodedAttribute?[index]
-                        .isSelectedLoading
-                        .value = true;
-                    bool newCheckedStatus = !(controller.cartData.value
-                        .cart!.decodedAttribute![index].checked ==
-                        'true');
-
-                    checkedUncheckedController.checkedUncheckedApi(
-                      productId: controller.cartData.value.cart!
-                          .decodedAttribute![index].productId
-                          .toString(),
-                      cartId:
-                      controller.cartData.value.cart!.id.toString(),
-                      status: newCheckedStatus.toString(),
-                    );
-                  }
-
-                },
-                    child: CachedNetworkImage(
+                          checkedUncheckedController.checkedUncheckedApi(
+                            productId: controller.cartData.value.cart!
+                                .decodedAttribute![index].productId
+                                .toString(),
+                            cartId:
+                                controller.cartData.value.cart!.id.toString(),
+                            status: newCheckedStatus.toString(),
+                          );
+                        }
+                      },
+                      child: CachedNetworkImage(
                         imageUrl: controller.cartData.value.cart!
                             .decodedAttribute![index].productImage
                             .toString(),
@@ -651,7 +648,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                       ),
-                  ),
+                    ),
             ),
             wBox(10),
             Expanded(
@@ -1067,11 +1064,15 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                             if (controller
                                 .couponCodeController.value.text.isNotEmpty) {
                               applyCouponController.applyCouponApi(
-                                  cartId: controller.cartData.value.cart!.id
-                                      .toString(),
-                                  couponCode: controller
-                                      .couponCodeController.value.text
-                                      .toString());
+                                cartId: controller.cartData.value.cart!.id
+                                    .toString(),
+                                couponCode: controller
+                                    .couponCodeController.value.text
+                                    .toString(),
+                                grandTotal: controller
+                                    .cartData.value.cart!.grandTotalPrice
+                                    .toString(),
+                              );
                             } else {
                               Utils.showToast("Please Enter Coupon Code");
                             }
@@ -1113,6 +1114,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                       .toString(),
                                   couponCode: controller
                                       .cartData.value.cart!.couponApplied!.code
+                                      .toString(),
+                                  grandTotal: controller
+                                      .cartData.value.cart!.grandTotalPrice
                                       .toString(),
                                 );
                               },

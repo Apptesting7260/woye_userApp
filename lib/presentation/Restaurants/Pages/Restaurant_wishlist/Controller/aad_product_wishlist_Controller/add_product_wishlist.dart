@@ -38,6 +38,9 @@ class add_Product_Wishlist_Controller extends GetxController {
         if (categoryId == "") {
           restaurantWishlistController.restaurant_product_wishlist_api();
         }
+        Utils.showToast(add_Wishlist.value.message.toString());
+      } else {
+        Utils.showToast(add_Wishlist.value.message.toString());
       }
     }).onError((error, stackError) {
       setError(error.toString());

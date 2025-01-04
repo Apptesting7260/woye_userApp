@@ -136,11 +136,11 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                   return GestureDetector(
                                       onTap: () {
                                         Get.to(ProductDetailsScreen(
-                                          product_id: product.id.toString(),
-                                          category_id:
-                                              product.categoryId.toString(),
-                                          category_name:
+                                          categoryName:
                                               product.categoryName.toString(),
+                                          productId: product.id.toString(),
+                                          categoryId:
+                                              product.categoryId.toString(),
                                         ));
                                         specific_product_controller
                                             .specific_Product_Api(

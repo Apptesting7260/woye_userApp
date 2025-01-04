@@ -176,13 +176,12 @@ class RestaurantDetailsScreen extends StatelessWidget {
             wBox(8),
             Flexible(
               child: Text(
-                controller.restaurant_Data.value.restaurant!.name.toString(),
+                "${controller.restaurant_Data.value.restaurant!.firstName ?? ""} ${controller.restaurant_Data.value.restaurant!.lastName ?? ""}",
                 style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w400,
-                    decoration: TextDecoration.underline,
-                    decorationColor: AppColors.primary),
+                  fontSize: 14.sp,
+                  color: AppColors.darkText,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             )
           ],
@@ -344,13 +343,13 @@ class RestaurantDetailsScreen extends StatelessWidget {
                           .toString(),
                     );
                     Get.to(ProductDetailsScreen(
-                      product_id: controller
+                      productId: controller
                           .restaurant_Data.value.moreProducts![index].id
                           .toString(),
-                      category_id: controller
+                      categoryId: controller
                           .restaurant_Data.value.moreProducts![index].categoryId
                           .toString(),
-                      category_name: controller.restaurant_Data.value
+                      categoryName: controller.restaurant_Data.value
                           .moreProducts![index].categoryName
                           .toString(),
                     ));

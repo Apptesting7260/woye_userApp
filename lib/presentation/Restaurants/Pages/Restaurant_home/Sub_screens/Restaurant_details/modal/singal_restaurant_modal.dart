@@ -38,7 +38,8 @@ class SpecificRestaurantModal {
 
 class Restaurant {
   int? id;
-  String? name;
+  String? firstName;
+  String? lastName;
   String? email;
   String? image;
   String? dob;
@@ -69,7 +70,8 @@ class Restaurant {
 
   Restaurant({
     this.id,
-    this.name,
+    this.firstName,
+    this.lastName,
     this.email,
     this.image,
     this.dob,
@@ -101,7 +103,8 @@ class Restaurant {
 
   Restaurant.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
     email = json['email'];
     image = json['image'];
     dob = json['dob'];
@@ -144,7 +147,8 @@ class Restaurant {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['id'] = this.id;
-    data['name'] = this.name;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
     data['email'] = this.email;
     data['image'] = this.image;
     data['dob'] = this.dob;

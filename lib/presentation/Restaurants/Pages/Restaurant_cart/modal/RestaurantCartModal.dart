@@ -142,6 +142,7 @@ class Cart {
   int? saveAmount;
   int? deliveryCharge;
   int? totalPrice;
+  int? grandTotalPrice;
   int? couponId;
   int? couponDiscount;
   CouponApplied? couponApplied;
@@ -161,6 +162,7 @@ class Cart {
     this.saveAmount,
     this.deliveryCharge,
     this.totalPrice,
+    this.grandTotalPrice,
     this.couponId,
     this.couponDiscount,
     this.couponApplied,
@@ -190,6 +192,7 @@ class Cart {
       saveAmount: json['save_amount'],
       deliveryCharge: json['delivery_charge'],
       totalPrice: json['total_price'],
+      grandTotalPrice: json['grand_total_price'],
       couponId: json['coupon_id'],
       couponDiscount: json['coupon_discount'],
       couponApplied: couponApplied,
@@ -213,6 +216,7 @@ class Cart {
       'save_amount': saveAmount,
       'delivery_charge': deliveryCharge,
       'total_price': totalPrice,
+      'grand_total_price': grandTotalPrice,
       'coupon_id': couponId,
       'coupon_discount': couponDiscount,
       'coupon_applied': couponApplied?.toJson(),
