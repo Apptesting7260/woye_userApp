@@ -179,22 +179,22 @@ class RestaurantHomeFilter extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     Get.to(ProductDetailsScreen(
-                      product_id: controller
+                      productId: controller
                           .searchData.value.products![index].id
                           .toString(),
-                      category_id: controller
+                      categoryId: controller
                           .searchData.value.products![index].categoryId
                           .toString(),
-                      category_name: controller
+                      categoryName: controller
                           .searchData.value.products![index].categoryName
                           .toString(),
                     ));
 
                     specificProductController.specific_Product_Api(
-                        product_id: controller
+                        productId: controller
                             .searchData.value.products![index].id
                             .toString(),
-                        category_id: controller
+                        categoryId: controller
                             .searchData.value.products![index].categoryId
                             .toString());
                   },

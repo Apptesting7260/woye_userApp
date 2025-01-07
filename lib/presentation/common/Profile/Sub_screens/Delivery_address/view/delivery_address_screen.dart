@@ -19,6 +19,8 @@ class DeliveryAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments;
+    String? type = arguments['type'];
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -59,6 +61,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                       addressList(),
                     hBox(30.h),
                     addAddress(),
+                    if (type != "Profile") changeAddressButton(),
                     hBox(30.h),
                   ],
                 ),
@@ -252,6 +255,33 @@ class DeliveryAddressScreen extends StatelessWidget {
     //     ],
     //   ),
     // );
+  }
+
+  Widget changeAddressButton() {
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.only(top: 30.h),
+        child: CustomElevatedButton(
+          onPressed: () {
+            editController.changeAddressApi(
+              addressId: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].id.toString(),
+              name: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].fullName.toString(),
+              houseNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].houseDetails.toString(),
+              addressTypeName: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].addressType.toString(),
+              selectedCountryCode: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].countryCode.toString(),
+              mobNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].phoneNumber.toString(),
+              location: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].address.toString(),
+              latitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].latitude.toString(),
+              longitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].longitude.toString(),
+              deliveryInstruction: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].deliveryInstruction ?? "",
+
+            );
+          },
+          isLoading: editController.rxRequestStatus.value == Status.LOADING,
+          text: "Change Address",
+        ),
+      ),
+    );
   }
 
   Future showDeleteAddressDialog({

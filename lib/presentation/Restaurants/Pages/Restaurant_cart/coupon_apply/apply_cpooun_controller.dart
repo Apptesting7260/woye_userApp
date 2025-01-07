@@ -18,11 +18,13 @@ class ApplyCouponController extends GetxController {
   applyCouponApi({
     required String cartId,
     required String couponCode,
+    required String grandTotal,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "cart_id": cartId,
       "coupon_code": couponCode,
+      "grand_total": grandTotal,
     };
     api.applyCouponsApi(body).then((value) {
       setData(value);

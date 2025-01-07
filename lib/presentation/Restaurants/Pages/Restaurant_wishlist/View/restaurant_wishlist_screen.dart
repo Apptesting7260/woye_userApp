@@ -30,8 +30,8 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
   final RestaurantWishlistController controller =
       Get.put(RestaurantWishlistController());
 
-  final add_Product_Wishlist_Controller add_Wishlist_Controller =
-      Get.put(add_Product_Wishlist_Controller());
+  final AddProductWishlistController add_Wishlist_Controller =
+      Get.put(AddProductWishlistController());
 
   final specific_Product_Controller specific_product_controller =
       Get.put(specific_Product_Controller());
@@ -136,19 +136,19 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                   return GestureDetector(
                                       onTap: () {
                                         Get.to(ProductDetailsScreen(
-                                          product_id: product.id.toString(),
-                                          category_id:
-                                              product.categoryId.toString(),
-                                          category_name:
+                                          categoryName:
                                               product.categoryName.toString(),
+                                          productId: product.id.toString(),
+                                          categoryId:
+                                              product.categoryId.toString(),
                                         ));
                                         specific_product_controller
                                             .specific_Product_Api(
-                                          product_id: product.id.toString(),
-                                          category_id:
+                                          productId: product.id.toString(),
+                                          categoryId:
                                               product.categoryId.toString(),
                                         );
-                                      },
+                           },
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,

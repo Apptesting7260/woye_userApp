@@ -31,9 +31,9 @@ class CheckedUncheckedController extends GetxController {
       setData(value);
       if (checkedUncheckedData.value.status == true) {
         restaurantCartController.getRestaurantCartApi().then((value) async {
-          await Future.delayed(const Duration(milliseconds: 500));
-          setRxRequestStatus(Status.COMPLETED);
+          await Future.delayed(const Duration(milliseconds: 800));
           Utils.showToast(checkedUncheckedData.value.message.toString());
+          setRxRequestStatus(Status.COMPLETED);
         });
       } else {
         Utils.showToast(checkedUncheckedData.value.message.toString());

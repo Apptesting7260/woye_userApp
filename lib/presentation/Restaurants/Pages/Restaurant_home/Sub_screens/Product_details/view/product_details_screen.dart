@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
@@ -14,19 +17,22 @@ import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final String product_id;
-  final String category_id;
-  final String category_name;
+  final String productId;
+  final String categoryId;
+  final String categoryName;
 
   ProductDetailsScreen({
     super.key,
-    required this.product_id,
-    required this.category_id,
-    required this.category_name,
+    required this.productId,
+    required this.categoryId,
+    required this.categoryName,
   });
 
-  final add_Product_Wishlist_Controller add_Wishlist_Controller =
-      Get.put(add_Product_Wishlist_Controller());
+  // final RestaurantHomeController restaurantHomeController =
+  // Get.put(RestaurantHomeController());
+
+  final AddProductWishlistController add_Wishlist_Controller =
+      Get.put(AddProductWishlistController());
 
   final specific_Product_Controller controller =
       Get.put(specific_Product_Controller());
@@ -63,11 +69,11 @@ class ProductDetailsScreen extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 controller.isLoading.value = true;
-                controller.product_Data.value.product?.isInWishlist =
-                    !controller.product_Data.value.product!.isInWishlist!;
+                controller.productData.value.product?.isInWishlist =
+                    !controller.productData.value.product!.isInWishlist!;
                 await add_Wishlist_Controller.restaurant_add_product_wishlist(
-                  categoryId: category_id,
-                  product_id: product_id.toString(),
+                  categoryId: categoryId,
+                  product_id: productId.toString(),
                 );
                 controller.isLoading.value = false;
               },
@@ -82,7 +88,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 child: controller.isLoading.value
                     ? circularProgressIndicator(size: 18)
                     : Icon(
-                        controller.product_Data.value.product?.isInWishlist !=
+                        controller.productData.value.product?.isInWishlist !=
                                 true
                             ? Icons.favorite_outline_sharp
                             : Icons.favorite_outlined,
@@ -114,16 +120,14 @@ class ProductDetailsScreen extends StatelessWidget {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.specific_Product_Api(
-                      product_id: product_id,
-                      category_id: category_id.toString());
+                      productId: productId, categoryId: categoryId.toString());
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
                   controller.specific_Product_Api(
-                      product_id: product_id,
-                      category_id: category_id.toString());
+                      productId: productId, categoryId: categoryId.toString());
                 },
               );
             }
@@ -131,8 +135,7 @@ class ProductDetailsScreen extends StatelessWidget {
             return RefreshIndicator(
                 onRefresh: () async {
                   controller.specific_Product_Api(
-                      product_id: product_id,
-                      category_id: category_id.toString());
+                      productId: productId, categoryId: categoryId.toString());
                 },
                 child: SingleChildScrollView(
                   padding: REdgeInsets.symmetric(horizontal: 24),
@@ -144,16 +147,17 @@ class ProductDetailsScreen extends StatelessWidget {
                       hBox(30),
                       description(),
                       hBox(30),
-                      if (controller.product_Data.value.product!.extra != null)
+                      if (controller.productData.value.product!.extra != null)
                         extra(context: context),
-                      if (controller.product_Data.value.product!.extra != null)
+                      if (controller.productData.value.product!.extra != null)
                         hBox(20),
-                      if (controller.product_Data.value.product!.addOn != null)
+                      if (controller
+                          .productData.value.product!.addOn!.isNotEmpty)
                         addOn(
                           context: context,
                           checkBoxGroupValues: true.obs,
                         ),
-                      if (controller.product_Data.value.product!.addOn != null)
+                      if (controller.productData.value.product!.addOn != null)
                         hBox(30),
                       Obx(
                         () => controller.goToCart.value == true
@@ -165,9 +169,10 @@ class ProductDetailsScreen extends StatelessWidget {
                                         (Status.LOADING),
                                 text: "Go to Cart",
                                 onPressed: () {
-                                  Get.to(RestaurantCartScreen(isBack: true));
+                                  Get.to(
+                                      const RestaurantCartScreen(isBack: true));
                                   controller.goToCart.value = false;
-                                  controller.cartCount.value =1;
+                                  controller.cartCount.value = 1;
                                 })
                             : CustomElevatedButton(
                                 width: Get.width,
@@ -177,49 +182,53 @@ class ProductDetailsScreen extends StatelessWidget {
                                         (Status.LOADING),
                                 text: "Add to Cart",
                                 onPressed: () {
-                                  // ---------- add to cart api -----------
-                                  controller.productPriceFun();
-                                  addToCartController.addToCartApi(
-                                    productId: controller
-                                        .product_Data.value.product!.id
-                                        .toString(),
-                                    productPrice: controller
-                                        .product_Data.value.product!.salePrice
-                                        .toString(),
-                                    productQuantity:
-                                        controller.cartCount.toString(),
-                                    restaurantId: controller.product_Data.value
-                                        .product!.restaurantId
-                                        .toString(),
-                                    addons:
-                                        controller.selectedAddOnIds.toList(),
-                                    extrasIds: controller.extrasTitlesIdsId,
-                                    extrasItemIds:
-                                        controller.extrasItemIdsId.toList(),
-                                    extrasItemNames:
-                                        controller.extrasItemIdsName.toList(),
-                                    extrasItemPrices:
-                                        controller.extrasItemIdsPrice.toList(),
-                                  );
-                                  print(
-                                      "object ${controller.extrasItemIdsName}");
+                                  // if (restaurantHomeController.homeData.value.userdata?.type ==
+                                  //     "guestUser") {
+                                  //   showLoginRequired(context);
+                                  // } else
+                                  {
+                                    // ---------- add to cart api -----------
+                                    controller.productPriceFun();
+                                    addToCartController.addToCartApi(
+                                      productId: controller
+                                          .productData.value.product!.id
+                                          .toString(),
+                                      productPrice: controller
+                                          .productData.value.product!.salePrice
+                                          .toString(),
+                                      productQuantity:
+                                          controller.cartCount.toString(),
+                                      restaurantId: controller.productData.value
+                                          .product!.restaurantId
+                                          .toString(),
+                                      addons: controller.selectedAddOn.toList(),
+                                      extrasIds: controller.extrasTitlesIdsId,
+                                      extrasItemIds:
+                                          controller.extrasItemIdsId.toList(),
+                                      extrasItemNames:
+                                          controller.extrasItemIdsName.toList(),
+                                      extrasItemPrices: controller
+                                          .extrasItemIdsPrice
+                                          .toList(),
+                                    );
+                                    print(
+                                        "object ${controller.extrasItemIdsName}");
+                                  }
                                 }),
                       ),
                       hBox(30),
                       productReviews(),
                       hBox(8),
                       const Divider(),
-                      if (controller.product_Data.value.product!.productreview!
-                          .isNotEmpty)
+                      if (controller
+                          .productData.value.product!.productreview!.isNotEmpty)
                         hBox(30),
-                      if (controller.product_Data.value.product!.productreview!
-                          .isNotEmpty)
+                      if (controller
+                          .productData.value.product!.productreview!.isNotEmpty)
                         reviews(),
-                      if (controller
-                          .product_Data.value.moreProducts!.isNotEmpty)
+                      if (controller.productData.value.moreProducts!.isNotEmpty)
                         hBox(30),
-                      if (controller
-                          .product_Data.value.moreProducts!.isNotEmpty)
+                      if (controller.productData.value.moreProducts!.isNotEmpty)
                         moreProducts(),
                       hBox(20),
                     ],
@@ -239,7 +248,7 @@ class ProductDetailsScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
               imageUrl: controller.selectedImageUrl.value.isEmpty
-                  ? controller.product_Data.value.product!.urlImage.toString()
+                  ? controller.productData.value.product!.urlImage.toString()
                   : controller.selectedImageUrl.value,
               // Display selected image if available
               fit: BoxFit.cover,
@@ -259,15 +268,15 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
-        if (controller.product_Data.value.product!.urlAddimg!.isNotEmpty)
+        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
           hBox(10),
-        if (controller.product_Data.value.product!.urlAddimg!.isNotEmpty)
+        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
           SizedBox(
             height: 75.h,
             child: ListView.separated(
               shrinkWrap: true,
               itemCount:
-                  controller.product_Data.value.product?.urlAddimg!.length ?? 0,
+                  controller.productData.value.product?.urlAddimg!.length ?? 0,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 return Obx(
@@ -276,7 +285,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       controller.isSelected.value = index;
 
                       controller.selectedImageUrl.value = controller
-                          .product_Data.value.product!.urlAddimg![index];
+                          .productData.value.product!.urlAddimg![index];
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -289,7 +298,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
                           imageUrl: controller
-                              .product_Data.value.product!.urlAddimg![index],
+                              .productData.value.product!.urlAddimg![index],
                           fit: BoxFit.cover,
                           width: 75.h,
                           errorWidget: (context, url, error) =>
@@ -315,13 +324,13 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         hBox(10),
         Text(
-          category_name,
+          categoryName,
           style: AppFontStyle.text_16_400(AppColors.primary,
               fontWeight: FontWeight.bold),
         ),
         hBox(10),
         Text(
-          controller.product_Data.value.product!.title.toString(),
+          controller.productData.value.product!.title.toString(),
           style: AppFontStyle.text_20_400(AppColors.darkText),
         ),
         hBox(10),
@@ -330,7 +339,7 @@ class ProductDetailsScreen extends StatelessWidget {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "${controller.product_Data.value.product!.rating.toString()}/5",
+              "${controller.productData.value.product!.rating.toString()}/5",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],
@@ -339,12 +348,12 @@ class ProductDetailsScreen extends StatelessWidget {
         Row(
           children: [
             Text(
-              "\$${controller.product_Data.value.product!.salePrice.toString()}",
+              "\$${controller.productData.value.product!.salePrice.toString()}",
               style: AppFontStyle.text_16_600(AppColors.primary),
             ),
             wBox(8),
             Text(
-              "\$${controller.product_Data.value.product!.regularPrice.toString()}",
+              "\$${controller.productData.value.product!.regularPrice.toString()}",
               style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.mediumText,
@@ -372,7 +381,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.remove,
-                        size: 16.w,
+                        size: 20.w,
                       ),
                     ),
                     Text(
@@ -385,7 +394,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       },
                       child: Icon(
                         Icons.add,
-                        size: 16.w,
+                        size: 20.w,
                       ),
                     ),
                   ],
@@ -408,7 +417,7 @@ class ProductDetailsScreen extends StatelessWidget {
         ),
         hBox(10),
         Text(
-          controller.product_Data.value.product!.description.toString(),
+          controller.productData.value.product!.description.toString(),
           style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4),
           maxLines: 4,
         ),
@@ -420,16 +429,16 @@ class ProductDetailsScreen extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.product_Data.value.product!.extra?.length,
+      itemCount: controller.productData.value.product!.extra?.length,
       itemBuilder: (context, index) {
-        var extra = controller.product_Data.value.product!.extra![index];
+        var extra = controller.productData.value.product!.extra![index];
         if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
           controller.extrasTitlesIdsId.add(extra.titleid);
           print("itemIdsIds ${controller.extrasTitlesIdsId}");
         }
 
         if (controller.extrasItemIdsName.isEmpty) {
-          controller.product_Data.value.product!.extra?.forEach((extra) {
+          controller.productData.value.product!.extra?.forEach((extra) {
             if (extra.item?.isNotEmpty ?? false) {
               controller.extrasItemIdsId.add(extra.item![0].id.toString());
               controller.extrasItemIdsName.add(extra.item![0].name.toString());
@@ -477,9 +486,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   title: item.name.toString(),
                   value: itemIndex.obs,
                   groupValue: controller
-                      .product_Data.value.product!.extra![index].selectedIndex,
+                      .productData.value.product!.extra![index].selectedIndex,
                   onChanged: (value) {
-                    controller.product_Data.value.product!.extra![index]
+                    controller.productData.value.product!.extra![index]
                         .selectedIndex.value = value!;
 
                     // if (controller.extrasItemIdsName.length > index) {
@@ -536,7 +545,7 @@ class ProductDetailsScreen extends StatelessWidget {
         Row(
           children: [
             Text(
-              "Select up to ${controller.product_Data.value.product!.addOn!.length} option",
+              "Select up to ${controller.productData.value.product!.addOn!.length} option",
               style: AppFontStyle.text_16_300(AppColors.lightText),
             ),
           ],
@@ -545,7 +554,7 @@ class ProductDetailsScreen extends StatelessWidget {
         Obx(
           () {
             var addOnListLength =
-                controller.product_Data.value.product!.addOn?.length ?? 0;
+                controller.productData.value.product!.addOn?.length ?? 0;
 
             int itemCount = addOnListLength > 6
                 ? (showAll.value ? addOnListLength : 6)
@@ -556,19 +565,25 @@ class ProductDetailsScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: itemCount,
               itemBuilder: (context, index) {
-                var addOn =
-                    controller.product_Data.value.product!.addOn![index];
+                var addOn = controller.productData.value.product!.addOn![index];
                 return CustomTitleCheckbox(
                   title: addOn.name.toString(),
                   groupValue: checkBoxGroupValues,
                   onChanged: (value) {
                     addOn.isChecked.value = value;
                     if (value) {
-                      controller.selectedAddOnIds.add(addOn.id.toString());
+                      controller.selectedAddOn.add({
+                        "id": addOn.id.toString(),
+                        "price": addOn.price.toString(),
+                        "name": addOn.name.toString(),
+                      });
                     } else {
-                      controller.selectedAddOnIds.remove(addOn.id.toString());
+                      controller.selectedAddOn.removeWhere((element) =>
+                          element['id'] == addOn.id.toString() &&
+                          element['price'] == addOn.price.toString() &&
+                          element['name'] == addOn.name.toString());
                     }
-                    print("selectedAddOnIds${controller.selectedAddOnIds}");
+                    print("selected AddOn${controller.selectedAddOn}");
                   },
                   priceValue: addOn.price.toString(),
                   isChecked: addOn.isChecked,
@@ -582,7 +597,7 @@ class ProductDetailsScreen extends StatelessWidget {
         Obx(
           () {
             var addOnListLength =
-                controller.product_Data.value.product!.addOn?.length ?? 0;
+                controller.productData.value.product!.addOn?.length ?? 0;
             if (addOnListLength <= 6) {
               return const SizedBox.shrink();
             }
@@ -644,18 +659,18 @@ class ProductDetailsScreen extends StatelessWidget {
               emptyIcon: Icons.star,
               filledColor: AppColors.goldStar,
               emptyColor: AppColors.normalStar,
-              initialRating: controller.product_Data.value.product!.rating!,
+              initialRating: controller.productData.value.product!.rating!,
               maxRating: 5,
               size: 20.h,
             ),
             wBox(8),
             Text(
-              "${controller.product_Data.value.product!.rating.toString()}/5",
+              "${controller.productData.value.product!.rating.toString()}/5",
               style: AppFontStyle.text_16_400(AppColors.darkText),
             ),
             wBox(8),
             Text(
-              "(${controller.product_Data.value.product!.productreview_count.toString()} reviews)",
+              "(${controller.productData.value.product!.productreview_count.toString()} reviews)",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],
@@ -673,9 +688,9 @@ class ProductDetailsScreen extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount:
-                  controller.product_Data.value.product!.productreview!.length,
+                  controller.productData.value.product!.productreview!.length,
               itemBuilder: (context, index) {
-                return controller.product_Data.value.product!
+                return controller.productData.value.product!
                             .productreview![index].user !=
                         null
                     ? Column(
@@ -687,7 +702,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(50.r),
                                 child: CachedNetworkImage(
                                   imageUrl: controller
-                                      .product_Data
+                                      .productData
                                       .value
                                       .product!
                                       .productreview![index]
@@ -728,7 +743,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      controller.product_Data.value.product!
+                                      controller.productData.value.product!
                                           .productreview![index].user!.firstName
                                           .toString(),
                                       style: AppFontStyle.text_16_400(
@@ -741,7 +756,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       filledColor: AppColors.goldStar,
                                       emptyColor: AppColors.normalStar,
                                       initialRating: controller
-                                          .product_Data
+                                          .productData
                                           .value
                                           .product!
                                           .productreview![index]
@@ -751,7 +766,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                     ),
                                     hBox(10),
                                     Text(
-                                      controller.product_Data.value.product!
+                                      controller.productData.value.product!
                                           .productreview![index].message
                                           .toString(),
                                       style: AppFontStyle.text_16_400(
@@ -761,7 +776,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                     hBox(10),
                                     Text(
                                       controller.formatDate(controller
-                                          .product_Data
+                                          .productData
                                           .value
                                           .product!
                                           .productreview![index]
@@ -786,7 +801,7 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ],
         ),
-        controller.product_Data.value.product!.productreview_count!.toInt() > 0
+        controller.productData.value.product!.productreview_count!.toInt() > 0
             ? Column(
                 children: [
                   hBox(10),
@@ -797,22 +812,22 @@ class ProductDetailsScreen extends StatelessWidget {
                       Get.toNamed(
                         AppRoutes.productReviews,
                         arguments: {
-                          'product_id': product_id.toString(),
+                          'product_id': productId.toString(),
                           'product_review':
-                              controller.product_Data.value.product!.rating,
+                              controller.productData.value.product!.rating,
                           'review_count': controller
-                              .product_Data.value.product!.productreview_count
+                              .productData.value.product!.productreview_count
                               .toString(),
                         },
                       );
                       seeAllProductReviewController.seeAllProductReviewApi(
-                          productId: product_id.toString());
+                          productId: productId.toString());
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "See All (${controller.product_Data.value.product!.productreview_count.toString()})",
+                          "See All (${controller.productData.value.product!.productreview_count.toString()})",
                           style: AppFontStyle.text_14_600(AppColors.primary),
                         ),
                         Icon(
@@ -843,10 +858,10 @@ class ProductDetailsScreen extends StatelessWidget {
             InkWell(
               onTap: () {
                 seeallproductcontroller.seeAll_Product_Api(
-                    restaurant_id: '', category_id: category_id.toString());
+                    restaurant_id: '', category_id: categoryId.toString());
                 Get.toNamed(AppRoutes.moreProducts, arguments: {
                   'restaurant_id': '',
-                  'category_id': category_id.toString()
+                  'category_id': categoryId.toString()
                 });
               },
               splashColor: Colors.transparent,
@@ -873,7 +888,7 @@ class ProductDetailsScreen extends StatelessWidget {
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: controller.product_Data.value.moreProducts!.length,
+            itemCount: controller.productData.value.moreProducts!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.6.h,
@@ -884,48 +899,108 @@ class ProductDetailsScreen extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     Get.to(ProductDetailsScreen(
-                      product_id: controller
-                          .product_Data.value.moreProducts![index].id
+                      productId: controller
+                          .productData.value.moreProducts![index].id
                           .toString(),
-                      category_id: category_id,
-                      category_name: category_name,
+                      categoryId: categoryId,
+                      categoryName: categoryName,
                     ));
 
                     controller.specific_Product_Api(
-                        product_id: controller
-                            .product_Data.value.moreProducts![index].id
+                        productId: controller
+                            .productData.value.moreProducts![index].id
                             .toString(),
-                        category_id: category_id.toString());
+                        categoryId: categoryId.toString());
                   },
                   child: CustomItemBanner(
                     index: index,
                     product_id: controller
-                        .product_Data.value.moreProducts![index].id
+                        .productData.value.moreProducts![index].id
                         .toString(),
-                    categoryId: category_id,
+                    categoryId: categoryId,
                     image: controller
-                        .product_Data.value.moreProducts![index].urlImage,
-                    title: controller
-                        .product_Data.value.moreProducts![index].title,
+                        .productData.value.moreProducts![index].urlImage,
+                    title:
+                        controller.productData.value.moreProducts![index].title,
                     rating: controller
-                        .product_Data.value.moreProducts![index].rating
+                        .productData.value.moreProducts![index].rating
                         .toString(),
                     is_in_wishlist: controller
-                        .product_Data.value.moreProducts![index].isInWishlist,
+                        .productData.value.moreProducts![index].isInWishlist,
                     isLoading: controller
-                        .product_Data.value.moreProducts![index].isLoading,
+                        .productData.value.moreProducts![index].isLoading,
                     sale_price: controller
-                        .product_Data.value.moreProducts![index].salePrice
+                        .productData.value.moreProducts![index].salePrice
                         .toString(),
                     regular_price: controller
-                        .product_Data.value.moreProducts![index].regularPrice
+                        .productData.value.moreProducts![index].regularPrice
                         .toString(),
                     resto_name: controller
-                        .product_Data.value.moreProducts![index].restoName
+                        .productData.value.moreProducts![index].restoName
                         .toString(),
                   ));
             })
       ],
     );
+  }
+
+  Future showLoginRequired(context) {
+    return showCupertinoModalPopup(
+        // barrierDismissible: true,/
+        context: context,
+        builder: (context) {
+          return AlertDialog.adaptive(
+            content: Container(
+              height: 150.h,
+              width: 320.w,
+              padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.r),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Login Required',
+                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                  ),
+                  // hBox(15),
+                  Text(
+                    'You need to log in first',
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  // hBox(15),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          color: AppColors.black,
+                          onPressed: () {
+                            Get.back();
+                          },
+                          text: "Cancel",
+                          textStyle:
+                              AppFontStyle.text_14_400(AppColors.darkText),
+                        ),
+                      ),
+                      wBox(15),
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          onPressed: () {
+                            userPreference.removeUser();
+                            Get.offAllNamed(AppRoutes.signUp);
+                          },
+                          text: "Login",
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

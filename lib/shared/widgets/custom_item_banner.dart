@@ -38,8 +38,8 @@ class CustomItemBanner extends StatelessWidget {
       this.product_id,
       this.isLoading});
 
-  final add_Product_Wishlist_Controller add_Wishlist_Controller =
-      Get.put(add_Product_Wishlist_Controller());
+  final AddProductWishlistController add_Wishlist_Controller =
+      Get.put(AddProductWishlistController());
 
   @override
   Widget build(BuildContext context) {

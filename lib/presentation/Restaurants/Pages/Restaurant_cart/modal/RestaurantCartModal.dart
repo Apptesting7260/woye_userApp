@@ -51,82 +51,6 @@ class RestaurantCartModal {
   }
 }
 
-// class Cart {
-//   int? id;
-//   int? userId;
-//   int? productId;
-//   int? restoId;
-//   String? status;
-//   int? orderId;
-//   String? bucket;
-//   String? createdAt;
-//   String? updatedAt;
-//   List<DecodedAttribute>? decodedAttribute;
-//   int? regularPrice;
-//   int? saveAmount;
-//   int? deliveryCharge;
-//   int? totalPrice;
-//
-//   Cart({
-//     this.id,
-//     this.userId,
-//     this.productId,
-//     this.restoId,
-//     this.status,
-//     this.orderId,
-//     this.bucket,
-//     this.createdAt,
-//     this.updatedAt,
-//     this.decodedAttribute,
-//     this.regularPrice,
-//     this.saveAmount,
-//     this.deliveryCharge,
-//     this.totalPrice,
-//   });
-//
-//   factory Cart.fromJson(Map<String, dynamic> json) {
-//     var decodedAttributeList = (json['decoded_attribute'] as List?)
-//         ?.map((item) => DecodedAttribute.fromJson(item))
-//         .toList();
-//
-//     return Cart(
-//       id: json['id'],
-//       userId: json['user_id'],
-//       productId: json['product_id'],
-//       restoId: json['resto_id'],
-//       status: json['status'],
-//       orderId: json['order_id'],
-//       bucket: json['bucket'],
-//       createdAt: json['created_at'],
-//       updatedAt: json['updated_at'],
-//       decodedAttribute: decodedAttributeList ?? [],
-//       regularPrice: json['regular_price'],
-//       saveAmount: json['save_amount'],
-//       deliveryCharge: json['delivery_charge'],
-//       totalPrice: json['total_price'],
-//     );
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     return {
-//       'id': id,
-//       'user_id': userId,
-//       'product_id': productId,
-//       'resto_id': restoId,
-//       'status': status,
-//       'order_id': orderId,
-//       'bucket': bucket,
-//       'created_at': createdAt,
-//       'updated_at': updatedAt,
-//       'decoded_attribute':
-//           decodedAttribute?.map((e) => e.toJson()).toList() ?? [],
-//       'regular_price': regularPrice,
-//       'save_amount': saveAmount,
-//       'delivery_charge': deliveryCharge,
-//       'total_price': totalPrice,
-//     };
-//   }
-// }
 class Cart {
   int? id;
   int? userId;
@@ -142,6 +66,7 @@ class Cart {
   int? saveAmount;
   int? deliveryCharge;
   int? totalPrice;
+  int? grandTotalPrice;
   int? couponId;
   int? couponDiscount;
   CouponApplied? couponApplied;
@@ -161,6 +86,7 @@ class Cart {
     this.saveAmount,
     this.deliveryCharge,
     this.totalPrice,
+    this.grandTotalPrice,
     this.couponId,
     this.couponDiscount,
     this.couponApplied,
@@ -190,6 +116,7 @@ class Cart {
       saveAmount: json['save_amount'],
       deliveryCharge: json['delivery_charge'],
       totalPrice: json['total_price'],
+      grandTotalPrice: json['grand_total_price'],
       couponId: json['coupon_id'],
       couponDiscount: json['coupon_discount'],
       couponApplied: couponApplied,
@@ -213,6 +140,7 @@ class Cart {
       'save_amount': saveAmount,
       'delivery_charge': deliveryCharge,
       'total_price': totalPrice,
+      'grand_total_price': grandTotalPrice,
       'coupon_id': couponId,
       'coupon_discount': couponDiscount,
       'coupon_applied': couponApplied?.toJson(),
@@ -308,76 +236,18 @@ class CouponApplied {
   }
 }
 
-// class DecodedAttribute {
-//   String? productId;
-//   int? quantity;
-//   String? price;
-//   List<String>? addons;
-//   List<Attribute>? attribute;
-//   String? productName;
-//   String? productImage;
-//   int? totalPrice;
-//   List<String>? addonName;
-//   Rx<bool> isSelected = true.obs;
-//   Rx<bool> isLoading = false.obs;
-//   Rx<bool> isDelete = false.obs;
-//
-//   DecodedAttribute({
-//     this.productId,
-//     this.quantity,
-//     this.price,
-//     this.addons,
-//     this.attribute,
-//     this.productName,
-//     this.productImage,
-//     this.totalPrice,
-//     this.addonName,
-//   });
-//
-//   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
-//     var attributeList = (json['attribute'] as List?)
-//         ?.map((item) => Attribute.fromJson(item))
-//         .toList();
-//
-//     return DecodedAttribute(
-//       productId: json['product_id'],
-//       quantity: json['quantity'],
-//       price: json['price'],
-//       addons: List<String>.from(json['addons'] ?? []),
-//       attribute: attributeList ?? [],
-//       productName: json['product_name'],
-//       productImage: json['product_image'],
-//       totalPrice: json['total_price'],
-//       addonName:
-//           List<String>.from(json['addon_name'] ?? []), // Handle addon names
-//     );
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     return {
-//       'product_id': productId,
-//       'quantity': quantity,
-//       'price': price,
-//       'addons': addons,
-//       'attribute': attribute?.map((e) => e.toJson()).toList() ?? [],
-//       'product_name': productName,
-//       'product_image': productImage,
-//       'total_price': totalPrice,
-//       'addon_name': addonName,
-//     };
-//   }
-// }
 class DecodedAttribute {
   String? productId;
   int? quantity;
   String? price;
-  List<String>? addons;
+  List<Addon>? addons;
   List<Attribute>? attribute;
   String? productName;
   String? productImage;
   int? totalPrice;
-  List<String>? addonName;
-  Rx<bool> isSelected = true.obs;
+
+  // List<String>? addonName;
+  Rx<bool> isSelectedLoading = false.obs;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
   var checked;
@@ -391,11 +261,14 @@ class DecodedAttribute {
     this.productName,
     this.productImage,
     this.totalPrice,
-    this.addonName,
+    // this.addonName,
     this.checked,
   });
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
+    var addonList =
+        (json['addons'] as List?)?.map((item) => Addon.fromJson(item)).toList();
+
     var attributeList = (json['attribute'] as List?)
         ?.map((item) => Attribute.fromJson(item))
         .toList();
@@ -404,12 +277,12 @@ class DecodedAttribute {
       productId: json['product_id'],
       quantity: json['quantity'],
       price: json['price'],
-      addons: List<String>.from(json['addons'] ?? []),
+      addons: addonList ?? [],
       attribute: attributeList ?? [],
       productName: json['product_name'],
       productImage: json['product_image'],
       totalPrice: json['total_price'],
-      addonName: List<String>.from(json['addon_name'] ?? []),
+      // addonName: List<String>.from(json['addon_name'] ?? []),
       checked: json['checked'],
     );
   }
@@ -419,13 +292,37 @@ class DecodedAttribute {
       'product_id': productId,
       'quantity': quantity,
       'price': price,
-      'addons': addons,
+      'addons': addons?.map((e) => e.toJson()).toList() ?? [],
       'attribute': attribute?.map((e) => e.toJson()).toList() ?? [],
       'product_name': productName,
       'product_image': productImage,
       'total_price': totalPrice,
-      'addon_name': addonName,
+      // 'addon_name': addonName,
       'checked': checked,
+    };
+  }
+}
+
+class Addon {
+  String? id;
+  String? price;
+  String? name;
+
+  Addon({this.id, this.price, this.name});
+
+  factory Addon.fromJson(Map<String, dynamic> json) {
+    return Addon(
+      id: json['id'],
+      price: json['price'],
+      name: json['name'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'price': price,
+      'name': name,
     };
   }
 }

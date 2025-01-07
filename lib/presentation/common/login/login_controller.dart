@@ -44,6 +44,13 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
+  @override
+  void onInit() {
+    mobNoCon.value.clear();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
   Future<bool> sendOtp() async {
     isLoding.value = true;
     Completer<bool> completer = Completer<bool>();
@@ -97,6 +104,7 @@ class LoginController extends GetxController {
             },
           );
           isLoding.value = false;
+          mobNoCon.value.clear();
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );

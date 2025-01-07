@@ -14,32 +14,32 @@ class specific_Product_Controller extends GetxController {
   RxBool goToCart = false.obs;
 
   final rxRequestStatus = Status.COMPLETED.obs;
-  final product_Data = specificProduct().obs;
+  final productData = specificProduct().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void productdata_Set(specificProduct value) => product_Data.value = value;
+  void productdata_Set(specificProduct value) => productData.value = value;
 
   void setError(String value) => error.value = value;
 
   specific_Product_Api({
-    required String product_id,
-    required String category_id,
+    required String productId,
+    required String categoryId,
   }) async {
     goToCart.value = false;
-    selectedAddOnIds.clear();
+    selectedAddOn.clear();
     extrasTitlesIdsId.clear();
     extrasItemIdsId.clear();
     extrasItemIdsName.clear();
     extrasItemIdsPrice.clear();
     selectedImageUrl.value = "";
-    cartCount.value =1;
+    cartCount.value = 1;
     setRxRequestStatus(Status.LOADING);
     Map data = {
-      "product_id": product_id,
-      "category_id": category_id,
+      "product_id": productId,
+      "category_id": categoryId,
     };
     api.specific_Product_Api(data).then((value) {
       isSelected = (-1).obs;
@@ -70,7 +70,7 @@ class specific_Product_Controller extends GetxController {
   }
 
   // ----------------- add to cart data -----------------
-  RxList selectedAddOnIds = [].obs;
+  RxList selectedAddOn = [].obs;
   RxList extrasTitlesIdsId = [].obs;
   RxList extrasItemIdsId = [].obs;
   RxList extrasItemIdsName = [].obs;
@@ -78,7 +78,7 @@ class specific_Product_Controller extends GetxController {
 
   void productPriceFun() {
     int count = cartCount.value;
-    int? price = product_Data.value.product!.salePrice;
+    int? price = productData.value.product!.salePrice;
 
     int totalPrice = count * price!;
     productPrice = totalPrice;

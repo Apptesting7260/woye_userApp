@@ -77,21 +77,20 @@ class MoreProducts extends StatelessWidget {
           return GestureDetector(
               onTap: () {
                 specific_product_controllerontroller.specific_Product_Api(
-                  product_id: controller
+                  productId: controller
                       .seeAll_Data.value.moreProducts![index].id
                       .toString(),
-                  category_id: controller
-                      .seeAll_Data.value.moreProducts![index].categoryId
+                  categoryId: controller.seeAll_Data.value.moreProducts![index]
                       .toString(),
                 );
                 Get.to(ProductDetailsScreen(
-                  product_id: controller
+                  productId: controller
                       .seeAll_Data.value.moreProducts![index].id
                       .toString(),
-                  category_id: controller
+                  categoryId: controller
                       .seeAll_Data.value.moreProducts![index].categoryId
                       .toString(),
-                  category_name: controller
+                  categoryName: controller
                       .seeAll_Data.value.moreProducts![index].categoryName
                       .toString(),
                 ));

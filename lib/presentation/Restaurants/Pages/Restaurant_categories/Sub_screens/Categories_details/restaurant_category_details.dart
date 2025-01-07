@@ -18,8 +18,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
   final RestaurantCategoriesDetailsController controller =
       Get.put(RestaurantCategoriesDetailsController());
 
-  final add_Product_Wishlist_Controller add_Wishlist_Controller =
-      Get.put(add_Product_Wishlist_Controller());
+  final AddProductWishlistController add_Wishlist_Controller =
+      Get.put(AddProductWishlistController());
 
   final specific_Product_Controller specific_product_controllerontroller =
       Get.put(specific_Product_Controller());
@@ -120,7 +120,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                         SliverToBoxAdapter(
                           child: Column(
                             children: [
-                              // hBox(Get.height / 4),
                               Center(
                                 child: SvgPicture.asset(
                                   ImageConstants.noData,
@@ -153,12 +152,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   onTap: () {
                                     specific_product_controllerontroller
                                         .specific_Product_Api(
-                                            product_id: product.id.toString(),
-                                            category_id: categoryId.toString());
+                                            productId: product.id.toString(),
+                                            categoryId: categoryId.toString());
                                     Get.to(ProductDetailsScreen(
-                                      product_id: product.id.toString(),
-                                      category_id: categoryId.toString(),
-                                      category_name: categoryTitle,
+                                      productId: product.id.toString(),
+                                      categoryId: categoryId.toString(),
+                                      categoryName: categoryTitle,
                                     ));
                                   },
                                   child: Column(
@@ -320,20 +319,20 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           .isNotEmpty)
                         SliverGrid(
                             delegate: SliverChildBuilderDelegate(
-                                childCount: controller.filterProductSearchData.length,
-                                (context, index) {
+                                childCount: controller.filterProductSearchData
+                                    .length, (context, index) {
                               var product =
                                   controller.filterProductSearchData[index];
                               return GestureDetector(
                                   onTap: () {
                                     specific_product_controllerontroller
                                         .specific_Product_Api(
-                                            product_id: product.id.toString(),
-                                            category_id: categoryId.toString());
+                                            productId: product.id.toString(),
+                                            categoryId: categoryId.toString());
                                     Get.to(ProductDetailsScreen(
-                                      product_id: product.id.toString(),
-                                      category_id: categoryId.toString(),
-                                      category_name: categoryTitle,
+                                      productId: product.id.toString(),
+                                      categoryId: categoryId.toString(),
+                                      categoryName: categoryTitle,
                                     ));
                                   },
                                   child: Column(

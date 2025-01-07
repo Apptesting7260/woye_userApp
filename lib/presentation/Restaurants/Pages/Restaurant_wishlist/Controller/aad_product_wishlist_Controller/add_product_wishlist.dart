@@ -3,7 +3,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 
-class add_Product_Wishlist_Controller extends GetxController {
+class AddProductWishlistController extends GetxController {
   final RestaurantCategoriesDetailsController
       restaurantCategoriesDetailsController =
       Get.put(RestaurantCategoriesDetailsController());
@@ -38,6 +38,9 @@ class add_Product_Wishlist_Controller extends GetxController {
         if (categoryId == "") {
           restaurantWishlistController.restaurant_product_wishlist_api();
         }
+        Utils.showToast(add_Wishlist.value.message.toString());
+      } else {
+        Utils.showToast(add_Wishlist.value.message.toString());
       }
     }).onError((error, stackError) {
       setError(error.toString());
