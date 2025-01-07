@@ -114,9 +114,9 @@ class RestaurantHomeFilter extends StatelessWidget {
           "Restaurant",
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
-        hBox(10.h),
+        hBox(5.h),
         SizedBox(
-          height: Get.height / 2.8,
+          height: Get.height / 3.6,
           child: GetBuilder<RestaurantHomeSearchController>(
             init: controller,
             builder: (controller) {
@@ -164,7 +164,7 @@ class RestaurantHomeFilter extends StatelessWidget {
           "Products",
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
-        hBox(10.h),
+        hBox(5.h),
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -179,8 +179,7 @@ class RestaurantHomeFilter extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     Get.to(ProductDetailsScreen(
-                      productId: controller
-                          .searchData.value.products![index].id
+                      productId: controller.searchData.value.products![index].id
                           .toString(),
                       categoryId: controller
                           .searchData.value.products![index].categoryId

@@ -3,6 +3,7 @@ class HomeModel {
   Userdata? userdata;
   List<Category>? category;
   RestaurantsData? restaurants;
+  List<Banner>? banners;
   String? message;
 
   HomeModel({
@@ -10,6 +11,7 @@ class HomeModel {
     this.userdata,
     this.category,
     this.restaurants,
+    this.banners,
     this.message,
   });
 
@@ -25,6 +27,10 @@ class HomeModel {
         restaurants: json["restaurants"] == null
             ? null
             : RestaurantsData.fromJson(json["restaurants"]),
+        banners: json["banners"] == null
+            ? []
+            : List<Banner>.from(
+                json["banners"]!.map((x) => Banner.fromJson(x))),
         message: json["message"],
       );
 
@@ -35,7 +41,54 @@ class HomeModel {
             ? []
             : List<dynamic>.from(category!.map((x) => x.toJson())),
         "restaurants": restaurants?.toJson(),
+        "banners": banners == null
+            ? []
+            : List<dynamic>.from(banners!.map((x) => x.toJson())),
         "message": message,
+      };
+}
+
+class Banner {
+  int? id;
+  String? image;
+  String? parentCategory;
+  int? categoryId;
+  int? status;
+  String? createdAt;
+  String? updatedAt;
+  String? imageUrl;
+
+  Banner({
+    this.id,
+    this.image,
+    this.parentCategory,
+    this.categoryId,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.imageUrl,
+  });
+
+  factory Banner.fromJson(Map<String, dynamic> json) => Banner(
+        id: json["id"],
+        image: json["image"],
+        parentCategory: json["parent_category"],
+        categoryId: json["category_id"],
+        status: json["status"],
+        createdAt: json["created_at"],
+        updatedAt: json["updated_at"],
+        imageUrl: json["image_url"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "image": image,
+        "parent_category": parentCategory,
+        "category_id": categoryId,
+        "status": status,
+        "created_at": createdAt,
+        "updated_at": updatedAt,
+        "image_url": imageUrl,
       };
 }
 

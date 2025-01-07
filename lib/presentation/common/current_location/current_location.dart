@@ -104,16 +104,26 @@ class CurrentLocationController extends GetxController {
       String locality = place.locality ?? '';
       String subAdministrativeArea = place.subAdministrativeArea ?? '';
       String postalCode = place.postalCode ?? '';
-      currentAddress.value =
-          '$houseNumber $street, $subLocality, $locality, $subAdministrativeArea, $postalCode';
+      // currentAddress.value =
+      //     '$houseNumber $street, $subLocality, $locality, $subAdministrativeArea, $postalCode';
+      // Create a list of address components
+      List<String> addressComponents = [];
+
+      if (houseNumber.isNotEmpty) addressComponents.add(houseNumber);
+      if (street.isNotEmpty) addressComponents.add(street);
+      if (subLocality.isNotEmpty) addressComponents.add(subLocality);
+      if (locality.isNotEmpty) addressComponents.add(locality);
+      if (subAdministrativeArea.isNotEmpty)
+        addressComponents.add(subAdministrativeArea);
+      if (postalCode.isNotEmpty) addressComponents.add(postalCode);
+      currentAddress.value = addressComponents.join(', ');
       location.value = "";
       location.value = currentAddress.value.toString();
       print("Latitude: ${position.latitude}, Longitude: ${position.longitude}");
       storage.write('location', location.value);
       storage.write('latitude', position.latitude);
       storage.write('longitude', position.longitude);
-      print("jjjjkk ${currentAddress.value}");
-      print("asdfg ${location.value}");
+      print("Updated Location: ${location.value}");
       if (back == true) {
         Get.back();
       }
@@ -125,7 +135,6 @@ class CurrentLocationController extends GetxController {
 
   Future<void> _getLatLng(Position position) async {
     try {
-      // print("Latitude: ${position.latitude}, Longitude: ${position.longitude}");
       lat.value = position.latitude;
       long.value = position.longitude;
     } catch (e) {

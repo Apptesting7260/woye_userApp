@@ -97,6 +97,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    currentLocationController.getCurrentPosition();
     showLocationDialog();
     return Material(
       child: Column(
@@ -271,71 +272,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-// Future showDeleteAddressDialog({
-//   required String addressId,
-// }) {
-//   return Get.dialog(
-//     AlertDialog.adaptive(
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Text(
-//             'Delete Address', // Updated text
-//             style: TextStyle(
-//               fontSize: 18.sp,
-//               fontWeight: FontWeight.w600,
-//               color: Colors.black,
-//             ),
-//           ),
-//           SizedBox(height: 15.h),
-//           Text(
-//             'Are you sure you want to delete this address?',
-//             // Updated message
-//             style: TextStyle(
-//               fontSize: 14.sp,
-//               fontWeight: FontWeight.w400,
-//               color: Colors.grey,
-//             ),
-//           ),
-//           SizedBox(height: 15.h),
-//           Row(
-//             children: [
-//               Expanded(
-//                 child: CustomElevatedButton(
-//                   height: 40.h,
-//                   color: AppColors.black,
-//                   onPressed: () {
-//                     Get.back();
-//                   },
-//                   text: "Cancel",
-//                   textStyle: AppFontStyle.text_14_400(AppColors.darkText),
-//                 ),
-//               ),
-//               wBox(15),
-//               Obx(
-//                     () => Expanded(
-//                   child: CustomElevatedButton(
-//                     height: 40.h,
-//                     isLoading:
-//                     deleteAddressController.rxRequestStatus.value ==
-//                         (Status.LOADING),
-//                     onPressed: () {
-//                       deleteAddressController.deleteAddressApi(
-//                           addressId: addressId);
-//                     },
-//                     text: "Yes",
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     ),
-//     barrierDismissible: false,
-//   );
-// }
 }
 
 class MainButtonBar extends StatelessWidget {
