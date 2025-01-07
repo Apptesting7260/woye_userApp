@@ -90,16 +90,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             body: RefreshIndicator(
               onRefresh: () async {
                 restaurantHomeController.homeApiRefresh(1);
-                print(restaurantHomeController.homeData.value.userdata?.image
-                    .toString());
               },
               child: Column(
                 children: [
                   HomeScreen(
                     key: homeWidgetKey,
-                    profileImage: restaurantHomeController
-                        .homeData.value.userdata?.image
-                        .toString(),
                   ),
                   Expanded(
                     child: CustomScrollView(

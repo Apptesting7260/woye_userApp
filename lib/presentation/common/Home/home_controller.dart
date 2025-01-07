@@ -3,13 +3,18 @@ import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 class HomeController extends GetxController {
   RxInt mainButtonIndex = 0.obs;
 
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
+
   @override
   void onInit() {
     loadLocationData();
+    getUserDataController.getUserDataApi();
     // TODO: implement onInit
     super.onInit();
   }

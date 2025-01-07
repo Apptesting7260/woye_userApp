@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:woye_user/Data/Model/usermodel.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 import '../../../../Data/userPrefrenceController.dart';
 import '../../Social_login/social_controller.dart';
@@ -17,8 +16,11 @@ class ProfileScreen extends StatelessWidget {
   static final ProfileController restaurantProfileController =
       Get.put(ProfileController());
 
-  final RestaurantHomeController restaurantHomeController =
-      Get.put(RestaurantHomeController());
+  // final RestaurantHomeController restaurantHomeController =
+  //     Get.put(RestaurantHomeController());
+
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
@@ -80,7 +82,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.center,
-            child: restaurantHomeController.homeData.value.userdata?.image
+            child: getUserDataController.userData.value.user?.imageUrl
                         .toString() !=
                     null
                 ? Obx(
@@ -93,8 +95,8 @@ class ProfileScreen extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(100.r),
                             child: CachedNetworkImage(
-                              imageUrl: restaurantHomeController
-                                  .homeData.value.userdata!.image
+                              imageUrl: getUserDataController
+                                  .userData.value.user!.imageUrl
                                   .toString(),
                               placeholder: (context, url) =>
                                   circularProgressIndicator(),
@@ -124,22 +126,19 @@ class ProfileScreen extends StatelessWidget {
                             )))),
           ),
           wBox(15),
-          restaurantHomeController.homeData.value.userdata?.type != "guestUser"
+          getUserDataController.userData.value.user?.userType != "guestUser"
               ? Obx(
                   () => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        restaurantHomeController
-                                .homeData.value.userdata?.firstName ??
+                        getUserDataController.userData.value.user?.firstName ??
                             "",
                         style: AppFontStyle.text_18_600(AppColors.darkText),
                       ),
                       hBox(10),
                       Text(
-                        restaurantHomeController
-                                .homeData.value.userdata?.email ??
-                            "",
+                        getUserDataController.userData.value.user?.email ?? "",
                         style: AppFontStyle.text_14_400(AppColors.darkText),
                       ),
                     ],
@@ -165,7 +164,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -191,7 +190,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -212,11 +211,12 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
-          Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {'type': "Profile"});
+          Get.toNamed(AppRoutes.deliveryAddressScreen,
+              arguments: {'type': "Profile"});
         }
       },
     );
@@ -233,7 +233,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -254,7 +254,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -275,7 +275,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -296,7 +296,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -317,7 +317,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -338,7 +338,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {

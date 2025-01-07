@@ -1,6 +1,5 @@
 class HomeModel {
   bool? status;
-  Userdata? userdata;
   List<Category>? category;
   RestaurantsData? restaurants;
   List<Banner>? banners;
@@ -8,7 +7,6 @@ class HomeModel {
 
   HomeModel({
     this.status,
-    this.userdata,
     this.category,
     this.restaurants,
     this.banners,
@@ -17,9 +15,6 @@ class HomeModel {
 
   factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
         status: json["status"],
-        userdata: json["userdata"] == null
-            ? null
-            : Userdata.fromJson(json["userdata"]),
         category: json["category"] == null
             ? []
             : List<Category>.from(
@@ -36,7 +31,7 @@ class HomeModel {
 
   Map<String, dynamic> toJson() => {
         "status": status,
-        "userdata": userdata?.toJson(),
+        // "userdata": userdata?.toJson(),
         "category": category == null
             ? []
             : List<dynamic>.from(category!.map((x) => x.toJson())),
@@ -239,42 +234,3 @@ class RestaurantsData {
       };
 }
 
-class Userdata {
-  String? id;
-  String? firstName;
-  String? phone;
-  String? fcmToken;
-  String? image;
-  String? email;
-  String? type;
-
-  Userdata({
-    this.id,
-    this.firstName,
-    this.phone,
-    this.fcmToken,
-    this.image,
-    this.email,
-    this.type,
-  });
-
-  factory Userdata.fromJson(Map<String, dynamic> json) => Userdata(
-        id: json["id"].toString(),
-        firstName: json["first_name"].toString(),
-        phone: json["phone"].toString(),
-        fcmToken: json["fcm_token"].toString(),
-        image: json["image_url"].toString(),
-        email: json["email"].toString(),
-        type: json["user_type"].toString(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "first_name": firstName,
-        "phone": phone,
-        "fcm_token": fcmToken,
-        "image_url": image,
-        "email": email,
-        "user_type": type,
-      };
-}

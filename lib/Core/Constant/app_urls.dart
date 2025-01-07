@@ -13,6 +13,8 @@ class AppUrls {
 
   static const String getProfile = "$baseUrl/get-profile";
   static const String updateProfile = "$baseUrl/update-profile";
+  static const String getUserData = "$baseUrl/user-profile";
+
 
   // static const String updateStatus = "$baseUrl/update-status";
 

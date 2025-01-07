@@ -30,6 +30,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/wall
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/get_user_data/user_data_modal.dart';
 
 class Repository {
   final _apiService = NetworkApiServices();
@@ -78,6 +79,12 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.updateProfile, token);
     return UpdateprofileModel.fromJson(response);
+  }
+
+  Future<dynamic> getUserDataApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getUserData, token);
+    return UserResponse.fromJson(response);
   }
 
   /* ------------------------------------------------ User Address ----------------------------------------------------*/

@@ -7,10 +7,10 @@ import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:woye_user/Data/userPrefrenceController.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 class SignUpForm_editProfileController extends GetxController {
   String typeFrom = "";
@@ -195,8 +195,11 @@ class SignUpForm_editProfileController extends GetxController {
     }
   }
 
-  final RestaurantHomeController restaurantHomeController =
-      Get.put(RestaurantHomeController());
+  // final RestaurantHomeController restaurantHomeController =
+  //     Get.put(RestaurantHomeController());
+
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
   imageUploadApi() async {
     var uri = Uri.parse(AppUrls.updateProfile);
@@ -224,7 +227,7 @@ class SignUpForm_editProfileController extends GetxController {
         upprofileSet(profileData);
         if (updateprofileData.value.status == true) {
           if (typeFrom == "back") {
-            restaurantHomeController.homeApi(1);
+            getUserDataController.getUserDataApi();
           }
           Utils.showToast("Your profile image has been updated.");
         }
@@ -262,7 +265,7 @@ class SignUpForm_editProfileController extends GetxController {
       upprofileSet(value);
       if (updateprofileData.value.status == true) {
         if (type == "back") {
-          restaurantHomeController.homeApi(1);
+          getUserDataController.getUserDataApi();
           Utils.showToast("Your profile has been updated.");
           Get.back();
           setRxRequestStatus(Status.COMPLETED);

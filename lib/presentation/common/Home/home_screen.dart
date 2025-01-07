@@ -2,17 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/current_location/current_location.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 import '../../../shared/widgets/CircularProgressIndicator.dart';
 
 class HomeScreen extends StatelessWidget {
-  final String? profileImage;
-
-  HomeScreen({super.key, this.profileImage});
+  HomeScreen({super.key});
 
   final HomeController homeController = Get.put(HomeController());
   final CurrentLocationController currentLocationController =
       Get.put(CurrentLocationController());
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
   void showLocationDialog() {
     if (homeController.location.value.isEmpty) {
@@ -107,53 +108,52 @@ class HomeScreen extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Image.asset(
-                //   ImageConstants.profileImage,
-                //   height: 50.h,
-                //   width: 50.h,
-                // ),
-                profileImage?.isEmpty ?? true
-                    ? Container(
-                        width: 50.h,
-                        height: 50.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        child: CircleAvatar(
-                          backgroundColor:
-                              AppColors.greyBackground.withOpacity(0.5),
-
-                          // radius: 20.h,
-                          child: Icon(
-                            Icons.person,
-                            size: 30.h,
-                            color: AppColors.lightText.withOpacity(0.5),
+                Obx(() {
+                  return getUserDataController
+                              .userData.value.user?.imageUrl?.isEmpty ??
+                          true
+                      ? Container(
+                          width: 50.h,
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100.r),
+                            border: Border.all(color: Colors.transparent),
                           ),
-                        ),
-                      )
-                    : Container(
-                        width: 50.h,
-                        height: 50.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.r),
-                          child: CachedNetworkImage(
-                            imageUrl: profileImage.toString(),
-                            placeholder: (context, url) =>
-                                circularProgressIndicator(),
-                            errorWidget: (context, url, error) => Icon(
+                          child: CircleAvatar(
+                            backgroundColor:
+                                AppColors.greyBackground.withOpacity(0.5),
+                            child: Icon(
                               Icons.person,
-                              size: 40.h,
+                              size: 30.h,
                               color: AppColors.lightText.withOpacity(0.5),
                             ),
-                            fit: BoxFit.cover,
                           ),
-                        ),
-                      ),
+                        )
+                      : Container(
+                          width: 50.h,
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100.r),
+                            border: Border.all(color: Colors.transparent),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.r),
+                            child: CachedNetworkImage(
+                              imageUrl: getUserDataController
+                                  .userData.value.user!.imageUrl
+                                  .toString(),
+                              placeholder: (context, url) =>
+                                  circularProgressIndicator(),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.person,
+                                size: 40.h,
+                                color: AppColors.lightText.withOpacity(0.5),
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                }),
                 GestureDetector(
                   onTap: () {
                     showLocationDialog();
