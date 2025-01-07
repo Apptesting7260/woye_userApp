@@ -30,6 +30,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.783589739636-t4jbmbbdh1jbhqp0bo9tf2ptidnd77tt</string>
+				<string>fb913233077572874</string>
 			</array>
 		</dict>
 	</array>
@@ -41,6 +42,11 @@
 	<string>d0e208e709e5ff1064bc36d22470f809</string>
 	<key>FacebookDisplayName</key>
 	<string>Woye</string>
+	<key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
