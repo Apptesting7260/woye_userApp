@@ -335,10 +335,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     specific_product_controllerontroller.specific_Product_Api(
-                      product_id: controller
+                      productId: controller
                           .restaurant_Data.value.moreProducts![index].id
                           .toString(),
-                      category_id: controller
+                      categoryId: controller
                           .restaurant_Data.value.moreProducts![index].categoryId
                           .toString(),
                     );

@@ -106,6 +106,7 @@ class CurrentLocationController extends GetxController {
       String postalCode = place.postalCode ?? '';
       currentAddress.value =
           '$houseNumber $street, $subLocality, $locality, $subAdministrativeArea, $postalCode';
+      location.value = "";
       location.value = currentAddress.value.toString();
       print("Latitude: ${position.latitude}, Longitude: ${position.longitude}");
       storage.write('location', location.value);

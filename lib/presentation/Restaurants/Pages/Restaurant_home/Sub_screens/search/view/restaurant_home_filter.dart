@@ -191,10 +191,10 @@ class RestaurantHomeFilter extends StatelessWidget {
                     ));
 
                     specificProductController.specific_Product_Api(
-                        product_id: controller
+                        productId: controller
                             .searchData.value.products![index].id
                             .toString(),
-                        category_id: controller
+                        categoryId: controller
                             .searchData.value.products![index].categoryId
                             .toString());
                   },

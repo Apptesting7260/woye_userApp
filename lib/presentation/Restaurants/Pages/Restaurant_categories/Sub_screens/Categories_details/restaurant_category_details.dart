@@ -120,7 +120,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                         SliverToBoxAdapter(
                           child: Column(
                             children: [
-                              // hBox(Get.height / 4),
                               Center(
                                 child: SvgPicture.asset(
                                   ImageConstants.noData,
@@ -153,8 +152,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   onTap: () {
                                     specific_product_controllerontroller
                                         .specific_Product_Api(
-                                            product_id: product.id.toString(),
-                                            category_id: categoryId.toString());
+                                            productId: product.id.toString(),
+                                            categoryId: categoryId.toString());
                                     Get.to(ProductDetailsScreen(
                                       productId: product.id.toString(),
                                       categoryId: categoryId.toString(),
@@ -328,8 +327,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   onTap: () {
                                     specific_product_controllerontroller
                                         .specific_Product_Api(
-                                            product_id: product.id.toString(),
-                                            category_id: categoryId.toString());
+                                            productId: product.id.toString(),
+                                            categoryId: categoryId.toString());
                                     Get.to(ProductDetailsScreen(
                                       productId: product.id.toString(),
                                       categoryId: categoryId.toString(),

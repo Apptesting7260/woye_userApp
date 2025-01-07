@@ -60,6 +60,7 @@ class Restaurant {
   int? countryId;
   int? stateId;
   int? cityId;
+
   // List<String>? categoryId;
   String? opensAt;
   String? closesAt;
@@ -121,8 +122,6 @@ class Restaurant {
     shopimage = json['shopimage'];
     shopAddress = json['shop_address'];
     shopDes = json['shop_des'];
-
-    // Mapping the list of opening hours
     if (json['opening_hours'] != null) {
       openingHours = [];
       json['opening_hours'].forEach((v) {
@@ -217,11 +216,11 @@ class MoreProducts {
   int? salePrice;
   String? regularPrice;
   String? title;
-  String? addimg;
   int? userId;
   bool? isInWishlist;
   String? restoName;
-  List<String>? urlAddimg;
+
+  // List<String>? urlAddimg;
   String? urlImage;
   int? categoryId;
   String? categoryName;
@@ -234,11 +233,10 @@ class MoreProducts {
     this.salePrice,
     this.regularPrice,
     this.title,
-    this.addimg,
     this.userId,
     this.isInWishlist,
     this.restoName,
-    this.urlAddimg,
+    // this.urlAddimg,
     this.urlImage,
     this.categoryId,
     this.categoryName,
@@ -251,11 +249,10 @@ class MoreProducts {
     salePrice = json['sale_price'];
     regularPrice = json['regular_price'];
     title = json['title'];
-    addimg = json['addimg'];
     userId = json['user_id'];
     isInWishlist = json['is_in_wishlist'];
     restoName = json['resto_name'];
-    urlAddimg = json['url_addimg'].cast<String>();
+    // urlAddimg = json['url_addimg'].cast<String>();
     urlImage = json['url_image'];
 
     // Assign values to the new keys
@@ -271,11 +268,10 @@ class MoreProducts {
     data['sale_price'] = this.salePrice;
     data['regular_price'] = this.regularPrice;
     data['title'] = this.title;
-    data['addimg'] = this.addimg;
     data['user_id'] = this.userId;
     data['is_in_wishlist'] = this.isInWishlist;
     data['resto_name'] = this.restoName;
-    data['url_addimg'] = this.urlAddimg;
+    // data['url_addimg'] = this.urlAddimg;
     data['url_image'] = this.urlImage;
     data['category_id'] = this.categoryId;
     data['category_name'] = this.categoryName;

@@ -144,11 +144,11 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                         ));
                                         specific_product_controller
                                             .specific_Product_Api(
-                                          product_id: product.id.toString(),
-                                          category_id:
+                                          productId: product.id.toString(),
+                                          categoryId:
                                               product.categoryId.toString(),
                                         );
-                                      },
+                           },
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,

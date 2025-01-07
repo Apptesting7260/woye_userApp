@@ -724,25 +724,20 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                       ),
                     ],
                   ),
-                  hBox(10),
+                  hBox(10.h),
                   if (controller.cartData.value.cart!.decodedAttribute![index]
-                      .addonName!.isNotEmpty)
+                      .addons!.isNotEmpty)
                     Wrap(
                       children: List.generate(
-                        (controller
-                                    .cartData
-                                    .value
-                                    .cart!
-                                    .decodedAttribute![index]
-                                    .addonName!
-                                    .length /
+                        (controller.cartData.value.cart!
+                                    .decodedAttribute![index].addons!.length /
                                 2)
                             .ceil(),
                         (rowIndex) {
                           int firstItemIndex = rowIndex * 2;
                           int secondItemIndex = firstItemIndex + 1;
+
                           return Row(
-                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(right: 8.0),
@@ -756,25 +751,39 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                           color: Colors.white,
                                         ),
                                       )
-                                    : Text(
-                                        controller
-                                            .cartData
-                                            .value
-                                            .cart!
-                                            .decodedAttribute![index]
-                                            .addonName![firstItemIndex],
-                                        style: AppFontStyle.text_12_400(
-                                            AppColors.lightText),
+                                    : Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            width: Get.width * 0.16,
+                                            child: Text(
+                                              '${controller.cartData.value.cart!.decodedAttribute![index].addons![firstItemIndex].name}',
+                                              style: AppFontStyle.text_12_400(
+                                                  AppColors.lightText),
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          Text(
+                                            ' - ',
+                                            style: AppFontStyle.text_12_400(
+                                                AppColors.lightText),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          Text(
+                                            '${controller.cartData.value.cart!.decodedAttribute![index].addons![firstItemIndex].price}',
+                                            style: AppFontStyle.text_12_400(
+                                                AppColors.lightText),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ],
                                       ),
                               ),
                               if (secondItemIndex <
-                                  controller
-                                      .cartData
-                                      .value
-                                      .cart!
-                                      .decodedAttribute![index]
-                                      .addonName!
-                                      .length)
+                                  controller.cartData.value.cart!
+                                      .decodedAttribute![index].addons!.length)
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: isLoading
@@ -787,15 +796,36 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                             color: Colors.white,
                                           ),
                                         )
-                                      : Text(
-                                          controller
-                                              .cartData
-                                              .value
-                                              .cart!
-                                              .decodedAttribute![index]
-                                              .addonName![secondItemIndex],
-                                          style: AppFontStyle.text_12_400(
-                                              AppColors.lightText),
+                                      : Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              width: Get.width * 0.16,
+                                              child: Text(
+                                                '${controller.cartData.value.cart!.decodedAttribute![index].addons![secondItemIndex].name}',
+                                                style: AppFontStyle.text_12_400(
+                                                    AppColors.lightText),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            Text(
+                                              ' - ',
+                                              style: AppFontStyle.text_12_400(
+                                                  AppColors.lightText),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines:
+                                                  1, // Allow name to wrap into two lines if needed
+                                            ),
+                                            Text(
+                                              '${controller.cartData.value.cart!.decodedAttribute![index].addons![secondItemIndex].price}',
+                                              style: AppFontStyle.text_12_400(
+                                                  AppColors.lightText),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines:
+                                                  1, // Allow name to wrap into two lines if needed
+                                            ),
+                                          ],
                                         ),
                                 ),
                             ],
@@ -803,7 +833,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         },
                       ),
                     ),
-                  hBox(10),
+                  hBox(10.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -988,7 +1018,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                             ),
                     ],
                   ),
-                  hBox(5),
+                  hBox(5.h),
                 ],
               ),
             ),
