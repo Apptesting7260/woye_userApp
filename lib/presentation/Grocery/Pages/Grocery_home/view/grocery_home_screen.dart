@@ -17,39 +17,41 @@ class GroceryHomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          HomeScreen(),
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverPadding(
-                  padding: REdgeInsets.symmetric(
-                    horizontal: 24,
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            HomeScreen(),
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: REdgeInsets.symmetric(
+                      horizontal: 24.h,
+                    ),
+                    sliver: serchAndFilter(),
                   ),
-                  sliver: serchAndFilter(),
-                ),
-                SliverPadding(
-                    padding: REdgeInsets.symmetric(horizontal: 24),
-                    sliver: SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          mainBanner(),
-                          hBox(20),
-                          catergories(),
-                          hBox(20),
-                          mostPopular(),
-                          hBox(20),
-                          moreProduct(),
-                          hBox(80)
-                        ],
-                      ),
-                    ))
-              ],
+                  SliverPadding(
+                      padding: REdgeInsets.symmetric(horizontal: 24),
+                      sliver: SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            mainBanner(),
+                            hBox(20),
+                            catergories(),
+                            hBox(20),
+                            mostPopular(),
+                            hBox(20),
+                            moreProduct(),
+                            hBox(80)
+                          ],
+                        ),
+                      ))
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
