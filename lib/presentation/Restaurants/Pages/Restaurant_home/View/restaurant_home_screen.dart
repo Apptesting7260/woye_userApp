@@ -88,48 +88,50 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             );
           }
         case Status.COMPLETED:
-          return Scaffold(
-            body: RefreshIndicator(
-              onRefresh: () async {
-                restaurantHomeController.homeApiRefresh(1);
-              },
-              child: Column(
-                children: [
-                  HomeScreen(
-                    key: homeWidgetKey,
-                  ),
-                  Expanded(
-                    child: CustomScrollView(
-                      controller: _scrollController,
-                      slivers: [
-                        SliverPadding(
-                          padding: REdgeInsets.symmetric(
-                            horizontal: 24.h,
-                          ),
-                          sliver: serchAndFilter(),
-                        ),
-                        SliverPadding(
-                            padding: REdgeInsets.symmetric(horizontal: 0),
-                            sliver: SliverToBoxAdapter(
-                              child: Column(
-                                children: [
-                                  if (restaurantHomeController
-                                      .homeData.value.banners!.isNotEmpty)
-                                    mainBanner(),
-                                  if (restaurantHomeController
-                                      .homeData.value.banners!.isNotEmpty)
-                                    hBox(20),
-                                  catergories(),
-                                  hBox(20),
-                                  popularRestaurant(),
-                                  hBox(100)
-                                ],
-                              ),
-                            ))
-                      ],
+          return SafeArea(
+            child: Scaffold(
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  restaurantHomeController.homeApiRefresh(1);
+                },
+                child: Column(
+                  children: [
+                    HomeScreen(
+                      key: homeWidgetKey,
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: CustomScrollView(
+                        controller: _scrollController,
+                        slivers: [
+                          SliverPadding(
+                            padding: REdgeInsets.symmetric(
+                              horizontal: 24.h,
+                            ),
+                            sliver: serchAndFilter(),
+                          ),
+                          SliverPadding(
+                              padding: REdgeInsets.symmetric(horizontal: 0),
+                              sliver: SliverToBoxAdapter(
+                                child: Column(
+                                  children: [
+                                    if (restaurantHomeController
+                                        .homeData.value.banners!.isNotEmpty)
+                                      mainBanner(),
+                                    if (restaurantHomeController
+                                        .homeData.value.banners!.isNotEmpty)
+                                      hBox(20),
+                                    catergories(),
+                                    hBox(20),
+                                    popularRestaurant(),
+                                    hBox(100)
+                                  ],
+                                ),
+                              ))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

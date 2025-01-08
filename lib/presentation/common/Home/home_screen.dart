@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: REdgeInsets.only(left: 24, top: 30, right: 24, bottom: 20),
+            padding: REdgeInsets.only(left: 24.h, top: 10.h, right: 24.h, bottom: 20.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
