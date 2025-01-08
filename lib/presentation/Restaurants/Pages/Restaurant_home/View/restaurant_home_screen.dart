@@ -8,6 +8,8 @@ import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/view/all_restaurant.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/banner_details_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/home_banner_data.dart';
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../shared/widgets/CircularProgressIndicator.dart';
@@ -179,6 +181,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     );
   }
 
+  final BannerDetailsController bannerDetailsController =
+      Get.put(BannerDetailsController());
+
   Widget mainBanner() {
     return Obx(() {
       final banners = restaurantHomeController.homeData.value.banners;
@@ -198,7 +203,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
         itemBuilder: (context, index, realIndex) {
           final banner = banners[index];
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              bannerDetailsController.bannerDataApi(
+                  bannerId: banners[index].id.toString());
+              Get.to(RestaurantHomeBanner(
+                bannerID: banners[index].id.toString(),
+              ));
+            },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: CachedNetworkImage(

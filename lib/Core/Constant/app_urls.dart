@@ -1,5 +1,6 @@
 class AppUrls {
   static const String baseUrl = "https://nbttech.xyz/woy/api";
+
   // static const String baseUrl = "https://urlsdemo.online/woy/api";
 
   /* ---------------- Authentication -----------------------------------------  */
@@ -14,7 +15,6 @@ class AppUrls {
   static const String getProfile = "$baseUrl/get-profile";
   static const String updateProfile = "$baseUrl/update-profile";
   static const String getUserData = "$baseUrl/user-profile";
-
 
   // static const String updateStatus = "$baseUrl/update-status";
 
@@ -36,9 +36,9 @@ class AppUrls {
   static const String allRestaurant = "$baseUrl/all-restaurant";
   static const String restaurantCategoryDetails = "$baseUrl/category-product";
   static const String specificRestaurant = "$baseUrl/specific-restaurant";
+  static const String restaurantBannersData = "$baseUrl/banners-data";
   static const String specificProduct = "$baseUrl/specific-product";
-  static const String addProductWishlist =
-      "$baseUrl/product-wishlist";
+  static const String addProductWishlist = "$baseUrl/product-wishlist";
   static const String restaurantProductWishlist =
       "$baseUrl/all-product-wishlist";
   static const String getCategoriesFilter = "$baseUrl/inner-search-data";

@@ -18,6 +18,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/modal/see_all_review_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/modal/singal_restaurant_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/banner_details_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/modal/homesearchmodal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
@@ -115,6 +116,7 @@ class Repository {
         await _apiService.postApi(data, AppUrls.deleteAddress, token);
     return DeleteAddressModal.fromJson(response);
   }
+
   /* ------------------------------------------------ User Wallet ----------------------------------------------------*/
   Future<dynamic> userWalletApi() async {
     await initializeUser();
@@ -136,6 +138,13 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.allRestaurant, token);
     return all_restaurant_modal.fromJson(response);
+  }
+
+  Future<dynamic> restaurantBannerApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.restaurantBannersData, token);
+    return BannerModal.fromJson(response);
   }
 
   Future<dynamic> restaurant_Categories_Api() async {
@@ -170,8 +179,8 @@ class Repository {
     var data,
   ) async {
     await initializeUser();
-    dynamic response = await _apiService.postApi(
-        data, AppUrls.addProductWishlist, token);
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.addProductWishlist, token);
     return restaurant_add_product_wishlist_modal.fromJson(response);
   }
 
@@ -243,12 +252,14 @@ class Repository {
         await _apiService.postApi(data, AppUrls.deleteProduct, token);
     return DeleteProductModal.fromJson(response);
   }
+
   Future<dynamic> applyCouponsApi(var data) async {
     await initializeUser();
     dynamic response =
         await _apiService.postApi(data, AppUrls.applyCoupons, token);
     return ApplyCouponModal.fromJson(response);
   }
+
   Future<dynamic> checkedUncheckedApi(var data) async {
     await initializeUser();
     dynamic response =

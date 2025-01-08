@@ -499,7 +499,6 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(50.r),
-                                      border: Border.all(width: 0.8.w),
                                     ),
                                   ),
                                 )
@@ -584,7 +583,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                                     }
                                                   } else {
                                                     Utils.showToast(
-                                                        "First select product");
+                                                        "First select product",
+                                                        gravity: ToastGravity
+                                                            .CENTER);
                                                   }
                                                 },
                                                 child: Icon(
@@ -997,12 +998,14 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           "Payment Details",
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
-        hBox(20.h),
+        hBox(10.h),
         if (isLoading) ...[
           shimmerItem("Regular Price"),
           shimmerItem("Save Amount"),
-          shimmerItem("Coupon Discount"),
-          shimmerItem("Delivery Charge"),
+          if (controller.cartData.value.cart!.couponApplied != null)
+            shimmerItem("Coupon Discount"),
+          if (controller.cartData.value.addressExists == true)
+            shimmerItem("Delivery Charge"),
         ],
         if (!isLoading) ...[
           Row(
