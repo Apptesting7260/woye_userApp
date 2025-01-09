@@ -435,6 +435,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               ),
               child: CachedNetworkImage(
                 imageUrl: image.toString(),
+                fit: BoxFit.fill,
+                width: double.maxFinite,
                 height: 220.h,
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: AppColors.gray,
