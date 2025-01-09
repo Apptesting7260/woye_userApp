@@ -77,6 +77,8 @@ dependencies:
   geolocator: ^13.0.2
   get_storage: ^2.1.1
   carousel_slider:
+  colorful_safe_area: ^1.0.0
+
 #  sms_autofill: ^2.0.0
 
 

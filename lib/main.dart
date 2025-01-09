@@ -4,6 +4,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'dart:io';
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 
 import 'firebase_options.dart';
 
@@ -35,19 +37,12 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  UserModel userModel = UserModel();
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarColor: Colors.red,
-        statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.light));
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -78,6 +73,31 @@ class MyApp extends StatelessWidget {
               fontFamily: "Gilroy"),
           getPages: AppRoutes.pages,
           initialRoute: AppRoutes.initalRoute,
+          builder: (context, child) {
+            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+              value: const SystemUiOverlayStyle(
+                  statusBarColor: Colors.white,
+                  statusBarIconBrightness: Brightness.dark,
+                  systemNavigationBarColor: Colors.transparent,
+                  statusBarBrightness: Brightness.light),
+              child: ColorfulSafeArea(
+                topColor: AppColors.white,
+                // bottomColor: AppColor.whiteColor,
+                minimum: const EdgeInsets.only(
+                  bottom: 0,
+                ),
+                maintainBottomViewPadding: true,
+                top: true,
+                bottom: false,
+                child: Scaffold(
+                  extendBodyBehindAppBar: true,
+                  extendBody: true,
+                  body: child,
+                ),
+              ),
+            );
+          },
         );
       },
     );
