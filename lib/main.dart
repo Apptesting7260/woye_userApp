@@ -37,12 +37,17 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
+  var topColor = (Colors.black).obs;
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    Future.delayed(Duration(milliseconds: 2500),() {
+      topColor.value = Colors.white;
+    },);
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -81,8 +86,8 @@ class MyApp extends StatelessWidget {
                   statusBarIconBrightness: Brightness.dark,
                   systemNavigationBarColor: Colors.transparent,
                   statusBarBrightness: Brightness.light),
-              child: ColorfulSafeArea(
-                topColor: AppColors.white,
+              child: Obx(() => ColorfulSafeArea(
+                topColor: topColor.value,
                 // bottomColor: AppColor.whiteColor,
                 minimum: const EdgeInsets.only(
                   bottom: 0,
@@ -95,7 +100,7 @@ class MyApp extends StatelessWidget {
                   extendBody: true,
                   body: child,
                 ),
-              ),
+              ),)
             );
           },
         );
