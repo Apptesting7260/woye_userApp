@@ -182,6 +182,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         product.urlImage.toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
+                                                    width: double.maxFinite,
                                                     errorWidget:
                                                         (context, url, error) =>
                                                             const Icon(Icons.error),
@@ -247,7 +248,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               )
                                             ],
                                           ),
-                                          hBox(10),
+                                          hBox(10.h),
                                           Row(
                                             children: [
                                               Text(
@@ -256,7 +257,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 style: AppFontStyle.text_16_600(
                                                     AppColors.primary),
                                               ),
-                                              wBox(5),
+                                              wBox(5.h),
                                               Text(
                                                 "\$${product.regularPrice}",
                                                 overflow: TextOverflow.ellipsis,
@@ -314,7 +315,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio: 0.6.h,
+                                  childAspectRatio: 0.6.w,
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
                                 ))),
@@ -494,7 +495,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   mainAxisSpacing: 5.h,
                                 ))),
                           SliverToBoxAdapter(
-                            child: hBox(50),
+                            child: hBox(0.h),
                           )
                         ],
                       ),
