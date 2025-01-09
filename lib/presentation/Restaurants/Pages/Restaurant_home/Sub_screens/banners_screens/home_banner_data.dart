@@ -32,10 +32,10 @@ class RestaurantHomeBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          title: Text(
-            "Filter",
-            style: AppFontStyle.text_22_600(AppColors.darkText),
-          ),
+          // title: Text(
+          //   "Filter",
+          //   style: AppFontStyle.text_22_600(AppColors.darkText),
+          // ),
         ),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
@@ -76,6 +76,7 @@ class RestaurantHomeBanner extends StatelessWidget {
                           if (controller
                               .bannerData.value.restaurants!.isNotEmpty)
                             restaurant(),
+                          hBox(10.h),
                         ],
                       ),
                     ),
@@ -89,13 +90,6 @@ class RestaurantHomeBanner extends StatelessWidget {
   Widget bannerView() {
     final banners = controller.bannerData.value.currentBanner;
     return GestureDetector(
-      // onTap: () {
-      //   bannerDetailsController.bannerDataApi(
-      //       bannerId: banners[index].id.toString());
-      //   Get.to(RestaurantHomeBanner(
-      //     bannerID: banners[index].id.toString(),
-      //   ));
-      // },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.r),
         child: CachedNetworkImage(
@@ -124,77 +118,73 @@ class RestaurantHomeBanner extends StatelessWidget {
 
   Widget categories() {
     final banners = controller.bannerData.value.category;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 0.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Categories",
-            style: AppFontStyle.text_24_600(AppColors.darkText),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Categories",
+          style: AppFontStyle.text_24_600(AppColors.darkText),
+        ),
+        hBox(20.h),
+        GridView.builder(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: banners!.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10.w,
+            mainAxisSpacing: 10.h,
+            childAspectRatio: 1.1,
           ),
-          hBox(20.h),
-          // GridView implementation
-          GridView.builder(
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: banners!.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10.w,
-              mainAxisSpacing: 10.h,
-              childAspectRatio: 1.1,
-            ),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  Get.toNamed(AppRoutes.restaurantCategoriesDetails,
-                      arguments: {
-                        'name': banners[index].name.toString(),
-                        'id': int.parse(banners[index].id.toString()),
-                      });
-                  restaurantCategoriesDeatilsController
-                      .restaurant_Categories_Details_Api(
-                    id: banners[index].name.toString(),
-                  );
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(50.r),
-                      child: CachedNetworkImage(
-                        imageUrl: banners[index].imageUrl.toString(),
-                        fit: BoxFit.cover,
-                        height: 100.h,
-                        width: 100.h,
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: AppColors.gray,
-                          highlightColor: AppColors.lightText,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.gray,
-                              borderRadius: BorderRadius.circular(100),
-                            ),
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.restaurantCategoriesDetails,
+                    arguments: {
+                      'name': banners[index].name.toString(),
+                      'id': int.parse(banners[index].id.toString()),
+                    });
+                restaurantCategoriesDeatilsController
+                    .restaurant_Categories_Details_Api(
+                  id: banners[index].id.toString(),
+                );
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(50.r),
+                    child: CachedNetworkImage(
+                      imageUrl: banners[index].imageUrl.toString(),
+                      fit: BoxFit.cover,
+                      height: 100.h,
+                      width: 100.h,
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: AppColors.gray,
+                        highlightColor: AppColors.lightText,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColors.gray,
+                            borderRadius: BorderRadius.circular(100),
                           ),
                         ),
                       ),
                     ),
-                    hBox(15),
-                    Text(
-                      banners[index].name.toString(),
-                      style: AppFontStyle.text_16_400(AppColors.darkText),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+                  ),
+                  hBox(15),
+                  Text(
+                    banners[index].name.toString(),
+                    style: AppFontStyle.text_16_400(AppColors.darkText),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 
@@ -260,42 +250,40 @@ class RestaurantHomeBanner extends StatelessWidget {
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
         hBox(5.h),
-        SizedBox(
-          height: Get.height / 3.6,
-          child: GetBuilder<BannerDetailsController>(
-            init: controller,
-            builder: (controller) {
-              return Obx(() {
-                final restaurants = controller.bannerData.value.restaurants;
-                return ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: restaurants?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final restaurant = restaurants?[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                          Restaurantid: restaurant!.id.toString(),
-                        ));
-                        restaurantDeatilsController.restaurant_Details_Api(
-                          id: restaurant.id.toString(),
-                        );
-                      },
-                      child: restaurantList(
-                        index: index,
-                        image: restaurant?.shopimage,
-                        title: restaurant?.shopName,
-                        rating: restaurant?.rating,
-                        price: restaurant?.avgPrice,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => wBox(20),
-                );
-              });
-            },
-          ),
+        GetBuilder<BannerDetailsController>(
+          init: controller,
+          builder: (controller) {
+            return Obx(() {
+              final restaurants = controller.bannerData.value.restaurants;
+              return ListView.separated(
+                scrollDirection: Axis.vertical,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: restaurants?.length ?? 0,
+                itemBuilder: (context, index) {
+                  final restaurant = restaurants?[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Get.to(RestaurantDetailsScreen(
+                        Restaurantid: restaurant!.id.toString(),
+                      ));
+                      restaurantDeatilsController.restaurant_Details_Api(
+                        id: restaurant.id.toString(),
+                      );
+                    },
+                    child: restaurantList(
+                      index: index,
+                      image: restaurant?.shopimage,
+                      title: restaurant?.shopName,
+                      rating: restaurant?.rating,
+                      price: restaurant?.avgPrice,
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) => hBox(10.h),
+              );
+            });
+          },
         ),
       ],
     );
@@ -316,9 +304,9 @@ class RestaurantHomeBanner extends StatelessWidget {
               ),
               child: CachedNetworkImage(
                 imageUrl: image.toString(),
-                // height: 220.h,
-                height: 150.h,
-                width: 70.w,
+                height: 220.h,
+                // height: 150.h,
+                // width: 70.w,
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: AppColors.gray,
                   highlightColor: AppColors.lightText,
@@ -331,30 +319,30 @@ class RestaurantHomeBanner extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              child: Center(
-                child: CachedNetworkImage(
-                  imageUrl: image.toString(),
-                  fit: BoxFit.cover,
-                  height: 160.h,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: AppColors.gray,
-                    highlightColor: AppColors.lightText,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.gray,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Container(
+            //   clipBehavior: Clip.antiAlias,
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(20.r),
+            //   ),
+            //   child: Center(
+            //     child: CachedNetworkImage(
+            //       imageUrl: image.toString(),
+            //       fit: BoxFit.cover,
+            //       height: 160.h,
+            //       errorWidget: (context, url, error) => const Icon(Icons.error),
+            //       placeholder: (context, url) => Shimmer.fromColors(
+            //         baseColor: AppColors.gray,
+            //         highlightColor: AppColors.lightText,
+            //         child: Container(
+            //           decoration: BoxDecoration(
+            //             color: AppColors.gray,
+            //             borderRadius: BorderRadius.circular(20.r),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             // GestureDetector(
             //   onTap: () {},
             //   child: Container(
@@ -381,7 +369,7 @@ class RestaurantHomeBanner extends StatelessWidget {
             // )
           ],
         ),
-        hBox(10),
+        hBox(10.h),
         Text(
           title,
           textAlign: TextAlign.left,
