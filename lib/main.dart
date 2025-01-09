@@ -9,6 +9,9 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 
 import 'firebase_options.dart';
 
+
+var inSplash = true.obs;
+
 Future<void> main() async {
   await dotenv.load(fileName: "assets/.env");
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +40,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  var topColor = (Colors.black).obs;
+  var topColor = (AppColors.darkText).obs;
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +48,12 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    Future.delayed(Duration(milliseconds: 2500),() {
-      topColor.value = Colors.white;
-    },);
+    Future.delayed(
+      Duration(milliseconds: (Platform.isIOS) ? 2500 : 5000),
+      () {
+        topColor.value = Colors.white;
+      },
+    );
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -80,27 +86,29 @@ class MyApp extends StatelessWidget {
           initialRoute: AppRoutes.initalRoute,
           builder: (context, child) {
             SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-            return AnnotatedRegion<SystemUiOverlayStyle>(
-              value: const SystemUiOverlayStyle(
-                  statusBarColor: Colors.white,
-                  statusBarIconBrightness: Brightness.dark,
-                  systemNavigationBarColor: Colors.transparent,
-                  statusBarBrightness: Brightness.light),
-              child: Obx(() => ColorfulSafeArea(
-                topColor: topColor.value,
-                // bottomColor: AppColor.whiteColor,
-                minimum: const EdgeInsets.only(
-                  bottom: 0,
+            return Obx(
+              () => AnnotatedRegion<SystemUiOverlayStyle>(
+                value: SystemUiOverlayStyle(
+                    statusBarColor: inSplash.value ? AppColors.darkText : Colors.white,
+                    statusBarIconBrightness: Brightness.dark,
+                    systemNavigationBarColor: Colors.transparent,
+                    statusBarBrightness: Brightness.light),
+                child: inSplash.value ? child! : ColorfulSafeArea(
+                  topColor: Colors.white,
+                  // bottomColor: AppColor.whiteColor,
+                  minimum: const EdgeInsets.only(
+                    bottom: 0,
+                  ),
+                  maintainBottomViewPadding: true,
+                  top: true,
+                  bottom: false,
+                  child: Scaffold(
+                    extendBodyBehindAppBar: true,
+                    extendBody: true,
+                    body: child,
+                  ),
                 ),
-                maintainBottomViewPadding: true,
-                top: true,
-                bottom: false,
-                child: Scaffold(
-                  extendBodyBehindAppBar: true,
-                  extendBody: true,
-                  body: child,
-                ),
-              ),)
+              ),
             );
           },
         );
