@@ -38,50 +38,52 @@ class CheckoutScreen extends StatelessWidget {
     print("Delivery Charge: $deliveryCharge");
     print("Coupon Discount: $couponDiscount");
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        isLeading: true,
-        title: Text(
-          "Checkout",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+    return SafeArea(
+      child: Scaffold(
+        appBar: CustomAppBar(
+          isLeading: true,
+          title: Text(
+            "Checkout",
+            style: AppFontStyle.text_24_600(AppColors.darkText),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24.h),
-        child: Column(
-          children: [
-            paymentMethod(),
-            hBox(30.h),
-            paymentDetails(
-              deliveryCharge: deliveryCharge,
-              regularPrice: regularPrice,
-              saveAmount: saveAmount,
-              couponDiscount: couponDiscount,
-              totalPrice: total,
-            ),
-            hBox(30.h),
-            Obx(
-              () => CustomElevatedButton(
-                isLoading: (controller.rxRequestStatus.value == Status.LOADING),
-                onPressed: () {
-                  if (paymentMethodController.selectedIndex == 2) {
-                    controller.placeOrderApi(
-                      addressId: addressId,
-                      cartId: cartId,
-                      restaurantId: restaurantId,
-                      couponId: couponId,
-                      paymentMethod: "Cash On Delivery",
-                      total: total,
-                    );
-                  } else {
-                    Utils.showToast("Payment method not available");
-                  }
-                },
-                text: "Place Order",
+        body: SingleChildScrollView(
+          padding: REdgeInsets.symmetric(horizontal: 24.h),
+          child: Column(
+            children: [
+              paymentMethod(),
+              hBox(30.h),
+              paymentDetails(
+                deliveryCharge: deliveryCharge,
+                regularPrice: regularPrice,
+                saveAmount: saveAmount,
+                couponDiscount: couponDiscount,
+                totalPrice: total,
               ),
-            ),
-            hBox(50.h)
-          ],
+              hBox(30.h),
+              Obx(
+                () => CustomElevatedButton(
+                  isLoading: (controller.rxRequestStatus.value == Status.LOADING),
+                  onPressed: () {
+                    if (paymentMethodController.selectedIndex == 2) {
+                      controller.placeOrderApi(
+                        addressId: addressId,
+                        cartId: cartId,
+                        restaurantId: restaurantId,
+                        couponId: couponId,
+                        paymentMethod: "Cash On Delivery",
+                        total: total,
+                      );
+                    } else {
+                      Utils.showToast("Payment method not available");
+                    }
+                  },
+                  text: "Place Order",
+                ),
+              ),
+              hBox(50.h)
+            ],
+          ),
         ),
       ),
     );

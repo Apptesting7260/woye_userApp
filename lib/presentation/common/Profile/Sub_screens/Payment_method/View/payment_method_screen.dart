@@ -2,9 +2,9 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/Controller/payment_method_controller.dart';
 
 class PaymentMethodScreen extends StatelessWidget {
-   PaymentMethodScreen({super.key});
+  PaymentMethodScreen({super.key});
 
-   final PaymentMethodController paymentMethodController =
+  final PaymentMethodController paymentMethodController =
       Get.put(PaymentMethodController());
 
   @override
@@ -126,17 +126,20 @@ class PaymentMethodScreen extends StatelessWidget {
                       Expanded(
                         flex: 9,
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+
                           children: [
                             SvgPicture.asset("assets/svg/master-card.svg"),
-                            wBox(10),
+                            wBox(10.h),
                             Text(
-                              "•••• •••• •••• ",
-                              style: AppFontStyle.text_28_600(
+                              "•••• •••• ••••",
+                              style: AppFontStyle.text_16_400(
                                   AppColors.darkText,
                                   height: 1.h),
                             ),
                             Text(
-                              " 8888",
+                              "8888",
                               style:
                                   AppFontStyle.text_16_400(AppColors.darkText),
                             ),
@@ -144,7 +147,7 @@ class PaymentMethodScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      wBox(6),
+                      wBox(6.h),
                       Expanded(
                         flex: 1,
                         child: Container(
