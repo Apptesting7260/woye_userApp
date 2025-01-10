@@ -1,9 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
 
 class OrdersScreen extends StatelessWidget {
-  const OrdersScreen({super.key});
+  OrdersScreen({super.key});
+
+  final OrderScreenController controller = Get.put(OrderScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -15,67 +22,53 @@ class OrdersScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: GetBuilder(
-            init: OrderScreenController(),
-            builder: (orderScreenController) {
-              return Column(
-                children: [
-                  orderStatusList(orderScreenController),
-                  hBox(30),
-                  IndexedStack(
-                    index: orderScreenController.pageIndex,
-                    children: [
-                      waitingForDelivery(context),
-                      delivered(),
-                      cancelled()
-                    ],
-                  )
-                ],
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.refreshOrdersListApi();
+                },
               );
-            }),
-      ),
-    );
-  }
-
-  Widget orderStatusList(OrderScreenController orderScreenController) {
-    return SizedBox(
-      height: 45.h,
-      child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          shrinkWrap: true,
-          itemCount: 3,
-          itemBuilder: (c, i) {
-            List buttonNames = [
-              "Waiting for delivery",
-              "Delivered",
-              "Cancelled"
-            ];
-            bool isSelected = orderScreenController.pageIndex == i;
-            return GestureDetector(
-              onTap: () {
-                orderScreenController.getIndex(i);
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.refreshOrdersListApi();
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+              onRefresh: () async {
+                controller.refreshOrdersListApi();
               },
-              child: AnimatedContainer(
-                duration: const Duration(microseconds: 500),
-                curve: Curves.easeInOut,
-                padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                decoration: BoxDecoration(
-                    color:
-                        isSelected ? AppColors.primary : AppColors.lightPrimary,
-                    borderRadius: BorderRadius.circular(50.r)),
-                child: Center(
-                  child: Text(
-                    buttonNames[i],
-                    style: AppFontStyle.text_16_400(
-                        isSelected ? AppColors.white : AppColors.black),
-                  ),
-                ),
+              child: SingleChildScrollView(
+                padding: REdgeInsets.symmetric(horizontal: 24.h),
+                child: GetBuilder(
+                    init: OrderScreenController(),
+                    builder: (orderScreenController) {
+                      return Column(
+                        children: [
+                          orderStatusList(orderScreenController),
+                          hBox(30.h),
+                          IndexedStack(
+                            index: orderScreenController.pageIndex,
+                            children: [
+                              waitingForDelivery(context),
+                              delivered(),
+                              cancelled(),
+                            ],
+                          )
+                        ],
+                      );
+                    }),
               ),
             );
-          },
-          separatorBuilder: (c, i) => wBox(10)),
+        }
+      }),
     );
   }
 
@@ -90,28 +83,48 @@ class OrdersScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(10.r),
-                  child: Image.asset(
-                    "assets/images/cat-image0.png",
-                    height: 100,
-                  )),
-              wBox(15),
+              // ClipRRect(
+              //     borderRadius: BorderRadius.circular(10.r),
+              //     child: Image.asset(
+              //       "assets/images/cat-image0.png",
+              //       height: 100,
+              //     )),
+              CachedNetworkImage(
+                imageUrl: controller.ordersData.value.orders![0]
+                    .decodedAttribute![0].productImage
+                    .toString(),
+                height: 100.h,
+                width: 100.h,
+                fit: BoxFit.fill,
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: AppColors.gray,
+                  highlightColor: AppColors.lightText,
+                  child: Container(
+                    color: AppColors.white,
+                    height: 100.h,
+                    width: 100.h,
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+              wBox(15.h),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "McMushroom Pizza",
+                    controller.ordersData.value.orders![0].decodedAttribute![0]
+                        .productName
+                        .toString(),
                     style: AppFontStyle.text_14_600(AppColors.darkText),
                   ),
                   hBox(10),
+                  // Text(
+                  //   "Small",
+                  //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                  // ),
+                  // hBox(10),
                   Text(
-                    "Small",
-                    style: AppFontStyle.text_12_400(AppColors.lightText),
-                  ),
-                  hBox(10),
-                  Text(
-                    "1x",
+                    "Qty:${controller.ordersData.value.orders![0].decodedAttribute![0].quantity.toString()}",
                     style: AppFontStyle.text_12_400(AppColors.darkText),
                   ),
                 ],
@@ -127,7 +140,7 @@ class OrdersScreen extends StatelessWidget {
                 style: AppFontStyle.text_12_400(AppColors.lightText),
               ),
               Text(
-                "#1947034",
+                controller.ordersData.value.orders![0].orderId.toString(),
                 style: AppFontStyle.text_12_600(AppColors.darkText),
               ),
             ],
@@ -155,7 +168,8 @@ class OrdersScreen extends StatelessWidget {
                 style: AppFontStyle.text_12_400(AppColors.lightText),
               ),
               Text(
-                "Mon, 04 Apr - 12:00 AM",
+                // "Mon, 04 Apr - 12:00 AM",
+                controller.ordersData.value.orders![0].createdAt.toString(),
                 style: AppFontStyle.text_12_600(AppColors.darkText),
               ),
             ],
@@ -183,7 +197,7 @@ class OrdersScreen extends StatelessWidget {
                 style: AppFontStyle.text_14_600(AppColors.darkText),
               ),
               Text(
-                "\$20.00",
+                "\$${controller.ordersData.value.orders![0].total.toString()}",
                 style: AppFontStyle.text_14_600(AppColors.primary),
               ),
             ],
@@ -263,6 +277,46 @@ class OrdersScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget orderStatusList(OrderScreenController orderScreenController) {
+    return SizedBox(
+      height: 45.h,
+      child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: 3,
+          itemBuilder: (c, i) {
+            List buttonNames = [
+              "Waiting for delivery",
+              "Delivered",
+              "Cancelled"
+            ];
+            bool isSelected = orderScreenController.pageIndex == i;
+            return GestureDetector(
+              onTap: () {
+                orderScreenController.getIndex(i);
+              },
+              child: AnimatedContainer(
+                duration: const Duration(microseconds: 500),
+                curve: Curves.easeInOut,
+                padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                decoration: BoxDecoration(
+                    color:
+                        isSelected ? AppColors.primary : AppColors.lightPrimary,
+                    borderRadius: BorderRadius.circular(50.r)),
+                child: Center(
+                  child: Text(
+                    buttonNames[i],
+                    style: AppFontStyle.text_16_400(
+                        isSelected ? AppColors.white : AppColors.black),
+                  ),
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (c, i) => wBox(10)),
     );
   }
 
@@ -421,7 +475,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.offAll( RestaurantNavbar(
+                  Get.offAll(RestaurantNavbar(
                     navbarInitialIndex: 3,
                   ));
                 },
@@ -642,7 +696,7 @@ class OrdersScreen extends StatelessWidget {
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () {
-                  Get.offAll( RestaurantNavbar(
+                  Get.offAll(RestaurantNavbar(
                     navbarInitialIndex: 3,
                   ));
                 },

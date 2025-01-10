@@ -5,6 +5,7 @@ import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout_create-order/create_order_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/checked_unchecked/checked_unchecked_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_coupon_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_modal.dart';
@@ -28,6 +29,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delete_address/delete_product_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delivery_address_modal/delivery_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/wallet_modal/wallet_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/ordes_list_modal/orders_list_modal.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
@@ -124,6 +126,12 @@ class Repository {
     return WalletModal.fromJson(response);
   }
 
+  /* ------------------------------------------------ Show Orders  ----------------------------------------------------*/
+  Future<dynamic> getOrderListApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getOrdersList, token);
+    return OrdersList.fromJson(response);
+  }
   /* ------------------------------------------------ Restaurant ----------------------------------------------------*/
 
   Future<dynamic> homeApi({required int page, required int perPage}) async {
@@ -265,5 +273,12 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.checkedUnchecked, token);
     return CheckedUncheckedModal.fromJson(response);
+  }
+
+  Future<dynamic> createOrderApi(var data) async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.postApi(data, AppUrls.createOrder, token);
+    return CreateOrder.fromJson(response);
   }
 }

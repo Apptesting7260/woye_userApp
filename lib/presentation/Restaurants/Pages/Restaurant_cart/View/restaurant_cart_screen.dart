@@ -1120,7 +1120,22 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           selectedItems.forEach((item) {
                             print(
                                 "Selected Product: ${item['name']}, Price: ${item['price']}");
-                            Get.toNamed(AppRoutes.checkoutScreen);
+
+
+                            Get.toNamed(
+                              AppRoutes.checkoutScreen,
+                              arguments: {
+                                'address_id':  controller.cartData.value.address!.id.toString(),
+                                'coupon_id': controller.cartData.value.cart!.couponApplied?.id.toString(),
+                                'restaurant_id': controller.cartData.value.cart!.restoId.toString(),
+                                'total':  controller.cartData.value.cart!.totalPrice.toString(),
+                                'regular_price':  controller.cartData.value.cart!.regularPrice.toString(),
+                                'coupon_discount':  controller.cartData.value.cart!.couponDiscount.toString(),
+                                'save_amount':  controller.cartData.value.cart!.saveAmount.toString(),
+                                'delivery_charge':  controller.cartData.value.cart!.deliveryCharge.toString(),
+                                'cart_id':  controller.cartData.value.cart!.id.toString(),
+                              },
+                            );
                           });
                         } else {
                           Utils.showToast(

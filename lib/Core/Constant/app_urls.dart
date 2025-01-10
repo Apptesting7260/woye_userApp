@@ -27,6 +27,10 @@ class AppUrls {
 
   /* ------------------------------------------------ User Wallet ----------------------------------------------------  */
 
+  static const String getOrdersList = "$baseUrl/list-order";
+
+  /* ------------------------------------------------ Show Orders  ----------------------------------------------------  */
+
   static const String userWallet = "$baseUrl/user-wallet";
 
   /* ------------------------------ Restaurant ---------------------------------*/
@@ -52,4 +56,5 @@ class AppUrls {
   static const String deleteProduct = "$baseUrl/delete-product";
   static const String applyCoupons = "$baseUrl/apply-coupons";
   static const String checkedUnchecked = "$baseUrl/checked-unchecked";
+  static const String createOrder = "$baseUrl/create-order";
 }

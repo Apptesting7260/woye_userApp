@@ -63,9 +63,9 @@ class PharmacyCheckoutScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
         hBox(15),
-        const PaymentMethodScreen().methodList(),
+         PaymentMethodScreen().methodList(),
         hBox(15),
-        const PaymentMethodScreen().addNewCard()
+         PaymentMethodScreen().addNewCard()
       ],
     );
   }

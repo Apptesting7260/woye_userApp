@@ -9,7 +9,6 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 
 import 'firebase_options.dart';
 
-
 var inSplash = true.obs;
 
 Future<void> main() async {
@@ -89,25 +88,29 @@ class MyApp extends StatelessWidget {
             return Obx(
               () => AnnotatedRegion<SystemUiOverlayStyle>(
                 value: SystemUiOverlayStyle(
-                    statusBarColor: inSplash.value ? AppColors.darkText : Colors.white,
+                    statusBarColor:
+                        inSplash.value ? AppColors.darkText : Colors.white,
                     statusBarIconBrightness: Brightness.dark,
                     systemNavigationBarColor: Colors.transparent,
                     statusBarBrightness: Brightness.light),
-                child: inSplash.value ? child! : ColorfulSafeArea(
-                  topColor: Colors.white,
-                  // bottomColor: AppColor.whiteColor,
-                  minimum: const EdgeInsets.only(
-                    bottom: 0,
-                  ),
-                  maintainBottomViewPadding: true,
-                  top: true,
-                  bottom: false,
-                  child: Scaffold(
-                    extendBodyBehindAppBar: true,
-                    extendBody: true,
-                    body: child,
-                  ),
-                ),
+                child: inSplash.value
+                    ? child!
+                    : ColorfulSafeArea(
+                        topColor: Colors.white,
+
+                        // bottomColor: AppColor.whiteColor,
+                        minimum: const EdgeInsets.only(
+                          bottom: 0,
+                        ),
+                        maintainBottomViewPadding: true,
+                        top: true,
+                        bottom: false,
+                        child: Scaffold(
+                          extendBodyBehindAppBar: true,
+                          extendBody: true,
+                          body: child,
+                        ),
+                      ),
               ),
             );
           },

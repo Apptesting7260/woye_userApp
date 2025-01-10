@@ -29,7 +29,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_review/pharmacy_vendor_review_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout_create-order/checkout_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/categoriesfilter_binding.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/view/restaurant_home_filter.dart';
@@ -184,11 +184,11 @@ class AppRoutes {
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
     GetPage(name: productReviews, page: () => ProductReviews()),
     GetPage(name: moreProducts, page: () => MoreProducts()),
-    GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
+    GetPage(name: checkoutScreen, page: () => CheckoutScreen()),
     GetPage(name: addAddressScreen, page: () => AddAddressScreen()),
-    GetPage(name: editAddressScreen, page: () =>  EditAddressScreen()),
+    GetPage(name: editAddressScreen, page: () => EditAddressScreen()),
     GetPage(name: promoCode, page: () => const PromoCodes()),
-    GetPage(name: paymentMethod, page: () => const PaymentMethodScreen()),
+    GetPage(name: paymentMethod, page: () => PaymentMethodScreen()),
     GetPage(name: addCard, page: () => const AddCardScreen()),
     GetPage(name: oderConfirm, page: () => const OrderConfirmScreen()),
     GetPage(name: trackOrder, page: () => const TrackOrderScreen()),
@@ -196,9 +196,9 @@ class AppRoutes {
     GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
     // GetPage(name: editProfile, page: () => const EditProfileScreen()),
-    GetPage(name: orders, page: () => const OrdersScreen()),
+    GetPage(name: orders, page: () =>  OrdersScreen()),
     GetPage(name: orderDetails, page: () => const OrderDetailsScreen()),
-    GetPage(name: myWallet, page: () =>  MyWalletScreen()),
+    GetPage(name: myWallet, page: () => MyWalletScreen()),
     GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),
     GetPage(name: notifications, page: () => const NotificationsScreen()),
     GetPage(name: settings, page: () => const SettingsScreen()),
