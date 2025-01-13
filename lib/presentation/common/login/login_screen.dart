@@ -3,6 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -16,38 +17,44 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('hiiii');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
         key: loginController.loginFormKey,
-        child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              hBox(100),
-              //
-              header(),
-              hBox(40),
-              //
-              phoneNumberField(),
-              hBox(20),
-              //
-              signInButton(),
-              // hBox(10),
-              //
-              // guestButton(),
-              hBox(20),
-              //
-              continueText(),
-              hBox(20),
-              //
-              socialButtons(context),
-              const Spacer(),
-              //
-              signUpButton()
-            ],
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: Get.height,
+            child: Padding(
+              padding: REdgeInsets.symmetric(horizontal: 24.h),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  hBox(100.h),
+                  //
+                  header(),
+                  hBox(40.h),
+                  //
+                  phoneNumberField(),
+                  hBox(20.h),
+                  //
+                  signInButton(),
+                  // hBox(10),
+                  //
+                  // guestButton(),
+                  hBox(20.h),
+                  //
+                  continueText(),
+                  hBox(20.h),
+                  //
+                  socialButtons(context),
+                  const Spacer(),
+                  //
+                  signUpButton()
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -71,35 +78,44 @@ class LoginScreen extends StatelessWidget {
     ]);
   }
 
+  // Widget phoneNumberField() {
+  //   return CustomTextFormField(
+  //     controller: loginController.mobNoCon.value,
+  //     inputFormatters: [
+  //       FilteringTextInputFormatter.digitsOnly,
+  //     ],
+  //     // prefixConstraints: BoxConstraints(maxWidth: 70),
+  //     prefix: CountryCodePicker(
+  //         padding: const EdgeInsets.only(left: 10),
+  //         onChanged: (CountryCode countryCode) {
+  //           print("country code===========> ${countryCode.code}");
+  //           loginController.updateCountryCode(countryCode);
+  //           loginController.showError.value = false;
+  //           int? countrylength =
+  //               loginController.countryPhoneDigits[countryCode.code.toString()];
+  //           loginController.chackCountryLength = countrylength!;
+  //         },
+  //         initialSelection: "IN"),
+  //     hintText: "Phone Number",
+  //     textInputType: TextInputType.phone,
+  //     validator: (value) {
+  //       if (value == null || value.isEmpty) {
+  //         return 'Please enter your phone number';
+  //       }
+  //       if (value.length != loginController.chackCountryLength) {
+  //         return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
+  //       }
+  //       return null;
+  //     },
+  //   );
+  // }
+
   Widget phoneNumberField() {
-    return CustomTextFormField(
-      controller: loginController.mobNoCon.value,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      // prefixConstraints: BoxConstraints(maxWidth: 70),
-      prefix: CountryCodePicker(
-          padding: const EdgeInsets.only(left: 10),
-          onChanged: (CountryCode countryCode) {
-            print("country code===========> ${countryCode.code}");
-            loginController.updateCountryCode(countryCode);
-            loginController.showError.value = false;
-            int? countrylength =
-                loginController.countryPhoneDigits[countryCode.code.toString()];
-            loginController.chackCountryLength = countrylength!;
-          },
-          initialSelection: "IN"),
-      hintText: "Phone Number",
-      textInputType: TextInputType.phone,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your phone number';
-        }
-        if (value.length != loginController.chackCountryLength) {
-          return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
-        }
-        return null;
-      },
+    return Obx(
+      () => CustomPhoneNumberField(
+        controller: loginController.mobNoCon.value,
+        hintText: 'Phone Number',
+      ),
     );
   }
 

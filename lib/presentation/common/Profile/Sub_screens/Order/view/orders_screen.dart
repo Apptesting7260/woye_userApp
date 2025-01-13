@@ -96,15 +96,16 @@ class OrdersScreen extends StatelessWidget {
                 height: 100.h,
                 width: 100.h,
                 fit: BoxFit.fill,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
-                    color: AppColors.white,
-                    height: 100.h,
-                    width: 100.h,
-                  ),
-                ),
+                placeholder: (context, url) =>
+                    Shimmer.fromColors(
+                      baseColor: AppColors.gray,
+                      highlightColor: AppColors.lightText,
+                      child: Container(
+                        color: AppColors.white,
+                        height: 100.h,
+                        width: 100.h,
+                      ),
+                    ),
                 errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
               wBox(15.h),
@@ -124,7 +125,8 @@ class OrdersScreen extends StatelessWidget {
                   // ),
                   // hBox(10),
                   Text(
-                    "Qty:${controller.ordersData.value.orders![0].decodedAttribute![0].quantity.toString()}",
+                    "Qty:${controller.ordersData.value.orders![0]
+                        .decodedAttribute![0].quantity.toString()}",
                     style: AppFontStyle.text_12_400(AppColors.darkText),
                   ),
                 ],
@@ -222,7 +224,7 @@ class OrdersScreen extends StatelessWidget {
                   Get.toNamed(AppRoutes.orderDetails);
                 },
                 child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding: REdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h),
                   decoration: BoxDecoration(
                       color: AppColors.black,
                       borderRadius: BorderRadius.circular(50.r)),
@@ -234,7 +236,7 @@ class OrdersScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              wBox(10),
+              wBox(10.h),
               InkWell(
                 onTap: () {
                   cancelPopUp(context);
@@ -304,7 +306,7 @@ class OrdersScreen extends StatelessWidget {
                 padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                     color:
-                        isSelected ? AppColors.primary : AppColors.lightPrimary,
+                    isSelected ? AppColors.primary : AppColors.lightPrimary,
                     borderRadius: BorderRadius.circular(50.r)),
                 child: Center(
                   child: Text(
@@ -756,7 +758,7 @@ class OrdersScreen extends StatelessWidget {
                           },
                           text: "No",
                           textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+                          AppFontStyle.text_14_400(AppColors.darkText),
                         ),
                       ),
                       wBox(15),
@@ -768,7 +770,7 @@ class OrdersScreen extends StatelessWidget {
                           },
                           text: "Yes",
                           textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+                          AppFontStyle.text_14_400(AppColors.darkText),
                         ),
                       ),
                     ],

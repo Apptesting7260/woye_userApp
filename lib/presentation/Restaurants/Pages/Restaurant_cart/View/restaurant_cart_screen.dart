@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
@@ -325,7 +324,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           ),
                   ),
                 ),
-                wBox(10),
+                wBox(10.h),
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20.r),
                   child: isLoading
@@ -389,7 +388,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           ),
                         ),
                 ),
-                wBox(10),
+                wBox(10.h),
                 Expanded(
                   flex: 6,
                   child: Column(
@@ -1121,19 +1120,35 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                             print(
                                 "Selected Product: ${item['name']}, Price: ${item['price']}");
 
-
                             Get.toNamed(
                               AppRoutes.checkoutScreen,
                               arguments: {
-                                'address_id':  controller.cartData.value.address!.id.toString(),
-                                'coupon_id': controller.cartData.value.cart!.couponApplied?.id.toString(),
-                                'restaurant_id': controller.cartData.value.cart!.restoId.toString(),
-                                'total':  controller.cartData.value.cart!.totalPrice.toString(),
-                                'regular_price':  controller.cartData.value.cart!.regularPrice.toString(),
-                                'coupon_discount':  controller.cartData.value.cart!.couponDiscount.toString(),
-                                'save_amount':  controller.cartData.value.cart!.saveAmount.toString(),
-                                'delivery_charge':  controller.cartData.value.cart!.deliveryCharge.toString(),
-                                'cart_id':  controller.cartData.value.cart!.id.toString(),
+                                'address_id': controller
+                                    .cartData.value.address!.id
+                                    .toString(),
+                                'coupon_id': controller
+                                    .cartData.value.cart!.couponApplied?.id
+                                    .toString(),
+                                'restaurant_id': controller
+                                    .cartData.value.cart!.restoId
+                                    .toString(),
+                                'total': controller
+                                    .cartData.value.cart!.totalPrice
+                                    .toString(),
+                                'regular_price': controller
+                                    .cartData.value.cart!.regularPrice
+                                    .toString(),
+                                'coupon_discount': controller
+                                    .cartData.value.cart!.couponDiscount
+                                    .toString(),
+                                'save_amount': controller
+                                    .cartData.value.cart!.saveAmount
+                                    .toString(),
+                                'delivery_charge': controller
+                                    .cartData.value.cart!.deliveryCharge
+                                    .toString(),
+                                'cart_id': controller.cartData.value.cart!.id
+                                    .toString(),
                               },
                             );
                           });

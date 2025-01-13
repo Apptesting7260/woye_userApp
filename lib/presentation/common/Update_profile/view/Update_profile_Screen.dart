@@ -5,6 +5,7 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 
 class SignUpFormScreen extends StatelessWidget {
   SignUpFormScreen({super.key});
@@ -110,37 +111,45 @@ class SignUpFormScreen extends StatelessWidget {
               validator: signUpFormController.validateFirstName,
             ),
             hBox(15),
-            CustomTextFormField(
+            // CustomTextFormField(
+            //   controller: signUpFormController.mobileController,
+            //   inputFormatters: [
+            //     FilteringTextInputFormatter.digitsOnly,
+            //   ],
+            //   prefix: CountryCodePicker(
+            //     padding: const EdgeInsets.only(left: 10),
+            //     onChanged: (CountryCode countryCode) {
+            //       print("country code===========> ${countryCode.code}");
+            //       signUpFormController.updateCountryCode(countryCode);
+            //       signUpFormController.showError.value = false;
+            //       int? countrylength = signUpFormController
+            //           .countryPhoneDigits[countryCode.code.toString()];
+            //       signUpFormController.chackCountryLength = countrylength!;
+            //     },
+            //     // initialSelection: "IN"
+            //     initialSelection:
+            //         signUpFormController.selectedCountryCode.value.dialCode,
+            //   ),
+            //   hintText: "Phone Number",
+            //   textInputType: TextInputType.phone,
+            //   validator: (value) {
+            //     if (value == null || value.isEmpty) {
+            //       return 'Please enter your phone number';
+            //     }
+            //     if (value.length != signUpFormController.chackCountryLength) {
+            //       return 'Please enter a valid phone number (${signUpFormController.chackCountryLength} digits required)';
+            //     }
+            //     return null;
+            //   },
+            // ),
+
+            CustomPhoneNumberField(
+              initialSelection:
+              signUpFormController.selectedCountryCode.value.dialCode.toString(),
               controller: signUpFormController.mobileController,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              prefix: CountryCodePicker(
-                padding: const EdgeInsets.only(left: 10),
-                onChanged: (CountryCode countryCode) {
-                  print("country code===========> ${countryCode.code}");
-                  signUpFormController.updateCountryCode(countryCode);
-                  signUpFormController.showError.value = false;
-                  int? countrylength = signUpFormController
-                      .countryPhoneDigits[countryCode.code.toString()];
-                  signUpFormController.chackCountryLength = countrylength!;
-                },
-                // initialSelection: "IN"
-                initialSelection:
-                    signUpFormController.selectedCountryCode.value.dialCode,
-              ),
-              hintText: "Phone Number",
-              textInputType: TextInputType.phone,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your phone number';
-                }
-                if (value.length != signUpFormController.chackCountryLength) {
-                  return 'Please enter a valid phone number (${signUpFormController.chackCountryLength} digits required)';
-                }
-                return null;
-              },
+              hintText: 'Phone Number',
             ),
+
             hBox(15),
             GestureDetector(
               onTap: () => signUpFormController.selectDate(context),

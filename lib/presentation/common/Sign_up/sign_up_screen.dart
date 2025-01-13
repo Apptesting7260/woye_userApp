@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
@@ -9,7 +10,7 @@ class SignUpScreen extends StatelessWidget {
   final SignUpController signUpController = Get.put(SignUpController());
 
   final SocialLoginController socialLoginController =
-  Get.put(SocialLoginController());
+      Get.put(SocialLoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,33 +18,38 @@ class SignUpScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Form(
         key: signUpController.signUpFormKey,
-        child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              hBox(100),
-              //
-              header(),
-              hBox(40),
-              //
-              formField(),
-              hBox(20),
-              //
-              signUpButton(),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: Get.height,
+            child: Padding(
+              padding: REdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  hBox(100),
+                  //
+                  header(),
+                  hBox(40),
+                  //
+                  formField(),
+                  hBox(20),
+                  //
+                  signUpButton(),
 
-              hBox(20),
-              //
-              continueText(),
-              hBox(20),
-              //
-              socialButtons(context),
-              hBox(20),
-              const Spacer(),
-              //
-              signInButton(),
-            ],
+                  hBox(20),
+                  //
+                  continueText(),
+                  hBox(20),
+                  //
+                  socialButtons(context),
+                  hBox(20),
+                  const Spacer(),
+                  //
+                  signInButton(),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -67,33 +73,42 @@ class SignUpScreen extends StatelessWidget {
     ]);
   }
 
+  // Widget formField() {
+  //   return CustomTextFormField(
+  //     controller: signUpController.mobNoCon.value,
+  //     inputFormatters: [
+  //       FilteringTextInputFormatter.digitsOnly,
+  //     ],
+  //     prefix: CountryCodePicker(
+  //         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
+  //         onChanged: (CountryCode countryCode) {
+  //           signUpController.updateCountryCode(countryCode);
+  //           signUpController.showError.value = false;
+  //           int? countrylength = signUpController
+  //               .countryPhoneDigits[countryCode.code.toString()];
+  //           signUpController.checkCountryLength = countrylength!;
+  //         },
+  //         initialSelection: "IN"),
+  //     hintText: "Phone Number",
+  //     textInputType: TextInputType.phone,
+  //     validator: (value) {
+  //       if (value == null || value.isEmpty) {
+  //         return 'Please enter your phone number';
+  //       }
+  //       if (value.length != signUpController.checkCountryLength) {
+  //         return 'Please enter a valid phone number (${signUpController.checkCountryLength} digits required)';
+  //       }
+  //       return null;
+  //     },
+  //   );
+  // }
+
   Widget formField() {
-    return CustomTextFormField(
-      controller: signUpController.mobNoCon.value,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      prefix: CountryCodePicker(
-          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
-          onChanged: (CountryCode countryCode) {
-            signUpController.updateCountryCode(countryCode);
-            signUpController.showError.value = false;
-            int? countrylength = signUpController
-                .countryPhoneDigits[countryCode.code.toString()];
-            signUpController.checkCountryLength = countrylength!;
-          },
-          initialSelection: "IN"),
-      hintText: "Phone Number",
-      textInputType: TextInputType.phone,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your phone number';
-        }
-        if (value.length != signUpController.checkCountryLength) {
-          return 'Please enter a valid phone number (${signUpController.checkCountryLength} digits required)';
-        }
-        return null;
-      },
+    return Obx(
+      () => CustomPhoneNumberField(
+        controller: signUpController.mobNoCon.value,
+        hintText: 'Phone Number',
+      ),
     );
   }
 

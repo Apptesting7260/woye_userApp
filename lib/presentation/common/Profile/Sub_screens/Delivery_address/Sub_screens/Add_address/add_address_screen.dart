@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_controller.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/AddressFromGoogleTextField.dart';
 
@@ -117,34 +118,40 @@ class AddAddressScreen extends StatelessWidget {
     );
   }
 
+  // Widget phoneNumber() {
+  //   return CustomTextFormField(
+  //     controller: controller.mobNoController!.value,
+  //     inputFormatters: [
+  //       FilteringTextInputFormatter.digitsOnly,
+  //     ],
+  //     prefix: CountryCodePicker(
+  //         padding: const EdgeInsets.only(left: 10),
+  //         onChanged: (CountryCode countryCode) {
+  //           print("country code===========> ${countryCode.code}");
+  //           controller.updateCountryCode(countryCode);
+  //           controller.showError.value = false;
+  //           int? countrylength =
+  //               controller.countryPhoneDigits[countryCode.code.toString()];
+  //           controller.chackCountryLength = countrylength!;
+  //         },
+  //         initialSelection: "IN"),
+  //     hintText: "Phone Number",
+  //     textInputType: TextInputType.phone,
+  //     validator: (value) {
+  //       if (value == null || value.isEmpty) {
+  //         return 'Please enter your phone number';
+  //       }
+  //       if (value.length != controller.chackCountryLength) {
+  //         return 'Please enter a valid phone number (${controller.chackCountryLength} digits required)';
+  //       }
+  //       return null;
+  //     },
+  //   );
+  // }
+
   Widget phoneNumber() {
-    return CustomTextFormField(
-      controller: controller.mobNoController!.value,
-      inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
-      ],
-      prefix: CountryCodePicker(
-          padding: const EdgeInsets.only(left: 10),
-          onChanged: (CountryCode countryCode) {
-            print("country code===========> ${countryCode.code}");
-            controller.updateCountryCode(countryCode);
-            controller.showError.value = false;
-            int? countrylength =
-                controller.countryPhoneDigits[countryCode.code.toString()];
-            controller.chackCountryLength = countrylength!;
-          },
-          initialSelection: "IN"),
-      hintText: "Phone Number",
-      textInputType: TextInputType.phone,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your phone number';
-        }
-        if (value.length != controller.chackCountryLength) {
-          return 'Please enter a valid phone number (${controller.chackCountryLength} digits required)';
-        }
-        return null;
-      },
+    return CustomPhoneNumberField(
+      controller: controller.mobNoController.value,
     );
   }
 
