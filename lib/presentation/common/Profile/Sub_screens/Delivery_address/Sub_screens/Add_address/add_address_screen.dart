@@ -118,42 +118,42 @@ class AddAddressScreen extends StatelessWidget {
     );
   }
 
-  // Widget phoneNumber() {
-  //   return CustomTextFormField(
-  //     controller: controller.mobNoController!.value,
-  //     inputFormatters: [
-  //       FilteringTextInputFormatter.digitsOnly,
-  //     ],
-  //     prefix: CountryCodePicker(
-  //         padding: const EdgeInsets.only(left: 10),
-  //         onChanged: (CountryCode countryCode) {
-  //           print("country code===========> ${countryCode.code}");
-  //           controller.updateCountryCode(countryCode);
-  //           controller.showError.value = false;
-  //           int? countrylength =
-  //               controller.countryPhoneDigits[countryCode.code.toString()];
-  //           controller.chackCountryLength = countrylength!;
-  //         },
-  //         initialSelection: "IN"),
-  //     hintText: "Phone Number",
-  //     textInputType: TextInputType.phone,
-  //     validator: (value) {
-  //       if (value == null || value.isEmpty) {
-  //         return 'Please enter your phone number';
-  //       }
-  //       if (value.length != controller.chackCountryLength) {
-  //         return 'Please enter a valid phone number (${controller.chackCountryLength} digits required)';
-  //       }
-  //       return null;
-  //     },
-  //   );
-  // }
-
   Widget phoneNumber() {
-    return CustomPhoneNumberField(
-      controller: controller.mobNoController.value,
+    return CustomTextFormField(
+      controller: controller.mobNoController!.value,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      prefix: CountryCodePicker(
+          padding: const EdgeInsets.only(left: 10),
+          onChanged: (CountryCode countryCode) {
+            print("country code===========> ${countryCode.code}");
+            controller.updateCountryCode(countryCode);
+            controller.showError.value = false;
+            int? countrylength =
+                controller.countryPhoneDigits[countryCode.code.toString()];
+            controller.chackCountryLength = countrylength!;
+          },
+          initialSelection: "IN"),
+      hintText: "Phone Number",
+      textInputType: TextInputType.phone,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your phone number';
+        }
+        if (value.length != controller.chackCountryLength) {
+          return 'Please enter a valid phone number (${controller.chackCountryLength} digits required)';
+        }
+        return null;
+      },
     );
   }
+
+  // Widget phoneNumber() {
+  //   return CustomPhoneNumberField(
+  //     controller: controller.mobNoController.value,
+  //   );
+  // }
 
   Widget houseNo() {
     return CustomTextFormField(

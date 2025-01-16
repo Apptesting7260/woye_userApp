@@ -1,8 +1,5 @@
 import 'dart:developer';
-
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Data/Model/usermodel.dart';
-import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
 
 class RestaurantHomeController extends GetxController {
@@ -40,16 +37,11 @@ class RestaurantHomeController extends GetxController {
   void setError(String value) => error.value = value;
 
   homeApi(int page) async {
-    // setRxRequestStatus(Status.LOADING);
     api.homeApi(page: page, perPage: 1).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
       restaurantSet(value);
-
-      // if (homeData.value.status == true) {
-      //   log('home data ==>>${homeData.value.status}');
-      // }
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);

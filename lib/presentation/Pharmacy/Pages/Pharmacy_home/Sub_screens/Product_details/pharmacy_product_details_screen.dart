@@ -725,7 +725,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         ),
         hBox(20),
         const CustomGridView(
-          itemCount: 2,
+          // itemCount: 2,
         )
       ],
     );

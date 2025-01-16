@@ -4,6 +4,10 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Modal/pharmacy_categories_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/modal/pharmacy_categories_details_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/Modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/pharmaModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout_create-order/create_order_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/checked_unchecked/checked_unchecked_modal.dart';
@@ -281,4 +285,46 @@ class Repository {
         await _apiService.postApi(data, AppUrls.createOrder, token);
     return CreateOrder.fromJson(response);
   }
+
+/* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
+
+  Future<dynamic> pharmacyHomeApi({required int page, required int perPage}) async {
+    await initializeUser();
+    final String url = '${AppUrls.pharmacyHomeApi}?page=$page&per_page=$perPage';
+
+    dynamic response = await _apiService.getApi(url, token);
+    return HomeModel.fromJson(response);
+  }
+
+  Future<dynamic> pharmacyCategoriesApi() async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.getApi(AppUrls.pharmacyCategories, token);
+    return PharmacyCategoriesModal.fromJson(response);
+  }
+
+  Future<dynamic> pharmacyCategoriesDetailsApi(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(
+        data, AppUrls.pharmacyCategoriesDetails, token);
+    return PharmacyCategoriesDetailsModal.fromJson(response);
+  }
+
+
+  Future<dynamic> pharmacyAllProductWishlistApi() async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.getApi(AppUrls.pharmacyProductWishlist, token);
+    return PharmacyProductWishlistModal.fromJson(response);
+  }
+
+  Future<dynamic> addPharmaProductWishlist(
+      var data,
+      ) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.addPharmaProductWishlist, token);
+    return pharmacy_add_product_wishlist_modal.fromJson(response);
+  }
+
 }

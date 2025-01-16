@@ -19,7 +19,7 @@ class GroceryNavbarController extends GetxController {
   List<Widget> widgets = [
     const GroceryHomeScreen(),
     const PharmacyCategoriesScreen(),
-    const PharmacyWishlistScreen(),
+     PharmacyWishlistScreen(),
     const PharmacyCartScreen(),
     ProfileScreen()
   ];

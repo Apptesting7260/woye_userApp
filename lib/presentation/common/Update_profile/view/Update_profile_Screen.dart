@@ -111,44 +111,44 @@ class SignUpFormScreen extends StatelessWidget {
               validator: signUpFormController.validateFirstName,
             ),
             hBox(15),
-            // CustomTextFormField(
-            //   controller: signUpFormController.mobileController,
-            //   inputFormatters: [
-            //     FilteringTextInputFormatter.digitsOnly,
-            //   ],
-            //   prefix: CountryCodePicker(
-            //     padding: const EdgeInsets.only(left: 10),
-            //     onChanged: (CountryCode countryCode) {
-            //       print("country code===========> ${countryCode.code}");
-            //       signUpFormController.updateCountryCode(countryCode);
-            //       signUpFormController.showError.value = false;
-            //       int? countrylength = signUpFormController
-            //           .countryPhoneDigits[countryCode.code.toString()];
-            //       signUpFormController.chackCountryLength = countrylength!;
-            //     },
-            //     // initialSelection: "IN"
-            //     initialSelection:
-            //         signUpFormController.selectedCountryCode.value.dialCode,
-            //   ),
-            //   hintText: "Phone Number",
-            //   textInputType: TextInputType.phone,
-            //   validator: (value) {
-            //     if (value == null || value.isEmpty) {
-            //       return 'Please enter your phone number';
-            //     }
-            //     if (value.length != signUpFormController.chackCountryLength) {
-            //       return 'Please enter a valid phone number (${signUpFormController.chackCountryLength} digits required)';
-            //     }
-            //     return null;
-            //   },
-            // ),
-
-            CustomPhoneNumberField(
-              initialSelection:
-              signUpFormController.selectedCountryCode.value.dialCode.toString(),
+            CustomTextFormField(
               controller: signUpFormController.mobileController,
-              hintText: 'Phone Number',
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              prefix: CountryCodePicker(
+                padding: const EdgeInsets.only(left: 10),
+                onChanged: (CountryCode countryCode) {
+                  print("country code===========> ${countryCode.code}");
+                  signUpFormController.updateCountryCode(countryCode);
+                  signUpFormController.showError.value = false;
+                  int? countrylength = signUpFormController
+                      .countryPhoneDigits[countryCode.code.toString()];
+                  signUpFormController.chackCountryLength = countrylength!;
+                },
+                // initialSelection: "IN"
+                initialSelection:
+                    signUpFormController.selectedCountryCode.value.dialCode,
+              ),
+              hintText: "Phone Number",
+              textInputType: TextInputType.phone,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your phone number';
+                }
+                if (value.length != signUpFormController.chackCountryLength) {
+                  return 'Please enter a valid phone number (${signUpFormController.chackCountryLength} digits required)';
+                }
+                return null;
+              },
             ),
+
+            // CustomPhoneNumberField(
+            //   initialSelection:
+            //   signUpFormController.selectedCountryCode.value.dialCode.toString(),
+            //   controller: signUpFormController.mobileController,
+            //   hintText: 'Phone Number',
+            // ),
 
             hBox(15),
             GestureDetector(

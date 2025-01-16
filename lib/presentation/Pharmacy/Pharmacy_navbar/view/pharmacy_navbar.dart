@@ -3,6 +3,7 @@ import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharm
 
 class PharmacyNavbar extends StatelessWidget {
   final int navbarInitialIndex;
+
   const PharmacyNavbar({super.key, this.navbarInitialIndex = 0});
 
   @override
@@ -15,10 +16,11 @@ class PharmacyNavbar extends StatelessWidget {
             child: Scaffold(
               body: Stack(
                 children: [
-                  IndexedStack(
-                    index: navbarController.navbarCurrentIndex,
-                    children: navbarController.widgets,
-                  ),
+                  // IndexedStack(
+                  //   index: navbarController.navbarCurrentIndex,
+                  //   children: navbarController.widgets,
+                  // ),
+                  navbarController.widgets[navbarController.navbarCurrentIndex],
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: navbar(navbarController),

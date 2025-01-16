@@ -254,15 +254,15 @@ class PharmacyHomeScreen extends StatelessWidget {
           ],
         ),
         hBox(20),
-        GetBuilder(
-            init: pharmacyHomeController,
-            builder: (controller) {
-              return CustomGridView(
-                itemCount: 2,
-                image: "assets/images/tablet.png",
-                onTap: () {},
-              );
-            }),
+        // GetBuilder(
+        //     init: pharmacyHomeController,
+        //     builder: (controller) {
+        //       return CustomGridView(
+        //         itemCount: 2,
+        //         image: "assets/images/tablet.png",
+        //         onTap: () {},
+        //       );
+        //     }),
       ],
     );
   }
@@ -295,15 +295,15 @@ class PharmacyHomeScreen extends StatelessWidget {
           ],
         ),
         hBox(20),
-        GetBuilder(
-            init: pharmacyHomeController,
-            builder: (controller) {
-              return CustomGridView(
-                itemCount: 6,
-                image: "assets/images/tablet.png",
-                onTap: () {},
-              );
-            }),
+        // GetBuilder(
+        //     init: pharmacyHomeController,
+        //     builder: (controller) {
+        //       return CustomGridView(
+        //         itemCount: 6,
+        //         image: "assets/images/tablet.png",
+        //         onTap: () {},
+        //       );
+        //     }),
       ],
     );
   }

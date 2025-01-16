@@ -17,10 +17,10 @@ class PharmacyNavbarController extends GetxController {
   File? profileImage;
 
   List<Widget> widgets = [
-    const PharmacyHomeScreen(),
-    const PharmacyCategoriesScreen(),
-    const PharmacyWishlistScreen(),
-    const PharmacyCartScreen(),
+     PharmacyHomeScreen(),
+     PharmacyCategoriesScreen(),
+     PharmacyWishlistScreen(),
+     PharmacyCartScreen(),
     ProfileScreen()
   ];
 

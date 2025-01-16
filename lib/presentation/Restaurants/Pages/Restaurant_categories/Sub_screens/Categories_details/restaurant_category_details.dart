@@ -114,7 +114,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             ),
                           ),
                           SliverToBoxAdapter(
-                            child: hBox(10),
+                            child: hBox(10.h),
                           ),
                           if (controller.categoriesDetailsData.value.filterProduct!
                                   .isEmpty &&

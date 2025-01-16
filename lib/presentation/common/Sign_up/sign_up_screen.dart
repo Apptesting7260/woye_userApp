@@ -73,44 +73,44 @@ class SignUpScreen extends StatelessWidget {
     ]);
   }
 
-  // Widget formField() {
-  //   return CustomTextFormField(
-  //     controller: signUpController.mobNoCon.value,
-  //     inputFormatters: [
-  //       FilteringTextInputFormatter.digitsOnly,
-  //     ],
-  //     prefix: CountryCodePicker(
-  //         padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
-  //         onChanged: (CountryCode countryCode) {
-  //           signUpController.updateCountryCode(countryCode);
-  //           signUpController.showError.value = false;
-  //           int? countrylength = signUpController
-  //               .countryPhoneDigits[countryCode.code.toString()];
-  //           signUpController.checkCountryLength = countrylength!;
-  //         },
-  //         initialSelection: "IN"),
-  //     hintText: "Phone Number",
-  //     textInputType: TextInputType.phone,
-  //     validator: (value) {
-  //       if (value == null || value.isEmpty) {
-  //         return 'Please enter your phone number';
-  //       }
-  //       if (value.length != signUpController.checkCountryLength) {
-  //         return 'Please enter a valid phone number (${signUpController.checkCountryLength} digits required)';
-  //       }
-  //       return null;
-  //     },
-  //   );
-  // }
-
   Widget formField() {
-    return Obx(
-      () => CustomPhoneNumberField(
-        controller: signUpController.mobNoCon.value,
-        hintText: 'Phone Number',
-      ),
+    return CustomTextFormField(
+      controller: signUpController.mobNoCon.value,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      prefix: CountryCodePicker(
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
+          onChanged: (CountryCode countryCode) {
+            signUpController.updateCountryCode(countryCode);
+            signUpController.showError.value = false;
+            int? countrylength = signUpController
+                .countryPhoneDigits[countryCode.code.toString()];
+            signUpController.checkCountryLength = countrylength!;
+          },
+          initialSelection: "IN"),
+      hintText: "Phone Number",
+      textInputType: TextInputType.phone,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your phone number';
+        }
+        if (value.length != signUpController.checkCountryLength) {
+          return 'Please enter a valid phone number (${signUpController.checkCountryLength} digits required)';
+        }
+        return null;
+      },
     );
   }
+
+  // Widget formField() {
+  //   return Obx(
+  //     () => CustomPhoneNumberField(
+  //       controller: signUpController.mobNoCon.value,
+  //       hintText: 'Phone Number',
+  //     ),
+  //   );
+  // }
 
   Widget signUpButton() {
     return Obx(

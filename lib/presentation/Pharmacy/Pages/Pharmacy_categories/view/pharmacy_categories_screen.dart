@@ -1,98 +1,174 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/controller/pharmacy_categories_controller.dart';
 
-class PharmacyCategoriesScreen extends StatelessWidget {
+class PharmacyCategoriesScreen extends StatefulWidget {
   const PharmacyCategoriesScreen({super.key});
 
   @override
+  State<PharmacyCategoriesScreen> createState() =>
+      _PharmacyCategoriesScreenState();
+}
+
+class _PharmacyCategoriesScreenState extends State<PharmacyCategoriesScreen> {
+  final PharmacyCategoriesController controller =
+      Get.put(PharmacyCategoriesController());
+
+  final PharmacyCategoriesDetailsController
+      pharmacyCategoriesDetailsController =
+      Get.put(PharmacyCategoriesDetailsController());
+
+  void initState() {
+    // TODO: implement initState
+    print('thjjfr');
+    controller.pharmacyCategoriesApi();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List catItems = [
-      "Personal Care",
-      "Skin Care",
-      "Digestive Care",
-      "Fever Care",
-      "Heart Care",
-      "Eyes Care"
-    ];
     return Scaffold(
-        appBar: CustomAppBar(
-          isLeading: false,
-          isActions: true,
-          title: Text(
-            "Categories",
-            style: AppFontStyle.text_28_600(AppColors.darkText),
-          ),
+      appBar: CustomAppBar(
+        isLeading: false,
+        isActions: true,
+        title: Text(
+          "Categories",
+          style: AppFontStyle.text_28_600(AppColors.darkText),
         ),
-        body: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: CustomScrollView(
-            slivers: [
-              const CustomSliverAppBar(),
-              SliverToBoxAdapter(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 20,
-                  itemBuilder: (context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Get.toNamed(AppRoutes.pharmacyCategoryDetails,
-                            arguments: catItems[index % 5]);
+      ),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.pharmacyCategoriesApiRefresh();
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.pharmacyCategoriesApiRefresh();
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+              onRefresh: () async {
+                controller.pharmacyCategoriesApiRefresh();
+              },
+              child: Padding(
+                padding: REdgeInsets.symmetric(horizontal: 24),
+                child: CustomScrollView(
+                  slivers: [
+                    CustomSliverAppBar(
+                      onChanged: (value) {
+                        controller.filterCategories(value);
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 0.8.w, color: AppColors.lightPrimary),
-                            borderRadius: BorderRadius.circular(15.r)),
-                        child: Padding(
-                          padding: REdgeInsets.only(
-                              left: 10, right: 15, top: 10, bottom: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.r),
-                                    child: ColoredBox(
-                                      color: AppColors.ultraLightPrimary,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(14.0),
-                                        child: Image.asset(
-                                          "assets/images/pharmacy-cat-${index % 3}.png",
-                                          height: 30.h,
-                                          // fit: BoxFit.cover,
+                      controller: controller.searchController,
+                    ),
+                    SliverToBoxAdapter(
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.filteredWishlistData.value.length,
+                        // Use the filtered list
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.pharmacyCategoryDetails,
+                                  arguments: {
+                                    'name': controller
+                                        .filteredWishlistData[index].name
+                                        .toString(),
+                                    'id': int.parse(controller
+                                        .filteredWishlistData[index].id
+                                        .toString()),
+                                  });
+                              pharmacyCategoriesDetailsController
+                                  .pharmacy_Categories_Details_Api(
+                                id: controller.filteredWishlistData[index].id
+                                    .toString(),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.8.w,
+                                    color: AppColors.lightPrimary),
+                                borderRadius: BorderRadius.circular(15.r),
+                              ),
+                              child: Padding(
+                                padding: REdgeInsets.only(
+                                    left: 10.h,
+                                    right: 15.h,
+                                    top: 10.h,
+                                    bottom: 10.h),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          height: 70.w,
+                                          width: 70.w,
+                                          child: CachedNetworkImage(
+                                            imageUrl: controller
+                                                .filteredWishlistData[index]
+                                                .imageUrl
+                                                .toString(),
+                                            height: 80.h,
+                                            width: 70.w,
+                                            fit: BoxFit.fill,
+                                            placeholder: (context, url) =>
+                                                circularProgressIndicator(),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
                                         ),
-                                      ),
+                                        wBox(20.h),
+                                        Text(
+                                          controller
+                                              .filteredWishlistData[index].name
+                                              .toString(),
+                                          style: AppFontStyle.text_18_400(
+                                              AppColors.darkText),
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  wBox(20),
-                                  Text(
-                                    catItems[index % 5],
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.darkText),
-                                  )
-                                ],
+                                    const Icon(Icons.arrow_forward_ios,
+                                        weight: 1),
+                                  ],
+                                ),
                               ),
-                              Icon(
-                                Icons.arrow_forward_ios,
-                                size: 18.w,
-                              ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return hBox(20.h);
+                        },
                       ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return hBox(20);
-                  },
+                    ),
+                    SliverToBoxAdapter(
+                      child: hBox(100.h),
+                    )
+                  ],
                 ),
               ),
-              SliverToBoxAdapter(
-                child: hBox(100),
-              )
-            ],
-          ),
-        ));
+            );
+        }
+      }),
+    );
   }
 }

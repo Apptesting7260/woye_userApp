@@ -57,4 +57,13 @@ class AppUrls {
   static const String applyCoupons = "$baseUrl/apply-coupons";
   static const String checkedUnchecked = "$baseUrl/checked-unchecked";
   static const String createOrder = "$baseUrl/create-order";
+
+  /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
+
+  static const String pharmacyHomeApi = "$baseUrl/pharamacy-home-api";
+  static const String pharmacyCategories = "$baseUrl/all-pcategory";
+  static const String pharmacyCategoriesDetails = "$baseUrl/pcategory-product";
+  static const String pharmacyProductWishlist = "$baseUrl/all-pharma-wishlist";
+  static const String addPharmaProductWishlist = "$baseUrl/pharma-wishlist";
+
 }

@@ -11,6 +11,7 @@ class CustomGridView extends StatelessWidget {
   final String? image;
 
   final VoidCallback? onTap;
+
   const CustomGridView(
       {super.key,
       this.image,
@@ -23,32 +24,20 @@ class CustomGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: itemCount ?? 10,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.65.h,
-          crossAxisSpacing: 16.w,
-          mainAxisSpacing: 5.h,
-        ),
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: onTap ??
-                () {
-                  Get.to(const PharmacyProductDetailsScreen(
-                      image: "assets/images/tablet.png",
-                      title: "Azithral Stat 100mg / Azee 100mg Tablet DT"));
-                },
-            child: CustomBanner(
-              image: image ?? "assets/images/tablet.png",
-              price: price,
-              priceBefore: priceBefore,
-              description: description,
-              quantity: quantity,
-            ),
-          );
-        });
+    return InkWell(
+      onTap: onTap ??
+          () {
+            Get.to(const PharmacyProductDetailsScreen(
+                image: "assets/images/tablet.png",
+                title: "Azithral Stat 100mg / Azee 100mg Tablet DT"));
+          },
+      child: CustomBanner(
+        image: image ?? "assets/images/tablet.png",
+        // price: price,
+        // priceBefore: priceBefore,
+        description: description,
+        quantity: quantity,
+      ),
+    );
   }
 }

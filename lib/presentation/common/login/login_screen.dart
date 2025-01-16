@@ -4,6 +4,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/PhoneNumberService.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -15,9 +16,10 @@ class LoginScreen extends StatelessWidget {
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
 
+  // final PhoneNumberService phoneNumberService = Get.put(PhoneNumberService());
+
   @override
   Widget build(BuildContext context) {
-    print('hiiii');
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Form(
@@ -78,46 +80,47 @@ class LoginScreen extends StatelessWidget {
     ]);
   }
 
-  // Widget phoneNumberField() {
-  //   return CustomTextFormField(
-  //     controller: loginController.mobNoCon.value,
-  //     inputFormatters: [
-  //       FilteringTextInputFormatter.digitsOnly,
-  //     ],
-  //     // prefixConstraints: BoxConstraints(maxWidth: 70),
-  //     prefix: CountryCodePicker(
-  //         padding: const EdgeInsets.only(left: 10),
-  //         onChanged: (CountryCode countryCode) {
-  //           print("country code===========> ${countryCode.code}");
-  //           loginController.updateCountryCode(countryCode);
-  //           loginController.showError.value = false;
-  //           int? countrylength =
-  //               loginController.countryPhoneDigits[countryCode.code.toString()];
-  //           loginController.chackCountryLength = countrylength!;
-  //         },
-  //         initialSelection: "IN"),
-  //     hintText: "Phone Number",
-  //     textInputType: TextInputType.phone,
-  //     validator: (value) {
-  //       if (value == null || value.isEmpty) {
-  //         return 'Please enter your phone number';
-  //       }
-  //       if (value.length != loginController.chackCountryLength) {
-  //         return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
-  //       }
-  //       return null;
-  //     },
-  //   );
-  // }
-
   Widget phoneNumberField() {
-    return Obx(
-      () => CustomPhoneNumberField(
-        controller: loginController.mobNoCon.value,
-        hintText: 'Phone Number',
-      ),
+    return CustomTextFormField(
+      controller: loginController.mobNoCon.value,
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      prefix: CountryCodePicker(
+          padding: const EdgeInsets.only(left: 10),
+          onChanged: (CountryCode countryCode) {
+            print("country code===========> ${countryCode.code}");
+            loginController.updateCountryCode(countryCode);
+            loginController.showError.value = false;
+            int? countrylength =
+                loginController.countryPhoneDigits[countryCode.code.toString()];
+            loginController.chackCountryLength = countrylength!;
+          },
+          initialSelection: "IN"),
+      hintText: "Phone Number",
+      textInputType: TextInputType.phone,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter your phone number';
+        }
+        if (value.length != loginController.chackCountryLength) {
+          return 'Please enter a valid phone number (${loginController.chackCountryLength} digits required)';
+        }
+        return null;
+      },
     );
   }
+
+  // Widget phoneNumberField() {
+  //   return Obx(() {
+  //     print("object${loginController.selectedCountryCode.value.dialCode}");
+  //     return CustomPhoneNumberField(
+  //       controller: loginController.mobNoCon.value,
+  //       hintText: 'Phone Number',
+  //       selectedCountryCode: loginController.selectedCountryCode.value,
+  //     );
+  //   });
+  // }
 
   Widget signInButton() {
     return Obx(() => CustomElevatedButton(
