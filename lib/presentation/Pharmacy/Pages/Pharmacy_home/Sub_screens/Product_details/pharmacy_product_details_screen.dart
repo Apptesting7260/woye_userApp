@@ -88,7 +88,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             reviews(),
             hBox(30),
             //
-            moreProducts(),
+            // moreProducts(),
             hBox(20),
           ],
         ),

@@ -4,7 +4,6 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
-import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
 class PharmacyCategoryDetails extends StatelessWidget {
   PharmacyCategoryDetails({super.key});
@@ -14,7 +13,6 @@ class PharmacyCategoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var title = Get.arguments ?? "Your Item";
     var args = Get.arguments;
     String categoryTitle = args['name'];
     int categoryId = args['id'];

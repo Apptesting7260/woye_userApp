@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 
 class CustomBanner extends StatelessWidget {
@@ -47,107 +48,114 @@ class CustomBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     IconData favorite = Icons.favorite;
     IconData favoriteNot = Icons.favorite_border_outlined;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              child: Center(
-                child: CachedNetworkImage(
-                  imageUrl: image.toString(),
-                  fit: BoxFit.cover,
-                  height: 160.h,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: AppColors.gray,
-                    highlightColor: AppColors.lightText,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.gray,
-                        borderRadius: BorderRadius.circular(20.r),
+    return GestureDetector(
+      onTap: () {
+        Get.to(const PharmacyProductDetailsScreen(
+            image: "assets/images/tablet.png",
+            title: "Azithral Stat 100mg / Azee 100mg Tablet DT"));
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Center(
+                  child: CachedNetworkImage(
+                    imageUrl: image.toString(),
+                    fit: BoxFit.cover,
+                    height: 160.h,
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: AppColors.gray,
+                      highlightColor: AppColors.lightText,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.gray,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Obx(
-              () => Container(
-                margin: REdgeInsets.only(top: 10, right: 10),
-                padding: REdgeInsets.all(6),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.r),
-                    color: AppColors.greyBackground),
-                child: InkWell(
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  onTap: () async {
-                    is_in_wishlist = !is_in_wishlist!;
-                    isLoading?.value = true;
-                    await addPharmaProductWishlistController
-                        .pharmacy_add_product_wishlist(
-                      categoryId: categoryId.toString(),
-                      product_id: product_id.toString(),
-                    );
-                    isLoading?.value = false;
-                  },
-                  child: isLoading!.value
-                      ? circularProgressIndicator(size: 18)
-                      : Icon(
-                          is_in_wishlist! ? favorite : favoriteNot,
-                          size: 22,
-                        ),
+              Obx(
+                () => Container(
+                  margin: REdgeInsets.only(top: 10, right: 10),
+                  padding: REdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10.r),
+                      color: AppColors.greyBackground),
+                  child: InkWell(
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    onTap: () async {
+                      is_in_wishlist = !is_in_wishlist!;
+                      isLoading?.value = true;
+                      await addPharmaProductWishlistController
+                          .pharmacy_add_product_wishlist(
+                        categoryId: categoryId.toString(),
+                        product_id: product_id.toString(),
+                      );
+                      isLoading?.value = false;
+                    },
+                    child: isLoading!.value
+                        ? circularProgressIndicator(size: 18)
+                        : Icon(
+                            is_in_wishlist! ? favorite : favoriteNot,
+                            size: 22,
+                          ),
+                  ),
                 ),
+              )
+            ],
+          ),
+          hBox(10),
+          Row(
+            children: [
+              Text(
+                "\$${sale_price}",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_16_600(AppColors.primary),
               ),
-            )
-          ],
-        ),
-        hBox(10),
-        Row(
-          children: [
-            Text(
-              "\$${sale_price}",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
-            ),
-            wBox(5),
-            Text(
-              "\$${regular_price}",
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left,
+              wBox(5),
+              Text(
+                "\$${regular_price}",
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
 
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.lightText,
-                  decoration: TextDecoration.lineThrough,
-                  decorationColor: AppColors.lightText),
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w300,
+                    color: AppColors.lightText,
+                    decoration: TextDecoration.lineThrough,
+                    decorationColor: AppColors.lightText),
 
-              //  AppFontStyle.text_14_300(AppColors.lightText),
-            ),
-          ],
-        ),
-        // hBox(10),
-        Text(
-          title ?? "Azithral XP 150mg...",
-          textAlign: TextAlign.left,
-          style: AppFontStyle.text_14_500(AppColors.darkText),
-        ),
-        // hBox(10),
-        Text(
-          quantity ?? "Strip of 10 tablets",
-          overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.left,
-          style: AppFontStyle.text_14_400(AppColors.lightText),
-        ),
-        // hBox(10),
-      ],
+                //  AppFontStyle.text_14_300(AppColors.lightText),
+              ),
+            ],
+          ),
+          // hBox(10),
+          Text(
+            title ?? "Azithral XP 150mg...",
+            textAlign: TextAlign.left,
+            style: AppFontStyle.text_14_500(AppColors.darkText),
+          ),
+          // hBox(10),
+          Text(
+            quantity ?? "Strip of 10 tablets",
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.left,
+            style: AppFontStyle.text_14_400(AppColors.lightText),
+          ),
+          // hBox(10),
+        ],
+      ),
     );
   }
 }
