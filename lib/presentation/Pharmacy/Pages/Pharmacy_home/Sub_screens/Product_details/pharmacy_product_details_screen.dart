@@ -1,19 +1,33 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
 import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
 import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
 class PharmacyProductDetailsScreen extends StatelessWidget {
-  final String image;
-  final String title;
-  const PharmacyProductDetailsScreen(
-      {super.key, required this.image, required this.title});
+  final String productId;
+  final String categoryId;
+  final String categoryName;
+
+  PharmacyProductDetailsScreen(
+      {super.key,
+      required this.productId,
+      required this.categoryId,
+      required this.categoryName});
+
+  final PharmaSpecificProductController controller =
+      Get.put(PharmaSpecificProductController());
 
   @override
   Widget build(BuildContext context) {
     RxInt selectedIndex = 0.obs;
-    String mainBannerImage = image;
-    String title = this.title;
+    // String mainBannerImage = image;
+    // String title = this.title;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -57,108 +71,173 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [
-            mainBanner(mainBannerImage, title, selectedIndex),
-            hBox(10),
-            //
-            titleAndDetails(),
-            hBox(30),
-            //
-            description(),
-            hBox(30),
-            //
-            shopCard(),
-            hBox(20),
-            //
-            buttons(),
-            hBox(30),
-            //
-            dropdownsSection(),
-            hBox(30),
-            //
-            productReviews(),
-            hBox(8),
-            //
-            const Divider(),
-            hBox(30),
-            //
-            reviews(),
-            hBox(30),
-            //
-            // moreProducts(),
-            hBox(20),
-          ],
-        ),
-      ),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.pharmaSpecificProductApi(
+                      productId: productId, categoryId: categoryId.toString());
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.pharmaSpecificProductApi(
+                      productId: productId, categoryId: categoryId.toString());
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+                onRefresh: () async {
+                  controller.pharmaSpecificProductApi(
+                      productId: productId, categoryId: categoryId.toString());
+                },
+                child: SingleChildScrollView(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      mainBanner(),
+                      hBox(10),
+                      //
+                      titleAndDetails(),
+                      hBox(30),
+                      //
+                      description(),
+                      hBox(30),
+                      //
+                      shopCard(),
+                      hBox(20),
+                      //
+                      buttons(),
+                      hBox(30),
+                      //
+                      dropdownsSection(),
+                      hBox(30),
+                      //
+                      productReviews(),
+                      hBox(8),
+                      //
+                      const Divider(),
+                      hBox(30),
+                      //
+                      reviews(),
+                      hBox(30),
+                      if (controller.productData.value.moreProducts!.isNotEmpty)
+                        moreProducts(),
+                      hBox(20),
+                    ],
+                  ),
+                ));
+        }
+      }),
     );
   }
 
-  Widget mainBanner(String mainBannerImage, String title, selectedIndex) {
+  Widget mainBanner() {
     // RxBool isSelected = false.obs;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20.r),
-          child: Image.asset(
-            mainBannerImage,
-            height: 340.h,
-            width: Get.width,
-            fit: BoxFit.cover,
-          ),
-        ),
-        hBox(15),
-        SizedBox(
-          height: 70,
-          width: Get.width,
-          child: ListView.separated(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: 5,
-            itemBuilder: (context, i) {
-              return Obx(
-                () => InkWell(
-                  onTap: () {
-                    selectedIndex.value = i;
-                  },
-                  child: Container(
-                    padding: REdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(
-                            color: selectedIndex == i
-                                ? AppColors.primary
-                                : Colors.transparent)),
-                    child: Image.asset(
-                      mainBannerImage,
-                      height: 50.h,
-                      width: 50.w,
-                      fit: BoxFit.cover,
-                    ),
+        Obx(
+          () => ClipRRect(
+            borderRadius: BorderRadius.circular(20.r),
+            child: CachedNetworkImage(
+              imageUrl: controller.selectedImageUrl.value.isEmpty
+                  ? controller.productData.value.product!.urlImage.toString()
+                  : controller.selectedImageUrl.value,
+              // Display selected image if available
+              fit: BoxFit.cover,
+              height: 340.h,
+              errorWidget: (context, url, error) =>
+                  const Center(child: Icon(Icons.error)),
+              placeholder: (context, url) => Shimmer.fromColors(
+                baseColor: AppColors.gray,
+                highlightColor: AppColors.lightText,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.gray,
+                    borderRadius: BorderRadius.circular(20.r),
                   ),
                 ),
-              );
-            },
-            separatorBuilder: (context, index) => wBox(20),
+              ),
+            ),
           ),
         ),
+        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+          hBox(10),
+        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+          SizedBox(
+            height: 75.h,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount:
+                  controller.productData.value.product?.urlAddimg!.length ?? 0,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Obx(
+                  () => GestureDetector(
+                    onTap: () {
+                      controller.isSelected.value = index;
+
+                      controller.selectedImageUrl.value = controller
+                          .productData.value.product!.urlAddimg![index];
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: controller.isSelected.value == index
+                            ? Border.all(color: AppColors.primary, width: 2)
+                            : null,
+                        borderRadius: BorderRadius.circular(18.r),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.r),
+                        child: CachedNetworkImage(
+                          imageUrl: controller
+                              .productData.value.product!.urlAddimg![index],
+                          fit: BoxFit.cover,
+                          width: 75.h,
+                          errorWidget: (context, url, error) =>
+                              const Center(child: Icon(Icons.error)),
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: AppColors.gray,
+                            highlightColor: AppColors.lightText,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.gray,
+                                borderRadius: BorderRadius.circular(18.r),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              separatorBuilder: (context, itemIndex) => wBox(10.w),
+            ),
+          ),
+        hBox(10),
       ],
     );
   }
 
   Widget titleAndDetails() {
-    RxInt cartCount = 1.obs;
+    var product = controller.productData.value.product;
+    // RxInt cartCount = 1.obs;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        "Tablet",
+        categoryName,
         style: AppFontStyle.text_16_400(AppColors.primary),
       ),
       hBox(10),
       Text(
-        title,
+        product!.title.toString(),
         overflow: TextOverflow.visible,
         style: AppFontStyle.text_18_600(
           AppColors.darkText,
@@ -168,7 +247,8 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       Row(
         children: [
           Text(
-            "Strip of 10 tablets",
+            product.packagingValue.toString(),
+            // "Strip of 10 tablets",
             style: AppFontStyle.text_14_400(AppColors.lightText),
           ),
           Text(
@@ -202,7 +282,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           ),
           wBox(5),
           Text(
-            "(300 sold)",
+            product.pharmaName.toString(),
             style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
         ],
@@ -210,12 +290,12 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       Row(
         children: [
           Text(
-            "\$72.00",
+            "\$${product.salePrice.toString()}",
             style: AppFontStyle.text_16_600(AppColors.primary),
           ),
           wBox(8),
           Text(
-            "\$20.00",
+            "\$${product.regularPrice.toString()}",
             style: TextStyle(
                 fontSize: 14.sp,
                 color: AppColors.mediumText,
@@ -224,43 +304,92 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 decorationColor: AppColors.mediumText),
           ),
           const Spacer(),
-          Container(
-            height: 40.h,
-            width: 100.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50.r),
-              border: Border.all(width: 0.8.w, color: AppColors.primary),
-            ),
-            child: Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (cartCount.value != 0) cartCount.value--;
-                    },
-                    child: Icon(
-                      Icons.remove,
-                      size: 16.w,
+          product.quanInStock.toString() != "0"
+              ? Container(
+                  height: 40.h,
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.r),
+                    border: Border.all(width: 0.8.w, color: AppColors.primary),
+                  ),
+                  child: Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (controller.cartCount.value > 1) {
+                              controller.cartCount.value--;
+                            }
+                          },
+                          child: Icon(
+                            Icons.remove,
+                            size: 20.w,
+                          ),
+                        ),
+                        Text(
+                          "${controller.cartCount.value}",
+                          style: AppFontStyle.text_14_400(AppColors.darkText),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            int stockQuantity =
+                                int.tryParse(product.quanInStock ?? '0') ?? 0;
+
+                            if (controller.cartCount.value < stockQuantity) {
+                              controller.cartCount.value++;
+                            } else {
+                              Utils.showToast(
+                                  "Quantity is limited. Only $stockQuantity items available.");
+                            }
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 20.w,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text(
-                    "${cartCount.value}",
-                    style: AppFontStyle.text_14_400(AppColors.darkText),
-                  ),
-                  GestureDetector(
+                )
+              : Opacity(
+                  opacity: 0.5,
+                  child: GestureDetector(
                     onTap: () {
-                      cartCount.value++;
+                      Utils.showToast("Product not available at the moment.");
                     },
-                    child: Icon(
-                      Icons.add,
-                      size: 16.w,
+                    child: Container(
+                      height: 40.h,
+                      width: 100.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.r),
+                        border:
+                            Border.all(width: 0.8.w, color: AppColors.primary),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            child: Icon(
+                              Icons.remove,
+                              size: 20.w,
+                            ),
+                          ),
+                          Text(
+                            "${0}",
+                            style: AppFontStyle.text_14_400(AppColors.darkText),
+                          ),
+                          GestureDetector(
+                            child: Icon(
+                              Icons.add,
+                              size: 20.w,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          )
+                )
         ],
       ),
       hBox(20),
@@ -280,7 +409,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       ),
       hBox(5),
       Text(
-        "January 2025",
+        product.expire.toString(),
         style: AppFontStyle.text_14_400(AppColors.lightText),
       ),
     ]);
@@ -296,7 +425,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         ),
         hBox(10),
         Text(
-          "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+          controller.productData.value.product!.description.toString(),
           overflow: TextOverflow.visible,
           style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4),
         ),
@@ -307,9 +436,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   Widget shopCard() {
     return InkWell(
       onTap: () {
-        Get.to(PharmacyVendorDetailsScreen(
-            title: "Micro Labs Ltd",
-            image: "assets/images/tablet-rounded.png"));
+        // Get.to(PharmacyVendorDetailsScreen(
+        //     title: "Micro Labs Ltd",
+        //     image: "assets/images/tablet-rounded.png"));
       },
       child: Container(
         padding: REdgeInsets.all(20),
@@ -334,7 +463,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Micro Labs Ltd",
+                    controller.productData.value.product!.pharmaName.toString(),
                     style: AppFontStyle.text_16_600(AppColors.darkText),
                   ),
                   hBox(5),
@@ -690,6 +819,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   }
 
   Widget moreProducts() {
+    var moreProducts = controller.productData.value.moreProducts;
     return Column(
       children: [
         Row(
@@ -724,9 +854,31 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           ],
         ),
         hBox(20),
-        const CustomGridView(
-          // itemCount: 2,
-        )
+        GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: moreProducts!.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.65.h,
+              crossAxisSpacing: 16.w,
+              mainAxisSpacing: 5.h,
+            ),
+            itemBuilder: (context, index) {
+              return CustomBanner(
+                image: moreProducts[index].urlImage.toString(),
+                sale_price: moreProducts[index].salePrice.toString(),
+                regular_price: moreProducts[index].regularPrice.toString(),
+                title: moreProducts[index].title.toString(),
+                quantity: moreProducts[index].packagingValue.toString(),
+                categoryId: moreProducts[index].categoryId.toString(),
+                product_id: moreProducts[index].id.toString(),
+                shop_name: moreProducts[index].shopName.toString(),
+                is_in_wishlist: moreProducts[index].isInWishlist,
+                isLoading: moreProducts[index].isLoading,
+                categoryName: moreProducts[index].categoryName.toString(),
+              );
+            })
       ],
     );
   }

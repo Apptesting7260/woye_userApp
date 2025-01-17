@@ -83,6 +83,32 @@ class PharmacyCategoryDetails extends StatelessWidget {
                       child: hBox(10.h),
                     ),
                     // categoriesList(),
+                    if (controller
+                        .categoriesDetailsData.value.categoryProduct!.isEmpty)
+                      SliverToBoxAdapter(
+                        child: Column(
+                          children: [
+                            Center(
+                              child: SvgPicture.asset(
+                                ImageConstants.noData,
+                                height: 300.h,
+                                width: 200.h,
+                              ),
+                            ),
+                            Text(
+                              "We couldn't find any results",
+                              style:
+                                  AppFontStyle.text_20_600(AppColors.darkText),
+                            ),
+                            hBox(5.h),
+                            Text(
+                              "Explore more and shortlist some items",
+                              style: AppFontStyle.text_16_400(
+                                  AppColors.mediumText),
+                            ),
+                          ],
+                        ),
+                      ),
                     if (controller.categoriesDetailsData.value.categoryProduct!
                         .isNotEmpty)
                       itemGrid(),
@@ -141,6 +167,8 @@ class PharmacyCategoryDetails extends StatelessWidget {
                     .categoryProduct![index].isInWishlist,
                 isLoading: controller.categoriesDetailsData.value
                     .categoryProduct![index].isLoading,
+                categoryName: controller.categoriesDetailsData.value
+                    .categoryProduct![index].categoryName.toString(),
               );
             }));
   }

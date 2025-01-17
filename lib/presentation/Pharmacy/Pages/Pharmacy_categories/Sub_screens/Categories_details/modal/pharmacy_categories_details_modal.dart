@@ -52,6 +52,7 @@ class CategoryProduct {
   bool? isInWishlist;
   String? shopName;
   String? urlImage;
+  String? categoryName;
   Rx<bool> isLoading = false.obs;
 
   CategoryProduct({
@@ -64,6 +65,7 @@ class CategoryProduct {
     this.isInWishlist,
     this.shopName,
     this.urlImage,
+    this.categoryName,
   });
 
   CategoryProduct.fromJson(Map<String, dynamic> json) {
@@ -76,9 +78,9 @@ class CategoryProduct {
     isInWishlist = json['is_in_wishlist'];
     shopName = json['shop_name'];
     urlImage = json['url_image'];
+    categoryName = json['category_name'];
   }
 
-  // Updated toJson method to serialize the object with the required keys
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
@@ -90,6 +92,7 @@ class CategoryProduct {
     data['is_in_wishlist'] = this.isInWishlist;
     data['shop_name'] = this.shopName;
     data['url_image'] = this.urlImage;
+    data['category_name'] = this.categoryName;
     return data;
   }
 }

@@ -7,22 +7,43 @@ class PharmacyMoreProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        isLeading: true,
-        title: Text(
-          "Products",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+        appBar: CustomAppBar(
+          isLeading: true,
+          title: Text(
+            "Products",
+            style: AppFontStyle.text_22_600(AppColors.darkText),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.r),
-          child: Column(
-            children: [hBox(20), productList(), hBox(50)],
-          )),
-    );
+        body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 24.r),
+            child: productList()));
   }
 
-  Widget productList() {
-    return const CustomGridView();
+  GridView productList() {
+    return GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 0,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          childAspectRatio: 0.65.h,
+          crossAxisSpacing: 16.w,
+          mainAxisSpacing: 5.h,
+        ),
+        itemBuilder: (context, index) {
+          return CustomBanner(
+              // image: moreProducts[index].urlImage.toString(),
+              // sale_price: moreProducts[index].salePrice.toString(),
+              // regular_price: moreProducts[index].regularPrice.toString(),
+              // title: moreProducts[index].title.toString(),
+              // quantity: moreProducts[index].packagingValue.toString(),
+              // categoryId: moreProducts[index].categoryId.toString(),
+              // product_id: moreProducts[index].id.toString(),
+              // shop_name: moreProducts[index].shopName.toString(),
+              // is_in_wishlist: moreProducts[index].isInWishlist,
+              // isLoading: moreProducts[index].isLoading,
+              // categoryName: moreProducts[index].categoryName.toString(),
+              );
+        });
   }
 }

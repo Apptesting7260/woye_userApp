@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 
@@ -18,6 +19,7 @@ class CustomBanner extends StatelessWidget {
   final String? shop_name;
   final String? rating;
   final String? categoryId;
+  final String? categoryName;
   final String? product_id;
   final EdgeInsetsGeometry? padding;
   Rx<bool>? isLoading;
@@ -37,6 +39,7 @@ class CustomBanner extends StatelessWidget {
     this.shop_name,
     this.rating,
     this.categoryId,
+    this.categoryName,
     this.product_id,
     this.isLoading,
   });
@@ -44,15 +47,26 @@ class CustomBanner extends StatelessWidget {
   final AddPharmaProductWishlistController addPharmaProductWishlistController =
       Get.put(AddPharmaProductWishlistController());
 
+  final PharmaSpecificProductController pharmaSpecificProductController =
+      Get.put(PharmaSpecificProductController());
+
   @override
   Widget build(BuildContext context) {
     IconData favorite = Icons.favorite;
     IconData favoriteNot = Icons.favorite_border_outlined;
     return GestureDetector(
       onTap: () {
-        Get.to(const PharmacyProductDetailsScreen(
-            image: "assets/images/tablet.png",
-            title: "Azithral Stat 100mg / Azee 100mg Tablet DT"));
+        pharmaSpecificProductController.pharmaSpecificProductApi(
+            productId: product_id.toString(),
+            categoryId: categoryId.toString());
+        print("category_id ${categoryId}");
+        print("category_id ${product_id}");
+        print("category_id ${categoryName}");
+        Get.to(PharmacyProductDetailsScreen(
+          productId: product_id.toString(),
+          categoryId: categoryId.toString(),
+          categoryName: categoryName.toString(),
+        ));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +84,8 @@ class CustomBanner extends StatelessWidget {
                     imageUrl: image.toString(),
                     fit: BoxFit.cover,
                     height: 160.h,
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                     placeholder: (context, url) => Shimmer.fromColors(
                       baseColor: AppColors.gray,
                       highlightColor: AppColors.lightText,
