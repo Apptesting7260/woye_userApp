@@ -1,43 +1,14 @@
 import 'dart:developer';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/modal/pharamacy_home_modal.dart';
 
 class PharmacyHomeController extends GetxController {
-  // List<Map<dynamic, dynamic>> restaurantList = [
-  //   {
-  //     "title": "The Pizza Hub And Restaurants",
-  //     "type": "Pure veg",
-  //     "image": "assets/images/restaurant-0.png",
-  //     "isFavourite": false
-  //   },
-  //   {
-  //     "title": "Casa Della Saucy",
-  //     "type": "Veg and Non Veg",
-  //     "image": "assets/images/restaurant-1.png",
-  //     "isFavourite": false
-  //   },
-  //   {
-  //     "title": "The Royal Restaurants",
-  //     "type": "Pure veg",
-  //     "image": "assets/images/restaurant-2.png",
-  //     "isFavourite": false
-  //   },
-  // ];
-  RxList<Restaurant> restaurantList = <Restaurant>[].obs;
-
-  void changeFavorite(index) {
-    // restaurantList[index]["isFavourite"] =
-    //     !restaurantList[index]["isFavourite"];
-    // print("check==============>${restaurantList[index]["isFavourite"]}");
-    update();
-  }
-
-  @override
-  void onInit() {
-    homeApi(1);
-    // TODO: implement onInit
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   homeApi(1);
+  //   // TODO: implement onInit
+  //   super.onInit();
+  // }
 
   RxInt currentPage = 1.obs;
   RxBool noLoading = false.obs;
@@ -45,32 +16,33 @@ class PharmacyHomeController extends GetxController {
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
-  final homeData = HomeModel().obs;
+  final homeData = PharamacyHomeModal().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void homeSet(HomeModel value) => homeData.value = value;
+  void homeSet(PharamacyHomeModal value) => homeData.value = value;
+
   // RxList<Restaurant> restaurantList = <Restaurant>[].obs;
 
-  void restaurantSet(HomeModel value) {
-    if (value.restaurants?.data != null) {
-      restaurantList.addAll(value.restaurants?.data ?? []);
-    }
-    if (restaurantList.length == value.restaurants!.total) {
-      noLoading.value = true;
-    }
-  }
+  // void restaurantSet(PharamacyHomeModal value) {
+  //   if (value.pharmaShops != null) {
+  //     restaurantList.addAll(value.pharmaShops ?? []);
+  //   }
+  //   if (restaurantList.length == value.pharmaShops!.total) {
+  //     noLoading.value = true;
+  //   }
+  // }
 
   void setError(String value) => error.value = value;
 
   homeApi(int page) async {
-    api.homeApi(page: page, perPage: 1).then((value) {
+    api.pharmacyHomeApi(page: page, perPage: 1).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
-      restaurantSet(value);
+      // restaurantSet(value);
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
@@ -82,15 +54,15 @@ class PharmacyHomeController extends GetxController {
   }
 
   homeApiRefresh(int page) async {
-    restaurantList.clear();
+    // restaurantList.clear();
     currentPage.value = 1;
     noLoading.value = false;
     setRxRequestStatus(Status.LOADING);
-    api.homeApi(page: 1, perPage: 1).then((value) {
+    api.pharmacyHomeApi(page: 1, perPage: 1).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
-      restaurantSet(value);
+      // restaurantSet(value);
 
       if (homeData.value.status == true) {
         log('home data ==>>${homeData.value.status}');

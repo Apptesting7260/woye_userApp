@@ -39,7 +39,7 @@ class PharmaSpecificProductModal {
 class Product {
   int? id;
   String? title;
-  Null? slug;
+  var slug;
   int? userId;
   int? categoryId;
   int? consumeId;

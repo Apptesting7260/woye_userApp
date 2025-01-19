@@ -175,7 +175,7 @@ class AppRoutes {
         bindings: [RestaurantNavbarBinding(), HomeBinding()]),
     GetPage(
       name: pharmacyNavbar,
-      page: () => const PharmacyNavbar(),
+      page: () => PharmacyNavbar(),
     ),
     GetPage(
       name: groceryNavbar,
@@ -196,7 +196,7 @@ class AppRoutes {
     GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
     // GetPage(name: editProfile, page: () => const EditProfileScreen()),
-    GetPage(name: orders, page: () =>  OrdersScreen()),
+    GetPage(name: orders, page: () => OrdersScreen()),
     GetPage(name: orderDetails, page: () => const OrderDetailsScreen()),
     GetPage(name: myWallet, page: () => MyWalletScreen()),
     GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),

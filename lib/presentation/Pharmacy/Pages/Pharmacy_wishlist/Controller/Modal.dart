@@ -36,7 +36,8 @@ class WishlistProduct {
   String? salePrice;
   String? packagingValue;
   int? categoryId;
-  bool? isInWishlist;
+  int? categoryName;
+  bool? isInWishlist = true;
   String? shopName;
   String? urlImage;
   Rx<bool> isLoading = false.obs;
@@ -48,7 +49,8 @@ class WishlistProduct {
     this.salePrice,
     this.packagingValue,
     this.categoryId,
-    this.isInWishlist,
+    this.categoryName,
+    // this.isInWishlist = true,
     this.shopName,
     this.urlImage,
   });
@@ -60,7 +62,8 @@ class WishlistProduct {
     salePrice = json['sale_price'];
     packagingValue = json['packaging_value'];
     categoryId = json['category_id'];
-    isInWishlist = json['is_in_wishlist'];
+    categoryName = json['category_name'];
+    // isInWishlist = json['is_in_wishlist'];
     shopName = json['shop_name'];
     urlImage = json['url_image'];
   }
@@ -73,13 +76,13 @@ class WishlistProduct {
     data['sale_price'] = this.salePrice;
     data['packaging_value'] = this.packagingValue;
     data['category_id'] = this.categoryId;
-    data['is_in_wishlist'] = this.isInWishlist;
+    data['category_name'] = this.categoryName;
+    // data['is_in_wishlist'] = this.isInWishlist;
     data['shop_name'] = this.shopName;
     data['url_image'] = this.urlImage;
     return data;
   }
 }
-
 
 // class WishlistProduct {
 //   int? id;
