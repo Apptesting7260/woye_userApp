@@ -436,9 +436,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   Widget shopCard() {
     return InkWell(
       onTap: () {
-        // Get.to(PharmacyVendorDetailsScreen(
-        //     title: "Micro Labs Ltd",
-        //     image: "assets/images/tablet-rounded.png"));
+        Get.to(PharmacyVendorDetailsScreen(
+            title: "Micro Labs Ltd",
+            image: "assets/images/tablet-rounded.png"));
       },
       child: Container(
         padding: REdgeInsets.all(20),
@@ -853,7 +853,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             ),
           ],
         ),
-        hBox(20),
+        hBox(20.h),
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,

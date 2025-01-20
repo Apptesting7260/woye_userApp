@@ -1,70 +1,68 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/modal/all_restaurant_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/all_pharma_shops/modal/all_Pharma_shops.dart';
 
-class AllRestaurantController extends GetxController {
+class AllPharmaShopsController extends GetxController {
   @override
   void onInit() {
-    seeall_restaurant_Api();
-
+    seeAllPharmaShopsApi();
     super.onInit();
   }
 
+  TextEditingController searchController = TextEditingController();
+
+  RxList<Shops> filteredWishlistData = RxList<Shops>();
+
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
-  final restaurantData = all_restaurant_modal().obs;
+  final pharmaShopData = AllPharmaShopsModal().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  TextEditingController searchController = TextEditingController();
-
-  RxList<Restaurants> filteredWishlistData = RxList<Restaurants>();
-
-  void restauran_Set(all_restaurant_modal value) {
-    restaurantData.value = value;
-    filteredWishlistData.value = List.from(value.restaurants!);
+  void pharmaShop_Set(AllPharmaShopsModal value) {
+    pharmaShopData.value = value;
+    filteredWishlistData.value = List.from(value.shops!);
   }
 
   void setError(String value) => error.value = value;
 
   void filterCategories(String query) {
     if (query.isEmpty) {
-      filteredWishlistData.value = List.from(restaurantData.value.restaurants!);
+      filteredWishlistData.value = List.from(pharmaShopData.value.shops!);
     } else {
-      filteredWishlistData.value = restaurantData.value.restaurants!
+      filteredWishlistData.value = pharmaShopData.value.shops!
           .where((shop) =>
-              shop.shopName!.toLowerCase().contains(query.toLowerCase()))
+          shop.shopName!.toLowerCase().contains(query.toLowerCase()))
           .toList(); // Filter categories
     }
   }
 
-  seeall_restaurant_Api() async {
-    api.all_Restaurant_Api().then((value) {
-      restauran_Set(value);
+  seeAllPharmaShopsApi() async {
+    api.allPharmaShopsApi().then((value) {
+      pharmaShop_Set(value);
       filterCategories(searchController.text);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
+      print('errrrrrrrrrrrr${error.toString()}');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
   }
 
-  refresh_Api() async {
+  refreshApi() async {
     setRxRequestStatus(Status.LOADING);
-
-    api.all_Restaurant_Api().then((value) {
-      restauran_Set(value);
+    api.allPharmaShopsApi().then((value) {
+      pharmaShop_Set(value);
       filterCategories(searchController.text);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
+      print('errrrrrrrrrrrr${error.toString()}');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);

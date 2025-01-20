@@ -7,6 +7,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Modal/pharmacy_categories_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/modal/pharmacy_categories_details_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/modal/pharma_specific_products_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/all_pharma_shops/modal/all_Pharma_shops.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/modal/pharamacy_home_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/pharmaModal.dart';
@@ -310,6 +311,13 @@ class Repository {
     dynamic response = await _apiService.postApi(
         data, AppUrls.pharmacyCategoriesDetails, token);
     return PharmacyCategoriesDetailsModal.fromJson(response);
+  }
+
+
+  Future<dynamic> allPharmaShopsApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.allShops, token);
+    return AllPharmaShopsModal.fromJson(response);
   }
 
 

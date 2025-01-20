@@ -7,9 +7,9 @@ class PharmacyCategoriesModal {
 
   PharmacyCategoriesModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    if (json['Allcategory'] != null) {
+    if (json['allCategories'] != null) {
       allcategory = <Allcategory>[];
-      json['Allcategory'].forEach((v) {
+      json['allCategories'].forEach((v) {
         allcategory!.add(Allcategory.fromJson(v));
       });
     }
@@ -20,7 +20,7 @@ class PharmacyCategoriesModal {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = this.status;
     if (this.allcategory != null) {
-      data['Allcategory'] = this.allcategory!.map((v) => v.toJson()).toList();
+      data['allCategories'] = this.allcategory!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     return data;

@@ -3,36 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
-import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/Shared/Widgets/custom_sliver_app_bar.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/controller/all_restaurants_controller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/all_pharma_shops/controller/all_pharma_shops_controller.dart';
 import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/theme/font_style.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
 import '../../../../../../../Core/Utils/sized_box.dart';
 
-class All_Restaurant extends StatelessWidget {
-  All_Restaurant({super.key});
+class AllPharmaShopsScreen extends StatelessWidget {
+  AllPharmaShopsScreen({super.key});
 
-  final AllRestaurantController controller = Get.put(AllRestaurantController());
+  final AllPharmaShopsController controller =
+      Get.put(AllPharmaShopsController());
 
-  final RestaurantDetailsController restaurantDeatilsController =
-      Get.put(RestaurantDetailsController());
+  // final RestaurantDetailsController restaurantDeatilsController =
+  // Get.put(RestaurantDetailsController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
-          "Restaurants",
+          "Pharmacy Shops",
           style: AppFontStyle.text_22_600(
             AppColors.darkText,
           ),
@@ -46,13 +43,13 @@ class All_Restaurant extends StatelessWidget {
             if (controller.error.value == 'No internet') {
               return InternetExceptionWidget(
                 onPress: () {
-                  controller.seeall_restaurant_Api();
+                  controller.refreshApi();
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
-                  controller.seeall_restaurant_Api();
+                  controller.refreshApi();
                 },
               );
             }
@@ -60,7 +57,7 @@ class All_Restaurant extends StatelessWidget {
             return Scaffold(
               body: RefreshIndicator(
                 onRefresh: () async {
-                  controller.refresh_Api();
+                  controller.refreshApi();
                 },
                 child: Padding(
                   padding:
@@ -75,33 +72,33 @@ class All_Restaurant extends StatelessWidget {
                       ),
                       SliverToBoxAdapter(
                         child: Obx(() {
-                          final restaurants = controller.filteredWishlistData;
+                          final pharma = controller.filteredWishlistData;
                           return ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: restaurants.length,
+                            itemCount: pharma.length,
                             itemBuilder: (context, index) {
-                              final restaurant = restaurants[index];
+                              final pharmaShops = pharma[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Get.to(RestaurantDetailsScreen(
-                                    Restaurantid: restaurant.id.toString(),
-                                  ));
-                                  restaurantDeatilsController
-                                      .restaurant_Details_Api(
-                                    id: restaurant.id.toString(),
-                                  );
+                                  // Get.to(RestaurantDetailsScreen(
+                                  //   Restaurantid: restaurant.id.toString(),
+                                  // ));
+                                  // restaurantDeatilsController
+                                  //     .restaurant_Details_Api(
+                                  //   id: restaurant.id.toString(),
+                                  // );
                                 },
-                                child: restaurantList(
+                                child: pharmaShop(
                                   index: index,
-                                  image: restaurant.shopimage.toString(),
-                                  title: restaurant.shopName.toString(),
-                                  rating: restaurant.rating.toString(),
-                                  price: restaurant.avgPrice.toString(),
+                                  image: pharmaShops.shopimage.toString(),
+                                  title: pharmaShops.shopName.toString(),
+                                  rating: pharmaShops.rating.toString(),
+                                  price: pharmaShops.avgPrice.toString(),
                                 ),
                               );
                             },
-                            separatorBuilder: (context, index) => hBox(20),
+                            separatorBuilder: (context, index) => hBox(20.h),
                           );
                         }),
                       ),
@@ -118,7 +115,7 @@ class All_Restaurant extends StatelessWidget {
     );
   }
 
-  Widget restaurantList(
+  Widget pharmaShop(
       {index, String? image, title, type, isFavourite, rating, price}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,6 +130,8 @@ class All_Restaurant extends StatelessWidget {
               ),
               child: CachedNetworkImage(
                 imageUrl: image.toString(),
+                fit: BoxFit.fill,
+                width: double.maxFinite,
                 height: 220.h,
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: AppColors.gray,

@@ -66,6 +66,7 @@ class AppUrls {
   static const String pharmacyProductWishlist = "$baseUrl/all-pharma-wishlist";
   static const String addPharmaProductWishlist = "$baseUrl/pharma-wishlist";
   static const String pharmaSpecificProduct = "$baseUrl/pspecific-product";
+  static const String allShops = "$baseUrl/pall-shops";
 
 
 }

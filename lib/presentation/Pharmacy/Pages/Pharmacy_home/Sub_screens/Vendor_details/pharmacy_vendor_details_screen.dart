@@ -69,7 +69,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             mainBanner(mainBannerImage, title),
             hBox(30),
             categoriesList(),
-            itemsGrid(),
+            // itemsGrid(),
             hBox(50)
           ],
         ),
@@ -209,7 +209,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget itemsGrid() {
-    return const CustomGridView();
-  }
+  // Widget itemsGrid() {
+  //   return const CustomGridView();
+  // }
 }

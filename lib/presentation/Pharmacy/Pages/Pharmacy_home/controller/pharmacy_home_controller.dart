@@ -3,12 +3,12 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/modal/pharamacy_home_modal.dart';
 
 class PharmacyHomeController extends GetxController {
-  // @override
-  // void onInit() {
-  //   homeApi(1);
-  //   // TODO: implement onInit
-  //   super.onInit();
-  // }
+  @override
+  void onInit() {
+    homeApi(1);
+    // TODO: implement onInit
+    super.onInit();
+  }
 
   RxInt currentPage = 1.obs;
   RxBool noLoading = false.obs;
@@ -24,16 +24,16 @@ class PharmacyHomeController extends GetxController {
 
   void homeSet(PharamacyHomeModal value) => homeData.value = value;
 
-  // RxList<Restaurant> restaurantList = <Restaurant>[].obs;
+  RxList<PharmaShops> shopsList = <PharmaShops>[].obs;
 
-  // void restaurantSet(PharamacyHomeModal value) {
-  //   if (value.pharmaShops != null) {
-  //     restaurantList.addAll(value.pharmaShops ?? []);
-  //   }
-  //   if (restaurantList.length == value.pharmaShops!.total) {
-  //     noLoading.value = true;
-  //   }
-  // }
+  void pharmaShopSet(PharamacyHomeModal value) {
+    if (value.pharmaShops?.data != null) {
+      shopsList.addAll(value.pharmaShops?.data ?? []);
+    }
+    if (shopsList.length == value.pharmaShops!.total) {
+      noLoading.value = true;
+    }
+  }
 
   void setError(String value) => error.value = value;
 
@@ -42,7 +42,7 @@ class PharmacyHomeController extends GetxController {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
-      // restaurantSet(value);
+      pharmaShopSet(value);
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
@@ -54,7 +54,7 @@ class PharmacyHomeController extends GetxController {
   }
 
   homeApiRefresh(int page) async {
-    // restaurantList.clear();
+    shopsList.clear();
     currentPage.value = 1;
     noLoading.value = false;
     setRxRequestStatus(Status.LOADING);
@@ -62,7 +62,7 @@ class PharmacyHomeController extends GetxController {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
-      // restaurantSet(value);
+      pharmaShopSet(value);
 
       if (homeData.value.status == true) {
         log('home data ==>>${homeData.value.status}');

@@ -214,7 +214,7 @@ class Extra {
 }
 
 class Item {
-  String? id;
+  var id;
   String? name;
   String? price;
 

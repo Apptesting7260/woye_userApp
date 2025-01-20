@@ -168,37 +168,9 @@ class PharmacyCategoryDetails extends StatelessWidget {
                 isLoading: controller.categoriesDetailsData.value
                     .categoryProduct![index].isLoading,
                 categoryName: controller.categoriesDetailsData.value
-                    .categoryProduct![index].categoryName.toString(),
+                    .categoryProduct![index].categoryName
+                    .toString(),
               );
             }));
   }
-
-// SliverToBoxAdapter categoriesList() {
-//   return SliverToBoxAdapter(
-//     child: SizedBox(
-//       height: 50,
-//       child: ListView.separated(
-//         itemCount: detailCategories.length,
-//         scrollDirection: Axis.horizontal,
-//         itemBuilder: (c, i) {
-//           // bool isSelected = i == selectedIndex.value;
-//           return Obx(
-//             () => InkWell(
-//               onTap: () {
-//                 selectedIndex.value = i;
-//               },
-//               child: Text(
-//                 detailCategories[i],
-//                 style: AppFontStyle.text_14_400(selectedIndex.value == i
-//                     ? AppColors.primary
-//                     : AppColors.lightText),
-//               ),
-//             ),
-//           );
-//         },
-//         separatorBuilder: (c, i) => wBox(20.w),
-//       ),
-//     ),
-//   );
-// }
 }
