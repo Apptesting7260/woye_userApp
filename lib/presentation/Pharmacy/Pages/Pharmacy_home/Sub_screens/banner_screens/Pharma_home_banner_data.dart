@@ -5,6 +5,10 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/banner_screens/pharma_banner_details_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
@@ -17,26 +21,25 @@ class PharmacyHomeBanner extends StatelessWidget {
 
   PharmacyHomeBanner({super.key, required this.bannerID});
 
-  final BannerDetailsController controller = Get.put(BannerDetailsController());
+  final PharmaBannerDetailsControllerController controller =
+      Get.put(PharmaBannerDetailsControllerController());
 
-  final specific_Product_Controller specificProductController =
-      Get.put(specific_Product_Controller());
-  final RestaurantDetailsController restaurantDeatilsController =
-      Get.put(RestaurantDetailsController());
+  final PharmacyCategoriesDetailsController
+      pharmacyCategoriesDetailsController =
+      Get.put(PharmacyCategoriesDetailsController());
 
-  final RestaurantCategoriesDetailsController
-      restaurantCategoriesDeatilsController =
-      Get.put(RestaurantCategoriesDetailsController());
+  final PharmacyDetailsController pharmacyDetailsController =
+      Get.put(PharmacyDetailsController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          // title: Text(
-          //   "Filter",
-          //   style: AppFontStyle.text_22_600(AppColors.darkText),
-          // ),
-        ),
+            // title: Text(
+            //   "Filter",
+            //   style: AppFontStyle.text_22_600(AppColors.darkText),
+            // ),
+            ),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
             case Status.LOADING:
@@ -45,13 +48,13 @@ class PharmacyHomeBanner extends StatelessWidget {
               if (controller.error.value == 'No internet') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    // controller.restaurant_Details_Api(id: Restaurantid);
+                    controller.bannerDataApi(bannerId: bannerID);
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    // controller.restaurant_Details_Api(id: Restaurantid);
+                    controller.bannerDataApi(bannerId: bannerID);
                   },
                 );
               }
@@ -74,8 +77,8 @@ class PharmacyHomeBanner extends StatelessWidget {
                           if (controller.bannerData.value.products!.isNotEmpty)
                             products(),
                           if (controller
-                              .bannerData.value.restaurants!.isNotEmpty)
-                            restaurant(),
+                              .bannerData.value.pharmaShops!.isNotEmpty)
+                            shops(),
                           hBox(10.h),
                         ],
                       ),
@@ -140,13 +143,12 @@ class PharmacyHomeBanner extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.restaurantCategoriesDetails,
-                    arguments: {
-                      'name': banners[index].name.toString(),
-                      'id': int.parse(banners[index].id.toString()),
-                    });
-                restaurantCategoriesDeatilsController
-                    .restaurant_Categories_Details_Api(
+                Get.toNamed(AppRoutes.pharmacyCategoryDetails, arguments: {
+                  'name': banners[index].name.toString(),
+                  'id': int.parse(banners[index].id.toString()),
+                });
+                pharmacyCategoriesDetailsController
+                    .pharmacy_Categories_Details_Api(
                   id: banners[index].id.toString(),
                 );
               },
@@ -209,74 +211,77 @@ class PharmacyHomeBanner extends StatelessWidget {
               mainAxisSpacing: 5.h,
             ),
             itemBuilder: (context, index) {
-              return GestureDetector(
-                  onTap: () {
-                    Get.to(ProductDetailsScreen(
-                      productId: products![index].id.toString(),
-                      categoryId: products[index].categoryId.toString(),
-                      categoryName: products[index].categoryName.toString(),
-                    ));
-
-                    specificProductController.specific_Product_Api(
-                        productId: products[index].id.toString(),
-                        categoryId: products[index].categoryId.toString());
-                  },
-                  child: CustomItemBanner(
-                    index: index,
-                    product_id: products?[index].id.toString(),
-                    categoryId: products?[index].categoryId.toString(),
-                    image: products?[index].urlImage.toString(),
-                    title: products?[index].title.toString(),
-                    rating: products?[index].rating.toString(),
-                    is_in_wishlist: products?[index].isInWishlist,
-                    isLoading: products?[index].isLoading,
-                    sale_price: products?[index].salePrice.toString(),
-                    regular_price: products?[index].regularPrice.toString(),
-                    resto_name: products?[index].restoName.toString(),
-                  ));
+              return CustomBanner(
+                image: controller.bannerData.value.products![index].urlImage
+                    .toString(),
+                sale_price: controller
+                    .bannerData.value.products![index].salePrice
+                    .toString(),
+                regular_price: controller
+                    .bannerData.value.products![index].regularPrice
+                    .toString(),
+                title: controller.bannerData.value.products![index].title
+                    .toString(),
+                quantity: controller
+                    .bannerData.value.products![index].packagingValue
+                    .toString(),
+                categoryId: controller
+                    .bannerData.value.products![index].categoryId
+                    .toString(),
+                product_id:
+                    controller.bannerData.value.products![index].id.toString(),
+                shop_name: controller.bannerData.value.products![index].shopName
+                    .toString(),
+                is_in_wishlist:
+                    controller.bannerData.value.products![index].isInWishlist,
+                isLoading:
+                    controller.bannerData.value.products![index].isLoading,
+                categoryName: controller
+                    .bannerData.value.products![index].categoryName
+                    .toString(),
+              );
             }),
         hBox(20.h),
       ],
     );
   }
 
-  Widget restaurant() {
+  Widget shops() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Restaurant",
+          "Pharmacy Shops",
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
         hBox(5.h),
-        GetBuilder<BannerDetailsController>(
+        GetBuilder<PharmaBannerDetailsControllerController>(
           init: controller,
           builder: (controller) {
             return Obx(() {
-              final restaurants = controller.bannerData.value.restaurants;
               return ListView.separated(
                 scrollDirection: Axis.vertical,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: restaurants?.length ?? 0,
+                itemCount: controller.bannerData.value.pharmaShops?.length ?? 0,
                 itemBuilder: (context, index) {
-                  final restaurant = restaurants?[index];
+                  final pharmaShopdata =
+                      controller.bannerData.value.pharmaShops![index];
                   return GestureDetector(
                     onTap: () {
-                      Get.to(RestaurantDetailsScreen(
-                        Restaurantid: restaurant!.id.toString(),
-                      ));
-                      restaurantDeatilsController.restaurant_Details_Api(
-                        id: restaurant.id.toString(),
+                      pharmacyDetailsController.restaurant_Details_Api(
+                        id: pharmaShopdata.id.toString(),
                       );
+                      Get.to(PharmacyVendorDetailsScreen(
+                          pharmacyId: pharmaShopdata.id.toString()));
                     },
-                    child: restaurantList(
+                    child: pharmaShop(
                       index: index,
-                      image: restaurant?.shopimage,
-                      title: restaurant?.shopName,
-                      rating: restaurant?.rating,
-                      price: restaurant?.avgPrice,
+                      image: pharmaShopdata.shopimage,
+                      title: pharmaShopdata.shopName,
+                      rating: pharmaShopdata.rating,
+                      price: pharmaShopdata.avgPrice,
                     ),
                   );
                 },
@@ -289,7 +294,7 @@ class PharmacyHomeBanner extends StatelessWidget {
     );
   }
 
-  Widget restaurantList(
+  Widget pharmaShop(
       {index, String? image, title, type, isFavourite, rating, price}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,9 +309,9 @@ class PharmacyHomeBanner extends StatelessWidget {
               ),
               child: CachedNetworkImage(
                 imageUrl: image.toString(),
+                fit: BoxFit.fill,
+                width: double.maxFinite,
                 height: 220.h,
-                // height: 150.h,
-                // width: 70.w,
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: AppColors.gray,
                   highlightColor: AppColors.lightText,
@@ -319,30 +324,6 @@ class PharmacyHomeBanner extends StatelessWidget {
                 ),
               ),
             ),
-            // Container(
-            //   clipBehavior: Clip.antiAlias,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(20.r),
-            //   ),
-            //   child: Center(
-            //     child: CachedNetworkImage(
-            //       imageUrl: image.toString(),
-            //       fit: BoxFit.cover,
-            //       height: 160.h,
-            //       errorWidget: (context, url, error) => const Icon(Icons.error),
-            //       placeholder: (context, url) => Shimmer.fromColors(
-            //         baseColor: AppColors.gray,
-            //         highlightColor: AppColors.lightText,
-            //         child: Container(
-            //           decoration: BoxDecoration(
-            //             color: AppColors.gray,
-            //             borderRadius: BorderRadius.circular(20.r),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
             // GestureDetector(
             //   onTap: () {},
             //   child: Container(
@@ -369,7 +350,7 @@ class PharmacyHomeBanner extends StatelessWidget {
             // )
           ],
         ),
-        hBox(10.h),
+        hBox(10),
         Text(
           title,
           textAlign: TextAlign.left,

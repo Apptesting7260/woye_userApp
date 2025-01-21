@@ -189,7 +189,6 @@ class ProductReviews extends StatelessWidget {
                                     .toString(),
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
-                                maxLines: 50,
                               ),
                               hBox(10),
                               Text(

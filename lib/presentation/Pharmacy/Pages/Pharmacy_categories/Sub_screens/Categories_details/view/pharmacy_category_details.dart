@@ -4,12 +4,16 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/Pharma_Categories_Filter_controller.dart';
 
 class PharmacyCategoryDetails extends StatelessWidget {
   PharmacyCategoryDetails({super.key});
 
   final PharmacyCategoriesDetailsController controller =
       Get.put(PharmacyCategoriesDetailsController());
+
+  final PharmaCategoriesFilterController categoriesFilterController =
+      Get.put(PharmaCategoriesFilterController());
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +75,24 @@ class PharmacyCategoryDetails extends StatelessWidget {
                         title: SizedBox(
                           height: 35.h,
                           child: (CustomSearchFilter(
+                            controller: controller.searchController,
+                            onChanged: (value) {
+                              if (controller.categoriesDetailsData.value
+                                  .filterProduct!.isEmpty) {
+                                controller.searchDataFun(value);
+                              } else {
+                                controller.filterSearchDataFun(value);
+                              }
+                            },
                             onFilterTap: () {
-                              Get.toNamed(AppRoutes.pharmacyCategoryFilter);
+                              Get.toNamed(
+                                AppRoutes.pharmacyCategoryFilter,
+                                arguments: {
+                                  'categoryId': categoryId.toString()
+                                },
+                              );
+                              categoriesFilterController
+                                  .pharmacy_get_CategoriesFilter_Api();
                             },
                           )),
                         ),
@@ -82,9 +102,10 @@ class PharmacyCategoryDetails extends StatelessWidget {
                     SliverToBoxAdapter(
                       child: hBox(10.h),
                     ),
-                    // categoriesList(),
-                    if (controller
-                        .categoriesDetailsData.value.categoryProduct!.isEmpty)
+                    if (controller.categoriesDetailsData.value.filterProduct!
+                            .isEmpty &&
+                        controller.categoriesDetailsData.value.categoryProduct!
+                            .isEmpty)
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
@@ -109,9 +130,12 @@ class PharmacyCategoryDetails extends StatelessWidget {
                           ],
                         ),
                       ),
-                    if (controller.categoriesDetailsData.value.categoryProduct!
-                        .isNotEmpty)
-                      itemGrid(),
+                    if (controller
+                        .categoriesDetailsData.value.filterProduct!.isEmpty)
+                      productList(),
+                    if (controller
+                        .categoriesDetailsData.value.filterProduct!.isNotEmpty)
+                      filterProductList(),
                     SliverToBoxAdapter(
                       child: hBox(50.h),
                     )
@@ -124,7 +148,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
     );
   }
 
-  SliverToBoxAdapter itemGrid() {
+  SliverToBoxAdapter productList() {
     return SliverToBoxAdapter(
         child: GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
@@ -170,6 +194,36 @@ class PharmacyCategoryDetails extends StatelessWidget {
                 categoryName: controller.categoriesDetailsData.value
                     .categoryProduct![index].categoryName
                     .toString(),
+              );
+            }));
+  }
+
+  SliverToBoxAdapter filterProductList() {
+    return SliverToBoxAdapter(
+        child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: controller.filterProductSearchData.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.65.h,
+              crossAxisSpacing: 16.w,
+              mainAxisSpacing: 5.h,
+            ),
+            itemBuilder: (context, index) {
+              var product = controller.filterProductSearchData[index];
+              return CustomBanner(
+                image: product.urlImage.toString(),
+                sale_price: product.salePrice.toString(),
+                regular_price: product.regularPrice.toString(),
+                title: product.title.toString(),
+                quantity: product.packagingValue.toString(),
+                categoryId: product.categoryId.toString(),
+                product_id: product.id.toString(),
+                shop_name: product.shopName.toString(),
+                is_in_wishlist: product.isInWishlist,
+                isLoading: product.isLoading,
+                categoryName: product.categoryName.toString(),
               );
             }));
   }

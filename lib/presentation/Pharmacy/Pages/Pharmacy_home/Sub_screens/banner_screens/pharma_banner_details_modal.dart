@@ -2,24 +2,24 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 
-class BannerModal {
+class PharmaBannerModal {
   bool? status;
   List<Category>? category;
-  List<PharmaShops>? restaurants;
-  List<Products>? products;
+  List<PharmaShops>? pharmaShops;
+  List<CategoryProduct>? products;
   String? message;
   CurrentBanner? currentBanner;
 
-  BannerModal({
+  PharmaBannerModal({
     this.status,
     this.category,
-    // this.restaurants,
+    this.pharmaShops,
     this.products,
     this.message,
     this.currentBanner,
   });
 
-  BannerModal.fromJson(Map<String, dynamic> json) {
+  PharmaBannerModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     if (json['category'] != null) {
       category = <Category>[];
@@ -27,17 +27,16 @@ class BannerModal {
         category!.add(Category.fromJson(v));
       });
     }
-    if (json['restaurants'] != null) {
-      restaurants = <PharmaShops>[];
-      json['restaurants'].forEach((v) {
-        restaurants!.add(
-            PharmaShops.fromJson(v)); // Assuming Restaurant class exists.
+    if (json['pharmacies'] != null) {
+      pharmaShops = <PharmaShops>[];
+      json['pharmacies'].forEach((v) {
+        pharmaShops!.add(PharmaShops.fromJson(v));
       });
     }
     if (json['products'] != null) {
-      products = <Products>[];
+      products = <CategoryProduct>[];
       json['products'].forEach((v) {
-        products!.add(Products.fromJson(v)); // Assuming Product class exists.
+        products!.add(CategoryProduct.fromJson(v));
       });
     }
     message = json['message'];
@@ -52,8 +51,8 @@ class BannerModal {
     if (this.category != null) {
       data['category'] = this.category!.map((v) => v.toJson()).toList();
     }
-    if (this.restaurants != null) {
-      data['restaurants'] = this.restaurants!.map((v) => v.toJson()).toList();
+    if (this.pharmaShops != null) {
+      data['pharmacies'] = this.pharmaShops!.map((v) => v.toJson()).toList();
     }
     if (this.products != null) {
       data['products'] = this.products!.map((v) => v.toJson()).toList();
@@ -119,79 +118,62 @@ class Category {
   }
 }
 
-class Products {
+class CategoryProduct {
   int? id;
-  String? image;
-  int? rating;
-  int? salePrice;
-  String? regularPrice;
   String? title;
-  String? addimg;
-  int? userId;
-  bool? isInWishlist;
-  String? restoName;
-  List<String>? urlAddimg;
-  String? urlImage;
+  String? regularPrice;
+  String? salePrice;
+  String? packagingValue;
   int? categoryId;
+  bool? isInWishlist;
+  String? shopName;
+  String? urlImage;
   String? categoryName;
   Rx<bool> isLoading = false.obs;
 
-
-  Products({
+  CategoryProduct({
     this.id,
-    this.image,
-    this.rating,
-    this.salePrice,
-    this.regularPrice,
     this.title,
-    this.addimg,
-    this.userId,
-    this.isInWishlist,
-    this.restoName,
-    this.urlAddimg,
-    this.urlImage,
+    this.regularPrice,
+    this.salePrice,
+    this.packagingValue,
     this.categoryId,
+    this.isInWishlist,
+    this.shopName,
+    this.urlImage,
     this.categoryName,
   });
 
-  // From JSON constructor
-  Products.fromJson(Map<String, dynamic> json) {
+  CategoryProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    image = json['image'];
-    rating = json['rating'];
-    salePrice = json['sale_price'];
-    regularPrice = json['regular_price'];
     title = json['title'];
-    addimg = json['addimg'];
-    userId = json['user_id'];
-    isInWishlist = json['is_in_wishlist'];
-    restoName = json['resto_name'];
-    urlAddimg = json['url_addimg'].cast<String>();
-    urlImage = json['url_image'];
+    regularPrice = json['regular_price'];
+    salePrice = json['sale_price'];
+    packagingValue = json['packaging_value'];
     categoryId = json['category_id'];
+    isInWishlist = json['is_in_wishlist'];
+    shopName = json['shop_name'];
+    urlImage = json['url_image'];
     categoryName = json['category_name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
-    data['image'] = this.image;
-    data['rating'] = this.rating;
-    data['sale_price'] = this.salePrice;
-    data['regular_price'] = this.regularPrice;
     data['title'] = this.title;
-    data['addimg'] = this.addimg;
-    data['user_id'] = this.userId;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['resto_name'] = this.restoName;
-    data['url_addimg'] = this.urlAddimg;
-    data['url_image'] = this.urlImage;
+    data['regular_price'] = this.regularPrice;
+    data['sale_price'] = this.salePrice;
+    data['packaging_value'] = this.packagingValue;
     data['category_id'] = this.categoryId;
+    data['is_in_wishlist'] = this.isInWishlist;
+    data['shop_name'] = this.shopName;
+    data['url_image'] = this.urlImage;
     data['category_name'] = this.categoryName;
-
     return data;
   }
 }
+
+
 
 class PharmaShops {
   int? id;
@@ -210,18 +192,18 @@ class PharmaShops {
 
   PharmaShops(
       {this.id,
-        this.name,
-        this.email,
-        this.phone,
-        this.gender,
-        this.dob,
-        this.shopimage,
-        this.shopName,
-        this.shopAddress,
-        this.opensAt,
-        this.closesAt,
-        this.rating,
-        this.avgPrice});
+      this.name,
+      this.email,
+      this.phone,
+      this.gender,
+      this.dob,
+      this.shopimage,
+      this.shopName,
+      this.shopAddress,
+      this.opensAt,
+      this.closesAt,
+      this.rating,
+      this.avgPrice});
 
   PharmaShops.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -257,4 +239,3 @@ class PharmaShops {
     return data;
   }
 }
-

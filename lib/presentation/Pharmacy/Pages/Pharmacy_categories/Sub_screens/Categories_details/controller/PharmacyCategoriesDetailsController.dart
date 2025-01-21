@@ -67,34 +67,34 @@ class PharmacyCategoriesDetailsController extends GetxController {
     }
   }
 
-// pharmacy_Categories_Details_filter_Api({
-//   required String id,
-//   required String product_type,
-//   required String price_sort,
-//   required var quick_filter,
-//   required String price_range,
-// }) async {
-//   searchController.clear();
-//   searchData.clear();
-//   filterProductSearchData.clear();
-//   setRxRequestStatus(Status.LOADING);
-//   Map data = {
-//     "category_id": id,
-//     "product_type": product_type,
-//     "price_sort": price_sort,
-//     "quick_filter[]": quick_filter,
-//     "price_range": price_range,
-//   };
-//   api.pharmacyCategoriesDetailsApi(data).then((value) {
-//     categories_Set(value);
-//     filterSearchDataFun(searchController.text);
-//     setRxRequestStatus(Status.COMPLETED);
-//   }).onError((error, stackError) {
-//     setError(error.toString());
-//     print(stackError);
-//     print('errrrrrrrrrrrr');
-//     print(error);
-//     setRxRequestStatus(Status.ERROR);
-//   });
-// }
+pharmacy_Categories_Details_filter_Api({
+  required String id,
+  required String product_type,
+  required String price_sort,
+  required var quick_filter,
+  required String price_range,
+}) async {
+  searchController.clear();
+  searchData.clear();
+  filterProductSearchData.clear();
+  setRxRequestStatus(Status.LOADING);
+  Map data = {
+    "category_id": id,
+    "product_type": product_type,
+    "price_sort": price_sort,
+    "quick_filter[]": quick_filter,
+    "price_range": price_range,
+  };
+  api.pharmacyCategoriesDetailsApi(data).then((value) {
+    categories_Set(value);
+    filterSearchDataFun(searchController.text);
+    setRxRequestStatus(Status.COMPLETED);
+  }).onError((error, stackError) {
+    setError(error.toString());
+    print(stackError);
+    print('errrrrrrrrrrrr');
+    print(error);
+    setRxRequestStatus(Status.ERROR);
+  });
+}
 }

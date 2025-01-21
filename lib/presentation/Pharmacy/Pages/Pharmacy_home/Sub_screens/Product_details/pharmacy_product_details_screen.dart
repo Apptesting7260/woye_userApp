@@ -435,11 +435,11 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
 
   Widget shopCard() {
     return InkWell(
-      onTap: () {
-        Get.to(PharmacyVendorDetailsScreen(
-            title: "Micro Labs Ltd",
-            image: "assets/images/tablet-rounded.png"));
-      },
+      // onTap: () {
+      //   Get.to(PharmacyVendorDetailsScreen(
+      //       title: "Micro Labs Ltd",
+      //       image: "assets/images/tablet-rounded.png"));
+      // },
       child: Container(
         padding: REdgeInsets.all(20),
         decoration: BoxDecoration(

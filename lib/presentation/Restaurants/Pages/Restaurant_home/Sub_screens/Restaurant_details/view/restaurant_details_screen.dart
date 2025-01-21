@@ -274,7 +274,6 @@ class RestaurantDetailsScreen extends StatelessWidget {
         Text(
           controller.restaurant_Data.value.restaurant!.shopDes.toString(),
           style: AppFontStyle.text_16_400(AppColors.lightText),
-          maxLines: 30,
         ),
       ],
     );

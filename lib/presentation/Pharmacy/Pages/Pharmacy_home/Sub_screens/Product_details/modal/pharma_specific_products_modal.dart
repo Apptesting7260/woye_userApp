@@ -52,7 +52,7 @@ class Product {
   String? description;
   String? image;
   String? addimg;
-  Null? variant;
+  var variant;
   int? prescription;
   String? use;
   String? missedDose;
@@ -66,7 +66,7 @@ class Product {
   int? status;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  var deletedAt;
   String? pharmaName;
   List<String>? urlAddimg;
   String? urlImage;

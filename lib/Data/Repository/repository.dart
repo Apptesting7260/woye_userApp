@@ -6,8 +6,12 @@ import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Modal/pharmacy_categories_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/modal/pharmacy_categories_details_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharma_Categories_Filter_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharma_home_search_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/modal/pharma_specific_products_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_details_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/all_pharma_shops/modal/all_Pharma_shops.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/banner_screens/pharma_banner_details_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/modal/pharamacy_home_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/pharmaModal.dart';
@@ -299,6 +303,27 @@ class Repository {
     return PharamacyHomeModal.fromJson(response);
   }
 
+  Future<dynamic> pharmacyBannerApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.pharmaBannersData, token);
+    return PharmaBannerModal.fromJson(response);
+  }
+
+  Future<dynamic> specificPharmaShopApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.specificPharmaShop, token);
+    return SpecificPharmacyModal.fromJson(response);
+  }
+
+  Future<dynamic> pharmaHomeSearchApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.pharmaHomeSearch, token);
+    return PharmaHomeSearchModal.fromJson(response);
+  }
+
   Future<dynamic> pharmacyCategoriesApi() async {
     await initializeUser();
     dynamic response =
@@ -342,6 +367,13 @@ class Repository {
     dynamic response =
     await _apiService.postApi(data, AppUrls.pharmaSpecificProduct, token);
     return PharmaSpecificProductModal.fromJson(response);
+  }
+
+  Future<dynamic> getPharmaCategoriesFilterApi() async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.getApi(AppUrls.getPharmaCategoriesFilter, token);
+    return PharmaCategoriesFilterModal.fromJson(response);
   }
 
 }

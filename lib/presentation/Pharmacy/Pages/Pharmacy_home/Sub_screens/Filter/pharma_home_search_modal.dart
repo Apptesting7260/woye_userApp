@@ -1,22 +1,21 @@
 import 'package:get/get.dart';
 
-class HomeSearchModal {
+class PharmaHomeSearchModal {
   bool? status;
-  List<Products>? products;
-  List<Restaurants>? restaurants;
+  List<CategoryProduct>? products;
+  List<shop>? pharmaShop;
   String? message;
 
-  HomeSearchModal({this.status, this.products, this.restaurants, this.message});
+  PharmaHomeSearchModal(
+      {this.status, this.products, this.pharmaShop, this.message});
 
-  HomeSearchModal.fromJson(Map<String, dynamic> json) {
+  PharmaHomeSearchModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    products = json['Products'] != null
-        ? (json['Products'] as List).map((v) => Products.fromJson(v)).toList()
+    products = json['products'] != null
+        ? (json['products'] as List).map((v) => CategoryProduct.fromJson(v)).toList()
         : [];
-    restaurants = json['Restaurants'] != null
-        ? (json['Restaurants'] as List)
-            .map((v) => Restaurants.fromJson(v))
-            .toList()
+    pharmaShop = json['pharma_shops'] != null
+        ? (json['pharma_shops'] as List).map((v) => shop.fromJson(v)).toList()
         : [];
     message = json['message'];
   }
@@ -25,100 +24,80 @@ class HomeSearchModal {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     if (this.products != null) {
-      data['Products'] = this.products!.map((v) => v.toJson()).toList();
+      data['products'] = this.products!.map((v) => v.toJson()).toList();
     }
-    if (this.restaurants != null) {
-      data['Restaurants'] = this.restaurants!.map((v) => v.toJson()).toList();
+    if (this.pharmaShop != null) {
+      data['pharma_shops'] = this.pharmaShop!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     return data;
   }
 }
 
-class Products {
+class CategoryProduct {
   int? id;
-  String? image;
-  int? rating;
-  int? salePrice;
-  String? regularPrice;
   String? title;
-  String? addimg;
-  int? userId;
-  bool? isInWishlist;
-  String? restoName;
-  List<String>? urlAddimg;
-  String? urlImage;
+  String? regularPrice;
+  String? salePrice;
+  String? packagingValue;
   int? categoryId;
+  bool? isInWishlist;
+  String? shopName;
+  String? urlImage;
   String? categoryName;
   Rx<bool> isLoading = false.obs;
 
-
-  Products({
+  CategoryProduct({
     this.id,
-    this.image,
-    this.rating,
-    this.salePrice,
-    this.regularPrice,
     this.title,
-    this.addimg,
-    this.userId,
-    this.isInWishlist,
-    this.restoName,
-    this.urlAddimg,
-    this.urlImage,
+    this.regularPrice,
+    this.salePrice,
+    this.packagingValue,
     this.categoryId,
+    this.isInWishlist,
+    this.shopName,
+    this.urlImage,
     this.categoryName,
   });
 
-  // From JSON constructor
-  Products.fromJson(Map<String, dynamic> json) {
+  CategoryProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    image = json['image'];
-    rating = json['rating'];
-    salePrice = json['sale_price'];
-    regularPrice = json['regular_price'];
     title = json['title'];
-    addimg = json['addimg'];
-    userId = json['user_id'];
-    isInWishlist = json['is_in_wishlist'];
-    restoName = json['resto_name'];
-    urlAddimg = json['url_addimg'].cast<String>();
-    urlImage = json['url_image'];
+    regularPrice = json['regular_price'];
+    salePrice = json['sale_price'];
+    packagingValue = json['packaging_value'];
     categoryId = json['category_id'];
+    isInWishlist = json['is_in_wishlist'];
+    shopName = json['shop_name'];
+    urlImage = json['url_image'];
     categoryName = json['category_name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
-    data['image'] = this.image;
-    data['rating'] = this.rating;
-    data['sale_price'] = this.salePrice;
-    data['regular_price'] = this.regularPrice;
     data['title'] = this.title;
-    data['addimg'] = this.addimg;
-    data['user_id'] = this.userId;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['resto_name'] = this.restoName;
-    data['url_addimg'] = this.urlAddimg;
-    data['url_image'] = this.urlImage;
+    data['regular_price'] = this.regularPrice;
+    data['sale_price'] = this.salePrice;
+    data['packaging_value'] = this.packagingValue;
     data['category_id'] = this.categoryId;
+    data['is_in_wishlist'] = this.isInWishlist;
+    data['shop_name'] = this.shopName;
+    data['url_image'] = this.urlImage;
     data['category_name'] = this.categoryName;
-
     return data;
   }
 }
 
-class Restaurants {
+class shop {
   int? id;
   String? firstName;
   String? lastName;
-  String? name;
   String? email;
   String? image;
   String? dob;
   String? gender;
-  String? pPassword;
+  String? otp;
   String? rating;
   String? avgPrice;
   String? currentStatus;
@@ -130,53 +109,61 @@ class Restaurants {
   String? shopimage;
   String? shopAddress;
   String? shopDes;
+  List<OpeningHours>? openingHours;
   int? countryId;
   int? stateId;
   int? cityId;
+
+  // List<String>? categoryId;
+  String? opensAt;
+  String? closesAt;
   String? role;
   int? status;
   String? createdAt;
   String? updatedAt;
 
-  Restaurants(
-      {this.id,
-      this.firstName,
-      this.lastName,
-      this.name,
-      this.email,
-      this.image,
-      this.dob,
-      this.gender,
-      this.pPassword,
-      this.rating,
-      this.avgPrice,
-      this.currentStatus,
-      this.phoneCode,
-      this.phone,
-      this.imageUrl,
-      this.shopName,
-      this.shopEmail,
-      this.shopimage,
-      this.shopAddress,
-      this.shopDes,
-      this.countryId,
-      this.stateId,
-      this.cityId,
-      this.role,
-      this.status,
-      this.createdAt,
-      this.updatedAt});
+  shop({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.image,
+    this.dob,
+    this.gender,
+    this.otp,
+    this.rating,
+    this.avgPrice,
+    this.currentStatus,
+    this.phoneCode,
+    this.phone,
+    this.imageUrl,
+    this.shopName,
+    this.shopEmail,
+    this.shopimage,
+    this.shopAddress,
+    this.shopDes,
+    this.openingHours,
+    this.countryId,
+    this.stateId,
+    this.cityId,
+    // this.categoryId,
+    this.opensAt,
+    this.closesAt,
+    this.role,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+  });
 
-  Restaurants.fromJson(Map<String, dynamic> json) {
+  shop.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
-    name = json['name'];
     email = json['email'];
     image = json['image'];
     dob = json['dob'];
     gender = json['gender'];
-    pPassword = json['p_password'];
+    otp = json['otp'];
     rating = json['rating'];
     avgPrice = json['avg_price'];
     currentStatus = json['current_status'];
@@ -188,9 +175,21 @@ class Restaurants {
     shopimage = json['shopimage'];
     shopAddress = json['shop_address'];
     shopDes = json['shop_des'];
+    if (json['opening_hours'] != null) {
+      openingHours = [];
+      json['opening_hours'].forEach((v) {
+        openingHours!.add(OpeningHours.fromJson(v));
+      });
+    }
+
     countryId = json['country_id'];
     stateId = json['state_id'];
     cityId = json['city_id'];
+    // categoryId = json['category_id'] != null
+    //     ? List<String>.from(json['category_id'])
+    //     : null;
+    opensAt = json['opens_at'];
+    closesAt = json['closes_at'];
     role = json['role'];
     status = json['status'];
     createdAt = json['created_at'];
@@ -198,16 +197,15 @@ class Restaurants {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['id'] = this.id;
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
-    data['name'] = this.name;
     data['email'] = this.email;
     data['image'] = this.image;
     data['dob'] = this.dob;
     data['gender'] = this.gender;
-    data['p_password'] = this.pPassword;
+    data['otp'] = this.otp;
     data['rating'] = this.rating;
     data['avg_price'] = this.avgPrice;
     data['current_status'] = this.currentStatus;
@@ -219,9 +217,18 @@ class Restaurants {
     data['shopimage'] = this.shopimage;
     data['shop_address'] = this.shopAddress;
     data['shop_des'] = this.shopDes;
+
+    if (this.openingHours != null) {
+      data['opening_hours'] =
+          this.openingHours!.map((v) => v.toJson()).toList();
+    }
+
     data['country_id'] = this.countryId;
     data['state_id'] = this.stateId;
     data['city_id'] = this.cityId;
+    // data['category_id'] = this.categoryId;
+    data['opens_at'] = this.opensAt;
+    data['closes_at'] = this.closesAt;
     data['role'] = this.role;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
