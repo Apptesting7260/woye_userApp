@@ -189,10 +189,10 @@ class PharmacyCategoriesFilter extends StatelessWidget {
                                 cuisine.isSelected.value = value!;
                                 if (value) {
                                   controller.selectedCuisines
-                                      .add(cuisine.name.toString());
+                                      .add(cuisine.id.toString());
                                 } else {
                                   controller.selectedCuisines
-                                      .remove(cuisine.name.toString());
+                                      .remove(cuisine.id.toString());
                                 }
                               },
                               checkboxShape: RoundedRectangleBorder(

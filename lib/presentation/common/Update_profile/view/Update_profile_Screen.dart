@@ -40,7 +40,7 @@ class SignUpFormScreen extends StatelessWidget {
             case Status.COMPLETED:
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.getprofileApi();
+                  controller.refreshGetProfileApi();
                 },
                 child: SingleChildScrollView(
                   padding: REdgeInsets.symmetric(

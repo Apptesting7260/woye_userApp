@@ -80,9 +80,9 @@ pharmacy_Categories_Details_filter_Api({
   setRxRequestStatus(Status.LOADING);
   Map data = {
     "category_id": id,
-    "product_type": product_type,
+    "brand_type": product_type,
     "price_sort": price_sort,
-    "quick_filter[]": quick_filter,
+    "sort_by": quick_filter,
     "price_range": price_range,
   };
   api.pharmacyCategoriesDetailsApi(data).then((value) {

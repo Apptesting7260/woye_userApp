@@ -42,20 +42,20 @@ class PharmaCategoriesFilterModal {
 
 class CuisineType {
   String? name;
-  // int? id;
+  int? id;
   RxBool isSelected = false.obs;
 
-  CuisineType({this.name});
+  CuisineType({this.name, this.id});
 
   CuisineType.fromJson(Map<String, dynamic> json) {
-    name = json['brand'];
-    // id = json['id'];
+    name = json['name'];
+    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['brand'] = this.name;
-    // data['id'] = this.id;
+    data['name'] = this.name;
+    data['id'] = this.id;
     return data;
   }
 }
