@@ -94,8 +94,7 @@ class _RestaurantCategoriesScreenState
                                   });
                               restaurantCategoriesDeatilsController
                                   .restaurant_Categories_Details_Api(
-                                id: controller
-                                    .filteredWishlistData[index].id
+                                id: controller.filteredWishlistData[index].id
                                     .toString(),
                               );
                             },
@@ -123,8 +122,7 @@ class _RestaurantCategoriesScreenState
                                           width: 70.w,
                                           child: CachedNetworkImage(
                                             imageUrl: controller
-                                                .filteredWishlistData
-                                                [index]
+                                                .filteredWishlistData[index]
                                                 .imageUrl
                                                 .toString(),
                                             height: 80.h,
@@ -139,8 +137,8 @@ class _RestaurantCategoriesScreenState
                                         ),
                                         wBox(20),
                                         Text(
-                                          controller.filteredWishlistData
-                                              [index].name
+                                          controller
+                                              .filteredWishlistData[index].name
                                               .toString(),
                                           style: AppFontStyle.text_18_400(
                                               AppColors.darkText),

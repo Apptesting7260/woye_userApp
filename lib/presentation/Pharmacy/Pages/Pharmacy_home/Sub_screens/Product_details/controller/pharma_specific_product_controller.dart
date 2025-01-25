@@ -64,17 +64,17 @@ class PharmaSpecificProductController extends GetxController {
 
 // ----------------- add to cart data -----------------
 // RxList selectedAddOn = [].obs;
-// RxList extrasTitlesIdsId = [].obs;
-// RxList extrasItemIdsId = [].obs;
-// RxList extrasItemIdsName = [].obs;
-// RxList extrasItemIdsPrice = [].obs;
+  RxList variantTitlesIdsId = [].obs;
+  RxList variantItemIdsId = [].obs;
+  RxList variantItemIdsName = [].obs;
+  RxList variantItemIdsPrice = [].obs;
 
-// void productPriceFun() {
-//   int count = cartCount.value;
-//   int? price = productData.value.product!.salePrice;
-//
-//   int totalPrice = count * price!;
-//   productPrice = totalPrice;
-//   print("Total Price: $totalPrice");
-// }
+  void productPriceFun() {
+    int count = cartCount.value;
+    int? price = int.parse(productData.value.product!.salePrice);
+
+    int totalPrice = count * price;
+    productPrice = totalPrice;
+    print("Total Price: $totalPrice");
+  }
 }

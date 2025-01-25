@@ -116,7 +116,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: controller.restaurant_Data.value.pharmaShop!.shopimage
                   .toString(),
-              placeholder: (context, url) => circularProgressIndicator(),
+              placeholder: (context, url) => Center(child: circularProgressIndicator()),
               errorWidget: (context, url, error) => Icon(
                 Icons.error,
                 size: 60.h,

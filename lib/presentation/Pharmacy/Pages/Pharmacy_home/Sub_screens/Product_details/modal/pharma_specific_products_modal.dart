@@ -45,14 +45,15 @@ class Product {
   int? consumeId;
   String? expire;
   String? regularPrice;
-  String? salePrice;
+  var salePrice;
   String? quanInStock;
   int? packagingId;
   String? packagingValue;
   String? description;
   String? image;
   String? addimg;
-  var variant;
+
+  List<Variant>? variant;
   int? prescription;
   String? use;
   String? missedDose;
@@ -68,6 +69,7 @@ class Product {
   String? updatedAt;
   var deletedAt;
   String? pharmaName;
+  String? pharmaImage;
   List<String>? urlAddimg;
   String? urlImage;
 
@@ -103,6 +105,7 @@ class Product {
       this.updatedAt,
       this.deletedAt,
       this.pharmaName,
+      this.pharmaImage,
       this.urlAddimg,
       this.urlImage});
 
@@ -122,7 +125,13 @@ class Product {
     description = json['description'];
     image = json['image'];
     addimg = json['addimg'];
-    variant = json['variant'];
+    // variant = json['variant'];
+    if (json['variant'] != null) {
+      variant = <Variant>[];
+      json['variant'].forEach((v) {
+        variant!.add(Variant.fromJson(v));
+      });
+    }
     prescription = json['prescription'];
     use = json['use'];
     missedDose = json['missed_dose'];
@@ -138,6 +147,7 @@ class Product {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     pharmaName = json['pharma_name'];
+    pharmaImage = json['pharma_image'];
     urlAddimg = json['url_addimg'].cast<String>();
     urlImage = json['url_image'];
   }
@@ -159,7 +169,10 @@ class Product {
     data['description'] = this.description;
     data['image'] = this.image;
     data['addimg'] = this.addimg;
-    data['variant'] = this.variant;
+    // data['variant'] = this.variant;
+    if (variant != null) {
+      data['variant'] = variant!.map((v) => v.toJson()).toList();
+    }
     data['prescription'] = this.prescription;
     data['use'] = this.use;
     data['missed_dose'] = this.missedDose;
@@ -175,8 +188,61 @@ class Product {
     data['updated_at'] = this.updatedAt;
     data['deleted_at'] = this.deletedAt;
     data['pharma_name'] = this.pharmaName;
+    data['pharma_image'] = this.pharmaImage;
     data['url_addimg'] = this.urlAddimg;
     data['url_image'] = this.urlImage;
+    return data;
+  }
+}
+
+class Variant {
+  String? title;
+  String? titleid;
+  List<Item>? item;
+  RxInt selectedIndex = (0).obs;
+
+  Variant({this.title, this.titleid, this.item});
+
+  Variant.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    titleid = json['titleid'];
+    if (json['item'] != null) {
+      item = <Item>[];
+      json['item'].forEach((v) {
+        item!.add(Item.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
+    data['titleid'] = this.titleid;
+    if (this.item != null) {
+      data['item'] = this.item!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Item {
+  var id;
+  String? name;
+  var price;
+
+  Item({this.id, this.name, this.price});
+
+  Item.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    price = json['value'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['value'] = this.price;
     return data;
   }
 }
@@ -235,68 +301,3 @@ class MoreProducts {
     return data;
   }
 }
-
-// class MoreProducts {
-//   int? id;
-//   String? title;
-//   String? regularPrice;
-//   String? salePrice;
-//   String? packagingValue;
-//   String? image;
-//   String? addimg;
-//   int? categoryId;
-//   int? userId;
-//   bool? isInWishlist;
-//   String? shopName;
-//   List<String>? urlAddimg;
-//   String? urlImage;
-//
-//   MoreProducts(
-//       {this.id,
-//         this.title,
-//         this.regularPrice,
-//         this.salePrice,
-//         this.packagingValue,
-//         this.image,
-//         this.addimg,
-//         this.categoryId,
-//         this.userId,
-//         this.isInWishlist,
-//         this.shopName,
-//         this.urlAddimg,
-//         this.urlImage});
-//
-//   MoreProducts.fromJson(Map<String, dynamic> json) {
-//     id = json['id'];
-//     title = json['title'];
-//     regularPrice = json['regular_price'];
-//     salePrice = json['sale_price'];
-//     packagingValue = json['packaging_value'];
-//     image = json['image'];
-//     addimg = json['addimg'];
-//     categoryId = json['category_id'];
-//     userId = json['user_id'];
-//     isInWishlist = json['is_in_wishlist'];
-//     shopName = json['shop_name'];
-//     urlAddimg = json['url_addimg'].cast<String>();
-//     urlImage = json['url_image'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['id'] = this.id;
-//     data['title'] = this.title;
-//     data['regular_price'] = this.regularPrice;
-//     data['sale_price'] = this.salePrice;
-//     data['packaging_value'] = this.packagingValue;
-//     data['image'] = this.image;
-//     data['addimg'] = this.addimg;
-//     data['category_id'] = this.categoryId;
-//     data['user_id'] = this.userId;
-//     data['is_in_wishlist'] = this.isInWishlist;
-//     data['shop_name'] = this.shopName;
-//     data['url_addimg'] = this.urlAddimg;
-//     data['url_image'] = this.urlImage;
-//     return data;
-//   }
-// }

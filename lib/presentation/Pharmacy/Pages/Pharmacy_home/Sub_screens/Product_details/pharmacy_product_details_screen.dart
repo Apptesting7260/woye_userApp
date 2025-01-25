@@ -3,8 +3,10 @@ import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
 import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
 import 'package:woye_user/shared/widgets/custom_grid_view.dart';
@@ -22,6 +24,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
 
   final PharmaSpecificProductController controller =
       Get.put(PharmaSpecificProductController());
+
+  final PharmacyDetailsController pharmacyDetailsController =
+      Get.put(PharmacyDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -110,14 +115,20 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       description(),
                       hBox(30),
                       //
+                      if (controller.productData.value.product!.variant != null)
+                        variant(context: context),
+                      if (controller.productData.value.product!.variant != null)
+                        hBox(20),
+
                       shopCard(),
                       hBox(20),
                       //
                       buttons(),
                       hBox(30),
                       //
-                      dropdownsSection(),
-                      hBox(30),
+                      // dropdownsSection(),
+                      // hBox(30),
+                      productSummery(),
                       //
                       productReviews(),
                       hBox(8),
@@ -264,28 +275,38 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         ],
       ),
       hBox(10),
-      Row(
-        children: [
-          Text(
-            "Provided by",
-            style: AppFontStyle.text_12_400(AppColors.lightText),
-          ),
-          wBox(5),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(50.r),
-            child: Image.asset(
-              "assets/images/tablet-rounded.png",
-              height: 20.h,
-              width: 20.h,
-              fit: BoxFit.cover,
+      GestureDetector(
+        onTap: () {
+          pharmacyDetailsController.restaurant_Details_Api(
+            id: controller.productData.value.product!.userId.toString(),
+          );
+          Get.to(PharmacyVendorDetailsScreen(
+            pharmacyId: controller.productData.value.product!.userId.toString(),
+          ));
+        },
+        child: Row(
+          children: [
+            Text(
+              "Provided by",
+              style: AppFontStyle.text_12_400(AppColors.lightText),
             ),
-          ),
-          wBox(5),
-          Text(
-            product.pharmaName.toString(),
-            style: AppFontStyle.text_14_600(AppColors.darkText),
-          ),
-        ],
+            wBox(5),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(50.r),
+              child: Image.network(
+                product.pharmaImage.toString(),
+                height: 20.h,
+                width: 20.h,
+                fit: BoxFit.cover,
+              ),
+            ),
+            wBox(5),
+            Text(
+              product.pharmaName.toString(),
+              style: AppFontStyle.text_14_600(AppColors.darkText),
+            ),
+          ],
+        ),
       ),
       Row(
         children: [
@@ -433,13 +454,112 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     );
   }
 
+  Widget variant({context}) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: controller.productData.value.product!.variant?.length,
+      itemBuilder: (context, index) {
+        var extra = controller.productData.value.product!.variant![index];
+        if (!controller.variantTitlesIdsId.contains(extra.titleid)) {
+          controller.variantTitlesIdsId.add(extra.titleid);
+          print("itemIdsIds ${controller.variantTitlesIdsId}");
+        }
+
+        if (controller.variantItemIdsName.isEmpty) {
+          controller.productData.value.product!.variant?.forEach((extra) {
+            if (extra.item?.isNotEmpty ?? false) {
+              controller.variantItemIdsId.add(extra.item![0].id.toString());
+              controller.variantItemIdsName.add(extra.item![0].name.toString());
+              controller.variantItemIdsPrice
+                  .add(extra.item![0].price.toString());
+            }
+          });
+          print("Final List of IDs: ${controller.variantItemIdsId}");
+          print("Final List of Names: ${controller.variantItemIdsName}");
+          print("Final List of Prices: ${controller.variantItemIdsPrice}");
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              extra.title.toString(),
+              style: AppFontStyle.text_20_600(AppColors.darkText),
+            ),
+            hBox(1.h),
+            Row(
+              children: [
+                Text(
+                  "Required",
+                  style: AppFontStyle.text_12_200(AppColors.lightText),
+                ),
+                Text(
+                  "•",
+                  style: AppFontStyle.text_12_200(AppColors.lightText),
+                ),
+                wBox(4),
+                Text(
+                  "Select any 1 option",
+                  style: AppFontStyle.text_12_200(AppColors.lightText),
+                ),
+              ],
+            ),
+            hBox(5),
+            ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: extra.item?.length ?? 0,
+              itemBuilder: (context, itemIndex) {
+                var item = extra.item![itemIndex];
+                return CustomTitleRadioButton(
+                  title: item.name.toString(),
+                  value: itemIndex.obs,
+                  groupValue: controller
+                      .productData.value.product!.variant![index].selectedIndex,
+                  onChanged: (value) {
+                    controller.productData.value.product!.variant![index]
+                        .selectedIndex.value = value!;
+
+                    if (controller.variantItemIdsName.length > index) {
+                      controller.variantItemIdsName[index] =
+                          item.name.toString();
+                      controller.variantItemIdsId[index] = item.id.toString();
+                      controller.variantItemIdsPrice[index] =
+                          item.price.toString();
+                    } else {
+                      controller.variantItemIdsName.add(item.name.toString());
+                      controller.variantItemIdsId.add(item.id.toString());
+                      controller.variantItemIdsPrice.add(item.price.toString());
+                    }
+
+                    print(
+                        "Updated selected names: ${controller.variantItemIdsName}");
+                    print(
+                        "Updated selected IDs: ${controller.variantItemIdsId}");
+                    print(
+                        "Updated selected prices: ${controller.variantItemIdsPrice}");
+                  },
+                  priceValue: item.price.toString(),
+                );
+              },
+              separatorBuilder: (context, itemIndex) => hBox(10.h),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget shopCard() {
     return InkWell(
-      // onTap: () {
-      //   Get.to(PharmacyVendorDetailsScreen(
-      //       title: "Micro Labs Ltd",
-      //       image: "assets/images/tablet-rounded.png"));
-      // },
+      onTap: () {
+        pharmacyDetailsController.restaurant_Details_Api(
+          id: controller.productData.value.product!.userId.toString(),
+        );
+        Get.to(PharmacyVendorDetailsScreen(
+          pharmacyId: controller.productData.value.product!.userId.toString(),
+        ));
+      },
       child: Container(
         padding: REdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -451,8 +571,8 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: Image.asset(
-                "assets/images/tablet-rounded.png",
+              child: Image.network(
+                controller.productData.value.product!.pharmaImage.toString(),
                 height: 50.h,
               ),
             ),
@@ -510,132 +630,163 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
               width: Get.width,
               color: AppColors.darkText,
               text: "Add to Cart",
-              onPressed: () {}),
+              onPressed: () {
+                controller.productPriceFun();
+              }),
         ),
-        wBox(10),
-        Expanded(
-          child: CustomElevatedButton(
-              height: 50.h,
-              width: Get.width,
-              text: "Buy now",
-              onPressed: () {}),
-        ),
+        // wBox(10),
+        // Expanded(
+        //   child: CustomElevatedButton(
+        //       height: 50.h,
+        //       width: Get.width,
+        //       text: "Buy now",
+        //       onPressed: () {}),
+        // ),
       ],
     );
   }
 
-  Widget dropdownsSection() {
-    List dropdownTitles = [
-      "How to Use?",
-      "Usage, Direction and Dosage",
-      "Interactions",
-      "Side Effects",
-      "Expert advice and Concern",
-      "When not to use?",
-      "General Instructions & Warnings",
-      "Other Details"
-    ];
+  List<RxBool> isExpandedList = List.generate(9, (index) => false.obs);
+
+  Widget productSummery() {
     return Column(
       children: [
-        ListView.separated(
-          shrinkWrap: true,
-          itemCount: 8,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-            RxBool isExpanded = false.obs;
-
-            return Obx(
-              () => Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      border: Border.all(
-                          color: isExpanded.value == false
-                              ? AppColors.textFieldBorder
-                              : AppColors.darkText)),
-                  child: CustomExpansionTile(
-                      onExpansionChanged: (value) {
-                        isExpanded.value = value;
-                      },
-                      title: dropdownTitles[i],
-                      titleTextStyle:
-                          AppFontStyle.text_16_600(AppColors.darkText),
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                "•",
-                                style: AppFontStyle.text_14_600(
-                                    AppColors.darkText),
-                              ),
-                            ),
-                            wBox(10),
-                            Expanded(
-                              flex: 39,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Missed Dose",
-                                    style: AppFontStyle.text_14_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(10),
-                                  Text(
-                                    "Lorem Ipsum has been the industry's text ever since the 1500s, when an unknown printer took a galley of type and  it to make a type specimen book.",
-                                    overflow: TextOverflow.visible,
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.lightText),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        hBox(20),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Text(
-                                "•",
-                                style: AppFontStyle.text_14_600(
-                                    AppColors.darkText),
-                              ),
-                            ),
-                            wBox(10),
-                            Expanded(
-                              flex: 39,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Overdose",
-                                    style: AppFontStyle.text_14_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(10),
-                                  Text(
-                                    "Lorem Ipsum has been the industry's text ever since the 1500s, when an unknown printer took a galley of type and  it to make a type specimen book.",
-                                    overflow: TextOverflow.visible,
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.lightText),
-                                  ),
-                                  hBox(10)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ])),
-            );
-          },
-          separatorBuilder: (context, index) => hBox(20),
-        )
+        if (controller.productData.value.product!.use != null &&
+            controller.productData.value.product!.use!.isNotEmpty)
+          commonDropdownsSection(
+            title: "How to use",
+            description: controller.productData.value.product!.use.toString(),
+            index: 0,
+          ),
+        if (controller.productData.value.product!.missedDose != null &&
+            controller.productData.value.product!.missedDose!.isNotEmpty)
+          commonDropdownsSection(
+            title: "Missed Dose",
+            description:
+                controller.productData.value.product!.missedDose.toString(),
+            index: 1,
+          ),
+        if (controller.productData.value.product!.overdose != null &&
+            controller.productData.value.product!.overdose!.isNotEmpty)
+          commonDropdownsSection(
+            title: "Overdose",
+            description:
+                controller.productData.value.product!.overdose.toString(),
+            index: 2,
+          ),
+        if (controller.productData.value.product!.interactions != null &&
+            controller.productData.value.product!.interactions!.isNotEmpty)
+          commonDropdownsSection(
+            title: "Interactions",
+            description:
+                controller.productData.value.product!.interactions.toString(),
+            index: 3,
+          ),
+        if (controller.productData.value.product!.sideEffect != null &&
+            controller.productData.value.product!.sideEffect!.isNotEmpty)
+          commonDropdownsSection(
+            title: "Side Effect",
+            description:
+                controller.productData.value.product!.sideEffect.toString(),
+            index: 4,
+          ),
+        if (controller.productData.value.product!.advice != null &&
+            controller.productData.value.product!.advice!.isNotEmpty)
+          commonDropdownsSection(
+            title: "Expert advice and Concern",
+            description:
+                controller.productData.value.product!.advice.toString(),
+            index: 5,
+          ),
+        if (controller.productData.value.product!.notUse != null &&
+            controller.productData.value.product!.notUse!.isNotEmpty)
+          commonDropdownsSection(
+            title: "When not to use?",
+            description:
+                controller.productData.value.product!.notUse.toString(),
+            index: 6,
+          ),
+        if (controller.productData.value.product!.warnings != null &&
+            controller.productData.value.product!.warnings!.isNotEmpty)
+          commonDropdownsSection(
+            title: "General Instructions & Warnings",
+            description:
+                controller.productData.value.product!.warnings.toString(),
+            index: 7,
+          ),
+        if (controller.productData.value.product!.otherDetails != null &&
+            controller.productData.value.product!.otherDetails!.isNotEmpty)
+          commonDropdownsSection(
+            title: "Other Details",
+            description:
+                controller.productData.value.product!.otherDetails.toString(),
+            index: 8,
+          ),
       ],
+    );
+  }
+
+  Widget commonDropdownsSection({
+    required String title,
+    required String description,
+    required int index,
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
+      child: Obx(
+        () => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
+            border: Border.all(
+              color: isExpandedList[index].value
+                  ? AppColors.darkText
+                  : AppColors.textFieldBorder,
+            ),
+          ),
+          child: CustomExpansionTile(
+            onExpansionChanged: (value) {
+              isExpandedList[index].value = value;
+              print("Section $index expanded: ${isExpandedList[index].value}");
+            },
+            title: title,
+            titleTextStyle: AppFontStyle.text_16_600(AppColors.darkText),
+            children: [
+              Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: Text(
+                          "•",
+                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        ),
+                      ),
+                      wBox(10),
+                      Expanded(
+                        flex: 39,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              description,
+                              overflow: TextOverflow.visible,
+                              style:
+                                  AppFontStyle.text_14_400(AppColors.lightText),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  hBox(15.h)
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
