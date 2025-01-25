@@ -60,7 +60,7 @@ class CurrentLocationController extends GetxController {
       return;
     }
     if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       _currentPosition = position;
       print("position ${_currentPosition}");

@@ -36,7 +36,7 @@ class WishlistProduct {
   String? salePrice;
   String? packagingValue;
   int? categoryId;
-  int? categoryName;
+  String? categoryName;
   bool? isInWishlist = true;
   String? shopName;
   String? urlImage;

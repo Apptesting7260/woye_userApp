@@ -99,13 +99,14 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    currentLocationController.getCurrentPosition();
+    currentLocationController.getCurrentPosition(back: true);
     showLocationDialog();
     return Material(
       child: Column(
         children: [
           Padding(
-            padding: REdgeInsets.only(left: 24.h, top: 10.h, right: 24.h, bottom: 20.h),
+            padding: REdgeInsets.only(
+                left: 24.h, top: 10.h, right: 24.h, bottom: 20.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
