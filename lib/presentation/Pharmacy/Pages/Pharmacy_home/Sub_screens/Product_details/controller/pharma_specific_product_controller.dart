@@ -35,6 +35,7 @@ class PharmaSpecificProductController extends GetxController {
       "category_id": categoryId,
     };
     api.pharmacySpecificProductApi(data).then((value) {
+      goToCart.value = false;
       isSelected = (-1).obs;
       productdata_Set(value);
       setRxRequestStatus(Status.COMPLETED);

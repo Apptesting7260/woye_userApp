@@ -46,6 +46,7 @@ class Product {
   String? expire;
   String? regularPrice;
   var salePrice;
+  var is_in_wishlist;
   String? quanInStock;
   int? packagingId;
   String? packagingValue;
@@ -83,6 +84,7 @@ class Product {
       this.expire,
       this.regularPrice,
       this.salePrice,
+      this.is_in_wishlist,
       this.quanInStock,
       this.packagingId,
       this.packagingValue,
@@ -119,6 +121,7 @@ class Product {
     expire = json['expire'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
+    is_in_wishlist = json['is_in_wishlist'];
     quanInStock = json['quan_in_stock'];
     packagingId = json['packaging_id'];
     packagingValue = json['packaging_value'];
@@ -163,6 +166,7 @@ class Product {
     data['expire'] = this.expire;
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
+    data['is_in_wishlist'] = this.is_in_wishlist;
     data['quan_in_stock'] = this.quanInStock;
     data['packaging_id'] = this.packagingId;
     data['packaging_value'] = this.packagingValue;
@@ -255,7 +259,7 @@ class MoreProducts {
   String? packagingValue;
   int? categoryId;
   bool? isInWishlist;
-  String? shopName;
+  var shopName;
   String? urlImage;
   String? categoryName;
   Rx<bool> isLoading = false.obs;

@@ -33,7 +33,7 @@ class RestaurantCartModal {
       addressExists: json['address_exists'],
       coupons: couponData != null
           ? couponData.map((coupon) => Coupon.fromJson(coupon)).toList()
-          : [], // Map coupons to a list of Coupon objects
+          : [],
     );
   }
 
@@ -46,7 +46,6 @@ class RestaurantCartModal {
       'address': address?.toJson(),
       'address_exists': addressExists,
       'coupons': coupons?.map((e) => e.toJson()).toList() ?? [],
-      // Add coupons to JSON
     };
   }
 }
@@ -173,7 +172,6 @@ class CouponApplied {
     this.couponType,
     this.title,
     this.code,
-    // this.limitForUser,
     this.discountType,
     this.discountAmount,
     this.minPurchase,
@@ -183,7 +181,6 @@ class CouponApplied {
     this.category,
     this.subCategoryId,
     this.productId,
-    // this.status,
     this.createdAt,
     this.updatedAt,
     this.expiryStatus,
@@ -195,7 +192,6 @@ class CouponApplied {
       couponType: json['coupon_type'],
       title: json['title'],
       code: json['code'],
-      // limitForUser: json['limit_for_user'],
       discountType: json['discount_type'],
       discountAmount: json['discount_amount'],
       minPurchase: json['min_purchase'],
@@ -205,7 +201,6 @@ class CouponApplied {
       category: json['category'],
       subCategoryId: List<String>.from(json['sub_category_id'] ?? []),
       productId: List<String>.from(json['product_id'] ?? []),
-      // status: json['status'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
       expiryStatus: json['expiry_status'],
@@ -218,7 +213,6 @@ class CouponApplied {
       'coupon_type': couponType,
       'title': title,
       'code': code,
-      // 'limit_for_user': limitForUser,
       'discount_type': discountType,
       'discount_amount': discountAmount,
       'min_purchase': minPurchase,
@@ -228,7 +222,6 @@ class CouponApplied {
       'category': category,
       'sub_category_id': subCategoryId,
       'product_id': productId,
-      // 'status': status,
       'created_at': createdAt,
       'updated_at': updatedAt,
       'expiry_status': expiryStatus,
@@ -245,8 +238,6 @@ class DecodedAttribute {
   String? productName;
   String? productImage;
   int? totalPrice;
-
-  // List<String>? addonName;
   Rx<bool> isSelectedLoading = false.obs;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
@@ -261,7 +252,6 @@ class DecodedAttribute {
     this.productName,
     this.productImage,
     this.totalPrice,
-    // this.addonName,
     this.checked,
   });
 
@@ -282,7 +272,6 @@ class DecodedAttribute {
       productName: json['product_name'],
       productImage: json['product_image'],
       totalPrice: json['total_price'],
-      // addonName: List<String>.from(json['addon_name'] ?? []),
       checked: json['checked'],
     );
   }
@@ -297,7 +286,6 @@ class DecodedAttribute {
       'product_name': productName,
       'product_image': productImage,
       'total_price': totalPrice,
-      // 'addon_name': addonName,
       'checked': checked,
     };
   }

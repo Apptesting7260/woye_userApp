@@ -4,6 +4,7 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Modal/pharmacy_categories_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/modal/pharmacy_categories_details_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharma_Categories_Filter_modal.dart';
@@ -374,6 +375,21 @@ class Repository {
     dynamic response =
     await _apiService.getApi(AppUrls.getPharmaCategoriesFilter, token);
     return PharmaCategoriesFilterModal.fromJson(response);
+  }
+
+
+  Future<dynamic> pharmaAddToCartApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi2(data, AppUrls.pharmaAddToCart, token);
+    return PharmaAddToCart.fromJson(response);
+  }
+
+  Future<dynamic> pharmaUpdateCartApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi2(data, AppUrls.pharmaUpdateCart, token);
+    return PharmaAddToCart.fromJson(response);
   }
 
 }

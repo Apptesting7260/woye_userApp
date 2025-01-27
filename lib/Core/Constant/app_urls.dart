@@ -71,6 +71,8 @@ class AppUrls {
   static const String specificPharmaShop = "$baseUrl/specific-pharmacy";
   static const String pharmaHomeSearch = "$baseUrl/phome-search";
   static const String getPharmaCategoriesFilter = "$baseUrl/pinner-search-data";
+  static const String pharmaAddToCart = "$baseUrl/pmake-cart";
+  static const String pharmaUpdateCart = "$baseUrl/pupdate-cart";
 
 
 

@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Promo_codes/promo_codes.dart';
 
-class PharmacyCartScreen extends StatelessWidget {
-  const PharmacyCartScreen({super.key});
+class GroceryCartScreen extends StatelessWidget {
+  const GroceryCartScreen({super.key, required bool isBack});
 
   @override
   Widget build(BuildContext context) {

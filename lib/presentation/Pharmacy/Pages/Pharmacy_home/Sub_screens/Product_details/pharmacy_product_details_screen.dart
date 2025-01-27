@@ -5,11 +5,13 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/pharma_add_to_cartcontroller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_cart_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
-import 'package:woye_user/shared/widgets/custom_grid_view.dart';
 
 class PharmacyProductDetailsScreen extends StatelessWidget {
   final String productId;
@@ -27,6 +29,11 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
 
   final PharmacyDetailsController pharmacyDetailsController =
       Get.put(PharmacyDetailsController());
+  final PharmacyAddToCarController pharmacyAddToCarController =
+      Get.put(PharmacyAddToCarController());
+
+  final AddPharmaProductWishlistController addPharmaProductWishlistController =
+      Get.put(AddPharmaProductWishlistController());
 
   @override
   Widget build(BuildContext context) {
@@ -51,29 +58,51 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             ),
           ),
           wBox(8),
-          Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
+          Obx(() {
+            return GestureDetector(
+              onTap: () async {
+                controller.isLoading.value = true;
+                controller.productData.value.product?.is_in_wishlist =
+                    !controller.productData.value.product?.is_in_wishlist;
+                await addPharmaProductWishlistController
+                    .pharmacy_add_product_wishlist(
+                  categoryId: categoryId,
+                  product_id: productId.toString(),
+                );
+                controller.isLoading.value = false;
+              },
+              child: Container(
+                padding: REdgeInsets.all(9),
+                height: 44.h,
+                width: 44.h,
+                decoration: BoxDecoration(
                   color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: Icon(
-                Icons.favorite_outline_sharp,
-                size: 24.w,
-              )),
-          wBox(8),
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: SvgPicture.asset(
-              ImageConstants.notification,
-            ),
-          ),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: controller.isLoading.value
+                    ? circularProgressIndicator(size: 18)
+                    : Icon(
+                        controller.productData.value.product?.is_in_wishlist !=
+                                true
+                            ? Icons.favorite_outline_sharp
+                            : Icons.favorite_outlined,
+                        size: 24.w,
+                      ),
+              ),
+            );
+          }),
+          // wBox(8),
+          // Container(
+          //   padding: REdgeInsets.all(9),
+          //   height: 44.h,
+          //   width: 44.h,
+          //   decoration: BoxDecoration(
+          //       color: AppColors.greyBackground,
+          //       borderRadius: BorderRadius.circular(12.r)),
+          //   child: SvgPicture.asset(
+          //     ImageConstants.notification,
+          //   ),
+          // ),
         ],
       ),
       body: Obx(() {
@@ -622,29 +651,79 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   }
 
   Widget buttons() {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomElevatedButton(
-              height: 50.h,
+    return Obx(
+      () => controller.goToCart.value == true
+          ? CustomElevatedButton(
+              width: Get.width,
+              color: AppColors.primary,
+              isLoading: pharmacyAddToCarController.rxRequestStatus.value ==
+                  (Status.LOADING),
+              text: "Go to Cart",
+              onPressed: () {
+                Get.to(const PharmacyCartScreen(isBack: true));
+                controller.goToCart.value = false;
+                controller.cartCount.value = 1;
+              })
+          : CustomElevatedButton(
               width: Get.width,
               color: AppColors.darkText,
+              isLoading: pharmacyAddToCarController.rxRequestStatus.value ==
+                  (Status.LOADING),
               text: "Add to Cart",
               onPressed: () {
+                // if (restaurantHomeController.homeData.value.userdata?.type ==
+                //     "guestUser") {
+                //   showLoginRequired(context);
+                // } else
+                // {
+                // ---------- add to cart api -----------
                 controller.productPriceFun();
+                pharmacyAddToCarController.pharmaAddToCartApi(
+                  productId:
+                      controller.productData.value.product!.id.toString(),
+                  productPrice: controller.productData.value.product!.salePrice
+                      .toString(),
+                  productQuantity: controller.cartCount.toString(),
+                  restaurantId:
+                      controller.productData.value.product!.userId.toString(),
+                  // addons: controller.selectedAddOn.toList(),
+                  extrasIds: controller.variantTitlesIdsId,
+                  extrasItemIds: controller.variantItemIdsId.toList(),
+                  extrasItemNames: controller.variantItemIdsName.toList(),
+                  extrasItemPrices: controller.variantItemIdsPrice.toList(),
+                );
+                print("object ${controller.variantItemIdsName}");
+                // }
               }),
-        ),
-        // wBox(10),
-        // Expanded(
-        //   child: CustomElevatedButton(
-        //       height: 50.h,
-        //       width: Get.width,
-        //       text: "Buy now",
-        //       onPressed: () {}),
-        // ),
-      ],
     );
   }
+
+  // Widget buttons() {
+  //   return Row(
+  //     children: [
+  //       Expanded(
+  //         child: CustomElevatedButton(
+  //             height: 50.h,
+  //             width: Get.width,
+  //             color: AppColors.darkText,
+  //             text: "Add to Cart",
+  //             onPressed: () {
+  //               controller.productPriceFun();
+  //             }),
+  //       ),
+  //       wBox(10),
+  //       Expanded(
+  //         child: CustomElevatedButton(
+  //             height: 50.h,
+  //             width: Get.width,
+  //             text: "Buy now",
+  //             onPressed: () {}),
+  //       ),
+  //
+  //
+  //     ],
+  //   );
+  // }
 
   List<RxBool> isExpandedList = List.generate(9, (index) => false.obs);
 
