@@ -1395,7 +1395,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           ),
         );
       },
-      separatorBuilder: (context, index) => hBox(20),
+      separatorBuilder: (context, index) => hBox(20.h),
     );
   }
 }

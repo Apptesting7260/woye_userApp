@@ -4,7 +4,11 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/checked_unchecked_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/add_to_cart_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_pharma_product_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/pharma_quantity_update_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Modal/pharmacy_categories_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/modal/pharmacy_categories_details_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharma_Categories_Filter_modal.dart';
@@ -144,6 +148,7 @@ class Repository {
     dynamic response = await _apiService.getApi(AppUrls.getOrdersList, token);
     return OrdersList.fromJson(response);
   }
+
   /* ------------------------------------------------ Restaurant ----------------------------------------------------*/
 
   Future<dynamic> homeApi({required int page, required int perPage}) async {
@@ -296,9 +301,11 @@ class Repository {
 
 /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
 
-  Future<dynamic> pharmacyHomeApi({required int page, required int perPage}) async {
+  Future<dynamic> pharmacyHomeApi(
+      {required int page, required int perPage}) async {
     await initializeUser();
-    final String url = '${AppUrls.pharmacyHomeApi}?page=$page&per_page=$perPage';
+    final String url =
+        '${AppUrls.pharmacyHomeApi}?page=$page&per_page=$perPage';
 
     dynamic response = await _apiService.getApi(url, token);
     return PharamacyHomeModal.fromJson(response);
@@ -307,28 +314,28 @@ class Repository {
   Future<dynamic> pharmacyBannerApi(var data) async {
     await initializeUser();
     dynamic response =
-    await _apiService.postApi(data, AppUrls.pharmaBannersData, token);
+        await _apiService.postApi(data, AppUrls.pharmaBannersData, token);
     return PharmaBannerModal.fromJson(response);
   }
 
   Future<dynamic> specificPharmaShopApi(var data) async {
     await initializeUser();
     dynamic response =
-    await _apiService.postApi(data, AppUrls.specificPharmaShop, token);
+        await _apiService.postApi(data, AppUrls.specificPharmaShop, token);
     return SpecificPharmacyModal.fromJson(response);
   }
 
   Future<dynamic> pharmaHomeSearchApi(var data) async {
     await initializeUser();
     dynamic response =
-    await _apiService.postApi(data, AppUrls.pharmaHomeSearch, token);
+        await _apiService.postApi(data, AppUrls.pharmaHomeSearch, token);
     return PharmaHomeSearchModal.fromJson(response);
   }
 
   Future<dynamic> pharmacyCategoriesApi() async {
     await initializeUser();
     dynamic response =
-    await _apiService.getApi(AppUrls.pharmacyCategories, token);
+        await _apiService.getApi(AppUrls.pharmacyCategories, token);
     return PharmacyCategoriesModal.fromJson(response);
   }
 
@@ -339,57 +346,81 @@ class Repository {
     return PharmacyCategoriesDetailsModal.fromJson(response);
   }
 
-
   Future<dynamic> allPharmaShopsApi() async {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.allShops, token);
     return AllPharmaShopsModal.fromJson(response);
   }
 
-
   Future<dynamic> pharmacyAllProductWishlistApi() async {
     await initializeUser();
     dynamic response =
-    await _apiService.getApi(AppUrls.pharmacyProductWishlist, token);
+        await _apiService.getApi(AppUrls.pharmacyProductWishlist, token);
     return PharmacyProductWishlistModal.fromJson(response);
   }
 
   Future<dynamic> addPharmaProductWishlist(
-      var data,
-      ) async {
+    var data,
+  ) async {
     await initializeUser();
-    dynamic response =
-    await _apiService.postApi(data, AppUrls.addPharmaProductWishlist, token);
+    dynamic response = await _apiService.postApi(
+        data, AppUrls.addPharmaProductWishlist, token);
     return pharmacy_add_product_wishlist_modal.fromJson(response);
   }
 
   Future<dynamic> pharmacySpecificProductApi(var data) async {
     await initializeUser();
     dynamic response =
-    await _apiService.postApi(data, AppUrls.pharmaSpecificProduct, token);
+        await _apiService.postApi(data, AppUrls.pharmaSpecificProduct, token);
     return PharmaSpecificProductModal.fromJson(response);
   }
 
   Future<dynamic> getPharmaCategoriesFilterApi() async {
     await initializeUser();
     dynamic response =
-    await _apiService.getApi(AppUrls.getPharmaCategoriesFilter, token);
+        await _apiService.getApi(AppUrls.getPharmaCategoriesFilter, token);
     return PharmaCategoriesFilterModal.fromJson(response);
   }
-
 
   Future<dynamic> pharmaAddToCartApi(var data) async {
     await initializeUser();
     dynamic response =
-    await _apiService.postApi2(data, AppUrls.pharmaAddToCart, token);
+        await _apiService.postApi2(data, AppUrls.pharmaAddToCart, token);
     return PharmaAddToCart.fromJson(response);
   }
 
   Future<dynamic> pharmaUpdateCartApi(var data) async {
     await initializeUser();
     dynamic response =
-    await _apiService.postApi2(data, AppUrls.pharmaUpdateCart, token);
+        await _apiService.postApi2(data, AppUrls.pharmaUpdateCart, token);
     return PharmaAddToCart.fromJson(response);
   }
 
+  Future<dynamic> pharmacyCartGetDataApi() async {
+    await initializeUser();
+    dynamic response =
+        await _apiService.getApi(AppUrls.getPharmaCartData, token);
+    return PharmaCartModal.fromJson(response);
+  }
+
+  Future<dynamic> deletePharmaProductApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.deletePharmaProduct, token);
+    return DeletePharmaProductModal.fromJson(response);
+  }
+
+  Future<dynamic> pharmacyUpdateQuantityApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.updatePharmaQuantity, token);
+    return PharmaQuantityUpdateModal.fromJson(response);
+  }
+
+  Future<dynamic> pharmaCheckedUncheckedApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.pharmaCheckedUnchecked, token);
+    return PharmaCheckedUncheckedModal.fromJson(response);
+  }
 }

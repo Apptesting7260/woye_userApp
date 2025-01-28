@@ -6,12 +6,13 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:intl/intl.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/pharma_checked_unchecked_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_product_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/quantityupdatecontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/checked_unchecked/checked_unchecked_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_controller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantity_update/quantityupdatecontroller.dart';
+import 'package:intl/intl.dart';
 
 class PharmacyCartScreen extends StatefulWidget {
   final bool isBack;
@@ -23,20 +24,19 @@ class PharmacyCartScreen extends StatefulWidget {
 }
 
 class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
-  final RestaurantCartController controller =
-      Get.put(RestaurantCartController());
-  final QuantityController quantityUpdateController =
-      Get.put(QuantityController());
+  final PharmacyCartController controller = Get.put(PharmacyCartController());
+  final PharmaQuantityController quantityUpdateController =
+      Get.put(PharmaQuantityController());
 
-  final DeleteProductController deleteProductController =
-      Get.put(DeleteProductController());
+  final DeletePharmaProductController deleteProductController =
+      Get.put(DeletePharmaProductController());
   final ApplyCouponController applyCouponController =
       Get.put(ApplyCouponController());
-  final CheckedUncheckedController checkedUncheckedController =
-      Get.put(CheckedUncheckedController());
+  final PharmaCheckedUncheckedController checkedUncheckedController =
+      Get.put(PharmaCheckedUncheckedController());
 
   void initState() {
-    controller.getRestaurantCartApi();
+    controller.getPharmacyCartApi();
     super.initState();
     _scrollController.addListener(
       () {
@@ -734,65 +734,6 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                   ),
                 ),
               ),
-            if (controller.cartData.value.cart!.decodedAttribute![index].addons!
-                    .isNotEmpty &&
-                controller.cartData.value.cart!.decodedAttribute![index]
-                        .checked ==
-                    "true")
-              SizedBox(
-                width: Get.width,
-                child: Wrap(
-                  direction: Axis.horizontal,
-                  spacing: 2.w,
-                  runSpacing: 2.w,
-                  children: List.generate(
-                    controller.cartData.value.cart!.decodedAttribute![index]
-                        .addons!.length,
-                    (addonIndex) {
-                      bool isLast = addonIndex ==
-                          controller.cartData.value.cart!
-                                  .decodedAttribute![index].addons!.length -
-                              1;
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${controller.cartData.value.cart!.decodedAttribute![index].addons![addonIndex].name}',
-                            style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          Text(
-                            ' - ',
-                            style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          Text(
-                            '\$${controller.cartData.value.cart!.decodedAttribute![index].addons![addonIndex].price}',
-                            style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          if (!isLast)
-                            Text(
-                              ',',
-                              style:
-                                  AppFontStyle.text_12_400(AppColors.lightText),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                        ],
-                      );
-                    },
-                  ),
-                ),
-              ),
           ],
         );
       },
@@ -1395,7 +1336,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
           ),
         );
       },
-      separatorBuilder: (context, index) => hBox(20),
+      separatorBuilder: (context, index) => hBox(20.h),
     );
   }
 }

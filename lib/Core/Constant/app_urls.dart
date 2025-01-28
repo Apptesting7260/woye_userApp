@@ -27,11 +27,11 @@ class AppUrls {
 
   /* ------------------------------------------------ User Wallet ----------------------------------------------------  */
 
-  static const String getOrdersList = "$baseUrl/list-order";
+  static const String userWallet = "$baseUrl/user-wallet";
 
   /* ------------------------------------------------ Show Orders  ----------------------------------------------------  */
 
-  static const String userWallet = "$baseUrl/user-wallet";
+  static const String getOrdersList = "$baseUrl/list-order";
 
   /* ------------------------------ Restaurant ---------------------------------*/
 
@@ -73,10 +73,10 @@ class AppUrls {
   static const String getPharmaCategoriesFilter = "$baseUrl/pinner-search-data";
   static const String pharmaAddToCart = "$baseUrl/pmake-cart";
   static const String pharmaUpdateCart = "$baseUrl/pupdate-cart";
-
-
-
-
-
+  static const String getPharmaCartData = "$baseUrl/pget-cart";
+  static const String deletePharmaProduct = "$baseUrl/pdelete-product";
+  static const String updatePharmaQuantity =
+      "$baseUrl/pupdate-product-quantity";
+  static const String pharmaCheckedUnchecked = "$baseUrl/pchecked-unchecked";
 
 }
