@@ -45,7 +45,7 @@ class Product {
   int? consumeId;
   String? expire;
   String? regularPrice;
-  var salePrice;
+  int? salePrice;
   var is_in_wishlist;
   String? quanInStock;
   int? packagingId;
@@ -255,7 +255,7 @@ class MoreProducts {
   int? id;
   String? title;
   String? regularPrice;
-  String? salePrice;
+  var salePrice;
   String? packagingValue;
   int? categoryId;
   bool? isInWishlist;

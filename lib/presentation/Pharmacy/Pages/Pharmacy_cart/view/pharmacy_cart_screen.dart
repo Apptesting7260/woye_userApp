@@ -10,7 +10,6 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/p
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/pharma_checked_unchecked_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/quantityupdatecontroller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/checked_unchecked/checked_unchecked_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
 import 'package:intl/intl.dart';
 
@@ -1070,8 +1069,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 'coupon_id': controller
                                     .cartData.value.cart!.couponApplied?.id
                                     .toString(),
-                                'restaurant_id': controller
-                                    .cartData.value.cart!.restoId
+                                'vendor_id': controller
+                                    .cartData.value.cart!.pharmaId
                                     .toString(),
                                 'total': controller
                                     .cartData.value.cart!.totalPrice
@@ -1090,6 +1089,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                     .toString(),
                                 'cart_id': controller.cartData.value.cart!.id
                                     .toString(),
+                                'cartType': "pharamacy",
                               },
                             );
                           });
@@ -1108,7 +1108,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     child: CustomElevatedButton(
                       onPressed: () {
                         Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': "RestaurantCart"});
+                            arguments: {'type': "PharmacyCart"});
                       },
                       text: "Complete Address",
                       textStyle: AppFontStyle.text_16_600(AppColors.white),

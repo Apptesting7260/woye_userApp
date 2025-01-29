@@ -54,7 +54,7 @@ class Cart {
   int? id;
   int? userId;
   int? productId;
-  int? restoId;
+  int? pharmaId;
   String? status;
   int? orderId;
   String? bucket;
@@ -74,7 +74,7 @@ class Cart {
     this.id,
     this.userId,
     this.productId,
-    this.restoId,
+    this.pharmaId,
     this.status,
     this.orderId,
     this.bucket,
@@ -104,7 +104,7 @@ class Cart {
       id: json['id'],
       userId: json['user_id'],
       productId: json['product_id'],
-      restoId: json['resto_id'],
+      pharmaId: json['pharma_id'],
       status: json['status'],
       orderId: json['order_id'],
       bucket: json['bucket'],
@@ -127,7 +127,7 @@ class Cart {
       'id': id,
       'user_id': userId,
       'product_id': productId,
-      'resto_id': restoId,
+      'pharma_id': pharmaId,
       'status': status,
       'order_id': orderId,
       'bucket': bucket,

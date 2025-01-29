@@ -1,7 +1,10 @@
-import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout_create-order/create_order_modal.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_modal.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:woye_user/Core/Utils/snackbar.dart';
+import 'package:woye_user/Data/Repository/repository.dart';
+import 'package:woye_user/Data/response/status.dart';
+import 'package:woye_user/Routes/app_routes.dart';
+import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
 
 class CreateOrderController extends GetxController {
   final api = Repository();
@@ -17,18 +20,20 @@ class CreateOrderController extends GetxController {
     required String paymentMethod,
     required String addressId,
     required String couponId,
-    required String restaurantId,
+    required String vendorId,
     required String total,
     required String cartId,
+    required String cartType,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "payment_method": paymentMethod,
       "address_id": addressId,
       "coupon_id": couponId != "" ? couponId : "",
-      "restaurant_id": restaurantId,
+      "vendor_id": vendorId,
       "total": total,
       "cart_id": cartId,
+      "type": cartType,
     };
 
     api.createOrderApi(body).then((value) {

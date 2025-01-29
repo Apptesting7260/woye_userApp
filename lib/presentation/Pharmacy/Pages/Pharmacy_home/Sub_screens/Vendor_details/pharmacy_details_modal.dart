@@ -212,7 +212,7 @@ class MoreProducts {
   int? id;
   String? title;
   String? regularPrice;
-  String? salePrice;
+  var salePrice;
   String? packagingValue;
   int? categoryId;
   bool? isInWishlist;

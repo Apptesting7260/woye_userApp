@@ -29,15 +29,14 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_review/pharmacy_vendor_review_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout_create-order/checkout_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/categoriesfilter_binding.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/view/restaurant_home_filter.dart';
+import 'package:woye_user/presentation/common/Checkout_create-order/checkout_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
-import 'package:woye_user/presentation/common/Profile/Sub_screens/Edit_profile/edit_profile_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Invite_friends/invite_friends_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/Sub_screens/Filter/my_wallet_filter.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/Sub_screens/Transaction_history/transaction_history_screen.dart';
@@ -252,7 +251,7 @@ class AppRoutes {
         page: () => const PharmacyVendorReviewScreen()),
     GetPage(
         name: pharmacyRateVendor, page: () => const PharmacyRateVendorScreen()),
-    GetPage(name: pharmacyCheckout, page: () => const PharmacyCheckoutScreen()),
+    // GetPage(name: pharmacyCheckout, page: () => const PharmacyCheckoutScreen()),
 
     // GetPage(
     //     name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),

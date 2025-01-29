@@ -72,9 +72,9 @@ class PharmaSpecificProductController extends GetxController {
 
   void productPriceFun() {
     int count = cartCount.value;
-    int? price = int.parse(productData.value.product!.salePrice);
+    int? price = productData.value.product!.salePrice;
 
-    int totalPrice = count * price;
+    int totalPrice = count * price!;
     productPrice = totalPrice;
     print("Total Price: $totalPrice");
   }

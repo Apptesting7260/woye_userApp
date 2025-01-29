@@ -1,8 +1,6 @@
 import 'dart:math';
-
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout_create-order/create_order_controller.dart';
-import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
+import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/Controller/payment_method_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 
@@ -21,16 +19,17 @@ class CheckoutScreen extends StatelessWidget {
     var arguments = Get.arguments ?? {};
     var addressId = arguments['address_id'] ?? '';
     var couponId = arguments['coupon_id'] ?? '';
-    var restaurantId = arguments['restaurant_id'] ?? '';
+    var vendorId = arguments['vendor_id'] ?? '';
     var total = arguments['total'] ?? "";
     var cartId = arguments['cart_id'] ?? "";
     var regularPrice = arguments['regular_price'] ?? "";
     var saveAmount = arguments['save_amount'] ?? "";
     var deliveryCharge = arguments['delivery_charge'] ?? "";
     var couponDiscount = arguments['coupon_discount'] ?? "";
+    var cartType = arguments['cartType'] ?? "";
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
-    print("Restaurant ID: $restaurantId");
+    print("Vendor Id: $vendorId");
     print("Total: $total");
     print("Cart ID: $cartId");
     print("Regular Price: $regularPrice");
@@ -63,16 +62,18 @@ class CheckoutScreen extends StatelessWidget {
               hBox(30.h),
               Obx(
                 () => CustomElevatedButton(
-                  isLoading: (controller.rxRequestStatus.value == Status.LOADING),
+                  isLoading:
+                      (controller.rxRequestStatus.value == Status.LOADING),
                   onPressed: () {
                     if (paymentMethodController.selectedIndex == 2) {
                       controller.placeOrderApi(
                         addressId: addressId,
                         cartId: cartId,
-                        restaurantId: restaurantId,
+                        vendorId: vendorId,
                         couponId: couponId,
-                        paymentMethod: "Cash On Delivery",
+                        paymentMethod: "cash_on_delivery",
                         total: total,
+                        cartType: cartType,
                       );
                     } else {
                       Utils.showToast("Payment method not available");
@@ -183,7 +184,7 @@ class CheckoutScreen extends StatelessWidget {
           ],
         ),
         hBox(couponDiscount != "0" ? 10.h : 0.h),
-      couponDiscount != "0"
+        couponDiscount != "0"
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

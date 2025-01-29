@@ -33,7 +33,7 @@ class WishlistProduct {
   int? id;
   String? title;
   String? regularPrice;
-  String? salePrice;
+  var salePrice;
   String? packagingValue;
   int? categoryId;
   String? categoryName;
