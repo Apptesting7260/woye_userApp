@@ -40,8 +40,8 @@ class Product {
   String? title;
   int? restaurantId;
   int? categoryId;
-  String? regularPrice;
-  int? salePrice;
+  var regularPrice;
+  var salePrice;
   String? quanInStock;
   String? description;
   String? discount;
@@ -275,7 +275,7 @@ class Productreview {
     data['user_id'] = userId;
     data['username'] = username;
     data['product_id'] = productId;
-    data['rating'] = rating; // Rating is now double
+    data['rating'] = rating;
     data['message'] = message;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
@@ -312,8 +312,8 @@ class MoreProducts {
   int? id;
   String? image;
   int? rating;
-  int? salePrice;
-  String? regularPrice;
+  var salePrice;
+  var regularPrice;
   String? title;
   int? userId;
   bool? isInWishlist;

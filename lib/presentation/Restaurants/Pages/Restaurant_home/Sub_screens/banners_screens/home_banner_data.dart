@@ -32,11 +32,11 @@ class RestaurantHomeBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          // title: Text(
-          //   "Filter",
-          //   style: AppFontStyle.text_22_600(AppColors.darkText),
-          // ),
-        ),
+            // title: Text(
+            //   "Filter",
+            //   style: AppFontStyle.text_22_600(AppColors.darkText),
+            // ),
+            ),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
             case Status.LOADING:
@@ -140,11 +140,10 @@ class RestaurantHomeBanner extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Get.toNamed(AppRoutes.restaurantCategoriesDetails,
-                    arguments: {
-                      'name': banners[index].name.toString(),
-                      'id': int.parse(banners[index].id.toString()),
-                    });
+                Get.toNamed(AppRoutes.restaurantCategoriesDetails, arguments: {
+                  'name': banners[index].name.toString(),
+                  'id': int.parse(banners[index].id.toString()),
+                });
                 restaurantCategoriesDeatilsController
                     .restaurant_Categories_Details_Api(
                   id: banners[index].id.toString(),

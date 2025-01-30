@@ -213,8 +213,8 @@ class MoreProducts {
   int? id;
   String? image;
   int? rating;
-  int? salePrice;
-  String? regularPrice;
+  var salePrice;
+  var regularPrice;
   String? title;
   int? userId;
   bool? isInWishlist;

@@ -124,7 +124,7 @@ class Products {
   String? image;
   int? rating;
   int? salePrice;
-  String? regularPrice;
+  var regularPrice;
   String? title;
   String? addimg;
   int? userId;

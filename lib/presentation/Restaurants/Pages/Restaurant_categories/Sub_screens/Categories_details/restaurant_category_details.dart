@@ -116,8 +116,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           SliverToBoxAdapter(
                             child: hBox(10.h),
                           ),
-                          if (controller.categoriesDetailsData.value.filterProduct!
-                                  .isEmpty &&
+                          if (controller.categoriesDetailsData.value
+                                  .filterProduct!.isEmpty &&
                               controller.categoriesDetailsData.value
                                   .categoryProduct!.isEmpty)
                             SliverToBoxAdapter(
@@ -144,8 +144,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          if (controller
-                              .categoriesDetailsData.value.filterProduct!.isEmpty)
+                          if (controller.categoriesDetailsData.value
+                              .filterProduct!.isEmpty)
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     childCount: controller.searchData.length,
@@ -155,8 +155,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                       onTap: () {
                                         specific_product_controllerontroller
                                             .specific_Product_Api(
-                                                productId: product.id.toString(),
-                                                categoryId: categoryId.toString());
+                                                productId:
+                                                    product.id.toString(),
+                                                categoryId:
+                                                    categoryId.toString());
                                         Get.to(ProductDetailsScreen(
                                           productId: product.id.toString(),
                                           categoryId: categoryId.toString(),
@@ -174,29 +176,33 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(20.r),
+                                                      BorderRadius.circular(
+                                                          20.r),
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        product.urlImage.toString(),
+                                                    imageUrl: product.urlImage
+                                                        .toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
                                                     width: double.maxFinite,
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            const Icon(Icons.error),
-                                                    placeholder: (context, url) =>
-                                                        Shimmer.fromColors(
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Shimmer.fromColors(
                                                       baseColor: AppColors.gray,
                                                       highlightColor:
                                                           AppColors.lightText,
                                                       child: Container(
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: AppColors.gray,
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  20.r),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.r),
                                                         ),
                                                       ),
                                                     ),
@@ -210,29 +216,34 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   padding: REdgeInsets.all(6),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(10.r),
-                                                    color: AppColors.greyBackground,
+                                                        BorderRadius.circular(
+                                                            10.r),
+                                                    color: AppColors
+                                                        .greyBackground,
                                                   ),
                                                   child: InkWell(
                                                     highlightColor:
                                                         Colors.transparent,
-                                                    splashColor: Colors.transparent,
+                                                    splashColor:
+                                                        Colors.transparent,
                                                     onTap: () async {
                                                       product.isInWishlist =
-                                                          !product.isInWishlist!;
+                                                          !product
+                                                              .isInWishlist!;
                                                       product.isLoading.value =
                                                           true;
                                                       await add_Wishlist_Controller
                                                           .restaurant_add_product_wishlist(
-                                                        categoryId:
-                                                            categoryId.toString(),
-                                                        product_id:
-                                                            product.id.toString(),
+                                                        categoryId: categoryId
+                                                            .toString(),
+                                                        product_id: product.id
+                                                            .toString(),
                                                       );
                                                       product.isLoading.value =
                                                           false;
                                                     },
-                                                    child: product.isLoading.value
+                                                    child: product
+                                                            .isLoading.value
                                                         ? circularProgressIndicator(
                                                             size: 18)
                                                         : Icon(
@@ -251,29 +262,42 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           hBox(10.h),
                                           Row(
                                             children: [
-                                              Text(
-                                                "\$${product.salePrice}",
-                                                textAlign: TextAlign.left,
-                                                style: AppFontStyle.text_16_600(
-                                                    AppColors.primary),
-                                              ),
+                                              product.salePrice != null
+                                                  ? Text(
+                                                      "\$${product.salePrice}",
+                                                      textAlign: TextAlign.left,
+                                                      style: AppFontStyle
+                                                          .text_16_600(AppColors
+                                                              .primary),
+                                                    )
+                                                  : Text(
+                                                      "\$${product.regularPrice}",
+                                                      textAlign: TextAlign.left,
+                                                      style: AppFontStyle
+                                                          .text_16_600(AppColors
+                                                              .primary),
+                                                    ),
                                               wBox(5.h),
-                                              Text(
-                                                "\$${product.regularPrice}",
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.left,
+                                              if (product.salePrice != null)
+                                                Text(
+                                                  "\$${product.regularPrice}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.left,
 
-                                                style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: AppColors.lightText,
-                                                    decoration:
-                                                        TextDecoration.lineThrough,
-                                                    decorationColor:
-                                                        AppColors.lightText),
+                                                  style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color:
+                                                          AppColors.lightText,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      decorationColor:
+                                                          AppColors.lightText),
 
-                                                //  AppFontStyle.text_14_300(AppColors.lightText),
-                                              ),
+                                                  //  AppFontStyle.text_14_300(AppColors.lightText),
+                                                ),
                                             ],
                                           ),
                                           // hBox(10),
@@ -300,10 +324,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               Flexible(
                                                 child: Text(
                                                   product.restoName.toString(),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   textAlign: TextAlign.left,
-                                                  style: AppFontStyle.text_14_300(
-                                                      AppColors.lightText),
+                                                  style:
+                                                      AppFontStyle.text_14_300(
+                                                          AppColors.lightText),
                                                 ),
                                               ),
                                             ],
@@ -319,11 +345,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
                                 ))),
-                          if (controller.categoriesDetailsData.value.filterProduct!
-                              .isNotEmpty)
+                          if (controller.categoriesDetailsData.value
+                              .filterProduct!.isNotEmpty)
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
-                                    childCount: controller.filterProductSearchData
+                                    childCount: controller
+                                        .filterProductSearchData
                                         .length, (context, index) {
                                   var product =
                                       controller.filterProductSearchData[index];
@@ -331,8 +358,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                       onTap: () {
                                         specific_product_controllerontroller
                                             .specific_Product_Api(
-                                                productId: product.id.toString(),
-                                                categoryId: categoryId.toString());
+                                                productId:
+                                                    product.id.toString(),
+                                                categoryId:
+                                                    categoryId.toString());
                                         Get.to(ProductDetailsScreen(
                                           productId: product.id.toString(),
                                           categoryId: categoryId.toString(),
@@ -350,28 +379,32 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(20.r),
+                                                      BorderRadius.circular(
+                                                          20.r),
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
-                                                    imageUrl:
-                                                        product.urlImage.toString(),
+                                                    imageUrl: product.urlImage
+                                                        .toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
-                                                    errorWidget:
-                                                        (context, url, error) =>
-                                                            const Icon(Icons.error),
-                                                    placeholder: (context, url) =>
-                                                        Shimmer.fromColors(
+                                                    errorWidget: (context, url,
+                                                            error) =>
+                                                        const Icon(Icons.error),
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Shimmer.fromColors(
                                                       baseColor: AppColors.gray,
                                                       highlightColor:
                                                           AppColors.lightText,
                                                       child: Container(
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: AppColors.gray,
                                                           borderRadius:
-                                                              BorderRadius.circular(
-                                                                  20.r),
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20.r),
                                                         ),
                                                       ),
                                                     ),
@@ -385,29 +418,34 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   padding: REdgeInsets.all(6),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(10.r),
-                                                    color: AppColors.greyBackground,
+                                                        BorderRadius.circular(
+                                                            10.r),
+                                                    color: AppColors
+                                                        .greyBackground,
                                                   ),
                                                   child: InkWell(
                                                     highlightColor:
                                                         Colors.transparent,
-                                                    splashColor: Colors.transparent,
+                                                    splashColor:
+                                                        Colors.transparent,
                                                     onTap: () async {
                                                       product.isInWishlist =
-                                                          !product.isInWishlist!;
+                                                          !product
+                                                              .isInWishlist!;
                                                       product.isLoading.value =
                                                           true;
                                                       await add_Wishlist_Controller
                                                           .restaurant_add_product_wishlist(
-                                                        categoryId:
-                                                            categoryId.toString(),
-                                                        product_id:
-                                                            product.id.toString(),
+                                                        categoryId: categoryId
+                                                            .toString(),
+                                                        product_id: product.id
+                                                            .toString(),
                                                       );
                                                       product.isLoading.value =
                                                           false;
                                                     },
-                                                    child: product.isLoading.value
+                                                    child: product
+                                                            .isLoading.value
                                                         ? circularProgressIndicator(
                                                             size: 18)
                                                         : Icon(
@@ -442,8 +480,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w300,
                                                     color: AppColors.lightText,
-                                                    decoration:
-                                                        TextDecoration.lineThrough,
+                                                    decoration: TextDecoration
+                                                        .lineThrough,
                                                     decorationColor:
                                                         AppColors.lightText),
 
@@ -475,10 +513,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               Flexible(
                                                 child: Text(
                                                   product.restoName.toString(),
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   textAlign: TextAlign.left,
-                                                  style: AppFontStyle.text_14_300(
-                                                      AppColors.lightText),
+                                                  style:
+                                                      AppFontStyle.text_14_300(
+                                                          AppColors.lightText),
                                                 ),
                                               ),
                                             ],

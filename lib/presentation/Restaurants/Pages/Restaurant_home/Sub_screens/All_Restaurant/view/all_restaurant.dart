@@ -9,7 +9,6 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
-import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/Shared/Widgets/custom_sliver_app_bar.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/controller/all_restaurants_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';

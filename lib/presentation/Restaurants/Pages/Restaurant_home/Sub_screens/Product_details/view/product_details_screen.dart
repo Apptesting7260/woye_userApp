@@ -347,20 +347,26 @@ class ProductDetailsScreen extends StatelessWidget {
         hBox(10),
         Row(
           children: [
-            Text(
-              "\$${controller.productData.value.product!.salePrice.toString()}",
-              style: AppFontStyle.text_16_600(AppColors.primary),
-            ),
+            controller.productData.value.product!.salePrice != null
+                ? Text(
+                    "\$${controller.productData.value.product!.salePrice.toString()}",
+                    style: AppFontStyle.text_16_600(AppColors.primary),
+                  )
+                : Text(
+                    "\$${controller.productData.value.product!.regularPrice.toString()}",
+                    style: AppFontStyle.text_16_600(AppColors.primary),
+                  ),
             wBox(8),
-            Text(
-              "\$${controller.productData.value.product!.regularPrice.toString()}",
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  color: AppColors.mediumText,
-                  fontWeight: FontWeight.w400,
-                  decoration: TextDecoration.lineThrough,
-                  decorationColor: AppColors.mediumText),
-            ),
+            if (controller.productData.value.product!.salePrice != null)
+              Text(
+                "\$${controller.productData.value.product!.regularPrice.toString()}",
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.mediumText,
+                    fontWeight: FontWeight.w400,
+                    decoration: TextDecoration.lineThrough,
+                    decorationColor: AppColors.mediumText),
+              ),
             const Spacer(),
             Container(
               height: 40.h,

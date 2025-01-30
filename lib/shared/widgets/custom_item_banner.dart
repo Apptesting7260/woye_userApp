@@ -95,6 +95,8 @@ class CustomItemBanner extends StatelessWidget {
                       product_id: product_id.toString(),
                     );
                     isLoading?.value = false;
+
+                    print("object$sale_price");
                   },
                   child: isLoading!.value
                       ? circularProgressIndicator(size: 18)
@@ -108,28 +110,60 @@ class CustomItemBanner extends StatelessWidget {
           ],
         ),
         hBox(10),
+        // Row(
+        //   children: [
+        //     Text(
+        //       "\$${sale_price}",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_16_600(AppColors.primary),
+        //     ),
+        //     wBox(5),
+        //     Text(
+        //       "\$${regular_price}",
+        //       overflow: TextOverflow.ellipsis,
+        //       textAlign: TextAlign.left,
+        //
+        //       style: TextStyle(
+        //           fontSize: 14.sp,
+        //           fontWeight: FontWeight.w300,
+        //           color: AppColors.lightText,
+        //           decoration: TextDecoration.lineThrough,
+        //           decorationColor: AppColors.lightText),
+        //
+        //       //  AppFontStyle.text_14_300(AppColors.lightText),
+        //     ),
+        //   ],
+        // ),
         Row(
           children: [
-            Text(
-              "\$${sale_price}",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
-            ),
-            wBox(5),
-            Text(
-              "\$${regular_price}",
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left,
+            sale_price != "null"
+                ? Text(
+                    "\$$sale_price",
+                    textAlign: TextAlign.left,
+                    style: AppFontStyle.text_16_600(AppColors.primary),
+                  )
+                : Text(
+                    "\$$regular_price",
+                    textAlign: TextAlign.left,
+                    style: AppFontStyle.text_16_600(AppColors.primary),
+                  ),
+            wBox(5.h),
+            sale_price != "null"
+                ? Text(
+                    "\$$regular_price",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
 
-              style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w300,
-                  color: AppColors.lightText,
-                  decoration: TextDecoration.lineThrough,
-                  decorationColor: AppColors.lightText),
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w300,
+                        color: AppColors.lightText,
+                        decoration: TextDecoration.lineThrough,
+                        decorationColor: AppColors.lightText),
 
-              //  AppFontStyle.text_14_300(AppColors.lightText),
-            ),
+                    //  AppFontStyle.text_14_300(AppColors.lightText),
+                  )
+                : const SizedBox(),
           ],
         ),
         // hBox(10),
