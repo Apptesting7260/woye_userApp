@@ -211,7 +211,7 @@ class OpeningHours {
 class MoreProducts {
   int? id;
   String? title;
-  String? regularPrice;
+  var regularPrice;
   var salePrice;
   String? packagingValue;
   int? categoryId;

@@ -9,6 +9,8 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_sliver_app_bar.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/all_pharma_shops/controller/all_pharma_shops_controller.dart';
 import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/theme/font_style.dart';
@@ -23,6 +25,9 @@ class AllPharmaShopsScreen extends StatelessWidget {
 
   // final RestaurantDetailsController restaurantDeatilsController =
   // Get.put(RestaurantDetailsController());
+
+  final PharmacyDetailsController pharmacyDetailsController =
+      Get.put(PharmacyDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -81,13 +86,12 @@ class AllPharmaShopsScreen extends StatelessWidget {
                               final pharmaShops = pharma[index];
                               return GestureDetector(
                                 onTap: () {
-                                  // Get.to(RestaurantDetailsScreen(
-                                  //   Restaurantid: restaurant.id.toString(),
-                                  // ));
-                                  // restaurantDeatilsController
-                                  //     .restaurant_Details_Api(
-                                  //   id: restaurant.id.toString(),
-                                  // );
+                                  pharmacyDetailsController
+                                      .restaurant_Details_Api(
+                                    id: pharmaShops.id.toString(),
+                                  );
+                                  Get.to(PharmacyVendorDetailsScreen(
+                                      pharmacyId: pharmaShops.id.toString()));
                                 },
                                 child: pharmaShop(
                                   index: index,

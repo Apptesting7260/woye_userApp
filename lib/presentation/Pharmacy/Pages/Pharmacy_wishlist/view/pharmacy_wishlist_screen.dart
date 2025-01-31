@@ -246,29 +246,42 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                           hBox(10.h),
                                           Row(
                                             children: [
-                                              Text(
-                                                "\$${product.salePrice}",
-                                                textAlign: TextAlign.left,
-                                                style: AppFontStyle.text_16_600(
-                                                    AppColors.primary),
-                                              ),
-                                              wBox(5),
-                                              Text(
-                                                "\$${product.regularPrice}",
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.left,
+                                              product.salePrice != null
+                                                  ? Text(
+                                                      "\$${product.salePrice}",
+                                                      textAlign: TextAlign.left,
+                                                      style: AppFontStyle
+                                                          .text_16_600(AppColors
+                                                              .primary),
+                                                    )
+                                                  : Text(
+                                                      "\$${product.regularPrice}",
+                                                      textAlign: TextAlign.left,
+                                                      style: AppFontStyle
+                                                          .text_16_600(AppColors
+                                                              .primary),
+                                                    ),
+                                              wBox(5.h),
+                                              if (product.salePrice != null)
+                                                Text(
+                                                  "\$${product.regularPrice}",
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.left,
 
-                                                style: TextStyle(
-                                                    fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w300,
-                                                    color: AppColors.lightText,
-                                                    decoration: TextDecoration
-                                                        .lineThrough,
-                                                    decorationColor:
-                                                        AppColors.lightText),
+                                                  style: TextStyle(
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      color:
+                                                          AppColors.lightText,
+                                                      decoration: TextDecoration
+                                                          .lineThrough,
+                                                      decorationColor:
+                                                          AppColors.lightText),
 
-                                                //  AppFontStyle.text_14_300(AppColors.lightText),
-                                              ),
+                                                  //  AppFontStyle.text_14_300(AppColors.lightText),
+                                                ),
                                             ],
                                           ),
                                           Text(

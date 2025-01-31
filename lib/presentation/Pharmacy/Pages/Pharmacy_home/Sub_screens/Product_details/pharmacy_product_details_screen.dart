@@ -18,11 +18,12 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   final String categoryId;
   final String categoryName;
 
-  PharmacyProductDetailsScreen(
-      {super.key,
-      required this.productId,
-      required this.categoryId,
-      required this.categoryName});
+  PharmacyProductDetailsScreen({
+    super.key,
+    required this.productId,
+    required this.categoryId,
+    required this.categoryName,
+  });
 
   final PharmaSpecificProductController controller =
       Get.put(PharmaSpecificProductController());
@@ -37,10 +38,6 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RxInt selectedIndex = 0.obs;
-    // String mainBannerImage = image;
-    // String title = this.title;
-
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -339,20 +336,26 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       ),
       Row(
         children: [
-          Text(
-            "\$${product.salePrice.toString()}",
-            style: AppFontStyle.text_16_600(AppColors.primary),
-          ),
+          controller.productData.value.product!.salePrice != null
+              ? Text(
+                  "\$${controller.productData.value.product!.salePrice.toString()}",
+                  style: AppFontStyle.text_16_600(AppColors.primary),
+                )
+              : Text(
+                  "\$${controller.productData.value.product!.regularPrice.toString()}",
+                  style: AppFontStyle.text_16_600(AppColors.primary),
+                ),
           wBox(8),
-          Text(
-            "\$${product.regularPrice.toString()}",
-            style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.mediumText,
-                fontWeight: FontWeight.w400,
-                decoration: TextDecoration.lineThrough,
-                decorationColor: AppColors.mediumText),
-          ),
+          if (controller.productData.value.product!.salePrice != null)
+            Text(
+              "\$${controller.productData.value.product!.regularPrice.toString()}",
+              style: TextStyle(
+                  fontSize: 14.sp,
+                  color: AppColors.mediumText,
+                  fontWeight: FontWeight.w400,
+                  decoration: TextDecoration.lineThrough,
+                  decorationColor: AppColors.mediumText),
+            ),
           const Spacer(),
           product.quanInStock.toString() != "0"
               ? Container(
@@ -681,10 +684,14 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 pharmacyAddToCarController.pharmaAddToCartApi(
                   productId:
                       controller.productData.value.product!.id.toString(),
-                  productPrice: controller.productData.value.product!.salePrice
-                      .toString(),
+                  productPrice:
+                      controller.productData.value.product!.salePrice != null
+                          ? controller.productData.value.product!.salePrice
+                              .toString()
+                          : controller.productData.value.product!.regularPrice
+                              .toString(),
                   productQuantity: controller.cartCount.toString(),
-                  restaurantId:
+                  pharmaId:
                       controller.productData.value.product!.userId.toString(),
                   // addons: controller.selectedAddOn.toList(),
                   extrasIds: controller.variantTitlesIdsId,
@@ -697,33 +704,6 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
               }),
     );
   }
-
-  // Widget buttons() {
-  //   return Row(
-  //     children: [
-  //       Expanded(
-  //         child: CustomElevatedButton(
-  //             height: 50.h,
-  //             width: Get.width,
-  //             color: AppColors.darkText,
-  //             text: "Add to Cart",
-  //             onPressed: () {
-  //               controller.productPriceFun();
-  //             }),
-  //       ),
-  //       wBox(10),
-  //       Expanded(
-  //         child: CustomElevatedButton(
-  //             height: 50.h,
-  //             width: Get.width,
-  //             text: "Buy now",
-  //             onPressed: () {}),
-  //       ),
-  //
-  //
-  //     ],
-  //   );
-  // }
 
   List<RxBool> isExpandedList = List.generate(9, (index) => false.obs);
 

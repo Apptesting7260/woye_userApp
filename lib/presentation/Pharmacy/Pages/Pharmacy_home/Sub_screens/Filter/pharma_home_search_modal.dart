@@ -37,8 +37,8 @@ class PharmaHomeSearchModal {
 class CategoryProduct {
   int? id;
   String? title;
-  String? regularPrice;
-  String? salePrice;
+  var regularPrice;
+  var salePrice;
   String? packagingValue;
   int? categoryId;
   bool? isInWishlist;

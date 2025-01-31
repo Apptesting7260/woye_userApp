@@ -193,9 +193,15 @@ class ProductDetailsScreen extends StatelessWidget {
                                       productId: controller
                                           .productData.value.product!.id
                                           .toString(),
-                                      productPrice: controller
-                                          .productData.value.product!.salePrice
-                                          .toString(),
+                                      productPrice: controller.productData.value
+                                                  .product!.salePrice !=
+                                              null
+                                          ? controller.productData.value
+                                              .product!.salePrice
+                                              .toString()
+                                          : controller.productData.value
+                                              .product!.regularPrice
+                                              .toString(),
                                       productQuantity:
                                           controller.cartCount.toString(),
                                       restaurantId: controller.productData.value
@@ -425,7 +431,7 @@ class ProductDetailsScreen extends StatelessWidget {
         Text(
           controller.productData.value.product!.description.toString(),
           style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4),
-          maxLines: 4,
+          maxLines: 20,
         ),
       ],
     );

@@ -232,7 +232,7 @@ class CouponApplied {
 class DecodedAttribute {
   String? productId;
   int? quantity;
-  String? price;
+  var price;
 
   // List<Addon>? addons;
   List<Attribute>? attribute;

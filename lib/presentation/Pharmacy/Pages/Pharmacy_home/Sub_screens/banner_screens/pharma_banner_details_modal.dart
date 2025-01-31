@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:get/get.dart';
 
 class PharmaBannerModal {
@@ -121,8 +119,8 @@ class Category {
 class CategoryProduct {
   int? id;
   String? title;
-  String? regularPrice;
-  String? salePrice;
+  var regularPrice;
+  var salePrice;
   String? packagingValue;
   int? categoryId;
   bool? isInWishlist;
@@ -172,8 +170,6 @@ class CategoryProduct {
     return data;
   }
 }
-
-
 
 class PharmaShops {
   int? id;

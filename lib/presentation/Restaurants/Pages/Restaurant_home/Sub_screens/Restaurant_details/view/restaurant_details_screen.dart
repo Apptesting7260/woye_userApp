@@ -273,6 +273,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
         hBox(10),
         Text(
           controller.restaurant_Data.value.restaurant!.shopDes.toString(),
+          maxLines: 100,
           style: AppFontStyle.text_16_400(AppColors.lightText),
         ),
       ],
@@ -382,7 +383,8 @@ class RestaurantDetailsScreen extends StatelessWidget {
                         .restaurant_Data.value.moreProducts![index].restoName
                         .toString(),
                   ));
-            })
+            }
+            )
       ],
     );
   }

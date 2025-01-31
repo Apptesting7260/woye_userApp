@@ -133,41 +133,46 @@ class CustomBanner extends StatelessWidget {
           hBox(10),
           Row(
             children: [
-              Text(
-                "\$${sale_price}",
-                textAlign: TextAlign.left,
-                style: AppFontStyle.text_16_600(AppColors.primary),
-              ),
-              wBox(5),
-              Text(
-                "\$${regular_price}",
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.left,
-
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w300,
-                    color: AppColors.lightText,
-                    decoration: TextDecoration.lineThrough,
-                    decorationColor: AppColors.lightText),
-
-                //  AppFontStyle.text_14_300(AppColors.lightText),
-              ),
+              sale_price != "null"
+                  ? Text(
+                      "\$$sale_price",
+                      textAlign: TextAlign.left,
+                      style: AppFontStyle.text_16_600(AppColors.primary),
+                    )
+                  : Text(
+                      "\$$regular_price",
+                      textAlign: TextAlign.left,
+                      style: AppFontStyle.text_16_600(AppColors.primary),
+                    ),
+              wBox(5.h),
+              if (sale_price != "null")
+                Text(
+                  "\$$regular_price",
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w300,
+                      color: AppColors.lightText,
+                      decoration: TextDecoration.lineThrough,
+                      decorationColor: AppColors.lightText),
+                ),
             ],
           ),
           // hBox(10),
           Text(
-            title ?? "Azithral XP 150mg...",
+            title.toString(),
             textAlign: TextAlign.left,
             style: AppFontStyle.text_14_500(AppColors.darkText),
           ),
           // hBox(10),
-          Text(
-            quantity ?? "Strip of 10 tablets",
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.left,
-            style: AppFontStyle.text_14_400(AppColors.lightText),
-          ),
+          if (quantity.toString() != "null")
+            Text(
+              quantity.toString(),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_14_400(AppColors.lightText),
+            ),
           // hBox(10),
         ],
       ),
