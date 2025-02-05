@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:woye_user/Core/Utils/snackbar.dart';
@@ -11,6 +13,9 @@ class CreateOrderController extends GetxController {
   final rxRequestStatus = Status.COMPLETED.obs;
   final createOrderData = CreateOrder().obs;
   RxString error = ''.obs;
+  RxInt totalPrice = (0).obs;
+  RxInt walletDiscount = (0).obs;
+  RxBool walletSelected = false.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
@@ -26,8 +31,12 @@ class CreateOrderController extends GetxController {
     required String cartType,
   }) async {
     setRxRequestStatus(Status.LOADING);
+
     var body = {
+      "wallet_used": walletSelected.value.toString(),
+      "wallet_amount": walletDiscount.value.toString(),
       "payment_method": paymentMethod,
+      "payment_amount": totalPrice.value.toString(),
       "address_id": addressId,
       "coupon_id": couponId != "" ? couponId : "",
       "vendor_id": vendorId,
@@ -39,7 +48,6 @@ class CreateOrderController extends GetxController {
     api.createOrderApi(body).then((value) {
       setCreateOrderData(value);
       if (createOrderData.value.status == true) {
-        // Utils.showToast(createOrderData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);
         Get.toNamed(AppRoutes.oderConfirm);
       } else {

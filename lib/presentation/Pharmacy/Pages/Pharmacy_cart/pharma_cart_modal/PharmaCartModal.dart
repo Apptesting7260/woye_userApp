@@ -8,6 +8,7 @@ class PharmaCartModal {
   Address? address;
   bool? addressExists;
   List<Coupon>? coupons;
+  String? wallet; // Add the wallet field
 
   PharmaCartModal({
     this.status,
@@ -17,6 +18,7 @@ class PharmaCartModal {
     this.address,
     this.addressExists,
     this.coupons,
+    this.wallet, // Add the wallet parameter to the constructor
   });
 
   factory PharmaCartModal.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class PharmaCartModal {
       coupons: couponData != null
           ? couponData.map((coupon) => Coupon.fromJson(coupon)).toList()
           : [],
+      wallet: json['wallet'], // Parse the wallet field from JSON
     );
   }
 
@@ -46,6 +49,7 @@ class PharmaCartModal {
       'address': address?.toJson(),
       'address_exists': addressExists,
       'coupons': coupons?.map((e) => e.toJson()).toList() ?? [],
+      'wallet': wallet, // Include the wallet field in the JSON output
     };
   }
 }

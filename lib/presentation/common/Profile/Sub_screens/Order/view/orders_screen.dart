@@ -46,7 +46,8 @@ class OrdersScreen extends StatelessWidget {
                 controller.refreshOrdersListApi();
               },
               child: SingleChildScrollView(
-                padding: REdgeInsets.symmetric(horizontal: 24.h),
+                padding:
+                    REdgeInsets.only(left: 24.h, right: 24.h, bottom: 24.h),
                 child: GetBuilder(
                     init: OrderScreenController(),
                     builder: (orderScreenController) {
@@ -57,11 +58,12 @@ class OrdersScreen extends StatelessWidget {
                           IndexedStack(
                             index: orderScreenController.pageIndex,
                             children: [
+                              allOrders(context),
                               waitingForDelivery(context),
                               delivered(),
                               cancelled(),
                             ],
-                          )
+                          ),
                         ],
                       );
                     }),
@@ -72,225 +74,16 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget waitingForDelivery(context) {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: AppColors.textFieldBorder)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              // ClipRRect(
-              //     borderRadius: BorderRadius.circular(10.r),
-              //     child: Image.asset(
-              //       "assets/images/cat-image0.png",
-              //       height: 100,
-              //     )),
-              CachedNetworkImage(
-                imageUrl: controller.ordersData.value.orders![0]
-                    .decodedAttribute![0].productImage
-                    .toString(),
-                height: 100.h,
-                width: 100.h,
-                fit: BoxFit.fill,
-                placeholder: (context, url) =>
-                    Shimmer.fromColors(
-                      baseColor: AppColors.gray,
-                      highlightColor: AppColors.lightText,
-                      child: Container(
-                        color: AppColors.white,
-                        height: 100.h,
-                        width: 100.h,
-                      ),
-                    ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
-              wBox(15.h),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    controller.ordersData.value.orders![0].decodedAttribute![0]
-                        .productName
-                        .toString(),
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
-                  ),
-                  hBox(10),
-                  // Text(
-                  //   "Small",
-                  //   style: AppFontStyle.text_12_400(AppColors.lightText),
-                  // ),
-                  // hBox(10),
-                  Text(
-                    "Qty:${controller.ordersData.value.orders![0]
-                        .decodedAttribute![0].quantity.toString()}",
-                    style: AppFontStyle.text_12_400(AppColors.darkText),
-                  ),
-                ],
-              )
-            ],
-          ),
-          hBox(15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Order id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                controller.ordersData.value.orders![0].orderId.toString(),
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Tracking number:",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "IW3475453455",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Date & Time",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                // "Mon, 04 Apr - 12:00 AM",
-                controller.ordersData.value.orders![0].createdAt.toString(),
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Status",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "Waiting for delivery",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Total Amount:",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
-              ),
-              Text(
-                "\$${controller.ordersData.value.orders![0].total.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.primary),
-              ),
-            ],
-          ),
-          hBox(20),
-          Text(
-            "Your order will be delivered to you at ",
-            style: AppFontStyle.text_12_400(AppColors.lightText),
-          ),
-          hBox(4),
-          Text(
-            "12 Apr - 10:00 AM",
-            style: AppFontStyle.text_12_400(AppColors.lightText),
-          ),
-          hBox(10),
-          Row(
-            children: [
-              InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Get.toNamed(AppRoutes.orderDetails);
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h),
-                  decoration: BoxDecoration(
-                      color: AppColors.black,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: Text(
-                      "Details",
-                      style: AppFontStyle.text_16_400(AppColors.white),
-                    ),
-                  ),
-                ),
-              ),
-              wBox(10.h),
-              InkWell(
-                onTap: () {
-                  cancelPopUp(context);
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: Text(
-                      "Cancel",
-                      style: AppFontStyle.text_16_400(AppColors.white),
-                    ),
-                  ),
-                ),
-              ),
-              wBox(10),
-              InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Get.toNamed(AppRoutes.trackOrder);
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary),
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: Text(
-                      "Track",
-                      style: AppFontStyle.text_16_400(AppColors.primary),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget orderStatusList(OrderScreenController orderScreenController) {
     return SizedBox(
       height: 45.h,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          itemCount: 3,
+          itemCount: 4,
           itemBuilder: (c, i) {
             List buttonNames = [
+              "Your Orders",
               "Waiting for delivery",
               "Delivered",
               "Cancelled"
@@ -306,7 +99,7 @@ class OrdersScreen extends StatelessWidget {
                 padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                     color:
-                    isSelected ? AppColors.primary : AppColors.lightPrimary,
+                        isSelected ? AppColors.primary : AppColors.lightPrimary,
                     borderRadius: BorderRadius.circular(50.r)),
                 child: Center(
                   child: Text(
@@ -322,403 +115,464 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget delivered() {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: AppColors.textFieldBorder)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(10.r),
-                  child: Image.asset(
-                    "assets/images/cat-image0.png",
-                    height: 100,
-                  )),
-              wBox(15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "McMushroom Pizza",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
-                  ),
-                  hBox(10),
-                  Text(
-                    "Small",
-                    style: AppFontStyle.text_12_400(AppColors.lightText),
-                  ),
-                  hBox(10),
-                  Text(
-                    "1x",
-                    style: AppFontStyle.text_12_400(AppColors.darkText),
-                  ),
-                ],
-              )
-            ],
+  Widget allOrders(BuildContext context) {
+    return Obx(() {
+      if (controller.ordersData.value.orders?.isEmpty ?? true) {
+        return Center(
+          child: Text(
+            "No orders available", // Custom message when there are no orders
+            style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
-          hBox(15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Order id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "#1947034",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Tracking number:",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "IW3475453455",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Date & Time",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "Mon, 04 Apr - 12:00 AM",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Order id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "#1947034",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Status",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "Delivered",
-                style: AppFontStyle.text_12_400(AppColors.primary),
-              ),
-            ],
-          ),
-          hBox(15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Total Amount:",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
-              ),
-              Text(
-                "\$20.00",
-                style: AppFontStyle.text_14_600(AppColors.primary),
-              ),
-            ],
-          ),
-          hBox(15),
-          Text(
-            "Successfully delivered. ",
-            style: AppFontStyle.text_12_400(AppColors.lightText),
-          ),
-          hBox(10),
-          Row(
-            children: [
-              InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Get.toNamed(AppRoutes.orderDetails);
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: AppColors.black,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: Text(
-                      "Details",
-                      style: AppFontStyle.text_16_400(AppColors.white),
-                    ),
-                  ),
-                ),
-              ),
-              wBox(10),
-              InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Get.offAll(RestaurantNavbar(
-                    navbarInitialIndex: 3,
-                  ));
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: Text(
-                      "Re-Order",
-                      style: AppFontStyle.text_16_400(AppColors.white),
-                    ),
-                  ),
-                ),
-              ),
-              wBox(10),
-              InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Get.toNamed(AppRoutes.rateAndReviewProductScreen);
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary),
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: FittedBox(
-                      child: Text(
-                        "Rate",
-                        style: AppFontStyle.text_16_400(AppColors.primary),
+        );
+      }
+
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        // To prevent scrolling here
+        itemCount: controller.ordersData.value.orders?.length ?? 0,
+        itemBuilder: (context, index) {
+          var order = controller.ordersData.value.orders![index];
+
+          return Container(
+            padding: EdgeInsets.all(14.r),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: AppColors.textFieldBorder),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl:
+                          order.decodedAttribute![0].productImage.toString(),
+                      height: 100.h,
+                      width: 100.h,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: AppColors.gray,
+                        highlightColor: AppColors.lightText,
+                        child: Container(
+                          color: AppColors.white,
+                          height: 100.h,
+                          width: 100.h,
+                        ),
                       ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
-                  ),
+                    wBox(15.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          order.decodedAttribute![0].productName.toString(),
+                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        ),
+                        hBox(10),
+                        Text(
+                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                hBox(15),
+                buildOrderDetailRow("Order id", order.orderId.toString()),
+                buildOrderDetailRow(
+                    "Tracking number:", order.trackingId.toString()),
+                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                buildOrderDetailRow("Status", order.status.toString()),
+                hBox(15),
+                buildTotalAmountRow(order.total.toString()),
+                hBox(20),
+                buildDeliveryTimeRow(),
+                hBox(10),
+                buildActionButtons(context),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return hBox(10);
+        },
+      );
+    });
+  }
+
+  Widget waitingForDelivery(context) {
+    return Obx(() {
+      if (controller.ordersData.value.waitingOrders?.isEmpty ?? true) {
+        return Center(
+          child: Text(
+            "No orders available", // Custom message when there are no orders
+            style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
-        ],
-      ),
-    );
+        );
+      }
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        // To prevent scrolling here
+        itemCount: controller.ordersData.value.waitingOrders?.length ?? 0,
+        itemBuilder: (context, index) {
+          var order = controller.ordersData.value.waitingOrders![index];
+
+          return Container(
+            padding: EdgeInsets.all(14.r),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: AppColors.textFieldBorder),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl:
+                          order.decodedAttribute![0].productImage.toString(),
+                      height: 100.h,
+                      width: 100.h,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: AppColors.gray,
+                        highlightColor: AppColors.lightText,
+                        child: Container(
+                          color: AppColors.white,
+                          height: 100.h,
+                          width: 100.h,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    wBox(15.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          order.decodedAttribute![0].productName.toString(),
+                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        ),
+                        hBox(10),
+                        Text(
+                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                hBox(15),
+                buildOrderDetailRow("Order id", order.orderId.toString()),
+                buildOrderDetailRow(
+                    "Tracking number:", order.trackingId.toString()),
+                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                buildOrderDetailRow("Status", order.status.toString()),
+                hBox(15),
+                buildTotalAmountRow(order.total.toString()),
+                hBox(20),
+                buildDeliveryTimeRow(),
+                hBox(10),
+                buildActionButtons(context),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return hBox(10);
+        },
+      );
+    });
+  }
+
+  Widget delivered() {
+    return Obx(() {
+      if (controller.ordersData.value.deliveredOrders?.isEmpty ?? true) {
+        return Center(
+          child: Text(
+            "No orders available", // Custom message when there are no orders
+            style: AppFontStyle.text_14_600(AppColors.darkText),
+          ),
+        );
+      }
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        // To prevent scrolling here
+        itemCount: controller.ordersData.value.deliveredOrders?.length ?? 0,
+        itemBuilder: (context, index) {
+          var order = controller.ordersData.value.deliveredOrders![index];
+
+          return Container(
+            padding: EdgeInsets.all(14.r),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: AppColors.textFieldBorder),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl:
+                          order.decodedAttribute![0].productImage.toString(),
+                      height: 100.h,
+                      width: 100.h,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: AppColors.gray,
+                        highlightColor: AppColors.lightText,
+                        child: Container(
+                          color: AppColors.white,
+                          height: 100.h,
+                          width: 100.h,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                    wBox(15.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          order.decodedAttribute![0].productName.toString(),
+                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        ),
+                        hBox(10),
+                        Text(
+                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                hBox(15),
+                buildOrderDetailRow("Order id", order.orderId.toString()),
+                buildOrderDetailRow(
+                    "Tracking number:", order.trackingId.toString()),
+                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                buildOrderDetailRow("Status", order.status.toString()),
+                hBox(15),
+                buildTotalAmountRow(order.total.toString()),
+                hBox(20),
+                buildDeliveryTimeRow(),
+                hBox(10),
+                buildActionButtons(context),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return hBox(10);
+        },
+      );
+    });
   }
 
   Widget cancelled() {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: AppColors.textFieldBorder)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(10.r),
-                  child: Image.asset(
-                    "assets/images/cat-image0.png",
-                    height: 100,
-                  )),
-              wBox(15),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "McMushroom Pizza",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
-                  ),
-                  hBox(10),
-                  Text(
-                    "Small",
-                    style: AppFontStyle.text_12_400(AppColors.lightText),
-                  ),
-                  hBox(10),
-                  Text(
-                    "1x",
-                    style: AppFontStyle.text_12_400(AppColors.darkText),
-                  ),
-                ],
-              )
-            ],
+    return Obx(() {
+      if (controller.ordersData.value.cancelOrders?.isEmpty ?? true) {
+        return Center(
+          child: Text(
+            "No orders available",
+            style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
-          hBox(15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Order id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "#1947034",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Tracking number:",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "IW3475453455",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Date & Time",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "Mon, 04 Apr - 12:00 AM",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Order id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "#1947034",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Status",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "Cancelled",
-                style: AppFontStyle.text_12_600(AppColors.red),
-              ),
-            ],
-          ),
-          hBox(10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Refund",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
-              ),
-              Text(
-                "Wallet",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
-              ),
-            ],
-          ),
-          hBox(15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Total Amount:",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
-              ),
-              Text(
-                "\$20.00",
-                style: AppFontStyle.text_14_600(AppColors.primary),
-              ),
-            ],
-          ),
-          hBox(15),
-          Text(
-            "Order canceled at:  ",
-            style: AppFontStyle.text_12_400(AppColors.lightText),
-          ),
-          hBox(4),
-          Text(
-            "12 Apr - 10:00 AM",
-            style: AppFontStyle.text_12_400(AppColors.lightText),
-          ),
-          hBox(10),
-          Row(
-            children: [
-              InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Get.toNamed(AppRoutes.orderDetails);
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: AppColors.black,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: Text(
-                      "Details",
-                      style: AppFontStyle.text_16_400(AppColors.white),
+        );
+      }
+      return ListView.separated(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: controller.ordersData.value.cancelOrders?.length ?? 0,
+        itemBuilder: (context, index) {
+          var order = controller.ordersData.value.cancelOrders![index];
+          return Container(
+            padding: EdgeInsets.all(14.r),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(color: AppColors.textFieldBorder),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl:
+                          order.decodedAttribute![0].productImage.toString(),
+                      height: 100.h,
+                      width: 100.h,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: AppColors.gray,
+                        highlightColor: AppColors.lightText,
+                        child: Container(
+                          color: AppColors.white,
+                          height: 100.h,
+                          width: 100.h,
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
-                  ),
-                ),
-              ),
-              wBox(10),
-              InkWell(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () {
-                  Get.offAll(RestaurantNavbar(
-                    navbarInitialIndex: 3,
-                  ));
-                },
-                child: Container(
-                  padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(50.r)),
-                  child: Center(
-                    child: Text(
-                      "Re-Order",
-                      style: AppFontStyle.text_16_400(AppColors.white),
+                    wBox(15.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          order.decodedAttribute![0].productName.toString(),
+                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        ),
+                        hBox(10),
+                        Text(
+                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        ),
+                      ],
                     ),
-                  ),
+                  ],
                 ),
+                hBox(15),
+                buildOrderDetailRow("Order id", order.orderId.toString()),
+                buildOrderDetailRow(
+                    "Tracking number:", order.trackingId.toString()),
+                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                buildOrderDetailRow("Status", order.status.toString()),
+                hBox(15),
+                buildTotalAmountRow(order.total.toString()),
+                hBox(20),
+                buildDeliveryTimeRow(),
+                hBox(10),
+                buildActionButtons(context),
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return hBox(10);
+        },
+      );
+    });
+  }
+
+  Widget buildOrderDetailRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: AppFontStyle.text_12_400(AppColors.lightText),
+        ),
+        Text(
+          value,
+          style: AppFontStyle.text_12_600(AppColors.darkText),
+        ),
+      ],
+    );
+  }
+
+  Widget buildTotalAmountRow(var total) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Total Amount:",
+          style: AppFontStyle.text_14_600(AppColors.darkText),
+        ),
+        Text(
+          "\$$total",
+          style: AppFontStyle.text_14_600(AppColors.primary),
+        ),
+      ],
+    );
+  }
+
+  Widget buildDeliveryTimeRow() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Your order will be delivered to you at ",
+          style: AppFontStyle.text_12_400(AppColors.lightText),
+        ),
+        hBox(4),
+        Text(
+          "12 Apr - 10:00 AM",
+          style: AppFontStyle.text_12_400(AppColors.lightText),
+        ),
+      ],
+    );
+  }
+
+  Widget buildActionButtons(BuildContext context) {
+    return Row(
+      children: [
+        InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            Get.toNamed(AppRoutes.orderDetails);
+          },
+          child: Container(
+            padding: REdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h),
+            decoration: BoxDecoration(
+                color: AppColors.black,
+                borderRadius: BorderRadius.circular(50.r)),
+            child: Center(
+              child: Text(
+                "Details",
+                style: AppFontStyle.text_16_400(AppColors.white),
               ),
-            ],
+            ),
           ),
-        ],
-      ),
+        ),
+        wBox(10.h),
+        InkWell(
+          onTap: () {
+            cancelPopUp(context);
+          },
+          child: Container(
+            padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            decoration: BoxDecoration(
+                color: AppColors.primary,
+                borderRadius: BorderRadius.circular(50.r)),
+            child: Center(
+              child: Text(
+                "Cancel",
+                style: AppFontStyle.text_16_400(AppColors.white),
+              ),
+            ),
+          ),
+        ),
+        wBox(10),
+        InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            Get.toNamed(AppRoutes.trackOrder);
+          },
+          child: Container(
+            padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.primary),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(50.r)),
+            child: Center(
+              child: Text(
+                "Track",
+                style: AppFontStyle.text_16_400(AppColors.primary),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -758,7 +612,7 @@ class OrdersScreen extends StatelessWidget {
                           },
                           text: "No",
                           textStyle:
-                          AppFontStyle.text_14_400(AppColors.darkText),
+                              AppFontStyle.text_14_400(AppColors.darkText),
                         ),
                       ),
                       wBox(15),
@@ -770,7 +624,7 @@ class OrdersScreen extends StatelessWidget {
                           },
                           text: "Yes",
                           textStyle:
-                          AppFontStyle.text_14_400(AppColors.darkText),
+                              AppFontStyle.text_14_400(AppColors.darkText),
                         ),
                       ),
                     ],

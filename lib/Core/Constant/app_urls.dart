@@ -27,7 +27,8 @@ class AppUrls {
 
   /* ------------------------------------------------ User Wallet ----------------------------------------------------  */
 
-  static const String userWallet = "$baseUrl/user-wallet";
+  static const String userWallet = "$baseUrl/transaction-history";
+  // static const String userWallet = "$baseUrl/user-wallet";
 
   /* ------------------------------------------------ Show Orders  ----------------------------------------------------  */
 

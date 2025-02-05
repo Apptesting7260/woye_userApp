@@ -437,6 +437,110 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
+  // Widget extra({context}) {
+  //   return ListView.builder(
+  //     shrinkWrap: true,
+  //     physics: const NeverScrollableScrollPhysics(),
+  //     itemCount: controller.productData.value.product!.extra?.length,
+  //     itemBuilder: (context, index) {
+  //       var extra = controller.productData.value.product!.extra![index];
+  //       if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
+  //         controller.extrasTitlesIdsId.add(extra.titleid);
+  //         print("itemIdsIds ${controller.extrasTitlesIdsId}");
+  //       }
+  //
+  //       if (controller.extrasItemIdsName.isEmpty) {
+  //         controller.productData.value.product!.extra?.forEach((extra) {
+  //           if (extra.item?.isNotEmpty ?? false) {
+  //             controller.extrasItemIdsId.add(extra.item![0].id.toString());
+  //             controller.extrasItemIdsName.add(extra.item![0].name.toString());
+  //             controller.extrasItemIdsPrice
+  //                 .add(extra.item![0].price.toString());
+  //           }
+  //         });
+  //         print("Final List of IDs: ${controller.extrasItemIdsId}");
+  //         print("Final List of Names: ${controller.extrasItemIdsName}");
+  //         print("Final List of Prices: ${controller.extrasItemIdsPrice}");
+  //       }
+  //       return Column(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           Text(
+  //             extra.title.toString(),
+  //             style: AppFontStyle.text_20_600(AppColors.darkText),
+  //           ),
+  //           hBox(1.h),
+  //           Row(
+  //             children: [
+  //               Text(
+  //                 "Required",
+  //                 style: AppFontStyle.text_12_200(AppColors.lightText),
+  //               ),
+  //               Text(
+  //                 "•",
+  //                 style: AppFontStyle.text_12_200(AppColors.lightText),
+  //               ),
+  //               wBox(4),
+  //               Text(
+  //                 "Select any 1 option",
+  //                 style: AppFontStyle.text_12_200(AppColors.lightText),
+  //               ),
+  //             ],
+  //           ),
+  //           hBox(5),
+  //           ListView.separated(
+  //             shrinkWrap: true,
+  //             physics: const NeverScrollableScrollPhysics(),
+  //             itemCount: extra.item?.length ?? 0,
+  //             itemBuilder: (context, itemIndex) {
+  //               var item = extra.item![itemIndex];
+  //               return CustomTitleRadioButton(
+  //                 title: item.name.toString(),
+  //                 value: itemIndex.obs,
+  //                 groupValue: controller
+  //                     .productData.value.product!.extra![index].selectedIndex,
+  //                 onChanged: (value) {
+  //                   controller.productData.value.product!.extra![index]
+  //                       .selectedIndex.value = value!;
+  //
+  //                   // if (controller.extrasItemIdsName.length > index) {
+  //                   //   controller.extrasItemIdsName[index] =
+  //                   //       item.name.toString();
+  //                   // } else {
+  //                   //   controller.extrasItemIdsName.add(item.name.toString());
+  //                   // }
+  //                   // print(
+  //                   //     "Updated selected names: ${controller.extrasItemIdsName}");
+  //                   if (controller.extrasItemIdsName.length > index) {
+  //                     controller.extrasItemIdsName[index] =
+  //                         item.name.toString();
+  //                     controller.extrasItemIdsId[index] = item.id.toString();
+  //                     controller.extrasItemIdsPrice[index] =
+  //                         item.price.toString();
+  //                   } else {
+  //                     controller.extrasItemIdsName.add(item.name.toString());
+  //                     controller.extrasItemIdsId.add(item.id.toString());
+  //                     controller.extrasItemIdsPrice.add(item.price.toString());
+  //                   }
+  //
+  //                   print(
+  //                       "Updated selected names: ${controller.extrasItemIdsName}");
+  //                   print(
+  //                       "Updated selected IDs: ${controller.extrasItemIdsId}");
+  //                   print(
+  //                       "Updated selected prices: ${controller.extrasItemIdsPrice}");
+  //                 },
+  //                 priceValue: item.price.toString(),
+  //               );
+  //             },
+  //             separatorBuilder: (context, itemIndex) => hBox(10.h),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+
   Widget extra({context}) {
     return ListView.builder(
       shrinkWrap: true,
@@ -444,24 +548,28 @@ class ProductDetailsScreen extends StatelessWidget {
       itemCount: controller.productData.value.product!.extra?.length,
       itemBuilder: (context, index) {
         var extra = controller.productData.value.product!.extra![index];
-        if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
-          controller.extrasTitlesIdsId.add(extra.titleid);
-          print("itemIdsIds ${controller.extrasTitlesIdsId}");
-        }
+        // if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
+        //   controller.extrasTitlesIdsId.add(extra.titleid);
+        //   print("itemIdsIds ${controller.extrasTitlesIdsId}");
+        // }
+        //
+        // if (controller.extrasItemIdsName.isEmpty) {
+        //   controller.productData.value.product!.extra?.forEach((extra) {
+        //     if (extra.item?.isNotEmpty ?? false) {
+        //       controller.extrasItemIdsId.add(extra.item![0].id.toString());
+        //       controller.extrasItemIdsName.add(extra.item![0].name.toString());
+        //       controller.extrasItemIdsPrice
+        //           .add(extra.item![0].price.toString());
+        //     }
+        //   });
+        //   print("Final List of IDs: ${controller.extrasItemIdsId}");
+        //   print("Final List of Names: ${controller.extrasItemIdsName}");
+        //   print("Final List of Prices: ${controller.extrasItemIdsPrice}");
+        // }
 
-        if (controller.extrasItemIdsName.isEmpty) {
-          controller.productData.value.product!.extra?.forEach((extra) {
-            if (extra.item?.isNotEmpty ?? false) {
-              controller.extrasItemIdsId.add(extra.item![0].id.toString());
-              controller.extrasItemIdsName.add(extra.item![0].name.toString());
-              controller.extrasItemIdsPrice
-                  .add(extra.item![0].price.toString());
-            }
-          });
-          print("Final List of IDs: ${controller.extrasItemIdsId}");
-          print("Final List of Names: ${controller.extrasItemIdsName}");
-          print("Final List of Prices: ${controller.extrasItemIdsPrice}");
-        }
+        print("Final List of IDs: ${controller.extrasItemIdsId}");
+        print("Final List of Names: ${controller.extrasItemIdsName}");
+        print("Final List of Prices: ${controller.extrasItemIdsPrice}");
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -499,29 +607,125 @@ class ProductDetailsScreen extends StatelessWidget {
                   value: itemIndex.obs,
                   groupValue: controller
                       .productData.value.product!.extra![index].selectedIndex,
+                  // onChanged: (value) {
+                  //   // Get the extra and item from the current index and itemIndex
+                  //   var currentExtra =
+                  //   controller.productData.value.product!.extra![index];
+                  //   var item = extra.item![itemIndex];
+                  //
+                  //   // Check if the selected item is tapped again (i.e., deselect it)
+                  //   if (currentExtra.selectedIndex.value == value) {
+                  //     // Deselect the current option (reset to -1 or null)
+                  //     currentExtra.selectedIndex.value =
+                  //     -1; // or null, based on your requirement
+                  //
+                  //     // Remove corresponding item from the lists
+                  //     if (controller.extrasItemIdsName.length > index) {
+                  //       controller.extrasItemIdsName[index] = '';
+                  //       controller.extrasItemIdsId[index] = '';
+                  //       controller.extrasItemIdsPrice[index] = '';
+                  //     }
+                  //
+                  //     // Update the reactive lists to reflect the deselection
+                  //     controller.extrasItemIdsName.assignAll(controller
+                  //         .extrasItemIdsName
+                  //         .where((item) => item.isNotEmpty)
+                  //         .toList());
+                  //     controller.extrasItemIdsId.assignAll(controller
+                  //         .extrasItemIdsId
+                  //         .where((item) => item.isNotEmpty)
+                  //         .toList());
+                  //     controller.extrasItemIdsPrice.assignAll(controller
+                  //         .extrasItemIdsPrice
+                  //         .where((item) => item.isNotEmpty)
+                  //         .toList());
+                  //
+                  //     print(
+                  //         "Deselected option. Updated selected names: ${controller.extrasItemIdsName}");
+                  //     print(
+                  //         "Deselected option. Updated selected IDs: ${controller.extrasItemIdsId}");
+                  //     print(
+                  //         "Deselected option. Updated selected prices: ${controller.extrasItemIdsPrice}");
+                  //   } else {
+                  //     // Select a new item, update the selection
+                  //     currentExtra.selectedIndex.value = value!;
+                  //
+                  //     // If the list has the index, update it; otherwise, add the new item to the list
+                  //     if (controller.extrasItemIdsName.length > index) {
+                  //       controller.extrasItemIdsName[index] =
+                  //           item.name.toString();
+                  //       controller.extrasItemIdsId[index] = item.id.toString();
+                  //       controller.extrasItemIdsPrice[index] =
+                  //           item.price.toString();
+                  //     } else {
+                  //       controller.extrasItemIdsName.add(item.name.toString());
+                  //       controller.extrasItemIdsId.add(item.id.toString());
+                  //       controller.extrasItemIdsPrice
+                  //           .add(item.price.toString());
+                  //     }
+                  //
+                  //     // Update the reactive lists with the selected values
+                  //     controller.extrasItemIdsName.assignAll(controller
+                  //         .extrasItemIdsName
+                  //         .where((item) => item.isNotEmpty)
+                  //         .toList());
+                  //     controller.extrasItemIdsId.assignAll(controller
+                  //         .extrasItemIdsId
+                  //         .where((item) => item.isNotEmpty)
+                  //         .toList());
+                  //     controller.extrasItemIdsPrice.assignAll(controller
+                  //         .extrasItemIdsPrice
+                  //         .where((item) => item.isNotEmpty)
+                  //         .toList());
+                  //
+                  //     print(
+                  //         "Updated selected names: ${controller.extrasItemIdsName}");
+                  //     print(
+                  //         "Updated selected IDs: ${controller.extrasItemIdsId}");
+                  //     print(
+                  //         "Updated selected prices: ${controller.extrasItemIdsPrice}");
+                  //   }
+                  // },
                   onChanged: (value) {
-                    controller.productData.value.product!.extra![index]
-                        .selectedIndex.value = value!;
+                    var currentExtra =
+                        controller.productData.value.product!.extra![index];
+                    if (currentExtra.selectedIndex.value == value) {
+                      currentExtra.selectedIndex.value = -1;
 
-                    // if (controller.extrasItemIdsName.length > index) {
-                    //   controller.extrasItemIdsName[index] =
-                    //       item.name.toString();
-                    // } else {
-                    //   controller.extrasItemIdsName.add(item.name.toString());
-                    // }
-                    // print(
-                    //     "Updated selected names: ${controller.extrasItemIdsName}");
-                    if (controller.extrasItemIdsName.length > index) {
-                      controller.extrasItemIdsName[index] =
-                          item.name.toString();
-                      controller.extrasItemIdsId[index] = item.id.toString();
-                      controller.extrasItemIdsPrice[index] =
-                          item.price.toString();
+                      if (controller.extrasItemIdsName.length > index) {
+                        controller.extrasItemIdsName[index] = '';
+                        controller.extrasItemIdsId[index] = '';
+                        controller.extrasItemIdsPrice[index] = '';
+                      }
                     } else {
-                      controller.extrasItemIdsName.add(item.name.toString());
-                      controller.extrasItemIdsId.add(item.id.toString());
-                      controller.extrasItemIdsPrice.add(item.price.toString());
+                      currentExtra.selectedIndex.value = value!;
+
+                      if (controller.extrasItemIdsName.length > index) {
+                        controller.extrasItemIdsName[index] =
+                            item.name.toString();
+                        controller.extrasItemIdsId[index] = item.id.toString();
+                        controller.extrasItemIdsPrice[index] =
+                            item.price.toString();
+                      } else {
+                        controller.extrasItemIdsName.add(item.name.toString());
+                        controller.extrasItemIdsId.add(item.id.toString());
+                        controller.extrasItemIdsPrice
+                            .add(item.price.toString());
+                      }
                     }
+
+                    controller.extrasItemIdsName.assignAll(controller
+                        .extrasItemIdsName
+                        .where((item) => item.isNotEmpty)
+                        .toList());
+                    controller.extrasItemIdsId.assignAll(controller
+                        .extrasItemIdsId
+                        .where((item) => item.isNotEmpty)
+                        .toList());
+                    controller.extrasItemIdsPrice.assignAll(controller
+                        .extrasItemIdsPrice
+                        .where((item) => item.isNotEmpty)
+                        .toList());
 
                     print(
                         "Updated selected names: ${controller.extrasItemIdsName}");
@@ -530,6 +734,30 @@ class ProductDetailsScreen extends StatelessWidget {
                     print(
                         "Updated selected prices: ${controller.extrasItemIdsPrice}");
                   },
+
+                  //     onChanged: (value) {
+                  //   controller.productData.value.product!.extra![index]
+                  //       .selectedIndex.value = value!;
+                  //
+                  //   if (controller.extrasItemIdsName.length > index) {
+                  //     controller.extrasItemIdsName[index] =
+                  //         item.name.toString();
+                  //     controller.extrasItemIdsId[index] = item.id.toString();
+                  //     controller.extrasItemIdsPrice[index] =
+                  //         item.price.toString();
+                  //   } else {
+                  //     controller.extrasItemIdsName.add(item.name.toString());
+                  //     controller.extrasItemIdsId.add(item.id.toString());
+                  //     controller.extrasItemIdsPrice.add(item.price.toString());
+                  //   }
+                  //
+                  //   print(
+                  //       "Updated selected names: ${controller.extrasItemIdsName}");
+                  //   print(
+                  //       "Updated selected IDs: ${controller.extrasItemIdsId}");
+                  //   print(
+                  //       "Updated selected prices: ${controller.extrasItemIdsPrice}");
+                  // },
                   priceValue: item.price.toString(),
                 );
               },

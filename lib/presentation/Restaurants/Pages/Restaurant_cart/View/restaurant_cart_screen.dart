@@ -1132,6 +1132,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 'vendor_id': controller
                                     .cartData.value.cart!.restoId
                                     .toString(),
+                                'vendor_id': controller
+                                    .cartData.value.cart!.restoId
+                                    .toString(),
                                 'total': controller
                                     .cartData.value.cart!.totalPrice
                                     .toString(),
@@ -1149,6 +1152,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                     .toString(),
                                 'cart_id': controller.cartData.value.cart!.id
                                     .toString(),
+                                'wallet':
+                                    controller.cartData.value.wallet.toString(),
                                 'cartType': "restaurant",
                               },
                             );

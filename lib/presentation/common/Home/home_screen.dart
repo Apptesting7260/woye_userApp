@@ -50,6 +50,7 @@ class HomeScreen extends StatelessWidget {
                       height: 50.h,
                       color: AppColors.primary,
                       onPressed: () async {
+                        Get.back();
                         await currentLocationController.getCurrentPosition(
                             back: true);
                       },

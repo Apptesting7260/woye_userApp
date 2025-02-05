@@ -1089,6 +1089,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                     .toString(),
                                 'cart_id': controller.cartData.value.cart!.id
                                     .toString(),
+                                'wallet':
+                                controller.cartData.value.wallet.toString(),
                                 'cartType': "pharamacy",
                               },
                             );

@@ -10,13 +10,13 @@ class UserWalletController extends GetxController {
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
-  final userWalletData = WalletModal().obs;
+  final userWalletData = UserTransactionDetails().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void setUserWalletData(WalletModal value) {
+  void setUserWalletData(UserTransactionDetails value) {
     userWalletData.value = value;
   }
 

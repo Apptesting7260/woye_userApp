@@ -187,7 +187,7 @@ class Extra {
   String? title;
   String? titleid;
   List<Item>? item;
-  RxInt selectedIndex = (0).obs;
+  RxInt selectedIndex = (-1).obs;
 
   Extra({this.title, this.titleid, this.item});
 

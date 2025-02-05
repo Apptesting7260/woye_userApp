@@ -48,7 +48,9 @@ class MyWalletScreen extends StatelessWidget {
                   children: [
                     balance(),
                     hBox(20),
-                    transactionHistory(),
+                    if (controller
+                        .userWalletData.value.transactionDetails!.isNotEmpty)
+                      transactionHistory(),
                     hBox(50)
                   ],
                 ),
@@ -75,7 +77,7 @@ class MyWalletScreen extends StatelessWidget {
           ),
           hBox(10),
           Text(
-            "\$${controller.userWalletData.value.wallet!.currentBalance}",
+            "\$${controller.userWalletData.value.currentBalance}",
             style: AppFontStyle.text_24_600(AppColors.primary),
           ),
         ],
@@ -86,72 +88,79 @@ class MyWalletScreen extends StatelessWidget {
   Widget transactionHistory() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Transaction History",
-              style: AppFontStyle.text_20_600(AppColors.darkText),
-            ),
-            InkWell(
-              splashColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              onTap: () {
-                Get.toNamed(AppRoutes.transactionHistory);
-              },
-              child: Row(
-                children: [
-                  Text(
-                    "See All",
-                    style: AppFontStyle.text_14_600(AppColors.primary),
-                  ),
-                  wBox(4),
-                  Icon(
-                    Icons.arrow_forward_sharp,
-                    color: AppColors.primary,
-                    size: 16.h,
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
-        hBox(20),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Text(
+        //       "Transaction History",
+        //       style: AppFontStyle.text_20_600(AppColors.darkText),
+        //     ),
+        //     InkWell(
+        //       splashColor: Colors.transparent,
+        //       hoverColor: Colors.transparent,
+        //       onTap: () {
+        //         Get.toNamed(AppRoutes.transactionHistory);
+        //       },
+        //       child: Row(
+        //         children: [
+        //           Text(
+        //             "See All",
+        //             style: AppFontStyle.text_14_600(AppColors.primary),
+        //           ),
+        //           wBox(4),
+        //           Icon(
+        //             Icons.arrow_forward_sharp,
+        //             color: AppColors.primary,
+        //             size: 16.h,
+        //           )
+        //         ],
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        // hBox(20),
         ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 13,
-          itemBuilder: (c, i) {
-            bool debited = false;
-            if (i % 3 == 0) {
-              debited = true;
-            }
+          itemCount: controller.userWalletData.value.transactionDetails!.length,
+          itemBuilder: (c, index) {
+            // bool debited = false;
+            // if (i % 3 == 0) {
+            //   debited = true;
+            // }
+            var data =
+                controller.userWalletData.value.transactionDetails![index];
             return SizedBox(
               width: Get.width,
               child: Row(
                 children: [
                   Expanded(
-                    flex: 3,
-                    child: debited
-                        ? Container(
-                            padding: EdgeInsets.all(10.r),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.lightPrimary.withOpacity(0.1)),
-                            child: SvgPicture.asset(
-                              "assets/svg/wallet.svg",
-                              height: 20,
-                            ))
-                        : Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4.r),
-                            ),
-                            child: Image.asset(
-                              "assets/images/coffee.png",
-                              height: 40.h,
-                              // width: 15,
-                            )),
-                  ),
+                      flex: 3,
+                      child:
+                          // debited
+                          //     ?
+                          Container(
+                              padding: EdgeInsets.all(10.r),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color:
+                                      AppColors.lightPrimary.withOpacity(0.1)),
+                              child: SvgPicture.asset(
+                                "assets/svg/wallet.svg",
+                                height: 20,
+                              ))
+                      //     :
+
+                      // Container(
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(4.r),
+                      //         ),
+                      //         child: Image.asset(
+                      //           "assets/images/coffee.png",
+                      //           height: 40.h,
+                      //           // width: 15,
+                      //         )),
+                      ),
                   wBox(10),
                   Expanded(
                     flex: 17,
@@ -162,14 +171,16 @@ class MyWalletScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Nescafe Classic Coff...",
+                              data.productName.toString(),
                               style:
                                   AppFontStyle.text_14_600(AppColors.darkText),
                             ),
                             Text(
-                              debited ? "+\$100.00" : "-\$37.80",
+                              data.amount.toString(),
                               style: AppFontStyle.text_12_600(
-                                  debited ? AppColors.primary : AppColors.red),
+                                  data.transactionType.toString() == "Order"
+                                      ? AppColors.red
+                                      : AppColors.primary),
                             ),
                           ],
                         ),
@@ -178,12 +189,12 @@ class MyWalletScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Mon, 04 Apr - 12:00 AM ",
+                              data.transactionDate.toString(),
                               style:
                                   AppFontStyle.text_12_400(AppColors.lightText),
                             ),
                             Text(
-                              debited ? "Refund" : "Orders",
+                              data.transactionType.toString(),
                               style:
                                   AppFontStyle.text_12_400(AppColors.lightText),
                             ),
@@ -197,7 +208,7 @@ class MyWalletScreen extends StatelessWidget {
             );
           },
           separatorBuilder: (c, i) {
-            return hBox(20);
+            return hBox(20.h);
           },
         )
       ],

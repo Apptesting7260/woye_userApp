@@ -56,7 +56,7 @@ class CurrentLocationController extends GetxController {
     if (hasPermissionForSettings > 1 && !hasPermission) {
       print("objectobjectobjectobjectobjectobject${back}");
       print("hasPermissionForSettingsagain $hasPermissionForSettings");
-      Get.back();
+      // Get.back();
       _showPermissionDialog();
       return;
     }
@@ -127,9 +127,9 @@ class CurrentLocationController extends GetxController {
       storage.write('longitude', position.longitude);
       print("Updated Location: ${location.value}");
       print("objectobjectobjectobjectobjectobject${back}");
-      if (back == true) {
-        Get.back();
-      }
+      // if (back == true) {
+      //   Get.back();
+      // }
       homeController.loadLocationData();
     }).catchError((e) {
       debugPrint(e.toString());

@@ -139,7 +139,7 @@ class Repository {
   Future<dynamic> userWalletApi() async {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.userWallet, token);
-    return WalletModal.fromJson(response);
+    return UserTransactionDetails.fromJson(response);
   }
 
   /* ------------------------------------------------ Show Orders  ----------------------------------------------------*/

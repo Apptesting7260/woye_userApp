@@ -5,6 +5,7 @@ class RestaurantCartModal {
   String? message;
   Cart? cart;
   String? cartContent;
+  String? wallet;
   Address? address;
   bool? addressExists;
   List<Coupon>? coupons;
@@ -14,6 +15,7 @@ class RestaurantCartModal {
     this.message,
     this.cart,
     this.cartContent,
+    this.wallet,
     this.address,
     this.addressExists,
     this.coupons,
@@ -29,6 +31,7 @@ class RestaurantCartModal {
       message: json['message'],
       cart: cartData != null ? Cart.fromJson(cartData) : null,
       cartContent: json['cartContent'],
+      wallet: json['wallet'],
       address: addressData != null ? Address.fromJson(addressData) : null,
       addressExists: json['address_exists'],
       coupons: couponData != null
@@ -43,6 +46,7 @@ class RestaurantCartModal {
       'message': message,
       'cart': cart?.toJson(),
       'cartContent': cartContent,
+      'wallet': wallet,
       'address': address?.toJson(),
       'address_exists': addressExists,
       'coupons': coupons?.map((e) => e.toJson()).toList() ?? [],
