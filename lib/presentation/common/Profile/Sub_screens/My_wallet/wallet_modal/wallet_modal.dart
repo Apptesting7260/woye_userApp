@@ -1,7 +1,7 @@
 class UserTransactionDetails {
   bool? status;
   String? message;
-  String? currentBalance;
+  var currentBalance;
   List<TransactionDetails>? transactionDetails;
 
   UserTransactionDetails({this.status, this.message,this.currentBalance, this.transactionDetails});

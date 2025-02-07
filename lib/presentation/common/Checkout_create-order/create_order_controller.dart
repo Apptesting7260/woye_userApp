@@ -12,10 +12,12 @@ class CreateOrderController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final createOrderData = CreateOrder().obs;
+  RxInt selectedIndex = 0.obs;
   RxString error = ''.obs;
-  RxInt totalPrice = (0).obs;
-  RxInt walletDiscount = (0).obs;
+  var payAfterWallet = (0.0).obs;
+  var walletDiscount = (0.0).obs;
   RxBool walletSelected = false.obs;
+  var isSelectable = false.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
@@ -34,9 +36,9 @@ class CreateOrderController extends GetxController {
 
     var body = {
       "wallet_used": walletSelected.value.toString(),
-      "wallet_amount": walletDiscount.value.toString(),
+      "wallet_amount": walletDiscount.value.toStringAsFixed(2),
       "payment_method": paymentMethod,
-      "payment_amount": totalPrice.value.toString(),
+      "payment_amount": payAfterWallet.value.toStringAsFixed(2),
       "address_id": addressId,
       "coupon_id": couponId != "" ? couponId : "",
       "vendor_id": vendorId,

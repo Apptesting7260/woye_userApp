@@ -5,7 +5,7 @@ class RestaurantCartModal {
   String? message;
   Cart? cart;
   String? cartContent;
-  String? wallet;
+  var wallet;
   Address? address;
   bool? addressExists;
   List<Coupon>? coupons;
@@ -65,13 +65,13 @@ class Cart {
   String? createdAt;
   String? updatedAt;
   List<DecodedAttribute>? decodedAttribute;
-  int? regularPrice;
-  int? saveAmount;
-  int? deliveryCharge;
-  int? totalPrice;
-  int? grandTotalPrice;
-  int? couponId;
-  int? couponDiscount;
+  var regularPrice;
+  var saveAmount;
+  var deliveryCharge;
+  var totalPrice;
+  var grandTotalPrice;
+  var couponId;
+  var couponDiscount;
   CouponApplied? couponApplied;
 
   Cart({
@@ -234,7 +234,8 @@ class CouponApplied {
 }
 
 class DecodedAttribute {
-  String? productId;
+  var productId;
+  var count;
   int? quantity;
   String? price;
   List<Addon>? addons;
@@ -249,6 +250,7 @@ class DecodedAttribute {
 
   DecodedAttribute({
     this.productId,
+    this.count,
     this.quantity,
     this.price,
     this.addons,
@@ -269,6 +271,7 @@ class DecodedAttribute {
 
     return DecodedAttribute(
       productId: json['product_id'],
+      count: json['count'],
       quantity: json['quantity'],
       price: json['price'],
       addons: addonList ?? [],
@@ -283,6 +286,7 @@ class DecodedAttribute {
   Map<String, dynamic> toJson() {
     return {
       'product_id': productId,
+      'count': count,
       'quantity': quantity,
       'price': price,
       'addons': addons?.map((e) => e.toJson()).toList() ?? [],
@@ -343,7 +347,7 @@ class Attribute {
 class ItemDetails {
   String? itemId;
   String? itemName;
-  String? itemPrice;
+  var itemPrice;
 
   ItemDetails({
     this.itemId,

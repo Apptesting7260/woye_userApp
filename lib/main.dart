@@ -2,11 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'dart:io';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
-
 import 'firebase_options.dart';
 
 var inSplash = true.obs;

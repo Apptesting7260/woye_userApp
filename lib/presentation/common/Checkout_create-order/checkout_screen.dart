@@ -9,8 +9,8 @@ class CheckoutScreen extends StatelessWidget {
 
   // static DeliveryAddressScreen deliveryAddressScreen = DeliveryAddressScreen();
 
-  final PaymentMethodController paymentMethodController =
-      Get.put(PaymentMethodController());
+  // final PaymentMethodController paymentMethodController =
+  //     Get.put(PaymentMethodController());
 
   final CreateOrderController controller = Get.put(CreateOrderController());
 
@@ -20,7 +20,8 @@ class CheckoutScreen extends StatelessWidget {
     var addressId = arguments['address_id'] ?? '';
     var couponId = arguments['coupon_id'] ?? '';
     var vendorId = arguments['vendor_id'] ?? '';
-    var total = arguments['total'] ?? "";
+    var formattedTotal = arguments['total'] ?? "0.00";
+    var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
     var cartId = arguments['cart_id'] ?? "";
     var regularPrice = arguments['regular_price'] ?? "";
     var saveAmount = arguments['save_amount'] ?? "";
@@ -39,7 +40,7 @@ class CheckoutScreen extends StatelessWidget {
     print("Coupon Discount: $couponDiscount");
     print("wallet: $walletBalance");
 
-    controller.totalPrice.value = int.parse(total);
+    controller.payAfterWallet.value = double.parse(total.toString());
 
     return SafeArea(
       child: Scaffold(
@@ -70,7 +71,27 @@ class CheckoutScreen extends StatelessWidget {
                   isLoading:
                       (controller.rxRequestStatus.value == Status.LOADING),
                   onPressed: () {
-                    // if (paymentMethodController.selectedIndex == 2) {
+                    if (controller.isSelectable.value == true) {
+                      controller.placeOrderApi(
+                        addressId: addressId,
+                        cartId: cartId,
+                        vendorId: vendorId,
+                        couponId: couponId,
+                        paymentMethod: "wallet",
+                        total: total,
+                        cartType: cartType,
+                      );
+                    } else if (controller.selectedIndex.value == 0) {
+                      controller.placeOrderApi(
+                        addressId: addressId,
+                        cartId: cartId,
+                        vendorId: vendorId,
+                        couponId: couponId,
+                        paymentMethod: "credit_card",
+                        total: total,
+                        cartType: cartType,
+                      );
+                    } else  if (controller.selectedIndex.value == 1){
                       controller.placeOrderApi(
                         addressId: addressId,
                         cartId: cartId,
@@ -80,11 +101,22 @@ class CheckoutScreen extends StatelessWidget {
                         total: total,
                         cartType: cartType,
                       );
-                    // } else {
-                    //   Utils.showToast("Payment method not available");
-                    // }
+                    }
+                    else {
+                      Utils.showToast("Payment method not available");
+                    }
                   },
-                  text: "Place Order",
+                  text: controller.isSelectable.value == true
+                      ? "Place Order"
+                      : controller.selectedIndex.value == 1
+                          ? controller.walletSelected.value == false
+                              ? "\$$total Order with COD"
+                              : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Order with COD"
+                          : controller.selectedIndex.value == 0
+                              ? controller.walletSelected.value == false
+                                  ? "\$$total Pay with Card"
+                                  : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Pay with Card"
+                              : "Place Order",
                 ),
               ),
               hBox(50.h)
@@ -100,70 +132,41 @@ class CheckoutScreen extends StatelessWidget {
       () => InkWell(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
+
+
+
+
         onTap: () {
-          // Convert walletBalance and totalPrice to integers
-          int walletBalanceInt =
-              int.tryParse(walletBalance) ?? 0; // Default to 0 if parsing fails
-          int totalPriceInt =
-              int.tryParse(totalPrice) ?? 0; // Default to 0 if parsing fails
+          double walletBalanceDouble = double.tryParse(walletBalance) ?? 0.0;
+          double totalPriceDouble = double.tryParse(totalPrice) ?? 0.0;
 
-          // Toggle the wallet selection state
           controller.walletSelected.value = !controller.walletSelected.value;
-
-          // Update the totalPrice and walletDiscount based on the wallet selection
-          if (controller.walletSelected.value) {
-            // If wallet is selected, deduct the wallet balance from totalPrice
-            if (walletBalanceInt >= totalPriceInt) {
-              controller.totalPrice.value =
-                  0; // Total price becomes 0 if wallet balance is sufficient
-              controller.walletDiscount.value =
-                  totalPriceInt; // Full price is covered by wallet
-            } else {
-              controller.totalPrice.value = totalPriceInt -
-                  walletBalanceInt; // Subtract wallet balance from total price
-              controller.walletDiscount.value =
-                  walletBalanceInt; // Wallet discount is the balance used
-            }
-          } else {
-            // If wallet is deselected, restore the original totalPrice and reset the wallet discount
-            controller.totalPrice.value = totalPriceInt;
-            controller.walletDiscount.value =
-                0; // Reset the wallet discount when deselected
+          if (!controller.walletSelected.value) {
+            controller.isSelectable.value = false;
           }
 
-          // Print the updated totalPrice and walletDiscount for debugging
-          print("Updated totalPrice: ${controller.totalPrice.value}");
-          print("Wallet discount: ${controller.walletDiscount.value}");
+          if (controller.walletSelected.value) {
+            if (walletBalanceDouble >= totalPriceDouble) {
+              controller.payAfterWallet.value = 0.00;
+              controller.walletDiscount.value = totalPriceDouble;
+              controller.isSelectable.value = true;
+            } else {
+              controller.payAfterWallet.value =
+                  totalPriceDouble - walletBalanceDouble;
+              controller.walletDiscount.value = walletBalanceDouble;
+            }
+          } else {
+            controller.payAfterWallet.value = totalPriceDouble;
+            controller.walletDiscount.value = 0.00;
+          }
+          // controller.payAfterWallet.value =
+          //     double.tryParse(controller.payAfterWallet.value.toStringAsFixed(2))!;
+          // controller.walletDiscount.value =
+          //     double.tryParse(controller.walletDiscount.value.toStringAsFixed(2))!;
+
+          print("Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+          print("Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
         },
-        // onTap: () {
-        //   // Convert walletBalance and totalPrice to integers
-        //
-        //   int walletBalanceInt =
-        //       int.tryParse(walletBalance) ?? 0; // Default to 0 if parsing fails
-        //   int totalPriceInt =
-        //       int.tryParse(totalPrice) ?? 0; // Default to 0 if parsing fails
-        //
-        //   // Toggle the wallet selection state
-        //   controller.walletSelected.value = !controller.walletSelected.value;
-        //
-        //   // Update the totalPrice based on the wallet selection
-        //   if (controller.walletSelected.value) {
-        //     // If wallet is selected, deduct the wallet balance from totalPrice
-        //     if (walletBalanceInt >= totalPriceInt) {
-        //       controller.totalPrice.value =
-        //           0; // Total price becomes 0 if wallet balance is sufficient
-        //     } else {
-        //       controller.totalPrice.value = totalPriceInt -
-        //           walletBalanceInt; // Subtract wallet balance from total price
-        //     }
-        //   } else {
-        //     // If wallet is deselected, restore the original totalPrice
-        //     controller.totalPrice.value = totalPriceInt;
-        //   }
-        //
-        //   // Print the updated totalPrice for debugging
-        //   print("Updated totalPrice: ${controller.totalPrice.value}");
-        // },
         child: Container(
           padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
@@ -223,10 +226,156 @@ class CheckoutScreen extends StatelessWidget {
         hBox(15.h),
         wallet(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
-        PaymentMethodScreen().methodList(),
+        methodList(),
         hBox(15.h),
         PaymentMethodScreen().addNewCard()
       ],
+    );
+  }
+
+  Widget methodList() {
+    return GetBuilder(
+      init: controller,
+      builder: (controller) {
+        return Obx(
+          () => IgnorePointer(
+            ignoring: controller.isSelectable.value ? true : false,
+            child: Opacity(
+              opacity: controller.isSelectable.value ? 0.3 : 1,
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 2,
+                itemBuilder: (context, index) {
+                  bool isSelected = controller.selectedIndex.value == index;
+                  if (index == 0) {
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        controller.selectedIndex.value = index;
+                        controller.update();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(16.r),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.r),
+                            border: Border.all(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.lightPrimary)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 9,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                      "assets/svg/master-card.svg"),
+                                  wBox(10.h),
+                                  Text(
+                                    "•••• •••• ••••",
+                                    style: AppFontStyle.text_16_400(
+                                        AppColors.darkText,
+                                        height: 1.h),
+                                  ),
+                                  Text(
+                                    "8888",
+                                    style: AppFontStyle.text_16_400(
+                                        AppColors.darkText),
+                                  ),
+                                  const Spacer(),
+                                ],
+                              ),
+                            ),
+                            wBox(6.h),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 5.r),
+                                height: 20.h,
+                                width: 20.h,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                        Border.all(color: AppColors.primary)),
+                                child: isSelected
+                                    ? SvgPicture.asset(
+                                        "assets/svg/green-check-circle.svg")
+                                    : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else {
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        controller.selectedIndex.value = index;
+                        controller.update();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(16.r),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.r),
+                            border: Border.all(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.lightPrimary)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              flex: 9,
+                              child: Row(
+                                children: [
+                                  // SvgPicture.asset("assets/svg/cod-icon.svg"),
+                                  Text(
+                                    "Cash On Delivery",
+                                    style: AppFontStyle.text_16_400(
+                                        AppColors.darkText),
+                                  ),
+                                  const Spacer(),
+                                ],
+                              ),
+                            ),
+                            wBox(6),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                margin: EdgeInsets.only(top: 5.r),
+                                height: 20.h,
+                                width: 20.h,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border:
+                                        Border.all(color: AppColors.primary)),
+                                child: isSelected
+                                    ? SvgPicture.asset(
+                                        "assets/svg/green-check-circle.svg")
+                                    : null,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                },
+                separatorBuilder: (c, i) => hBox(15.h),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -321,11 +470,9 @@ class CheckoutScreen extends StatelessWidget {
               "Total Price",
               style: AppFontStyle.text_22_600(AppColors.darkText),
             ),
-            Obx(
-              () => Text(
-                controller.totalPrice.value.toString(),
-                style: AppFontStyle.text_22_600(AppColors.primary),
-              ),
+            Text(
+              totalPrice.toString(),
+              style: AppFontStyle.text_22_600(AppColors.primary),
             ),
           ],
         ),

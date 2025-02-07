@@ -16,7 +16,7 @@ class CustomItemBanner extends StatelessWidget {
   final String? title;
   bool? is_in_wishlist;
   final String? resto_name;
-  final String? rating;
+  // final String? rating;
   final String? categoryId;
   final String? product_id;
   Rx<bool>? isLoading;
@@ -33,7 +33,7 @@ class CustomItemBanner extends StatelessWidget {
       this.title,
       this.is_in_wishlist,
       this.resto_name,
-      this.rating,
+      // this.rating,
       this.categoryId,
       this.product_id,
       this.isLoading});
@@ -180,16 +180,16 @@ class CustomItemBanner extends StatelessWidget {
           style: AppFontStyle.text_14_300(AppColors.lightText),
         ),
         // hBox(10),
-        Row(
-          children: [
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
-            Text(
-              "${rating}/5",
-              style: AppFontStyle.text_14_300(AppColors.lightText),
-            ),
-          ],
-        )
+        // Row(
+        //   children: [
+        //     SvgPicture.asset("assets/svg/star-yellow.svg"),
+        //     wBox(4),
+        //     Text(
+        //       "${rating}/5",
+        //       style: AppFontStyle.text_14_300(AppColors.lightText),
+        //     ),
+        //   ],
+        // )
       ],
     );
   }

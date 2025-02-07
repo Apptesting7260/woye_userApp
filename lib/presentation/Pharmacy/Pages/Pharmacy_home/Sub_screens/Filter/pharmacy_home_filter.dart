@@ -116,7 +116,7 @@ class PharmacyHomeFilter extends StatelessWidget {
             itemCount: products?.length ?? 0,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.6.h,
+              childAspectRatio: 0.6.w,
               crossAxisSpacing: 14.w,
               mainAxisSpacing: 5.h,
             ),

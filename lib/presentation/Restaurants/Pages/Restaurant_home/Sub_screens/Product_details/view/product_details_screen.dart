@@ -5,13 +5,11 @@ import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
@@ -43,8 +41,8 @@ class ProductDetailsScreen extends StatelessWidget {
   final seeAll_Product_Controller seeallproductcontroller =
       Get.put(seeAll_Product_Controller());
 
-  final SeeAllProductReviewController seeAllProductReviewController =
-      Get.put(SeeAllProductReviewController());
+  // final SeeAllProductReviewController seeAllProductReviewController =
+  //     Get.put(SeeAllProductReviewController());
 
   @override
   Widget build(BuildContext context) {
@@ -223,15 +221,15 @@ class ProductDetailsScreen extends StatelessWidget {
                                 }),
                       ),
                       hBox(30),
-                      productReviews(),
-                      hBox(8),
+                      // productReviews(),
+                      // hBox(8),
                       const Divider(),
                       if (controller
                           .productData.value.product!.productreview!.isNotEmpty)
                         hBox(30),
-                      if (controller
-                          .productData.value.product!.productreview!.isNotEmpty)
-                        reviews(),
+                      // if (controller
+                      //     .productData.value.product!.productreview!.isNotEmpty)
+                      //   reviews(),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
                         hBox(30),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
@@ -340,17 +338,17 @@ class ProductDetailsScreen extends StatelessWidget {
           style: AppFontStyle.text_20_400(AppColors.darkText),
         ),
         hBox(10),
-        Row(
-          children: [
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
-            Text(
-              "${controller.productData.value.product!.rating.toString()}/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-          ],
-        ),
-        hBox(10),
+        // Row(
+        //   children: [
+        //     SvgPicture.asset("assets/svg/star-yellow.svg"),
+        //     wBox(4),
+        //     Text(
+        //       "${controller.productData.value.product!.rating.toString()}/5",
+        //       style: AppFontStyle.text_14_400(AppColors.lightText),
+        //     ),
+        //   ],
+        // ),
+        // hBox(10),
         Row(
           children: [
             controller.productData.value.product!.salePrice != null
@@ -607,85 +605,6 @@ class ProductDetailsScreen extends StatelessWidget {
                   value: itemIndex.obs,
                   groupValue: controller
                       .productData.value.product!.extra![index].selectedIndex,
-                  // onChanged: (value) {
-                  //   // Get the extra and item from the current index and itemIndex
-                  //   var currentExtra =
-                  //   controller.productData.value.product!.extra![index];
-                  //   var item = extra.item![itemIndex];
-                  //
-                  //   // Check if the selected item is tapped again (i.e., deselect it)
-                  //   if (currentExtra.selectedIndex.value == value) {
-                  //     // Deselect the current option (reset to -1 or null)
-                  //     currentExtra.selectedIndex.value =
-                  //     -1; // or null, based on your requirement
-                  //
-                  //     // Remove corresponding item from the lists
-                  //     if (controller.extrasItemIdsName.length > index) {
-                  //       controller.extrasItemIdsName[index] = '';
-                  //       controller.extrasItemIdsId[index] = '';
-                  //       controller.extrasItemIdsPrice[index] = '';
-                  //     }
-                  //
-                  //     // Update the reactive lists to reflect the deselection
-                  //     controller.extrasItemIdsName.assignAll(controller
-                  //         .extrasItemIdsName
-                  //         .where((item) => item.isNotEmpty)
-                  //         .toList());
-                  //     controller.extrasItemIdsId.assignAll(controller
-                  //         .extrasItemIdsId
-                  //         .where((item) => item.isNotEmpty)
-                  //         .toList());
-                  //     controller.extrasItemIdsPrice.assignAll(controller
-                  //         .extrasItemIdsPrice
-                  //         .where((item) => item.isNotEmpty)
-                  //         .toList());
-                  //
-                  //     print(
-                  //         "Deselected option. Updated selected names: ${controller.extrasItemIdsName}");
-                  //     print(
-                  //         "Deselected option. Updated selected IDs: ${controller.extrasItemIdsId}");
-                  //     print(
-                  //         "Deselected option. Updated selected prices: ${controller.extrasItemIdsPrice}");
-                  //   } else {
-                  //     // Select a new item, update the selection
-                  //     currentExtra.selectedIndex.value = value!;
-                  //
-                  //     // If the list has the index, update it; otherwise, add the new item to the list
-                  //     if (controller.extrasItemIdsName.length > index) {
-                  //       controller.extrasItemIdsName[index] =
-                  //           item.name.toString();
-                  //       controller.extrasItemIdsId[index] = item.id.toString();
-                  //       controller.extrasItemIdsPrice[index] =
-                  //           item.price.toString();
-                  //     } else {
-                  //       controller.extrasItemIdsName.add(item.name.toString());
-                  //       controller.extrasItemIdsId.add(item.id.toString());
-                  //       controller.extrasItemIdsPrice
-                  //           .add(item.price.toString());
-                  //     }
-                  //
-                  //     // Update the reactive lists with the selected values
-                  //     controller.extrasItemIdsName.assignAll(controller
-                  //         .extrasItemIdsName
-                  //         .where((item) => item.isNotEmpty)
-                  //         .toList());
-                  //     controller.extrasItemIdsId.assignAll(controller
-                  //         .extrasItemIdsId
-                  //         .where((item) => item.isNotEmpty)
-                  //         .toList());
-                  //     controller.extrasItemIdsPrice.assignAll(controller
-                  //         .extrasItemIdsPrice
-                  //         .where((item) => item.isNotEmpty)
-                  //         .toList());
-                  //
-                  //     print(
-                  //         "Updated selected names: ${controller.extrasItemIdsName}");
-                  //     print(
-                  //         "Updated selected IDs: ${controller.extrasItemIdsId}");
-                  //     print(
-                  //         "Updated selected prices: ${controller.extrasItemIdsPrice}");
-                  //   }
-                  // },
                   onChanged: (value) {
                     var currentExtra =
                         controller.productData.value.product!.extra![index];
@@ -696,6 +615,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         controller.extrasItemIdsName[index] = '';
                         controller.extrasItemIdsId[index] = '';
                         controller.extrasItemIdsPrice[index] = '';
+                        controller.extrasTitlesIdsId[index] = '';
                       }
                     } else {
                       currentExtra.selectedIndex.value = value!;
@@ -706,14 +626,25 @@ class ProductDetailsScreen extends StatelessWidget {
                         controller.extrasItemIdsId[index] = item.id.toString();
                         controller.extrasItemIdsPrice[index] =
                             item.price.toString();
+                        controller.extrasTitlesIdsId[index] = controller
+                            .productData.value.product!.extra![index].titleid
+                            .toString();
                       } else {
                         controller.extrasItemIdsName.add(item.name.toString());
                         controller.extrasItemIdsId.add(item.id.toString());
                         controller.extrasItemIdsPrice
                             .add(item.price.toString());
+
+                        controller.extrasTitlesIdsId.add(controller
+                            .productData.value.product!.extra![index].titleid
+                            .toString());
                       }
                     }
 
+                    controller.extrasTitlesIdsId.assignAll(controller
+                        .extrasTitlesIdsId
+                        .where((item) => item.isNotEmpty)
+                        .toList());
                     controller.extrasItemIdsName.assignAll(controller
                         .extrasItemIdsName
                         .where((item) => item.isNotEmpty)
@@ -728,13 +659,14 @@ class ProductDetailsScreen extends StatelessWidget {
                         .toList());
 
                     print(
+                        "Updated selected extrasTitlesIdsId: ${controller.extrasTitlesIdsId}");
+                    print(
                         "Updated selected names: ${controller.extrasItemIdsName}");
                     print(
                         "Updated selected IDs: ${controller.extrasItemIdsId}");
                     print(
                         "Updated selected prices: ${controller.extrasItemIdsPrice}");
                   },
-
                   //     onChanged: (value) {
                   //   controller.productData.value.product!.extra![index]
                   //       .selectedIndex.value = value!;
@@ -882,208 +814,208 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget productReviews() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Product Reviews",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
-        ),
-        hBox(10),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RatingBar.readOnly(
-              filledIcon: Icons.star,
-              emptyIcon: Icons.star,
-              filledColor: AppColors.goldStar,
-              emptyColor: AppColors.normalStar,
-              initialRating: controller.productData.value.product!.rating!,
-              maxRating: 5,
-              size: 20.h,
-            ),
-            wBox(8),
-            Text(
-              "${controller.productData.value.product!.rating.toString()}/5",
-              style: AppFontStyle.text_16_400(AppColors.darkText),
-            ),
-            wBox(8),
-            Text(
-              "(${controller.productData.value.product!.productreview_count.toString()} reviews)",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget reviews() {
-    return Column(
-      children: [
-        Column(
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount:
-                  controller.productData.value.product!.productreview!.length,
-              itemBuilder: (context, index) {
-                return controller.productData.value.product!
-                            .productreview![index].user !=
-                        null
-                    ? Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(50.r),
-                                child: CachedNetworkImage(
-                                  imageUrl: controller
-                                      .productData
-                                      .value
-                                      .product!
-                                      .productreview![index]
-                                      .user!
-                                      .imageUrl
-                                      .toString(),
-                                  fit: BoxFit.cover,
-                                  height: 50.h,
-                                  width: 50.h,
-                                  errorWidget: (context, url, error) => Center(
-                                      child: Container(
-                                    height: 50.h,
-                                    width: 50.h,
-                                    color: AppColors.gray.withOpacity(.2),
-                                    child: Icon(
-                                      Icons.person,
-                                      color: AppColors.gray,
-                                    ),
-                                  )),
-                                  placeholder: (context, url) =>
-                                      Shimmer.fromColors(
-                                    baseColor: AppColors.gray,
-                                    highlightColor: AppColors.lightText,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: AppColors.gray,
-                                        borderRadius:
-                                            BorderRadius.circular(20.r),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              wBox(15),
-                              Flexible(
-                                flex: 4,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      controller.productData.value.product!
-                                          .productreview![index].user!.firstName
-                                          .toString(),
-                                      style: AppFontStyle.text_16_400(
-                                          AppColors.darkText),
-                                    ),
-                                    hBox(5),
-                                    RatingBar.readOnly(
-                                      filledIcon: Icons.star,
-                                      emptyIcon: Icons.star,
-                                      filledColor: AppColors.goldStar,
-                                      emptyColor: AppColors.normalStar,
-                                      initialRating: controller
-                                          .productData
-                                          .value
-                                          .product!
-                                          .productreview![index]
-                                          .rating!,
-                                      maxRating: 5,
-                                      size: 20.h,
-                                    ),
-                                    hBox(10),
-                                    Text(
-                                      controller.productData.value.product!
-                                          .productreview![index].message
-                                          .toString(),
-                                      style: AppFontStyle.text_16_400(
-                                          AppColors.darkText),
-                                      maxLines: 2,
-                                    ),
-                                    hBox(10),
-                                    Text(
-                                      controller.formatDate(controller
-                                          .productData
-                                          .value
-                                          .product!
-                                          .productreview![index]
-                                          .updatedAt
-                                          .toString()),
-                                      style: AppFontStyle.text_16_400(
-                                          AppColors.lightText),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: REdgeInsets.symmetric(vertical: 10),
-                            child: const Divider(),
-                          ),
-                        ],
-                      )
-                    : const SizedBox();
-              },
-            ),
-          ],
-        ),
-        controller.productData.value.product!.productreview_count!.toInt() > 0
-            ? Column(
-                children: [
-                  hBox(10),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () {
-                      Get.toNamed(
-                        AppRoutes.productReviews,
-                        arguments: {
-                          'product_id': productId.toString(),
-                          'product_review':
-                              controller.productData.value.product!.rating,
-                          'review_count': controller
-                              .productData.value.product!.productreview_count
-                              .toString(),
-                        },
-                      );
-                      seeAllProductReviewController.seeAllProductReviewApi(
-                          productId: productId.toString());
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "See All (${controller.productData.value.product!.productreview_count.toString()})",
-                          style: AppFontStyle.text_14_600(AppColors.primary),
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: AppColors.primary,
-                          size: 20.h,
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            : SizedBox(),
-      ],
-    );
-  }
+  // Widget productReviews() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         "Product Reviews",
+  //         style: AppFontStyle.text_20_600(AppColors.darkText),
+  //       ),
+  //       hBox(10),
+  //       Row(
+  //         crossAxisAlignment: CrossAxisAlignment.start,
+  //         children: [
+  //           RatingBar.readOnly(
+  //             filledIcon: Icons.star,
+  //             emptyIcon: Icons.star,
+  //             filledColor: AppColors.goldStar,
+  //             emptyColor: AppColors.normalStar,
+  //             initialRating: controller.productData.value.product!.rating!,
+  //             maxRating: 5,
+  //             size: 20.h,
+  //           ),
+  //           wBox(8),
+  //           Text(
+  //             "${controller.productData.value.product!.rating.toString()}/5",
+  //             style: AppFontStyle.text_16_400(AppColors.darkText),
+  //           ),
+  //           wBox(8),
+  //           Text(
+  //             "(${controller.productData.value.product!.productreview_count.toString()} reviews)",
+  //             style: AppFontStyle.text_14_400(AppColors.lightText),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget reviews() {
+  //   return Column(
+  //     children: [
+  //       Column(
+  //         children: [
+  //           ListView.builder(
+  //             shrinkWrap: true,
+  //             physics: const NeverScrollableScrollPhysics(),
+  //             itemCount:
+  //                 controller.productData.value.product!.productreview!.length,
+  //             itemBuilder: (context, index) {
+  //               return controller.productData.value.product!
+  //                           .productreview![index].user !=
+  //                       null
+  //                   ? Column(
+  //                       children: [
+  //                         Row(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             ClipRRect(
+  //                               borderRadius: BorderRadius.circular(50.r),
+  //                               child: CachedNetworkImage(
+  //                                 imageUrl: controller
+  //                                     .productData
+  //                                     .value
+  //                                     .product!
+  //                                     .productreview![index]
+  //                                     .user!
+  //                                     .imageUrl
+  //                                     .toString(),
+  //                                 fit: BoxFit.cover,
+  //                                 height: 50.h,
+  //                                 width: 50.h,
+  //                                 errorWidget: (context, url, error) => Center(
+  //                                     child: Container(
+  //                                   height: 50.h,
+  //                                   width: 50.h,
+  //                                   color: AppColors.gray.withOpacity(.2),
+  //                                   child: Icon(
+  //                                     Icons.person,
+  //                                     color: AppColors.gray,
+  //                                   ),
+  //                                 )),
+  //                                 placeholder: (context, url) =>
+  //                                     Shimmer.fromColors(
+  //                                   baseColor: AppColors.gray,
+  //                                   highlightColor: AppColors.lightText,
+  //                                   child: Container(
+  //                                     decoration: BoxDecoration(
+  //                                       color: AppColors.gray,
+  //                                       borderRadius:
+  //                                           BorderRadius.circular(20.r),
+  //                                     ),
+  //                                   ),
+  //                                 ),
+  //                               ),
+  //                             ),
+  //                             wBox(15),
+  //                             Flexible(
+  //                               flex: 4,
+  //                               child: Column(
+  //                                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                                 children: [
+  //                                   Text(
+  //                                     controller.productData.value.product!
+  //                                         .productreview![index].user!.firstName
+  //                                         .toString(),
+  //                                     style: AppFontStyle.text_16_400(
+  //                                         AppColors.darkText),
+  //                                   ),
+  //                                   hBox(5),
+  //                                   RatingBar.readOnly(
+  //                                     filledIcon: Icons.star,
+  //                                     emptyIcon: Icons.star,
+  //                                     filledColor: AppColors.goldStar,
+  //                                     emptyColor: AppColors.normalStar,
+  //                                     initialRating: controller
+  //                                         .productData
+  //                                         .value
+  //                                         .product!
+  //                                         .productreview![index]
+  //                                         .rating!,
+  //                                     maxRating: 5,
+  //                                     size: 20.h,
+  //                                   ),
+  //                                   hBox(10),
+  //                                   Text(
+  //                                     controller.productData.value.product!
+  //                                         .productreview![index].message
+  //                                         .toString(),
+  //                                     style: AppFontStyle.text_16_400(
+  //                                         AppColors.darkText),
+  //                                     maxLines: 2,
+  //                                   ),
+  //                                   hBox(10),
+  //                                   Text(
+  //                                     controller.formatDate(controller
+  //                                         .productData
+  //                                         .value
+  //                                         .product!
+  //                                         .productreview![index]
+  //                                         .updatedAt
+  //                                         .toString()),
+  //                                     style: AppFontStyle.text_16_400(
+  //                                         AppColors.lightText),
+  //                                   )
+  //                                 ],
+  //                               ),
+  //                             )
+  //                           ],
+  //                         ),
+  //                         Padding(
+  //                           padding: REdgeInsets.symmetric(vertical: 10),
+  //                           child: const Divider(),
+  //                         ),
+  //                       ],
+  //                     )
+  //                   : const SizedBox();
+  //             },
+  //           ),
+  //         ],
+  //       ),
+  //       controller.productData.value.product!.productreview_count!.toInt() > 0
+  //           ? Column(
+  //               children: [
+  //                 hBox(10),
+  //                 InkWell(
+  //                   splashColor: Colors.transparent,
+  //                   highlightColor: Colors.transparent,
+  //                   onTap: () {
+  //                     Get.toNamed(
+  //                       AppRoutes.productReviews,
+  //                       arguments: {
+  //                         'product_id': productId.toString(),
+  //                         'product_review':
+  //                             controller.productData.value.product!.rating,
+  //                         'review_count': controller
+  //                             .productData.value.product!.productreview_count
+  //                             .toString(),
+  //                       },
+  //                     );
+  //                     seeAllProductReviewController.seeAllProductReviewApi(
+  //                         productId: productId.toString());
+  //                   },
+  //                   child: Row(
+  //                     mainAxisAlignment: MainAxisAlignment.center,
+  //                     children: [
+  //                       Text(
+  //                         "See All (${controller.productData.value.product!.productreview_count.toString()})",
+  //                         style: AppFontStyle.text_14_600(AppColors.primary),
+  //                       ),
+  //                       Icon(
+  //                         Icons.arrow_forward,
+  //                         color: AppColors.primary,
+  //                         size: 20.h,
+  //                       )
+  //                     ],
+  //                   ),
+  //                 ),
+  //               ],
+  //             )
+  //           : SizedBox(),
+  //     ],
+  //   );
+  // }
 
   Widget moreProducts() {
     return Column(
@@ -1131,9 +1063,9 @@ class ProductDetailsScreen extends StatelessWidget {
             itemCount: controller.productData.value.moreProducts!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.6.h,
+              childAspectRatio: 0.6.w,
               crossAxisSpacing: 14.w,
-              mainAxisSpacing: 5.h,
+              mainAxisSpacing: 0.h,
             ),
             itemBuilder: (context, index) {
               return GestureDetector(
@@ -1162,9 +1094,9 @@ class ProductDetailsScreen extends StatelessWidget {
                         .productData.value.moreProducts![index].urlImage,
                     title:
                         controller.productData.value.moreProducts![index].title,
-                    rating: controller
-                        .productData.value.moreProducts![index].rating
-                        .toString(),
+                    // rating: controller
+                    //     .productData.value.moreProducts![index].rating
+                    //     .toString(),
                     is_in_wishlist: controller
                         .productData.value.moreProducts![index].isInWishlist,
                     isLoading: controller

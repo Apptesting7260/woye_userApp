@@ -310,30 +310,30 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           // hBox(10),
 
                                           // hBox(10),
-                                          Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                  "assets/svg/star-yellow.svg"),
-                                              wBox(4),
-                                              Text(
-                                                "${product.rating.toString()}/5",
-                                                style: AppFontStyle.text_14_300(
-                                                    AppColors.lightText),
-                                              ),
-                                              wBox(4),
-                                              Flexible(
-                                                child: Text(
-                                                  product.restoName.toString(),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-                                                  style:
-                                                      AppFontStyle.text_14_300(
-                                                          AppColors.lightText),
-                                                ),
-                                              ),
-                                            ],
-                                          )
+                                          // Row(
+                                          //   children: [
+                                          //     SvgPicture.asset(
+                                          //         "assets/svg/star-yellow.svg"),
+                                          //     wBox(4),
+                                          //     Text(
+                                          //       "${product.rating.toString()}/5",
+                                          //       style: AppFontStyle.text_14_300(
+                                          //           AppColors.lightText),
+                                          //     ),
+                                          //     wBox(4),
+                                          //     Flexible(
+                                          //       child: Text(
+                                          //         product.restoName.toString(),
+                                          //         overflow:
+                                          //             TextOverflow.ellipsis,
+                                          //         textAlign: TextAlign.left,
+                                          //         style:
+                                          //             AppFontStyle.text_14_300(
+                                          //                 AppColors.lightText),
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // )
                                         ],
                                       ));
                                   //  categoryItem(index);
@@ -341,7 +341,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio: 0.6.w,
+                                  childAspectRatio: 0.7.w,
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
                                 ))),
@@ -499,30 +499,30 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           // hBox(10),
 
                                           // hBox(10),
-                                          Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                  "assets/svg/star-yellow.svg"),
-                                              wBox(4),
-                                              Text(
-                                                "${product.rating.toString()}/5",
-                                                style: AppFontStyle.text_14_300(
-                                                    AppColors.lightText),
-                                              ),
-                                              wBox(4),
-                                              Flexible(
-                                                child: Text(
-                                                  product.restoName.toString(),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-                                                  style:
-                                                      AppFontStyle.text_14_300(
-                                                          AppColors.lightText),
-                                                ),
-                                              ),
-                                            ],
-                                          )
+                                          // Row(
+                                          //   children: [
+                                          //     SvgPicture.asset(
+                                          //         "assets/svg/star-yellow.svg"),
+                                          //     wBox(4),
+                                          //     Text(
+                                          //       "${product.rating.toString()}/5",
+                                          //       style: AppFontStyle.text_14_300(
+                                          //           AppColors.lightText),
+                                          //     ),
+                                          //     wBox(4),
+                                          //     Flexible(
+                                          //       child: Text(
+                                          //         product.restoName.toString(),
+                                          //         overflow:
+                                          //             TextOverflow.ellipsis,
+                                          //         textAlign: TextAlign.left,
+                                          //         style:
+                                          //             AppFontStyle.text_14_300(
+                                          //                 AppColors.lightText),
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // )
                                         ],
                                       ));
                                   //  categoryItem(index);
@@ -530,7 +530,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio: 0.6.h,
+                                  childAspectRatio: 0.6.w,
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
                                 ))),

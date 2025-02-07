@@ -5,8 +5,18 @@ class SpecificRestaurantModal {
   Restaurant? restaurant;
   List<MoreProducts>? moreProducts;
   String? message;
+  List<Review>? review;
+  var totalReviews;
+  var averageRating;
 
-  SpecificRestaurantModal({this.status, this.restaurant, this.message});
+  SpecificRestaurantModal({
+    this.status,
+    this.restaurant,
+    this.message,
+    this.review,
+    this.totalReviews,
+    this.averageRating,
+  });
 
   SpecificRestaurantModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -16,10 +26,21 @@ class SpecificRestaurantModal {
     if (json['moreProducts'] != null) {
       moreProducts = <MoreProducts>[];
       json['moreProducts'].forEach((v) {
-        moreProducts!.add(new MoreProducts.fromJson(v));
+        moreProducts!.add(MoreProducts.fromJson(v));
       });
     }
     message = json['message'];
+    if (json['reviews'] != null) {
+      review = <Review>[];
+      json['reviews'].forEach((v) {
+        review!.add(Review.fromJson(v));
+      });
+    }
+    totalReviews = json['totalReviews']; // Parse the totalReviews
+    averageRating = json['average_rating'] != null
+        ? double.tryParse(
+            json['average_rating'].toString()) // Parse average_rating as double
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +53,13 @@ class SpecificRestaurantModal {
       data['moreProducts'] = this.moreProducts!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
+    if (review != null) {
+      data['reviews'] = review!.map((v) => v.toJson()).toList();
+    }
+    data['totalReviews'] =
+        this.totalReviews; // Include totalReviews in the JSON
+    data['average_rating'] =
+        this.averageRating; // Include average_rating in the JSON
     return data;
   }
 }
@@ -45,7 +73,7 @@ class Restaurant {
   String? dob;
   String? gender;
   String? otp;
-  String? rating;
+  var rating;
   String? avgPrice;
   String? currentStatus;
   String? phoneCode;
@@ -68,6 +96,8 @@ class Restaurant {
   int? status;
   String? createdAt;
   String? updatedAt;
+  String? latitude;
+  String? longitude;
 
   Restaurant({
     this.id,
@@ -100,6 +130,8 @@ class Restaurant {
     this.status,
     this.createdAt,
     this.updatedAt,
+    this.latitude,
+    this.longitude,
   });
 
   Restaurant.fromJson(Map<String, dynamic> json) {
@@ -141,6 +173,8 @@ class Restaurant {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
   }
 
   Map<String, dynamic> toJson() {
@@ -180,6 +214,8 @@ class Restaurant {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
     return data;
   }
 }
@@ -275,6 +311,79 @@ class MoreProducts {
     data['url_image'] = this.urlImage;
     data['category_id'] = this.categoryId;
     data['category_name'] = this.categoryName;
+    return data;
+  }
+}
+
+class Review {
+  int? id;
+  int? userId;
+  String? username;
+  int? productId;
+  double? rating; // Changed to double
+  String? message;
+  String? createdAt;
+  String? updatedAt;
+  User? user;
+
+  Review(
+      {this.id,
+      this.userId,
+      this.username,
+      this.productId,
+      this.rating, // Changed to double
+      this.message,
+      this.createdAt,
+      this.updatedAt,
+      this.user});
+
+  Review.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    username = json['username'];
+    productId = json['product_id'];
+    rating = json['rating']?.toDouble(); // Changed to double
+    message = json['review'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['username'] = username;
+    data['product_id'] = productId;
+    data['rating'] = rating;
+    data['review'] = message;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? imageUrl;
+  String? firstName;
+
+  User({this.id, this.imageUrl, this.firstName});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    imageUrl = json['image_url'];
+    firstName = json['first_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image_url'] = this.imageUrl;
+    data['first_name'] = this.firstName;
     return data;
   }
 }

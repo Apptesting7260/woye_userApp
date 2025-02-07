@@ -321,7 +321,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio: 0.6.h,
+                                  childAspectRatio: 0.6.w,
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
                                 ))),

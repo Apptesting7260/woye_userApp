@@ -69,7 +69,7 @@ class MoreProducts extends StatelessWidget {
         itemCount: controller.seeAll_Data.value.moreProducts!.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 0.6.h,
+          childAspectRatio: 0.6.w,
           crossAxisSpacing: 14.w,
           mainAxisSpacing: 5.h,
         ),
@@ -118,8 +118,8 @@ class MoreProducts extends StatelessWidget {
                 regular_price: controller
                     .seeAll_Data.value.moreProducts![index].regularPrice
                     .toString(),
-                rating: controller.seeAll_Data.value.moreProducts![index].rating
-                    .toString(),
+                // rating: controller.seeAll_Data.value.moreProducts![index].rating
+                //     .toString(),
                 isLoading:
                     controller.seeAll_Data.value.moreProducts![index].isLoading,
               ));

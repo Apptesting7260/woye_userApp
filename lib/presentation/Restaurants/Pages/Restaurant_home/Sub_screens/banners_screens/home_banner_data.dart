@@ -203,7 +203,7 @@ class RestaurantHomeBanner extends StatelessWidget {
             itemCount: products?.length ?? 0,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.6.h,
+              childAspectRatio: 0.6.w,
               crossAxisSpacing: 14.w,
               mainAxisSpacing: 5.h,
             ),
@@ -226,7 +226,7 @@ class RestaurantHomeBanner extends StatelessWidget {
                     categoryId: products?[index].categoryId.toString(),
                     image: products?[index].urlImage.toString(),
                     title: products?[index].title.toString(),
-                    rating: products?[index].rating.toString(),
+                    // rating: products?[index].rating.toString(),
                     is_in_wishlist: products?[index].isInWishlist,
                     isLoading: products?[index].isLoading,
                     sale_price: products?[index].salePrice.toString(),

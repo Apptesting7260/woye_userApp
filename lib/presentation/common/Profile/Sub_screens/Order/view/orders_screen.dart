@@ -5,12 +5,15 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
 
 class OrdersScreen extends StatelessWidget {
   OrdersScreen({super.key});
 
   final OrderScreenController controller = Get.put(OrderScreenController());
+  final CancelOrderController cancelOrderController =
+      Get.put(CancelOrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +86,7 @@ class OrdersScreen extends StatelessWidget {
           itemCount: 4,
           itemBuilder: (c, i) {
             List buttonNames = [
-              "Your Orders",
+              "All Orders",
               "Waiting for delivery",
               "Delivered",
               "Cancelled"
@@ -120,7 +123,7 @@ class OrdersScreen extends StatelessWidget {
       if (controller.ordersData.value.orders?.isEmpty ?? true) {
         return Center(
           child: Text(
-            "No orders available", // Custom message when there are no orders
+            "No orders available",
             style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
         );
@@ -129,7 +132,6 @@ class OrdersScreen extends StatelessWidget {
       return ListView.separated(
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
-        // To prevent scrolling here
         itemCount: controller.ordersData.value.orders?.length ?? 0,
         itemBuilder: (context, index) {
           var order = controller.ordersData.value.orders![index];
@@ -191,7 +193,13 @@ class OrdersScreen extends StatelessWidget {
                 hBox(20),
                 buildDeliveryTimeRow(),
                 hBox(10),
-                buildActionButtons(context),
+                buildActionButtons(
+                  context: context,
+                  orderId: order.id.toString(),
+                  orderStatus: order.status.toString(),
+                  type: order.type.toString(),
+                  vendorId: order.type.toString(),
+                ),
               ],
             ),
           );
@@ -278,7 +286,13 @@ class OrdersScreen extends StatelessWidget {
                 hBox(20),
                 buildDeliveryTimeRow(),
                 hBox(10),
-                buildActionButtons(context),
+                buildActionButtons(
+                  context: context,
+                  orderId: order.id.toString(),
+                  orderStatus: order.status.toString(),
+                  type: order.type.toString(),
+                  vendorId: order.type.toString(),
+                ),
               ],
             ),
           );
@@ -365,7 +379,13 @@ class OrdersScreen extends StatelessWidget {
                 hBox(20),
                 buildDeliveryTimeRow(),
                 hBox(10),
-                buildActionButtons(context),
+                buildActionButtons(
+                  context: context,
+                  orderId: order.id.toString(),
+                  orderStatus: order.status.toString(),
+                  type: order.type.toString(),
+                  vendorId: order.type.toString(),
+                ),
               ],
             ),
           );
@@ -450,7 +470,13 @@ class OrdersScreen extends StatelessWidget {
                 hBox(20),
                 buildDeliveryTimeRow(),
                 hBox(10),
-                buildActionButtons(context),
+                buildActionButtons(
+                  context: context,
+                  orderId: order.id.toString(),
+                  orderStatus: order.status.toString(),
+                  type: order.type.toString(),
+                  vendorId: order.type.toString(),
+                ),
               ],
             ),
           );
@@ -511,7 +537,13 @@ class OrdersScreen extends StatelessWidget {
     );
   }
 
-  Widget buildActionButtons(BuildContext context) {
+  Widget buildActionButtons({
+    required BuildContext context,
+    required String orderId,
+    required String orderStatus,
+    required String vendorId,
+    required String type,
+  }) {
     return Row(
       children: [
         InkWell(
@@ -534,102 +566,142 @@ class OrdersScreen extends StatelessWidget {
           ),
         ),
         wBox(10.h),
-        InkWell(
-          onTap: () {
-            cancelPopUp(context);
-          },
-          child: Container(
-            padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            decoration: BoxDecoration(
-                color: AppColors.primary,
-                borderRadius: BorderRadius.circular(50.r)),
-            child: Center(
-              child: Text(
-                "Cancel",
-                style: AppFontStyle.text_16_400(AppColors.white),
+        if (orderStatus == "in_progress")
+          InkWell(
+            onTap: () {
+              cancelPopUp(oderId: orderId, context: context);
+            },
+            child: Container(
+              padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(50.r)),
+              child: Center(
+                child: Text(
+                  "Cancel",
+                  style: AppFontStyle.text_16_400(AppColors.white),
+                ),
               ),
             ),
           ),
-        ),
-        wBox(10),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            Get.toNamed(AppRoutes.trackOrder);
-          },
-          child: Container(
-            padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
-            decoration: BoxDecoration(
-                border: Border.all(color: AppColors.primary),
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(50.r)),
-            child: Center(
-              child: Text(
-                "Track",
-                style: AppFontStyle.text_16_400(AppColors.primary),
+        wBox(10.h),
+        if (orderStatus != "in_progress" && orderStatus != "completed")
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              Get.toNamed(AppRoutes.trackOrder);
+            },
+            child: Container(
+              padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
+              decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.primary),
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(50.r)),
+              child: Center(
+                child: Text(
+                  "Track",
+                  style: AppFontStyle.text_16_400(AppColors.primary),
+                ),
               ),
             ),
           ),
-        ),
+        if (orderStatus == "completed")
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              final arguments = {
+                'order_id': orderId,
+                'vendor_id': vendorId,
+                'type': type,
+              };
+              Get.toNamed(
+                AppRoutes.rateAndReviewProductScreen,
+                arguments: arguments,
+              );
+            },
+            child: Container(
+              padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
+              decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.primary),
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(50.r)),
+              child: Center(
+                child: Text(
+                  "Rate & Review",
+                  style: AppFontStyle.text_16_400(AppColors.primary),
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }
 
-  Future<dynamic> cancelPopUp(context) {
+  Future<dynamic> cancelPopUp({context, required String oderId}) {
     return showCupertinoModalPopup(
         context: context,
         builder: (context) {
-          return AlertDialog.adaptive(
-            content: Container(
-              height: 150.h,
-              width: 320.w,
-              padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.r),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Cancel',
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
-                  ),
-                  // hBox(15),
-                  Text(
-                    'Are you sure you want to cancel?',
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
-                  ),
-                  // hBox(15),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          color: AppColors.black,
-                          onPressed: () {
-                            Get.back();
-                          },
-                          text: "No",
-                          textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+          return PopScope(
+            canPop: false,
+            child: AlertDialog.adaptive(
+              content: Container(
+                height: 150.h,
+                width: 320.w,
+                padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.r),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Cancel',
+                      style: AppFontStyle.text_18_600(AppColors.darkText),
+                    ),
+                    // hBox(15),
+                    Text(
+                      'Are you sure you want to cancel?',
+                      style: AppFontStyle.text_14_400(AppColors.lightText),
+                    ),
+                    // hBox(15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomElevatedButton(
+                            height: 40.h,
+                            color: AppColors.black,
+                            onPressed: () {
+                              Get.back();
+                            },
+                            text: "No",
+                            textStyle:
+                                AppFontStyle.text_14_400(AppColors.darkText),
+                          ),
                         ),
-                      ),
-                      wBox(15),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          onPressed: () {
-                            Get.offAllNamed(AppRoutes.welcomeScreen);
-                          },
-                          text: "Yes",
-                          textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+                        wBox(15),
+                        Expanded(
+                          child: Obx(
+                            () => CustomElevatedButton(
+                              isLoading: (cancelOrderController
+                                      .rxRequestStatus.value ==
+                                  Status.LOADING),
+                              height: 40.h,
+                              onPressed: () {
+                                cancelOrderController.cancelOrderApi(
+                                    orderId: oderId);
+                              },
+                              text: "Yes",
+                              textStyle:
+                                  AppFontStyle.text_14_400(AppColors.darkText),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

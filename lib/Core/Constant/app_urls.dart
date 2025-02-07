@@ -33,6 +33,8 @@ class AppUrls {
   /* ------------------------------------------------ Show Orders  ----------------------------------------------------  */
 
   static const String getOrdersList = "$baseUrl/list-order";
+  static const String cancelOrder = "$baseUrl/cancel-order";
+  static const String postVendorReview = "$baseUrl/post-review";
 
   /* ------------------------------ Restaurant ---------------------------------*/
 

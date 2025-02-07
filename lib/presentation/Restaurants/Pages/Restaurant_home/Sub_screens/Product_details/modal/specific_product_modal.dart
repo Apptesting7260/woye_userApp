@@ -47,7 +47,7 @@ class Product {
   String? discount;
 
   // String? cuisineType;
-  double? rating; // Changed to double
+  double? rating;
   int? productreview_count;
   String? image;
   List<AddOn>? addOn;

@@ -170,7 +170,7 @@ class RestaurantHomeFilter extends StatelessWidget {
             itemCount: controller.searchData.value.products?.length ?? 0,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.6.h,
+              childAspectRatio: 0.6.w,
               crossAxisSpacing: 14.w,
               mainAxisSpacing: 5.h,
             ),
@@ -207,8 +207,8 @@ class RestaurantHomeFilter extends StatelessWidget {
                         .toString(),
                     title: controller.searchData.value.products?[index].title
                         .toString(),
-                    rating: controller.searchData.value.products?[index].rating
-                        .toString(),
+                    // rating: controller.searchData.value.products?[index].rating
+                    //     .toString(),
                     is_in_wishlist: controller
                         .searchData.value.products?[index].isInWishlist,
                     isLoading:

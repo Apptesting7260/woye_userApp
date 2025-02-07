@@ -457,6 +457,13 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                               .cart!
                                               .decodedAttribute![index]
                                               .productId
+                                              .toString(),
+                                          countId: controller
+                                              .cartData
+                                              .value
+                                              .cart!
+                                              .decodedAttribute![index]
+                                              .count
                                               .toString());
                                     },
                                     child: SvgPicture.asset(

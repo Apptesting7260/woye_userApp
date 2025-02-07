@@ -17,7 +17,7 @@ class CustomBanner extends StatelessWidget {
   final String? title;
   bool? is_in_wishlist;
   final String? shop_name;
-  final String? rating;
+  // final String? rating;
   final String? categoryId;
   final String? categoryName;
   final String? product_id;
@@ -37,7 +37,7 @@ class CustomBanner extends StatelessWidget {
     this.title,
     this.is_in_wishlist,
     this.shop_name,
-    this.rating,
+    // this.rating,
     this.categoryId,
     this.categoryName,
     this.product_id,
