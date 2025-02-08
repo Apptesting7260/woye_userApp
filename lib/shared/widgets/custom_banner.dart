@@ -17,6 +17,7 @@ class CustomBanner extends StatelessWidget {
   final String? title;
   bool? is_in_wishlist;
   final String? shop_name;
+
   // final String? rating;
   final String? categoryId;
   final String? categoryName;
@@ -173,7 +174,6 @@ class CustomBanner extends StatelessWidget {
               textAlign: TextAlign.left,
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
-          // hBox(10),
         ],
       ),
     );

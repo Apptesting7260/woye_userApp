@@ -15,6 +15,11 @@ class RateAndReviewProductScreen extends StatelessWidget {
     final orderId = arguments['order_id'];
     final vendorId = arguments['vendor_id'];
     final type = arguments['type'];
+
+    print('Order ID: $orderId');
+    print('Vendor ID: $vendorId');
+    print('Type: $type');
+
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -42,8 +47,8 @@ class RateAndReviewProductScreen extends StatelessWidget {
                       orderId: orderId,
                       vendorId: vendorId,
                       type: type,
-                      rating: controller.rating.value.toString(),
-                      review: controller.reviewController.value.text,
+                      rating: controller.rating.value,
+                      review: controller.reviewController.value.text.trim(),
                     );
                   }
                 },
@@ -58,79 +63,65 @@ class RateAndReviewProductScreen extends StatelessWidget {
   }
 
   Widget giveRating() {
-    return Form(
-      key: formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "What is your rate?",
-            style: AppFontStyle.text_18_600(AppColors.darkText),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "What is your rate?",
+          style: AppFontStyle.text_18_600(AppColors.darkText),
+        ),
+        hBox(20),
+        // RatingBar(
+        //     itemPadding: REdgeInsets.only(right: 10),
+        //     itemSize: 36.h,
+        //     initialRating: 0,
+        //     allowHalfRating: true,
+        //     ratingWidget: RatingWidget(
+        //         full: SvgPicture.asset("assets/svg/star-yellow.svg"),
+        //         half: SvgPicture.asset("assets/svg/star-white.svg"),
+        //         empty: SvgPicture.asset("assets/svg/star-white.svg")),
+        //     onRatingUpdate: (v) {}),
+        RatingBar(
+          itemPadding: EdgeInsets.only(right: 10.w),
+          itemSize: 36,
+          initialRating: 0,
+          allowHalfRating: false,
+          ratingWidget: RatingWidget(
+            full: Icon(Icons.star, color: AppColors.goldStar),
+            half: Icon(Icons.star_half, color: AppColors.goldStar),
+            empty: Icon(Icons.star_border, color: AppColors.normalStar),
           ),
-          hBox(20),
-          // RatingBar(
-          //     itemPadding: REdgeInsets.only(right: 10),
-          //     itemSize: 36.h,
-          //     initialRating: 0,
-          //     allowHalfRating: true,
-          //     ratingWidget: RatingWidget(
-          //         full: SvgPicture.asset("assets/svg/star-yellow.svg"),
-          //         half: SvgPicture.asset("assets/svg/star-white.svg"),
-          //         empty: SvgPicture.asset("assets/svg/star-white.svg")),
-          //     onRatingUpdate: (v) {}),
-          RatingBar(
-            itemPadding: EdgeInsets.only(right: 10.w),
-            itemSize: 36,
-            initialRating: 0,
-            allowHalfRating: true,
-            ratingWidget: RatingWidget(
-              full: Icon(Icons.star, color: AppColors.goldStar),
-              half: Icon(Icons.star_half, color: AppColors.goldStar),
-              empty: Icon(Icons.star_border, color: AppColors.normalStar),
-            ),
-            onRatingUpdate: (rating) {
-              // Handle rating change
-              print('Rating updated: $rating');
-              controller.rating.value = rating;
-            },
-          ),
-        ],
-      ),
+          onRatingUpdate: (rating) {
+            print('Rating updated: $rating');
+            controller.rating.value = rating;
+          },
+        ),
+      ],
     );
   }
 
   Widget giveReview() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(
-        "What is your rate?",
-        style: AppFontStyle.text_18_600(AppColors.darkText),
-      ),
-      hBox(20),
-      CustomTextFormField(
-        maxLines: 7,
-        minLines: 7,
-        controller: controller.reviewController.value,
-        hintText: "Write your review...",
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please write a review';
-          }
-          return null;
-        },
-      )
-    ]);
+    return Form(
+      key: formKey,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          "What is your rate?",
+          style: AppFontStyle.text_18_600(AppColors.darkText),
+        ),
+        hBox(20),
+        CustomTextFormField(
+          maxLines: 7,
+          minLines: 7,
+          controller: controller.reviewController.value,
+          hintText: "Write your review...",
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please write a review';
+            }
+            return null;
+          },
+        )
+      ]),
+    );
   }
-
-// Widget submitButton() {
-//   return CustomElevatedButton(
-//     onPressed: () {
-//       if (formKey.currentState!.validate()) {
-//         controller.cancelOrderApi(
-//           orderId: orderId,
-//         );
-//       }
-//     },
-//     text: "Submit",
-//   );
-// }
 }

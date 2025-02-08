@@ -320,7 +320,7 @@ class Review {
   int? userId;
   String? username;
   int? productId;
-  double? rating; // Changed to double
+  var rating;
   String? message;
   String? createdAt;
   String? updatedAt;
@@ -331,7 +331,7 @@ class Review {
       this.userId,
       this.username,
       this.productId,
-      this.rating, // Changed to double
+      this.rating,
       this.message,
       this.createdAt,
       this.updatedAt,
@@ -342,7 +342,7 @@ class Review {
     userId = json['user_id'];
     username = json['username'];
     productId = json['product_id'];
-    rating = json['rating']?.toDouble(); // Changed to double
+    rating = json['rating']?.toDouble();
     message = json['review'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

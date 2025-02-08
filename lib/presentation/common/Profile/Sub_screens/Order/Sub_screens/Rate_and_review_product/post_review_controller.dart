@@ -13,18 +13,16 @@ class PostReviewController extends GetxController {
 
   var rating = 0.0.obs;
 
-  final Rx<TextEditingController> reviewController = TextEditingController().obs;
+  final Rx<TextEditingController> reviewController =
+      TextEditingController().obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
   void setData(PostReviewModal value) => postReviewData.value = value;
 
-  // final OrderScreenController orderScreenController =
-  //     Get.put(OrderScreenController());
-
   cancelOrderApi({
     required String orderId,
-    required String rating,
+    required var rating,
     required String review,
     required String vendorId,
     required String type,
@@ -32,7 +30,7 @@ class PostReviewController extends GetxController {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "order_id": orderId,
-      "rating": rating,
+      "rating": rating.toString(),
       "review": review,
       "vendor_id": vendorId,
       "type": type,
@@ -40,12 +38,9 @@ class PostReviewController extends GetxController {
     api.postVendorReviewApi(body).then((value) {
       setData(value);
       if (postReviewData.value.status == true) {
-        // orderScreenController.getOrdersListApi().then((value) async {
-        //   await Future.delayed(const Duration(milliseconds: 500));
-          Get.back();
-          Utils.showToast(postReviewData.value.message.toString());
-          setRxRequestStatus(Status.COMPLETED);
-        // });
+        Get.back();
+        Utils.showToast(postReviewData.value.message.toString());
+        setRxRequestStatus(Status.COMPLETED);
       } else {
         Utils.showToast(postReviewData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);
