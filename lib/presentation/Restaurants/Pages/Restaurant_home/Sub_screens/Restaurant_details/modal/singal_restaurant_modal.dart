@@ -317,7 +317,7 @@ class MoreProducts {
 
 class Review {
   int? id;
-  int? userId;
+  var userId;
   String? username;
   int? productId;
   var rating;
@@ -342,7 +342,8 @@ class Review {
     userId = json['user_id'];
     username = json['username'];
     productId = json['product_id'];
-    rating = json['rating']?.toDouble();
+    rating = json['rating'];
+    // rating = json['rating']?.toDouble();
     message = json['review'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -367,7 +368,7 @@ class Review {
 }
 
 class User {
-  int? id;
+  var id;
   String? imageUrl;
   String? firstName;
 

@@ -1,11 +1,27 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_expansion_tile.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({super.key});
+  OrderDetailsScreen({super.key});
+
+  final OrderDetailsController controller = Get.put(OrderDetailsController());
 
   @override
   Widget build(BuildContext context) {
+    final arguments = Get.arguments;
+    final id = arguments['order_id'];
+    // final vendorId = arguments['vendor_id'];
+    // final type = arguments['type'];
+
+    print('Order ID: $orderId');
+    // print('Vendor ID: $vendorId');
+    // print('Type: $type');
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -14,22 +30,48 @@ class OrderDetailsScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
-      body: SingleChildScrollView(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              heading(),
-              hBox(30),
-              orderDetails(),
-              hBox(20),
-              orderId(),
-              hBox(20),
-              paymentDetails(),
-              hBox(20),
-              buttons(),
-              hBox(50)
-            ],
-          )),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.orderDetailsApi(orderId: id);
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.orderDetailsApi(orderId: id);
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+              onRefresh: () async {
+                controller.orderDetailsApi(orderId: id);
+              },
+              child: SingleChildScrollView(
+                  padding: REdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    children: [
+                      heading(),
+                      hBox(30),
+                      orderDetails(),
+                      hBox(20),
+                      orderId(),
+                      hBox(20),
+                      paymentDetails(),
+                      hBox(20),
+                      buttons(),
+                      hBox(50)
+                    ],
+                  )),
+            );
+        }
+      }),
     );
   }
 
@@ -38,7 +80,9 @@ class OrderDetailsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Hey, John!",
+          controller.ordersData.value.addressDetails!.fullName
+              .toString()
+              .capitalize!,
           style: AppFontStyle.text_28_600(AppColors.darkText),
         ),
         hBox(20),
@@ -75,7 +119,21 @@ class OrderDetailsScreen extends StatelessWidget {
                 style: AppFontStyle.text_12_400(AppColors.lightText),
               ),
               Text(
-                "#1947034",
+                controller.ordersData.value.orderDetails!.orderId.toString(),
+                style: AppFontStyle.text_12_600(AppColors.darkText),
+              ),
+            ],
+          ),
+          hBox(10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Tracking id",
+                style: AppFontStyle.text_12_400(AppColors.lightText),
+              ),
+              Text(
+                controller.ordersData.value.orderDetails!.trackingId.toString(),
                 style: AppFontStyle.text_12_600(AppColors.darkText),
               ),
             ],
@@ -89,7 +147,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 style: AppFontStyle.text_12_400(AppColors.lightText),
               ),
               Text(
-                "Mon, 04 Apr - 12:00 AM",
+                controller.ordersData.value.orderDetails!.createdAt.toString(),
                 style: AppFontStyle.text_12_600(AppColors.darkText),
               ),
             ],
@@ -99,12 +157,19 @@ class OrderDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Discount",
+                controller.ordersData.value.orderDetails!.type
+                    .toString()
+                    .capitalizeFirst!,
                 style: AppFontStyle.text_12_400(AppColors.lightText),
               ),
-              Text(
-                "\$10.00",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
+              wBox(10),
+              Flexible(
+                child: Text(
+                  controller.ordersData.value.orderDetails!.vendorName
+                      .toString(),
+                  maxLines: 2,
+                  style: AppFontStyle.text_12_600(AppColors.darkText),
+                ),
               ),
             ],
           ),
@@ -113,11 +178,11 @@ class OrderDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Total ",
+                "Total",
                 style: AppFontStyle.text_14_600(AppColors.darkText),
               ),
               Text(
-                "\$120.00",
+                "\$${controller.ordersData.value.orderDetails!.total.toString()}",
                 style: AppFontStyle.text_14_600(AppColors.primary),
               ),
             ],
@@ -131,22 +196,27 @@ class OrderDetailsScreen extends StatelessWidget {
           ),
           hBox(10),
           Text(
-            "Home",
+            controller.ordersData.value.addressDetails!.addressType
+                .toString()
+                .capitalize!,
             style: AppFontStyle.text_14_400(AppColors.primary),
           ),
           hBox(10),
           Text(
-            "Jone Deo ",
+            controller.ordersData.value.addressDetails!.fullName
+                .toString()
+                .capitalize!,
             style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
           hBox(10),
           Text(
-            "D 888 Abc Road, Greenfield, Abc Manchester, 199",
+            controller.ordersData.value.addressDetails!.address.toString(),
+            maxLines: 4,
             style: AppFontStyle.text_12_400(AppColors.lightText),
           ),
           hBox(10),
           Text(
-            "+791 12 123 1234 ",
+            "${controller.ordersData.value.addressDetails!.countryCode} ${controller.ordersData.value.addressDetails!.phoneNumber.toString()}",
             style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
           hBox(15),
@@ -161,92 +231,181 @@ class OrderDetailsScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.r),
             border: Border.all(color: AppColors.textFieldBorder)),
         child: CustomExpansionTile(
-          title: "Order Id #1947034",
+          title:
+              "Order Id ${controller.ordersData.value.orderDetails!.orderId.toString()}",
           children: [
-            const Divider(),
-            hBox(20),
-            Row(
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Image.asset(
-                      "assets/images/cat-image0.png",
-                      height: 100,
-                    )),
-                wBox(15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+            ListView.separated(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: controller
+                  .ordersData.value.orderDetails!.decodedAttribute!.length,
+
+              itemBuilder: (context, index) {
+                final item = controller
+                    .ordersData.value.orderDetails!.decodedAttribute![index];
+                return Column(
                   children: [
-                    Text(
-                      "McMushroom Pizza",
-                      style: AppFontStyle.text_14_600(AppColors.darkText),
-                    ),
-                    hBox(10),
                     Row(
                       children: [
-                        Text(
-                          "Qty:",
-                          style: AppFontStyle.text_12_400(AppColors.lightText),
+                        CachedNetworkImage(
+                          imageUrl: item.productImage.toString(),
+                          height: 100.h,
+                          width: 100.h,
+                          fit: BoxFit.fill,
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: AppColors.gray,
+                            highlightColor: AppColors.lightText,
+                            child: Container(
+                              color: AppColors.white,
+                              height: 100.h,
+                              width: 100.h,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
-                        Text(
-                          "1",
-                          style: AppFontStyle.text_12_400(AppColors.lightText),
+                        wBox(15.h),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.productName.toString(),
+                              style: AppFontStyle.text_14_600(AppColors.darkText),
+                            ),
+                            hBox(10),
+                            Text(
+                              "Qty:${item.quantity.toString()}",
+                              style: AppFontStyle.text_12_400(AppColors.darkText),
+                            ),
+                            hBox(10),
+                            Text(
+                              "\$${item.price.toString()}",
+                              style: AppFontStyle.text_14_600(AppColors.primary),
+                            ),
+                          ],
                         ),
+
                       ],
                     ),
-                    hBox(10),
-                    Text(
-                      "\$120.00",
-                      style: AppFontStyle.text_14_600(AppColors.primary),
+                    if(item.attribute!.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.h),
+                      child: SizedBox(
+                        width: Get.width,
+                        child: Wrap(
+                          direction: Axis.horizontal,
+                          spacing: 2.w,
+                          runSpacing: 2.w,
+                          children: List.generate(
+                            item.attribute!.length,
+                                (addonIndex) {
+                              bool isLast =
+                                  addonIndex == item.attribute!.length - 1;
+                              return Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${item.attribute![addonIndex].itemDetails!.itemName}',
+                                    style: AppFontStyle.text_12_400(
+                                        AppColors.primary),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    ' - ',
+                                    style: AppFontStyle.text_12_400(
+                                        AppColors.primary),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    '\$${item.attribute![addonIndex].itemDetails!.itemPrice}',
+                                    style: AppFontStyle.text_12_400(
+                                        AppColors.primary),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  if (!isLast)
+                                    Text(
+                                      ',',
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.primary),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    if(item.addons!.isNotEmpty)
+                    SizedBox(
+                      width: Get.width,
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        spacing: 2.w,
+                        runSpacing: 2.w,
+                        children: List.generate(
+                          item
+                              .addons!.length,
+                              (addonIndex) {
+                            bool isLast = addonIndex ==
+                                item.addons!.length -
+                                    1;
+                            return Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${item.addons![addonIndex].name}',
+                                  style:
+                                  AppFontStyle.text_12_400(AppColors.lightText),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                Text(
+                                  ' - ',
+                                  style:
+                                  AppFontStyle.text_12_400(AppColors.lightText),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                Text(
+                                  '\$${item.addons![addonIndex].price}',
+                                  style:
+                                  AppFontStyle.text_12_400(AppColors.lightText),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                if (!isLast)
+                                  Text(
+                                    ',',
+                                    style:
+                                    AppFontStyle.text_12_400(AppColors.lightText),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ],
-                )
-              ],
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
             ),
-            hBox(15),
-            const Divider(),
-            hBox(15),
-            Row(
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: Image.asset(
-                      "assets/images/cat-image0.png",
-                      height: 100,
-                    )),
-                wBox(15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "McMushroom Pizza",
-                      style: AppFontStyle.text_14_600(AppColors.darkText),
-                    ),
-                    hBox(10),
-                    Row(
-                      children: [
-                        Text(
-                          "Qty:",
-                          style: AppFontStyle.text_12_400(AppColors.lightText),
-                        ),
-                        Text(
-                          "1",
-                          style: AppFontStyle.text_12_400(AppColors.lightText),
-                        ),
-                      ],
-                    ),
-                    hBox(10),
-                    Text(
-                      "\$120.00",
-                      style: AppFontStyle.text_14_600(AppColors.primary),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            hBox(15),
-            const Divider(),
-            hBox(15),
+
+            hBox(0.h),
+            Divider(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -366,7 +525,7 @@ class OrderDetailsScreen extends StatelessWidget {
   Widget buttons() {
     return Column(children: [
       CustomOutlinedButton(
-          padding: EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(horizontal: 20.h),
           onPressed: () {},
           child: Row(
             children: [

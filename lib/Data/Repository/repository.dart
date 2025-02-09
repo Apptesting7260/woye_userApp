@@ -45,6 +45,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delete_address/delete_product_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delivery_address_modal/delivery_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/wallet_modal/wallet_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Rate_and_review_product/post_review_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/ordes_list_modal/orders_list_modal.dart';
@@ -150,6 +151,15 @@ class Repository {
     dynamic response = await _apiService.getApi(AppUrls.getOrdersList, token);
     return OrdersList.fromJson(response);
   }
+
+  Future<dynamic> orderDetailsApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.ordersDetails, token);
+    return OrderDetailsModal.fromJson(response);
+  }
+
+
   Future<dynamic> cancelOrderApi(var data) async {
     await initializeUser();
     dynamic response =
@@ -164,6 +174,7 @@ class Repository {
     await _apiService.postApi(data, AppUrls.postVendorReview, token);
     return PostReviewModal.fromJson(response);
   }
+
   /* ------------------------------------------------ Restaurant ----------------------------------------------------*/
 
   Future<dynamic> homeApi({required int page, required int perPage}) async {

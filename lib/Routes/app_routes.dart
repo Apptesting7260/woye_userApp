@@ -197,7 +197,7 @@ class AppRoutes {
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
     // GetPage(name: editProfile, page: () => const EditProfileScreen()),
     GetPage(name: orders, page: () => OrdersScreen()),
-    GetPage(name: orderDetails, page: () => const OrderDetailsScreen()),
+    GetPage(name: orderDetails, page: () =>  OrderDetailsScreen()),
     GetPage(name: myWallet, page: () => MyWalletScreen()),
     GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),
     GetPage(name: notifications, page: () => const NotificationsScreen()),
@@ -210,7 +210,7 @@ class AppRoutes {
         name: termsAndConditions, page: () => const TermAndConditionsScreen()),
     GetPage(
         name: notificationsSettings,
-        page: () => const NotificationsSettingsScreen()),
+        page: () =>  NotificationsSettingsScreen()),
     GetPage(
         name: transactionHistory, page: () => const TransactionHistoryScreen()),
     GetPage(name: myWalletFilter, page: () => const MyWalletFilter()),

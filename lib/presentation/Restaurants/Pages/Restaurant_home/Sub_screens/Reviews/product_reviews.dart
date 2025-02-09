@@ -177,8 +177,12 @@ class ProductReviews extends StatelessWidget {
                                 emptyIcon: Icons.star,
                                 filledColor: AppColors.goldStar,
                                 emptyColor: AppColors.normalStar,
-                                initialRating: controller.seeAllReview.value
-                                    .reviewAll![index].rating!,
+                                initialRating: double.parse(controller
+                                    .seeAllReview
+                                    .value
+                                    .reviewAll![index]
+                                    .rating!
+                                    .toString()),
                                 maxRating: 5,
                                 size: 20.h,
                               ),

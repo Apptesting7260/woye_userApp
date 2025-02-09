@@ -5,6 +5,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
 
@@ -12,6 +13,8 @@ class OrdersScreen extends StatelessWidget {
   OrdersScreen({super.key});
 
   final OrderScreenController controller = Get.put(OrderScreenController());
+  final OrderDetailsController orderDetailsController =
+      Get.put(OrderDetailsController());
   final CancelOrderController cancelOrderController =
       Get.put(CancelOrderController());
 
@@ -550,7 +553,18 @@ class OrdersScreen extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () {
-            Get.toNamed(AppRoutes.orderDetails);
+            print("orderId $orderId");
+
+
+            final arguments = {
+              'order_id': orderId,
+            };
+            Get.toNamed(
+              AppRoutes.orderDetails,
+              arguments: arguments,
+            );
+            orderDetailsController.orderDetailsApi(orderId: orderId.toString());
+
           },
           child: Container(
             padding: REdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h),

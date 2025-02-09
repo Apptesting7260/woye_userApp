@@ -321,17 +321,17 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           //           AppColors.lightText),
                                           //     ),
                                           //     wBox(4),
-                                          //     Flexible(
-                                          //       child: Text(
-                                          //         product.restoName.toString(),
-                                          //         overflow:
-                                          //             TextOverflow.ellipsis,
-                                          //         textAlign: TextAlign.left,
-                                          //         style:
-                                          //             AppFontStyle.text_14_300(
-                                          //                 AppColors.lightText),
-                                          //       ),
-                                          //     ),
+                                              Flexible(
+                                                child: Text(
+                                                  product.restoName.toString(),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.left,
+                                                  style:
+                                                      AppFontStyle.text_14_300(
+                                                          AppColors.lightText),
+                                                ),
+                                              ),
                                           //   ],
                                           // )
                                         ],
