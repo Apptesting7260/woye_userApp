@@ -129,6 +129,22 @@ class OrderDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
+                "Order Status",
+                style: AppFontStyle.text_12_400(AppColors.lightText),
+              ),
+              Text(
+                controller.ordersData.value.orderDetails!.status
+                    .toString()
+                    .capitalize!,
+                style: AppFontStyle.text_12_600(AppColors.darkText),
+              ),
+            ],
+          ),
+          hBox(10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
                 "Tracking id",
                 style: AppFontStyle.text_12_400(AppColors.lightText),
               ),
@@ -239,7 +255,6 @@ class OrderDetailsScreen extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: controller
                   .ordersData.value.orderDetails!.decodedAttribute!.length,
-
               itemBuilder: (context, index) {
                 final item = controller
                     .ordersData.value.orderDetails!.decodedAttribute![index];
@@ -270,60 +285,115 @@ class OrderDetailsScreen extends StatelessWidget {
                           children: [
                             Text(
                               item.productName.toString(),
-                              style: AppFontStyle.text_14_600(AppColors.darkText),
+                              style:
+                                  AppFontStyle.text_14_600(AppColors.darkText),
                             ),
                             hBox(10),
                             Text(
                               "Qty:${item.quantity.toString()}",
-                              style: AppFontStyle.text_12_400(AppColors.darkText),
+                              style:
+                                  AppFontStyle.text_12_400(AppColors.darkText),
                             ),
                             hBox(10),
                             Text(
                               "\$${item.price.toString()}",
-                              style: AppFontStyle.text_14_600(AppColors.primary),
+                              style:
+                                  AppFontStyle.text_14_600(AppColors.primary),
                             ),
                           ],
                         ),
-
                       ],
                     ),
-                    if(item.attribute!.isNotEmpty)
-                    Padding(
-                      padding: EdgeInsets.only(top: 10.h),
-                      child: SizedBox(
+                    if (item.attribute!.isNotEmpty)
+                      Padding(
+                        padding: EdgeInsets.only(top: 10.h),
+                        child: SizedBox(
+                          width: Get.width,
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            spacing: 2.w,
+                            runSpacing: 2.w,
+                            children: List.generate(
+                              item.attribute!.length,
+                              (addonIndex) {
+                                bool isLast =
+                                    addonIndex == item.attribute!.length - 1;
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${item.attribute![addonIndex].itemDetails!.itemName}',
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.primary),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    Text(
+                                      ' - ',
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.primary),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    Text(
+                                      '\$${item.attribute![addonIndex].itemDetails!.itemPrice}',
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.primary),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    if (!isLast)
+                                      Text(
+                                        ',',
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.primary),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (item.addons!.isNotEmpty)
+                      SizedBox(
                         width: Get.width,
                         child: Wrap(
                           direction: Axis.horizontal,
                           spacing: 2.w,
                           runSpacing: 2.w,
                           children: List.generate(
-                            item.attribute!.length,
-                                (addonIndex) {
+                            item.addons!.length,
+                            (addonIndex) {
                               bool isLast =
-                                  addonIndex == item.attribute!.length - 1;
+                                  addonIndex == item.addons!.length - 1;
                               return Row(
                                 mainAxisSize: MainAxisSize.min,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${item.attribute![addonIndex].itemDetails!.itemName}',
+                                    '${item.addons![addonIndex].name}',
                                     style: AppFontStyle.text_12_400(
-                                        AppColors.primary),
+                                        AppColors.lightText),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
                                     ' - ',
                                     style: AppFontStyle.text_12_400(
-                                        AppColors.primary),
+                                        AppColors.lightText),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
-                                    '\$${item.attribute![addonIndex].itemDetails!.itemPrice}',
+                                    '\$${item.addons![addonIndex].price}',
                                     style: AppFontStyle.text_12_400(
-                                        AppColors.primary),
+                                        AppColors.lightText),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -331,7 +401,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Text(
                                       ',',
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.primary),
+                                          AppColors.lightText),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
@@ -341,61 +411,6 @@ class OrderDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    if(item.addons!.isNotEmpty)
-                    SizedBox(
-                      width: Get.width,
-                      child: Wrap(
-                        direction: Axis.horizontal,
-                        spacing: 2.w,
-                        runSpacing: 2.w,
-                        children: List.generate(
-                          item
-                              .addons!.length,
-                              (addonIndex) {
-                            bool isLast = addonIndex ==
-                                item.addons!.length -
-                                    1;
-                            return Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${item.addons![addonIndex].name}',
-                                  style:
-                                  AppFontStyle.text_12_400(AppColors.lightText),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                Text(
-                                  ' - ',
-                                  style:
-                                  AppFontStyle.text_12_400(AppColors.lightText),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                Text(
-                                  '\$${item.addons![addonIndex].price}',
-                                  style:
-                                  AppFontStyle.text_12_400(AppColors.lightText),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                if (!isLast)
-                                  Text(
-                                    ',',
-                                    style:
-                                    AppFontStyle.text_12_400(AppColors.lightText),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                              ],
-                            );
-                          },
-                        ),
-                      ),
-                    ),
                   ],
                 );
               },
@@ -403,36 +418,41 @@ class OrderDetailsScreen extends StatelessWidget {
                 return Divider();
               },
             ),
-
             hBox(0.h),
             Divider(),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text(
+            //       "Subtotal",
+            //       style: AppFontStyle.text_12_400(AppColors.lightText),
+            //     ),
+            //     Text(
+            //       "\$132.00",
+            //       style: AppFontStyle.text_12_600(AppColors.darkText),
+            //     ),
+            //   ],
+            // ),
+            // hBox(10),
+            if(controller.ordersData.value.orderDetails!.coupon != null)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Subtotal",
+                  "Coupon Discount",
                   style: AppFontStyle.text_12_400(AppColors.lightText),
                 ),
                 Text(
-                  "\$132.00",
+                  controller.ordersData.value.orderDetails!.coupon!.discountType
+                              .toString() ==
+                          "percent"
+                      ? "${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}%"
+                      : "\$${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}",
                   style: AppFontStyle.text_12_600(AppColors.darkText),
                 ),
               ],
             ),
-            hBox(10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Discount",
-                  style: AppFontStyle.text_12_400(AppColors.lightText),
-                ),
-                Text(
-                  "\$10.00",
-                  style: AppFontStyle.text_12_600(AppColors.darkText),
-                ),
-              ],
-            ),
+            if(controller.ordersData.value.orderDetails!.coupon != null)
             hBox(10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -442,14 +462,14 @@ class OrderDetailsScreen extends StatelessWidget {
                   style: AppFontStyle.text_12_400(AppColors.lightText),
                 ),
                 Text(
-                  "\$2.00",
+                  "\$${controller.ordersData.value.deliveryCharges.toString()}",
                   style: AppFontStyle.text_12_600(AppColors.darkText),
                 ),
               ],
             ),
-            hBox(15),
+            // hBox(15),
             const Divider(),
-            hBox(15),
+            // hBox(15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -458,7 +478,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   style: AppFontStyle.text_14_600(AppColors.darkText),
                 ),
                 Text(
-                  "\$120.00",
+                  "\$${controller.ordersData.value.orderDetails!.total.toString()}",
                   style: AppFontStyle.text_14_600(AppColors.primary),
                 ),
               ],
@@ -484,12 +504,34 @@ class OrderDetailsScreen extends StatelessWidget {
               style: AppFontStyle.text_12_400(AppColors.lightText),
             ),
             Text(
-              "Credit card",
+              controller.ordersData.value.orderDetails!.paymentMethod
+                  .toString()
+                  .characters
+                  .toString()
+                  .capitalize!,
               style: AppFontStyle.text_12_600(AppColors.darkText),
             ),
           ],
         ),
         hBox(10),
+        if (controller.ordersData.value.orderDetails!.walletUsed.toString() !=
+            "0")
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Wallet",
+                style: AppFontStyle.text_12_400(AppColors.lightText),
+              ),
+              Text(
+                "\$${controller.ordersData.value.orderDetails!.walletUsed.toString()}",
+                style: AppFontStyle.text_12_600(AppColors.darkText),
+              ),
+            ],
+          ),
+        if (controller.ordersData.value.orderDetails!.walletUsed.toString() !=
+            "0")
+          hBox(10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -498,7 +540,7 @@ class OrderDetailsScreen extends StatelessWidget {
               style: AppFontStyle.text_12_400(AppColors.lightText),
             ),
             Text(
-              "25 July, 2024",
+              controller.ordersData.value.orderDetails!.createdAt.toString(),
               style: AppFontStyle.text_12_600(AppColors.darkText),
             ),
           ],
@@ -512,7 +554,7 @@ class OrderDetailsScreen extends StatelessWidget {
               style: AppFontStyle.text_12_400(AppColors.lightText),
             ),
             Text(
-              "\$132.00",
+              "\$${controller.ordersData.value.orderDetails!.total.toString()}",
               style: AppFontStyle.text_12_600(AppColors.darkText),
             ),
           ],
@@ -546,34 +588,34 @@ class OrderDetailsScreen extends StatelessWidget {
               )
             ],
           )),
+      // hBox(15),
+      // CustomOutlinedButton(
+      //     padding: EdgeInsets.symmetric(horizontal: 20),
+      //     onPressed: () {},
+      //     child: Row(
+      //       children: [
+      //         SvgPicture.asset(
+      //           "assets/svg/delete-outlined.svg",
+      //           height: 22,
+      //         ),
+      //         wBox(10),
+      //         Text(
+      //           "Cancel Order",
+      //           style: AppFontStyle.text_14_400(AppColors.darkText),
+      //         ),
+      //         const Spacer(),
+      //         Icon(
+      //           Icons.arrow_forward_ios_sharp,
+      //           color: AppColors.black,
+      //           size: 18.h,
+      //         )
+      //       ],
+      //     )),
       hBox(15),
-      CustomOutlinedButton(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          onPressed: () {},
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                "assets/svg/delete-outlined.svg",
-                height: 22,
-              ),
-              wBox(10),
-              Text(
-                "Cancel Order",
-                style: AppFontStyle.text_14_400(AppColors.darkText),
-              ),
-              const Spacer(),
-              Icon(
-                Icons.arrow_forward_ios_sharp,
-                color: AppColors.black,
-                size: 18.h,
-              )
-            ],
-          )),
-      hBox(15),
-      CustomElevatedButton(
-        onPressed: () {},
-        text: "Continue Shopping",
-      )
+      // CustomElevatedButton(
+      //   onPressed: () {},
+      //   text: "Continue Shopping",
+      // )
     ]);
   }
 }

@@ -340,10 +340,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 }),
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 0.7.w,
-                                  crossAxisSpacing: 16.w,
-                                  mainAxisSpacing: 5.h,
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 0.6.w,
+                                      crossAxisSpacing: 14.w,
+                                      mainAxisSpacing: 5.h,
+                                  // crossAxisCount: 2,
+                                  // childAspectRatio: 0.7.w,
+                                  // crossAxisSpacing: 16.w,
+                                  // mainAxisSpacing: 5.h,
                                 ))),
                           if (controller.categoriesDetailsData.value
                               .filterProduct!.isNotEmpty)
@@ -510,17 +514,17 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           //           AppColors.lightText),
                                           //     ),
                                           //     wBox(4),
-                                          //     Flexible(
-                                          //       child: Text(
-                                          //         product.restoName.toString(),
-                                          //         overflow:
-                                          //             TextOverflow.ellipsis,
-                                          //         textAlign: TextAlign.left,
-                                          //         style:
-                                          //             AppFontStyle.text_14_300(
-                                          //                 AppColors.lightText),
-                                          //       ),
-                                          //     ),
+                                              Flexible(
+                                                child: Text(
+                                                  product.restoName.toString(),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.left,
+                                                  style:
+                                                      AppFontStyle.text_14_300(
+                                                          AppColors.lightText),
+                                                ),
+                                              ),
                                           //   ],
                                           // )
                                         ],
@@ -529,10 +533,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 }),
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 0.6.w,
-                                  crossAxisSpacing: 16.w,
-                                  mainAxisSpacing: 5.h,
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 0.6.w,
+                                      crossAxisSpacing: 14.w,
+                                      mainAxisSpacing: 5.h,
+                                  // crossAxisCount: 2,
+                                  // childAspectRatio: 0.6.w,
+                                  // crossAxisSpacing: 16.w,
+                                  // mainAxisSpacing: 5.h,
                                 ))),
                           SliverToBoxAdapter(
                             child: hBox(0.h),

@@ -143,8 +143,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       pinned: false,
-      snap: true,
-      floating: true,
+      // snap: false,
+      // floating: false,
       expandedHeight: 80.h,
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,
@@ -511,7 +511,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       child: restaurantList(
                         index: index,
                         image: restaurant.shopImageUrl,
-                        title: restaurant.shopName,
+                        title: restaurant.shopName?.capitalize!,
                         rating: restaurant.rating,
                         price: restaurant.avgPrice,
                       ),

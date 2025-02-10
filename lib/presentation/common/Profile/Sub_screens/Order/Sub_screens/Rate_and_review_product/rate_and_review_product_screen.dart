@@ -43,15 +43,33 @@ class RateAndReviewProductScreen extends StatelessWidget {
                 isLoading: (controller.rxRequestStatus.value == Status.LOADING),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    controller.cancelOrderApi(
-                      orderId: orderId,
-                      vendorId: vendorId,
-                      type: type,
-                      rating: controller.rating.value,
-                      review: controller.reviewController.value.text.trim(),
-                    );
+                    String reviewText =
+                        controller.reviewController.value.text.trim();
+
+                    if (reviewText.isEmpty) {
+                      Utils.showToast("Review cannot be empty or just spaces");
+                    } else {
+                      controller.cancelOrderApi(
+                        orderId: orderId,
+                        vendorId: vendorId,
+                        type: type,
+                        rating: controller.rating.value,
+                        review: reviewText,
+                      );
+                    }
                   }
                 },
+                // onPressed: () {
+                //   if (formKey.currentState!.validate()) {
+                //     controller.cancelOrderApi(
+                //       orderId: orderId,
+                //       vendorId: vendorId,
+                //       type: type,
+                //       rating: controller.rating.value,
+                //       review: controller.reviewController.value.text.trim(),
+                //     );
+                //   }
+                // },
                 text: "Submit",
               ),
             ),

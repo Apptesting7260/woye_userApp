@@ -143,7 +143,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
             )),
         hBox(15),
         Text(
-          controller.restaurant_Data.value.restaurant!.shopName.toString(),
+          controller.restaurant_Data.value.restaurant!.shopName.toString().capitalize!,
           style: AppFontStyle.text_24_400(AppColors.darkText),
           maxLines: 2,
         ),

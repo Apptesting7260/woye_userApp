@@ -2,8 +2,9 @@ class OrderDetailsModal {
   bool? status;
   OrderDetails? orderDetails;
   AddressDetails? addressDetails;
+  int? deliveryCharges; // Added deliveryCharges field
 
-  OrderDetailsModal({this.status, this.orderDetails, this.addressDetails});
+  OrderDetailsModal({this.status, this.orderDetails, this.addressDetails, this.deliveryCharges}); // Added deliveryCharges to constructor
 
   OrderDetailsModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -13,6 +14,7 @@ class OrderDetailsModal {
     addressDetails = json['addressDetails'] != null
         ? new AddressDetails.fromJson(json['addressDetails'])
         : null;
+    deliveryCharges = json['deliveryCharges']; // Deserialize deliveryCharges
   }
 
   Map<String, dynamic> toJson() {
@@ -24,19 +26,22 @@ class OrderDetailsModal {
     if (this.addressDetails != null) {
       data['addressDetails'] = this.addressDetails!.toJson();
     }
+    data['deliveryCharges'] = this.deliveryCharges; // Serialize deliveryCharges
     return data;
   }
 }
+
+
 
 class OrderDetails {
   int? id;
   String? orderId;
   String? trackingId;
   int? customerId;
-  // String? orders;
   String? paymentMethod;
   int? addressId;
   int? couponId;
+  Coupon? coupon; // Add this field for coupon details
   String? type;
   int? vendorId;
   String? walletUsed;
@@ -51,34 +56,34 @@ class OrderDetails {
 
   OrderDetails(
       {this.id,
-      this.orderId,
-      this.trackingId,
-      this.customerId,
-      // this.orders,
-      this.paymentMethod,
-      this.addressId,
-      this.couponId,
-      this.type,
-      this.vendorId,
-      this.walletUsed,
-      this.remainingPayment,
-      this.total,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.decodedAttribute,
-      this.vendorName,
-      this.addressDetails});
+        this.orderId,
+        this.trackingId,
+        this.customerId,
+        this.paymentMethod,
+        this.addressId,
+        this.couponId,
+        this.coupon, // Include coupon in constructor
+        this.type,
+        this.vendorId,
+        this.walletUsed,
+        this.remainingPayment,
+        this.total,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.decodedAttribute,
+        this.vendorName,
+        this.addressDetails});
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     orderId = json['order_id'];
     trackingId = json['tracking_id'];
     customerId = json['customer_id'];
-    // orders = json['orders'];
     paymentMethod = json['payment_method'];
     addressId = json['address_id'];
     couponId = json['coupon_id'];
+    coupon = json['coupon'] != null ? Coupon.fromJson(json['coupon']) : null; // Deserialize coupon
     type = json['type'];
     vendorId = json['vendor_id'];
     walletUsed = json['wallet_used'];
@@ -100,15 +105,17 @@ class OrderDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = {};
     data['id'] = this.id;
     data['order_id'] = this.orderId;
     data['tracking_id'] = this.trackingId;
     data['customer_id'] = this.customerId;
-    // data['orders'] = this.orders;
     data['payment_method'] = this.paymentMethod;
     data['address_id'] = this.addressId;
     data['coupon_id'] = this.couponId;
+    if (this.coupon != null) {
+      data['coupon'] = this.coupon!.toJson(); // Serialize coupon
+    }
     data['type'] = this.type;
     data['vendor_id'] = this.vendorId;
     data['wallet_used'] = this.walletUsed;
@@ -118,8 +125,7 @@ class OrderDetails {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     if (this.decodedAttribute != null) {
-      data['decoded_attribute'] =
-          this.decodedAttribute!.map((v) => v.toJson()).toList();
+      data['decoded_attribute'] = this.decodedAttribute!.map((v) => v.toJson()).toList();
     }
     data['vendor_name'] = this.vendorName;
     if (this.addressDetails != null) {
@@ -128,6 +134,7 @@ class OrderDetails {
     return data;
   }
 }
+
 
 class DecodedAttribute {
   String? productId;
@@ -331,3 +338,95 @@ class AddressDetails {
     return data;
   }
 }
+
+
+class Coupon {
+  int? id;
+  String? couponType;
+  String? title;
+  String? code;
+  // int? limitForUser;
+  String? discountType;
+  String? discountAmount;
+  // String? minPurchase;
+  // String? maxDiscount;
+  // String? startDate;
+  // String? expireDate;
+  // String? category;
+  // List<int>? subCategoryId;
+  // List<int>? productId;
+  // List<int>? customerId;
+  int? status;
+  // String? createdAt;
+  // String? updatedAt;
+  // String? expiryStatus;
+
+  Coupon({
+    this.id,
+    this.couponType,
+    this.title,
+    this.code,
+    // this.limitForUser,
+    this.discountType,
+    this.discountAmount,
+    // this.minPurchase,
+    // this.maxDiscount,
+    // this.startDate,
+    // this.expireDate,
+    // this.category,
+    // this.subCategoryId,
+    // this.productId,
+    // this.customerId,
+    this.status,
+    // this.createdAt,
+    // this.updatedAt,
+    // this.expiryStatus,
+  });
+
+  Coupon.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    couponType = json['coupon_type'];
+    title = json['title'];
+    code = json['code'];
+    // limitForUser = json['limit_for_user'];
+    discountType = json['discount_type'];
+    discountAmount = json['discount_amount'];
+    // minPurchase = json['min_purchase'];
+    // maxDiscount = json['max_discount'];
+    // startDate = json['start_date'];
+    // expireDate = json['expire_date'];
+    // category = json['category'];
+    // subCategoryId = List<int>.from(json['sub_category_id'] ?? []);
+    // productId = List<int>.from(json['product_id'] ?? []);
+    // customerId = List<int>.from(json['customer_id'] ?? []);
+    status = json['status'];
+    // createdAt = json['created_at'];
+    // updatedAt = json['updated_at'];
+    // expiryStatus = json['expiry_status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = this.id;
+    data['coupon_type'] = this.couponType;
+    data['title'] = this.title;
+    data['code'] = this.code;
+    // data['limit_for_user'] = this.limitForUser;
+    data['discount_type'] = this.discountType;
+    data['discount_amount'] = this.discountAmount;
+    // data['min_purchase'] = this.minPurchase;
+    // data['max_discount'] = this.maxDiscount;
+    // data['start_date'] = this.startDate;
+    // data['expire_date'] = this.expireDate;
+    // data['category'] = this.category;
+    // data['sub_category_id'] = this.subCategoryId;
+    // data['product_id'] = this.productId;
+    // data['customer_id'] = this.customerId;
+    data['status'] = this.status;
+    // data['created_at'] = this.createdAt;
+    // data['updated_at'] = this.updatedAt;
+    // data['expiry_status'] = this.expiryStatus;
+    return data;
+  }
+}
+

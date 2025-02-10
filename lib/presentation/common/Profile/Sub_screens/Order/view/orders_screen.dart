@@ -190,7 +190,8 @@ class OrdersScreen extends StatelessWidget {
                 buildOrderDetailRow(
                     "Tracking number:", order.trackingId.toString()),
                 buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow("Status", order.status.toString()),
+                buildOrderDetailRow(
+                    "Status", order.status.toString().capitalize!),
                 hBox(15),
                 buildTotalAmountRow(order.total.toString()),
                 hBox(20),
@@ -283,7 +284,8 @@ class OrdersScreen extends StatelessWidget {
                 buildOrderDetailRow(
                     "Tracking number:", order.trackingId.toString()),
                 buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow("Status", order.status.toString()),
+                buildOrderDetailRow(
+                    "Status", order.status.toString().capitalize!),
                 hBox(15),
                 buildTotalAmountRow(order.total.toString()),
                 hBox(20),
@@ -376,7 +378,8 @@ class OrdersScreen extends StatelessWidget {
                 buildOrderDetailRow(
                     "Tracking number:", order.trackingId.toString()),
                 buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow("Status", order.status.toString()),
+                buildOrderDetailRow(
+                    "Status", order.status!.capitalize!.toString().capitalize!),
                 hBox(15),
                 buildTotalAmountRow(order.total.toString()),
                 hBox(20),
@@ -467,7 +470,8 @@ class OrdersScreen extends StatelessWidget {
                 buildOrderDetailRow(
                     "Tracking number:", order.trackingId.toString()),
                 buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow("Status", order.status.toString()),
+                buildOrderDetailRow(
+                    "Status", order.status.toString().capitalize!),
                 hBox(15),
                 buildTotalAmountRow(order.total.toString()),
                 hBox(20),
@@ -555,7 +559,6 @@ class OrdersScreen extends StatelessWidget {
           onTap: () {
             print("orderId $orderId");
 
-
             final arguments = {
               'order_id': orderId,
             };
@@ -564,7 +567,6 @@ class OrdersScreen extends StatelessWidget {
               arguments: arguments,
             );
             orderDetailsController.orderDetailsApi(orderId: orderId.toString());
-
           },
           child: Container(
             padding: REdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h),
@@ -580,7 +582,7 @@ class OrdersScreen extends StatelessWidget {
           ),
         ),
         wBox(10.h),
-        if (orderStatus == "in_progress")
+        if (orderStatus == "pending")
           InkWell(
             onTap: () {
               cancelPopUp(oderId: orderId, context: context);
@@ -599,7 +601,7 @@ class OrdersScreen extends StatelessWidget {
             ),
           ),
         wBox(10.h),
-        if (orderStatus != "in_progress" && orderStatus != "completed")
+        if (orderStatus != "pending" && orderStatus != "completed")
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,

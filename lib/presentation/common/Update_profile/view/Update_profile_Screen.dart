@@ -248,25 +248,21 @@ class SignUpFormScreen extends StatelessWidget {
                       border: Border.all(color: Colors.transparent),
                     ),
                     child: signUpFormController.profileImageGetUrl.value.isEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(100.r),
-                            child: CircleAvatar(
-                              backgroundColor:
-                                  AppColors.greyBackground.withOpacity(0.5),
-                              child: CachedNetworkImage(
-                                imageUrl: signUpFormController
-                                    .profileImageFromAPI.value,
-                                placeholder: (context, url) =>
-                                    circularProgressIndicator(),
-                                errorWidget: (context, url, error) => Icon(
-                                  Icons.person,
-                                  size: 60.h,
-                                  color: AppColors.lightText.withOpacity(0.5),
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
+                        ?
+                    ClipRRect(
+                        borderRadius: BorderRadius.circular(100.r),
+                        child: CachedNetworkImage(
+                          imageUrl: signUpFormController
+                              .profileImageFromAPI.value.toString(),
+                          placeholder: (context, url) =>
+                              circularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.person,
+                            size: 40.h,
+                            color: AppColors.lightText.withOpacity(0.5),
+                          ),
+                          fit: BoxFit.cover,
+                        ))
                         : Container(
                             width: 120.h,
                             height: 120.h,
@@ -277,12 +273,10 @@ class SignUpFormScreen extends StatelessWidget {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100.r),
-                              // Round the image inside the container
                               child: Image.file(
                                 signUpFormController.image.value,
-                                // The image file you want to display
                                 fit: BoxFit
-                                    .cover, // Ensures the image fills the circular container
+                                    .cover,
                               ),
                             ),
                           ))
@@ -315,12 +309,10 @@ class SignUpFormScreen extends StatelessWidget {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100.r),
-                                  // Round the image inside the container
                                   child: Image.file(
                                     signUpFormController.image.value,
-                                    // The image file you want to display
                                     fit: BoxFit
-                                        .cover, // Ensures the image fills the circular container
+                                        .cover,
                                   ),
                                 ),
                               ))),

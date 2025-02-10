@@ -132,7 +132,9 @@ class ProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        getUserDataController.userData.value.user?.firstName ??
+                        getUserDataController
+                                .userData.value.user?.firstName!.characters
+                                .toString() ??
                             "",
                         style: AppFontStyle.text_18_600(AppColors.darkText),
                       ),

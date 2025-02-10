@@ -94,7 +94,7 @@ class All_Restaurant extends StatelessWidget {
                                 child: restaurantList(
                                   index: index,
                                   image: restaurant.shopimage.toString(),
-                                  title: restaurant.shopName.toString(),
+                                  title: restaurant.shopName.toString().capitalize!,
                                   rating: restaurant.rating.toString(),
                                   price: restaurant.avgPrice.toString(),
                                 ),
