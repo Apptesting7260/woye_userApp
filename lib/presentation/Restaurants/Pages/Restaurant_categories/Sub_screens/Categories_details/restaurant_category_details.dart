@@ -76,9 +76,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                         slivers: [
                           SliverAppBar(
                             automaticallyImplyLeading: false,
-                            pinned: false,
-                            snap: true,
-                            floating: true,
+                            // pinned: false,
+                            // snap: true,
+                            // floating: true,
                             expandedHeight: 70.h,
                             surfaceTintColor: Colors.transparent,
                             backgroundColor: Colors.transparent,
@@ -321,17 +321,15 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           //           AppColors.lightText),
                                           //     ),
                                           //     wBox(4),
-                                              Flexible(
-                                                child: Text(
-                                                  product.restoName.toString(),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-                                                  style:
-                                                      AppFontStyle.text_14_300(
-                                                          AppColors.lightText),
-                                                ),
-                                              ),
+                                          Flexible(
+                                            child: Text(
+                                              product.restoName.toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.left,
+                                              style: AppFontStyle.text_14_300(
+                                                  AppColors.lightText),
+                                            ),
+                                          ),
                                           //   ],
                                           // )
                                         ],
@@ -340,10 +338,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 }),
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 0.6.w,
-                                      crossAxisSpacing: 14.w,
-                                      mainAxisSpacing: 5.h,
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.6.w,
+                                  crossAxisSpacing: 14.w,
+                                  mainAxisSpacing: 5.h,
                                   // crossAxisCount: 2,
                                   // childAspectRatio: 0.7.w,
                                   // crossAxisSpacing: 16.w,
@@ -514,17 +512,15 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           //           AppColors.lightText),
                                           //     ),
                                           //     wBox(4),
-                                              Flexible(
-                                                child: Text(
-                                                  product.restoName.toString(),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-                                                  style:
-                                                      AppFontStyle.text_14_300(
-                                                          AppColors.lightText),
-                                                ),
-                                              ),
+                                          Flexible(
+                                            child: Text(
+                                              product.restoName.toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.left,
+                                              style: AppFontStyle.text_14_300(
+                                                  AppColors.lightText),
+                                            ),
+                                          ),
                                           //   ],
                                           // )
                                         ],
@@ -533,10 +529,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 }),
                                 gridDelegate:
                                     (SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 0.6.w,
-                                      crossAxisSpacing: 14.w,
-                                      mainAxisSpacing: 5.h,
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 0.6.w,
+                                  crossAxisSpacing: 14.w,
+                                  mainAxisSpacing: 5.h,
                                   // crossAxisCount: 2,
                                   // childAspectRatio: 0.6.w,
                                   // crossAxisSpacing: 16.w,
