@@ -51,9 +51,8 @@ class OrdersScreen extends StatelessWidget {
               onRefresh: () async {
                 controller.refreshOrdersListApi();
               },
-              child: SingleChildScrollView(
-                padding:
-                    REdgeInsets.only(left: 24.h, right: 24.h, bottom: 24.h),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20,left: 20,right: 20 , bottom: 5),
                 child: GetBuilder(
                     init: OrderScreenController(),
                     builder: (orderScreenController) {
@@ -122,6 +121,8 @@ class OrdersScreen extends StatelessWidget {
   }
 
   Widget allOrders(BuildContext context) {
+    var height = Get.height;
+    var weight = Get.width;
     return Obx(() {
       if (controller.ordersData.value.orders?.isEmpty ?? true) {
         return Center(
@@ -132,85 +133,93 @@ class OrdersScreen extends StatelessWidget {
         );
       }
 
-      return ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: controller.ordersData.value.orders?.length ?? 0,
-        itemBuilder: (context, index) {
-          var order = controller.ordersData.value.orders![index];
-
-          return Container(
-            padding: EdgeInsets.all(14.r),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(color: AppColors.textFieldBorder),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl:
-                          order.decodedAttribute![0].productImage.toString(),
-                      height: 100.h,
-                      width: 100.h,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: AppColors.gray,
-                        highlightColor: AppColors.lightText,
-                        child: Container(
-                          color: AppColors.white,
-                          height: 100.h,
-                          width: 100.h,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+      return Container(
+        height: height * 0.7,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: controller.ordersData.value.orders?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var order = controller.ordersData.value.orders![index];
+                  return Container(
+                    padding: EdgeInsets.all(14.r),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(color: AppColors.textFieldBorder),
                     ),
-                    wBox(15.h),
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          order.decodedAttribute![0].productName.toString(),
-                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        Row(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl:
+                                  order.decodedAttribute![0].productImage.toString(),
+                              height: 100.h,
+                              width: 100.h,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.gray,
+                                highlightColor: AppColors.lightText,
+                                child: Container(
+                                  color: AppColors.white,
+                                  height: 100.h,
+                                  width: 100.h,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                            wBox(15.h),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  order.decodedAttribute![0].productName.toString(),
+                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                ),
+                                hBox(10),
+                                Text(
+                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
+                        hBox(15),
+                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Tracking number:", order.trackingId.toString()),
+                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(
+                            "Status", order.status.toString().capitalize!),
+                        hBox(15),
+                        buildTotalAmountRow(order.total.toString()),
+                        hBox(20),
+                        buildDeliveryTimeRow(),
                         hBox(10),
-                        Text(
-                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        buildActionButtons(
+                          context: context,
+                          orderId: order.id.toString(),
+                          orderStatus: order.status.toString(),
+                          type: order.type.toString(),
+                          vendorId: order.vendorId.toString(),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                hBox(15),
-                buildOrderDetailRow("Order id", order.orderId.toString()),
-                buildOrderDetailRow(
-                    "Tracking number:", order.trackingId.toString()),
-                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow(
-                    "Status", order.status.toString().capitalize!),
-                hBox(15),
-                buildTotalAmountRow(order.total.toString()),
-                hBox(20),
-                buildDeliveryTimeRow(),
-                hBox(10),
-                buildActionButtons(
-                  context: context,
-                  orderId: order.id.toString(),
-                  orderStatus: order.status.toString(),
-                  type: order.type.toString(),
-                  vendorId: order.vendorId.toString(),
-                ),
-              ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return hBox(10);
+                },
+              ),
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return hBox(10);
-        },
+          ],
+        ),
       );
     });
   }
@@ -225,86 +234,95 @@ class OrdersScreen extends StatelessWidget {
           ),
         );
       }
-      return ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        // To prevent scrolling here
-        itemCount: controller.ordersData.value.waitingOrders?.length ?? 0,
-        itemBuilder: (context, index) {
-          var order = controller.ordersData.value.waitingOrders![index];
+      return Container(
+        height: Get.height * 0.7,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: AlwaysScrollableScrollPhysics(),
+                // To prevent scrolling here
+                itemCount: controller.ordersData.value.waitingOrders?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var order = controller.ordersData.value.waitingOrders![index];
 
-          return Container(
-            padding: EdgeInsets.all(14.r),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(color: AppColors.textFieldBorder),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl:
-                          order.decodedAttribute![0].productImage.toString(),
-                      height: 100.h,
-                      width: 100.h,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: AppColors.gray,
-                        highlightColor: AppColors.lightText,
-                        child: Container(
-                          color: AppColors.white,
-                          height: 100.h,
-                          width: 100.h,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                  return Container(
+                    padding: EdgeInsets.all(14.r),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(color: AppColors.textFieldBorder),
                     ),
-                    wBox(15.h),
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          order.decodedAttribute![0].productName.toString(),
-                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        Row(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl:
+                                  order.decodedAttribute![0].productImage.toString(),
+                              height: 100.h,
+                              width: 100.h,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.gray,
+                                highlightColor: AppColors.lightText,
+                                child: Container(
+                                  color: AppColors.white,
+                                  height: 100.h,
+                                  width: 100.h,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                            wBox(15.h),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  order.decodedAttribute![0].productName.toString(),
+                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                ),
+                                hBox(10),
+                                Text(
+                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
+                        hBox(15),
+                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Tracking number:", order.trackingId.toString()),
+                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(
+                            "Status", order.status.toString().capitalize!),
+                        hBox(15),
+                        buildTotalAmountRow(order.total.toString()),
+                        hBox(20),
+                        buildDeliveryTimeRow(),
                         hBox(10),
-                        Text(
-                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        buildActionButtons(
+                          context: context,
+                          orderId: order.id.toString(),
+                          orderStatus: order.status.toString(),
+                          type: order.type.toString(),
+                          vendorId: order.vendorId.toString(),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                hBox(15),
-                buildOrderDetailRow("Order id", order.orderId.toString()),
-                buildOrderDetailRow(
-                    "Tracking number:", order.trackingId.toString()),
-                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow(
-                    "Status", order.status.toString().capitalize!),
-                hBox(15),
-                buildTotalAmountRow(order.total.toString()),
-                hBox(20),
-                buildDeliveryTimeRow(),
-                hBox(10),
-                buildActionButtons(
-                  context: context,
-                  orderId: order.id.toString(),
-                  orderStatus: order.status.toString(),
-                  type: order.type.toString(),
-                  vendorId: order.vendorId.toString(),
-                ),
-              ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return hBox(10);
+                },
+              ),
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return hBox(10);
-        },
+          ],
+        ),
       );
     });
   }
@@ -319,86 +337,95 @@ class OrdersScreen extends StatelessWidget {
           ),
         );
       }
-      return ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        // To prevent scrolling here
-        itemCount: controller.ordersData.value.deliveredOrders?.length ?? 0,
-        itemBuilder: (context, index) {
-          var order = controller.ordersData.value.deliveredOrders![index];
+      return Container(
+        height: Get.height * 0.7,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: AlwaysScrollableScrollPhysics(),
+                // To prevent scrolling here
+                itemCount: controller.ordersData.value.deliveredOrders?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var order = controller.ordersData.value.deliveredOrders![index];
 
-          return Container(
-            padding: EdgeInsets.all(14.r),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(color: AppColors.textFieldBorder),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl:
-                          order.decodedAttribute![0].productImage.toString(),
-                      height: 100.h,
-                      width: 100.h,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: AppColors.gray,
-                        highlightColor: AppColors.lightText,
-                        child: Container(
-                          color: AppColors.white,
-                          height: 100.h,
-                          width: 100.h,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                  return Container(
+                    padding: EdgeInsets.all(14.r),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(color: AppColors.textFieldBorder),
                     ),
-                    wBox(15.h),
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          order.decodedAttribute![0].productName.toString(),
-                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        Row(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl:
+                                  order.decodedAttribute![0].productImage.toString(),
+                              height: 100.h,
+                              width: 100.h,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.gray,
+                                highlightColor: AppColors.lightText,
+                                child: Container(
+                                  color: AppColors.white,
+                                  height: 100.h,
+                                  width: 100.h,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                            wBox(15.h),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  order.decodedAttribute![0].productName.toString(),
+                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                ),
+                                hBox(10),
+                                Text(
+                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
+                        hBox(15),
+                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Tracking number:", order.trackingId.toString()),
+                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(
+                            "Status", order.status!.capitalize!.toString().capitalize!),
+                        hBox(15),
+                        buildTotalAmountRow(order.total.toString()),
+                        hBox(20),
+                        buildDeliveryTimeRow(),
                         hBox(10),
-                        Text(
-                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        buildActionButtons(
+                          context: context,
+                          orderId: order.id.toString(),
+                          orderStatus: order.status.toString(),
+                          type: order.type.toString(),
+                          vendorId: order.vendorId.toString(),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                hBox(15),
-                buildOrderDetailRow("Order id", order.orderId.toString()),
-                buildOrderDetailRow(
-                    "Tracking number:", order.trackingId.toString()),
-                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow(
-                    "Status", order.status!.capitalize!.toString().capitalize!),
-                hBox(15),
-                buildTotalAmountRow(order.total.toString()),
-                hBox(20),
-                buildDeliveryTimeRow(),
-                hBox(10),
-                buildActionButtons(
-                  context: context,
-                  orderId: order.id.toString(),
-                  orderStatus: order.status.toString(),
-                  type: order.type.toString(),
-                  vendorId: order.vendorId.toString(),
-                ),
-              ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return hBox(10);
+                },
+              ),
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return hBox(10);
-        },
+          ],
+        ),
       );
     });
   }
@@ -413,84 +440,93 @@ class OrdersScreen extends StatelessWidget {
           ),
         );
       }
-      return ListView.separated(
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemCount: controller.ordersData.value.cancelOrders?.length ?? 0,
-        itemBuilder: (context, index) {
-          var order = controller.ordersData.value.cancelOrders![index];
-          return Container(
-            padding: EdgeInsets.all(14.r),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(color: AppColors.textFieldBorder),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl:
-                          order.decodedAttribute![0].productImage.toString(),
-                      height: 100.h,
-                      width: 100.h,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: AppColors.gray,
-                        highlightColor: AppColors.lightText,
-                        child: Container(
-                          color: AppColors.white,
-                          height: 100.h,
-                          width: 100.h,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+      return Container(
+        height: Get.height * 0.7,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.separated(
+                shrinkWrap: true,
+                physics: AlwaysScrollableScrollPhysics(),
+                itemCount: controller.ordersData.value.cancelOrders?.length ?? 0,
+                itemBuilder: (context, index) {
+                  var order = controller.ordersData.value.cancelOrders![index];
+                  return Container(
+                    padding: EdgeInsets.all(14.r),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(color: AppColors.textFieldBorder),
                     ),
-                    wBox(15.h),
-                    Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          order.decodedAttribute![0].productName.toString(),
-                          style: AppFontStyle.text_14_600(AppColors.darkText),
+                        Row(
+                          children: [
+                            CachedNetworkImage(
+                              imageUrl:
+                                  order.decodedAttribute![0].productImage.toString(),
+                              height: 100.h,
+                              width: 100.h,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.gray,
+                                highlightColor: AppColors.lightText,
+                                child: Container(
+                                  color: AppColors.white,
+                                  height: 100.h,
+                                  width: 100.h,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                            wBox(15.h),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  order.decodedAttribute![0].productName.toString(),
+                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                ),
+                                hBox(10),
+                                Text(
+                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
+                        hBox(15),
+                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Tracking number:", order.trackingId.toString()),
+                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(
+                            "Status", order.status.toString().capitalize!),
+                        hBox(15),
+                        buildTotalAmountRow(order.total.toString()),
+                        hBox(20),
+                        buildDeliveryTimeRow(),
                         hBox(10),
-                        Text(
-                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                          style: AppFontStyle.text_12_400(AppColors.darkText),
+                        buildActionButtons(
+                          context: context,
+                          orderId: order.id.toString(),
+                          orderStatus: order.status.toString(),
+                          type: order.type.toString(),
+                          vendorId: order.vendorId.toString(),
                         ),
                       ],
                     ),
-                  ],
-                ),
-                hBox(15),
-                buildOrderDetailRow("Order id", order.orderId.toString()),
-                buildOrderDetailRow(
-                    "Tracking number:", order.trackingId.toString()),
-                buildOrderDetailRow("Date & Time", order.createdAt.toString()),
-                buildOrderDetailRow(
-                    "Status", order.status.toString().capitalize!),
-                hBox(15),
-                buildTotalAmountRow(order.total.toString()),
-                hBox(20),
-                buildDeliveryTimeRow(),
-                hBox(10),
-                buildActionButtons(
-                  context: context,
-                  orderId: order.id.toString(),
-                  orderStatus: order.status.toString(),
-                  type: order.type.toString(),
-                  vendorId: order.vendorId.toString(),
-                ),
-              ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return hBox(10);
+                },
+              ),
             ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return hBox(10);
-        },
+          ],
+        ),
       );
     });
   }
@@ -679,6 +715,8 @@ class OrdersScreen extends StatelessWidget {
                     // hBox(15),
                     Text(
                       'Are you sure you want to cancel?',
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
                       style: AppFontStyle.text_14_400(AppColors.lightText),
                     ),
                     // hBox(15),

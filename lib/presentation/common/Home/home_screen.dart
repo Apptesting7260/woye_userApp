@@ -295,7 +295,7 @@ class MainButtonBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      curve: Curves.easeInOut,
+      curve: Curves.easeInCubic,
       height: 42.h,
       width: Get.width * 0.27,
       decoration: BoxDecoration(
