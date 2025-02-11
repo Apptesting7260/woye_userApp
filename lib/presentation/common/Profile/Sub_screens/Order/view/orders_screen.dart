@@ -637,7 +637,7 @@ class OrdersScreen extends StatelessWidget {
             ),
           ),
         wBox(10.h),
-        if (orderStatus != "pending" && orderStatus != "completed")
+        if (orderStatus != "pending" && orderStatus != "completed" && orderStatus != "cancelled")
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
