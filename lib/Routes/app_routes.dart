@@ -89,7 +89,7 @@ class AppRoutes {
   static const String restaurantCategoriesFilter =
       "/restaurant_categories_filter";
   static String restaurantCategoriesDetails = "/restaurant_categories_details";
-  static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
+  // static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
   static const String productReviews = "/product_reviews";
   static const String moreProducts = "/more_products";
   static const String checkoutScreen = "/checkout_screen";
@@ -227,9 +227,9 @@ class AppRoutes {
     GetPage(
         name: restaurantCategoriesDetails,
         page: () => RestaurantCategoryDetails()),
-    GetPage(
-        name: restaurantWishlistFilter,
-        page: () => const RestaurantWishlistFilter()),
+    // GetPage(
+    //     name: restaurantWishlistFilter,
+    //     page: () => const RestaurantWishlistFilter()),
     GetPage(
         name: rateAndReviewProductScreen,
         page: () => RateAndReviewProductScreen()),

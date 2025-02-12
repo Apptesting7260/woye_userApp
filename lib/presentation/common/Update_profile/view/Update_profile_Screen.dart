@@ -71,6 +71,7 @@ class SignUpFormScreen extends StatelessWidget {
       children: [
         Text(
           typeFrom == "back" ? "Update your profile" : "Fill your profile",
+          maxLines: 2,
           style: AppFontStyle.text_36_600(AppColors.darkText),
         ),
         hBox(15),
@@ -248,21 +249,21 @@ class SignUpFormScreen extends StatelessWidget {
                       border: Border.all(color: Colors.transparent),
                     ),
                     child: signUpFormController.profileImageGetUrl.value.isEmpty
-                        ?
-                    ClipRRect(
-                        borderRadius: BorderRadius.circular(100.r),
-                        child: CachedNetworkImage(
-                          imageUrl: signUpFormController
-                              .profileImageFromAPI.value.toString(),
-                          placeholder: (context, url) =>
-                              circularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(
-                            Icons.person,
-                            size: 40.h,
-                            color: AppColors.lightText.withOpacity(0.5),
-                          ),
-                          fit: BoxFit.cover,
-                        ))
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(100.r),
+                            child: CachedNetworkImage(
+                              imageUrl: signUpFormController
+                                  .profileImageFromAPI.value
+                                  .toString(),
+                              placeholder: (context, url) =>
+                                  circularProgressIndicator(),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.person,
+                                size: 40.h,
+                                color: AppColors.lightText.withOpacity(0.5),
+                              ),
+                              fit: BoxFit.cover,
+                            ))
                         : Container(
                             width: 120.h,
                             height: 120.h,
@@ -275,8 +276,7 @@ class SignUpFormScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(100.r),
                               child: Image.file(
                                 signUpFormController.image.value,
-                                fit: BoxFit
-                                    .cover,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ))
@@ -311,8 +311,7 @@ class SignUpFormScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(100.r),
                                   child: Image.file(
                                     signUpFormController.image.value,
-                                    fit: BoxFit
-                                        .cover,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ))),

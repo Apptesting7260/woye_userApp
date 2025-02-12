@@ -25,7 +25,7 @@ class ProductReviews extends StatelessWidget {
         appBar: CustomAppBar(
           isLeading: true,
           title: Text(
-            "Product Reviews",
+            "Reviews",
             style: AppFontStyle.text_22_600(AppColors.darkText),
           ),
         ),
@@ -76,7 +76,7 @@ class ProductReviews extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Product Reviews",
+          "Reviews",
           style: AppFontStyle.text_20_600(AppColors.darkText),
         ),
         hBox(10),
@@ -193,6 +193,7 @@ class ProductReviews extends StatelessWidget {
                                     .toString(),
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
+                                maxLines: 100,
                               ),
                               hBox(10),
                               Text(

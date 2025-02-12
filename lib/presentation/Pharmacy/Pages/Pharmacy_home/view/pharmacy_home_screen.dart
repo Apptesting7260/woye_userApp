@@ -132,8 +132,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       pinned: false,
-      snap: true,
-      floating: true,
+      // snap: true,
+      // floating: true,
       expandedHeight: 80.h,
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,

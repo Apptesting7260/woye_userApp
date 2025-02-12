@@ -247,6 +247,7 @@ class DecodedAttribute {
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
   var checked;
+  int? count; // New field
 
   DecodedAttribute({
     this.productId,
@@ -258,6 +259,7 @@ class DecodedAttribute {
     this.productImage,
     this.totalPrice,
     this.checked,
+    this.count, // Add count to constructor
   });
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
@@ -278,6 +280,7 @@ class DecodedAttribute {
       productImage: json['product_image'],
       totalPrice: json['total_price'],
       checked: json['checked'],
+      count: json['count'], // Handle count key from JSON
     );
   }
 
@@ -292,6 +295,7 @@ class DecodedAttribute {
       'product_image': productImage,
       'total_price': totalPrice,
       'checked': checked,
+      'count': count,
     };
   }
 }

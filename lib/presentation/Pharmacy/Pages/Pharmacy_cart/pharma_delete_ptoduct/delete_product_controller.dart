@@ -18,10 +18,12 @@ class DeletePharmaProductController extends GetxController {
 
   deleteProductApi({
     required String productId,
+    required String countId,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "product_id": productId,
+      "count_id": countId,
     };
     api.deletePharmaProductApi(body).then((value) {
       setData(value);

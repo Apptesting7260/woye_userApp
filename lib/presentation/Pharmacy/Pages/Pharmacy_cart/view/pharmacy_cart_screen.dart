@@ -450,13 +450,17 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                           .isDelete
                                           .value = true;
                                       deleteProductController.deleteProductApi(
-                                          productId: controller
-                                              .cartData
-                                              .value
-                                              .cart!
-                                              .decodedAttribute![index]
-                                              .productId
-                                              .toString());
+                                        productId: controller
+                                            .cartData
+                                            .value
+                                            .cart!
+                                            .decodedAttribute![index]
+                                            .productId
+                                            .toString(),
+                                        countId: controller.cartData.value.cart!
+                                            .decodedAttribute![index].count
+                                            .toString(),
+                                      );
                                     },
                                     child: SvgPicture.asset(
                                       "assets/svg/delete-outlined.svg",
@@ -1090,7 +1094,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 'cart_id': controller.cartData.value.cart!.id
                                     .toString(),
                                 'wallet':
-                                controller.cartData.value.wallet.toString(),
+                                    controller.cartData.value.wallet.toString(),
                                 'cartType': "pharamacy",
                               },
                             );

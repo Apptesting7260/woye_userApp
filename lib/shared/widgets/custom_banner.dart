@@ -174,6 +174,16 @@ class CustomBanner extends StatelessWidget {
               textAlign: TextAlign.left,
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
+
+          Flexible(
+            child: Text(
+              shop_name.toString(),
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_14_300(
+                  AppColors.lightText),
+            ),
+          ),
         ],
       ),
     );
