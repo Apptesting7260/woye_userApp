@@ -10,6 +10,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/p
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/pharma_checked_unchecked_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/quantityupdatecontroller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
 import 'package:intl/intl.dart';
 
@@ -33,6 +35,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
       Get.put(ApplyCouponController());
   final PharmaCheckedUncheckedController checkedUncheckedController =
       Get.put(PharmaCheckedUncheckedController());
+
+  final PharmaSpecificProductController pharmaSpecificProductController =
+      Get.put(PharmaSpecificProductController());
 
   void initState() {
     controller.getPharmacyCartApi();
@@ -317,6 +322,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                   cartId: controller.cartData.value.cart!.id
                                       .toString(),
                                   status: newCheckedStatus.toString(),
+                                  countId: controller.cartData.value.cart!
+                                      .decodedAttribute![index].count
+                                      .toString(),
                                 );
                               }
                             },
@@ -338,33 +346,31 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         )
                       : GestureDetector(
                           onTap: () {
-                            if (checkedUncheckedController
-                                    .rxRequestStatus.value !=
-                                Status.LOADING) {
-                              controller
-                                  .cartData
-                                  .value
-                                  .cart!
-                                  .decodedAttribute?[index]
-                                  .isSelectedLoading
-                                  .value = true;
-                              bool newCheckedStatus = !(controller
-                                      .cartData
-                                      .value
-                                      .cart!
-                                      .decodedAttribute![index]
-                                      .checked ==
-                                  'true');
-
-                              checkedUncheckedController.checkedUncheckedApi(
-                                productId: controller.cartData.value.cart!
-                                    .decodedAttribute![index].productId
-                                    .toString(),
-                                cartId: controller.cartData.value.cart!.id
-                                    .toString(),
-                                status: newCheckedStatus.toString(),
-                              );
-                            }
+                            pharmaSpecificProductController
+                                .pharmaSpecificProductApi(
+                                    productId: controller.cartData.value.cart!
+                                        .decodedAttribute![index].productId
+                                        .toString(),
+                                    categoryId: controller.cartData.value.cart!
+                                        .decodedAttribute![index].categoryId
+                                        .toString());
+                            print(
+                                "category_id ${controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString()}");
+                            print(
+                                "category Name ${controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString()}");
+                            print(
+                                "product Id ${controller.cartData.value.cart!.decodedAttribute![index].productId.toString()}");
+                            Get.to(PharmacyProductDetailsScreen(
+                              productId: controller.cartData.value.cart!
+                                  .decodedAttribute![index].productId
+                                  .toString(),
+                              categoryId: controller.cartData.value.cart!
+                                  .decodedAttribute![index].categoryId
+                                  .toString(),
+                              categoryName: controller.cartData.value.cart!
+                                  .decodedAttribute![index].categoryName
+                                  .toString(),
+                            ));
                           },
                           child: CachedNetworkImage(
                             imageUrl: controller.cartData.value.cart!
@@ -572,6 +578,14 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                                                 index]
                                                             .productId
                                                             .toString(),
+                                                        countId: controller
+                                                            .cartData
+                                                            .value
+                                                            .cart!
+                                                            .decodedAttribute![
+                                                                index]
+                                                            .count
+                                                            .toString(),
                                                         productQuantity: (controller
                                                                     .cartData
                                                                     .value
@@ -636,6 +650,14 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                                           .decodedAttribute![
                                                               index]
                                                           .productId
+                                                          .toString(),
+                                                      countId: controller
+                                                          .cartData
+                                                          .value
+                                                          .cart!
+                                                          .decodedAttribute![
+                                                              index]
+                                                          .count
                                                           .toString(),
                                                       productQuantity: (controller
                                                                   .cartData
@@ -1095,7 +1117,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                     .toString(),
                                 'wallet':
                                     controller.cartData.value.wallet.toString(),
-                                'cartType': "pharamacy",
+                                'cartType': "pharmacy",
                               },
                             );
                           });

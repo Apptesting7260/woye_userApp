@@ -11,6 +11,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 
@@ -40,6 +41,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
   final seeAll_Product_Controller seeallproductcontroller =
       Get.put(seeAll_Product_Controller());
+
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
   // final SeeAllProductReviewController seeAllProductReviewController =
   //     Get.put(SeeAllProductReviewController());
@@ -180,11 +184,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                         (Status.LOADING),
                                 text: "Add to Cart",
                                 onPressed: () {
-                                  // if (restaurantHomeController.homeData.value.userdata?.type ==
-                                  //     "guestUser") {
-                                  //   showLoginRequired(context);
-                                  // } else
-                                  {
+                                  if (getUserDataController
+                                          .userData.value.user?.userType ==
+                                      "guestUser") {
+                                    showLoginRequired(context);
+                                  } else {
                                     // ---------- add to cart api -----------
                                     controller.productPriceFun();
                                     addToCartController.addToCartApi(

@@ -247,6 +247,8 @@ class DecodedAttribute {
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
   var checked;
+  int? categoryId;
+  String? categoryName;
 
   DecodedAttribute({
     this.productId,
@@ -259,11 +261,13 @@ class DecodedAttribute {
     this.productImage,
     this.totalPrice,
     this.checked,
+    this.categoryId,
+    this.categoryName,
   });
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
     var addonList =
-        (json['addons'] as List?)?.map((item) => Addon.fromJson(item)).toList();
+    (json['addons'] as List?)?.map((item) => Addon.fromJson(item)).toList();
 
     var attributeList = (json['attribute'] as List?)
         ?.map((item) => Attribute.fromJson(item))
@@ -280,6 +284,8 @@ class DecodedAttribute {
       productImage: json['product_image'],
       totalPrice: json['total_price'],
       checked: json['checked'],
+      categoryId: json['category_id'],
+      categoryName: json['category_name'],
     );
   }
 
@@ -295,9 +301,12 @@ class DecodedAttribute {
       'product_image': productImage,
       'total_price': totalPrice,
       'checked': checked,
+      'category_id': categoryId, // Added to toJson
+      'category_name': categoryName, // Added to toJson
     };
   }
 }
+
 
 class Addon {
   String? id;

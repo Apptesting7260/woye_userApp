@@ -20,12 +20,15 @@ class CheckedUncheckedController extends GetxController {
     required String cartId,
     required String productId,
     required String status,
+    required String countId,
+
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "cart_id": cartId,
       "product_id": productId,
       "status": status,
+      "count_id": countId,
     };
     api.checkedUncheckedApi(body).then((value) {
       setData(value);

@@ -8,7 +8,7 @@ class PharmaCartModal {
   Address? address;
   bool? addressExists;
   List<Coupon>? coupons;
-  String? wallet; // Add the wallet field
+  var wallet; // Add the wallet field
 
   PharmaCartModal({
     this.status,
@@ -237,8 +237,6 @@ class DecodedAttribute {
   String? productId;
   int? quantity;
   var price;
-
-  // List<Addon>? addons;
   List<Attribute>? attribute;
   String? productName;
   String? productImage;
@@ -247,25 +245,25 @@ class DecodedAttribute {
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
   var checked;
-  int? count; // New field
+  var count; // New field
+  int? categoryId; // New field for category_id
+  String? categoryName; // New field for category_name
 
   DecodedAttribute({
     this.productId,
     this.quantity,
     this.price,
-    // this.addons,
     this.attribute,
     this.productName,
     this.productImage,
     this.totalPrice,
     this.checked,
-    this.count, // Add count to constructor
+    this.count,
+    this.categoryId, // Add categoryId to constructor
+    this.categoryName, // Add categoryName to constructor
   });
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
-    // var addonList =
-    //     (json['addons'] as List?)?.map((item) => Addon.fromJson(item)).toList();
-
     var attributeList = (json['attribute'] as List?)
         ?.map((item) => Attribute.fromJson(item))
         .toList();
@@ -274,13 +272,15 @@ class DecodedAttribute {
       productId: json['product_id'],
       quantity: json['quantity'],
       price: json['price'],
-      // addons: addonList ?? [],
       attribute: attributeList ?? [],
       productName: json['product_name'],
       productImage: json['product_image'],
       totalPrice: json['total_price'],
       checked: json['checked'],
-      count: json['count'], // Handle count key from JSON
+      count: json['count'],
+      categoryId: json['category_id'],
+      // Handle category_id key from JSON
+      categoryName: json['category_name'], // Handle category_name key from JSON
     );
   }
 
@@ -289,13 +289,14 @@ class DecodedAttribute {
       'product_id': productId,
       'quantity': quantity,
       'price': price,
-      // 'addons': addons?.map((e) => e.toJson()).toList() ?? [],
       'attribute': attribute?.map((e) => e.toJson()).toList() ?? [],
       'product_name': productName,
       'product_image': productImage,
       'total_price': totalPrice,
       'checked': checked,
       'count': count,
+      'category_id': categoryId, // Add categoryId to JSON output
+      'category_name': categoryName, // Add categoryName to JSON output
     };
   }
 }

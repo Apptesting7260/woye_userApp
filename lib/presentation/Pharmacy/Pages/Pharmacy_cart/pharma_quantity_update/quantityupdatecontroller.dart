@@ -19,11 +19,13 @@ class PharmaQuantityController extends GetxController {
   updateQuantityApi({
     required String productId,
     required String productQuantity,
+    required String countId,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "product_id": productId,
       "quantity": productQuantity,
+      "count_id": countId,
     };
     api.pharmacyUpdateQuantityApi(body).then((value) {
       setData(value);

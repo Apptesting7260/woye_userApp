@@ -49,7 +49,7 @@ class CustomElevatedButton extends StatelessWidget {
         child: child ??
             Center(
                 child: isLoading != true
-                    ? FittedBox(child: Text(text))
+                    ? FittedBox(child: Text(text,style: TextStyle(height: 1),),)
                     : LoadingAnimationWidget.inkDrop(
                         color: Colors.white,
                         size: 30.h,

@@ -104,7 +104,7 @@ class PharmacyAddToCarController extends GetxController {
       "item_name": extrasItemNames,
       "item_price": extrasItemPrices,
     });
-    api.updateCartApi(body).then((value) {
+    api.pharmaUpdateCartApi(body).then((value) {
       setUpdateCartData(value);
       if (updateCartData.value.status == true) {
         pharmaSpecificProductController.goToCart.value = true;

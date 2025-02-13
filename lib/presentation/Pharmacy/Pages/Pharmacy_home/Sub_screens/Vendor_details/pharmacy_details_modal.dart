@@ -60,7 +60,11 @@ class shop {
   int? stateId;
   int? cityId;
 
-  // List<String>? categoryId;
+  // New fields for latitude and longitude
+  String? latitude;
+  String? longitude;
+
+  // String? categoryId;
   String? opensAt;
   String? closesAt;
   String? role;
@@ -99,6 +103,8 @@ class shop {
     this.status,
     this.createdAt,
     this.updatedAt,
+    this.latitude,
+    this.longitude,
   });
 
   shop.fromJson(Map<String, dynamic> json) {
@@ -140,6 +146,10 @@ class shop {
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+
+    // Add parsing of latitude and longitude from JSON
+    latitude = json['latitude'];
+    longitude = json['longitude'];
   }
 
   Map<String, dynamic> toJson() {
@@ -179,9 +189,15 @@ class shop {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+
+    // Add latitude and longitude to JSON
+    data['latitude'] = this.latitude;
+    data['longitude'] = this.longitude;
+
     return data;
   }
 }
+
 
 class OpeningHours {
   String? day;
@@ -242,7 +258,7 @@ class MoreProducts {
     packagingValue = json['packaging_value'];
     categoryId = json['category_id'];
     isInWishlist = json['is_in_wishlist'];
-    shopName = json['shop_name'];
+    shopName = json['pharma_name'];
     urlImage = json['url_image'];
     categoryName = json['category_name'];
   }
@@ -256,7 +272,7 @@ class MoreProducts {
     data['packaging_value'] = this.packagingValue;
     data['category_id'] = this.categoryId;
     data['is_in_wishlist'] = this.isInWishlist;
-    data['shop_name'] = this.shopName;
+    data['pharma_name'] = this.shopName;
     data['url_image'] = this.urlImage;
     data['category_name'] = this.categoryName;
     return data;

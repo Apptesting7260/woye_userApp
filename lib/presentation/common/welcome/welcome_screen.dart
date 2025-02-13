@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
@@ -29,7 +31,9 @@ class WelcomeScreen extends StatelessWidget {
                   header(),
                   hBox(20),
                   signInWithPhoneNumberButton(),
+                  // if(Platform.isIOS)
                   hBox(10),
+                  // if(Platform.isIOS)
                   guestButton(),
                   hBox(20),
                   divider(),
@@ -37,7 +41,9 @@ class WelcomeScreen extends StatelessWidget {
                   facebookButton(context),
                   hBox(15),
                   googleButton(context),
+                  if(Platform.isIOS)
                   hBox(15),
+                  if(Platform.isIOS)
                   appleButton(context),
                   hBox(0),
                 ],

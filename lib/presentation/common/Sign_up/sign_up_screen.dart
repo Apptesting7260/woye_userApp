@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
@@ -176,6 +178,7 @@ class SignUpScreen extends StatelessWidget {
               width: 26.h,
             )),
         wBox(15),
+        if(Platform.isIOS)
         CustomRoundedButton(
           onPressed: () {
             socialLoginController.appleLogin(context);

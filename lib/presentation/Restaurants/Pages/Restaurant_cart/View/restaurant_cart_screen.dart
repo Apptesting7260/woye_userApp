@@ -12,6 +12,8 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantity_update/quantityupdatecontroller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 
 class RestaurantCartScreen extends StatefulWidget {
   final bool isBack;
@@ -34,6 +36,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
       Get.put(ApplyCouponController());
   final CheckedUncheckedController checkedUncheckedController =
       Get.put(CheckedUncheckedController());
+
+  final specific_Product_Controller specific_product_controllerontroller =
+  Get.put(specific_Product_Controller());
 
   void initState() {
     controller.getRestaurantCartApi();
@@ -318,6 +323,13 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                   cartId: controller.cartData.value.cart!.id
                                       .toString(),
                                   status: newCheckedStatus.toString(),
+                                    countId: controller
+                                        .cartData
+                                        .value
+                                        .cart!
+                                        .decodedAttribute![index]
+                                        .count
+                                        .toString()
                                 );
                               }
                             },
@@ -338,35 +350,30 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           ),
                         )
                       : GestureDetector(
-                          onTap: () {
-                            if (checkedUncheckedController
-                                    .rxRequestStatus.value !=
-                                Status.LOADING) {
-                              controller
-                                  .cartData
-                                  .value
-                                  .cart!
-                                  .decodedAttribute?[index]
-                                  .isSelectedLoading
-                                  .value = true;
-                              bool newCheckedStatus = !(controller
-                                      .cartData
-                                      .value
-                                      .cart!
-                                      .decodedAttribute![index]
-                                      .checked ==
-                                  'true');
+                    onTap: () {
+                      specific_product_controllerontroller
+                          .specific_Product_Api(
+                          productId:
+                          controller.cartData.value.cart!
+                              .decodedAttribute![index].productId
+                              .toString(),
+                          categoryId:
+                          controller.cartData.value.cart!
+                              .decodedAttribute![index].categoryId
+                              .toString());
+                      Get.to(ProductDetailsScreen(
+                        productId: controller.cartData.value.cart!
+                            .decodedAttribute![index].productId
+                            .toString(),
+                        categoryId: controller.cartData.value.cart!
+                            .decodedAttribute![index].categoryId
+                            .toString(),
+                        categoryName: controller.cartData.value.cart!
+                            .decodedAttribute![index].categoryName
+                            .toString(),
+                      ));
+                    },
 
-                              checkedUncheckedController.checkedUncheckedApi(
-                                productId: controller.cartData.value.cart!
-                                    .decodedAttribute![index].productId
-                                    .toString(),
-                                cartId: controller.cartData.value.cart!.id
-                                    .toString(),
-                                status: newCheckedStatus.toString(),
-                              );
-                            }
-                          },
                           child: CachedNetworkImage(
                             imageUrl: controller.cartData.value.cart!
                                 .decodedAttribute![index].productImage
@@ -576,6 +583,13 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                                                 index]
                                                             .productId
                                                             .toString(),
+                                                          countId: controller
+                                                              .cartData
+                                                              .value
+                                                              .cart!
+                                                              .decodedAttribute![index]
+                                                              .count
+                                                              .toString(),
                                                         productQuantity: (controller
                                                                     .cartData
                                                                     .value
@@ -641,6 +655,13 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                                               index]
                                                           .productId
                                                           .toString(),
+                                                        countId: controller
+                                                            .cartData
+                                                            .value
+                                                            .cart!
+                                                            .decodedAttribute![index]
+                                                            .count
+                                                            .toString(),
                                                       productQuantity: (controller
                                                                   .cartData
                                                                   .value
@@ -1379,7 +1400,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     FittedBox(
                       child: Text(
                         daysRemaining,
-                        overflow: TextOverflow.ellipsis,
+                        // overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         style: AppFontStyle.text_12_400(AppColors.lightText),
                       ),
                     ),
@@ -1392,7 +1414,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                             AppFontStyle.text_13_400(Colors.white, height: 1.0),
                         width: 85.w,
                         height: 36.h,
-                        text: "Apply",
+                        text: "Select",
                         onPressed: () {
                           controller.couponCodeController.value.text =
                               controller.cartData.value.coupons![index].code

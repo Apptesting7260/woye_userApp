@@ -92,10 +92,10 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
                         hBox(30),
                         description(),
                         if (controller
-                            .restaurant_Data.value.moreProducts!.isNotEmpty)
+                            .pharma_Data.value.moreProducts!.isNotEmpty)
                           hBox(30),
                         if (controller
-                            .restaurant_Data.value.moreProducts!.isNotEmpty)
+                            .pharma_Data.value.moreProducts!.isNotEmpty)
                           moreProducts(),
                         hBox(30),
                       ],
@@ -114,8 +114,8 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
-              imageUrl: controller.restaurant_Data.value.pharmaShop!.shopimage
-                  .toString(),
+              imageUrl:
+                  controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
               placeholder: (context, url) =>
                   Center(child: circularProgressIndicator()),
               errorWidget: (context, url, error) => Icon(
@@ -127,7 +127,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             )),
         hBox(15),
         Text(
-          controller.restaurant_Data.value.pharmaShop!.shopName.toString(),
+          controller.pharma_Data.value.pharmaShop!.shopName.toString(),
           style: AppFontStyle.text_24_400(AppColors.darkText),
           maxLines: 2,
         ),
@@ -135,7 +135,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
         Row(
           children: [
             Text(
-              "32min",
+              "${controller.distance.toStringAsFixed(2)} KM",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
             wBox(4),
@@ -145,7 +145,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             ),
             wBox(4),
             Text(
-              "2km",
+              "${controller.travelTime.toStringAsFixed(0)} Min",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
             wBox(4),
@@ -157,7 +157,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "${controller.restaurant_Data.value.pharmaShop!.rating}/5",
+              "${controller.pharma_Data.value.pharmaShop!.rating}/5",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],
@@ -169,7 +169,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             wBox(8),
             Flexible(
               child: Text(
-                "${controller.restaurant_Data.value.pharmaShop!.firstName ?? ""} ${controller.restaurant_Data.value.pharmaShop!.lastName ?? ""}",
+                "${controller.pharma_Data.value.pharmaShop!.firstName ?? ""} ${controller.pharma_Data.value.pharmaShop!.lastName ?? ""}",
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.darkText,
@@ -186,7 +186,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             wBox(8),
             Flexible(
               child: Text(
-                controller.restaurant_Data.value.pharmaShop!.email.toString(),
+                controller.pharma_Data.value.pharmaShop!.email.toString(),
                 overflow: TextOverflow.ellipsis,
                 style: AppFontStyle.text_14_400(AppColors.darkText),
               ),
@@ -200,8 +200,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             wBox(8),
             Flexible(
               child: Text(
-                controller.restaurant_Data.value.pharmaShop!.shopAddress
-                    .toString(),
+                controller.pharma_Data.value.pharmaShop!.shopAddress.toString(),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppFontStyle.text_14_400(
@@ -216,8 +215,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
   }
 
   Widget openHours() {
-    var openingHours =
-        controller.restaurant_Data.value.pharmaShop!.openingHours;
+    var openingHours = controller.pharma_Data.value.pharmaShop!.openingHours;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -265,7 +263,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
         ),
         hBox(10),
         Text(
-          controller.restaurant_Data.value.pharmaShop!.shopDes.toString(),
+          controller.pharma_Data.value.pharmaShop!.shopDes.toString(),
           style: AppFontStyle.text_16_400(AppColors.lightText),
           maxLines: 30,
         ),
@@ -274,7 +272,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
   }
 
   Widget moreProducts() {
-    final products = controller.restaurant_Data.value.moreProducts;
+    final products = controller.pharma_Data.value.moreProducts;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
