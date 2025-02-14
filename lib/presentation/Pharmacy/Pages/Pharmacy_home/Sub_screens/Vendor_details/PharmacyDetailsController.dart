@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_details_modal.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/modal/singal_restaurant_modal.dart';
+import 'package:intl/intl.dart';
 
 
 class PharmacyDetailsController extends GetxController {
@@ -113,5 +113,21 @@ class PharmacyDetailsController extends GetxController {
 
     double timeInMinutes = timeInHours * 60;
     return timeInMinutes;
+  }
+
+
+  String formatDate(String? dateString) {
+    if (dateString == null) {
+      return "";
+    }
+    try {
+      DateTime date = DateTime.parse(dateString);
+      String formattedDate = DateFormat('yyyy-MM-dd HH:mm').format(date);
+      print("Formatted Date: $formattedDate");
+      return formattedDate;
+    } catch (e) {
+      print("Error formatting date: $e");
+      return "";
+    }
   }
 }

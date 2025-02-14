@@ -21,6 +21,7 @@ class ProductReviews extends StatelessWidget {
     var productId = args['product_id'];
     var reviewcount = args['review_count'];
     var ProductReview = args['product_review'];
+    var type = args['type'];
     return Scaffold(
         appBar: CustomAppBar(
           isLeading: true,
@@ -37,20 +38,20 @@ class ProductReviews extends StatelessWidget {
               if (controller.error.value == 'No internet') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    controller.seeAllProductReviewApi(productId: productId);
+                    controller.seeAllProductReviewApi(vendorId: productId,type: type);
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    controller.seeAllProductReviewApi(productId: productId);
+                    controller.seeAllProductReviewApi(vendorId: productId,type: type);
                   },
                 );
               }
             case Status.COMPLETED:
               return RefreshIndicator(
                   onRefresh: () async {
-                    controller.seeAllProductReviewApi(productId: productId);
+                    controller.seeAllProductReviewApi(vendorId: productId,type: type);
                   },
                   child: SingleChildScrollView(
                     padding: REdgeInsets.symmetric(horizontal: 24),
@@ -190,7 +191,8 @@ class ProductReviews extends StatelessWidget {
                               Text(
                                 controller.seeAllReview.value.reviewAll![index]
                                     .message
-                                    .toString(),
+                                    .toString()
+                                    .trim(),
                                 style: AppFontStyle.text_16_400(
                                     AppColors.darkText),
                                 maxLines: 100,
@@ -202,7 +204,30 @@ class ProductReviews extends StatelessWidget {
                                     .toString()),
                                 style: AppFontStyle.text_16_400(
                                     AppColors.lightText),
-                              )
+                              ),
+                              if(controller.seeAllReview.value
+                                  .reviewAll![index].reply != null)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Icon(
+                                    Icons.reply,
+                                    color: AppColors.primary,
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      controller.seeAllReview.value
+                                          .reviewAll![index].reply
+                                          .toString()
+                                          .trim(),
+                                      style: AppFontStyle.text_16_400(
+                                          AppColors.lightText),
+                                      maxLines: 100,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         )

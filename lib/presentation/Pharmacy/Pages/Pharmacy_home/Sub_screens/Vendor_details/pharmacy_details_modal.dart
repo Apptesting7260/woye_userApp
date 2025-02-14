@@ -4,36 +4,71 @@ class SpecificPharmacyModal {
   bool? status;
   shop? pharmaShop;
   List<MoreProducts>? moreProducts;
+  List<Review>? review;
   String? message;
+  var totalReviews;
+  var averageRating;
 
-  SpecificPharmacyModal({this.status, this.pharmaShop, this.message});
+  SpecificPharmacyModal({
+    this.status,
+    this.pharmaShop,
+    this.review,
+    this.message,
+    this.totalReviews,
+    this.averageRating,
+  });
 
   SpecificPharmacyModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    pharmaShop =
-        json['pharmacy'] != null ? shop.fromJson(json['pharmacy']) : null;
+    pharmaShop = json['pharmacy'] != null ? shop.fromJson(json['pharmacy']) : null;
+
     if (json['moreProducts'] != null) {
       moreProducts = <MoreProducts>[];
       json['moreProducts'].forEach((v) {
-        moreProducts!.add(new MoreProducts.fromJson(v));
+        moreProducts!.add(MoreProducts.fromJson(v));
       });
     }
+
+    if (json['reviews'] != null) {
+      review = <Review>[];
+      json['reviews'].forEach((v) {
+        review!.add(Review.fromJson(v));
+      });
+    }
+
     message = json['message'];
+
+    // Parse the new fields
+    totalReviews = json['totalReviews'];
+    averageRating = json['average_rating'] != null ? json['average_rating'].toDouble() : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['status'] = this.status;
+
     if (this.pharmaShop != null) {
       data['pharmacy'] = this.pharmaShop!.toJson();
     }
+
     if (this.moreProducts != null) {
       data['moreProducts'] = this.moreProducts!.map((v) => v.toJson()).toList();
     }
+
+    if (review != null) {
+      data['reviews'] = review!.map((v) => v.toJson()).toList();
+    }
+
     data['message'] = this.message;
+
+    // Add the new fields to the JSON
+    data['totalReviews'] = this.totalReviews;
+    data['average_rating'] = this.averageRating;
+
     return data;
   }
 }
+
 
 class shop {
   int? id;
@@ -275,6 +310,83 @@ class MoreProducts {
     data['pharma_name'] = this.shopName;
     data['url_image'] = this.urlImage;
     data['category_name'] = this.categoryName;
+    return data;
+  }
+}
+class Review {
+  int? id;
+  var userId;
+  String? username;
+  int? productId;
+  var rating;
+  String? message;
+  String? reply;
+  String? createdAt;
+  String? updatedAt;
+  User? user;
+
+  Review(
+      {this.id,
+        this.userId,
+        this.username,
+        this.productId,
+        this.rating,
+        this.message,
+        this.reply,
+        this.createdAt,
+        this.updatedAt,
+        this.user});
+
+  Review.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    username = json['username'];
+    productId = json['product_id'];
+    rating = json['rating'];
+    // rating = json['rating']?.toDouble();
+    message = json['review'];
+    reply = json['reply'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['username'] = username;
+    data['product_id'] = productId;
+    data['rating'] = rating;
+    data['review'] = message;
+    data['reply'] = reply;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    return data;
+  }
+}
+
+class User {
+  var id;
+  String? imageUrl;
+  String? firstName;
+
+  User({this.id, this.imageUrl, this.firstName});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    imageUrl = json['image_url'];
+    firstName = json['first_name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image_url'] = this.imageUrl;
+    data['first_name'] = this.firstName;
     return data;
   }
 }

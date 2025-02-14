@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
@@ -11,6 +13,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
 
 class PharmacyProductDetailsScreen extends StatelessWidget {
@@ -35,6 +38,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
 
   final AddPharmaProductWishlistController addPharmaProductWishlistController =
       Get.put(AddPharmaProductWishlistController());
+
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -149,20 +155,20 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       shopCard(),
                       hBox(20),
                       //
-                      buttons(),
+                      buttons(context),
                       hBox(30),
                       //
                       // dropdownsSection(),
                       // hBox(30),
                       productSummery(),
-                      //
-                      productReviews(),
-                      hBox(8),
-                      //
-                      const Divider(),
-                      hBox(30),
-                      //
-                      reviews(),
+                      // //
+                      // productReviews(),
+                      // hBox(8),
+                      // //
+                      // const Divider(),
+                      // hBox(30),
+                      // //
+                      // reviews(),
                       hBox(30),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
                         moreProducts(),
@@ -653,7 +659,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget buttons() {
+  Widget buttons(context) {
     return Obx(
       () => controller.goToCart.value == true
           ? CustomElevatedButton(
@@ -674,33 +680,33 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                   (Status.LOADING),
               text: "Add to Cart",
               onPressed: () {
-                // if (restaurantHomeController.homeData.value.userdata?.type ==
-                //     "guestUser") {
-                //   showLoginRequired(context);
-                // } else
-                // {
-                // ---------- add to cart api -----------
-                controller.productPriceFun();
-                pharmacyAddToCarController.pharmaAddToCartApi(
-                  productId:
-                      controller.productData.value.product!.id.toString(),
-                  productPrice:
-                      controller.productData.value.product!.salePrice != null
-                          ? controller.productData.value.product!.salePrice
-                              .toString()
-                          : controller.productData.value.product!.regularPrice
-                              .toString(),
-                  productQuantity: controller.cartCount.toString(),
-                  pharmaId:
-                      controller.productData.value.product!.userId.toString(),
-                  // addons: controller.selectedAddOn.toList(),
-                  extrasIds: controller.variantTitlesIdsId,
-                  extrasItemIds: controller.variantItemIdsId.toList(),
-                  extrasItemNames: controller.variantItemIdsName.toList(),
-                  extrasItemPrices: controller.variantItemIdsPrice.toList(),
-                );
-                print("object ${controller.variantItemIdsName}");
-                // }
+                if (getUserDataController.userData.value.user?.userType ==
+                    "guestUser") {
+                  showLoginRequired(context);
+                } else {
+                  // ---------- add to cart api -----------
+                  controller.productPriceFun();
+                  pharmacyAddToCarController.pharmaAddToCartApi(
+                    productId:
+                        controller.productData.value.product!.id.toString(),
+                    productPrice:
+                        controller.productData.value.product!.salePrice != null
+                            ? controller.productData.value.product!.salePrice
+                                .toString()
+                            : controller.productData.value.product!.regularPrice
+                                .toString(),
+                    productQuantity: controller.cartCount.toString(),
+                    pharmaId:
+                        controller.productData.value.product!.userId.toString(),
+                    // addons: controller.selectedAddOn.toList(),
+                    extrasIds: controller.variantTitlesIdsId,
+                    extrasItemIds: controller.variantItemIdsId.toList(),
+                    extrasItemNames: controller.variantItemIdsName.toList(),
+                    extrasItemPrices: controller.variantItemIdsPrice.toList(),
+                  );
+                  print("object ${controller.variantItemIdsName}");
+                  // }
+                }
               }),
     );
   }
@@ -849,184 +855,184 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget productReviews() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          "Product Reviews",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
-        ),
-        hBox(10),
-        Row(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              fit: BoxFit.cover,
-              width: 15.w,
-            ),
-            SvgPicture.asset(
-              "assets/svg/star-white.svg",
-            ),
-            wBox(8),
-            Text(
-              "4.5/5",
-              style: AppFontStyle.text_16_400(AppColors.darkText),
-            ),
-            wBox(8),
-            Text(
-              "(120 reviews)",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget reviews() {
-    return Column(
-      children: [
-        Column(
-          children: [
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.r),
-                            child: Image.asset(
-                              "assets/images/profile-review.png",
-                              height: 50.h,
-                              width: 50.h,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        wBox(15),
-                        Flexible(
-                          flex: 4,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Ronald Richards",
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.darkText),
-                              ),
-                              hBox(5),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-yellow.svg",
-                                    fit: BoxFit.cover,
-                                    width: 15.w,
-                                  ),
-                                  SvgPicture.asset(
-                                    "assets/svg/star-white.svg",
-                                  ),
-                                ],
-                              ),
-                              hBox(10),
-                              Text(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-                                overflow: TextOverflow.visible,
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.darkText),
-                              ),
-                              hBox(10),
-                              Row(
-                                children: [
-                                  Text(
-                                    "01-09-2024",
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.lightText),
-                                  ),
-                                  wBox(10),
-                                  Text(
-                                    "12:20",
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.lightText),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: REdgeInsets.symmetric(vertical: 10),
-                      child: const Divider(),
-                    ),
-                  ],
-                );
-              },
-              // separatorBuilder: (context, inxex) => Padding(
-              //   padding: REdgeInsets.symmetric(vertical: 10),
-              //   child: const Divider(),
-              // ),
-            ),
-          ],
-        ),
-        hBox(10),
-        InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          onTap: () {
-            Get.toNamed(AppRoutes.pharmacyProductReviews);
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "See All (20)",
-                style: AppFontStyle.text_14_600(AppColors.primary),
-              ),
-              Icon(
-                Icons.arrow_forward,
-                color: AppColors.primary,
-                size: 20.h,
-              )
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget productReviews() {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         "Product Reviews",
+  //         style: AppFontStyle.text_20_600(AppColors.darkText),
+  //       ),
+  //       hBox(10),
+  //       Row(
+  //         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           SvgPicture.asset(
+  //             "assets/svg/star-yellow.svg",
+  //             width: 15.w,
+  //           ),
+  //           SvgPicture.asset(
+  //             "assets/svg/star-yellow.svg",
+  //             width: 15.w,
+  //           ),
+  //           SvgPicture.asset(
+  //             "assets/svg/star-yellow.svg",
+  //             width: 15.w,
+  //           ),
+  //           SvgPicture.asset(
+  //             "assets/svg/star-yellow.svg",
+  //             fit: BoxFit.cover,
+  //             width: 15.w,
+  //           ),
+  //           SvgPicture.asset(
+  //             "assets/svg/star-white.svg",
+  //           ),
+  //           wBox(8),
+  //           Text(
+  //             "4.5/5",
+  //             style: AppFontStyle.text_16_400(AppColors.darkText),
+  //           ),
+  //           wBox(8),
+  //           Text(
+  //             "(120 reviews)",
+  //             style: AppFontStyle.text_14_400(AppColors.lightText),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
+  //
+  // Widget reviews() {
+  //   return Column(
+  //     children: [
+  //       Column(
+  //         children: [
+  //           ListView.builder(
+  //             shrinkWrap: true,
+  //             physics: const NeverScrollableScrollPhysics(),
+  //             itemCount: 2,
+  //             itemBuilder: (context, index) {
+  //               return Column(
+  //                 children: [
+  //                   Row(
+  //                     crossAxisAlignment: CrossAxisAlignment.start,
+  //                     children: [
+  //                       Flexible(
+  //                         flex: 1,
+  //                         child: ClipRRect(
+  //                           borderRadius: BorderRadius.circular(50.r),
+  //                           child: Image.asset(
+  //                             "assets/images/profile-review.png",
+  //                             height: 50.h,
+  //                             width: 50.h,
+  //                             fit: BoxFit.cover,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       wBox(15),
+  //                       Flexible(
+  //                         flex: 4,
+  //                         child: Column(
+  //                           crossAxisAlignment: CrossAxisAlignment.start,
+  //                           children: [
+  //                             Text(
+  //                               "Ronald Richards",
+  //                               style: AppFontStyle.text_16_400(
+  //                                   AppColors.darkText),
+  //                             ),
+  //                             hBox(5),
+  //                             Row(
+  //                               children: [
+  //                                 SvgPicture.asset(
+  //                                   "assets/svg/star-yellow.svg",
+  //                                   width: 15.w,
+  //                                 ),
+  //                                 SvgPicture.asset(
+  //                                   "assets/svg/star-yellow.svg",
+  //                                   width: 15.w,
+  //                                 ),
+  //                                 SvgPicture.asset(
+  //                                   "assets/svg/star-yellow.svg",
+  //                                   width: 15.w,
+  //                                 ),
+  //                                 SvgPicture.asset(
+  //                                   "assets/svg/star-yellow.svg",
+  //                                   fit: BoxFit.cover,
+  //                                   width: 15.w,
+  //                                 ),
+  //                                 SvgPicture.asset(
+  //                                   "assets/svg/star-white.svg",
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                             hBox(10),
+  //                             Text(
+  //                               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque malesuada eget vitae Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  //                               overflow: TextOverflow.visible,
+  //                               style: AppFontStyle.text_16_400(
+  //                                   AppColors.darkText),
+  //                             ),
+  //                             hBox(10),
+  //                             Row(
+  //                               children: [
+  //                                 Text(
+  //                                   "01-09-2024",
+  //                                   style: AppFontStyle.text_16_400(
+  //                                       AppColors.lightText),
+  //                                 ),
+  //                                 wBox(10),
+  //                                 Text(
+  //                                   "12:20",
+  //                                   style: AppFontStyle.text_16_400(
+  //                                       AppColors.lightText),
+  //                                 ),
+  //                               ],
+  //                             )
+  //                           ],
+  //                         ),
+  //                       )
+  //                     ],
+  //                   ),
+  //                   Padding(
+  //                     padding: REdgeInsets.symmetric(vertical: 10),
+  //                     child: const Divider(),
+  //                   ),
+  //                 ],
+  //               );
+  //             },
+  //             // separatorBuilder: (context, inxex) => Padding(
+  //             //   padding: REdgeInsets.symmetric(vertical: 10),
+  //             //   child: const Divider(),
+  //             // ),
+  //           ),
+  //         ],
+  //       ),
+  //       hBox(10),
+  //       InkWell(
+  //         splashColor: Colors.transparent,
+  //         highlightColor: Colors.transparent,
+  //         onTap: () {
+  //           Get.toNamed(AppRoutes.pharmacyProductReviews);
+  //         },
+  //         child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             Text(
+  //               "See All (20)",
+  //               style: AppFontStyle.text_14_600(AppColors.primary),
+  //             ),
+  //             Icon(
+  //               Icons.arrow_forward,
+  //               color: AppColors.primary,
+  //               size: 20.h,
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget moreProducts() {
     var moreProducts = controller.productData.value.moreProducts;
@@ -1091,5 +1097,65 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             })
       ],
     );
+  }
+
+  Future showLoginRequired(context) {
+    return showCupertinoModalPopup(
+        // barrierDismissible: true,/
+        context: context,
+        builder: (context) {
+          return AlertDialog.adaptive(
+            content: Container(
+              height: 150.h,
+              width: 320.w,
+              padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30.r),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Login Required',
+                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                  ),
+                  // hBox(15),
+                  Text(
+                    'You need to log in first',
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  // hBox(15),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          color: AppColors.black,
+                          onPressed: () {
+                            Get.back();
+                          },
+                          text: "Cancel",
+                          textStyle:
+                              AppFontStyle.text_14_400(AppColors.darkText),
+                        ),
+                      ),
+                      wBox(15),
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          onPressed: () {
+                            userPreference.removeUser();
+                            Get.offAllNamed(AppRoutes.signUp);
+                          },
+                          text: "Login",
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

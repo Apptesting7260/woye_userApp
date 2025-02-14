@@ -52,7 +52,8 @@ class OrdersScreen extends StatelessWidget {
                 controller.refreshOrdersListApi();
               },
               child: Padding(
-                padding: const EdgeInsets.only(top: 20,left: 20,right: 20 , bottom: 5),
+                padding: const EdgeInsets.only(
+                    top: 20, left: 20, right: 20, bottom: 5),
                 child: GetBuilder(
                     init: OrderScreenController(),
                     builder: (orderScreenController) {
@@ -156,8 +157,8 @@ class OrdersScreen extends StatelessWidget {
                         Row(
                           children: [
                             CachedNetworkImage(
-                              imageUrl:
-                                  order.decodedAttribute![0].productImage.toString(),
+                              imageUrl: order.decodedAttribute![0].productImage
+                                  .toString(),
                               height: 100.h,
                               width: 100.h,
                               fit: BoxFit.fill,
@@ -178,25 +179,37 @@ class OrdersScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  order.decodedAttribute![0].productName.toString(),
-                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                  order.decodedAttribute![0].productName
+                                      .toString(),
+                                  style: AppFontStyle.text_14_600(
+                                      AppColors.darkText),
                                 ),
                                 hBox(10),
                                 Text(
                                   "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                  style: AppFontStyle.text_12_400(
+                                      AppColors.darkText),
                                 ),
                               ],
                             ),
                           ],
                         ),
                         hBox(15),
-                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Order id", order.orderId.toString()),
                         buildOrderDetailRow(
                             "Tracking number:", order.trackingId.toString()),
-                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(order.type.toString().capitalize!,
+                            order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Status", order.status.toString().capitalize!),
+                            "Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(
+                          "Status",
+                          order.status
+                              .toString()
+                              .replaceAll("_", " ")
+                              .capitalize!,
+                        ),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -243,7 +256,8 @@ class OrdersScreen extends StatelessWidget {
                 shrinkWrap: true,
                 physics: AlwaysScrollableScrollPhysics(),
                 // To prevent scrolling here
-                itemCount: controller.ordersData.value.waitingOrders?.length ?? 0,
+                itemCount:
+                    controller.ordersData.value.waitingOrders?.length ?? 0,
                 itemBuilder: (context, index) {
                   var order = controller.ordersData.value.waitingOrders![index];
 
@@ -259,8 +273,8 @@ class OrdersScreen extends StatelessWidget {
                         Row(
                           children: [
                             CachedNetworkImage(
-                              imageUrl:
-                                  order.decodedAttribute![0].productImage.toString(),
+                              imageUrl: order.decodedAttribute![0].productImage
+                                  .toString(),
                               height: 100.h,
                               width: 100.h,
                               fit: BoxFit.fill,
@@ -281,25 +295,35 @@ class OrdersScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  order.decodedAttribute![0].productName.toString(),
-                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                  order.decodedAttribute![0].productName
+                                      .toString(),
+                                  style: AppFontStyle.text_14_600(
+                                      AppColors.darkText),
                                 ),
                                 hBox(10),
                                 Text(
                                   "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                  style: AppFontStyle.text_12_400(
+                                      AppColors.darkText),
                                 ),
                               ],
                             ),
                           ],
                         ),
                         hBox(15),
-                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Order id", order.orderId.toString()),
                         buildOrderDetailRow(
                             "Tracking number:", order.trackingId.toString()),
-                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(order.type.toString().capitalize!,
+                            order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Status", order.status.toString().capitalize!),
+                            "Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(
+                            "Status", order.status
+                            .toString()
+                            .replaceAll("_", " ")
+                            .capitalize!,),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -346,9 +370,11 @@ class OrdersScreen extends StatelessWidget {
                 shrinkWrap: true,
                 physics: AlwaysScrollableScrollPhysics(),
                 // To prevent scrolling here
-                itemCount: controller.ordersData.value.deliveredOrders?.length ?? 0,
+                itemCount:
+                    controller.ordersData.value.deliveredOrders?.length ?? 0,
                 itemBuilder: (context, index) {
-                  var order = controller.ordersData.value.deliveredOrders![index];
+                  var order =
+                      controller.ordersData.value.deliveredOrders![index];
 
                   return Container(
                     padding: EdgeInsets.all(14.r),
@@ -362,8 +388,8 @@ class OrdersScreen extends StatelessWidget {
                         Row(
                           children: [
                             CachedNetworkImage(
-                              imageUrl:
-                                  order.decodedAttribute![0].productImage.toString(),
+                              imageUrl: order.decodedAttribute![0].productImage
+                                  .toString(),
                               height: 100.h,
                               width: 100.h,
                               fit: BoxFit.fill,
@@ -384,25 +410,35 @@ class OrdersScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  order.decodedAttribute![0].productName.toString(),
-                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                  order.decodedAttribute![0].productName
+                                      .toString(),
+                                  style: AppFontStyle.text_14_600(
+                                      AppColors.darkText),
                                 ),
                                 hBox(10),
                                 Text(
                                   "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                  style: AppFontStyle.text_12_400(
+                                      AppColors.darkText),
                                 ),
                               ],
                             ),
                           ],
                         ),
                         hBox(15),
-                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Order id", order.orderId.toString()),
                         buildOrderDetailRow(
                             "Tracking number:", order.trackingId.toString()),
-                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(order.type.toString().capitalize!,
+                            order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Status", order.status!.capitalize!.toString().capitalize!),
+                            "Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow("Status",
+                          order.status
+                              .toString()
+                              .replaceAll("_", " ")
+                              .capitalize!,),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -448,7 +484,8 @@ class OrdersScreen extends StatelessWidget {
               child: ListView.separated(
                 shrinkWrap: true,
                 physics: AlwaysScrollableScrollPhysics(),
-                itemCount: controller.ordersData.value.cancelOrders?.length ?? 0,
+                itemCount:
+                    controller.ordersData.value.cancelOrders?.length ?? 0,
                 itemBuilder: (context, index) {
                   var order = controller.ordersData.value.cancelOrders![index];
                   return Container(
@@ -463,8 +500,8 @@ class OrdersScreen extends StatelessWidget {
                         Row(
                           children: [
                             CachedNetworkImage(
-                              imageUrl:
-                                  order.decodedAttribute![0].productImage.toString(),
+                              imageUrl: order.decodedAttribute![0].productImage
+                                  .toString(),
                               height: 100.h,
                               width: 100.h,
                               fit: BoxFit.fill,
@@ -485,25 +522,35 @@ class OrdersScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  order.decodedAttribute![0].productName.toString(),
-                                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                                  order.decodedAttribute![0].productName
+                                      .toString(),
+                                  style: AppFontStyle.text_14_600(
+                                      AppColors.darkText),
                                 ),
                                 hBox(10),
                                 Text(
                                   "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                                  style: AppFontStyle.text_12_400(
+                                      AppColors.darkText),
                                 ),
                               ],
                             ),
                           ],
                         ),
                         hBox(15),
-                        buildOrderDetailRow("Order id", order.orderId.toString()),
+                        buildOrderDetailRow(
+                            "Order id", order.orderId.toString()),
                         buildOrderDetailRow(
                             "Tracking number:", order.trackingId.toString()),
-                        buildOrderDetailRow("Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(order.type.toString().capitalize!,
+                            order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Status", order.status.toString().capitalize!),
+                            "Date & Time", order.createdAt.toString()),
+                        buildOrderDetailRow(
+                            "Status", order.status
+                            .toString()
+                            .replaceAll("_", " ")
+                            .capitalize!,),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -637,7 +684,9 @@ class OrdersScreen extends StatelessWidget {
             ),
           ),
         wBox(10.h),
-        if (orderStatus != "pending" && orderStatus != "completed" && orderStatus != "cancelled")
+        if (orderStatus != "pending" &&
+            orderStatus != "completed" &&
+            orderStatus != "cancelled")
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,

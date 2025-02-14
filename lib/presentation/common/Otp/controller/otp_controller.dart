@@ -98,10 +98,12 @@ class OtpController extends GetxController {
               verificationId: verificationId, smsCode: smsCode));
       Utils.showToast('Otp Verify Successfully');
       return credential.user == null ? false : true;
-    } on FirebaseAuthException catch (e) {
+    }  on FirebaseAuthException catch (e) {
       setRxRequestStatus(Status.COMPLETED);
       print('otp error == ${e.code}');
-      // otpVerify.value = false;
+      print('otp error message == ${e.message}');
+      // Additional debug info
+      print('Stack trace: ${e.stackTrace}');
       if (e.code == 'invalid-verification-code') {
         Utils.showToast('Invalid otp.');
       } else {

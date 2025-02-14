@@ -144,7 +144,7 @@ class DecodedAttribute {
   List<Attribute>? attribute;
   String? checked;
   int? count;
-  List<String>? addonName;
+  // List<String>? addonName;
   String? productName;
   String? productImage;
 
@@ -156,7 +156,7 @@ class DecodedAttribute {
       this.attribute,
       this.checked,
       this.count,
-      this.addonName,
+      // this.addonName,
       this.productName,
       this.productImage});
 
@@ -178,7 +178,7 @@ class DecodedAttribute {
     }
     checked = json['checked'];
     count = json['count'];
-    addonName = json['addon_name'].cast<String>();
+    // addonName = json['addon_name'].cast<String>();
     productName = json['product_name'];
     productImage = json['product_image'];
   }
@@ -196,7 +196,7 @@ class DecodedAttribute {
     }
     data['checked'] = this.checked;
     data['count'] = this.count;
-    data['addon_name'] = this.addonName;
+    // data['addon_name'] = this.addonName;
     data['product_name'] = this.productName;
     data['product_image'] = this.productImage;
     return data;

@@ -135,6 +135,7 @@ class OrderDetailsScreen extends StatelessWidget {
               Text(
                 controller.ordersData.value.orderDetails!.status
                     .toString()
+                    .replaceAll("_", " ")
                     .capitalize!,
                 style: AppFontStyle.text_12_600(AppColors.darkText),
               ),
@@ -359,58 +360,60 @@ class OrderDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                    if (item.addons!.isNotEmpty)
-                      SizedBox(
-                        width: Get.width,
-                        child: Wrap(
-                          direction: Axis.horizontal,
-                          spacing: 2.w,
-                          runSpacing: 2.w,
-                          children: List.generate(
-                            item.addons!.length,
-                            (addonIndex) {
-                              bool isLast =
-                                  addonIndex == item.addons!.length - 1;
-                              return Row(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${item.addons![addonIndex].name}',
-                                    style: AppFontStyle.text_12_400(
-                                        AppColors.lightText),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  Text(
-                                    ' - ',
-                                    style: AppFontStyle.text_12_400(
-                                        AppColors.lightText),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  Text(
-                                    '\$${item.addons![addonIndex].price}',
-                                    style: AppFontStyle.text_12_400(
-                                        AppColors.lightText),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  if (!isLast)
+                    if (controller.ordersData.value.orderDetails?.type !=
+                        "pharmacy")
+                      if (item.addons!.isNotEmpty)
+                        SizedBox(
+                          width: Get.width,
+                          child: Wrap(
+                            direction: Axis.horizontal,
+                            spacing: 2.w,
+                            runSpacing: 2.w,
+                            children: List.generate(
+                              item.addons!.length,
+                              (addonIndex) {
+                                bool isLast =
+                                    addonIndex == item.addons!.length - 1;
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
                                     Text(
-                                      ',',
+                                      '${item.addons![addonIndex].name}',
                                       style: AppFontStyle.text_12_400(
                                           AppColors.lightText),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
-                                ],
-                              );
-                            },
+                                    Text(
+                                      ' - ',
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.lightText),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    Text(
+                                      '\$${item.addons![addonIndex].price}',
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.lightText),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    if (!isLast)
+                                      Text(
+                                        ',',
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.lightText),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                  ],
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
                   ],
                 );
               },
@@ -434,26 +437,27 @@ class OrderDetailsScreen extends StatelessWidget {
             //   ],
             // ),
             // hBox(10),
-            if(controller.ordersData.value.orderDetails!.coupon != null)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Coupon Discount",
-                  style: AppFontStyle.text_12_400(AppColors.lightText),
-                ),
-                Text(
-                  controller.ordersData.value.orderDetails!.coupon!.discountType
-                              .toString() ==
-                          "percent"
-                      ? "${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}%"
-                      : "\$${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}",
-                  style: AppFontStyle.text_12_600(AppColors.darkText),
-                ),
-              ],
-            ),
-            if(controller.ordersData.value.orderDetails!.coupon != null)
-            hBox(10),
+            if (controller.ordersData.value.orderDetails!.coupon != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_12_400(AppColors.lightText),
+                  ),
+                  Text(
+                    controller.ordersData.value.orderDetails!.coupon!
+                                .discountType
+                                .toString() ==
+                            "percent"
+                        ? "${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}%"
+                        : "\$${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}",
+                    style: AppFontStyle.text_12_600(AppColors.darkText),
+                  ),
+                ],
+              ),
+            if (controller.ordersData.value.orderDetails!.coupon != null)
+              hBox(10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -506,7 +510,7 @@ class OrderDetailsScreen extends StatelessWidget {
             Text(
               controller.ordersData.value.orderDetails!.paymentMethod
                   .toString()
-                  .characters
+                  .replaceAll("_", " ")
                   .toString()
                   .capitalize!,
               style: AppFontStyle.text_12_600(AppColors.darkText),

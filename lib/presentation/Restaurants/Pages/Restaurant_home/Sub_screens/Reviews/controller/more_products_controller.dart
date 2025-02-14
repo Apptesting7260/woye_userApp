@@ -17,11 +17,13 @@ class SeeAllProductReviewController extends GetxController {
   void setError(String value) => error.value = value;
 
   seeAllProductReviewApi({
-    required String productId,
+    required String vendorId,
+    required String type,
   }) async {
     setRxRequestStatus(Status.LOADING);
     Map data = {
-      "restaurant_id": productId,
+      "vendor_id": vendorId,
+      "type": type,
     };
     api.seeAllReviewApi(data).then((value) {
       seeAllReviewSet(value);

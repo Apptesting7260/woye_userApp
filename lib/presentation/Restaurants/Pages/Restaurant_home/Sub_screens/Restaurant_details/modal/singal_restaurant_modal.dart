@@ -322,6 +322,7 @@ class Review {
   int? productId;
   var rating;
   String? message;
+  String? reply;
   String? createdAt;
   String? updatedAt;
   User? user;
@@ -333,6 +334,7 @@ class Review {
       this.productId,
       this.rating,
       this.message,
+      this.reply,
       this.createdAt,
       this.updatedAt,
       this.user});
@@ -345,6 +347,7 @@ class Review {
     rating = json['rating'];
     // rating = json['rating']?.toDouble();
     message = json['review'];
+    reply = json['reply'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
@@ -358,6 +361,7 @@ class Review {
     data['product_id'] = productId;
     data['rating'] = rating;
     data['review'] = message;
+    data['reply'] = reply;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (user != null) {

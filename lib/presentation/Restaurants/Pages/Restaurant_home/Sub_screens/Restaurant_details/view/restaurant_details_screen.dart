@@ -143,7 +143,9 @@ class RestaurantDetailsScreen extends StatelessWidget {
             )),
         hBox(15),
         Text(
-          controller.restaurant_Data.value.restaurant!.shopName.toString().capitalize!,
+          controller.restaurant_Data.value.restaurant!.shopName
+              .toString()
+              .capitalize!,
           style: AppFontStyle.text_24_400(AppColors.darkText),
           maxLines: 2,
         ),
@@ -392,7 +394,32 @@ class RestaurantDetailsScreen extends StatelessWidget {
                                             .toString()),
                                         style: AppFontStyle.text_16_400(
                                             AppColors.lightText),
-                                      )
+                                      ),
+                                      if (controller.restaurant_Data.value
+                                              .review![index].reply !=
+                                          null)
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Icon(
+                                              Icons.reply,
+                                              color: AppColors.primary,
+                                            ),
+                                            Flexible(
+                                              child: Text(
+                                                controller.restaurant_Data.value
+                                                    .review![index].reply
+                                                    .toString()
+                                                    .trim(),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.lightText),
+                                                maxLines: 100,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                     ],
                                   ),
                                 )
@@ -426,10 +453,12 @@ class RestaurantDetailsScreen extends StatelessWidget {
                             'review_count': controller
                                 .restaurant_Data.value.totalReviews
                                 .toString(),
+                            "type": "restaurant",
                           },
                         );
                         seeAllProductReviewController.seeAllProductReviewApi(
-                            productId: Restaurantid.toString());
+                            vendorId: Restaurantid.toString(),
+                            type: "restaurant");
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

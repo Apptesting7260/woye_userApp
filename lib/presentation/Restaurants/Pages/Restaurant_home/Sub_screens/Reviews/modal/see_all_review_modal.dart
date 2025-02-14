@@ -85,27 +85,80 @@ class ReviewResponse {
 //   }
 // }
 
+// class Review {
+//   int? id;
+//   var userId;
+//   String? username;
+//   int? productId;
+//   var rating;
+//   String? message;
+//   String? createdAt;
+//   String? updatedAt;
+//   User? user;
+//
+//   Review(
+//       {this.id,
+//       this.userId,
+//       this.username,
+//       this.productId,
+//       this.rating,
+//       this.message,
+//       this.createdAt,
+//       this.updatedAt,
+//       this.user});
+//
+//   Review.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     userId = json['user_id'];
+//     username = json['username'];
+//     productId = json['product_id'];
+//     rating = json['rating'];
+//     message = json['review'];
+//     createdAt = json['created_at'];
+//     updatedAt = json['updated_at'];
+//     user = json['user'] != null ? User.fromJson(json['user']) : null;
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['id'] = id;
+//     data['user_id'] = userId;
+//     data['username'] = username;
+//     data['product_id'] = productId;
+//     data['rating'] = rating; // Rating is now double
+//     data['review'] = message;
+//     data['created_at'] = createdAt;
+//     data['updated_at'] = updatedAt;
+//     if (user != null) {
+//       data['user'] = user!.toJson();
+//     }
+//     return data;
+//   }
+// }
+
 class Review {
-  int? id;
+  var id;
   var userId;
   String? username;
   int? productId;
   var rating;
   String? message;
+  String? reply;
   String? createdAt;
   String? updatedAt;
   User? user;
 
   Review(
       {this.id,
-      this.userId,
-      this.username,
-      this.productId,
-      this.rating,
-      this.message,
-      this.createdAt,
-      this.updatedAt,
-      this.user});
+        this.userId,
+        this.username,
+        this.productId,
+        this.rating,
+        this.message,
+        this.reply,
+        this.createdAt,
+        this.updatedAt,
+        this.user});
 
   Review.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -113,7 +166,9 @@ class Review {
     username = json['username'];
     productId = json['product_id'];
     rating = json['rating'];
+    // rating = json['rating']?.toDouble();
     message = json['review'];
+    reply = json['reply'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
@@ -125,8 +180,9 @@ class Review {
     data['user_id'] = userId;
     data['username'] = username;
     data['product_id'] = productId;
-    data['rating'] = rating; // Rating is now double
+    data['rating'] = rating;
     data['review'] = message;
+    data['reply'] = reply;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (user != null) {
@@ -135,6 +191,7 @@ class Review {
     return data;
   }
 }
+
 
 class User {
   int? id;
