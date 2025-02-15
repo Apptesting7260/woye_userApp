@@ -388,6 +388,7 @@ class ProfileScreen extends StatelessWidget {
                   // hBox(15),
                   Text(
                     'Are you sure you want to log out?',
+                    maxLines: 2,
                     style: AppFontStyle.text_14_400(AppColors.lightText),
                   ),
                   // hBox(15),
