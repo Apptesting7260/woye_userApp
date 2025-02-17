@@ -1,10 +1,14 @@
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
 
 class PharmacyNavbar extends StatelessWidget {
   final int navbarInitialIndex;
 
-  const PharmacyNavbar({super.key, this.navbarInitialIndex = 0});
+   PharmacyNavbar({super.key, this.navbarInitialIndex = 0});
+
+  final PharmacyCartController pharmacyCartController =
+  Get.put(PharmacyCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,28 +77,72 @@ class PharmacyNavbar extends StatelessWidget {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     width: 44.w,
-                    child: Column(
+                    child: Stack(
                       children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.linear,
-                          height: 4.h,
-                          width: 44.w,
-                          decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r))),
+                        Column(
+                          children: [
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.linear,
+                              height: 4.h,
+                              width: 44.w,
+                              decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColors.primary
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10.r),
+                                      bottomRight: Radius.circular(10.r))),
+                            ),
+                            Padding(
+                              padding: REdgeInsets.only(top: 19, bottom: 23),
+                              child: SvgPicture.asset(
+                                icon,
+                                height: 24.h,
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: REdgeInsets.only(top: 19, bottom: 23),
-                          child: SvgPicture.asset(
-                            icon,
-                            height: 24.h,
-                          ),
-                        ),
+                        if (index == 3)
+                          Obx(
+                                () => pharmacyCartController
+                                .cartData.value.cart !=
+                                null
+                                ? Positioned(
+                              top: 15,
+                              right: 2,
+                              child: pharmacyCartController
+                                  .cartData
+                                  .value
+                                  .cart
+                                  ?.totalProductsInCart !=
+                                  0
+                                  ? Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.black,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(2.h),
+                                  child: Obx(() {
+                                    return Text(
+                                      pharmacyCartController
+                                          .cartData
+                                          .value
+                                          .cart
+                                          ?.totalProductsInCart
+                                          .toString() ??
+                                          "",
+                                      style: TextStyle(
+                                          color: AppColors.white),
+                                    );
+                                  }),
+                                ),
+                              )
+                                  : SizedBox(), // If the value is null or 0, show an empty container (nothing)
+                            )
+                                : SizedBox(),
+                          )
                       ],
                     ),
                   ),

@@ -203,7 +203,7 @@ class Variant {
   String? title;
   String? titleid;
   List<Item>? item;
-  RxInt selectedIndex = (0).obs;
+  RxInt selectedIndex = (-1).obs;
 
   Variant({this.title, this.titleid, this.item});
 

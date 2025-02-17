@@ -7,6 +7,7 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
@@ -36,9 +37,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
       pharmacyCategoriesDetailsController =
       Get.put(PharmacyCategoriesDetailsController());
 
+  final PharmacyCartController pharmacyCartController =
+      Get.put(PharmacyCartController());
+
   @override
   void initState() {
     super.initState();
+    pharmacyCartController.getPharmacyCartApi();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {

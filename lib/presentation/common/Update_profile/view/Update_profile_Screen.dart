@@ -5,7 +5,6 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
-import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 
 class SignUpFormScreen extends StatelessWidget {
   SignUpFormScreen({super.key});
@@ -181,18 +180,25 @@ class SignUpFormScreen extends StatelessWidget {
               }),
             ),
             hBox(15),
-            CustomTextFormField(
-              controller: signUpFormController.emailController,
-              prefix: SvgPicture.asset(
-                ImageConstants.email,
+            Opacity(
+              opacity:
+                  controller.profileData.value.data?.type == "google" ? .8 : 1,
+              child: CustomTextFormField(
+                controller: signUpFormController.emailController,
+                prefix: SvgPicture.asset(
+                  ImageConstants.email,
+                ),
+                readOnly: controller.profileData.value.data?.type == "google"
+                    ? true
+                    : false,
+                prefixConstraints:
+                    BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                hintText: "Email Address",
+                onTapOutside: (event) {
+                  FocusScope.of(context).unfocus();
+                },
+                validator: signUpFormController.validateEmail,
               ),
-              prefixConstraints:
-                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-              hintText: "Email Address",
-              onTapOutside: (event) {
-                FocusScope.of(context).unfocus();
-              },
-              validator: signUpFormController.validateEmail,
             ),
             hBox(15),
             DropdownButtonFormField(

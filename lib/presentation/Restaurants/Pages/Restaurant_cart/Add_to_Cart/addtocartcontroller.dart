@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 
 class AddToCartController extends GetxController {
@@ -23,6 +24,8 @@ class AddToCartController extends GetxController {
 
   final specific_Product_Controller specificProductController =
       Get.put(specific_Product_Controller());
+  final RestaurantCartController restaurantCartController =
+      Get.put(RestaurantCartController());
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
@@ -77,6 +80,7 @@ class AddToCartController extends GetxController {
             extrasItemPrices: extrasItemPrices,
           );
         } else {
+          restaurantCartController.getRestaurantCartApi();
           setRxRequestStatus(Status.COMPLETED);
           specificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
@@ -119,6 +123,7 @@ class AddToCartController extends GetxController {
     api.updateCartApi(body).then((value) {
       setUpdateCartData(value);
       if (updateCartData.value.status == true) {
+        restaurantCartController.getRestaurantCartApi();
         specificProductController.goToCart.value = true;
         Utils.showToast(updateCartData.value.message.toString());
         setRxRequestStatus2(Status.COMPLETED);

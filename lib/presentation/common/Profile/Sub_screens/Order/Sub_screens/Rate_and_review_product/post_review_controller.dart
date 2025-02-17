@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:woye_user/Core/Utils/snackbar.dart';
 import 'package:woye_user/Data/Repository/repository.dart';
 import 'package:woye_user/Data/response/status.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Rate_and_review_product/post_review_modal.dart';
 
 class PostReviewController extends GetxController {
@@ -20,7 +21,10 @@ class PostReviewController extends GetxController {
 
   void setData(PostReviewModal value) => postReviewData.value = value;
 
-  cancelOrderApi({
+  final OrderDetailsController orderDetailsController =
+      Get.put(OrderDetailsController());
+
+  postOrderReviewApi({
     required String orderId,
     required var rating,
     required String review,
@@ -38,9 +42,11 @@ class PostReviewController extends GetxController {
     api.postVendorReviewApi(body).then((value) {
       setData(value);
       if (postReviewData.value.status == true) {
-        Get.back();
-        Utils.showToast(postReviewData.value.message.toString());
-        setRxRequestStatus(Status.COMPLETED);
+        orderDetailsController.orderDetailsApi(orderId: orderId).then((value) {
+          Get.back();
+          Utils.showToast(postReviewData.value.message.toString());
+          setRxRequestStatus(Status.COMPLETED);
+        });
       } else {
         Utils.showToast(postReviewData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);

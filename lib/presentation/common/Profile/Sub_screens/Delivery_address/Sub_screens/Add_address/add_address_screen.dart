@@ -14,6 +14,7 @@ class AddAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.printUserNameAndPhone();
     controller.loadLocationData();
     return PopScope(
       canPop: controller.location.value == "" ? false : true,
@@ -120,21 +121,22 @@ class AddAddressScreen extends StatelessWidget {
 
   Widget phoneNumber() {
     return CustomTextFormField(
-      controller: controller.mobNoController!.value,
+      controller: controller.mobNoController.value,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],
       prefix: CountryCodePicker(
-          padding: const EdgeInsets.only(left: 10),
-          onChanged: (CountryCode countryCode) {
-            print("country code===========> ${countryCode.code}");
-            controller.updateCountryCode(countryCode);
-            controller.showError.value = false;
-            int? countrylength =
-                controller.countryPhoneDigits[countryCode.code.toString()];
-            controller.chackCountryLength = countrylength!;
-          },
-          initialSelection: "IN"),
+        padding: const EdgeInsets.only(left: 10),
+        onChanged: (CountryCode countryCode) {
+          print("country code===========> ${countryCode.code}");
+          controller.updateCountryCode(countryCode);
+          controller.showError.value = false;
+          int? countrylength =
+              controller.countryPhoneDigits[countryCode.code.toString()];
+          controller.chackCountryLength = countrylength!;
+        },
+        initialSelection: controller.selectedCountryCode.value.dialCode,
+      ),
       hintText: "Phone Number",
       textInputType: TextInputType.phone,
       validator: (value) {

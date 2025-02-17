@@ -15,10 +15,18 @@ class RateAndReviewProductScreen extends StatelessWidget {
     final orderId = arguments['order_id'];
     final vendorId = arguments['vendor_id'];
     final type = arguments['type'];
+    final reply = arguments['reply'];
+    final raring = arguments['raring'];
+
+    double? rating = double.tryParse(raring ?? '');
 
     print('Order ID: $orderId');
     print('Vendor ID: $vendorId');
     print('Type: $type');
+    print('reply: $reply');
+    if (reply != "null") {
+      controller.reviewController.value.text = reply;
+    }
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -34,7 +42,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             hBox(40),
-            giveRating(),
+            giveRating(rating),
             hBox(30),
             giveReview(),
             hBox(20),
@@ -49,7 +57,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
                     if (reviewText.isEmpty) {
                       Utils.showToast("Review cannot be empty or just spaces");
                     } else {
-                      controller.cancelOrderApi(
+                      controller.postOrderReviewApi(
                         orderId: orderId,
                         vendorId: vendorId,
                         type: type,
@@ -80,7 +88,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
     );
   }
 
-  Widget giveRating() {
+  Widget giveRating(rating) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -102,7 +110,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
         RatingBar(
           itemPadding: EdgeInsets.only(right: 10.w),
           itemSize: 36,
-          initialRating: 0,
+          initialRating: rating,
           allowHalfRating: false,
           ratingWidget: RatingWidget(
             full: Icon(Icons.star, color: AppColors.goldStar),

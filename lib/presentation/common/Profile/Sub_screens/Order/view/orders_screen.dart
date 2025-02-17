@@ -320,10 +320,12 @@ class OrdersScreen extends StatelessWidget {
                         buildOrderDetailRow(
                             "Date & Time", order.createdAt.toString()),
                         buildOrderDetailRow(
-                            "Status", order.status
-                            .toString()
-                            .replaceAll("_", " ")
-                            .capitalize!,),
+                          "Status",
+                          order.status
+                              .toString()
+                              .replaceAll("_", " ")
+                              .capitalize!,
+                        ),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -434,11 +436,13 @@ class OrdersScreen extends StatelessWidget {
                             order.vendorName.toString()),
                         buildOrderDetailRow(
                             "Date & Time", order.createdAt.toString()),
-                        buildOrderDetailRow("Status",
+                        buildOrderDetailRow(
+                          "Status",
                           order.status
                               .toString()
                               .replaceAll("_", " ")
-                              .capitalize!,),
+                              .capitalize!,
+                        ),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -547,10 +551,12 @@ class OrdersScreen extends StatelessWidget {
                         buildOrderDetailRow(
                             "Date & Time", order.createdAt.toString()),
                         buildOrderDetailRow(
-                            "Status", order.status
-                            .toString()
-                            .replaceAll("_", " ")
-                            .capitalize!,),
+                          "Status",
+                          order.status
+                              .toString()
+                              .replaceAll("_", " ")
+                              .capitalize!,
+                        ),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -716,6 +722,8 @@ class OrdersScreen extends StatelessWidget {
                 'order_id': orderId,
                 'vendor_id': vendorId,
                 'type': type,
+                'reply': "null",
+                "raring": "0"
               };
               Get.toNamed(
                 AppRoutes.rateAndReviewProductScreen,

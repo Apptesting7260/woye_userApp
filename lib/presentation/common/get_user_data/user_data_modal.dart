@@ -2,11 +2,15 @@ class UserResponse {
   bool? status;
   String? message;
   User? user;
+  int? totalRestoProducts;
+  int? totalPharmaProducts;
 
   UserResponse({
     this.status,
     this.message,
     this.user,
+    this.totalRestoProducts,
+    this.totalPharmaProducts,
   });
 
   factory UserResponse.fromJson(Map<String, dynamic> json) {
@@ -14,6 +18,8 @@ class UserResponse {
       status: json['status'],
       message: json['message'],
       user: json['user'] != null ? User.fromJson(json['user']) : null,
+      totalRestoProducts: json['total_resto_products'],
+      totalPharmaProducts: json['total_pharma_products'],
     );
   }
 
@@ -22,9 +28,12 @@ class UserResponse {
       'status': status,
       'message': message,
       'user': user?.toJson(),
+      'total_resto_products': totalRestoProducts,
+      'total_pharma_products': totalPharmaProducts,
     };
   }
 }
+
 
 class User {
   int? id;

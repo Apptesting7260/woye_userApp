@@ -128,22 +128,26 @@ class ProfileScreen extends StatelessWidget {
           wBox(15),
           getUserDataController.userData.value.user?.userType != "guestUser"
               ? Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        getUserDataController
-                                .userData.value.user?.firstName!.characters
-                                .toString() ??
-                            "",
-                        style: AppFontStyle.text_18_600(AppColors.darkText),
-                      ),
-                      hBox(10),
-                      Text(
-                        getUserDataController.userData.value.user?.email ?? "",
-                        style: AppFontStyle.text_14_400(AppColors.darkText),
-                      ),
-                    ],
+                  () => Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getUserDataController
+                                  .userData.value.user?.firstName!.characters
+                                  .toString() ??
+                              "",
+                          style: AppFontStyle.text_18_600(AppColors.darkText),
+                        ),
+                        hBox(10),
+                        Text(
+                          getUserDataController.userData.value.user?.email ??
+                              "",
+                          style: AppFontStyle.text_14_400(AppColors.darkText),
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : Text(

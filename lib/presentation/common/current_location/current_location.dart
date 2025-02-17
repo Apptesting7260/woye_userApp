@@ -49,10 +49,14 @@ class CurrentLocationController extends GetxController {
   int hasPermissionForSettings = 0;
 
   Future<void> getCurrentPosition({bool back = false}) async {
-    hasPermissionForSettings++;
     print("hasPermissionForSettings $hasPermissionForSettings");
     final hasPermission = await _handleLocationPermission();
     print("objectobjectobjectobjectobjectobject12345${back}");
+    if (!hasPermission) {
+      hasPermissionForSettings++;
+      print(
+          "Permission Denied. Incrementing hasPermissionForSettings: $hasPermissionForSettings");
+    }
     if (hasPermissionForSettings > 1 && !hasPermission) {
       print("objectobjectobjectobjectobjectobject${back}");
       print("hasPermissionForSettingsagain $hasPermissionForSettings");
@@ -96,7 +100,7 @@ class CurrentLocationController extends GetxController {
 
   Future<void> _getAddressFromLatLng(Position position, bool back) async {
     await placemarkFromCoordinates(
-        _currentPosition!.latitude, _currentPosition!.longitude)
+            _currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       String houseNumber = place.subThoroughfare ?? '';

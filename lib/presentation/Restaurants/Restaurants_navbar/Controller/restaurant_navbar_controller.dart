@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/View/restaurant_wishlist_screen.dart';
@@ -9,6 +9,8 @@ import 'package:woye_user/presentation/common/Profile/View/profile_screen.dart';
 
 class RestaurantNavbarController extends GetxController {
   int navbarCurrentIndex;
+
+  var storage = GetStorage();
 
   RestaurantNavbarController({this.navbarCurrentIndex = 0});
 
@@ -21,7 +23,7 @@ class RestaurantNavbarController extends GetxController {
     const RestaurantHomeScreen(),
     RestaurantCategoriesScreen(),
     RestaurantWishlistScreen(),
-     RestaurantCartScreen(),
+    RestaurantCartScreen(),
     ProfileScreen()
   ];
 
@@ -42,4 +44,5 @@ class RestaurantNavbarController extends GetxController {
     navbarCurrentIndex = index;
     update();
   }
+
 }

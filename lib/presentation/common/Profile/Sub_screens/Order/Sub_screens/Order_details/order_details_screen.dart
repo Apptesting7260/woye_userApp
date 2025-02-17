@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
@@ -65,6 +66,8 @@ class OrderDetailsScreen extends StatelessWidget {
                       hBox(20),
                       paymentDetails(),
                       hBox(20),
+                      if (controller.ordersData.value.review != null) reviews(),
+                      if (controller.ordersData.value.review != null) hBox(20),
                       buttons(),
                       hBox(50)
                     ],
@@ -565,6 +568,103 @@ class OrderDetailsScreen extends StatelessWidget {
         ),
         hBox(15)
       ]),
+    );
+  }
+
+  Widget reviews() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: AppColors.textFieldBorder)),
+      child: CustomExpansionTile(
+        title: "Review",
+        children: [
+          Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.bgColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(10.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RatingBar.readOnly(
+                        filledIcon: Icons.star,
+                        emptyIcon: Icons.star,
+                        filledColor: AppColors.goldStar,
+                        emptyColor: AppColors.normalStar,
+                        initialRating: double.parse(controller
+                            .ordersData.value.review!.rating
+                            .toString()),
+                        maxRating: 5,
+                        size: 20.h,
+                      ),
+                      hBox(10),
+                      Text(
+                        controller.ordersData.value.review!.review.toString(),
+                        style: AppFontStyle.text_16_400(AppColors.darkText),
+                        maxLines: 2,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: IconButton(
+                    onPressed: () {
+                      final arguments = {
+                        'order_id': controller.ordersData.value.orderDetails!.id
+                            .toString(),
+                        'vendor_id': controller
+                            .ordersData.value.orderDetails!.vendorId
+                            .toString(),
+                        'type': controller.ordersData.value.orderDetails!.type
+                            .toString(),
+                        'reply': controller.ordersData.value.review!.review
+                            .toString()
+                            .trim(),
+                        "raring": controller.ordersData.value.review!.rating
+                            .toString()
+                      };
+                      Get.toNamed(
+                        AppRoutes.rateAndReviewProductScreen,
+                        arguments: arguments,
+                      );
+                    },
+                    icon: Icon(
+                      Icons.edit,
+                      color: AppColors.primary,
+                    )),
+              )
+            ],
+          ),
+          const Divider(),
+          if (controller.ordersData.value.review!.reply != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Icon(
+                  Icons.reply,
+                  color: AppColors.primary,
+                ),
+                Flexible(
+                  child: Text(
+                    controller.ordersData.value.review!.reply.toString().trim(),
+                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                    maxLines: 100,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          hBox(10),
+        ],
+      ),
     );
   }
 

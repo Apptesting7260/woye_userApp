@@ -83,6 +83,7 @@ class SignUpForm_editProfileController extends GetxController {
         formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";
         profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
+
         update();
 
         setRxRequestStatus(Status.COMPLETED);
@@ -270,16 +271,16 @@ class SignUpForm_editProfileController extends GetxController {
 
       image.value = originalImage;
 
-      // profileImageGetUrl.value = image.value.path;
       print("Path ---> ${image.value.path}");
 
-      // Crop the image after picking
       File? croppedImage = await _cropImage(image.value.path);
 
       if (croppedImage != null) {
+        int croppedSize = await croppedImage.length();
+        print('Cropped image size: $croppedSize bytes');
+        image.value = croppedImage;
         profileImageGetUrl.value = croppedImage.path;
         print("Cropped image path ---> ${profileImageGetUrl.value}");
-
         imageUploadApi();
       } else {
         print("Image cropping was canceled or failed.");

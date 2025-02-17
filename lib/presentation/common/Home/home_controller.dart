@@ -21,8 +21,8 @@ class HomeController extends GetxController {
 
   List<Widget> homeWidgets = [
     RestaurantNavbar(),
-    const PharmacyNavbar(),
-    const GroceryNavbar()
+     PharmacyNavbar(),
+     GroceryNavbar()
   ];
 
   List<Map<String, dynamic>> mainButtonbar = [

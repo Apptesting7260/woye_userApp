@@ -1,4 +1,6 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/main.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 
 class RestaurantCartController extends GetxController {
@@ -6,7 +8,9 @@ class RestaurantCartController extends GetxController {
   final rxRequestStatus = Status.LOADING.obs;
   final cartData = RestaurantCartModal().obs;
 
+  final storage = GetStorage();
 
+  // var cartCount = 0.obs;
 
   final Rx<TextEditingController> couponCodeController =
       TextEditingController().obs;
@@ -22,7 +26,8 @@ class RestaurantCartController extends GetxController {
   }
 
   void setError(String value) => error.value = value;
-
+  // final CartController cartController =
+  // Get.put(CartController());
   getRestaurantCartApi() async {
     readOnly.value = true;
     couponCodeController.value.clear();

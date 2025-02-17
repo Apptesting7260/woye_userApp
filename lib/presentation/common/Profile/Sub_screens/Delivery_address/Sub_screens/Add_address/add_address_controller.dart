@@ -7,6 +7,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/p
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
+import 'package:woye_user/presentation/common/get_user_data/user_data_modal.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 
 class AddAddressController extends GetxController {
@@ -40,6 +41,40 @@ class AddAddressController extends GetxController {
     print('Stored Latitude: ${latitude.value}');
     print('Stored Longitude: ${longitude.value}');
     locationController.text = location.value;
+
+    printUserNameAndPhone();
+  }
+
+  void printUserNameAndPhone() {
+    Map<String, dynamic>? userJson = storage.read('user_data');
+    if (userJson != null) {
+      UserResponse userResponse = UserResponse.fromJson(userJson);
+
+      String firstName = userResponse.user?.firstName ?? '';
+      String lastName = userResponse.user?.lastName ?? '';
+      String phone = userResponse.user?.phone ?? '';
+      String countryCodeFromAPI = userResponse.user?.countryCode ?? '';
+
+      nameController.value.text = firstName.toString();
+      mobNoController.value.text = phone.toString();
+      print("countryCodeFrom API: $countryCodeFromAPI");
+      if (countryCodeFromAPI.isNotEmpty) {
+        String dialCode = countryCodeFromAPI;
+        String countryCode = countryCodeFromAPI;
+        selectedCountryCode.value =
+            CountryCode(dialCode: dialCode, code: countryCode);
+        CountryCode country = CountryCode.fromDialCode(dialCode);
+        String? countryCodename = country.code;
+        chackCountryLength = countryPhoneDigits[countryCodename]!;
+        print("chackCountryLength: ${chackCountryLength}");
+        print("selectedCountryCode: ${selectedCountryCode.value.code}");
+      }
+
+      print('Full Name: $firstName $lastName');
+      print('Phone: $phone');
+    } else {
+      print('No user data found in storage');
+    }
   }
 
   Rx<CountryCode> selectedCountryCode =

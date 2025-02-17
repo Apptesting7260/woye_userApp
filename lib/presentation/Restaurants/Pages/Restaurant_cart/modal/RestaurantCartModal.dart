@@ -73,6 +73,7 @@ class Cart {
   var couponId;
   var couponDiscount;
   CouponApplied? couponApplied;
+  var totalProductsInCart;
 
   Cart({
     this.id,
@@ -93,6 +94,7 @@ class Cart {
     this.couponId,
     this.couponDiscount,
     this.couponApplied,
+    this.totalProductsInCart = 0,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
@@ -123,6 +125,7 @@ class Cart {
       couponId: json['coupon_id'],
       couponDiscount: json['coupon_discount'],
       couponApplied: couponApplied,
+      totalProductsInCart: json['total_products_in_cart'],
     );
   }
 
@@ -147,9 +150,108 @@ class Cart {
       'coupon_id': couponId,
       'coupon_discount': couponDiscount,
       'coupon_applied': couponApplied?.toJson(),
+      'total_products_in_cart': totalProductsInCart,
+      // Add the new field to the JSON
     };
   }
 }
+
+// class Cart {
+//   int? id;
+//   int? userId;
+//   int? productId;
+//   int? restoId;
+//   String? status;
+//   int? orderId;
+//   String? bucket;
+//   String? createdAt;
+//   String? updatedAt;
+//   List<DecodedAttribute>? decodedAttribute;
+//   var regularPrice;
+//   var saveAmount;
+//   var deliveryCharge;
+//   var totalPrice;
+//   var grandTotalPrice;
+//   var couponId;
+//   var couponDiscount;
+//   CouponApplied? couponApplied;
+//
+//   Cart({
+//     this.id,
+//     this.userId,
+//     this.productId,
+//     this.restoId,
+//     this.status,
+//     this.orderId,
+//     this.bucket,
+//     this.createdAt,
+//     this.updatedAt,
+//     this.decodedAttribute,
+//     this.regularPrice,
+//     this.saveAmount,
+//     this.deliveryCharge,
+//     this.totalPrice,
+//     this.grandTotalPrice,
+//     this.couponId,
+//     this.couponDiscount,
+//     this.couponApplied,
+//   });
+//
+//   factory Cart.fromJson(Map<String, dynamic> json) {
+//     var decodedAttributeList = (json['decoded_attribute'] as List?)
+//         ?.map((item) => DecodedAttribute.fromJson(item))
+//         .toList();
+//
+//     var couponApplied = json['coupon_applied'] != null
+//         ? CouponApplied.fromJson(json['coupon_applied'])
+//         : null;
+//
+//     return Cart(
+//       id: json['id'],
+//       userId: json['user_id'],
+//       productId: json['product_id'],
+//       restoId: json['resto_id'],
+//       status: json['status'],
+//       orderId: json['order_id'],
+//       bucket: json['bucket'],
+//       createdAt: json['created_at'],
+//       updatedAt: json['updated_at'],
+//       decodedAttribute: decodedAttributeList ?? [],
+//       regularPrice: json['regular_price'],
+//       saveAmount: json['save_amount'],
+//       deliveryCharge: json['delivery_charge'],
+//       totalPrice: json['total_price'],
+//       grandTotalPrice: json['grand_total_price'],
+//       couponId: json['coupon_id'],
+//       couponDiscount: json['coupon_discount'],
+//       couponApplied: couponApplied,
+//     );
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'id': id,
+//       'user_id': userId,
+//       'product_id': productId,
+//       'resto_id': restoId,
+//       'status': status,
+//       'order_id': orderId,
+//       'bucket': bucket,
+//       'created_at': createdAt,
+//       'updated_at': updatedAt,
+//       'decoded_attribute':
+//           decodedAttribute?.map((e) => e.toJson()).toList() ?? [],
+//       'regular_price': regularPrice,
+//       'save_amount': saveAmount,
+//       'delivery_charge': deliveryCharge,
+//       'total_price': totalPrice,
+//       'grand_total_price': grandTotalPrice,
+//       'coupon_id': couponId,
+//       'coupon_discount': couponDiscount,
+//       'coupon_applied': couponApplied?.toJson(),
+//     };
+//   }
+// }
 
 class CouponApplied {
   int? id;
@@ -267,7 +369,7 @@ class DecodedAttribute {
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
     var addonList =
-    (json['addons'] as List?)?.map((item) => Addon.fromJson(item)).toList();
+        (json['addons'] as List?)?.map((item) => Addon.fromJson(item)).toList();
 
     var attributeList = (json['attribute'] as List?)
         ?.map((item) => Attribute.fromJson(item))
@@ -306,7 +408,6 @@ class DecodedAttribute {
     };
   }
 }
-
 
 class Addon {
   String? id;

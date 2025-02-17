@@ -73,6 +73,7 @@ class Cart {
   int? couponId;
   int? couponDiscount;
   CouponApplied? couponApplied;
+  var totalProductsInCart;
 
   Cart({
     this.id,
@@ -93,6 +94,7 @@ class Cart {
     this.couponId,
     this.couponDiscount,
     this.couponApplied,
+    this.totalProductsInCart = 0,
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {
@@ -123,6 +125,8 @@ class Cart {
       couponId: json['coupon_id'],
       couponDiscount: json['coupon_discount'],
       couponApplied: couponApplied,
+      totalProductsInCart:
+          json['total_products_in_cart'], // Parse the new field
     );
   }
 
@@ -147,6 +151,8 @@ class Cart {
       'coupon_id': couponId,
       'coupon_discount': couponDiscount,
       'coupon_applied': couponApplied?.toJson(),
+      'total_products_in_cart': totalProductsInCart,
+      // Add the new field to the JSON
     };
   }
 }

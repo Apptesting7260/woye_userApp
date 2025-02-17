@@ -63,8 +63,8 @@ class PharmacyCategoryDetails extends StatelessWidget {
                     SliverAppBar(
                       automaticallyImplyLeading: false,
                       pinned: false,
-                      snap: true,
-                      floating: true,
+                      snap: false,
+                      floating: false,
                       expandedHeight: 70.h,
                       surfaceTintColor: Colors.transparent,
                       backgroundColor: Colors.transparent,

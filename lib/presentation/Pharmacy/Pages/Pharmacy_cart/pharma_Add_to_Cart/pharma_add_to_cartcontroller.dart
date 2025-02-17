@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
@@ -23,6 +24,8 @@ class PharmacyAddToCarController extends GetxController {
   void setData(PharmaAddToCart value) => addToCartData.value = value;
 
   void setUpdateCartData(PharmaAddToCart value) => updateCartData.value = value;
+  final PharmacyCartController pharmacyCartController =
+      Get.put(PharmacyCartController());
 
   void setError(String value) => error.value = value;
 
@@ -67,6 +70,7 @@ class PharmacyAddToCarController extends GetxController {
             extrasItemPrices: extrasItemPrices,
           );
         } else {
+          pharmacyCartController.getPharmacyCartApi();
           setRxRequestStatus(Status.COMPLETED);
           pharmaSpecificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
@@ -108,6 +112,7 @@ class PharmacyAddToCarController extends GetxController {
       setUpdateCartData(value);
       if (updateCartData.value.status == true) {
         pharmaSpecificProductController.goToCart.value = true;
+        pharmacyCartController.getPharmacyCartApi();
         Utils.showToast(updateCartData.value.message.toString());
         setRxRequestStatus2(Status.COMPLETED);
         Get.back();

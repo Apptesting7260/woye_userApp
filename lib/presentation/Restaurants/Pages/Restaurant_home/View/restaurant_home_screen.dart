@@ -16,6 +16,8 @@ import '../../../../../shared/widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../Restaurant_cart/Controller/restaurant_cart_controller.dart';
+
 class RestaurantHomeScreen extends StatefulWidget {
   const RestaurantHomeScreen({super.key});
 
@@ -45,10 +47,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
       Get.put(RestaurantDetailsController());
 
   final ScrollController _scrollController = ScrollController();
+  final RestaurantCartController restaurantCartController =
+      Get.put(RestaurantCartController());
 
   @override
   void initState() {
     super.initState();
+    restaurantCartController.getRestaurantCartApi();
     WidgetsBinding.instance.addPostFrameCallback(_getHeight);
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==

@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    currentLocationController.getCurrentPosition(back: true);
+    // currentLocationController.getCurrentPosition(back: true);
     showLocationDialog();
     return Material(
       child: Column(

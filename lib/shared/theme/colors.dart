@@ -6,7 +6,7 @@ class AppColors {
   static Color primary = const Color.fromRGBO(6, 132, 75, 1);
   static Color lightPrimary = const Color.fromRGBO(6, 132, 75, 0.2);
   static Color ultraLightPrimary = const Color.fromRGBO(6, 132, 75, 0.1);
-
+  static Color bgColor = const Color.fromRGBO(241, 241, 241, 1);
   static Color lightText = const Color.fromRGBO(148, 148, 148, 1);
   static Color mediumText = const Color.fromRGBO(106, 110, 122, 1);
   static Color darkText = const Color.fromRGBO(24, 23, 37, 1);
