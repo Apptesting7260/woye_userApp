@@ -209,11 +209,14 @@ class PharmacyHomeFilter extends StatelessWidget {
                   imageUrl: image.toString(),
                   fit: BoxFit.cover,
                   height: 160.h,
+                  width: Get.width / 1.6,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   placeholder: (context, url) => Shimmer.fromColors(
                     baseColor: AppColors.gray,
                     highlightColor: AppColors.lightText,
                     child: Container(
+                      height: 160.h,
+                      width: Get.width / 1.6,
                       decoration: BoxDecoration(
                         color: AppColors.gray,
                         borderRadius: BorderRadius.circular(20.r),

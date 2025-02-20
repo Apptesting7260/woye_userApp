@@ -64,11 +64,11 @@ class PharmaSpecificProductController extends GetxController {
   }
 
 // ----------------- add to cart data -----------------
-// RxList selectedAddOn = [].obs;
-  RxList variantTitlesIdsId = [].obs;
-  RxList variantItemIdsId = [].obs;
-  RxList variantItemIdsName = [].obs;
-  RxList variantItemIdsPrice = [].obs;
+RxList selectedAddOn = [].obs;
+//   RxList variantTitlesIdsId = [].obs;
+//   RxList variantItemIdsId = [].obs;
+//   RxList variantItemIdsName = [].obs;
+//   RxList variantItemIdsPrice = [].obs;
 
   void productPriceFun() {
     int count = cartCount.value;

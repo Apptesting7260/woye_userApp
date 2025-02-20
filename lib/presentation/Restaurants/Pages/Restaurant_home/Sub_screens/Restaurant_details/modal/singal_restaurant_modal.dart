@@ -36,11 +36,12 @@ class SpecificRestaurantModal {
         review!.add(Review.fromJson(v));
       });
     }
-    totalReviews = json['totalReviews']; // Parse the totalReviews
-    averageRating = json['average_rating'] != null
-        ? double.tryParse(
-            json['average_rating'].toString()) // Parse average_rating as double
-        : null;
+    totalReviews = json['totalReviews'];
+    averageRating = json['average_rating'];
+    // averageRating = json['average_rating'] != null
+    //     ? double.tryParse(
+    //         json['average_rating'].toString())
+    //     : null;
   }
 
   Map<String, dynamic> toJson() {

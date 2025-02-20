@@ -2,7 +2,8 @@ class OrderDetailsModal {
   bool? status;
   OrderDetails? orderDetails;
   AddressDetails? addressDetails;
-  int? deliveryCharges;
+  var deliveryCharges;
+  var subtotal;
   Review? review;
 
   OrderDetailsModal({
@@ -10,6 +11,7 @@ class OrderDetailsModal {
     this.orderDetails,
     this.addressDetails,
     this.deliveryCharges,
+    this.subtotal,
     this.review,
   });
 
@@ -22,6 +24,7 @@ class OrderDetailsModal {
         ? AddressDetails.fromJson(json['addressDetails'])
         : null;
     deliveryCharges = json['deliveryCharges'];
+    subtotal = json['subtotal'];
     review = json['reviews'] != null ? Review.fromJson(json['reviews']) : null;
   }
 
@@ -35,6 +38,7 @@ class OrderDetailsModal {
       data['addressDetails'] = addressDetails!.toJson();
     }
     data['deliveryCharges'] = deliveryCharges;
+    data['subtotal'] = subtotal;
     if (review != null) {
       data['reviews'] = review!.toJson();
     }
@@ -56,7 +60,7 @@ class OrderDetails {
   int? vendorId;
   String? walletUsed;
   String? remainingPayment;
-  int? total;
+  var total;
   String? status;
   String? createdAt;
   String? updatedAt;

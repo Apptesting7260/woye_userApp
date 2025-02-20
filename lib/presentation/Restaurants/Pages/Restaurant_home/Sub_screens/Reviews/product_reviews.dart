@@ -164,69 +164,88 @@ class ProductReviews extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                controller.seeAllReview.value.reviewAll![index]
-                                    .user!.firstName
-                                    .toString(),
-                                style: AppFontStyle.text_16_400(
-                                  AppColors.darkText,
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.bgColor,
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                              ),
-                              hBox(5),
-                              RatingBar.readOnly(
-                                filledIcon: Icons.star,
-                                emptyIcon: Icons.star,
-                                filledColor: AppColors.goldStar,
-                                emptyColor: AppColors.normalStar,
-                                initialRating: double.parse(controller
-                                    .seeAllReview
-                                    .value
-                                    .reviewAll![index]
-                                    .rating!
-                                    .toString()),
-                                maxRating: 5,
-                                size: 20.h,
-                              ),
-                              hBox(10),
-                              Text(
-                                controller.seeAllReview.value.reviewAll![index]
-                                    .message
-                                    .toString()
-                                    .trim(),
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.darkText),
-                                maxLines: 100,
-                              ),
-                              hBox(10),
-                              Text(
-                                controller.formatDate(controller.seeAllReview
-                                    .value.reviewAll![index].createdAt
-                                    .toString()),
-                                style: AppFontStyle.text_16_400(
-                                    AppColors.lightText),
+                                child: Padding(
+                                  padding:  EdgeInsets.all(10.h),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        controller.seeAllReview.value.reviewAll![index]
+                                            .user!.firstName
+                                            .toString(),
+                                        style: AppFontStyle.text_16_400(
+                                          AppColors.darkText,
+                                        ),
+                                      ),
+                                      hBox(5),
+                                      RatingBar.readOnly(
+                                        filledIcon: Icons.star,
+                                        emptyIcon: Icons.star,
+                                        filledColor: AppColors.goldStar,
+                                        emptyColor: AppColors.normalStar,
+                                        initialRating: double.parse(controller
+                                            .seeAllReview
+                                            .value
+                                            .reviewAll![index]
+                                            .rating!
+                                            .toString()),
+                                        maxRating: 5,
+                                        size: 20.h,
+                                      ),
+                                      hBox(10),
+                                      Text(
+                                        controller.seeAllReview.value.reviewAll![index]
+                                            .message
+                                            .toString()
+                                            .trim(),
+                                        style: AppFontStyle.text_16_400(
+                                            AppColors.darkText),
+                                        maxLines: 100,
+                                      ),
+                                      hBox(10),
+                                      Text(
+                                        controller.formatDate(controller.seeAllReview
+                                            .value.reviewAll![index].createdAt
+                                            .toString()),
+                                        style: AppFontStyle.text_16_400(
+                                            AppColors.lightText),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                               if(controller.seeAllReview.value
                                   .reviewAll![index].reply != null)
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Icon(
-                                    Icons.reply,
-                                    color: AppColors.primary,
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      controller.seeAllReview.value
-                                          .reviewAll![index].reply
-                                          .toString()
-                                          .trim(),
-                                      style: AppFontStyle.text_16_400(
-                                          AppColors.lightText),
-                                      maxLines: 100,
-                                      overflow: TextOverflow.ellipsis,
+                              Padding(
+                                padding:  EdgeInsets.only(top: 10.h),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Icon(
+                                      Icons.reply,
+                                      color: AppColors.primary,
                                     ),
-                                  ),
-                                ],
+                                    Flexible(
+                                      child: Text(
+                                        controller.seeAllReview.value
+                                            .reviewAll![index].reply
+                                            .toString()
+                                            .trim(),
+                                        style: AppFontStyle.text_16_400(
+                                            AppColors.lightText),
+                                        maxLines: 100,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

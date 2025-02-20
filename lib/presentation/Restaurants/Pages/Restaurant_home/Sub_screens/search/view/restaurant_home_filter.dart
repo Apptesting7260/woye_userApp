@@ -231,113 +231,119 @@ class RestaurantHomeFilter extends StatelessWidget {
 
   Widget restaurantList(
       {index, String? image, title, type, isFavourite, rating, price}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Stack(
-          alignment: Alignment.topRight,
-          children: [
-            // Container(
-            //   clipBehavior: Clip.antiAlias,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(20.r),
-            //   ),
-            //   child: CachedNetworkImage(
-            //     imageUrl: image.toString(),
-            //     // height: 220.h,
-            //     height: 150.h,
-            //     width: 70.w,
-            //     placeholder: (context, url) => Shimmer.fromColors(
-            //       baseColor: AppColors.gray,
-            //       highlightColor: AppColors.lightText,
-            //       child: Container(
-            //         decoration: BoxDecoration(
-            //           color: AppColors.gray,
-            //           borderRadius: BorderRadius.circular(20.r),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
-              child: Center(
-                child: CachedNetworkImage(
-                  imageUrl: image.toString(),
-                  fit: BoxFit.cover,
-                  height: 160.h,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  placeholder: (context, url) => Shimmer.fromColors(
-                    baseColor: AppColors.gray,
-                    highlightColor: AppColors.lightText,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.gray,
-                        borderRadius: BorderRadius.circular(20.r),
+    return Container(
+      width: Get.width / 1.6,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              // Container(
+              //   clipBehavior: Clip.antiAlias,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(20.r),
+              //   ),
+              //   child: CachedNetworkImage(
+              //     imageUrl: image.toString(),
+              //     // height: 220.h,
+              //     height: 150.h,
+              //     width: 70.w,
+              //     placeholder: (context, url) => Shimmer.fromColors(
+              //       baseColor: AppColors.gray,
+              //       highlightColor: AppColors.lightText,
+              //       child: Container(
+              //         decoration: BoxDecoration(
+              //           color: AppColors.gray,
+              //           borderRadius: BorderRadius.circular(20.r),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Center(
+                  child: CachedNetworkImage(
+                    imageUrl: image.toString(),
+                    fit: BoxFit.cover,
+                    height: 160.h,
+                    width: Get.width / 1.6,
+                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: AppColors.gray,
+                      highlightColor: AppColors.gray,
+                      child: Container(
+                        height: 160.h,
+                        width: Get.width / 1.6,
+                        decoration: BoxDecoration(
+                          color: AppColors.gray,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            // GestureDetector(
-            //   onTap: () {},
-            //   child: Container(
-            //     margin: REdgeInsets.only(top: 15, right: 15),
-            //     padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
-            //     decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(10.r),
-            //         color: AppColors.greyBackground),
-            //     child: isFavourite != true
-            //         ? Icon(
-            //             Icons.favorite_border_outlined,
-            //             size: 20.w,
-            //           )
-            //         : Icon(
-            //             Icons.favorite,
-            //             size: 20.w,
-            //           ),
-            //
-            //     // SvgPicture.asset(
-            //     //   "assets/svg/favorite-inactive.svg",
-            //     //   height: 15.h,
-            //     // ),
-            //   ),
-            // )
-          ],
-        ),
-        hBox(10),
-        Text(
-          title,
-          textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
-        ),
-        // hBox(10),
-        Row(
-          // crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              price,
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
-            ),
-            Text(
-              " • ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
-            ),
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
-            Text(
-              "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
-            ),
-          ],
-        )
-      ],
+              // GestureDetector(
+              //   onTap: () {},
+              //   child: Container(
+              //     margin: REdgeInsets.only(top: 15, right: 15),
+              //     padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
+              //     decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(10.r),
+              //         color: AppColors.greyBackground),
+              //     child: isFavourite != true
+              //         ? Icon(
+              //             Icons.favorite_border_outlined,
+              //             size: 20.w,
+              //           )
+              //         : Icon(
+              //             Icons.favorite,
+              //             size: 20.w,
+              //           ),
+              //
+              //     // SvgPicture.asset(
+              //     //   "assets/svg/favorite-inactive.svg",
+              //     //   height: 15.h,
+              //     // ),
+              //   ),
+              // )
+            ],
+          ),
+          hBox(10),
+          Text(
+            title,
+            textAlign: TextAlign.left,
+            style: AppFontStyle.text_18_400(AppColors.darkText),
+          ),
+          // hBox(10),
+          Row(
+            // crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                price,
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_16_600(AppColors.primary),
+              ),
+              Text(
+                " • ",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_16_300(AppColors.lightText),
+              ),
+              SvgPicture.asset("assets/svg/star-yellow.svg"),
+              wBox(4),
+              Text(
+                "$rating/5",
+                style: AppFontStyle.text_14_400(AppColors.lightText),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

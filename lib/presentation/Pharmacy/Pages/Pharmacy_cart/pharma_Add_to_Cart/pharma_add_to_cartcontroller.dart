@@ -34,10 +34,10 @@ class PharmacyAddToCarController extends GetxController {
     required String productQuantity,
     required String productPrice,
     required String pharmaId,
-    required List<dynamic> extrasIds,
-    required List<dynamic> extrasItemIds,
-    required List<dynamic> extrasItemNames,
-    required List<dynamic> extrasItemPrices,
+    // required List<dynamic> extrasIds,
+    // required List<dynamic> extrasItemIds,
+    // required List<dynamic> extrasItemNames,
+    // required List<dynamic> extrasItemPrices,
   }) async {
     setRxRequestStatus(Status.LOADING);
     // initializeUser();
@@ -47,10 +47,10 @@ class PharmacyAddToCarController extends GetxController {
       "quantity": productQuantity,
       "price": productPrice,
       "pharma_id": pharmaId,
-      "title_id": extrasIds,
-      "item_id": extrasItemIds,
-      "item_name": extrasItemNames,
-      "item_price": extrasItemPrices,
+      // "title_id": extrasIds,
+      // "item_id": extrasItemIds,
+      // "item_name": extrasItemNames,
+      // "item_price": extrasItemPrices,
     });
     api.pharmaAddToCartApi(body).then((value) {
       setData(value);
@@ -64,10 +64,10 @@ class PharmacyAddToCarController extends GetxController {
             productPrice: productPrice,
             restaurantId: pharmaId,
             // addons: addons,
-            extrasIds: extrasIds,
-            extrasItemIds: extrasItemIds,
-            extrasItemNames: extrasItemNames,
-            extrasItemPrices: extrasItemPrices,
+            // extrasIds: extrasIds,
+            // extrasItemIds: extrasItemIds,
+            // extrasItemNames: extrasItemNames,
+            // extrasItemPrices: extrasItemPrices,
           );
         } else {
           pharmacyCartController.getPharmacyCartApi();
@@ -92,10 +92,10 @@ class PharmacyAddToCarController extends GetxController {
     required String productQuantity,
     required String productPrice,
     required String restaurantId,
-    required List<dynamic> extrasIds,
-    required List<dynamic> extrasItemIds,
-    required List<dynamic> extrasItemNames,
-    required List<dynamic> extrasItemPrices,
+    // required List<dynamic> extrasIds,
+    // required List<dynamic> extrasItemIds,
+    // required List<dynamic> extrasItemNames,
+    // required List<dynamic> extrasItemPrices,
   }) async {
     setRxRequestStatus2(Status.LOADING);
     var body = jsonEncode({
@@ -103,10 +103,10 @@ class PharmacyAddToCarController extends GetxController {
       "quantity": productQuantity,
       "price": productPrice,
       "pharma_id": restaurantId,
-      "title_id": extrasIds,
-      "item_id": extrasItemIds,
-      "item_name": extrasItemNames,
-      "item_price": extrasItemPrices,
+      // "title_id": extrasIds,
+      // "item_id": extrasItemIds,
+      // "item_name": extrasItemNames,
+      // "item_price": extrasItemPrices,
     });
     api.pharmaUpdateCartApi(body).then((value) {
       setUpdateCartData(value);
@@ -134,10 +134,10 @@ class PharmacyAddToCarController extends GetxController {
     required String productQuantity,
     required String productPrice,
     required String restaurantId,
-    required List<dynamic> extrasIds,
-    required List<dynamic> extrasItemIds,
-    required List<dynamic> extrasItemNames,
-    required List<dynamic> extrasItemPrices,
+    // required List<dynamic> extrasIds,
+    // required List<dynamic> extrasItemIds,
+    // required List<dynamic> extrasItemNames,
+    // required List<dynamic> extrasItemPrices,
   }) {
     return Get.dialog(
       AlertDialog.adaptive(
@@ -187,10 +187,10 @@ class PharmacyAddToCarController extends GetxController {
                           productQuantity: productQuantity,
                           productPrice: productPrice,
                           restaurantId: restaurantId,
-                          extrasIds: extrasIds,
-                          extrasItemPrices: extrasItemPrices,
-                          extrasItemNames: extrasItemNames,
-                          extrasItemIds: extrasIds,
+                          // extrasIds: extrasIds,
+                          // extrasItemPrices: extrasItemPrices,
+                          // extrasItemNames: extrasItemNames,
+                          // extrasItemIds: extrasIds,
                         );
                       },
                       text: "Yes",

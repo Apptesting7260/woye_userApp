@@ -270,7 +270,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           imageUrl: item.productImage.toString(),
                           height: 100.h,
                           width: 100.h,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                           placeholder: (context, url) => Shimmer.fromColors(
                             baseColor: AppColors.gray,
                             highlightColor: AppColors.lightText,
@@ -461,16 +461,34 @@ class OrderDetailsScreen extends StatelessWidget {
               ),
             if (controller.ordersData.value.orderDetails!.coupon != null)
               hBox(10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Column(
               children: [
-                Text(
-                  "Delivery Charge",
-                  style: AppFontStyle.text_12_400(AppColors.lightText),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Sub Total",
+                      style: AppFontStyle.text_12_400(AppColors.lightText),
+                    ),
+                    Text(
+                      "\$${controller.ordersData.value.subtotal.toString()}",
+                      style: AppFontStyle.text_12_600(AppColors.darkText),
+                    ),
+                  ],
                 ),
-                Text(
-                  "\$${controller.ordersData.value.deliveryCharges.toString()}",
-                  style: AppFontStyle.text_12_600(AppColors.darkText),
+                hBox(5.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Delivery Charge",
+                      style: AppFontStyle.text_12_400(AppColors.lightText),
+                    ),
+                    Text(
+                      "\$${controller.ordersData.value.deliveryCharges.toString()}",
+                      style: AppFontStyle.text_12_600(AppColors.darkText),
+                    ),
+                  ],
                 ),
               ],
             ),

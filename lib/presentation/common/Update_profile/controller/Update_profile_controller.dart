@@ -33,6 +33,8 @@ class SignUpForm_editProfileController extends GetxController {
     super.onInit();
   }
 
+  RxBool emailVerify = false.obs;
+
   final api = Repository();
 
   final rxRequestStatus = Status.LOADING.obs;
@@ -55,6 +57,7 @@ class SignUpForm_editProfileController extends GetxController {
   var profileImageFromAPI = "".obs;
 
   getprofileApi() async {
+    emailVerify.value = false;
     userModel = await pref.getUser();
     log("get header : ${userModel.token.toString()}");
     profileImageGetUrl.value = "";

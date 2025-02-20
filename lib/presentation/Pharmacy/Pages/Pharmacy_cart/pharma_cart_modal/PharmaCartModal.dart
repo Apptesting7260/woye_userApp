@@ -65,13 +65,13 @@ class Cart {
   String? createdAt;
   String? updatedAt;
   List<DecodedAttribute>? decodedAttribute;
-  int? regularPrice;
-  int? saveAmount;
-  int? deliveryCharge;
-  int? totalPrice;
-  int? grandTotalPrice;
-  int? couponId;
-  int? couponDiscount;
+  var regularPrice;
+  var saveAmount;
+  var deliveryCharge;
+  var totalPrice;
+  var grandTotalPrice;
+  var couponId;
+  var couponDiscount;
   CouponApplied? couponApplied;
   var totalProductsInCart;
 

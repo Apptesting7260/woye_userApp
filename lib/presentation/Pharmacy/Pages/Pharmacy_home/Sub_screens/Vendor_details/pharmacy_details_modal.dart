@@ -40,7 +40,8 @@ class SpecificPharmacyModal {
 
     // Parse the new fields
     totalReviews = json['totalReviews'];
-    averageRating = json['average_rating'] != null ? json['average_rating'].toDouble() : null;
+    averageRating = json['average_rating'];
+    // averageRating = json['average_rating'] != null ? json['average_rating'].toDouble() : null;
   }
 
   Map<String, dynamic> toJson() {

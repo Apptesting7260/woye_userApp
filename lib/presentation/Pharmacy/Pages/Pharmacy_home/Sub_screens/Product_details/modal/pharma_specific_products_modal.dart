@@ -200,32 +200,38 @@ class Product {
 }
 
 class Variant {
-  String? title;
-  String? titleid;
-  List<Item>? item;
-  RxInt selectedIndex = (-1).obs;
+  String? name;
+  String? productId;
+  int? price;
+  int? categoryId;
+  String? category_name;
 
-  Variant({this.title, this.titleid, this.item});
+  Variant({
+     this.name,
+     this.productId,
+     this.price,
+     this.categoryId,
+     this.category_name,
+  });
 
-  Variant.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    titleid = json['titleid'];
-    if (json['item'] != null) {
-      item = <Item>[];
-      json['item'].forEach((v) {
-        item!.add(Item.fromJson(v));
-      });
-    }
+  factory Variant.fromJson(Map<String, dynamic> json) {
+    return Variant(
+      name: json['name'],
+      productId: json['product_id'],
+      price: json['price'],
+      categoryId: json['category_id'],
+      category_name: json['category_name'],
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['titleid'] = this.titleid;
-    if (this.item != null) {
-      data['item'] = this.item!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return {
+      'name': name,
+      'product_id': productId,
+      'price': price,
+      'category_id': categoryId,
+      'category_name': category_name,
+    };
   }
 }
 

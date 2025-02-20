@@ -15,6 +15,8 @@ class AppUrls {
   static const String getProfile = "$baseUrl/get-profile";
   static const String updateProfile = "$baseUrl/update-profile";
   static const String getUserData = "$baseUrl/user-profile";
+  static const String sendVerificationOtp = "$baseUrl/send-verification-otp";
+  static const String verifyOtp = "$baseUrl/verify-email-otp";
 
   // static const String updateStatus = "$baseUrl/update-status";
 

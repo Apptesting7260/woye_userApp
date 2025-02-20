@@ -61,7 +61,7 @@ class HomeScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': ""});
+                            arguments: {'type': "","fromcart": false,});
                       },
                       child: Container(
                           height: 50.h,

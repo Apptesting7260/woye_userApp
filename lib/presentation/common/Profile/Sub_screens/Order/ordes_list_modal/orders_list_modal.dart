@@ -106,7 +106,7 @@ class Orders {
   int? vendorId;
   String? walletUsed;
   String? remainingPayment;
-  double? total;
+  var total;
   String? status;
   String? createdAt;
   String? updatedAt;
@@ -147,8 +147,7 @@ class Orders {
     vendorId = json['vendor_id'];
     walletUsed = json['wallet_used'];
     remainingPayment = json['remaining_payment'];
-    total = json['total']
-        ?.toDouble(); // Total is a number, so we need to convert it to a double if necessary
+    total = json['total'];
     status = json['status'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

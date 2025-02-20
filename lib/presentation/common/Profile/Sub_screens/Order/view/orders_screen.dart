@@ -161,7 +161,7 @@ class OrdersScreen extends StatelessWidget {
                                   .toString(),
                               height: 100.h,
                               width: 100.h,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: AppColors.gray,
                                 highlightColor: AppColors.lightText,
@@ -277,7 +277,7 @@ class OrdersScreen extends StatelessWidget {
                                   .toString(),
                               height: 100.h,
                               width: 100.h,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: AppColors.gray,
                                 highlightColor: AppColors.lightText,
@@ -394,7 +394,7 @@ class OrdersScreen extends StatelessWidget {
                                   .toString(),
                               height: 100.h,
                               width: 100.h,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: AppColors.gray,
                                 highlightColor: AppColors.lightText,
@@ -508,7 +508,7 @@ class OrdersScreen extends StatelessWidget {
                                   .toString(),
                               height: 100.h,
                               width: 100.h,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: AppColors.gray,
                                 highlightColor: AppColors.lightText,

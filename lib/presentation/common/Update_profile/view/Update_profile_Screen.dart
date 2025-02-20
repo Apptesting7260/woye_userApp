@@ -4,6 +4,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_controller.dart';
+import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_email_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class SignUpFormScreen extends StatelessWidget {
@@ -11,6 +12,9 @@ class SignUpFormScreen extends StatelessWidget {
 
   final SignUpForm_editProfileController controller =
       Get.put(SignUpForm_editProfileController());
+
+  final SendOtpEmailController sendOtpEmailController =
+      Get.put(SendOtpEmailController());
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +201,47 @@ class SignUpFormScreen extends StatelessWidget {
                 onTapOutside: (event) {
                   FocusScope.of(context).unfocus();
                 },
+                onChanged: (value) {
+                  if (controller.profileData.value.data?.email ==
+                      signUpFormController.emailController.text.trim()) {
+                    controller.emailVerify.value = false;
+                  } else {
+                    controller.emailVerify.value = true;
+                  }
+                },
                 validator: signUpFormController.validateEmail,
+                suffix: signUpFormController.emailController.text.isEmpty
+                    ? const SizedBox()
+                    : (controller.profileData.value.data?.emailVerified ==
+                                "true" &&
+                            controller.emailVerify.value == false)
+                        ? Icon(
+                            Icons.check_circle,
+                            color: AppColors.primary,
+                          )
+                        : Obx(
+                            () => TextButton(
+                                onPressed: (sendOtpEmailController
+                                            .rxRequestStatus.value ==
+                                        Status.LOADING)
+                                    ? null
+                                    : () {
+                                        sendOtpEmailController.sendOtpApi(
+                                            email: signUpFormController
+                                                .emailController.text
+                                                .trim());
+                                      },
+                                child: (sendOtpEmailController
+                                            .rxRequestStatus.value ==
+                                        Status.LOADING)
+                                    ? circularProgressIndicator(size: 18.h)
+                                    : Text(
+                                        "Verify",
+                                        style: AppFontStyle.text_16_400(
+                                            AppColors.primary,
+                                            fontWeight: FontWeight.w500),
+                                      )),
+                          ),
               ),
             ),
             hBox(15),
@@ -376,10 +420,14 @@ class SignUpFormScreen extends StatelessWidget {
         isLoading: controller.rxRequestStatus2.value == Status.LOADING,
         text: type == "back" ? "Update" : "Continue",
         onPressed: () {
-          checkValid();
-
-          if (controller.isValid) {
-            controller.profileupdateApi(type);
+          print("object ${controller.profileData.value.data?.emailVerified}");
+          if (controller.profileData.value.data?.emailVerified != "true") {
+            Utils.showToast("First Verify your Email");
+          } else {
+            checkValid();
+            if (controller.isValid) {
+              controller.profileupdateApi(type);
+            }
           }
         });
   }

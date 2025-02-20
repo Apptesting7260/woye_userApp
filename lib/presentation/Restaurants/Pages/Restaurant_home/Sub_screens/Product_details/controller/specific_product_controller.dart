@@ -6,7 +6,7 @@ class specific_Product_Controller extends GetxController {
   final api = Repository();
 
   RxString selectedImageUrl = ''.obs;
-  RxInt isSelected = (-1).obs;
+  RxInt isSelected = 0.obs;
   RxBool isLoading = false.obs;
   RxInt cartCount = 1.obs;
   var productPrice = 0;

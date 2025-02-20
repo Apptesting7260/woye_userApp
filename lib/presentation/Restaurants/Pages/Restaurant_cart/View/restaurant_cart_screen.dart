@@ -38,7 +38,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
       Get.put(CheckedUncheckedController());
 
   final specific_Product_Controller specific_product_controllerontroller =
-  Get.put(specific_Product_Controller());
+      Get.put(specific_Product_Controller());
 
   void initState() {
     controller.getRestaurantCartApi();
@@ -164,8 +164,10 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
-                Get.toNamed(AppRoutes.deliveryAddressScreen,
-                    arguments: {'type': "Cart"});
+                Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
+                  'type': "RestaurantCart",
+                  "fromcart": true,
+                });
               },
               child: Row(
                 children: [
@@ -317,20 +319,15 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                     'true');
 
                                 checkedUncheckedController.checkedUncheckedApi(
-                                  productId: controller.cartData.value.cart!
-                                      .decodedAttribute![index].productId
-                                      .toString(),
-                                  cartId: controller.cartData.value.cart!.id
-                                      .toString(),
-                                  status: newCheckedStatus.toString(),
-                                    countId: controller
-                                        .cartData
-                                        .value
-                                        .cart!
-                                        .decodedAttribute![index]
-                                        .count
-                                        .toString()
-                                );
+                                    productId: controller.cartData.value.cart!
+                                        .decodedAttribute![index].productId
+                                        .toString(),
+                                    cartId: controller.cartData.value.cart!.id
+                                        .toString(),
+                                    status: newCheckedStatus.toString(),
+                                    countId: controller.cartData.value.cart!
+                                        .decodedAttribute![index].count
+                                        .toString());
                               }
                             },
                           ),
@@ -350,37 +347,34 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           ),
                         )
                       : GestureDetector(
-                    onTap: () {
-                      specific_product_controllerontroller
-                          .specific_Product_Api(
-                          productId:
-                          controller.cartData.value.cart!
-                              .decodedAttribute![index].productId
-                              .toString(),
-                          categoryId:
-                          controller.cartData.value.cart!
-                              .decodedAttribute![index].categoryId
-                              .toString());
-                      Get.to(ProductDetailsScreen(
-                        productId: controller.cartData.value.cart!
-                            .decodedAttribute![index].productId
-                            .toString(),
-                        categoryId: controller.cartData.value.cart!
-                            .decodedAttribute![index].categoryId
-                            .toString(),
-                        categoryName: controller.cartData.value.cart!
-                            .decodedAttribute![index].categoryName
-                            .toString(),
-                      ));
-                    },
-
+                          onTap: () {
+                            specific_product_controllerontroller
+                                .specific_Product_Api(
+                                    productId: controller.cartData.value.cart!
+                                        .decodedAttribute![index].productId
+                                        .toString(),
+                                    categoryId: controller.cartData.value.cart!
+                                        .decodedAttribute![index].categoryId
+                                        .toString());
+                            Get.to(ProductDetailsScreen(
+                              productId: controller.cartData.value.cart!
+                                  .decodedAttribute![index].productId
+                                  .toString(),
+                              categoryId: controller.cartData.value.cart!
+                                  .decodedAttribute![index].categoryId
+                                  .toString(),
+                              categoryName: controller.cartData.value.cart!
+                                  .decodedAttribute![index].categoryName
+                                  .toString(),
+                            ));
+                          },
                           child: CachedNetworkImage(
                             imageUrl: controller.cartData.value.cart!
                                 .decodedAttribute![index].productImage
                                 .toString(),
                             height: 100.h,
                             width: 100.h,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             placeholder: (context, url) => Shimmer.fromColors(
                               baseColor: AppColors.gray,
                               highlightColor: AppColors.lightText,
@@ -583,13 +577,14 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                                                 index]
                                                             .productId
                                                             .toString(),
-                                                          countId: controller
-                                                              .cartData
-                                                              .value
-                                                              .cart!
-                                                              .decodedAttribute![index]
-                                                              .count
-                                                              .toString(),
+                                                        countId: controller
+                                                            .cartData
+                                                            .value
+                                                            .cart!
+                                                            .decodedAttribute![
+                                                                index]
+                                                            .count
+                                                            .toString(),
                                                         productQuantity: (controller
                                                                     .cartData
                                                                     .value
@@ -655,13 +650,14 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                                               index]
                                                           .productId
                                                           .toString(),
-                                                        countId: controller
-                                                            .cartData
-                                                            .value
-                                                            .cart!
-                                                            .decodedAttribute![index]
-                                                            .count
-                                                            .toString(),
+                                                      countId: controller
+                                                          .cartData
+                                                          .value
+                                                          .cart!
+                                                          .decodedAttribute![
+                                                              index]
+                                                          .count
+                                                          .toString(),
                                                       productQuantity: (controller
                                                                   .cartData
                                                                   .value
@@ -1160,9 +1156,6 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 'vendor_id': controller
                                     .cartData.value.cart!.restoId
                                     .toString(),
-                                'vendor_id': controller
-                                    .cartData.value.cart!.restoId
-                                    .toString(),
                                 'total': controller
                                     .cartData.value.cart!.totalPrice
                                     .toString(),
@@ -1201,7 +1194,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     child: CustomElevatedButton(
                       onPressed: () {
                         Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': "RestaurantCart"});
+                            arguments: {'type': "RestaurantCart","fromcart": false,});
                       },
                       text: "Complete Address",
                       textStyle: AppFontStyle.text_16_600(AppColors.white),

@@ -163,8 +163,10 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
-                Get.toNamed(AppRoutes.deliveryAddressScreen,
-                    arguments: {'type': "Cart"});
+                Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
+                  'type': "PharmacyCart",
+                  "fromcart": true,
+                });
               },
               child: Row(
                 children: [
@@ -378,7 +380,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 .toString(),
                             height: 100.h,
                             width: 100.h,
-                            fit: BoxFit.fill,
+                            fit: BoxFit.cover,
                             placeholder: (context, url) => Shimmer.fromColors(
                               baseColor: AppColors.gray,
                               highlightColor: AppColors.lightText,
@@ -1136,7 +1138,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     child: CustomElevatedButton(
                       onPressed: () {
                         Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': "PharmacyCart"});
+                            arguments: {'type': "PharmacyCart","fromcart": false,});
                       },
                       text: "Complete Address",
                       textStyle: AppFontStyle.text_16_600(AppColors.white),

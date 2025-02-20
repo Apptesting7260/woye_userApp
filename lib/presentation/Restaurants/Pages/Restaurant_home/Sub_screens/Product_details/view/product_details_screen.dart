@@ -10,6 +10,8 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
@@ -45,6 +47,8 @@ class ProductDetailsScreen extends StatelessWidget {
   final GetUserDataController getUserDataController =
       Get.put(GetUserDataController());
 
+  final RestaurantDetailsController restaurantDeatilsController =
+  Get.put(RestaurantDetailsController());
   // final SeeAllProductReviewController seeAllProductReviewController =
   //     Get.put(SeeAllProductReviewController());
 
@@ -248,21 +252,18 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Widget mainContainer() {
+    controller.selectedImageUrl.value = controller.productData.value.product!.urlImage.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Obx(
-          () => ClipRRect(
+              () => ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
-              imageUrl: controller.selectedImageUrl.value.isEmpty
-                  ? controller.productData.value.product!.urlImage.toString()
-                  : controller.selectedImageUrl.value,
-              // Display selected image if available
+              imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
-              errorWidget: (context, url, error) =>
-                  const Center(child: Icon(Icons.error)),
+              errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: AppColors.gray,
                 highlightColor: AppColors.lightText,
@@ -276,24 +277,34 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
-        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
-          hBox(10),
+
+        if (controller.productData.value.product!.urlAddimg!.isNotEmpty) hBox(10),
+
         if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
           SizedBox(
             height: 75.h,
             child: ListView.separated(
               shrinkWrap: true,
-              itemCount:
-                  controller.productData.value.product?.urlAddimg!.length ?? 0,
+              itemCount: 1 + (controller.productData.value.product!.urlAddimg!.length ?? 0),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
+                String imageUrl;
+
+                if (index == 0) {
+                  imageUrl = controller.productData.value.product!.urlImage.toString();
+                } else {
+                  imageUrl = controller.productData.value.product!.urlAddimg![index - 1];
+                }
+                controller.isSelected.value = 0;
+
                 return Obx(
-                  () => GestureDetector(
+                      () => GestureDetector(
                     onTap: () {
                       controller.isSelected.value = index;
 
-                      controller.selectedImageUrl.value = controller
-                          .productData.value.product!.urlAddimg![index];
+                      print("object  ${controller.isSelected.value}");
+
+                      controller.selectedImageUrl.value = imageUrl;
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -305,12 +316,11 @@ class ProductDetailsScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
-                          imageUrl: controller
-                              .productData.value.product!.urlAddimg![index],
+                          imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           width: 75.h,
                           errorWidget: (context, url, error) =>
-                              const Center(child: Icon(Icons.error)),
+                          const Center(child: Icon(Icons.error)),
                           placeholder: (context, url) => Shimmer.fromColors(
                             baseColor: AppColors.gray,
                             highlightColor: AppColors.lightText,
@@ -330,6 +340,86 @@ class ProductDetailsScreen extends StatelessWidget {
               separatorBuilder: (context, itemIndex) => wBox(10.w),
             ),
           ),
+
+        // Obx(
+        //   () => ClipRRect(
+        //     borderRadius: BorderRadius.circular(20.r),
+        //     child: CachedNetworkImage(
+        //       imageUrl: controller.selectedImageUrl.value.isEmpty
+        //           ? controller.productData.value.product!.urlImage.toString()
+        //           : controller.selectedImageUrl.value,
+        //       // Display selected image if available
+        //       fit: BoxFit.cover,
+        //       height: 340.h,
+        //       errorWidget: (context, url, error) =>
+        //           const Center(child: Icon(Icons.error)),
+        //       placeholder: (context, url) => Shimmer.fromColors(
+        //         baseColor: AppColors.gray,
+        //         highlightColor: AppColors.lightText,
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //             color: AppColors.gray,
+        //             borderRadius: BorderRadius.circular(20.r),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+        //   hBox(10),
+        // if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+        //   SizedBox(
+        //     height: 75.h,
+        //     child: ListView.separated(
+        //       shrinkWrap: true,
+        //       itemCount:
+        //           controller.productData.value.product?.urlAddimg!.length ?? 0,
+        //       scrollDirection: Axis.horizontal,
+        //       itemBuilder: (context, index) {
+        //         return Obx(
+        //           () => GestureDetector(
+        //             onTap: () {
+        //               controller.isSelected.value = index;
+        //
+        //               controller.selectedImageUrl.value = controller
+        //                   .productData.value.product!.urlAddimg![index];
+        //             },
+        //             child: Container(
+        //               decoration: BoxDecoration(
+        //                 border: controller.isSelected.value == index
+        //                     ? Border.all(color: AppColors.primary, width: 2)
+        //                     : null,
+        //                 borderRadius: BorderRadius.circular(18.r),
+        //               ),
+        //               child: ClipRRect(
+        //                 borderRadius: BorderRadius.circular(15.r),
+        //                 child: CachedNetworkImage(
+        //                   imageUrl: controller
+        //                       .productData.value.product!.urlAddimg![index],
+        //                   fit: BoxFit.cover,
+        //                   width: 75.h,
+        //                   errorWidget: (context, url, error) =>
+        //                       const Center(child: Icon(Icons.error)),
+        //                   placeholder: (context, url) => Shimmer.fromColors(
+        //                     baseColor: AppColors.gray,
+        //                     highlightColor: AppColors.lightText,
+        //                     child: Container(
+        //                       decoration: BoxDecoration(
+        //                         color: AppColors.gray,
+        //                         borderRadius: BorderRadius.circular(18.r),
+        //                       ),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //       separatorBuilder: (context, itemIndex) => wBox(10.w),
+        //     ),
+        //   ),
         hBox(10),
         Text(
           categoryName,
@@ -353,6 +443,44 @@ class ProductDetailsScreen extends StatelessWidget {
         //   ],
         // ),
         // hBox(10),
+
+        GestureDetector(
+          onTap: () {
+            Get.to(RestaurantDetailsScreen(
+              Restaurantid:controller.productData.value.product!.restaurantId.toString(),
+            ));
+            restaurantDeatilsController.restaurant_Details_Api(
+              id:controller.productData.value.product!.restaurantId.toString(),
+            );
+          },
+          child: Row(
+            children: [
+              // Text(
+              //   "Provided by",
+              //   style: AppFontStyle.text_12_400(AppColors.lightText),
+              // ),
+              // wBox(5),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(50.r),
+                child: Image.network(
+                  controller.productData.value.product!.restoImage.toString(),
+                  height: 20.h,
+                  width: 20.h,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              wBox(5),
+              Flexible(
+                child: Text(
+                  controller.productData.value.product!.restoName.toString().capitalize!,
+                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+        hBox(10),
         Row(
           children: [
             controller.productData.value.product!.salePrice != null

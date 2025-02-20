@@ -52,6 +52,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/ordes_li
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_modal.dart';
 import 'package:woye_user/presentation/common/get_user_data/user_data_modal.dart';
 
 class Repository {
@@ -107,6 +108,19 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getUserData, token);
     return UserResponse.fromJson(response);
+  }
+
+  Future<dynamic> sendVerificationOtp(data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.sendVerificationOtp, token);
+    return SendOtpModal.fromJson(response);
+  }
+  Future<dynamic> verifyMailOtp(data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.verifyOtp, token);
+    return SendOtpModal.fromJson(response);
   }
 
   /* ------------------------------------------------ User Address ----------------------------------------------------*/

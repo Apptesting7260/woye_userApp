@@ -45,8 +45,6 @@ class Product {
   String? quanInStock;
   String? description;
   String? discount;
-
-  // String? cuisineType;
   double? rating;
   int? productreview_count;
   String? image;
@@ -59,30 +57,34 @@ class Product {
   String? urlImage;
   List<Productreview>? productreview;
   bool? isInWishlist;
+  String? restoImage; // New field
+  String? restoName;  // New field
 
-  Product(
-      {this.id,
-      this.title,
-      this.restaurantId,
-      this.categoryId,
-      this.regularPrice,
-      this.salePrice,
-      this.quanInStock,
-      this.description,
-      this.discount,
-      // this.cuisineType,
-      this.rating, // Changed to double
-      this.productreview_count,
-      this.image,
-      this.addOn,
-      this.extra,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.urlAddimg,
-      this.urlImage,
-      this.productreview,
-      this.isInWishlist});
+  Product({
+    this.id,
+    this.title,
+    this.restaurantId,
+    this.categoryId,
+    this.regularPrice,
+    this.salePrice,
+    this.quanInStock,
+    this.description,
+    this.discount,
+    this.rating,
+    this.productreview_count,
+    this.image,
+    this.addOn,
+    this.extra,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.urlAddimg,
+    this.urlImage,
+    this.productreview,
+    this.isInWishlist,
+    this.restoImage,  // New field
+    this.restoName,   // New field
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -94,10 +96,14 @@ class Product {
     quanInStock = json['quan_in_stock'];
     description = json['description'];
     discount = json['discount'];
-    // cuisineType = json['cuisine_type'];
-    rating = json['rating']?.toDouble(); // Changed to double
+    rating = json['rating']?.toDouble();
     productreview_count = json['productreview_count'];
     image = json['image'];
+
+    // Parsing new fields
+    restoImage = json['resto_image'];
+    restoName = json['resto_name'];
+
     if (json['add_on_with_names'] != null) {
       addOn = <AddOn>[];
       json['add_on_with_names'].forEach((v) {
@@ -135,10 +141,14 @@ class Product {
     data['quan_in_stock'] = quanInStock;
     data['description'] = description;
     data['discount'] = discount;
-    // data['cuisine_type'] = cuisineType;
-    data['rating'] = rating; // Rating is now double
+    data['rating'] = rating;
     data['productreview_count'] = productreview_count;
     data['image'] = image;
+
+    // Adding new fields to the JSON data
+    data['resto_image'] = restoImage;
+    data['resto_name'] = restoName;
+
     if (addOn != null) {
       data['add_on_with_names'] = addOn!.map((v) => v.toJson()).toList();
     }
@@ -157,6 +167,7 @@ class Product {
     return data;
   }
 }
+
 
 class AddOn {
   String? name;

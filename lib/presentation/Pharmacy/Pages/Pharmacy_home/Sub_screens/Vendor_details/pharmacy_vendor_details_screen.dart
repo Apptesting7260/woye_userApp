@@ -164,7 +164,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
-              "${controller.pharma_Data.value.pharmaShop!.rating}/5",
+              "${controller.pharma_Data.value.averageRating}/5",
               style: AppFontStyle.text_14_400(AppColors.lightText),
             ),
           ],
@@ -338,72 +338,92 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        controller.pharma_Data.value
-                                            .review![index].user!.firstName
-                                            .toString(),
-                                        style: AppFontStyle.text_16_400(
-                                            AppColors.darkText),
+
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.bgColor,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding:  EdgeInsets.all(10.h),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                controller.pharma_Data.value
+                                                    .review![index].user!.firstName
+                                                    .toString(),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.darkText),
+                                              ),
+                                              hBox(5),
+                                              RatingBar.readOnly(
+                                                filledIcon: Icons.star,
+                                                emptyIcon: Icons.star,
+                                                filledColor: AppColors.goldStar,
+                                                emptyColor: AppColors.normalStar,
+                                                initialRating: double.parse(controller
+                                                    .pharma_Data
+                                                    .value
+                                                    .review![index]
+                                                    .rating!
+                                                    .toString()),
+                                                maxRating: 5,
+                                                size: 20.h,
+                                              ),
+                                              hBox(10),
+                                              Text(
+                                                controller.pharma_Data.value
+                                                    .review![index].message
+                                                    .toString(),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.darkText),
+                                                maxLines: 2,
+                                              ),
+                                              hBox(10),
+                                              Text(
+                                                controller.formatDate(controller
+                                                    .pharma_Data
+                                                    .value
+                                                    .review![index]
+                                                    .updatedAt
+                                                    .toString()),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.lightText),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                       ),
-                                      hBox(5),
-                                      RatingBar.readOnly(
-                                        filledIcon: Icons.star,
-                                        emptyIcon: Icons.star,
-                                        filledColor: AppColors.goldStar,
-                                        emptyColor: AppColors.normalStar,
-                                        initialRating: double.parse(controller
-                                            .pharma_Data
-                                            .value
-                                            .review![index]
-                                            .rating!
-                                            .toString()),
-                                        maxRating: 5,
-                                        size: 20.h,
-                                      ),
-                                      hBox(10),
-                                      Text(
-                                        controller.pharma_Data.value
-                                            .review![index].message
-                                            .toString(),
-                                        style: AppFontStyle.text_16_400(
-                                            AppColors.darkText),
-                                        maxLines: 2,
-                                      ),
-                                      hBox(10),
-                                      Text(
-                                        controller.formatDate(controller
-                                            .pharma_Data
-                                            .value
-                                            .review![index]
-                                            .updatedAt
-                                            .toString()),
-                                        style: AppFontStyle.text_16_400(
-                                            AppColors.lightText),
-                                      ),
+
                                       if (controller.pharma_Data.value
                                               .review![index].reply !=
                                           null)
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            Icon(
-                                              Icons.reply,
-                                              color: AppColors.primary,
-                                            ),
-                                            Flexible(
-                                              child: Text(
-                                                controller.pharma_Data.value
-                                                    .review![index].reply
-                                                    .toString()
-                                                    .trim(),
-                                                style: AppFontStyle.text_16_400(
-                                                    AppColors.lightText),
-                                                maxLines: 100,
-                                                overflow: TextOverflow.ellipsis,
+                                        Padding(
+                                          padding:  EdgeInsets.only(top: 10.h),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(
+                                                Icons.reply,
+                                                color: AppColors.primary,
                                               ),
-                                            ),
-                                          ],
+                                              Flexible(
+                                                child: Text(
+                                                  controller.pharma_Data.value
+                                                      .review![index].reply
+                                                      .toString()
+                                                      .trim(),
+                                                  style: AppFontStyle.text_16_400(
+                                                      AppColors.lightText),
+                                                  maxLines: 100,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                     ],
                                   ),

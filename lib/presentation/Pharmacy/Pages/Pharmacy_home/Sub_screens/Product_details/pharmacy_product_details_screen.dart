@@ -142,20 +142,22 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       hBox(10),
                       //
                       titleAndDetails(),
-                      hBox(30),
+                      hBox(10),
                       //
-                      description(),
-                      hBox(30),
+
                       //
                       if (controller.productData.value.product!.variant != null)
                         variant(context: context),
                       if (controller.productData.value.product!.variant != null)
                         hBox(20),
-
-                      shopCard(),
-                      hBox(20),
+                      description(),
+                      hBox(30),
+                      // shopCard(),
+                      // hBox(20),
                       //
+                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
                       buttons(context),
+                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
                       hBox(30),
                       //
                       // dropdownsSection(),
@@ -182,7 +184,8 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   }
 
   Widget mainBanner() {
-    // RxBool isSelected = false.obs;
+    controller.selectedImageUrl.value =
+        controller.productData.value.product!.urlImage.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -190,10 +193,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           () => ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
-              imageUrl: controller.selectedImageUrl.value.isEmpty
-                  ? controller.productData.value.product!.urlImage.toString()
-                  : controller.selectedImageUrl.value,
-              // Display selected image if available
+              imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
               errorWidget: (context, url, error) =>
@@ -211,24 +211,39 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
+
         if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
           hBox(10),
+
         if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
           SizedBox(
             height: 75.h,
             child: ListView.separated(
               shrinkWrap: true,
-              itemCount:
-                  controller.productData.value.product?.urlAddimg!.length ?? 0,
+              itemCount: 1 +
+                  (controller.productData.value.product!.urlAddimg!.length ??
+                      0),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
+                String imageUrl;
+
+                if (index == 0) {
+                  imageUrl =
+                      controller.productData.value.product!.urlImage.toString();
+                } else {
+                  imageUrl = controller
+                      .productData.value.product!.urlAddimg![index - 1];
+                }
+                controller.isSelected.value = 0;
+
                 return Obx(
                   () => GestureDetector(
                     onTap: () {
                       controller.isSelected.value = index;
 
-                      controller.selectedImageUrl.value = controller
-                          .productData.value.product!.urlAddimg![index];
+                      print("object  ${controller.isSelected.value}");
+
+                      controller.selectedImageUrl.value = imageUrl;
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -240,8 +255,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
-                          imageUrl: controller
-                              .productData.value.product!.urlAddimg![index],
+                          imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           width: 75.h,
                           errorWidget: (context, url, error) =>
@@ -265,6 +279,85 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
               separatorBuilder: (context, itemIndex) => wBox(10.w),
             ),
           ),
+        // Obx(
+        //   () => ClipRRect(
+        //     borderRadius: BorderRadius.circular(20.r),
+        //     child: CachedNetworkImage(
+        //       imageUrl: controller.selectedImageUrl.value.isEmpty
+        //           ? controller.productData.value.product!.urlImage.toString()
+        //           : controller.selectedImageUrl.value,
+        //       // Display selected image if available
+        //       fit: BoxFit.cover,
+        //       height: 340.h,
+        //       errorWidget: (context, url, error) =>
+        //           const Center(child: Icon(Icons.error)),
+        //       placeholder: (context, url) => Shimmer.fromColors(
+        //         baseColor: AppColors.gray,
+        //         highlightColor: AppColors.lightText,
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //             color: AppColors.gray,
+        //             borderRadius: BorderRadius.circular(20.r),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        // if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+        //   hBox(10),
+        // if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+        //   SizedBox(
+        //     height: 75.h,
+        //     child: ListView.separated(
+        //       shrinkWrap: true,
+        //       itemCount:
+        //           controller.productData.value.product?.urlAddimg!.length ?? 0,
+        //       scrollDirection: Axis.horizontal,
+        //       itemBuilder: (context, index) {
+        //         return Obx(
+        //           () => GestureDetector(
+        //             onTap: () {
+        //               controller.isSelected.value = index;
+        //
+        //               controller.selectedImageUrl.value = controller
+        //                   .productData.value.product!.urlAddimg![index];
+        //             },
+        //             child: Container(
+        //               decoration: BoxDecoration(
+        //                 border: controller.isSelected.value == index
+        //                     ? Border.all(color: AppColors.primary, width: 2)
+        //                     : null,
+        //                 borderRadius: BorderRadius.circular(18.r),
+        //               ),
+        //               child: ClipRRect(
+        //                 borderRadius: BorderRadius.circular(15.r),
+        //                 child: CachedNetworkImage(
+        //                   imageUrl: controller
+        //                       .productData.value.product!.urlAddimg![index],
+        //                   fit: BoxFit.cover,
+        //                   width: 75.h,
+        //                   errorWidget: (context, url, error) =>
+        //                       const Center(child: Icon(Icons.error)),
+        //                   placeholder: (context, url) => Shimmer.fromColors(
+        //                     baseColor: AppColors.gray,
+        //                     highlightColor: AppColors.lightText,
+        //                     child: Container(
+        //                       decoration: BoxDecoration(
+        //                         color: AppColors.gray,
+        //                         borderRadius: BorderRadius.circular(18.r),
+        //                       ),
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //       separatorBuilder: (context, itemIndex) => wBox(10.w),
+        //     ),
+        //   ),
         hBox(10),
       ],
     );
@@ -294,16 +387,16 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             // "Strip of 10 tablets",
             style: AppFontStyle.text_14_400(AppColors.lightText),
           ),
-          Text(
-            " • ",
-            style: AppFontStyle.text_14_400(AppColors.lightText),
-          ),
-          SvgPicture.asset("assets/svg/star-yellow.svg"),
-          wBox(4),
-          Text(
-            "4.5/5",
-            style: AppFontStyle.text_14_400(AppColors.lightText),
-          ),
+          // Text(
+          //   " • ",
+          //   style: AppFontStyle.text_14_400(AppColors.lightText),
+          // ),
+          // SvgPicture.asset("assets/svg/star-yellow.svg"),
+          // wBox(4),
+          // Text(
+          //   "4.5/5",
+          //   style: AppFontStyle.text_14_400(AppColors.lightText),
+          // ),
         ],
       ),
       hBox(10),
@@ -492,384 +585,211 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  // Widget variant({context}) {
-  //   return ListView.builder(
-  //     shrinkWrap: true,
-  //     physics: const NeverScrollableScrollPhysics(),
-  //     itemCount: controller.productData.value.product!.variant?.length,
-  //     itemBuilder: (context, index) {
-  //       var extra = controller.productData.value.product!.variant![index];
-  //       if (!controller.variantTitlesIdsId.contains(extra.titleid)) {
-  //         controller.variantTitlesIdsId.add(extra.titleid);
-  //         print("itemIdsIds ${controller.variantTitlesIdsId}");
-  //       }
-  //
-  //       if (controller.variantItemIdsName.isEmpty) {
-  //         controller.productData.value.product!.variant?.forEach((extra) {
-  //           if (extra.item?.isNotEmpty ?? false) {
-  //             controller.variantItemIdsId.add(extra.item![0].id.toString());
-  //             controller.variantItemIdsName.add(extra.item![0].name.toString());
-  //             controller.variantItemIdsPrice
-  //                 .add(extra.item![0].price.toString());
-  //           }
-  //         });
-  //         print("Final List of IDs: ${controller.variantItemIdsId}");
-  //         print("Final List of Names: ${controller.variantItemIdsName}");
-  //         print("Final List of Prices: ${controller.variantItemIdsPrice}");
-  //       }
-  //       return Column(
+  Widget variant({context}) {
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Other Variant",
+          style: AppFontStyle.text_20_600(AppColors.darkText),
+        ),
+        hBox(10),
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 5.h,
+            mainAxisSpacing: 5.h,
+            childAspectRatio: 1.5,
+          ),
+          itemCount: controller.productData.value.product!.variant!.length,
+          itemBuilder: (context, itemIndex) {
+            var item =
+                controller.productData.value.product!.variant![itemIndex];
+            return GestureDetector(
+              onTap: () {
+                controller.pharmaSpecificProductApi(
+                  productId: item.productId.toString(),
+                  categoryId: item.categoryId.toString(),
+                );
+
+                Get.to(PharmacyProductDetailsScreen(
+                  productId: item.productId.toString(),
+                  categoryId: item.categoryId.toString(),
+                  categoryName: item.category_name.toString(),
+                ));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    // color: AppColors.primary.withOpacity(.2),
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(color: AppColors.primary, width: 1)),
+                child: Padding(
+                  padding: EdgeInsets.all(5.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        item.name.toString(),
+                        style: AppFontStyle.text_16_400(AppColors.darkText),
+                      ),
+                      hBox(10),
+                      Text(
+                        "\$${item.price.toString()}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18.sp,
+                          color: AppColors.primary,
+                          fontFamily: 'Gilroy-Regular',
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  // Widget shopCard() {
+  //   return InkWell(
+  //     onTap: () {
+  //       pharmacyDetailsController.restaurant_Details_Api(
+  //         id: controller.productData.value.product!.userId.toString(),
+  //       );
+  //       Get.to(PharmacyVendorDetailsScreen(
+  //         pharmacyId: controller.productData.value.product!.userId.toString(),
+  //       ));
+  //     },
+  //     child: Container(
+  //       padding: REdgeInsets.all(20),
+  //       decoration: BoxDecoration(
+  //         color: AppColors.greyBackground.withOpacity(0.4),
+  //         borderRadius: BorderRadius.circular(15.r),
+  //       ),
+  //       child: Row(
   //         crossAxisAlignment: CrossAxisAlignment.start,
   //         children: [
-  //           Text(
-  //             extra.title.toString(),
-  //             style: AppFontStyle.text_20_600(AppColors.darkText),
+  //           Expanded(
+  //             flex: 2,
+  //             child: Image.network(
+  //               controller.productData.value.product!.pharmaImage.toString(),
+  //               height: 50.h,
+  //             ),
   //           ),
-  //           hBox(1.h),
-  //           Row(
-  //             children: [
-  //               Text(
-  //                 "Required",
-  //                 style: AppFontStyle.text_12_200(AppColors.lightText),
-  //               ),
-  //               Text(
-  //                 "•",
-  //                 style: AppFontStyle.text_12_200(AppColors.lightText),
-  //               ),
-  //               wBox(4),
-  //               Text(
-  //                 "Select any 1 option",
-  //                 style: AppFontStyle.text_12_200(AppColors.lightText),
-  //               ),
-  //             ],
-  //           ),
-  //           hBox(5),
-  //           ListView.separated(
-  //             shrinkWrap: true,
-  //             physics: const NeverScrollableScrollPhysics(),
-  //             itemCount: extra.item?.length ?? 0,
-  //             itemBuilder: (context, itemIndex) {
-  //               var item = extra.item![itemIndex];
-  //               return CustomTitleRadioButton(
-  //                 title: item.name.toString(),
-  //                 value: itemIndex.obs,
-  //                 groupValue: controller
-  //                     .productData.value.product!.variant![index].selectedIndex,
-  //                 onChanged: (value) {
-  //                   controller.productData.value.product!.variant![index]
-  //                       .selectedIndex.value = value!;
-  //
-  //                   if (controller.variantItemIdsName.length > index) {
-  //                     controller.variantItemIdsName[index] =
-  //                         item.name.toString();
-  //                     controller.variantItemIdsId[index] = item.id.toString();
-  //                     controller.variantItemIdsPrice[index] =
-  //                         item.price.toString();
-  //                   } else {
-  //                     controller.variantItemIdsName.add(item.name.toString());
-  //                     controller.variantItemIdsId.add(item.id.toString());
-  //                     controller.variantItemIdsPrice.add(item.price.toString());
-  //                   }
-  //
-  //                   print(
-  //                       "Updated selected names: ${controller.variantItemIdsName}");
-  //                   print(
-  //                       "Updated selected IDs: ${controller.variantItemIdsId}");
-  //                   print(
-  //                       "Updated selected prices: ${controller.variantItemIdsPrice}");
-  //                 },
-  //                 priceValue: item.price.toString(),
-  //               );
-  //             },
-  //             separatorBuilder: (context, itemIndex) => hBox(10.h),
+  //           wBox(10),
+  //           Expanded(
+  //             flex: 8,
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Text(
+  //                   controller.productData.value.product!.pharmaName.toString(),
+  //                   style: AppFontStyle.text_16_600(AppColors.darkText),
+  //                 ),
+  //                 hBox(5),
+  //                 Row(
+  //                   children: [
+  //                     SvgPicture.asset("assets/svg/star-yellow.svg"),
+  //                     wBox(4),
+  //                     Text(
+  //                       "4.5/5",
+  //                       style: AppFontStyle.text_14_400(AppColors.lightText),
+  //                     ),
+  //                     wBox(4),
+  //                     InkWell(
+  //                       onTap: () {
+  //                         Get.toNamed(AppRoutes.pharmacyVendorReview);
+  //                       },
+  //                       child: Text(
+  //                         "(120 Reviews)",
+  //                         style: AppFontStyle.text_12_400(AppColors.lightText),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 hBox(10),
+  //                 CustomOutlinedButton(
+  //                     height: 40.h,
+  //                     onPressed: () {},
+  //                     child: const Text("Favorite Shop"))
+  //               ],
+  //             ),
   //           ),
   //         ],
-  //       );
-  //     },
+  //       ),
+  //     ),
   //   );
   // }
 
-  Widget variant({context}) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: controller.productData.value.product!.variant?.length,
-      itemBuilder: (context, index) {
-        var extra = controller.productData.value.product!.variant![index];
-        // if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
-        //   controller.extrasTitlesIdsId.add(extra.titleid);
-        //   print("itemIdsIds ${controller.extrasTitlesIdsId}");
-        // }
-        //
-        // if (controller.extrasItemIdsName.isEmpty) {
-        //   controller.productData.value.product!.extra?.forEach((extra) {
-        //     if (extra.item?.isNotEmpty ?? false) {
-        //       controller.extrasItemIdsId.add(extra.item![0].id.toString());
-        //       controller.extrasItemIdsName.add(extra.item![0].name.toString());
-        //       controller.extrasItemIdsPrice
-        //           .add(extra.item![0].price.toString());
-        //     }
-        //   });
-        //   print("Final List of IDs: ${controller.extrasItemIdsId}");
-        //   print("Final List of Names: ${controller.extrasItemIdsName}");
-        //   print("Final List of Prices: ${controller.extrasItemIdsPrice}");
-        // }
-        print("Final List of IDs: ${controller.variantItemIdsId}");
-        print("Final List of Names: ${controller.variantItemIdsName}");
-        print("Final List of Prices: ${controller.variantItemIdsPrice}");
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              extra.title.toString(),
-              style: AppFontStyle.text_20_600(AppColors.darkText),
-            ),
-            // hBox(1.h),
-            // Row(
-            //   children: [
-            //     Text(
-            //       "Required",
-            //       style: AppFontStyle.text_12_200(AppColors.lightText),
-            //     ),
-            //     Text(
-            //       "•",
-            //       style: AppFontStyle.text_12_200(AppColors.lightText),
-            //     ),
-            //     wBox(4),
-            //     Text(
-            //       "Select any 1 option",
-            //       style: AppFontStyle.text_12_200(AppColors.lightText),
-            //     ),
-            //   ],
-            // ),
-            hBox(5),
-            ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: extra.item?.length ?? 0,
-              itemBuilder: (context, itemIndex) {
-                var item = extra.item![itemIndex];
-                return CustomTitleRadioButton(
-                  title: item.name.toString(),
-                  value: itemIndex.obs,
-                  groupValue: controller
-                      .productData.value.product!.variant![index].selectedIndex,
-                  onChanged: (value) {
-                    var currentExtra =
-                        controller.productData.value.product!.variant![index];
-                    if (currentExtra.selectedIndex.value == value) {
-                      currentExtra.selectedIndex.value = -1;
-
-                      if (controller.variantItemIdsName.length > index) {
-                        controller.variantItemIdsName[index] = '';
-                        controller.variantItemIdsId[index] = '';
-                        controller.variantItemIdsPrice[index] = '';
-                        controller.variantTitlesIdsId[index] = '';
-                      }
-                    } else {
-                      currentExtra.selectedIndex.value = value!;
-
-                      if (controller.variantItemIdsName.length > index) {
-                        controller.variantItemIdsName[index] =
-                            item.name.toString();
-                        controller.variantItemIdsId[index] = item.id.toString();
-                        controller.variantItemIdsPrice[index] =
-                            item.price.toString();
-                        controller.variantTitlesIdsId[index] = controller
-                            .productData.value.product!.variant![index].titleid
-                            .toString();
-                      } else {
-                        controller.variantItemIdsName.add(item.name.toString());
-                        controller.variantItemIdsId.add(item.id.toString());
-                        controller.variantItemIdsPrice
-                            .add(item.price.toString());
-
-                        controller.variantTitlesIdsId.add(controller
-                            .productData.value.product!.variant![index].titleid
-                            .toString());
-                      }
-                    }
-
-                    controller.variantTitlesIdsId.assignAll(controller
-                        .variantTitlesIdsId
-                        .where((item) => item.isNotEmpty)
-                        .toList());
-                    controller.variantItemIdsName.assignAll(controller
-                        .variantItemIdsName
-                        .where((item) => item.isNotEmpty)
-                        .toList());
-                    controller.variantItemIdsId.assignAll(controller
-                        .variantItemIdsId
-                        .where((item) => item.isNotEmpty)
-                        .toList());
-                    controller.variantItemIdsPrice.assignAll(controller
-                        .variantItemIdsPrice
-                        .where((item) => item.isNotEmpty)
-                        .toList());
-
-                    print(
-                        "Updated selected extrasTitlesIdsId: ${controller.variantTitlesIdsId}");
-                    print(
-                        "Updated selected names: ${controller.variantItemIdsName}");
-                    print(
-                        "Updated selected IDs: ${controller.variantItemIdsId}");
-                    print(
-                        "Updated selected prices: ${controller.variantItemIdsPrice}");
-                  },
-                  //     onChanged: (value) {
-                  //   controller.productData.value.product!.extra![index]
-                  //       .selectedIndex.value = value!;
-                  //
-                  //   if (controller.extrasItemIdsName.length > index) {
-                  //     controller.extrasItemIdsName[index] =
-                  //         item.name.toString();
-                  //     controller.extrasItemIdsId[index] = item.id.toString();
-                  //     controller.extrasItemIdsPrice[index] =
-                  //         item.price.toString();
-                  //   } else {
-                  //     controller.extrasItemIdsName.add(item.name.toString());
-                  //     controller.extrasItemIdsId.add(item.id.toString());
-                  //     controller.extrasItemIdsPrice.add(item.price.toString());
-                  //   }
-                  //
-                  //   print(
-                  //       "Updated selected names: ${controller.extrasItemIdsName}");
-                  //   print(
-                  //       "Updated selected IDs: ${controller.extrasItemIdsId}");
-                  //   print(
-                  //       "Updated selected prices: ${controller.extrasItemIdsPrice}");
-                  // },
-                  priceValue: item.price.toString(),
-                );
-              },
-              separatorBuilder: (context, itemIndex) => hBox(0.h),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget shopCard() {
-    return InkWell(
-      onTap: () {
-        pharmacyDetailsController.restaurant_Details_Api(
-          id: controller.productData.value.product!.userId.toString(),
-        );
-        Get.to(PharmacyVendorDetailsScreen(
-          pharmacyId: controller.productData.value.product!.userId.toString(),
-        ));
-      },
-      child: Container(
-        padding: REdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: AppColors.greyBackground.withOpacity(0.4),
-          borderRadius: BorderRadius.circular(15.r),
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              flex: 2,
-              child: Image.network(
-                controller.productData.value.product!.pharmaImage.toString(),
-                height: 50.h,
-              ),
-            ),
-            wBox(10),
-            Expanded(
-              flex: 8,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    controller.productData.value.product!.pharmaName.toString(),
-                    style: AppFontStyle.text_16_600(AppColors.darkText),
-                  ),
-                  hBox(5),
-                  Row(
-                    children: [
-                      SvgPicture.asset("assets/svg/star-yellow.svg"),
-                      wBox(4),
-                      Text(
-                        "4.5/5",
-                        style: AppFontStyle.text_14_400(AppColors.lightText),
-                      ),
-                      wBox(4),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed(AppRoutes.pharmacyVendorReview);
-                        },
-                        child: Text(
-                          "(120 Reviews)",
-                          style: AppFontStyle.text_12_400(AppColors.lightText),
-                        ),
-                      ),
-                    ],
-                  ),
-                  hBox(10),
-                  CustomOutlinedButton(
-                      height: 40.h,
-                      onPressed: () {},
-                      child: const Text("Favorite Shop"))
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget buttons(context) {
-    return Obx(
-      () => controller.goToCart.value == true
-          ? CustomElevatedButton(
-              width: Get.width,
-              color: AppColors.primary,
-              isLoading: pharmacyAddToCarController.rxRequestStatus.value ==
-                  (Status.LOADING),
-              text: "Go to Cart",
-              onPressed: () {
-                Get.to(const PharmacyCartScreen(isBack: true));
-                controller.goToCart.value = false;
-                controller.cartCount.value = 1;
-              })
-          : CustomElevatedButton(
-              width: Get.width,
-              color: AppColors.darkText,
-              isLoading: pharmacyAddToCarController.rxRequestStatus.value ==
-                  (Status.LOADING),
-              text: "Add to Cart",
-              onPressed: () {
-                if (getUserDataController.userData.value.user?.userType ==
-                    "guestUser") {
-                  showLoginRequired(context);
-                } else {
-                  // ---------- add to cart api -----------
-                  controller.productPriceFun();
-                  pharmacyAddToCarController.pharmaAddToCartApi(
-                    productId:
-                        controller.productData.value.product!.id.toString(),
-                    productPrice:
-                        controller.productData.value.product!.salePrice != null
-                            ? controller.productData.value.product!.salePrice
-                                .toString()
-                            : controller.productData.value.product!.regularPrice
-                                .toString(),
-                    productQuantity: controller.cartCount.toString(),
-                    pharmaId:
-                        controller.productData.value.product!.userId.toString(),
-                    // addons: controller.selectedAddOn.toList(),
-                    extrasIds: controller.variantTitlesIdsId,
-                    extrasItemIds: controller.variantItemIdsId.toList(),
-                    extrasItemNames: controller.variantItemIdsName.toList(),
-                    extrasItemPrices: controller.variantItemIdsPrice.toList(),
-                  );
-                  print("object ${controller.variantItemIdsName}");
-                  // }
-                }
-              }),
-    );
+    return controller.productData.value.product!.quanInStock.toString() != "0"
+        ? Obx(
+            () => controller.goToCart.value == true
+                ? CustomElevatedButton(
+                    width: Get.width,
+                    color: AppColors.primary,
+                    isLoading:
+                        pharmacyAddToCarController.rxRequestStatus.value ==
+                            (Status.LOADING),
+                    text: "Go to Cart",
+                    onPressed: () {
+                      Get.to(const PharmacyCartScreen(isBack: true));
+                      controller.goToCart.value = false;
+                      controller.cartCount.value = 1;
+                    })
+                : CustomElevatedButton(
+                    width: Get.width,
+                    color: AppColors.darkText,
+                    isLoading:
+                        pharmacyAddToCarController.rxRequestStatus.value ==
+                            (Status.LOADING),
+                    text: "Add to Cart",
+                    onPressed: () {
+                      if (getUserDataController.userData.value.user?.userType ==
+                          "guestUser") {
+                        showLoginRequired(context);
+                      } else {
+                        // ---------- add to cart api -----------
+                        controller.productPriceFun();
+                        pharmacyAddToCarController.pharmaAddToCartApi(
+                          productId: controller.productData.value.product!.id
+                              .toString(),
+                          productPrice:
+                              controller.productData.value.product!.salePrice !=
+                                      null
+                                  ? controller
+                                      .productData.value.product!.salePrice
+                                      .toString()
+                                  : controller
+                                      .productData.value.product!.regularPrice
+                                      .toString(),
+                          productQuantity: controller.cartCount.toString(),
+                          pharmaId: controller.productData.value.product!.userId
+                              .toString(),
+                          // addons: controller.selectedAddOn.toList(),
+                          // extrasIds: controller.variantTitlesIdsId,
+                          // extrasItemIds: controller.variantItemIdsId.toList(),
+                          // extrasItemNames: controller.variantItemIdsName.toList(),
+                          // extrasItemPrices: controller.variantItemIdsPrice.toList(),
+
+                          // print("object ${controller.variantItemIdsName}"
+                        );
+                        // }
+                      }
+                    }),
+          )
+        : CustomElevatedButton(
+            width: Get.width,
+            color: AppColors.primary.withOpacity(.5),
+            text: "Out of Stock",
+            onPressed: () {},
+          );
   }
 
   List<RxBool> isExpandedList = List.generate(9, (index) => false.obs);

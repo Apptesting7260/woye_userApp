@@ -49,7 +49,7 @@ class PharmacyCheckoutScreen extends StatelessWidget {
         // DeliveryAddressScreen()
         deliveryAddressScreen.addressList(),
         hBox(15),
-        deliveryAddressScreen.addAddress(),
+        // deliveryAddressScreen.addAddress(),
       ],
     );
   }

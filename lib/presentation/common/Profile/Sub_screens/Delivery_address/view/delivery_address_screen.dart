@@ -21,6 +21,7 @@ class DeliveryAddressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var arguments = Get.arguments;
     String? type = arguments['type'];
+    bool fromcart = arguments['fromcart'];
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -60,7 +61,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                     if (controller.deliveryAddressData.value.data!.isNotEmpty)
                       addressList(),
                     hBox(30.h),
-                    addAddress(),
+                    addAddress(type, fromcart),
                     if (type != "Profile") changeAddressButton(),
                     hBox(30.h),
                   ],
@@ -208,14 +209,17 @@ class DeliveryAddressScreen extends StatelessWidget {
     );
   }
 
-  Widget addAddress() {
+  Widget addAddress(type, fromcart) {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
           border: Border.all(color: AppColors.primary)),
       child: ListTile(
         onTap: () {
-          Get.toNamed(AppRoutes.addAddressScreen, arguments: {'cartKey': ""});
+          Get.toNamed(AppRoutes.addAddressScreen, arguments: {
+            'type': type,
+            "fromcart": fromcart,
+          });
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
         horizontalTitleGap: 10.w,
@@ -264,17 +268,39 @@ class DeliveryAddressScreen extends StatelessWidget {
         child: CustomElevatedButton(
           onPressed: () {
             editController.changeAddressApi(
-              addressId: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].id.toString(),
-              name: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].fullName.toString(),
-              houseNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].houseDetails.toString(),
-              addressTypeName: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].addressType.toString(),
-              selectedCountryCode: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].countryCode.toString(),
-              mobNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].phoneNumber.toString(),
-              location: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].address.toString(),
-              latitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].latitude.toString(),
-              longitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].longitude.toString(),
-              deliveryInstruction: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].deliveryInstruction ?? "",
-
+              addressId: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].id
+                  .toString(),
+              name: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].fullName
+                  .toString(),
+              houseNo: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].houseDetails
+                  .toString(),
+              addressTypeName: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].addressType
+                  .toString(),
+              selectedCountryCode: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].countryCode
+                  .toString(),
+              mobNo: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].phoneNumber
+                  .toString(),
+              location: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].address
+                  .toString(),
+              latitude: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].latitude
+                  .toString(),
+              longitude: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].longitude
+                  .toString(),
+              deliveryInstruction: controller
+                      .deliveryAddressData
+                      .value
+                      .data![controller.selectedAddressIndex.value]
+                      .deliveryInstruction ??
+                  "",
             );
           },
           isLoading: editController.rxRequestStatus.value == Status.LOADING,
