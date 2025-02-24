@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_controller.dart';
 import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_modal.dart';
 
 class SendOtpEmailController extends GetxController {
@@ -11,12 +12,12 @@ class SendOtpEmailController extends GetxController {
 
   void setData(SendOtpModal value) => sendOtpData.value = value;
 
-  sendOtpApi({required String email}) async {
+  Future sendOtpApi({required String email}) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "email": email,
     };
-    api.sendVerificationOtp(body).then((value) {
+    await api.sendVerificationOtp(body).then((value) {
       setData(value);
       if (sendOtpData.value.status == true) {
         setRxRequestStatus(Status.COMPLETED);
@@ -118,6 +119,9 @@ class SendOtpEmailController extends GetxController {
 
   void setData2(SendOtpModal value) => verifyOtpData.value = value;
 
+  final SignUpForm_editProfileController signUpForm_editProfileController =
+      Get.put(SignUpForm_editProfileController());
+
   verifyOtpApi({
     required String email,
     required String otp,
@@ -127,15 +131,16 @@ class SendOtpEmailController extends GetxController {
       "email": email,
       "otp": otp,
     };
-    api.verifyMailOtp(body).then((value) {
+    await api.verifyMailOtp(body).then((value) async {
       setData2(value);
       if (verifyOtpData.value.status == true) {
         setRxRequestStatus2(Status.COMPLETED);
-        api.getprofileApi().then((value) async {
+        signUpForm_editProfileController.getprofileApi().then((value) async {
           Utils.showToast(verifyOtpData.value.message.toString());
           await Future.delayed(const Duration(milliseconds: 500));
-          setRxRequestStatus2(Status.COMPLETED);
           Get.back();
+          setRxRequestStatus2(Status.COMPLETED);
+          otpVerifyController.value.clear();
         });
       } else {
         Utils.showToast(verifyOtpData.value.message.toString());

@@ -61,7 +61,6 @@ class SignUpForm_editProfileController extends GetxController {
     userModel = await pref.getUser();
     log("get header : ${userModel.token.toString()}");
     profileImageGetUrl.value = "";
-    // setRxRequestStatus(Status.LOADING);
     api.getprofileApi().then((value) {
       profileSet(value);
       if (profileData.value.status == true) {
@@ -86,9 +85,7 @@ class SignUpForm_editProfileController extends GetxController {
         formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";
         profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
-
         update();
-
         setRxRequestStatus(Status.COMPLETED);
       }
     }).onError((error, stackError) {
