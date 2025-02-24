@@ -54,6 +54,7 @@ import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_mo
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
 import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_modal.dart';
 import 'package:woye_user/presentation/common/get_user_data/user_data_modal.dart';
+import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user.dart';
 
 class Repository {
   final _apiService = NetworkApiServices();
@@ -82,6 +83,12 @@ class Repository {
   Future<dynamic> guestUserApi(data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.guestUser, "");
     return RegisterModel.fromJson(response);
+  }
+
+  Future<dynamic> checkUserApi(var data) async {
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.checkUser, "");
+    return CheckUserModal.fromJson(response);
   }
 
   Future<dynamic> SocialLoginApi(data) async {

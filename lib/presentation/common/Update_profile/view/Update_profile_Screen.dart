@@ -210,38 +210,40 @@ class SignUpFormScreen extends StatelessWidget {
                   }
                 },
                 validator: signUpFormController.validateEmail,
-                suffix: signUpFormController.emailController.text.isEmpty
-                    ? const SizedBox()
-                    : (controller.profileData.value.data?.emailVerified ==
-                                "true" &&
-                            controller.emailVerify.value == false)
-                        ? Icon(
-                            Icons.check_circle,
-                            color: AppColors.primary,
-                          )
-                        : Obx(
-                            () => TextButton(
-                                onPressed: (sendOtpEmailController
-                                            .rxRequestStatus.value ==
-                                        Status.LOADING)
-                                    ? null
-                                    : () {
-                                        sendOtpEmailController.sendOtpApi(
-                                            email: signUpFormController
-                                                .emailController.text
-                                                .trim());
-                                      },
-                                child: (sendOtpEmailController
-                                            .rxRequestStatus.value ==
-                                        Status.LOADING)
-                                    ? circularProgressIndicator(size: 18.h)
-                                    : Text(
-                                        "Verify",
-                                        style: AppFontStyle.text_16_400(
-                                            AppColors.primary,
-                                            fontWeight: FontWeight.w500),
-                                      )),
-                          ),
+                suffix: controller.profileData.value.data?.type == "google"
+                    ? SizedBox()
+                    : signUpFormController.emailController.text.isEmpty
+                        ? const SizedBox()
+                        : (controller.profileData.value.data?.emailVerified ==
+                                    "true" &&
+                                controller.emailVerify.value == false)
+                            ? Icon(
+                                Icons.check_circle,
+                                color: AppColors.primary,
+                              )
+                            : Obx(
+                                () => TextButton(
+                                    onPressed: (sendOtpEmailController
+                                                .rxRequestStatus.value ==
+                                            Status.LOADING)
+                                        ? null
+                                        : () {
+                                            sendOtpEmailController.sendOtpApi(
+                                                email: signUpFormController
+                                                    .emailController.text
+                                                    .trim());
+                                          },
+                                    child: (sendOtpEmailController
+                                                .rxRequestStatus.value ==
+                                            Status.LOADING)
+                                        ? circularProgressIndicator(size: 18.h)
+                                        : Text(
+                                            "Verify",
+                                            style: AppFontStyle.text_16_400(
+                                                AppColors.primary,
+                                                fontWeight: FontWeight.w500),
+                                          )),
+                              ),
               ),
             ),
             hBox(15),

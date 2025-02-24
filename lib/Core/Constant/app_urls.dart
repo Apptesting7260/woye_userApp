@@ -8,6 +8,7 @@ class AppUrls {
   static const String register = "$baseUrl/register";
   static const String login = "$baseUrl/login";
   static const String guestUser = "$baseUrl/guest-user";
+  static const String checkUser = "$baseUrl/check-user";
   static const String socialLogin = "$baseUrl/social-login";
 
   /* ------------------------------ Profile ---------------------------------  */

@@ -5,6 +5,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user_controller.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/PhoneNumberService.dart';
 
@@ -14,6 +15,8 @@ class LoginScreen extends StatelessWidget {
   static final LoginController loginController = Get.put(LoginController());
 
   final GuestController guestController = Get.put(GuestController());
+  final CheckUserController checkUserController =
+      Get.put(CheckUserController());
 
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
@@ -127,10 +130,25 @@ class LoginScreen extends StatelessWidget {
   Widget signInButton() {
     return Obx(() => CustomElevatedButton(
           text: "Sign In",
-          isLoading: loginController.isLoding.value,
-          onPressed: () {
+          isLoading: (loginController.isLoding.value ||
+              checkUserController.rxRequestStatus.value == Status.LOADING),
+          onPressed: () async {
             if (loginController.loginFormKey.currentState!.validate()) {
-              loginController.sendOtp();
+              checkUserController
+                  .checkUserApi(
+                      country_code:
+                          loginController.selectedCountryCode.value.toString(),
+                      mobile:
+                          loginController.mobNoCon.value.text.trim().toString())
+                  .then((value) {
+                print("object ${checkUserController.checkUser.value.status}");
+                if (checkUserController.checkUser.value.status == true) {
+                  loginController.sendOtp();
+                  print("object123 ${checkUserController.checkUser.value.status}");
+                }
+              });
+              // if (loginController.loginFormKey.currentState!.validate()) {
+              //   loginController.sendOtp();
             }
           },
         ));
@@ -213,17 +231,17 @@ class LoginScreen extends StatelessWidget {
               width: 26.h,
             )),
         wBox(15),
-        if(Platform.isIOS)
-        CustomRoundedButton(
-          onPressed: () {
-            socialLoginController.appleLogin(context);
-          },
-          child: SvgPicture.asset(
-            ImageConstants.appleLogo,
-            height: 26.h,
-            width: 26.h,
+        if (Platform.isIOS)
+          CustomRoundedButton(
+            onPressed: () {
+              socialLoginController.appleLogin(context);
+            },
+            child: SvgPicture.asset(
+              ImageConstants.appleLogo,
+              height: 26.h,
+              width: 26.h,
+            ),
           ),
-        ),
       ],
     );
   }

@@ -59,7 +59,7 @@ class SendOtpEmailController extends GetxController {
                 ),
                 Text(
                   "Please enter the verification code sent to '$email'",
-                  maxLines: 2,
+                  maxLines: 5,
                   style: AppFontStyle.text_14_400(AppColors.lightText),
                 ),
                 Pinput(

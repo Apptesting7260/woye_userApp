@@ -4,13 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user_controller.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
   final SignUpController signUpController = Get.put(SignUpController());
-
+  final CheckUserController checkUserController =
+      Get.put(CheckUserController());
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
 
@@ -118,10 +120,26 @@ class SignUpScreen extends StatelessWidget {
     return Obx(
       () => CustomElevatedButton(
         text: "Sign Up",
-        isLoading: signUpController.isLoding.value,
+        isLoading: (signUpController.isLoding.value ||
+            checkUserController.rxRequestStatus.value == Status.LOADING),
         onPressed: () {
           if (signUpController.signUpFormKey.currentState!.validate()) {
-            signUpController.sendOtp();
+            checkUserController
+                .checkUserApi(
+                    country_code:
+                        signUpController.selectedCountryCode.value.toString(),
+                    mobile:
+                        signUpController.mobNoCon.value.text.trim().toString())
+                .then((value) {
+              print("object ${checkUserController.checkUser.value.status}");
+              if (checkUserController.checkUser.value.status == false) {
+                signUpController.sendOtp();
+                print(
+                    "object123 ${checkUserController.checkUser.value.status}");
+              } else {
+                Utils.showToast("Your account already exists. Please Sign in.");
+              }
+            });
           }
         },
       ),
@@ -178,17 +196,17 @@ class SignUpScreen extends StatelessWidget {
               width: 26.h,
             )),
         wBox(15),
-        if(Platform.isIOS)
-        CustomRoundedButton(
-          onPressed: () {
-            socialLoginController.appleLogin(context);
-          },
-          child: SvgPicture.asset(
-            ImageConstants.appleLogo,
-            height: 26.h,
-            width: 26.h,
+        if (Platform.isIOS)
+          CustomRoundedButton(
+            onPressed: () {
+              socialLoginController.appleLogin(context);
+            },
+            child: SvgPicture.asset(
+              ImageConstants.appleLogo,
+              height: 26.h,
+              width: 26.h,
+            ),
           ),
-        ),
       ],
     );
   }
