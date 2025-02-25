@@ -79,6 +79,8 @@ dependencies:
   carousel_slider:
   colorful_safe_area: ^1.0.0
   image_cropper:
+  app_links: ^6.4.0
+  share_plus: ^10.1.4
 
 #  sms_autofill: ^2.0.0
 

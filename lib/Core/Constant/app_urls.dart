@@ -1,4 +1,5 @@
 class AppUrls {
+  static const String hostUrl = "https://nbttech.xyz";
   static const String baseUrl = "https://nbttech.xyz/woy/api";
 
   // static const String baseUrl = "https://urlsdemo.online/woy/api";

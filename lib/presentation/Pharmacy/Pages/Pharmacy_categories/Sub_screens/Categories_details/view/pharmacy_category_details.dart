@@ -136,7 +136,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
                     if (controller
                         .categoriesDetailsData.value.filterProduct!.isNotEmpty)
                       filterProductList(),
-                    SliverToBoxAdapter(
+                    SliverToBoxAdapter( //{product_id: 5103, category_id: 87}{product_id: 5100, category_id: 87}
                       child: hBox(50.h),
                     )
                   ],
@@ -157,9 +157,13 @@ class PharmacyCategoryDetails extends StatelessWidget {
                 controller.categoriesDetailsData.value.categoryProduct!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.65.h,
-              crossAxisSpacing: 16.w,
+              childAspectRatio: 0.6.w,
+              crossAxisSpacing: 14.w,
               mainAxisSpacing: 5.h,
+              // crossAxisCount: 2,
+              // childAspectRatio: 0.65.h,
+              // crossAxisSpacing: 16.w,
+              // mainAxisSpacing: 5.h,
             ),
             itemBuilder: (context, index) {
               return CustomBanner(
@@ -206,9 +210,13 @@ class PharmacyCategoryDetails extends StatelessWidget {
             itemCount: controller.filterProductSearchData.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.65.h,
-              crossAxisSpacing: 16.w,
+              childAspectRatio: 0.6.w,
+              crossAxisSpacing: 14.w,
               mainAxisSpacing: 5.h,
+              // crossAxisCount: 2,
+              // childAspectRatio: 0.65.h,
+              // crossAxisSpacing: 16.w,
+              // mainAxisSpacing: 5.h,
             ),
             itemBuilder: (context, index) {
               var product = controller.filterProductSearchData[index];

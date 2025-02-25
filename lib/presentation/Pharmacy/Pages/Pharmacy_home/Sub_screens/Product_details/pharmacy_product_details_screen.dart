@@ -605,21 +605,23 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             childAspectRatio: 1.5,
           ),
           itemCount: controller.productData.value.product!.variant!.length,
-          itemBuilder: (context, itemIndex) {
-            var item =
-                controller.productData.value.product!.variant![itemIndex];
-            return GestureDetector(
+          itemBuilder: (context, index) {
+            var item = controller.productData.value.product!.variant![index];
+            return InkWell(
               onTap: () {
-                controller.pharmaSpecificProductApi(
-                  productId: item.productId.toString(),
-                  categoryId: item.categoryId.toString(),
-                );
-
                 Get.to(PharmacyProductDetailsScreen(
                   productId: item.productId.toString(),
                   categoryId: item.categoryId.toString(),
                   categoryName: item.category_name.toString(),
                 ));
+                controller.pharmaSpecificProductApi(
+                  productId: item.productId.toString(),
+                  categoryId: item.categoryId.toString(),
+                );
+
+                print("productId ${item.productId.toString()}");
+                print("categoryId ${item.categoryId.toString()}");
+                print("categoryName ${item.category_name.toString()} ");
               },
               child: Container(
                 decoration: BoxDecoration(

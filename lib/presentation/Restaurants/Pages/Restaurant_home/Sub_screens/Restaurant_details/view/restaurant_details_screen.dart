@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
@@ -10,6 +11,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RestaurantDetailsScreen extends StatelessWidget {
   final String Restaurantid;
@@ -34,16 +36,24 @@ class RestaurantDetailsScreen extends StatelessWidget {
         appBar: CustomAppBar(
           isLeading: true,
           actions: [
-            Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: Icon(
-                Icons.share_outlined,
-                size: 24.w,
+            GestureDetector(
+              onTap: () {
+                Share.share('${AppUrls.hostUrl}/restaurants?id=${Restaurantid}',
+                    subject:
+                        controller.restaurant_Data.value.restaurant?.shopName ??
+                            'Share Restaurant');
+              },
+              child: Container(
+                padding: REdgeInsets.all(9),
+                height: 44.h,
+                width: 44.h,
+                decoration: BoxDecoration(
+                    color: AppColors.greyBackground,
+                    borderRadius: BorderRadius.circular(12.r)),
+                child: Icon(
+                  Icons.share_outlined,
+                  size: 24.w,
+                ),
               ),
             ),
             // wBox(8),
@@ -353,70 +363,80 @@ class RestaurantDetailsScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                     Container(
-                                       decoration: BoxDecoration(
-                                         color: AppColors.bgColor,
-                                         borderRadius: BorderRadius.circular(20),
-                                       ),
-                                       child: Padding(
-                                         padding:  EdgeInsets.all(10.h),
-                                         child: Column(
-                                           crossAxisAlignment: CrossAxisAlignment.start,
-                                           mainAxisAlignment: MainAxisAlignment.start,
-                                           children: [
-                                             Text(
-                                               controller.restaurant_Data.value
-                                                   .review![index].user!.firstName
-                                                   .toString(),
-                                               style: AppFontStyle.text_16_400(
-                                                   AppColors.darkText),
-                                             ),
-                                             hBox(5),
-                                             RatingBar.readOnly(
-                                               filledIcon: Icons.star,
-                                               emptyIcon: Icons.star,
-                                               filledColor: AppColors.goldStar,
-                                               emptyColor: AppColors.normalStar,
-                                               initialRating: double.parse(controller
-                                                   .restaurant_Data
-                                                   .value
-                                                   .review![index]
-                                                   .rating!
-                                                   .toString()),
-                                               maxRating: 5,
-                                               size: 20.h,
-                                             ),
-                                             hBox(10),
-                                             Text(
-                                               controller.restaurant_Data.value
-                                                   .review![index].message
-                                                   .toString(),
-                                               style: AppFontStyle.text_16_400(
-                                                   AppColors.darkText),
-                                               maxLines: 3,
-                                             ),
-                                             hBox(10),
-                                             Text(
-                                               controller.formatDate(controller
-                                                   .restaurant_Data
-                                                   .value
-                                                   .review![index]
-                                                   .updatedAt
-                                                   .toString()),
-                                               style: AppFontStyle.text_16_400(
-                                                   AppColors.lightText),
-                                             ),
-                                           ],
-                                         ),
-                                       ),
-                                     ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.bgColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10.h),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                controller
+                                                    .restaurant_Data
+                                                    .value
+                                                    .review![index]
+                                                    .user!
+                                                    .firstName
+                                                    .toString(),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.darkText),
+                                              ),
+                                              hBox(5),
+                                              RatingBar.readOnly(
+                                                filledIcon: Icons.star,
+                                                emptyIcon: Icons.star,
+                                                filledColor: AppColors.goldStar,
+                                                emptyColor:
+                                                    AppColors.normalStar,
+                                                initialRating: double.parse(
+                                                    controller
+                                                        .restaurant_Data
+                                                        .value
+                                                        .review![index]
+                                                        .rating!
+                                                        .toString()),
+                                                maxRating: 5,
+                                                size: 20.h,
+                                              ),
+                                              hBox(10),
+                                              Text(
+                                                controller.restaurant_Data.value
+                                                    .review![index].message
+                                                    .toString(),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.darkText),
+                                                maxLines: 3,
+                                              ),
+                                              hBox(10),
+                                              Text(
+                                                controller.formatDate(controller
+                                                    .restaurant_Data
+                                                    .value
+                                                    .review![index]
+                                                    .updatedAt
+                                                    .toString()),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.lightText),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                       if (controller.restaurant_Data.value
                                               .review![index].reply !=
                                           null)
                                         Padding(
                                           padding: EdgeInsets.only(top: 10.h),
                                           child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
@@ -426,14 +446,19 @@ class RestaurantDetailsScreen extends StatelessWidget {
                                               ),
                                               Flexible(
                                                 child: Text(
-                                                  controller.restaurant_Data.value
-                                                      .review![index].reply
+                                                  controller
+                                                      .restaurant_Data
+                                                      .value
+                                                      .review![index]
+                                                      .reply
                                                       .toString()
                                                       .trim(),
-                                                  style: AppFontStyle.text_16_400(
-                                                      AppColors.lightText),
+                                                  style:
+                                                      AppFontStyle.text_16_400(
+                                                          AppColors.lightText),
                                                   maxLines: 100,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               ),
                                             ],
