@@ -24,19 +24,25 @@ class SplashServices {
           Get.offAllNamed(AppRoutes.welcomeScreen);
           inSplash.value = false;
         });
-      } else {
-        if (deepLinkController.deepLinkType.value != "") {
-          Get.offAllNamed(AppRoutes.restaurantNavbar)?.then(
-            (value) {
-              Get.to(RestaurantDetailsScreen(
-                Restaurantid: deepLinkController.deepLinkRestaurantsId.value,
-              ));
-              restaurantDeatilsController.restaurant_Details_Api(
-                id: deepLinkController.deepLinkRestaurantsId.value,
-              );
-            },
-          );
-        } else {
+      }
+      else
+      // {
+      //   print("object out ${deepLinkController.deepLinkType.value}");
+      //   if (deepLinkController.deepLinkType.value != "") {
+      //     print("object ss ${deepLinkController.deepLinkType.value}");
+      //     Get.offAllNamed(AppRoutes.restaurantNavbar)?.then(
+      //       (value) {
+      //         Get.to(RestaurantDetailsScreen(
+      //           Restaurantid: deepLinkController.deepLinkRestaurantsId.value,
+      //         ));
+      //         restaurantDeatilsController.restaurant_Details_Api(
+      //           id: deepLinkController.deepLinkRestaurantsId.value,
+      //         );
+      //       },
+      //     );
+      //   }
+      //   else
+        {
           if (value.loginType == "Guest") {
             Timer(const Duration(seconds: 2), () {
               Get.offAllNamed(AppRoutes.restaurantNavbar);
@@ -56,7 +62,7 @@ class SplashServices {
             }
           }
         }
-      }
+      // }
     });
   }
 }

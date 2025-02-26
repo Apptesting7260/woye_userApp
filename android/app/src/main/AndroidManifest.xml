@@ -42,13 +42,13 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="nbttech.xyz" android:pathPrefix="/restaurants" />
+                <data android:scheme="https" android:host="nbttech.xyz" android:pathPrefix="/restaurants" />
             </intent-filter>
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="nbttech.xyz" android:pathPrefix="/resto-products" />
+                <data android:scheme="https" android:host="nbttech.xyz" android:pathPrefix="/resto-products" />
             </intent-filter>
 
             <meta-data
