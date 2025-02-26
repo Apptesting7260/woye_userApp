@@ -92,5 +92,15 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>FlutterDeepLinkingEnabled</key>
+    <false/>
+	<key>com.apple.developer.associated-domains</key>
+    <array>
+                <string>applinks:nbttech.xyz.com</string>
+                <string>applinks:www.nbttech.xyz.com</string>
+                <string>nbttech.xyz.com</string>
+                <string>www.nbttech.xyz.com</string>
+    </array>
+
 </dict>
 </plist>
