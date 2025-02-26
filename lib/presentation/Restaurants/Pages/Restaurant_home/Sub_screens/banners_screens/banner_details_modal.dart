@@ -123,7 +123,7 @@ class Products {
   int? id;
   String? image;
   int? rating;
-  int? salePrice;
+  var salePrice;
   var regularPrice;
   String? title;
   String? addimg;

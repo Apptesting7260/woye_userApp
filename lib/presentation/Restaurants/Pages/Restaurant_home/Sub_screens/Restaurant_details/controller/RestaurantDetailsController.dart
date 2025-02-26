@@ -24,16 +24,15 @@ class RestaurantDetailsController extends GetxController {
 
   void setError(String value) => error.value = value;
 
-  restaurant_Details_Api({
+  Future restaurant_Details_Api({
     required String id,
   }) async {
     loadLocationData();
     setRxRequestStatus(Status.LOADING);
     Map data = {"restaurant_id": id};
-    api.specific_Restaurant_Api(data).then((value) {
+   await api.specific_Restaurant_Api(data).then((value) {
       restaurant_Set(value);
       setRxRequestStatus(Status.COMPLETED);
-
       double? apiLatitude = restaurant_Data.value.restaurant?.latitude != null
           ? double.tryParse(restaurant_Data.value.restaurant!.latitude!)
           : null;
@@ -62,6 +61,7 @@ class RestaurantDetailsController extends GetxController {
 
       print(
           "Estimated Travel Time: ${travelTime.value.toStringAsFixed(2)} minutes");
+      update();
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);

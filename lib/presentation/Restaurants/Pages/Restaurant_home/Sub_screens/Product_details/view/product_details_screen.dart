@@ -194,7 +194,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                     showLoginRequired(context);
                                   } else {
                                     // ---------- add to cart api -----------
-                                    controller.productPriceFun();
+                                    // controller.productPriceFun();
                                     addToCartController.addToCartApi(
                                       productId: controller
                                           .productData.value.product!.id
@@ -846,15 +846,15 @@ class ProductDetailsScreen extends StatelessWidget {
           style: AppFontStyle.text_20_600(AppColors.darkText),
         ),
         hBox(10),
-        Row(
-          children: [
-            Text(
-              "Select up to ${controller.productData.value.product!.addOn!.length} option",
-              style: AppFontStyle.text_16_300(AppColors.lightText),
-            ),
-          ],
-        ),
-        hBox(10),
+        // Row(
+        //   children: [
+        //     Text(
+        //       "Select up to ${controller.productData.value.product!.addOn!.length} option",
+        //       style: AppFontStyle.text_16_300(AppColors.lightText),
+        //     ),
+        //   ],
+        // ),
+        // hBox(10),
         Obx(
           () {
             var addOnListLength =

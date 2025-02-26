@@ -31,12 +31,7 @@ class RestaurantHomeBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(
-            // title: Text(
-            //   "Filter",
-            //   style: AppFontStyle.text_22_600(AppColors.darkText),
-            // ),
-            ),
+        appBar: const CustomAppBar(),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
             case Status.LOADING:
@@ -45,13 +40,13 @@ class RestaurantHomeBanner extends StatelessWidget {
               if (controller.error.value == 'No internet') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    // controller.restaurant_Details_Api(id: Restaurantid);
+                    controller.bannerDataApi(bannerId: bannerID);
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    // controller.restaurant_Details_Api(id: Restaurantid);
+                    controller.bannerDataApi(bannerId: bannerID);
                   },
                 );
               }

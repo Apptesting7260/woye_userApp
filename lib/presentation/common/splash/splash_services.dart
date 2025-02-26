@@ -10,8 +10,7 @@ import '../../../Routes/app_routes.dart';
 class SplashServices {
   UserPreference userPreference = UserPreference();
   final deepLinkController = Get.put(DeepLinkController());
-  final RestaurantDetailsController restaurantDeatilsController =
-  Get.put(RestaurantDetailsController());
+
 
   void isLogin() {
     userPreference.getUser().then((value) {
@@ -24,8 +23,7 @@ class SplashServices {
           Get.offAllNamed(AppRoutes.welcomeScreen);
           inSplash.value = false;
         });
-      }
-      else
+      } else
       // {
       //   print("object out ${deepLinkController.deepLinkType.value}");
       //   if (deepLinkController.deepLinkType.value != "") {
@@ -42,26 +40,26 @@ class SplashServices {
       //     );
       //   }
       //   else
-        {
-          if (value.loginType == "Guest") {
+      {
+        if (value.loginType == "Guest") {
+          Timer(const Duration(seconds: 2), () {
+            Get.offAllNamed(AppRoutes.restaurantNavbar);
+            inSplash.value = false;
+          });
+        } else {
+          if (value.step == 1) {
+            Timer(const Duration(seconds: 2), () {
+              Get.offAllNamed(AppRoutes.signUpFom);
+              inSplash.value = false;
+            });
+          } else if (value.step == 2) {
             Timer(const Duration(seconds: 2), () {
               Get.offAllNamed(AppRoutes.restaurantNavbar);
               inSplash.value = false;
             });
-          } else {
-            if (value.step == 1) {
-              Timer(const Duration(seconds: 2), () {
-                Get.offAllNamed(AppRoutes.signUpFom);
-                inSplash.value = false;
-              });
-            } else if (value.step == 2) {
-              Timer(const Duration(seconds: 2), () {
-                Get.offAllNamed(AppRoutes.restaurantNavbar);
-                inSplash.value = false;
-              });
-            }
           }
         }
+      }
       // }
     });
   }

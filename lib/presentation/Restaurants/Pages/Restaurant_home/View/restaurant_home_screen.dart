@@ -214,11 +214,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               final banner = banners[index];
               return GestureDetector(
                 onTap: () {
-                  bannerDetailsController.bannerDataApi(
-                      bannerId: banners[index].id.toString());
                   Get.to(RestaurantHomeBanner(
                     bannerID: banners[index].id.toString(),
                   ));
+                  bannerDetailsController.bannerDataApi(
+                      bannerId: banners[index].id.toString());
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.r),

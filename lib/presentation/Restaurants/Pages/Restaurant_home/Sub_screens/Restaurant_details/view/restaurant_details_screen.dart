@@ -13,9 +13,17 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:share_plus/share_plus.dart';
 
-class RestaurantDetailsScreen extends StatelessWidget {
+class RestaurantDetailsScreen extends StatefulWidget {
   final String Restaurantid;
 
+  RestaurantDetailsScreen({super.key, required this.Restaurantid});
+
+  @override
+  State<RestaurantDetailsScreen> createState() =>
+      _RestaurantDetailsScreenState();
+}
+
+class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   final RestaurantDetailsController controller =
       Get.put(RestaurantDetailsController());
 
@@ -28,7 +36,12 @@ class RestaurantDetailsScreen extends StatelessWidget {
   final SeeAllProductReviewController seeAllProductReviewController =
       Get.put(SeeAllProductReviewController());
 
-  RestaurantDetailsScreen({super.key, required this.Restaurantid});
+  @override
+  void initState() {
+    controller.restaurant_Details_Api(id: widget.Restaurantid);
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +51,8 @@ class RestaurantDetailsScreen extends StatelessWidget {
           actions: [
             GestureDetector(
               onTap: () {
-                Share.share('${AppUrls.hostUrl}/restaurants?id=${Restaurantid}',
+                Share.share(
+                    '${AppUrls.hostUrl}/restaurants?id=${widget.Restaurantid}',
                     subject:
                         controller.restaurant_Data.value.restaurant?.shopName ??
                             'Share Restaurant');
@@ -90,13 +104,13 @@ class RestaurantDetailsScreen extends StatelessWidget {
               if (controller.error.value == 'No internet') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    controller.restaurant_Details_Api(id: Restaurantid);
+                    controller.restaurant_Details_Api(id: widget.Restaurantid);
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    controller.restaurant_Details_Api(id: Restaurantid);
+                    controller.restaurant_Details_Api(id: widget.Restaurantid);
                   },
                 );
               }
@@ -104,7 +118,8 @@ class RestaurantDetailsScreen extends StatelessWidget {
               return Scaffold(
                 body: RefreshIndicator(
                     onRefresh: () async {
-                      controller.restaurant_Details_Api(id: Restaurantid);
+                      controller.restaurant_Details_Api(
+                          id: widget.Restaurantid);
                     },
                     child: SingleChildScrollView(
                       padding: REdgeInsets.symmetric(horizontal: 24),
@@ -491,7 +506,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                         Get.toNamed(
                           AppRoutes.productReviews,
                           arguments: {
-                            'product_id': Restaurantid.toString(),
+                            'product_id': widget.Restaurantid.toString(),
                             'product_review':
                                 controller.restaurant_Data.value.averageRating,
                             'review_count': controller
@@ -501,7 +516,7 @@ class RestaurantDetailsScreen extends StatelessWidget {
                           },
                         );
                         seeAllProductReviewController.seeAllProductReviewApi(
-                            vendorId: Restaurantid.toString(),
+                            vendorId: widget.Restaurantid.toString(),
                             type: "restaurant");
                       },
                       child: Row(
@@ -541,9 +556,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
             InkWell(
               onTap: () {
                 seeallproductcontroller.seeAll_Product_Api(
-                    restaurant_id: Restaurantid.toString(), category_id: "");
+                    restaurant_id: widget.Restaurantid.toString(),
+                    category_id: "");
                 Get.toNamed(AppRoutes.moreProducts, arguments: {
-                  'restaurant_id': Restaurantid.toString(),
+                  'restaurant_id': widget.Restaurantid.toString(),
                   'category_id': '',
                 });
               },

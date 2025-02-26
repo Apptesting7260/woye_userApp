@@ -23,8 +23,6 @@ class AllPharmaShopsScreen extends StatelessWidget {
   final AllPharmaShopsController controller =
       Get.put(AllPharmaShopsController());
 
-  // final RestaurantDetailsController restaurantDeatilsController =
-  // Get.put(RestaurantDetailsController());
 
   final PharmacyDetailsController pharmacyDetailsController =
       Get.put(PharmacyDetailsController());

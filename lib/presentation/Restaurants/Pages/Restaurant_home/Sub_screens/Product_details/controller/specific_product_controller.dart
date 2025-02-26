@@ -76,31 +76,31 @@ class specific_Product_Controller extends GetxController {
   RxList extrasItemIdsName = [].obs;
   RxList extrasItemIdsPrice = [].obs;
 
-  void productPriceFun() {
-    int count = cartCount.value;
-    if(productData.value.product!.salePrice != null) {
-      int? price = productData.value.product!.salePrice;
-      if (price != null) {
-        int totalPrice = count * price;
-        productPrice = totalPrice;
-        print("Total Price: $totalPrice");
-      } else {
-        print("Error: Price is not a valid number");
-      }
-    } else {
-
-      int? price = productData.value.product!.regularPrice;
-      if (price != null) {
-        int totalPrice = count * price;
-        productPrice = totalPrice;
-        print("Total Price: $totalPrice");
-      } else {
-        print("Error: Price is not a valid number");
-      }
-
-
-    }
-    // productPrice = totalPrice;
-    // print("Total Price: $totalPrice");
-  }
+  // void productPriceFun() {
+  //   int count = cartCount.value;
+  //   if(productData.value.product!.salePrice != null) {
+  //     int? price = productData.value.product!.salePrice;
+  //     if (price != null) {
+  //       int totalPrice = count * price;
+  //       productPrice = totalPrice;
+  //       print("Total Price: $totalPrice");
+  //     } else {
+  //       print("Error: Price is not a valid number");
+  //     }
+  //   } else {
+  //
+  //     int? price = productData.value.product!.regularPrice;
+  //     if (price != null) {
+  //       int totalPrice = count * price;
+  //       productPrice = totalPrice;
+  //       print("Total Price: $totalPrice");
+  //     } else {
+  //       print("Error: Price is not a valid number");
+  //     }
+  //
+  //
+  //   }
+  //   // productPrice = totalPrice;
+  //   // print("Total Price: $totalPrice");
+  // }
 }
