@@ -308,6 +308,8 @@ class OrderDetailsScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    if (controller.ordersData.value.orderDetails?.type !=
+                        "pharmacy")
                     if (item.attribute!.isNotEmpty)
                       Padding(
                         padding: EdgeInsets.only(top: 10.h),

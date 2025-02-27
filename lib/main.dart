@@ -5,9 +5,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'dart:io';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:woye_user/presentation/push_notification/push_notification.dart';
 import 'firebase_options.dart';
 
 var inSplash = true.obs;
+final PushNotificationService _notificationService = PushNotificationService();
 
 Future<void> main() async {
   await dotenv.load(fileName: "assets/.env");
@@ -29,6 +31,7 @@ Future<void> main() async {
   //     statusBarIconBrightness: Brightness.dark,
   //     systemNavigationBarColor: Colors.transparent,
   //     statusBarBrightness: Brightness.light));
+  _notificationService.firebaseNotification();
   Get.put(NetworkController());
   await GetStorage.init();
   runApp(MyApp());

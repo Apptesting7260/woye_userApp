@@ -70,18 +70,18 @@ RxList selectedAddOn = [].obs;
 //   RxList variantItemIdsName = [].obs;
 //   RxList variantItemIdsPrice = [].obs;
 
-  void productPriceFun() {
-    int count = cartCount.value;
-    if (productData.value.product!.salePrice != null) {
-      int? price = productData.value.product!.salePrice;
-      int totalPrice = count * price!;
-      productPrice = totalPrice;
-      print("Total Price: $totalPrice");
-    } else {
-      int? price = productData.value.product!.regularPrice;
-      int totalPrice = count * price!;
-      productPrice = totalPrice;
-      print("Total Price: $totalPrice");
-    }
-  }
+  // void productPriceFun() {
+  //   int count = cartCount.value;
+  //   if (productData.value.product!.salePrice != null) {
+  //     int? price = productData.value.product!.salePrice;
+  //     int totalPrice = count * price!;
+  //     productPrice = totalPrice;
+  //     print("Total Price: $totalPrice");
+  //   } else {
+  //     int? price = productData.value.product!.regularPrice;
+  //     int totalPrice = count * price!;
+  //     productPrice = totalPrice;
+  //     print("Total Price: $totalPrice");
+  //   }
+  // }
 }

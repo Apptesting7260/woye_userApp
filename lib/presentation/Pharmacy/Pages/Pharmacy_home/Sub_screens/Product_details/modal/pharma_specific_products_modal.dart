@@ -202,7 +202,7 @@ class Product {
 class Variant {
   String? name;
   String? productId;
-  int? price;
+  var price;
   int? categoryId;
   String? category_name;
 

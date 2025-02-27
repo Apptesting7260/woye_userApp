@@ -54,7 +54,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   firebase_database:
   flutter_facebook_auth: ^6.0.4
-  flutter_local_notifications:
+  flutter_local_notifications: ^17.1.2
   permission_handler:
   google_sign_in: ^6.2.1
   sign_in_with_apple:

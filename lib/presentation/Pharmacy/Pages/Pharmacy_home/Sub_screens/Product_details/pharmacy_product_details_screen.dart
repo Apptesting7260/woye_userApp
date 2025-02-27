@@ -758,7 +758,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                         showLoginRequired(context);
                       } else {
                         // ---------- add to cart api -----------
-                        controller.productPriceFun();
+                        // controller.productPriceFun();
                         pharmacyAddToCarController.pharmaAddToCartApi(
                           productId: controller.productData.value.product!.id
                               .toString(),

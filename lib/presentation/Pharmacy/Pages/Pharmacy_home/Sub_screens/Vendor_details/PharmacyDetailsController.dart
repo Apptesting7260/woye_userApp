@@ -5,7 +5,6 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_details_modal.dart';
 import 'package:intl/intl.dart';
 
-
 class PharmacyDetailsController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
@@ -22,16 +21,15 @@ class PharmacyDetailsController extends GetxController {
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void restaurant_Set(SpecificPharmacyModal value) =>
-      pharma_Data.value = value;
+  void restaurant_Set(SpecificPharmacyModal value) => pharma_Data.value = value;
 
   void setError(String value) => error.value = value;
 
   restaurant_Details_Api({
     required String id,
   }) async {
+    loadLocationData();
     setRxRequestStatus(Status.LOADING);
-
     Map data = {"pharma_id": id};
 
     api.specificPharmaShopApi(data).then((value) {
@@ -52,11 +50,9 @@ class PharmacyDetailsController extends GetxController {
         );
       }
 
-      print(
-          "Location from api ${pharma_Data.value.pharmaShop?.shopAddress}");
+      print("Location from api ${pharma_Data.value.pharmaShop?.shopAddress}");
       print("latitude from api ${pharma_Data.value.pharmaShop?.latitude}");
-      print(
-          "longitude from api ${pharma_Data.value.pharmaShop?.longitude}");
+      print("longitude from api ${pharma_Data.value.pharmaShop?.longitude}");
       print("Calculated Distance: ${distance.value} km");
 
       double travelTimeInMinutes = calculateTravelTime(distance.value, 15);
@@ -65,7 +61,6 @@ class PharmacyDetailsController extends GetxController {
 
       print(
           "Estimated Travel Time: ${travelTime.value.toStringAsFixed(2)} minutes");
-
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
@@ -114,7 +109,6 @@ class PharmacyDetailsController extends GetxController {
     double timeInMinutes = timeInHours * 60;
     return timeInMinutes;
   }
-
 
   String formatDate(String? dateString) {
     if (dateString == null) {
