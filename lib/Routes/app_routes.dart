@@ -18,6 +18,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Fi
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/More_Products/grocery_more_products.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Most_popular/grocery_most_popular.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Checkout/pharmacy_checkout_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_upload_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/view/pharmacy_category_details.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharmacy_categories_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharmacy_home_filter.dart';
@@ -93,6 +94,7 @@ class AppRoutes {
   static const String productReviews = "/product_reviews";
   static const String moreProducts = "/more_products";
   static const String checkoutScreen = "/checkout_screen";
+  static const String prescriptionScreen = "/Prescription_screen";
   static const String deliveryAddressScreen = "/delivery_ddress_screen";
   static const String addAddressScreen = "/add_address";
   static const String editAddressScreen = "/edit_address";
@@ -185,6 +187,7 @@ class AppRoutes {
     GetPage(name: productReviews, page: () => ProductReviews()),
     GetPage(name: moreProducts, page: () => MoreProducts()),
     GetPage(name: checkoutScreen, page: () => CheckoutScreen()),
+    GetPage(name: prescriptionScreen, page: () => PrescriptionUploadScreen()),
     GetPage(name: addAddressScreen, page: () => AddAddressScreen()),
     GetPage(name: editAddressScreen, page: () => EditAddressScreen()),
     GetPage(name: promoCode, page: () => const PromoCodes()),

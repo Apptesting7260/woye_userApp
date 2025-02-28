@@ -17,6 +17,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
     final type = arguments['type'];
     final reply = arguments['reply'];
     final raring = arguments['raring'];
+    final from = arguments['from'];
 
     double? rating = double.tryParse(raring ?? '');
 
@@ -58,12 +59,12 @@ class RateAndReviewProductScreen extends StatelessWidget {
                       Utils.showToast("Review cannot be empty or just spaces");
                     } else {
                       controller.postOrderReviewApi(
-                        orderId: orderId,
-                        vendorId: vendorId,
-                        type: type,
-                        rating: controller.rating.value,
-                        review: reviewText,
-                      );
+                          orderId: orderId,
+                          vendorId: vendorId,
+                          type: type,
+                          rating: controller.rating.value,
+                          review: reviewText,
+                          from: from);
                     }
                   }
                 },

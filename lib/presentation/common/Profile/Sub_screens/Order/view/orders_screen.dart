@@ -154,45 +154,62 @@ class OrdersScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: order.decodedAttribute![0].productImage
-                                  .toString(),
-                              height: 100.h,
-                              width: 100.h,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.gray,
-                                highlightColor: AppColors.lightText,
-                                child: Container(
-                                  color: AppColors.white,
-                                  height: 100.h,
-                                  width: 100.h,
+                        GestureDetector(
+                          onTap: () {
+                            print("orderId $order.id.toString()");
+
+                            final arguments = {
+                              'order_id': order.id.toString(),
+                            };
+                            Get.toNamed(
+                              AppRoutes.orderDetails,
+                              arguments: arguments,
+                            );
+                            orderDetailsController.orderDetailsApi(
+                                orderId: order.id.toString());
+                          },
+                          child: Row(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: order
+                                    .decodedAttribute![0].productImage
+                                    .toString(),
+                                height: 100.h,
+                                width: 100.h,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: AppColors.gray,
+                                  highlightColor: AppColors.lightText,
+                                  child: Container(
+                                    color: AppColors.white,
+                                    height: 100.h,
+                                    width: 100.h,
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                            wBox(15.h),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order.decodedAttribute![0].productName
-                                      .toString(),
-                                  style: AppFontStyle.text_14_600(
-                                      AppColors.darkText),
-                                ),
-                                hBox(10),
-                                Text(
-                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(
-                                      AppColors.darkText),
-                                ),
-                              ],
-                            ),
-                          ],
+                              wBox(15.h),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    order.decodedAttribute![0].productName
+                                        .toString(),
+                                    style: AppFontStyle.text_14_600(
+                                        AppColors.darkText),
+                                  ),
+                                  hBox(10),
+                                  Text(
+                                    "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                    style: AppFontStyle.text_12_400(
+                                        AppColors.darkText),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         hBox(15),
                         buildOrderDetailRow(
@@ -221,6 +238,7 @@ class OrdersScreen extends StatelessWidget {
                           orderStatus: order.status.toString(),
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
+                          reviews: order.review,
                         ),
                       ],
                     ),
@@ -270,45 +288,93 @@ class OrdersScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: order.decodedAttribute![0].productImage
-                                  .toString(),
-                              height: 100.h,
-                              width: 100.h,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.gray,
-                                highlightColor: AppColors.lightText,
-                                child: Container(
-                                  color: AppColors.white,
-                                  height: 100.h,
-                                  width: 100.h,
-                                ),
+                        GestureDetector(
+                          onTap: () {
+                            print("orderId $order.id.toString()");
+
+                            final arguments = {
+                              'order_id': order.id.toString(),
+                            };
+                            Get.toNamed(
+                              AppRoutes.orderDetails,
+                              arguments: arguments,
+                            );
+                            orderDetailsController.orderDetailsApi(
+                                orderId: order.id.toString());
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              print("orderId $order.id.toString()");
+
+                              final arguments = {
+                                'order_id': order.id.toString(),
+                              };
+                              Get.toNamed(
+                                AppRoutes.orderDetails,
+                                arguments: arguments,
+                              );
+                              orderDetailsController.orderDetailsApi(
+                                  orderId: order.id.toString());
+                            },
+                            child: GestureDetector(
+                              onTap: () {
+                                print("orderId $order.id.toString()");
+
+                                final arguments = {
+                                  'order_id': order.id.toString(),
+                                };
+                                Get.toNamed(
+                                  AppRoutes.orderDetails,
+                                  arguments: arguments,
+                                );
+                                orderDetailsController.orderDetailsApi(
+                                    orderId: order.id.toString());
+                              },
+                              child: Row(
+                                children: [
+                                  CachedNetworkImage(
+                                    imageUrl: order
+                                        .decodedAttribute![0].productImage
+                                        .toString(),
+                                    height: 100.h,
+                                    width: 100.h,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: AppColors.gray,
+                                      highlightColor: AppColors.lightText,
+                                      child: Container(
+                                        color: AppColors.white,
+                                        height: 100.h,
+                                        width: 100.h,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
+                                  ),
+                                  wBox(15.h),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        order.decodedAttribute![0].productName
+                                            .toString(),
+                                        style: AppFontStyle.text_14_600(
+                                            AppColors.darkText),
+                                      ),
+                                      hBox(10),
+                                      Text(
+                                        "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.darkText),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
                             ),
-                            wBox(15.h),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order.decodedAttribute![0].productName
-                                      .toString(),
-                                  style: AppFontStyle.text_14_600(
-                                      AppColors.darkText),
-                                ),
-                                hBox(10),
-                                Text(
-                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(
-                                      AppColors.darkText),
-                                ),
-                              ],
-                            ),
-                          ],
+                          ),
                         ),
                         hBox(15),
                         buildOrderDetailRow(
@@ -337,6 +403,7 @@ class OrdersScreen extends StatelessWidget {
                           orderStatus: order.status.toString(),
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
+                          reviews: order.review,
                         ),
                       ],
                     ),
@@ -387,45 +454,62 @@ class OrdersScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: order.decodedAttribute![0].productImage
-                                  .toString(),
-                              height: 100.h,
-                              width: 100.h,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.gray,
-                                highlightColor: AppColors.lightText,
-                                child: Container(
-                                  color: AppColors.white,
-                                  height: 100.h,
-                                  width: 100.h,
+                        GestureDetector(
+                          onTap: () {
+                            print("orderId $order.id.toString()");
+
+                            final arguments = {
+                              'order_id': order.id.toString(),
+                            };
+                            Get.toNamed(
+                              AppRoutes.orderDetails,
+                              arguments: arguments,
+                            );
+                            orderDetailsController.orderDetailsApi(
+                                orderId: order.id.toString());
+                          },
+                          child: Row(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: order
+                                    .decodedAttribute![0].productImage
+                                    .toString(),
+                                height: 100.h,
+                                width: 100.h,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: AppColors.gray,
+                                  highlightColor: AppColors.lightText,
+                                  child: Container(
+                                    color: AppColors.white,
+                                    height: 100.h,
+                                    width: 100.h,
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                            wBox(15.h),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order.decodedAttribute![0].productName
-                                      .toString(),
-                                  style: AppFontStyle.text_14_600(
-                                      AppColors.darkText),
-                                ),
-                                hBox(10),
-                                Text(
-                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(
-                                      AppColors.darkText),
-                                ),
-                              ],
-                            ),
-                          ],
+                              wBox(15.h),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    order.decodedAttribute![0].productName
+                                        .toString(),
+                                    style: AppFontStyle.text_14_600(
+                                        AppColors.darkText),
+                                  ),
+                                  hBox(10),
+                                  Text(
+                                    "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                    style: AppFontStyle.text_12_400(
+                                        AppColors.darkText),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         hBox(15),
                         buildOrderDetailRow(
@@ -454,13 +538,14 @@ class OrdersScreen extends StatelessWidget {
                           orderStatus: order.status.toString(),
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
+                          reviews: order.review,
                         ),
                       ],
                     ),
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return hBox(10);
+                  return hBox(10.h);
                 },
               ),
             ),
@@ -501,47 +586,64 @@ class OrdersScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: order.decodedAttribute![0].productImage
-                                  .toString(),
-                              height: 100.h,
-                              width: 100.h,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.gray,
-                                highlightColor: AppColors.lightText,
-                                child: Container(
-                                  color: AppColors.white,
-                                  height: 100.h,
-                                  width: 100.h,
+                        GestureDetector(
+                          onTap: () {
+                            print("orderId $order.id.toString()");
+
+                            final arguments = {
+                              'order_id': order.id.toString(),
+                            };
+                            Get.toNamed(
+                              AppRoutes.orderDetails,
+                              arguments: arguments,
+                            );
+                            orderDetailsController.orderDetailsApi(
+                                orderId: order.id.toString());
+                          },
+                          child: Row(
+                            children: [
+                              CachedNetworkImage(
+                                imageUrl: order
+                                    .decodedAttribute![0].productImage
+                                    .toString(),
+                                height: 100.h,
+                                width: 100.h,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: AppColors.gray,
+                                  highlightColor: AppColors.lightText,
+                                  child: Container(
+                                    color: AppColors.white,
+                                    height: 100.h,
+                                    width: 100.h,
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                            ),
-                            wBox(15.h),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  order.decodedAttribute![0].productName
-                                      .toString(),
-                                  style: AppFontStyle.text_14_600(
-                                      AppColors.darkText),
-                                ),
-                                hBox(10),
-                                Text(
-                                  "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                  style: AppFontStyle.text_12_400(
-                                      AppColors.darkText),
-                                ),
-                              ],
-                            ),
-                          ],
+                              wBox(15.h),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    order.decodedAttribute![0].productName
+                                        .toString(),
+                                    style: AppFontStyle.text_14_600(
+                                        AppColors.darkText),
+                                  ),
+                                  hBox(10.h),
+                                  Text(
+                                    "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                    style: AppFontStyle.text_12_400(
+                                        AppColors.darkText),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                        hBox(15),
+                        hBox(15.h),
                         buildOrderDetailRow(
                             "Order id", order.orderId.toString()),
                         buildOrderDetailRow(
@@ -551,12 +653,11 @@ class OrdersScreen extends StatelessWidget {
                         buildOrderDetailRow(
                             "Date & Time", order.createdAt.toString()),
                         buildOrderDetailRow(
-                          "Status",
-                          order.status
-                              .toString()
-                              .replaceAll("_", " ")
-                              .capitalize!,
-                        ),
+                            "Status",
+                            order.status
+                                .toString()
+                                .replaceAll("_", " ")
+                                .capitalize!),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
                         hBox(20),
@@ -568,6 +669,7 @@ class OrdersScreen extends StatelessWidget {
                           orderStatus: order.status.toString(),
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
+                          reviews: order.review,
                         ),
                       ],
                     ),
@@ -639,6 +741,7 @@ class OrdersScreen extends StatelessWidget {
     required String orderStatus,
     required String vendorId,
     required String type,
+    required var reviews,
   }) {
     return Row(
       children: [
@@ -713,7 +816,7 @@ class OrdersScreen extends StatelessWidget {
               ),
             ),
           ),
-        if (orderStatus == "completed")
+        if (orderStatus == "completed" && reviews == null)
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
@@ -723,7 +826,8 @@ class OrdersScreen extends StatelessWidget {
                 'vendor_id': vendorId,
                 'type': type,
                 'reply': "null",
-                "raring": "0"
+                "raring": "0",
+                "from": "order"
               };
               Get.toNamed(
                 AppRoutes.rateAndReviewProductScreen,

@@ -339,12 +339,12 @@ class Repository {
     return CheckedUncheckedModal.fromJson(response);
   }
 
-  Future<dynamic> createOrderApi(var data) async {
-    await initializeUser();
-    dynamic response =
-        await _apiService.postApi(data, AppUrls.createOrder, token);
-    return CreateOrder.fromJson(response);
-  }
+  // Future<dynamic> createOrderApi(var data) async {
+  //   await initializeUser();
+  //   dynamic response =
+  //       await _apiService.postApi(data, AppUrls.createOrder, token);
+  //   return CreateOrder.fromJson(response);
+  // }
 
 /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
 

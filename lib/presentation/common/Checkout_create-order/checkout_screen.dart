@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
@@ -29,6 +30,22 @@ class CheckoutScreen extends StatelessWidget {
     var couponDiscount = arguments['coupon_discount'] ?? "";
     var cartType = arguments['cartType'] ?? "";
     var walletBalance = arguments['wallet'] ?? "";
+    var imagePath = arguments['imagePath'] ?? "";
+    File? imageFile;
+
+    if (imagePath is String && imagePath.isNotEmpty) {
+      imageFile = File(imagePath); // Convert file path string to File
+    } else if (imagePath is File) {
+      imageFile = imagePath; // If it's already a File object
+    }
+
+    if (imageFile != null) {
+      // Now you can use `imageFile` in your multipart request for image upload
+      print("Image file path: ${imageFile.path}");
+    } else {
+      print("No image provided");
+    }
+
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
     print("Vendor Id: $vendorId");
@@ -39,6 +56,7 @@ class CheckoutScreen extends StatelessWidget {
     print("Delivery Charge: $deliveryCharge");
     print("Coupon Discount: $couponDiscount");
     print("wallet: $walletBalance");
+    print("imageFile: $imagePath");
 
     controller.payAfterWallet.value = double.parse(total.toString());
 
@@ -73,36 +91,35 @@ class CheckoutScreen extends StatelessWidget {
                   onPressed: () {
                     if (controller.isSelectable.value == true) {
                       controller.placeOrderApi(
-                        addressId: addressId,
-                        cartId: cartId,
-                        vendorId: vendorId,
-                        couponId: couponId,
-                        paymentMethod: "wallet",
-                        total: total,
-                        cartType: cartType,
-                      );
+                          addressId: addressId,
+                          cartId: cartId,
+                          vendorId: vendorId,
+                          couponId: couponId,
+                          paymentMethod: "wallet",
+                          total: total,
+                          cartType: cartType,
+                          imageFile: imageFile);
                     } else if (controller.selectedIndex.value == 0) {
                       controller.placeOrderApi(
-                        addressId: addressId,
-                        cartId: cartId,
-                        vendorId: vendorId,
-                        couponId: couponId,
-                        paymentMethod: "credit_card",
-                        total: total,
-                        cartType: cartType,
-                      );
-                    } else  if (controller.selectedIndex.value == 1){
+                          addressId: addressId,
+                          cartId: cartId,
+                          vendorId: vendorId,
+                          couponId: couponId,
+                          paymentMethod: "credit_card",
+                          total: total,
+                          cartType: cartType,
+                          imageFile: imageFile);
+                    } else if (controller.selectedIndex.value == 1) {
                       controller.placeOrderApi(
-                        addressId: addressId,
-                        cartId: cartId,
-                        vendorId: vendorId,
-                        couponId: couponId,
-                        paymentMethod: "cash_on_delivery",
-                        total: total,
-                        cartType: cartType,
-                      );
-                    }
-                    else {
+                          addressId: addressId,
+                          cartId: cartId,
+                          vendorId: vendorId,
+                          couponId: couponId,
+                          paymentMethod: "cash_on_delivery",
+                          total: total,
+                          cartType: cartType,
+                          imageFile: imageFile);
+                    } else {
                       Utils.showToast("Payment method not available");
                     }
                   },
@@ -132,10 +149,6 @@ class CheckoutScreen extends StatelessWidget {
       () => InkWell(
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
-
-
-
-
         onTap: () {
           double walletBalanceDouble = double.tryParse(walletBalance) ?? 0.0;
           double totalPriceDouble = double.tryParse(totalPrice) ?? 0.0;
@@ -164,8 +177,10 @@ class CheckoutScreen extends StatelessWidget {
           // controller.walletDiscount.value =
           //     double.tryParse(controller.walletDiscount.value.toStringAsFixed(2))!;
 
-          print("Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
-          print("Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
+          print(
+              "Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+          print(
+              "Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
         },
         child: Container(
           padding: EdgeInsets.all(16.r),

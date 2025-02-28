@@ -65,7 +65,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           defaultTransition: Transition.fade,
           themeMode: ThemeMode.system,
-          title: 'Woye User',
+          title: 'Woye',
           theme: ThemeData(
               pageTransitionsTheme: const PageTransitionsTheme(
                   builders: <TargetPlatform, PageTransitionsBuilder>{

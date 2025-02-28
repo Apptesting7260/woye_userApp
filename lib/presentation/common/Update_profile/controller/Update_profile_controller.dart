@@ -329,7 +329,7 @@ class SignUpForm_editProfileController extends GetxController {
       print("Adding image with path: ${image.value.path}");
       request.files.add(pic);
     }
-
+    print(request.files);
     try {
       var response = await request.send();
       print("Response status code: ${response.statusCode}");

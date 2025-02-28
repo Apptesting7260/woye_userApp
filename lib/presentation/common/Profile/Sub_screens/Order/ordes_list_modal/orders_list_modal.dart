@@ -113,6 +113,7 @@ class Orders {
   List<DecodedAttribute>? decodedAttribute;
   String? vendorName;
   dynamic addressDetails;
+  Review? review;
 
   Orders({
     this.id,
@@ -133,6 +134,7 @@ class Orders {
     this.decodedAttribute,
     this.vendorName,
     this.addressDetails,
+    this.review,
   });
 
   Orders.fromJson(Map<String, dynamic> json) {
@@ -159,6 +161,7 @@ class Orders {
     }
     vendorName = json['vendor_name'];
     addressDetails = json['address_details'];
+    review = json['reviews'] != null ? Review.fromJson(json['reviews']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -184,6 +187,9 @@ class Orders {
     }
     data['vendor_name'] = this.vendorName;
     data['address_details'] = this.addressDetails;
+    if (review != null) {
+      data['reviews'] = review!.toJson();
+    }
     return data;
   }
 }
@@ -317,5 +323,94 @@ class ItemDetails {
     data['item_name'] = this.itemName;
     data['item_price'] = this.itemPrice;
     return data;
+  }
+}
+
+class Review {
+  int? id;
+  var orderId;
+  var userId;
+  var vendorId;
+  String? type;
+  var rating;
+  String? review;
+  String? reply;
+  String? createdAt;
+  String? updatedAt;
+  User? user;
+
+  Review({
+    this.id,
+    this.orderId,
+    this.userId,
+    this.vendorId,
+    this.type,
+    this.rating,
+    this.review,
+    this.reply,
+    this.createdAt,
+    this.updatedAt,
+    this.user,
+  });
+
+  factory Review.fromJson(Map<String, dynamic> json) {
+    return Review(
+      id: json['id'],
+      orderId: json['order_id'],
+      userId: json['user_id'],
+      vendorId: json['vendor_id'],
+      type: json['type'],
+      rating: json['rating'],
+      review: json['review'],
+      reply: json['reply'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['order_id'] = orderId;
+    data['user_id'] = userId;
+    data['vendor_id'] = vendorId;
+    data['type'] = type;
+    data['rating'] = rating;
+    data['review'] = review;
+    data['reply'] = reply;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? imageUrl;
+
+  User({this.id, this.firstName, this.lastName, this.imageUrl});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      firstName: json['first_name'],
+      lastName: json['last_name'],
+      imageUrl: json['image_url'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'first_name': firstName,
+      'last_name': lastName,
+      'image_url': imageUrl,
+    };
   }
 }

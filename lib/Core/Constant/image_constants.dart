@@ -37,4 +37,7 @@ class ImageConstants {
   static String pharmacyEnable = "$imagePath/pharmacy-white.png";
   static String groceryDisable = "$imagePath/grocery-green.png";
   static String groceryEnable = "$imagePath/grocery-white.png";
+
+  static String uploadImage = "$svgPath/upload-Image.svg";
+
 }

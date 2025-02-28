@@ -10,6 +10,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/p
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/pharma_checked_unchecked_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/quantityupdatecontroller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_upload_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
@@ -1089,7 +1090,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 "Selected Product: ${item['name']}, Price: ${item['price']}");
 
                             Get.toNamed(
-                              AppRoutes.checkoutScreen,
+                              AppRoutes.prescriptionScreen,
                               arguments: {
                                 'address_id': controller
                                     .cartData.value.address!.id
@@ -1120,6 +1121,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 'wallet':
                                     controller.cartData.value.wallet.toString(),
                                 'cartType': "pharmacy",
+                                'prescription': controller.cartData.value.prescription.toString(),
                               },
                             );
                           });
@@ -1137,8 +1139,10 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     height: 55.h,
                     child: CustomElevatedButton(
                       onPressed: () {
-                        Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': "PharmacyCart","fromcart": false,});
+                        Get.toNamed(AppRoutes.addAddressScreen, arguments: {
+                          'type': "PharmacyCart",
+                          "fromcart": false,
+                        });
                       },
                       text: "Complete Address",
                       textStyle: AppFontStyle.text_16_600(AppColors.white),

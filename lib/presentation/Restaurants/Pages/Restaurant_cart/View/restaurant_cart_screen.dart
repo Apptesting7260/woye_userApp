@@ -1176,6 +1176,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 'wallet':
                                     controller.cartData.value.wallet.toString(),
                                 'cartType': "restaurant",
+                                'imagePath': "",
                               },
                             );
                           });
@@ -1193,8 +1194,10 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     height: 55.h,
                     child: CustomElevatedButton(
                       onPressed: () {
-                        Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': "RestaurantCart","fromcart": false,});
+                        Get.toNamed(AppRoutes.addAddressScreen, arguments: {
+                          'type': "RestaurantCart",
+                          "fromcart": false,
+                        });
                       },
                       text: "Complete Address",
                       textStyle: AppFontStyle.text_16_600(AppColors.white),

@@ -5,6 +5,7 @@ import 'package:woye_user/Data/Repository/repository.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Rate_and_review_product/post_review_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
 
 class PostReviewController extends GetxController {
   final api = Repository();
@@ -24,12 +25,16 @@ class PostReviewController extends GetxController {
   final OrderDetailsController orderDetailsController =
       Get.put(OrderDetailsController());
 
+  final OrderScreenController orderScreenController =
+      Get.put(OrderScreenController());
+
   postOrderReviewApi({
     required String orderId,
     required var rating,
     required String review,
     required String vendorId,
     required String type,
+    required String from,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
@@ -39,14 +44,24 @@ class PostReviewController extends GetxController {
       "vendor_id": vendorId,
       "type": type,
     };
-    api.postVendorReviewApi(body).then((value) {
+    api.postVendorReviewApi(body).then((value) async {
       setData(value);
       if (postReviewData.value.status == true) {
-        orderDetailsController.orderDetailsApi(orderId: orderId).then((value) {
-          Get.back();
-          Utils.showToast(postReviewData.value.message.toString());
-          setRxRequestStatus(Status.COMPLETED);
-        });
+        if (from == "details") {
+          orderDetailsController
+              .orderDetailsApi(orderId: orderId)
+              .then((value) {
+            Get.back();
+            Utils.showToast(postReviewData.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+          });
+        } else {
+          orderScreenController.getOrdersListApi().then((value) {
+            Utils.showToast(postReviewData.value.message.toString());
+            Get.back();
+            setRxRequestStatus(Status.COMPLETED);
+          });
+        }
       } else {
         Utils.showToast(postReviewData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);

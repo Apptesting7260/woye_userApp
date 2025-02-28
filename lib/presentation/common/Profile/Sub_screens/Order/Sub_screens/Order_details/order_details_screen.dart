@@ -649,7 +649,8 @@ class OrderDetailsScreen extends StatelessWidget {
                             .toString()
                             .trim(),
                         "raring": controller.ordersData.value.review!.rating
-                            .toString()
+                            .toString(),
+                        "from": "details",
                       };
                       Get.toNamed(
                         AppRoutes.rateAndReviewProductScreen,
