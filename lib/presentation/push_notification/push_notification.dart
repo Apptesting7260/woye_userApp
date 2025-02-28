@@ -61,33 +61,10 @@ class PushNotificationService {
             }
           });
         } else if (notification != null && appleNotification != null) {
-          // Utils.snackBar1(
-          //   message.notification!.title!,
-          //   message.notification!.body!,
-          // );
-          if (message.notification?.body == "Your account is now Active" ||
-              message.notification?.body == "Your account is Suspended" ||
-              message.notification?.body == "Your account is Inactive") {
-            // if(message.notification?.body == "Your account is now Active"){
-            //   Get.back();
-            // }
-          }
-          print('apple notification');
-          Get.snackbar('', notification.body.toString(),
-              titleText: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/images/launcher.webp',
-                    scale: 5,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(notification.title.toString())
-                ],
-              ),
-              backgroundColor: AppColors.white);
+          Utils.snackBar1(
+            message.notification!.title!,
+            message.notification!.body!,
+          );
           // showCustomSnackbar(notification.title.toString(),notification.body.toString(),context);
           // showNotification(message.notification);
         } else {}

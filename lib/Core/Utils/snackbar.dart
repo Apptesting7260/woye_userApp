@@ -45,4 +45,32 @@ class Utils {
           ),
         )));
   }
+
+  static snackBar1(String title, String message) {
+    Get.snackbar(
+      title,
+      message,
+      backgroundColor: Colors.white54,
+      colorText: Colors.black,
+      titleText: Text(
+        title,
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold), // Title text color
+      ),
+      messageText: Text(
+        message,
+        style: TextStyle(color: Colors.black), // Message text color
+      ),
+      icon: Image.asset(
+        'assets/images/app_icon.png',
+        scale: 8,
+      ),
+      borderRadius: 20,
+      snackPosition: SnackPosition.TOP,
+      margin: EdgeInsets.only(left: 10, right: 10),
+      padding: EdgeInsets.symmetric(vertical: 8),
+      duration: Duration(seconds: 3),
+    );
+  }
 }
