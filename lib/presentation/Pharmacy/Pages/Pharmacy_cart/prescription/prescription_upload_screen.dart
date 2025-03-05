@@ -1,17 +1,10 @@
-import 'package:dotted_border/dotted_border.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
-import 'package:woye_user/shared/widgets/custom_app_bar.dart';
 
 import '../../../../../Core/Utils/app_export.dart';
 
-// import '../../../../../Core/Utils/sized_box.dart';
-import '../../../../../shared/theme/colors.dart';
-import '../../../../../shared/theme/font_style.dart';
 
 class PrescriptionUploadScreen extends StatelessWidget {
   PrescriptionUploadScreen({super.key});
@@ -55,72 +48,16 @@ class PrescriptionUploadScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: REdgeInsets.symmetric(horizontal: 12.0),
-        child: Obx(
-          () => Column(
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              GestureDetector(
-                onTap: () {
-                  bottomSheet(context);
-                },
-                child: DottedBorder(
-                  borderType: BorderType.RRect,
-                  radius: const Radius.circular(12),
-                  padding: const EdgeInsets.all(6),
-                  dashPattern: const [4],
-                  color: AppColors.primary,
-                  child: Container(
-                    height: 200,
-                    width: Get.width,
-                    child: controller.image.value != null
-                        ? ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(12)),
-                            child: Image.file(
-                              controller.image.value!,
-                              width: 130,
-                              height: 130,
-                              fit: BoxFit.fill,
-                            ),
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                ImageConstants.uploadImage,
-                                height: 45,
-                                width: 45,
-                                colorFilter: ColorFilter.mode(
-                                  AppColors.hintText,
-                                  BlendMode.srcIn,
-                                ),
-                              ),
-                              SizedBox(height: 15.h),
-                              Text(
-                                "Upload Prescription Image",
-                                style: AppFontStyle.text_14_500(
-                                  AppColors.mediumText,
-                                ),
-                              ),
-                              SizedBox(height: 2.h),
-                              Text(
-                                "jpg should be less than 5MB",
-                                style: AppFontStyle.text_14_400(
-                                  AppColors.hintText,
-                                ),
-                              ),
-                            ],
-                          ),
-                  ),
-                ),
-              ),
+              dynamicImages(),
               hBox(30.h),
               CustomElevatedButton(
                 onPressed: () {
                   if (prescription == "yes") {
                     if (controller.profileImageGetUrl.value == "") {
-                      Utils.showToast(
-                          "Prescription is required to upload for this medication.");
+                      Utils.showToast("Prescription is required to upload for this medication.");
                     } else {
                       Get.toNamed(
                         AppRoutes.checkoutScreen,
@@ -136,7 +73,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                           'cart_id': cartId,
                           'wallet': walletBalance,
                           'cartType': cartType,
-                          'imagePath': controller.image.value?.path,
+                          'imagePath': controller.imageList,
                         },
                       );
                     }
@@ -146,6 +83,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                 height: 55.h,
                 width: Get.width * .8,
               ),
+              hBox(30.h),
             ],
           ),
         ),
@@ -153,21 +91,133 @@ class PrescriptionUploadScreen extends StatelessWidget {
     );
   }
 
-  Future bottomSheet(BuildContext context) {
-    // final SignUpForm_editProfileController controller = Get.find<SignUpForm_editProfileController>();
+
+  Widget dynamicImages(){
+    return Obx(() =>
+      ListView.separated(
+        itemCount: controller.imageList.length,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, index){
+          return Column(
+            children: [
+              Obx(() =>
+                GestureDetector(
+                  onTap: () {
+                    bottomSheet(context, index);
+                  },
+                  child: DottedBorder(
+                    borderType: BorderType.RRect,
+                    radius: const Radius.circular(12),
+                    padding: const EdgeInsets.all(6),
+                    dashPattern: const [4],
+                    color: AppColors.primary,
+                    child: SizedBox(
+                      height: 200,
+                      width: Get.width,
+                      child: controller.imageList[index].value != null
+                      ? ClipRRect(
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        child: Image.file(
+                          controller.imageList[index].value!,
+                          width: 130,
+                          height: 130,
+                          // fit: BoxFit.fill,
+                        ),
+                      )
+                      : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            ImageConstants.uploadImage,
+                            height: 45,
+                            width: 45,
+                            colorFilter: ColorFilter.mode(
+                              AppColors.hintText,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          SizedBox(height: 15.h),
+                          Text("Upload Prescription Image", style: AppFontStyle.text_14_500(AppColors.mediumText,),),
+                          SizedBox(height: 2.h),
+                          Text("jpg should be less than 5MB", style: AppFontStyle.text_14_400(AppColors.hintText,),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              hBox(8.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if(controller.imageList.length > 1) ...[
+                    GestureDetector(
+                      onTap: () {
+                        controller.imageList.removeAt(index);
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            CupertinoIcons.minus,
+                            color: AppColors.red,
+                            size: 20.sp,
+                          ),
+                          Text(
+                            " Remove",
+                            style: AppFontStyle.text_15_400(AppColors.red,),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                  const Spacer(),
+                  if(index == (controller.imageList.length -1)) ...[
+                    GestureDetector(
+                      onTap: () {
+                        if(controller.imageList[index].value != null ){
+                          controller.imageList.add(Rx<File?>(null));
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.add,
+                            color: AppColors.primary,
+                            size: 20.sp,
+                          ),
+                          Text(" Add More", style: AppFontStyle.text_15_400(AppColors.primary,),
+                          )
+                        ],
+                      ),
+                    ),
+                  ]
+                ],
+              ),
+            ],
+          );
+        },
+        separatorBuilder: (BuildContext context, int index) { return hBox(12.h); },
+      ),
+    );
+  }
+
+  Future bottomSheet(BuildContext context, int index) {
     return showModalBottomSheet(
-        backgroundColor: Colors.white,
-        shape: OutlineInputBorder(
-          borderSide: const BorderSide(width: 0, color: Colors.transparent),
-          gapPadding: 0,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r)),
-        ),
-        showDragHandle: true,
-        constraints: BoxConstraints(maxHeight: 218.h),
-        elevation: 12.w,
-        context: context,
-        builder: (context) {
+      backgroundColor: Colors.white,
+      shape: OutlineInputBorder(
+        borderSide: const BorderSide(width: 0, color: Colors.transparent),
+        gapPadding: 0,
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r)),
+      ),
+      showDragHandle: true,
+      constraints: BoxConstraints(maxHeight: 218.h),
+      elevation: 12.w,
+      context: context,
+      builder: (context) {
           return Container(
             decoration: BoxDecoration(
               boxShadow: [
@@ -200,7 +250,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          controller.pickImage(ImageSource.camera);
+                          controller.pickImage(ImageSource.camera, index);
                           // _pickImageFromCamera();
                           Navigator.pop(context);
                         },
@@ -235,7 +285,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          controller.pickImage(ImageSource.gallery);
+                          controller.pickImage(ImageSource.gallery,index);
                           Navigator.pop(context);
                         },
                         child: Container(
@@ -273,6 +323,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
               ),
             ),
           );
-        });
+        },
+    );
   }
 }
