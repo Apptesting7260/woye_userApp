@@ -1,12 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:open_file/open_file.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_expansion_tile.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
+import 'package:dio/dio.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class OrderDetailsScreen extends StatelessWidget {
   OrderDetailsScreen({super.key});
@@ -17,12 +25,7 @@ class OrderDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final arguments = Get.arguments;
     final id = arguments['order_id'];
-    // final vendorId = arguments['vendor_id'];
-    // final type = arguments['type'];
-
-    print('Order ID: $orderId');
-    // print('Vendor ID: $vendorId');
-    // print('Type: $type');
+    print('Order ID: $id');
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -62,7 +65,7 @@ class OrderDetailsScreen extends StatelessWidget {
                       hBox(30),
                       orderDetails(),
                       hBox(20),
-                      orderId(),
+                      orderIdDetails(),
                       hBox(20),
                       paymentDetails(),
                       hBox(20),
@@ -245,7 +248,12 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget orderId() {
+  final specific_Product_Controller specificProductController =
+      Get.put(specific_Product_Controller());
+  final PharmaSpecificProductController pharmaSpecificProductController =
+      Get.put(PharmaSpecificProductController());
+
+  Widget orderIdDetails() {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.r),
@@ -264,107 +272,139 @@ class OrderDetailsScreen extends StatelessWidget {
                     .ordersData.value.orderDetails!.decodedAttribute![index];
                 return Column(
                   children: [
-                    Row(
-                      children: [
-                        CachedNetworkImage(
-                          imageUrl: item.productImage.toString(),
-                          height: 100.h,
-                          width: 100.h,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: AppColors.gray,
-                            highlightColor: AppColors.lightText,
-                            child: Container(
-                              color: AppColors.white,
-                              height: 100.h,
-                              width: 100.h,
+                    GestureDetector(
+                      onTap: () {
+                        if (controller.ordersData.value.orderDetails!.type
+                                .toString() ==
+                            "restaurant") {
+                          Get.to(ProductDetailsScreen(
+                            productId: item.productId.toString(),
+                            categoryId: item.categoryId.toString(),
+                            categoryName: item.categoryName.toString(),
+                          ));
+
+                          specificProductController.specific_Product_Api(
+                              productId: item.productId.toString(),
+                              categoryId: item.categoryId.toString());
+                        } else if (controller
+                                .ordersData.value.orderDetails!.type
+                                .toString() ==
+                            "pharmacy") {
+                          pharmaSpecificProductController
+                              .pharmaSpecificProductApi(
+                                  productId: item.productId.toString(),
+                                  categoryId: item.categoryId.toString());
+
+                          Get.to(PharmacyProductDetailsScreen(
+                            productId: item.productId.toString(),
+                            categoryId: item.categoryId.toString(),
+                            categoryName: item.categoryName.toString(),
+                          ));
+                        }
+                      },
+                      child: Row(
+                        children: [
+                          CachedNetworkImage(
+                            imageUrl: item.productImage.toString(),
+                            height: 100.h,
+                            width: 100.h,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: AppColors.gray,
+                              highlightColor: AppColors.lightText,
+                              child: Container(
+                                color: AppColors.white,
+                                height: 100.h,
+                                width: 100.h,
+                              ),
                             ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
-                        ),
-                        wBox(15.h),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              item.productName.toString(),
-                              style:
-                                  AppFontStyle.text_14_600(AppColors.darkText),
-                            ),
-                            hBox(10),
-                            Text(
-                              "Qty:${item.quantity.toString()}",
-                              style:
-                                  AppFontStyle.text_12_400(AppColors.darkText),
-                            ),
-                            hBox(10),
-                            Text(
-                              "\$${item.price.toString()}",
-                              style:
-                                  AppFontStyle.text_14_600(AppColors.primary),
-                            ),
-                          ],
-                        ),
-                      ],
+                          wBox(15.h),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.productName.toString(),
+                                style: AppFontStyle.text_14_600(
+                                    AppColors.darkText),
+                              ),
+                              hBox(10),
+                              Text(
+                                "Qty:${item.quantity.toString()}",
+                                style: AppFontStyle.text_12_400(
+                                    AppColors.darkText),
+                              ),
+                              hBox(10),
+                              Text(
+                                "\$${item.price.toString()}",
+                                style:
+                                    AppFontStyle.text_14_600(AppColors.primary),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     if (controller.ordersData.value.orderDetails?.type !=
                         "pharmacy")
-                    if (item.attribute!.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: SizedBox(
-                          width: Get.width,
-                          child: Wrap(
-                            direction: Axis.horizontal,
-                            spacing: 2.w,
-                            runSpacing: 2.w,
-                            children: List.generate(
-                              item.attribute!.length,
-                              (addonIndex) {
-                                bool isLast =
-                                    addonIndex == item.attribute!.length - 1;
-                                return Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${item.attribute![addonIndex].itemDetails!.itemName}',
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.primary),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    Text(
-                                      ' - ',
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.primary),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    Text(
-                                      '\$${item.attribute![addonIndex].itemDetails!.itemPrice}',
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.primary),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    if (!isLast)
+                      if (item.attribute!.isNotEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(top: 10.h),
+                          child: SizedBox(
+                            width: Get.width,
+                            child: Wrap(
+                              direction: Axis.horizontal,
+                              spacing: 2.w,
+                              runSpacing: 2.w,
+                              children: List.generate(
+                                item.attribute!.length,
+                                (addonIndex) {
+                                  bool isLast =
+                                      addonIndex == item.attribute!.length - 1;
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
                                       Text(
-                                        ',',
+                                        '${item.attribute![addonIndex].itemDetails!.itemName}',
                                         style: AppFontStyle.text_12_400(
                                             AppColors.primary),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
-                                  ],
-                                );
-                              },
+                                      Text(
+                                        ' - ',
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.primary),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      Text(
+                                        '\$${item.attribute![addonIndex].itemDetails!.itemPrice}',
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.primary),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      if (!isLast)
+                                        Text(
+                                          ',',
+                                          style: AppFontStyle.text_12_400(
+                                              AppColors.primary),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
-                      ),
                     if (controller.ordersData.value.orderDetails?.type !=
                         "pharmacy")
                       if (item.addons!.isNotEmpty)
@@ -693,7 +733,35 @@ class OrderDetailsScreen extends StatelessWidget {
     return Column(children: [
       CustomOutlinedButton(
           padding: EdgeInsets.symmetric(horizontal: 20.h),
-          onPressed: () {},
+          onPressed: () async {
+            var invoiceUrl = controller.ordersData.value.invoice;
+
+            if (invoiceUrl != null) {
+              try {
+                // Get the temporary directory to save the file
+                var dir = await getTemporaryDirectory();
+                var fileName =
+                    "invoice${controller.ordersData.value.orderDetails!.orderId.toString()}.pdf";
+                var savePath = "${dir.path}/$fileName";
+
+                // Download the invoice file using Dio
+                Dio dio = Dio();
+                await dio.download(invoiceUrl, savePath);
+
+                // Show a message when download is complete
+                Utils.showToast("Invoice downloaded to $savePath");
+
+                // Open the file using open_file package
+                await OpenFile.open(
+                    savePath); // This will open the downloaded file
+              } catch (e) {
+                // Handle any errors that occur during the download
+                Utils.showToast("Failed to download the invoice: $e");
+              }
+            } else {
+              Utils.showToast("No invoice URL found.");
+            }
+          },
           child: Row(
             children: [
               SvgPicture.asset(

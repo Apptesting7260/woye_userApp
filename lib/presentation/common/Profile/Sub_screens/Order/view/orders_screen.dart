@@ -191,22 +191,24 @@ class OrdersScreen extends StatelessWidget {
                                     const Icon(Icons.error),
                               ),
                               wBox(15.h),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    order.decodedAttribute![0].productName
-                                        .toString(),
-                                    style: AppFontStyle.text_14_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(10),
-                                  Text(
-                                    "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                    style: AppFontStyle.text_12_400(
-                                        AppColors.darkText),
-                                  ),
-                                ],
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      order.decodedAttribute![0].productName
+                                          .toString(),
+                                      style: AppFontStyle.text_14_600(
+                                          AppColors.darkText),
+                                    ),
+                                    hBox(10),
+                                    Text(
+                                      "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.darkText),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -353,23 +355,25 @@ class OrdersScreen extends StatelessWidget {
                                         const Icon(Icons.error),
                                   ),
                                   wBox(15.h),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        order.decodedAttribute![0].productName
-                                            .toString(),
-                                        style: AppFontStyle.text_14_600(
-                                            AppColors.darkText),
-                                      ),
-                                      hBox(10),
-                                      Text(
-                                        "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                        style: AppFontStyle.text_12_400(
-                                            AppColors.darkText),
-                                      ),
-                                    ],
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          order.decodedAttribute![0].productName
+                                              .toString(),
+                                          style: AppFontStyle.text_14_600(
+                                              AppColors.darkText),
+                                        ),
+                                        hBox(10),
+                                        Text(
+                                          "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                          style: AppFontStyle.text_12_400(
+                                              AppColors.darkText),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -491,22 +495,24 @@ class OrdersScreen extends StatelessWidget {
                                     const Icon(Icons.error),
                               ),
                               wBox(15.h),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    order.decodedAttribute![0].productName
-                                        .toString(),
-                                    style: AppFontStyle.text_14_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(10),
-                                  Text(
-                                    "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                    style: AppFontStyle.text_12_400(
-                                        AppColors.darkText),
-                                  ),
-                                ],
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      order.decodedAttribute![0].productName
+                                          .toString(),
+                                      style: AppFontStyle.text_14_600(
+                                          AppColors.darkText),
+                                    ),
+                                    hBox(10),
+                                    Text(
+                                      "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.darkText),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -623,22 +629,24 @@ class OrdersScreen extends StatelessWidget {
                                     const Icon(Icons.error),
                               ),
                               wBox(15.h),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    order.decodedAttribute![0].productName
-                                        .toString(),
-                                    style: AppFontStyle.text_14_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(10.h),
-                                  Text(
-                                    "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                    style: AppFontStyle.text_12_400(
-                                        AppColors.darkText),
-                                  ),
-                                ],
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      order.decodedAttribute![0].productName
+                                          .toString(),
+                                      style: AppFontStyle.text_14_600(
+                                          AppColors.darkText),
+                                    ),
+                                    hBox(10.h),
+                                    Text(
+                                      "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                      style: AppFontStyle.text_12_400(
+                                          AppColors.darkText),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

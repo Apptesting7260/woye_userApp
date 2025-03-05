@@ -5,6 +5,7 @@ class OrderDetailsModal {
   var deliveryCharges;
   var subtotal;
   Review? review;
+  String? invoice;
 
   OrderDetailsModal({
     this.status,
@@ -13,6 +14,7 @@ class OrderDetailsModal {
     this.deliveryCharges,
     this.subtotal,
     this.review,
+    this.invoice,
   });
 
   OrderDetailsModal.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class OrderDetailsModal {
     deliveryCharges = json['deliveryCharges'];
     subtotal = json['subtotal'];
     review = json['reviews'] != null ? Review.fromJson(json['reviews']) : null;
+    invoice = json['invoice'];
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +45,7 @@ class OrderDetailsModal {
     if (review != null) {
       data['reviews'] = review!.toJson();
     }
+    data['invoice'] = invoice;
 
     return data;
   }
@@ -160,10 +164,10 @@ class DecodedAttribute {
   List<Attribute>? attribute;
   String? checked;
   int? count;
-
-  // List<String>? addonName;
   String? productName;
   String? productImage;
+  int? categoryId;
+  String? categoryName;
 
   DecodedAttribute(
       {this.productId,
@@ -173,9 +177,10 @@ class DecodedAttribute {
       this.attribute,
       this.checked,
       this.count,
-      // this.addonName,
       this.productName,
-      this.productImage});
+      this.productImage,
+      this.categoryId,
+      this.categoryName});
 
   DecodedAttribute.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'];
@@ -184,24 +189,25 @@ class DecodedAttribute {
     if (json['addons'] != null) {
       addons = <Addons>[];
       json['addons'].forEach((v) {
-        addons!.add(new Addons.fromJson(v));
+        addons!.add(Addons.fromJson(v));
       });
     }
     if (json['attribute'] != null) {
       attribute = <Attribute>[];
       json['attribute'].forEach((v) {
-        attribute!.add(new Attribute.fromJson(v));
+        attribute!.add(Attribute.fromJson(v));
       });
     }
     checked = json['checked'];
     count = json['count'];
-    // addonName = json['addon_name'].cast<String>();
     productName = json['product_name'];
     productImage = json['product_image'];
+    categoryId = json['category_id'];
+    categoryName = json['category_name'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['product_id'] = this.productId;
     data['quantity'] = this.quantity;
     data['price'] = this.price;
@@ -213,9 +219,10 @@ class DecodedAttribute {
     }
     data['checked'] = this.checked;
     data['count'] = this.count;
-    // data['addon_name'] = this.addonName;
     data['product_name'] = this.productName;
     data['product_image'] = this.productImage;
+    data['category_id'] = this.categoryId;
+    data['category_name'] = this.categoryName;
     return data;
   }
 }
