@@ -59,26 +59,32 @@ class PrescriptionUploadScreen extends StatelessWidget {
                     if (controller.profileImageGetUrl.value == "") {
                       Utils.showToast("Prescription is required to upload for this medication.");
                     } else {
-                      List<String> imagePaths = controller.imageList
-                          .map((fileRx) => fileRx.value?.path ?? "") // Extract file paths from Rx<File?>
-                          .toList();
-                      Get.toNamed(
-                        AppRoutes.checkoutScreen,
-                        arguments: {
-                          'address_id': addressId,
-                          'coupon_id': couponId,
-                          'vendor_id': vendorId,
-                          'total': total,
-                          'regular_price': regularPrice,
-                          'coupon_discount': couponDiscount,
-                          'save_amount': saveAmount,
-                          'delivery_charge': deliveryCharge,
-                          'cart_id': cartId,
-                          'wallet': walletBalance,
-                          'cartType': cartType,
-                          'imagePath': imagePaths,
-                        },
-                      );
+                      if(controller.imageList.last.value != null){
+                        List<String> imagePaths = controller.imageList
+                            .map((fileRx) =>
+                                fileRx.value?.path ??
+                                "") // Extract file paths from Rx<File?>
+                            .toList();
+                        Get.toNamed(
+                          AppRoutes.checkoutScreen,
+                          arguments: {
+                            'address_id': addressId,
+                            'coupon_id': couponId,
+                            'vendor_id': vendorId,
+                            'total': total,
+                            'regular_price': regularPrice,
+                            'coupon_discount': couponDiscount,
+                            'save_amount': saveAmount,
+                            'delivery_charge': deliveryCharge,
+                            'cart_id': cartId,
+                            'wallet': walletBalance,
+                            'cartType': cartType,
+                            'imagePath': imagePaths,
+                          },
+                        );
+                      } else{
+                        Utils.showToast("Please select image");
+                      }
                     }
                   }
                 },
@@ -153,51 +159,53 @@ class PrescriptionUploadScreen extends StatelessWidget {
                 ),
               ),
               hBox(8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if(controller.imageList.length > 1) ...[
-                    GestureDetector(
-                      onTap: () {
-                        controller.imageList.removeAt(index);
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            CupertinoIcons.minus,
-                            color: AppColors.red,
-                            size: 20.sp,
-                          ),
-                          Text(
-                            " Remove",
-                            style: AppFontStyle.text_15_400(AppColors.red,),
-                          )
-                        ],
+              Obx(
+                () =>  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if(controller.imageList.length > 1) ...[
+                      GestureDetector(
+                        onTap: () {
+                          controller.imageList.removeAt(index);
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              CupertinoIcons.minus,
+                              color: AppColors.red,
+                              size: 20.sp,
+                            ),
+                            Text(
+                              " Remove",
+                              style: AppFontStyle.text_15_400(AppColors.red,),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
+                    const Spacer(),
+                    if(controller.imageList[index].value != null && index == (controller.imageList.length -1)) ...[
+                      GestureDetector(
+                        onTap: () {
+                          if(controller.imageList[index].value != null ){
+                            controller.imageList.add(Rx<File?>(null));
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.add,
+                              color: AppColors.primary,
+                              size: 20.sp,
+                            ),
+                            Text(" Add More", style: AppFontStyle.text_15_400(AppColors.primary,),
+                            )
+                          ],
+                        ),
+                      ),
+                    ]
                   ],
-                  const Spacer(),
-                  if(index == (controller.imageList.length -1)) ...[
-                    GestureDetector(
-                      onTap: () {
-                        if(controller.imageList[index].value != null ){
-                          controller.imageList.add(Rx<File?>(null));
-                        }
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.add,
-                            color: AppColors.primary,
-                            size: 20.sp,
-                          ),
-                          Text(" Add More", style: AppFontStyle.text_15_400(AppColors.primary,),
-                          )
-                        ],
-                      ),
-                    ),
-                  ]
-                ],
+                ),
               ),
             ],
           );
