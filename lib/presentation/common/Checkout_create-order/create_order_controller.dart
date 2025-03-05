@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Core/Utils/snackbar.dart';
+import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/Repository/repository.dart';
 import 'package:woye_user/Data/response/status.dart';
+import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
 
@@ -21,6 +23,15 @@ class CreateOrderController extends GetxController {
   var walletDiscount = (0.0).obs;
   RxBool walletSelected = false.obs;
   var isSelectable = false.obs;
+  UserModel userModel = UserModel();
+  var pref = UserPreference();
+  var userToken = "";
+
+  Future<void> initializeUser() async {
+    userModel = await pref.getUser();
+    userToken = userModel.token!;
+    print("initializeUser: Bearer ${userToken}");
+  }
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
@@ -74,12 +85,12 @@ class CreateOrderController extends GetxController {
     required String cartType,
     required File? imageFile,
   }) async {
+    await initializeUser();
     setRxRequestStatus(Status.LOADING);
-
     String url = AppUrls.createOrder;
-
     var request = http.MultipartRequest('POST', Uri.parse(url));
-
+    request.headers['Authorization'] = 'Bearer $userToken';
+    print("Authorization Header: Bearer ${userToken}");
     request.fields['wallet_used'] = walletSelected.value.toString();
     request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
     request.fields['payment_method'] = paymentMethod;

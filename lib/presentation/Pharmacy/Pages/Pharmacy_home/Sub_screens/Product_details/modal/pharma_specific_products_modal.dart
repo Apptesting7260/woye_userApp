@@ -128,7 +128,6 @@ class Product {
     description = json['description'];
     image = json['image'];
     addimg = json['addimg'];
-    // variant = json['variant'];
     if (json['variant'] != null) {
       variant = <Variant>[];
       json['variant'].forEach((v) {
@@ -173,7 +172,6 @@ class Product {
     data['description'] = this.description;
     data['image'] = this.image;
     data['addimg'] = this.addimg;
-    // data['variant'] = this.variant;
     if (variant != null) {
       data['variant'] = variant!.map((v) => v.toJson()).toList();
     }

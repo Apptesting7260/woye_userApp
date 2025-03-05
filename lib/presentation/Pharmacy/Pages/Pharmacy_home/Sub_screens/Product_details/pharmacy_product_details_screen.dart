@@ -146,9 +146,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       //
 
                       //
-                      if (controller.productData.value.product!.variant != null)
+                      if (controller.productData.value.product!.variant!.isNotEmpty)
                         variant(context: context),
-                      if (controller.productData.value.product!.variant != null)
+                      if (controller.productData.value.product!.variant!.isNotEmpty)
                         hBox(20),
                       description(),
                       hBox(30),
@@ -579,6 +579,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         Text(
           controller.productData.value.product!.description.toString(),
           overflow: TextOverflow.visible,
+          maxLines: 100,
           style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4),
         ),
       ],
