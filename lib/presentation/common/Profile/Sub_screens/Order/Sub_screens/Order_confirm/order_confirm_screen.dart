@@ -1,14 +1,16 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
 class OrderConfirmScreen extends StatelessWidget {
-  const OrderConfirmScreen({super.key});
+  OrderConfirmScreen({super.key});
 
-  static RestaurantNavbarController restaurantNavbarController =
-      RestaurantNavbarController();
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments;
+    String cartType = arguments['type'];
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -48,7 +50,15 @@ class OrderConfirmScreen extends StatelessWidget {
               hBox(20),
               CustomOutlinedButton(
                 onPressed: () async {
-                  await Get.offAllNamed(AppRoutes.restaurantNavbar);
+                  if (cartType == "restaurant") {
+                    // await Get.offAllNamed(AppRoutes.restaurantNavbar);
+                    homeController.getIndex(1);
+                    homeController.navigate(1);
+                  } else if (cartType == "pharmacy") {
+                    homeController.getIndex(1);
+                    homeController.navigate(1);
+                    // await Get.offAllNamed(AppRoutes.pharmacyNavbar);
+                  }
                 },
                 child: const Text("Continue Shopping"),
               ),

@@ -58,6 +58,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 controller.orderDetailsApi(orderId: id);
               },
               child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
                   padding: REdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
@@ -731,56 +732,58 @@ class OrderDetailsScreen extends StatelessWidget {
 
   Widget buttons() {
     return Column(children: [
-      CustomOutlinedButton(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
-          onPressed: () async {
-            var invoiceUrl = controller.ordersData.value.invoice;
+      if (controller.ordersData.value.orderDetails!.status.toString() ==
+          "completed")
+        CustomOutlinedButton(
+            padding: EdgeInsets.symmetric(horizontal: 20.h),
+            onPressed: () async {
+              var invoiceUrl = controller.ordersData.value.invoice;
 
-            if (invoiceUrl != null) {
-              try {
-                // Get the temporary directory to save the file
-                var dir = await getTemporaryDirectory();
-                var fileName =
-                    "invoice${controller.ordersData.value.orderDetails!.orderId.toString()}.pdf";
-                var savePath = "${dir.path}/$fileName";
+              if (invoiceUrl != null) {
+                try {
+                  // Get the temporary directory to save the file
+                  var dir = await getTemporaryDirectory();
+                  var fileName =
+                      "invoice${controller.ordersData.value.orderDetails!.orderId.toString()}.pdf";
+                  var savePath = "${dir.path}/$fileName";
 
-                // Download the invoice file using Dio
-                Dio dio = Dio();
-                await dio.download(invoiceUrl, savePath);
+                  // Download the invoice file using Dio
+                  Dio dio = Dio();
+                  await dio.download(invoiceUrl, savePath);
 
-                // Show a message when download is complete
-                Utils.showToast("Invoice downloaded to $savePath");
+                  // Show a message when download is complete
+                  Utils.showToast("Invoice downloaded to $savePath");
 
-                // Open the file using open_file package
-                await OpenFile.open(
-                    savePath); // This will open the downloaded file
-              } catch (e) {
-                // Handle any errors that occur during the download
-                Utils.showToast("Failed to download the invoice: $e");
+                  // Open the file using open_file package
+                  await OpenFile.open(
+                      savePath); // This will open the downloaded file
+                } catch (e) {
+                  // Handle any errors that occur during the download
+                  Utils.showToast("Failed to download the invoice: $e");
+                }
+              } else {
+                Utils.showToast("No invoice URL found.");
               }
-            } else {
-              Utils.showToast("No invoice URL found.");
-            }
-          },
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                "assets/svg/invoice.svg",
-                height: 22,
-              ),
-              wBox(10),
-              Text(
-                "Download Invoice",
-                style: AppFontStyle.text_14_400(AppColors.darkText),
-              ),
-              const Spacer(),
-              Icon(
-                Icons.arrow_forward_ios_sharp,
-                color: AppColors.black,
-                size: 18.h,
-              )
-            ],
-          )),
+            },
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  "assets/svg/invoice.svg",
+                  height: 22,
+                ),
+                wBox(10),
+                Text(
+                  "Download Invoice",
+                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                ),
+                const Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios_sharp,
+                  color: AppColors.black,
+                  size: 18.h,
+                )
+              ],
+            )),
       // hBox(15),
       // CustomOutlinedButton(
       //     padding: EdgeInsets.symmetric(horizontal: 20),

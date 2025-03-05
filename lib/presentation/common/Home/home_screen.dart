@@ -159,7 +159,7 @@ class HomeScreen extends StatelessWidget {
                 }),
                 GestureDetector(
                   onTap: () {
-                    showLocationDialog();
+                   // showLocationDialog();
                   },
                   child: Container(
                     padding: REdgeInsets.all(9),

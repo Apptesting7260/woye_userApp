@@ -193,7 +193,7 @@ class AppRoutes {
     GetPage(name: promoCode, page: () => const PromoCodes()),
     GetPage(name: paymentMethod, page: () => PaymentMethodScreen()),
     GetPage(name: addCard, page: () => const AddCardScreen()),
-    GetPage(name: oderConfirm, page: () => const OrderConfirmScreen()),
+    GetPage(name: oderConfirm, page: () =>  OrderConfirmScreen()),
     GetPage(name: trackOrder, page: () => const TrackOrderScreen()),
     GetPage(name: orderReveived, page: () => const OrderReveivedScreen()),
     GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
