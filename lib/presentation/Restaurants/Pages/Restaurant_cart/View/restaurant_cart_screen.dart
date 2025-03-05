@@ -1176,7 +1176,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 'wallet':
                                     controller.cartData.value.wallet.toString(),
                                 'cartType': "restaurant",
-                                'imagePath': "",
+                                'imagePath': [],
                               },
                             );
                           });

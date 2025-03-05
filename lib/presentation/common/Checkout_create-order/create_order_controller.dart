@@ -83,7 +83,7 @@ class CreateOrderController extends GetxController {
     required String total,
     required String cartId,
     required String cartType,
-    required File? imageFile,
+    required List<File?> imageFiles,
   }) async {
     await initializeUser();
     setRxRequestStatus(Status.LOADING);
@@ -102,26 +102,35 @@ class CreateOrderController extends GetxController {
     request.fields['cart_id'] = cartId;
     request.fields['type'] = cartType;
 
-    if (imageFile?.path != "") {
-      var pic = await http.MultipartFile.fromPath("drslip", imageFile!.path);
-      print("Adding image with path: ${imageFile.path}");
-      request.files.add(pic);
+    for (var imageFile in imageFiles) {
+      if (imageFile?.path != null && imageFile?.path != "") {
+        var pic = await http.MultipartFile.fromPath("drslip[]", imageFile!.path);
+        print("Adding image with path: ${imageFile.path}");
+        request.files.add(pic);
+      }
     }
+
     print(request.fields);
     print(request.files);
     try {
       var response = await request.send();
 
+      // Read the response body once
       final responseData = await http.Response.fromStream(response);
+      print("statusCode ${response.statusCode}");
 
       if (response.statusCode == 200) {
-        setCreateOrderData(jsonDecode(responseData.body));
+        var responseBody = responseData.body; // Use responseData.body directly
+        var decodedData = json.decode(responseBody);
+        CreateOrder data = CreateOrder.fromJson(decodedData);
+        setCreateOrderData(data);
+
         if (createOrderData.value.status == true) {
           setRxRequestStatus(Status.COMPLETED);
           Get.toNamed(AppRoutes.oderConfirm);
         } else {
           Utils.showToast(createOrderData.value.message.toString());
-          print("Error: ${responseData.body}");
+          print("Error: ${responseBody}");
           setRxRequestStatus(Status.COMPLETED);
         }
       } else {
@@ -130,11 +139,80 @@ class CreateOrderController extends GetxController {
         setRxRequestStatus(Status.COMPLETED);
       }
     } catch (e) {
-      print("Error: $e");
+      print("Error1: $e");
       setError(e.toString());
       setRxRequestStatus(Status.ERROR);
     }
   }
+
+  // placeOrderApi({
+  //   required String paymentMethod,
+  //   required String addressId,
+  //   required String couponId,
+  //   required String vendorId,
+  //   required String total,
+  //   required String cartId,
+  //   required String cartType,
+  //   required List<File?> imageFiles,
+  // }) async {
+  //   await initializeUser();
+  //   setRxRequestStatus(Status.LOADING);
+  //   String url = AppUrls.createOrder;
+  //   var request = http.MultipartRequest('POST', Uri.parse(url));
+  //   request.headers['Authorization'] = 'Bearer $userToken';
+  //   print("Authorization Header: Bearer ${userToken}");
+  //   request.fields['wallet_used'] = walletSelected.value.toString();
+  //   request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
+  //   request.fields['payment_method'] = paymentMethod;
+  //   request.fields['payment_amount'] = payAfterWallet.value.toStringAsFixed(2);
+  //   request.fields['address_id'] = addressId;
+  //   request.fields['coupon_id'] = couponId.isNotEmpty ? couponId : "";
+  //   request.fields['vendor_id'] = vendorId;
+  //   request.fields['total'] = total;
+  //   request.fields['cart_id'] = cartId;
+  //   request.fields['type'] = cartType;
+  //
+  //   for (var imageFile in imageFiles) {
+  //     if (imageFile?.path != null && imageFile?.path != "") {
+  //       var pic =
+  //           await http.MultipartFile.fromPath("drslip[]", imageFile!.path);
+  //       print("Adding image with path: ${imageFile.path}");
+  //       request.files.add(pic);
+  //     }
+  //   }
+  //
+  //   print(request.fields);
+  //   print(request.files);
+  //   try {
+  //     var response = await request.send();
+  //
+  //     final responseData = await http.Response.fromStream(response);
+  //     print("statusCode ${response.statusCode}");
+  //     if (response.statusCode == 200) {
+  //       var responseBody = await response.stream.bytesToString();
+  //       var responseData = json.decode(responseBody);
+  //       CreateOrder data = CreateOrder.fromJson(responseData);
+  //       setCreateOrderData(data);
+  //       // setCreateOrderData(jsonDecode(responseData.body));
+  //       if (createOrderData.value.status == true) {
+  //         setRxRequestStatus(Status.COMPLETED);
+  //         Get.toNamed(AppRoutes.oderConfirm);
+  //       } else {
+  //         Utils.showToast(createOrderData.value.message.toString());
+  //         print("Error: ${responseData.body}");
+  //         setRxRequestStatus(Status.COMPLETED);
+  //       }
+  //     } else {
+  //       Utils.showToast("Error: ${responseData.body}");
+  //       print("Error: ${responseData.body}");
+  //       setRxRequestStatus(Status.COMPLETED);
+  //     }
+  //   } catch (e) {
+  //     print("Error: $e");
+  //     setError(e.toString());
+  //     setRxRequestStatus(Status.ERROR);
+  //   }
+  // }
 
   void setError(String value) => error.value = value;
 }

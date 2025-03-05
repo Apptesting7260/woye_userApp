@@ -59,6 +59,9 @@ class PrescriptionUploadScreen extends StatelessWidget {
                     if (controller.profileImageGetUrl.value == "") {
                       Utils.showToast("Prescription is required to upload for this medication.");
                     } else {
+                      List<String> imagePaths = controller.imageList
+                          .map((fileRx) => fileRx.value?.path ?? "") // Extract file paths from Rx<File?>
+                          .toList();
                       Get.toNamed(
                         AppRoutes.checkoutScreen,
                         arguments: {
@@ -73,7 +76,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                           'cart_id': cartId,
                           'wallet': walletBalance,
                           'cartType': cartType,
-                          'imagePath': controller.imageList,
+                          'imagePath': imagePaths,
                         },
                       );
                     }

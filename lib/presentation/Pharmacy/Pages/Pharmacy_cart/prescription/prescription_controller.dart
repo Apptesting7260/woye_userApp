@@ -9,6 +9,8 @@ class PrescriptionController extends GetxController {
   // Rx<File?> image = Rx<File?>(null);
   RxList<Rx<File?>> imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
 
+
+
   var profileImageGetUrl = "".obs;
 
   Future<void> pickImage(ImageSource source, int index) async {

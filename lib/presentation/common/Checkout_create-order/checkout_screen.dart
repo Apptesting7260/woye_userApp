@@ -30,21 +30,31 @@ class CheckoutScreen extends StatelessWidget {
     var couponDiscount = arguments['coupon_discount'] ?? "";
     var cartType = arguments['cartType'] ?? "";
     var walletBalance = arguments['wallet'] ?? "";
-    var imagePath = arguments['imagePath'] ?? "";
-    File? imageFile;
+    // var imagePath = arguments['imagePath'] ?? "";
+    // File? imageFile;
+    List<String> imagePaths =
+        List<String>.from(Get.arguments['imagePath'] ?? []);
 
-    if (imagePath is String && imagePath.isNotEmpty) {
-      imageFile = File(imagePath); // Convert file path string to File
-    } else if (imagePath is File) {
-      imageFile = imagePath; // If it's already a File object
-    }
+    // Convert the paths to File objects
+    List<File?> imageFiles = imagePaths.map((path) => File(path)).toList();
 
-    if (imageFile != null) {
-      // Now you can use `imageFile` in your multipart request for image upload
-      print("Image file path: ${imageFile.path}");
-    } else {
-      print("No image provided");
-    }
+    // Optionally, if you want to use a reactive list of Rx<File?>:
+    RxList<Rx<File?>> reactiveImageFiles = RxList<Rx<File?>>(
+      imageFiles.map((file) => Rx<File?>(file)).toList(),
+    );
+
+    // if (imagePath is String && imagePath.isNotEmpty) {
+    //   imageFile = File(imagePath); // Convert file path string to File
+    // } else if (imagePath is File) {
+    //   imageFile = imagePath; // If it's already a File object
+    // }
+    //
+    // if (imageFile != null) {
+    //   // Now you can use `imageFile` in your multipart request for image upload
+    //   print("Image file path: ${imageFile.path}");
+    // } else {
+    //   print("No image provided");
+    // }
 
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
@@ -56,7 +66,14 @@ class CheckoutScreen extends StatelessWidget {
     print("Delivery Charge: $deliveryCharge");
     print("Coupon Discount: $couponDiscount");
     print("wallet: $walletBalance");
-    print("imageFile: $imagePath");
+    print("Image Paths: $imagePaths");
+
+// Optionally, print the list of image files (paths converted to File objects)
+    for (var imageFile in imageFiles) {
+      print("Image File: ${imageFile?.path ?? 'No file found'}");
+    }
+
+    print("Reactive Image Files: $reactiveImageFiles");
 
     controller.payAfterWallet.value = double.parse(total.toString());
 
@@ -98,7 +115,7 @@ class CheckoutScreen extends StatelessWidget {
                           paymentMethod: "wallet",
                           total: total,
                           cartType: cartType,
-                          imageFile: imageFile);
+                          imageFiles: imageFiles);
                     } else if (controller.selectedIndex.value == 0) {
                       controller.placeOrderApi(
                           addressId: addressId,
@@ -108,7 +125,7 @@ class CheckoutScreen extends StatelessWidget {
                           paymentMethod: "credit_card",
                           total: total,
                           cartType: cartType,
-                          imageFile: imageFile);
+                          imageFiles: imageFiles);
                     } else if (controller.selectedIndex.value == 1) {
                       controller.placeOrderApi(
                           addressId: addressId,
@@ -118,7 +135,7 @@ class CheckoutScreen extends StatelessWidget {
                           paymentMethod: "cash_on_delivery",
                           total: total,
                           cartType: cartType,
-                          imageFile: imageFile);
+                          imageFiles: imageFiles);
                     } else {
                       Utils.showToast("Payment method not available");
                     }
