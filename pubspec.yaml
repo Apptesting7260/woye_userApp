@@ -81,6 +81,9 @@ dependencies:
   image_cropper:
   app_links: ^6.4.0
   share_plus: ^10.1.4
+  dio:
+  open_file:
+  path_provider:
 
 #  sms_autofill: ^2.0.0
 
