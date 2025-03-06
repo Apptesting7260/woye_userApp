@@ -52,8 +52,8 @@ class OrderConfirmScreen extends StatelessWidget {
                 onPressed: () async {
                   if (cartType == "restaurant") {
                     // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-                    homeController.getIndex(1);
-                    homeController.navigate(1);
+                    homeController.getIndex(0);
+                    homeController.navigate(0);
                   } else if (cartType == "pharmacy") {
                     homeController.getIndex(1);
                     homeController.navigate(1);
