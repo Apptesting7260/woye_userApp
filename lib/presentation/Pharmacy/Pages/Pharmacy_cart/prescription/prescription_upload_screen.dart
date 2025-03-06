@@ -53,44 +53,61 @@ class PrescriptionUploadScreen extends StatelessWidget {
             children: [
               dynamicImages(),
               hBox(30.h),
-              CustomElevatedButton(
-                onPressed: () {
-                  if (prescription == "yes") {
-                    if (controller.profileImageGetUrl.value == "") {
-                      Utils.showToast("Prescription is required to upload for this medication.");
-                    } else {
-                      if(controller.imageList.last.value != null){
-                        List<String> imagePaths = controller.imageList
-                            .map((fileRx) =>
-                                fileRx.value?.path ??
-                                "") // Extract file paths from Rx<File?>
-                            .toList();
-                        Get.toNamed(
-                          AppRoutes.checkoutScreen,
-                          arguments: {
-                            'address_id': addressId,
-                            'coupon_id': couponId,
-                            'vendor_id': vendorId,
-                            'total': total,
-                            'regular_price': regularPrice,
-                            'coupon_discount': couponDiscount,
-                            'save_amount': saveAmount,
-                            'delivery_charge': deliveryCharge,
-                            'cart_id': cartId,
-                            'wallet': walletBalance,
-                            'cartType': cartType,
-                            'imagePath': imagePaths,
-                          },
-                        );
-                      } else{
-                        Utils.showToast("Please select image");
+              Obx(() =>
+                CustomElevatedButton(
+                  onPressed: () {
+                    if (prescription == "yes") {
+                      if (controller.profileImageGetUrl.value == "") {
+                        Utils.showToast("Prescription is required to upload for this medication.");
+                      } else {
+                        if(controller.imageList.last.value != null){
+                          List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                          Get.toNamed(
+                            AppRoutes.checkoutScreen,
+                            arguments: {
+                              'address_id': addressId,
+                              'coupon_id': couponId,
+                              'vendor_id': vendorId,
+                              'total': total,
+                              'regular_price': regularPrice,
+                              'coupon_discount': couponDiscount,
+                              'save_amount': saveAmount,
+                              'delivery_charge': deliveryCharge,
+                              'cart_id': cartId,
+                              'wallet': walletBalance,
+                              'cartType': cartType,
+                              'imagePath': imagePaths,
+                            },
+                          );
+                        } else{
+                          Utils.showToast("Please select image");
+                        }
                       }
+                    } else{
+                      List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                      Get.toNamed(
+                        AppRoutes.checkoutScreen,
+                        arguments: {
+                          'address_id': addressId,
+                          'coupon_id': couponId,
+                          'vendor_id': vendorId,
+                          'total': total,
+                          'regular_price': regularPrice,
+                          'coupon_discount': couponDiscount,
+                          'save_amount': saveAmount,
+                          'delivery_charge': deliveryCharge,
+                          'cart_id': cartId,
+                          'wallet': walletBalance,
+                          'cartType': cartType,
+                          'imagePath': imagePaths,
+                        },
+                      );
                     }
-                  }
-                },
-                text: prescription != "yes" ? "Skip" : "Continue",
-                height: 55.h,
-                width: Get.width * .8,
+                  },
+                  text: prescription != "yes" && controller.imageList.first.value == null ? "Skip" : "Continue",
+                  height: 55.h,
+                  width: Get.width * .8,
+                ),
               ),
               hBox(30.h),
             ],
