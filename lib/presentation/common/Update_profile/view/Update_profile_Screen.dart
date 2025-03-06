@@ -41,26 +41,31 @@ class SignUpFormScreen extends StatelessWidget {
                 );
               }
             case Status.COMPLETED:
-              return RefreshIndicator(
-                onRefresh: () async {
-                  controller.refreshGetProfileApi();
+              return GestureDetector(
+                onTap: (){
+                  FocusManager.instance.primaryFocus!.unfocus();
                 },
-                child: SingleChildScrollView(
-                  padding: REdgeInsets.symmetric(
-                    horizontal: 24,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      header(typeFrom ?? ""),
-                      hBox(30),
-                      //
-                      form(controller, context),
-                      hBox(20),
-                      //
-                      continueButton(typeFrom ?? ""),
-                      hBox(40),
-                    ],
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    controller.refreshGetProfileApi();
+                  },
+                  child: SingleChildScrollView(
+                    padding: REdgeInsets.symmetric(
+                      horizontal: 24,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        header(typeFrom ?? ""),
+                        hBox(30),
+                        //
+                        form(controller, context),
+                        hBox(20),
+                        //
+                        continueButton(typeFrom ?? ""),
+                        hBox(40),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -231,7 +236,9 @@ class SignUpFormScreen extends StatelessWidget {
                                             sendOtpEmailController.sendOtpApi(
                                                 email: signUpFormController
                                                     .emailController.text
-                                                    .trim());
+                                                    .trim()).then((value) {
+                                                      return sendOtpEmailController.startTimer();
+                                            },);
                                           },
                                     child: (sendOtpEmailController
                                                 .rxRequestStatus.value ==
