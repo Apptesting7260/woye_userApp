@@ -67,17 +67,23 @@ class SendOtpEmailController extends GetxController {
 
   RxBool isResendEnabled = true.obs;
   RxInt remainingTime = 60.obs;
-  late Timer _timer;
+  late Timer timer1;
 
   void startTimer() {
     isResendEnabled.value = false;
     remainingTime.value = 60;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    // if(timer1.isActive){
+    //   timer1.cancel();
+    // }
+    timer1 = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingTime.value > 0) {
         remainingTime.value--;
       } else {
         isResendEnabled.value = true;
-        _timer.cancel();
+        if(timer1.isActive){
+          timer1.cancel();
+        }
+
       }
     });
   }
@@ -124,18 +130,21 @@ class SendOtpEmailController extends GetxController {
                         children: [
                           InkWell(
                               onTap: () {
-                                _timer.cancel();
+                                if(timer1.isActive){
+                                  timer1.cancel();
+                                }
                                 isResendEnabled.value = false;
                                 remainingTime.value = 60;
+                                otpVerifyController.value.text = "";
                                 print(remainingTime.value);
                                 Get.back();
                               },
                               child: Text("Wrong email?",
-                                  style: AppFontStyle.text_14_400(
+                                  style: AppFontStyle.text_14_400(height: 1.5,
                                       AppColors.primary)))
                         ],
                       ),
-                      hBox(10.h),
+                      // hBox(10.h),
                       Pinput(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         length: 4,
@@ -143,6 +152,9 @@ class SendOtpEmailController extends GetxController {
                         defaultPinTheme: defaultPinTheme,
                         focusedPinTheme: focusedPinTheme,
                         submittedPinTheme: submittedPinTheme,
+                        onTapOutside: (event){
+                          FocusManager.instance.primaryFocus!.unfocus();
+                        },
                         // defaultPinTheme: otpController.defaultPinTheme,
                         // focusedPinTheme: otpController.focusedPinTheme,
                         // submittedPinTheme: otpController.submittedPinTheme,
@@ -173,10 +185,15 @@ class SendOtpEmailController extends GetxController {
                           height: 50.h,
                           width: Get.width / 3,
                           onPressed: () {
-                            verifyOtpApi(
-                              otp: otpVerifyController.value.text.trim(),
-                              email: email,
-                            );
+                            if(otpVerifyController.value.text != "" && otpVerifyController.value.text.isNotEmpty && otpVerifyController.value.text.length == 4){
+                              verifyOtpApi(
+                                otp: otpVerifyController.value.text.trim(),
+                                email: email,
+                              );
+                            }
+                            else{
+                              Utils.showToast("Please enter otp");
+                            }
                           },
                           text: "Verify",
                         ),
@@ -193,7 +210,7 @@ class SendOtpEmailController extends GetxController {
                           child: (rxRequestStatus1.value == Status.LOADING)
                               ? LoadingAnimationWidget.inkDrop(
                                   color: AppColors.primary,
-                                  size: 10.h,
+                                  size: 15.h,
                                 )
                               : Text(
                                   isResendEnabled.value
@@ -247,6 +264,10 @@ class SendOtpEmailController extends GetxController {
       setData2(value);
       if (verifyOtpData.value.status == true) {
         setRxRequestStatus2(Status.COMPLETED);
+        if(timer1.isActive){
+          timer1.cancel();
+        }
+        debugPrint(remainingTime.value.toString());
         signUpForm_editProfileController.getprofileApi().then((value) async {
           Utils.showToast(verifyOtpData.value.message.toString());
           await Future.delayed(const Duration(milliseconds: 500));
@@ -303,7 +324,9 @@ class SendOtpEmailController extends GetxController {
 
   @override
   void dispose() {
-    _timer.cancel();
+    if(timer1.isActive){
+      timer1.cancel();
+    }
     super.dispose();
   }
 }

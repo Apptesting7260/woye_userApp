@@ -204,7 +204,7 @@ class SignUpFormScreen extends StatelessWidget {
                     BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
                 hintText: "Email Address",
                 onTapOutside: (event) {
-                  FocusScope.of(context).unfocus();
+                  FocusManager.instance.primaryFocus!.unfocus();
                 },
                 onChanged: (value) {
                   if (controller.profileData.value.data?.email ==
@@ -233,6 +233,10 @@ class SignUpFormScreen extends StatelessWidget {
                                             Status.LOADING)
                                         ? null
                                         : () {
+                                      // if(sendOtpEmailController.timer1.isActive){
+                                      //   sendOtpEmailController.timer1.cancel();
+                                      // }
+                                      FocusManager.instance.primaryFocus!.unfocus();
                                             sendOtpEmailController.sendOtpApi(
                                                 email: signUpFormController
                                                     .emailController.text
