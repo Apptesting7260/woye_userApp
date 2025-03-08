@@ -255,9 +255,9 @@ class DecodedAttribute {
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
   var checked;
-  var count; // New field
-  int? categoryId; // New field for category_id
-  String? categoryName; // New field for category_name
+  var count;
+  int? categoryId;
+  String? categoryName;
 
   DecodedAttribute({
     this.productId,
@@ -289,8 +289,7 @@ class DecodedAttribute {
       checked: json['checked'],
       count: json['count'],
       categoryId: json['category_id'],
-      // Handle category_id key from JSON
-      categoryName: json['category_name'], // Handle category_name key from JSON
+      categoryName: json['category_name'],
     );
   }
 
@@ -305,8 +304,8 @@ class DecodedAttribute {
       'total_price': totalPrice,
       'checked': checked,
       'count': count,
-      'category_id': categoryId, // Add categoryId to JSON output
-      'category_name': categoryName, // Add categoryName to JSON output
+      'category_id': categoryId,
+      'category_name': categoryName,
     };
   }
 }
