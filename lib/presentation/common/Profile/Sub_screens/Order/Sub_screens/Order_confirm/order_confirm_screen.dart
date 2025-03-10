@@ -57,7 +57,7 @@ class OrderConfirmScreen extends StatelessWidget {
                   } else if (cartType == "pharmacy") {
                     homeController.getIndex(1);
                     homeController.navigate(1);
-                    // await Get.offAllNamed(AppRoutes.pharmacyNavbar);
+                   //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
                   }
                 },
                 child: const Text("Continue Shopping"),

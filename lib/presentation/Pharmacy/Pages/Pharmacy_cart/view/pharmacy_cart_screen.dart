@@ -8,6 +8,7 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/pharma_checked_unchecked_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/coupon_apply/apply_cpooun_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/quantityupdatecontroller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_upload_screen.dart';
@@ -32,8 +33,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
 
   final DeletePharmaProductController deleteProductController =
       Get.put(DeletePharmaProductController());
-  final ApplyCouponController applyCouponController =
-      Get.put(ApplyCouponController());
+  final ApplyCouponPharmaController applyCouponController =
+      Get.put(ApplyCouponPharmaController());
   final PharmaCheckedUncheckedController checkedUncheckedController =
       Get.put(PharmaCheckedUncheckedController());
 
@@ -1364,7 +1365,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                             AppFontStyle.text_13_400(Colors.white, height: 1.0),
                         width: 85.w,
                         height: 36.h,
-                        text: "Apply",
+                        text: "Select",
                         onPressed: () {
                           controller.couponCodeController.value.text =
                               controller.cartData.value.coupons![index].code

@@ -470,4 +470,11 @@ class Repository {
     await _apiService.postApi(data, AppUrls.pharmaCheckedUnchecked, token);
     return PharmaCheckedUncheckedModal.fromJson(response);
   }
+
+  Future<dynamic> applyPharmaCouponsApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.applyPharmaCoupons, token);
+    return ApplyCouponModal.fromJson(response);
+  }
 }

@@ -88,4 +88,7 @@ class AppUrls {
       "$baseUrl/pupdate-product-quantity";
   static const String pharmaCheckedUnchecked = "$baseUrl/pchecked-unchecked";
 
+  static const String applyPharmaCoupons = "$baseUrl/papply-coupons";
+
+
 }
