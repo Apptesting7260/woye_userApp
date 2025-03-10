@@ -48,7 +48,8 @@ class ProductDetailsScreen extends StatelessWidget {
       Get.put(GetUserDataController());
 
   final RestaurantDetailsController restaurantDeatilsController =
-  Get.put(RestaurantDetailsController());
+      Get.put(RestaurantDetailsController());
+
   // final SeeAllProductReviewController seeAllProductReviewController =
   //     Get.put(SeeAllProductReviewController());
 
@@ -58,18 +59,25 @@ class ProductDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
-          // Container(
-          //   padding: REdgeInsets.all(9),
-          //   height: 44.h,
-          //   width: 44.h,
-          //   decoration: BoxDecoration(
-          //       color: AppColors.greyBackground,
-          //       borderRadius: BorderRadius.circular(12.r)),
-          //   child: Icon(
-          //     Icons.share_outlined,
-          //     size: 24.w,
-          //   ),
-          // ),
+          GestureDetector(
+            onTap: () {
+              Get.to(
+                  const RestaurantCartScreen(isBack: true));
+              controller.goToCart.value = false;
+              controller.cartCount.value = 1;
+            },
+            child: Container(
+              padding: REdgeInsets.all(9),
+              height: 44.h,
+              width: 44.h,
+              decoration: BoxDecoration(
+                  color: AppColors.greyBackground,
+                  borderRadius: BorderRadius.circular(12.r)),
+              child: SvgPicture.asset(
+                ImageConstants.cart,
+              ),
+            ),
+          ),
           wBox(8),
           Obx(() {
             return GestureDetector(
@@ -252,18 +260,20 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Widget mainContainer() {
-    controller.selectedImageUrl.value = controller.productData.value.product!.urlImage.toString();
+    controller.selectedImageUrl.value =
+        controller.productData.value.product!.urlImage.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Obx(
-              () => ClipRRect(
+          () => ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
               imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
-              errorWidget: (context, url, error) => const Center(child: Icon(Icons.error)),
+              errorWidget: (context, url, error) =>
+                  const Center(child: Icon(Icons.error)),
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: AppColors.gray,
                 highlightColor: AppColors.lightText,
@@ -278,27 +288,32 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         ),
 
-        if (controller.productData.value.product!.urlAddimg!.isNotEmpty) hBox(10),
+        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+          hBox(10),
 
         if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
           SizedBox(
             height: 75.h,
             child: ListView.separated(
               shrinkWrap: true,
-              itemCount: 1 + (controller.productData.value.product!.urlAddimg!.length ?? 0),
+              itemCount: 1 +
+                  (controller.productData.value.product!.urlAddimg!.length ??
+                      0),
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 String imageUrl;
 
                 if (index == 0) {
-                  imageUrl = controller.productData.value.product!.urlImage.toString();
+                  imageUrl =
+                      controller.productData.value.product!.urlImage.toString();
                 } else {
-                  imageUrl = controller.productData.value.product!.urlAddimg![index - 1];
+                  imageUrl = controller
+                      .productData.value.product!.urlAddimg![index - 1];
                 }
                 controller.isSelected.value = 0;
 
                 return Obx(
-                      () => GestureDetector(
+                  () => GestureDetector(
                     onTap: () {
                       controller.isSelected.value = index;
 
@@ -320,7 +335,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           fit: BoxFit.cover,
                           width: 75.h,
                           errorWidget: (context, url, error) =>
-                          const Center(child: Icon(Icons.error)),
+                              const Center(child: Icon(Icons.error)),
                           placeholder: (context, url) => Shimmer.fromColors(
                             baseColor: AppColors.gray,
                             highlightColor: AppColors.lightText,
@@ -447,10 +462,11 @@ class ProductDetailsScreen extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Get.to(RestaurantDetailsScreen(
-              Restaurantid:controller.productData.value.product!.restaurantId.toString(),
+              Restaurantid:
+                  controller.productData.value.product!.restaurantId.toString(),
             ));
             restaurantDeatilsController.restaurant_Details_Api(
-              id:controller.productData.value.product!.restaurantId.toString(),
+              id: controller.productData.value.product!.restaurantId.toString(),
             );
           },
           child: Row(
@@ -472,7 +488,9 @@ class ProductDetailsScreen extends StatelessWidget {
               wBox(5),
               Flexible(
                 child: Text(
-                  controller.productData.value.product!.restoName.toString().capitalize!,
+                  controller.productData.value.product!.restoName
+                      .toString()
+                      .capitalize!,
                   style: AppFontStyle.text_14_600(AppColors.darkText),
                   overflow: TextOverflow.ellipsis,
                 ),

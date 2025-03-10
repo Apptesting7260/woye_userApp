@@ -48,18 +48,24 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
-          // Container(
-          //   padding: REdgeInsets.all(9),
-          //   height: 44.h,
-          //   width: 44.h,
-          //   decoration: BoxDecoration(
-          //       color: AppColors.greyBackground,
-          //       borderRadius: BorderRadius.circular(12.r)),
-          //   child: Icon(
-          //     Icons.share_outlined,
-          //     size: 24.w,
-          //   ),
-          // ),
+          GestureDetector(
+            onTap: () {
+              Get.to(const PharmacyCartScreen(isBack: true));
+              controller.goToCart.value = false;
+              controller.cartCount.value = 1;
+            },
+            child: Container(
+              padding: REdgeInsets.all(9),
+              height: 44.h,
+              width: 44.h,
+              decoration: BoxDecoration(
+                  color: AppColors.greyBackground,
+                  borderRadius: BorderRadius.circular(12.r)),
+              child: SvgPicture.asset(
+                ImageConstants.cart,
+              ),
+            ),
+          ),
           wBox(8),
           Obx(() {
             return GestureDetector(

@@ -47,11 +47,14 @@ class SendOtpEmailController extends GetxController {
       setData(value);
       if (sendOtpData.value.status == true) {
         setRxRequestStatus1(Status.COMPLETED);
+        otpVerifyController.value.clear();
+        Get.back();
         startTimer();
         showOtpVerificationRequired(email);
       } else {
         setRxRequestStatus1(Status.COMPLETED);
         Utils.showToast(sendOtpData.value.message.toString());
+        otpVerifyController.value.clear();
       }
     }).onError((error, stackError) {
       print("Error: $error");
@@ -278,6 +281,7 @@ class SendOtpEmailController extends GetxController {
       } else {
         Utils.showToast(verifyOtpData.value.message.toString());
         setRxRequestStatus2(Status.COMPLETED);
+        otpVerifyController.value.clear();
       }
     }).onError((error, stackError) {
       print("Error: $error");

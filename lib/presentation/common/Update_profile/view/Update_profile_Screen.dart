@@ -217,33 +217,47 @@ class SignUpFormScreen extends StatelessWidget {
                 validator: signUpFormController.validateEmail,
                 suffix: controller.profileData.value.data?.type == "google"
                     ? SizedBox()
-                    : signUpFormController.emailController.text.isEmpty
-                        ? const SizedBox()
-                        : (controller.profileData.value.data?.emailVerified ==
+                    :
+
+                // signUpFormController.emailController.text.isEmpty
+                //         ? const SizedBox()
+                //         :
+                (controller.profileData.value.data?.emailVerified ==
                                     "true" &&
                                 controller.emailVerify.value == false)
                             ? Icon(
                                 Icons.check_circle,
                                 color: AppColors.primary,
                               )
-                            : Obx(
+                            :
+                Obx(
                                 () => TextButton(
                                     onPressed: (sendOtpEmailController
                                                 .rxRequestStatus.value ==
                                             Status.LOADING)
                                         ? null
-                                        : () {
-                                      // if(sendOtpEmailController.timer1.isActive){
-                                      //   sendOtpEmailController.timer1.cancel();
-                                      // }
-                                      FocusManager.instance.primaryFocus!.unfocus();
-                                            sendOtpEmailController.sendOtpApi(
-                                                email: signUpFormController
-                                                    .emailController.text
-                                                    .trim()).then((value) {
-                                                      return sendOtpEmailController.startTimer();
-                                            },);
-                                          },
+                                        :() {
+                                      FocusManager.instance.primaryFocus?.unfocus();
+
+                                      String email = signUpFormController.emailController.text.trim();
+
+                                      // Email validation
+                                      if (email.isEmpty) {
+                                        Get.snackbar("Error", "Email field cannot be empty");
+                                        return;
+                                      }
+
+                                      if (!GetUtils.isEmail(email)) {
+                                        Get.snackbar("Error", "Enter a valid email address");
+                                        return;
+                                      }
+
+                                      // API call if validation passes
+                                      sendOtpEmailController.sendOtpApi(email: email).then((value) {
+                                        sendOtpEmailController.startTimer();
+                                      });
+                                    },
+
                                     child: (sendOtpEmailController
                                                 .rxRequestStatus.value ==
                                             Status.LOADING)
