@@ -16,7 +16,7 @@ class PrescriptionController extends GetxController {
   //   super.onInit();
   // }
 
-  var profileImageGetUrl = "".obs;
+  // var profileImageGetUrl = "".obs;
 
   Future<void> pickImage(ImageSource source, int index) async {
     final pickedImage = await ImagePicker().pickImage(source: source);
@@ -36,8 +36,8 @@ class PrescriptionController extends GetxController {
         int croppedSize = await croppedImage.length();
         print('Cropped image size: $croppedSize bytes');
         imageList[index].value = croppedImage;
-        profileImageGetUrl.value = croppedImage.path;
-        print("Cropped image path ---> ${profileImageGetUrl.value}");
+        // profileImageGetUrl.value = croppedImage.path;
+        // print("Cropped image path ---> ${profileImageGetUrl.value}");
         // imageUploadApi();
       } else {
         print("Image cropping was canceled or failed.");

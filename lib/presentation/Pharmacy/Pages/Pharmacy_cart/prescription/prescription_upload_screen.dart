@@ -39,86 +39,122 @@ class PrescriptionUploadScreen extends StatelessWidget {
     print("wallet: $walletBalance");
     print("prescription: $prescription");
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: Text(
-          "Prescription",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+    return PopScope(
+      onPopInvokedWithResult: (e,w){
+        controller.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: Text(
+            "Prescription",
+            style: AppFontStyle.text_22_600(AppColors.darkText),
+          ),
         ),
-      ),
-      body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 12.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              dynamicImages(),
-              hBox(30.h),
-              // Obx(
-              //     ()=> CustomElevatedButton(
-              //     onPressed: () {
-              //       if (prescription == "yes") {
-              //         if (controller.profileImageGetUrl.value == "") {
-              //           Utils.showToast("Prescription is required to upload for this medication.");
-              //         } else {
-              //           if (controller.imageList.last.value != null) {
-              //             List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
-              //             Get.toNamed(
-              //               AppRoutes.checkoutScreen,
-              //               arguments: {
-              //                 'address_id': addressId,
-              //                 'coupon_id': couponId,
-              //                 'vendor_id': vendorId,
-              //                 'total': total,
-              //                 'regular_price': regularPrice,
-              //                 'coupon_discount': couponDiscount,
-              //                 'save_amount': saveAmount,
-              //                 'delivery_charge': deliveryCharge,
-              //                 'cart_id': cartId,
-              //                 'wallet': walletBalance,
-              //                 'cartType': cartType,
-              //                 'imagePath': imagePaths,
-              //               },
-              //             );
-              //           } else {
-              //             Utils.showToast("Please select image");
-              //           }
-              //         }
-              //       } else {
-              //         List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
-              //         Get.toNamed(
-              //           AppRoutes.checkoutScreen,
-              //           arguments: {
-              //             'address_id': addressId,
-              //             'coupon_id': couponId,
-              //             'vendor_id': vendorId,
-              //             'total': total,
-              //             'regular_price': regularPrice,
-              //             'coupon_discount': couponDiscount,
-              //             'save_amount': saveAmount,
-              //             'delivery_charge': deliveryCharge,
-              //             'cart_id': cartId,
-              //             'wallet': walletBalance,
-              //             'cartType': cartType,
-              //             'imagePath': imagePaths,
-              //           },
-              //         );
-              //       }
-              //     },
-              //     text: prescription != "yes" && controller.imageList.first.value == null ? "Skip" : "Continue",
-              //     height: 55.h,
-              //     width: Get.width * .8,
-              //   ),
-              // ),
-              Column(
-                children: [
-                  if (prescription == "yes")
-                    CustomElevatedButton(
-                      onPressed: () {
-                        if (controller.profileImageGetUrl.value == "") {
-                          Utils.showToast(
-                              "Prescription is required to upload for this medication.");
-                        } else {
-                          if (controller.imageList.last.value != null) {
+        body: Padding(
+          padding: REdgeInsets.symmetric(horizontal: 12.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                dynamicImages(),
+                hBox(30.h),
+                // Obx(
+                //     ()=> CustomElevatedButton(
+                //     onPressed: () {
+                //       if (prescription == "yes") {
+                //         if (controller.profileImageGetUrl.value == "") {
+                //           Utils.showToast("Prescription is required to upload for this medication.");
+                //         } else {
+                //           if (controller.imageList.last.value != null) {
+                //             List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                //             Get.toNamed(
+                //               AppRoutes.checkoutScreen,
+                //               arguments: {
+                //                 'address_id': addressId,
+                //                 'coupon_id': couponId,
+                //                 'vendor_id': vendorId,
+                //                 'total': total,
+                //                 'regular_price': regularPrice,
+                //                 'coupon_discount': couponDiscount,
+                //                 'save_amount': saveAmount,
+                //                 'delivery_charge': deliveryCharge,
+                //                 'cart_id': cartId,
+                //                 'wallet': walletBalance,
+                //                 'cartType': cartType,
+                //                 'imagePath': imagePaths,
+                //               },
+                //             );
+                //           } else {
+                //             Utils.showToast("Please select image");
+                //           }
+                //         }
+                //       } else {
+                //         List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                //         Get.toNamed(
+                //           AppRoutes.checkoutScreen,
+                //           arguments: {
+                //             'address_id': addressId,
+                //             'coupon_id': couponId,
+                //             'vendor_id': vendorId,
+                //             'total': total,
+                //             'regular_price': regularPrice,
+                //             'coupon_discount': couponDiscount,
+                //             'save_amount': saveAmount,
+                //             'delivery_charge': deliveryCharge,
+                //             'cart_id': cartId,
+                //             'wallet': walletBalance,
+                //             'cartType': cartType,
+                //             'imagePath': imagePaths,
+                //           },
+                //         );
+                //       }
+                //     },
+                //     text: prescription != "yes" && controller.imageList.first.value == null ? "Skip" : "Continue",
+                //     height: 55.h,
+                //     width: Get.width * .8,
+                //   ),
+                // ),
+                Column(
+                  children: [
+                    if (prescription == "yes")
+                      CustomElevatedButton(
+                        onPressed: () {
+                          if (controller.imageList[0].value == null) {
+                            Utils.showToast("Prescription is required to upload for this medication.");
+                          } else {
+                            if (controller.imageList.last.value != null) {
+                              List<String> imagePaths = controller.imageList
+                                  .map((fileRx) => fileRx.value?.path ?? "")
+                                  .toList();
+                              Get.toNamed(
+                                AppRoutes.checkoutScreen,
+                                arguments: {
+                                  'address_id': addressId,
+                                  'coupon_id': couponId,
+                                  'vendor_id': vendorId,
+                                  'total': total,
+                                  'regular_price': regularPrice,
+                                  'coupon_discount': couponDiscount,
+                                  'save_amount': saveAmount,
+                                  'delivery_charge': deliveryCharge,
+                                  'cart_id': cartId,
+                                  'wallet': walletBalance,
+                                  'cartType': cartType,
+                                  'imagePath': imagePaths,
+                                },
+                              );
+                            } else {
+                              Utils.showToast("Please select image");
+                            }
+                          }
+                        },
+                        text: "Continue",
+                        height: 55.h,
+                        width: Get.width * .8,
+                      ),
+                    if (prescription != "yes")
+                      Obx(
+                        () => CustomElevatedButton(
+                          onPressed: () {
                             List<String> imagePaths = controller.imageList
                                 .map((fileRx) => fileRx.value?.path ?? "")
                                 .toList();
@@ -139,108 +175,76 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                 'imagePath': imagePaths,
                               },
                             );
-                          } else {
-                            Utils.showToast("Please select image");
-                          }
-                        }
-                      },
-                      text: "Continue",
-                      height: 55.h,
-                      width: Get.width * .8,
-                    ),
-                  if (prescription != "yes")
-                    Obx(
-                      () => CustomElevatedButton(
-                        onPressed: () {
-                          List<String> imagePaths = controller.imageList
-                              .map((fileRx) => fileRx.value?.path ?? "")
-                              .toList();
-                          Get.toNamed(
-                            AppRoutes.checkoutScreen,
-                            arguments: {
-                              'address_id': addressId,
-                              'coupon_id': couponId,
-                              'vendor_id': vendorId,
-                              'total': total,
-                              'regular_price': regularPrice,
-                              'coupon_discount': couponDiscount,
-                              'save_amount': saveAmount,
-                              'delivery_charge': deliveryCharge,
-                              'cart_id': cartId,
-                              'wallet': walletBalance,
-                              'cartType': cartType,
-                              'imagePath': imagePaths,
-                            },
-                          );
-                        },
-                        text: controller.imageList.first.value == null
-                            ? "Skip"
-                            : "Continue with Prescription",
-                        height: 55.h,
-                        width: Get.width * .8,
+                          },
+                          text: controller.imageList.first.value == null
+                              ? "Skip"
+                              : "Continue with Prescription",
+                          height: 55.h,
+                          width: Get.width * .8,
+                        ),
                       ),
-                    ),
-                ],
-              ),
+                  ],
+                ),
 
-              // Obx(() =>
-              //   CustomElevatedButton(
-              //     onPressed: () {
-              //       if (prescription == "yes") {
-              //         if (controller.profileImageGetUrl.value == "") {
-              //           Utils.showToast("Prescription is required to upload for this medication.");
-              //         } else {
-              //           if(controller.imageList.last.value != null){
-              //             List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
-              //             Get.toNamed(
-              //               AppRoutes.checkoutScreen,
-              //               arguments: {
-              //                 'address_id': addressId,
-              //                 'coupon_id': couponId,
-              //                 'vendor_id': vendorId,
-              //                 'total': total,
-              //                 'regular_price': regularPrice,
-              //                 'coupon_discount': couponDiscount,
-              //                 'save_amount': saveAmount,
-              //                 'delivery_charge': deliveryCharge,
-              //                 'cart_id': cartId,
-              //                 'wallet': walletBalance,
-              //                 'cartType': cartType,
-              //                 'imagePath': imagePaths,
-              //               },
-              //             );
-              //           } else{
-              //             Utils.showToast("Please select image");
-              //           }
-              //         }
-              //       } else{
-              //         List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
-              //         Get.toNamed(
-              //           AppRoutes.checkoutScreen,
-              //           arguments: {
-              //             'address_id': addressId,
-              //             'coupon_id': couponId,
-              //             'vendor_id': vendorId,
-              //             'total': total,
-              //             'regular_price': regularPrice,
-              //             'coupon_discount': couponDiscount,
-              //             'save_amount': saveAmount,
-              //             'delivery_charge': deliveryCharge,
-              //             'cart_id': cartId,
-              //             'wallet': walletBalance,
-              //             'cartType': cartType,
-              //             'imagePath': imagePaths,
-              //           },
-              //         );
-              //       }
-              //     },
-              //     text: prescription != "yes" && controller.imageList.first.value == null ? "Skip" : "Continue",
-              //     height: 55.h,
-              //     width: Get.width * .8,
-              //   )
-              // ),
-              hBox(30.h),
-            ],
+                // Obx(() =>
+                //   CustomElevatedButton(
+                //     onPressed: () {
+                //       if (prescription == "yes") {
+                //         if (controller.profileImageGetUrl.value == "") {
+                //           Utils.showToast("Prescription is required to upload for this medication.");
+                //         } else {
+                //           if(controller.imageList.last.value != null){
+                //             List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                //             Get.toNamed(
+                //               AppRoutes.checkoutScreen,
+                //               arguments: {
+                //                 'address_id': addressId,
+                //                 'coupon_id': couponId,
+                //                 'vendor_id': vendorId,
+                //                 'total': total,
+                //                 'regular_price': regularPrice,
+                //                 'coupon_discount': couponDiscount,
+                //                 'save_amount': saveAmount,
+                //                 'delivery_charge': deliveryCharge,
+                //                 'cart_id': cartId,
+                //                 'wallet': walletBalance,
+                //                 'cartType': cartType,
+                //                 'imagePath': imagePaths,
+                //               },
+                //             );
+                //           } else{
+                //             Utils.showToast("Please select image");
+                //           }
+                //         }
+                //       } else{
+                //         List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                //         Get.toNamed(
+                //           AppRoutes.checkoutScreen,
+                //           arguments: {
+                //             'address_id': addressId,
+                //             'coupon_id': couponId,
+                //             'vendor_id': vendorId,
+                //             'total': total,
+                //             'regular_price': regularPrice,
+                //             'coupon_discount': couponDiscount,
+                //             'save_amount': saveAmount,
+                //             'delivery_charge': deliveryCharge,
+                //             'cart_id': cartId,
+                //             'wallet': walletBalance,
+                //             'cartType': cartType,
+                //             'imagePath': imagePaths,
+                //           },
+                //         );
+                //       }
+                //     },
+                //     text: prescription != "yes" && controller.imageList.first.value == null ? "Skip" : "Continue",
+                //     height: 55.h,
+                //     width: Get.width * .8,
+                //   )
+                // ),
+                hBox(30.h),
+              ],
+            ),
           ),
         ),
       ),
@@ -272,8 +276,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                       width: Get.width,
                       child: controller.imageList[index].value != null
                           ? ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(12)),
+                              borderRadius: const BorderRadius.all(Radius.circular(12)),
                               child: Image.file(
                                 controller.imageList[index].value!,
                                 width: 130,
@@ -342,8 +345,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                       ),
                     ],
                     const Spacer(),
-                    if (controller.imageList[index].value != null &&
-                        index == (controller.imageList.length - 1)) ...[
+                    if (controller.imageList[index].value != null && index == (controller.imageList.length - 1)) ...[
                       GestureDetector(
                         onTap: () {
                           if (controller.imageList[index].value != null) {

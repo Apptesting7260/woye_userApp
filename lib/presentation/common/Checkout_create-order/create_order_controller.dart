@@ -11,6 +11,8 @@ import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
 
+import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
+
 class CreateOrderController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
@@ -87,6 +89,8 @@ class CreateOrderController extends GetxController {
 
         if (createOrderData.value.status == true) {
           setRxRequestStatus(Status.COMPLETED);
+          PrescriptionController prescriptionController = Get.put(PrescriptionController());
+          prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
           Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': cartType});
 
         } else {
