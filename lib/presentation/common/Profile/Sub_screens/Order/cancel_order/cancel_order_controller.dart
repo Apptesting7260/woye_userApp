@@ -29,9 +29,9 @@ class CancelOrderController extends GetxController {
     api.cancelOrderApi(body).then((value) {
       setData(value);
       if (cancelOrderData.value.status == true) {
+        Get.back();
         orderScreenController.getOrdersListApi().then((value) async {
           await Future.delayed(const Duration(milliseconds: 500));
-          Get.back();
           Utils.showToast(cancelOrderData.value.message.toString());
           setRxRequestStatus(Status.COMPLETED);
         });
