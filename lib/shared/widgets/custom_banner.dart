@@ -63,11 +63,16 @@ class CustomBanner extends StatelessWidget {
         print("category_id ${categoryId}");
         print("category_id ${product_id}");
         print("category_id ${categoryName}");
-        Get.to(PharmacyProductDetailsScreen(
-          productId: product_id.toString(),
+        // Get.to(PharmacyProductDetailsScreen(
+        //   productId: product_id.toString(),
+        //   categoryId: categoryId.toString(),
+        //   categoryName: categoryName.toString(),
+        // ));
+
+        Get.to(() => PharmacyProductDetailsScreen(  productId: product_id.toString(),
           categoryId: categoryId.toString(),
-          categoryName: categoryName.toString(),
-        ));
+          categoryName: categoryName.toString(),));
+
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

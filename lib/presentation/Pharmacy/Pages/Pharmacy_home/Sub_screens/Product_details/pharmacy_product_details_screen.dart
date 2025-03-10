@@ -48,25 +48,25 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: Icon(
-              Icons.share_outlined,
-              size: 24.w,
-            ),
-          ),
+          // Container(
+          //   padding: REdgeInsets.all(9),
+          //   height: 44.h,
+          //   width: 44.h,
+          //   decoration: BoxDecoration(
+          //       color: AppColors.greyBackground,
+          //       borderRadius: BorderRadius.circular(12.r)),
+          //   child: Icon(
+          //     Icons.share_outlined,
+          //     size: 24.w,
+          //   ),
+          // ),
           wBox(8),
           Obx(() {
             return GestureDetector(
               onTap: () async {
                 controller.isLoading.value = true;
-                controller.productData.value.product?.is_in_wishlist =
-                    !controller.productData.value.product?.is_in_wishlist;
+                controller.productData.value.product?.isInWishlist =
+                !controller.productData.value.product!.isInWishlist!;
                 await addPharmaProductWishlistController
                     .pharmacy_add_product_wishlist(
                   categoryId: categoryId,
@@ -85,7 +85,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 child: controller.isLoading.value
                     ? circularProgressIndicator(size: 18)
                     : Icon(
-                        controller.productData.value.product?.is_in_wishlist !=
+                        controller.productData.value.product?.isInWishlist !=
                                 true
                             ? Icons.favorite_outline_sharp
                             : Icons.favorite_outlined,

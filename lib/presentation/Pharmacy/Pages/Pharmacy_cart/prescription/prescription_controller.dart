@@ -5,11 +5,16 @@ import 'package:image_cropper/image_cropper.dart';
 import '../../../../../Core/Utils/app_export.dart';
 
 class PrescriptionController extends GetxController {
-
   // Rx<File?> image = Rx<File?>(null);
   RxList<Rx<File?>> imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
 
-
+  // @override
+  // void onInit() {
+  //   imageList.clear();
+  //   profileImageGetUrl.value = "";
+  //   // TODO: implement onInit
+  //   super.onInit();
+  // }
 
   var profileImageGetUrl = "".obs;
 

@@ -295,12 +295,15 @@ class OrderDetailsScreen extends StatelessWidget {
                               .pharmaSpecificProductApi(
                                   productId: item.productId.toString(),
                                   categoryId: item.categoryId.toString());
-
-                          Get.to(PharmacyProductDetailsScreen(
-                            productId: item.productId.toString(),
+                          Get.to(() => PharmacyProductDetailsScreen( productId: item.productId.toString(),
                             categoryId: item.categoryId.toString(),
-                            categoryName: item.categoryName.toString(),
-                          ));
+                            categoryName: item.categoryName.toString(),));
+
+                          // Get.to(PharmacyProductDetailsScreen(
+                          //   productId: item.productId.toString(),
+                          //   categoryId: item.categoryId.toString(),
+                          //   categoryName: item.categoryName.toString(),
+                          // ));
                         }
                       },
                       child: Row(

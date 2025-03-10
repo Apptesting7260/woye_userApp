@@ -58,18 +58,18 @@ class ProductDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: Icon(
-              Icons.share_outlined,
-              size: 24.w,
-            ),
-          ),
+          // Container(
+          //   padding: REdgeInsets.all(9),
+          //   height: 44.h,
+          //   width: 44.h,
+          //   decoration: BoxDecoration(
+          //       color: AppColors.greyBackground,
+          //       borderRadius: BorderRadius.circular(12.r)),
+          //   child: Icon(
+          //     Icons.share_outlined,
+          //     size: 24.w,
+          //   ),
+          // ),
           wBox(8),
           Obx(() {
             return GestureDetector(

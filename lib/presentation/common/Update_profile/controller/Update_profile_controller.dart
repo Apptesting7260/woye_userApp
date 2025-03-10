@@ -220,6 +220,8 @@ class SignUpForm_editProfileController extends GetxController {
 
   var profileImageGetUrl = "".obs;
 
+  void setRxRequestStatus2(Status value) => rxRequestStatus2.value = value;
+
   Rx<File> image = File("assets/appLogo.png").obs;
 
   // Future<void> pickImage(ImageSource source) async {
@@ -373,7 +375,7 @@ class SignUpForm_editProfileController extends GetxController {
 
     log("get header : ${userModel.token.toString()}");
 
-    setRxRequestStatus(Status.LOADING);
+    setRxRequestStatus2(Status.LOADING);
 
     api.updateprofileApi(data).then((value) {
       upprofileSet(value);
@@ -382,27 +384,27 @@ class SignUpForm_editProfileController extends GetxController {
           getUserDataController.getUserDataApi();
           Utils.showToast("Your profile has been updated.");
           Get.back();
-          setRxRequestStatus(Status.COMPLETED);
+          setRxRequestStatus2(Status.COMPLETED);
           getprofileApi();
-          rxRequestStatus2(Status.COMPLETED);
+          // rxRequestStatus2(Status.COMPLETED);
         } else {
           userModel.step = updateprofileData.value.step;
           log("get Response Step: ${userModel.step}");
           pref.saveStep(userModel.step!);
           Get.offAllNamed(AppRoutes.restaurantNavbar);
-          rxRequestStatus2(Status.COMPLETED);
-          setRxRequestStatus(Status.COMPLETED);
+          setRxRequestStatus2(Status.COMPLETED);
+          Future.delayed(Duration(seconds: 5));
           getprofileApi();
         }
       } else {
         Utils.showToast(updateprofileData.value.message.toString());
         log('Failed to update profile. Status code: ${updateprofileData.value.message}');
-        rxRequestStatus2(Status.ERROR);
+        setRxRequestStatus2(Status.ERROR);
       }
     }).onError((error, stackError) {
       setError(error.toString());
       Utils.showToast(error.toString());
-      setRxRequestStatus(Status.ERROR);
+      setRxRequestStatus2(Status.ERROR);
     });
   }
 

@@ -146,13 +146,20 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                             "category_id ${product.categoryId.toString()}");
                                         print(
                                             "category_id ${product.categoryName.toString()}");
-                                        Get.to(PharmacyProductDetailsScreen(
-                                          productId: product.id.toString(),
+                                        // Get.to(PharmacyProductDetailsScreen(
+                                        //   productId: product.id.toString(),
+                                        //   categoryId:
+                                        //       product.categoryId.toString(),
+                                        //   categoryName:
+                                        //       product.categoryName.toString(),
+                                        // ));
+
+                                        Get.to(() => PharmacyProductDetailsScreen(  productId: product.id.toString(),
                                           categoryId:
-                                              product.categoryId.toString(),
+                                          product.categoryId.toString(),
                                           categoryName:
-                                              product.categoryName.toString(),
-                                        ));
+                                          product.categoryName.toString(),));
+
                                       },
                                       child: Column(
                                         crossAxisAlignment:

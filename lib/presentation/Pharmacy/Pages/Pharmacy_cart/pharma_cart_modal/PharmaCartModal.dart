@@ -250,7 +250,7 @@ class DecodedAttribute {
   List<Attribute>? attribute;
   String? productName;
   String? productImage;
-  int? totalPrice;
+  var totalPrice;
   Rx<bool> isSelectedLoading = false.obs;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
@@ -269,8 +269,8 @@ class DecodedAttribute {
     this.totalPrice,
     this.checked,
     this.count,
-    this.categoryId, // Add categoryId to constructor
-    this.categoryName, // Add categoryName to constructor
+    this.categoryId,
+    this.categoryName,
   });
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {

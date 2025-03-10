@@ -421,7 +421,7 @@ class ProfileScreen extends StatelessWidget {
                             userPreference.removeUser();
                             Get.offAllNamed(AppRoutes.welcomeScreen);
                           },
-                          text: "Yes,Logout",
+                          text: "Logout",
                         ),
                       ),
                     ],

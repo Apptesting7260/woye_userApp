@@ -363,17 +363,27 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 "category Name ${controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString()}");
                             print(
                                 "product Id ${controller.cartData.value.cart!.decodedAttribute![index].productId.toString()}");
-                            Get.to(PharmacyProductDetailsScreen(
-                              productId: controller.cartData.value.cart!
-                                  .decodedAttribute![index].productId
-                                  .toString(),
+                            // Get.to(PharmacyProductDetailsScreen(
+                            //   productId: controller.cartData.value.cart!
+                            //       .decodedAttribute![index].productId
+                            //       .toString(),
+                            //   categoryId: controller.cartData.value.cart!
+                            //       .decodedAttribute![index].categoryId
+                            //       .toString(),
+                            //   categoryName: controller.cartData.value.cart!
+                            //       .decodedAttribute![index].categoryName
+                            //       .toString(),
+                            // ));
+                            Get.to(() => PharmacyProductDetailsScreen( productId: controller.cartData.value.cart!
+                                .decodedAttribute![index].productId
+                                .toString(),
                               categoryId: controller.cartData.value.cart!
                                   .decodedAttribute![index].categoryId
                                   .toString(),
                               categoryName: controller.cartData.value.cart!
                                   .decodedAttribute![index].categoryName
-                                  .toString(),
-                            ));
+                                  .toString(),));
+
                           },
                           child: CachedNetworkImage(
                             imageUrl: controller.cartData.value.cart!

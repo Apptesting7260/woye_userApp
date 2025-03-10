@@ -344,7 +344,7 @@ class DecodedAttribute {
   List<Attribute>? attribute;
   String? productName;
   String? productImage;
-  int? totalPrice;
+  var totalPrice;
   Rx<bool> isSelectedLoading = false.obs;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;

@@ -38,6 +38,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
     print("cartType: $cartType");
     print("wallet: $walletBalance");
     print("prescription: $prescription");
+
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
@@ -147,10 +148,9 @@ class PrescriptionUploadScreen extends StatelessWidget {
                       height: 55.h,
                       width: Get.width * .8,
                     ),
-
                   if (prescription != "yes")
                     Obx(
-                          () => CustomElevatedButton(
+                      () => CustomElevatedButton(
                         onPressed: () {
                           List<String> imagePaths = controller.imageList
                               .map((fileRx) => fileRx.value?.path ?? "")
