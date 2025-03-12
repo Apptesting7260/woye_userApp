@@ -1,73 +1,80 @@
 import 'dart:developer';
 
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Data/Model/usermodel.dart';
-import 'package:woye_user/Data/userPrefrenceController.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/modal/grocery_home_modal.dart';
 
 class GroceryHomeController extends GetxController {
-  // List<Map<dynamic, dynamic>> restaurantList = [
-  //   {
-  //     "title": "The Pizza Hub And Restaurants",
-  //     "type": "Pure veg",
-  //     "image": "assets/images/restaurant-0.png",
-  //     "isFavourite": false
-  //   },
-  //   {
-  //     "title": "Casa Della Saucy",
-  //     "type": "Veg and Non Veg",
-  //     "image": "assets/images/restaurant-1.png",
-  //     "isFavourite": false
-  //   },
-  //   {
-  //     "title": "The Royal Restaurants",
-  //     "type": "Pure veg",
-  //     "image": "assets/images/restaurant-2.png",
-  //     "isFavourite": false
-  //   },
-  // ];
-  //
-  // void changeFavorite(index) {
-  //   restaurantList[index]["isFavourite"] =
-  //       !restaurantList[index]["isFavourite"];
-  //   print("check==============>${restaurantList[index]["isFavourite"]}");
-  //   update();
-  // }
+  @override
+  void onInit() {
+    homeApi(1);
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  RxInt currentPage = 1.obs;
+  RxBool noLoading = false.obs;
+  RxBool isLoading = false.obs;
 
   final api = Repository();
+  final rxRequestStatus = Status.LOADING.obs;
+  final homeData = GroceryHomeModal().obs;
 
-  // final rxRequestStatus = Status.COMPLETED.obs;
-  // final homeData = HomeModel().obs;
-  // RxString error = ''.obs;
-  //
-  // void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-  //
-  // void homeSet(HomeModel value) => homeData.value = value;
-  //
-  // void setError(String value) => error.value = value;
-  //
-  // @override
-  // void onInit() {
-  //   homeApi();
-  //   super.onInit();
-  // }
-  //
-  // homeApi() async {
-  //   setRxRequestStatus(Status.LOADING);
-  //
-  //   api.homeApi().then((value) {
-  //     setRxRequestStatus(Status.COMPLETED);
-  //     homeSet(value);
-  //
-  //     if (homeData.value.status == true) {
-  //       log('home data ==>>${homeData.toString()}');
-  //     }
-  //   }).onError((error, stackError) {
-  //     setError(error.toString());
-  //     print('errrrrrrrrrrrr');
-  //     // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
-  //     print(error);
-  //     setRxRequestStatus(Status.ERROR);
-  //   });
-  // }
+  RxString error = ''.obs;
+
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
+  void homeSet(GroceryHomeModal value) => homeData.value = value;
+
+  RxList<GroceryShops> shopsList = <GroceryShops>[].obs;
+
+  void pharmaShopSet(GroceryHomeModal value) {
+    if (value.groceryShops?.data != null) {
+      shopsList.addAll(value.groceryShops?.data ?? []);
+    }
+    if (shopsList.length == value.groceryShops!.total) {
+      noLoading.value = true;
+    }
+  }
+
+  void setError(String value) => error.value = value;
+
+  homeApi(int page) async {
+    api.groceryHomeApi(page: page, perPage: 1).then((value) {
+      setRxRequestStatus(Status.COMPLETED);
+      isLoading.value = false;
+      homeSet(value);
+      pharmaShopSet(value);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  homeApiRefresh(int page) async {
+    shopsList.clear();
+    currentPage.value = 1;
+    noLoading.value = false;
+    setRxRequestStatus(Status.LOADING);
+    api.groceryHomeApi(page: 1, perPage: 1).then((value) {
+      setRxRequestStatus(Status.COMPLETED);
+      isLoading.value = false;
+      homeSet(value);
+      pharmaShopSet(value);
+
+      if (homeData.value.status == true) {
+        log('home data ==>>${homeData.value.status}');
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
 }

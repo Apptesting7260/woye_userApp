@@ -70,7 +70,7 @@ class Utils {
       snackPosition: SnackPosition.TOP,
       margin: EdgeInsets.only(left: 10, right: 10),
       padding: EdgeInsets.symmetric(vertical: 8),
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 1),
     );
   }
 }

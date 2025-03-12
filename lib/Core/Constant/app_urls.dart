@@ -90,5 +90,9 @@ class AppUrls {
 
   static const String applyPharmaCoupons = "$baseUrl/papply-coupons";
 
+/* ------------------------------------------------ Grocery  ----------------------------------------------------  */
+  static const String groceryHomeApi = "$baseUrl/grocery-home-api";
+  static const String groceryCategories = "$baseUrl/all-gcategory";
+
 
 }

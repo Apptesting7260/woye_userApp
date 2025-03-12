@@ -112,38 +112,42 @@ class _RestaurantCategoriesScreenState
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r)),
-                                          height: 70.w,
-                                          width: 70.w,
-                                          child: CachedNetworkImage(
-                                            imageUrl: controller
-                                                .filteredWishlistData[index]
-                                                .imageUrl
-                                                .toString(),
-                                            height: 80.h,
+                                    Container(
+                                      width: Get.width * .72,
+                                      // color: Colors.red,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.r)),
+                                            height: 70.w,
                                             width: 70.w,
-                                            fit: BoxFit.fill,
-                                            placeholder: (context, url) =>
-                                                circularProgressIndicator(),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(Icons.error),
+                                            child: CachedNetworkImage(
+                                              imageUrl: controller
+                                                  .filteredWishlistData[index]
+                                                  .imageUrl
+                                                  .toString(),
+                                              height: 80.h,
+                                              width: 70.w,
+                                              fit: BoxFit.fill,
+                                              placeholder: (context, url) =>
+                                                  circularProgressIndicator(),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
+                                            ),
                                           ),
-                                        ),
-                                        wBox(20),
-                                        Text(
-                                          controller
-                                              .filteredWishlistData[index].name
-                                              .toString(),
-                                          style: AppFontStyle.text_18_400(
-                                              AppColors.darkText),
-                                        )
-                                      ],
+                                          wBox(20),
+                                          Text(
+                                            controller
+                                                .filteredWishlistData[index].name
+                                                .toString(),
+                                            style: AppFontStyle.text_18_400(
+                                                AppColors.darkText),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                     const Icon(Icons.arrow_forward_ios,
                                         weight: 1),

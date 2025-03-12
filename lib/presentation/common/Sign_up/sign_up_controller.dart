@@ -47,7 +47,7 @@ class SignUpController extends GetxController {
             ? (resendToken.value != 0 ? resendToken.value : null)
             : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+         // await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
@@ -110,7 +110,7 @@ class SignUpController extends GetxController {
         phoneNumber:
             '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+         // await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {

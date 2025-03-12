@@ -162,85 +162,89 @@ class CheckoutScreen extends StatelessWidget {
   }
 
   Widget wallet({required String walletBalance, required String totalPrice}) {
+    controller.walletSelected.value = false;
     return Obx(
-      () => InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: () {
-          double walletBalanceDouble = double.tryParse(walletBalance) ?? 0.0;
-          double totalPriceDouble = double.tryParse(totalPrice) ?? 0.0;
+      () => IgnorePointer(
+        ignoring: walletBalance == "0" ? true : false,
+        child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            double walletBalanceDouble = double.tryParse(walletBalance) ?? 0.0;
+            double totalPriceDouble = double.tryParse(totalPrice) ?? 0.0;
 
-          controller.walletSelected.value = !controller.walletSelected.value;
-          if (!controller.walletSelected.value) {
-            controller.isSelectable.value = false;
-          }
-
-          if (controller.walletSelected.value) {
-            if (walletBalanceDouble >= totalPriceDouble) {
-              controller.payAfterWallet.value = 0.00;
-              controller.walletDiscount.value = totalPriceDouble;
-              controller.isSelectable.value = true;
-            } else {
-              controller.payAfterWallet.value =
-                  totalPriceDouble - walletBalanceDouble;
-              controller.walletDiscount.value = walletBalanceDouble;
+            controller.walletSelected.value = !controller.walletSelected.value;
+            if (!controller.walletSelected.value) {
+              controller.isSelectable.value = false;
             }
-          } else {
-            controller.payAfterWallet.value = totalPriceDouble;
-            controller.walletDiscount.value = 0.00;
-          }
-          // controller.payAfterWallet.value =
-          //     double.tryParse(controller.payAfterWallet.value.toStringAsFixed(2))!;
-          // controller.walletDiscount.value =
-          //     double.tryParse(controller.walletDiscount.value.toStringAsFixed(2))!;
 
-          print(
-              "Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
-          print(
-              "Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
-        },
-        child: Container(
-          padding: EdgeInsets.all(16.r),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(
-                  color: controller.walletSelected.value
-                      ? AppColors.primary
-                      : AppColors.lightPrimary)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 9,
-                child: Row(
-                  children: [
-                    SvgPicture.asset("assets/svg/wallet.svg"),
-                    wBox(10),
-                    Text(
-                      "My Wallet (\$$walletBalance)",
-                      style: AppFontStyle.text_16_400(AppColors.darkText),
-                    ),
-                    const Spacer(),
-                  ],
+            if (controller.walletSelected.value) {
+              if (walletBalanceDouble >= totalPriceDouble) {
+                controller.payAfterWallet.value = 0.00;
+                controller.walletDiscount.value = totalPriceDouble;
+                controller.isSelectable.value = true;
+              } else {
+                controller.payAfterWallet.value =
+                    totalPriceDouble - walletBalanceDouble;
+                controller.walletDiscount.value = walletBalanceDouble;
+              }
+            } else {
+              controller.payAfterWallet.value = totalPriceDouble;
+              controller.walletDiscount.value = 0.00;
+            }
+            // controller.payAfterWallet.value =
+            //     double.tryParse(controller.payAfterWallet.value.toStringAsFixed(2))!;
+            // controller.walletDiscount.value =
+            //     double.tryParse(controller.walletDiscount.value.toStringAsFixed(2))!;
+
+            print(
+                "Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+            print(
+                "Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
+          },
+          child: Container(
+            padding: EdgeInsets.all(16.r),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.r),
+                border: Border.all(
+                    color: controller.walletSelected.value
+                        ? AppColors.primary
+                        : AppColors.lightPrimary)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 9,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset("assets/svg/wallet.svg"),
+                      wBox(10),
+                      Text(
+                        "My Wallet (\$$walletBalance)",
+                        style: AppFontStyle.text_16_400(AppColors.darkText),
+                      ),
+                      const Spacer(),
+                    ],
+                  ),
                 ),
-              ),
-              wBox(6),
-              Expanded(
-                flex: 1,
-                child: Container(
-                  margin: EdgeInsets.only(top: 5.r),
-                  height: 20.h,
-                  width: 20.h,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.primary)),
-                  child: controller.walletSelected.value
-                      ? SvgPicture.asset("assets/svg/green-check-circle.svg")
-                      : null,
+                wBox(6),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 5.r),
+                    height: 20.h,
+                    width: 20.h,
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.primary)),
+                    child: controller.walletSelected.value
+                        ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+                        : null,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

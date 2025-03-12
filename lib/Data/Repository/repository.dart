@@ -4,6 +4,7 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/modal/grocery_home_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/checked_unchecked_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
@@ -476,5 +477,23 @@ class Repository {
     dynamic response =
     await _apiService.postApi(data, AppUrls.applyPharmaCoupons, token);
     return ApplyCouponModal.fromJson(response);
+  }
+
+/* ------------------------------------------------ Grocery  ----------------------------------------------------  */
+
+  Future<dynamic> groceryHomeApi(
+      {required int page, required int perPage}) async {
+    await initializeUser();
+    final String url =
+        '${AppUrls.groceryHomeApi}?page=$page&per_page=$perPage';
+
+    dynamic response = await _apiService.getApi(url, token);
+    return GroceryHomeModal.fromJson(response);
+  }
+  Future<dynamic> groceryCategoriesApi() async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.getApi(AppUrls.groceryCategories, token);
+    return PharmacyCategoriesModal.fromJson(response);
   }
 }
