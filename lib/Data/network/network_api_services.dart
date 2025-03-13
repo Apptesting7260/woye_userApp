@@ -57,7 +57,7 @@ class NetworkApiServices extends BaseApiServices {
         onPress: () {},
       );
     }
-    print(responseJson);
+    print("${responseJson}");
     return responseJson;
   }
 

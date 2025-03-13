@@ -4,7 +4,12 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/modal/grocery_categories_details_modal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_details_modal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/all_grocery_shops/modal/all_Grocery_shops.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/modal/grocery_home_modal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/Controller/grocery_Modal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/groceryModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/checked_unchecked_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
@@ -496,4 +501,37 @@ class Repository {
     await _apiService.getApi(AppUrls.groceryCategories, token);
     return PharmacyCategoriesModal.fromJson(response);
   }
+
+  Future<dynamic> groceryCategoriesDetailsApi(var data) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(
+        data, AppUrls.groceryCategoriesDetails, token);
+    return GroceryCategoriesDetailsModal.fromJson(response);
+  }
+  Future<dynamic> addGroceryProductWishlist(
+      var data,
+      ) async {
+    await initializeUser();
+    dynamic response = await _apiService.postApi(
+        data, AppUrls.addGroceryProductWishlist, token);
+    return GroceryModal.fromJson(response);
+  }
+  Future<dynamic> groceryAllProductWishlistApi() async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.getApi(AppUrls.groceryProductWishlist, token);
+    return GroceryProductWishlistModal.fromJson(response);
+  }
+  Future<dynamic> allGroceryShopsApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.allGrocery, token);
+    return AllGroceryShopsModal.fromJson(response);
+  }
+  Future<dynamic> specificGroceryShopApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.specificGroceryShop, token);
+    return SpecificGroceryModal.fromJson(response);
+  }
+
 }

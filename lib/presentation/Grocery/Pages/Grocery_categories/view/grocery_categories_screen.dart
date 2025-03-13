@@ -3,8 +3,8 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/controller/grocery_categories_controller.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/controller/pharmacy_categories_controller.dart';
 
 class GroceryCategoriesScreen extends StatefulWidget {
   const GroceryCategoriesScreen({super.key});
@@ -17,9 +17,9 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
   final GroceryCategoriesController controller =
   Get.put(GroceryCategoriesController());
 
-  // final PharmacyCategoriesDetailsController
-  // pharmacyCategoriesDetailsController =
-  // Get.put(PharmacyCategoriesDetailsController());
+  final Grocerycategoriesdetailscontroller
+  grocerycategoriesdetailscontroller =
+  Get.put(Grocerycategoriesdetailscontroller());
 
   void initState() {
     // TODO: implement initState
@@ -80,20 +80,21 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              // Get.toNamed(AppRoutes.pharmacyCategoryDetails,
-                              //     arguments: {
-                              //       'name': controller
-                              //           .filteredWishlistData[index].name
-                              //           .toString(),
-                              //       'id': int.parse(controller
-                              //           .filteredWishlistData[index].id
-                              //           .toString()),
-                              //     });
-                              // pharmacyCategoriesDetailsController
-                              //     .pharmacy_Categories_Details_Api(
-                              //   id: controller.filteredWishlistData[index].id
-                              //       .toString(),
-                              // );
+                              Get.toNamed(AppRoutes.groceryCategoryDetails,
+                                  arguments: {
+                                    'name': controller
+                                        .filteredWishlistData[index].name
+                                        .toString(),
+                                    'id': int.parse(controller
+                                        .filteredWishlistData[index].id
+                                        .toString()),
+                                  }
+                                  );
+                              grocerycategoriesdetailscontroller
+                                  .pharmacy_Categories_Details_Api(
+                                id: controller.filteredWishlistData[index].id
+                                    .toString(),
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(

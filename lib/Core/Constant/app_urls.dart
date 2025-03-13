@@ -93,6 +93,11 @@ class AppUrls {
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */
   static const String groceryHomeApi = "$baseUrl/grocery-home-api";
   static const String groceryCategories = "$baseUrl/all-gcategory";
+  static const String groceryCategoriesDetails = "$baseUrl/gcategory-product";
+  static const String addGroceryProductWishlist = "$baseUrl/grocery-wishlist";
+  static const String groceryProductWishlist = "$baseUrl/all-grocery-wishlist";
+  static const String allGrocery = "$baseUrl/gall-shops";
+  static const String specificGroceryShop = "$baseUrl/specific-grocery";
 
 
 }

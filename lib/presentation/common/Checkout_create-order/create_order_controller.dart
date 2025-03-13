@@ -14,6 +14,28 @@ import 'package:woye_user/presentation/common/Checkout_create-order/create_order
 import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
 
 class CreateOrderController extends GetxController {
+
+  @override
+  void onInit() {
+    walletSelected.value = false;
+    isSelectable.value = false;
+    // TODO: implement onInit
+    super.onInit();
+  }
+  @override
+  void onClose() {
+    walletSelected.value = false;
+    isSelectable.value = false;
+    // TODO: implement onClose
+    super.onClose();
+  }
+  @override
+  void dispose() {
+    walletSelected.value = false;
+    isSelectable.value = false;
+    // TODO: implement dispose
+    super.dispose();
+  }
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final createOrderData = CreateOrder().obs;

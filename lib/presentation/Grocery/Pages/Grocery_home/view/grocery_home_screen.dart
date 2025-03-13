@@ -8,6 +8,7 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/controller/grocery_navbar_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/all_grocery_shops/all_grocery_shops.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/controller/grocery_home_controller.dart';
 
 class GroceryHomeScreen extends StatefulWidget {
@@ -340,7 +341,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  //Get.to(AllPharmaShopsScreen());
+                  Get.to(AllGroceryShops());
                 },
                 child: Text(
                   "See All",

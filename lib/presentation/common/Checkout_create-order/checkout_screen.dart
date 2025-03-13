@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
-import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/Controller/payment_method_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 
 class CheckoutScreen extends StatelessWidget {
@@ -76,6 +75,8 @@ class CheckoutScreen extends StatelessWidget {
     print("Reactive Image Files: $reactiveImageFiles");
 
     controller.payAfterWallet.value = double.parse(total.toString());
+    controller.walletSelected.value = false;
+    controller.isSelectable.value = false;
 
     return SafeArea(
       child: Scaffold(

@@ -58,7 +58,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 controller.orderDetailsApi(orderId: id);
               },
               child: SingleChildScrollView(
-                physics: AlwaysScrollableScrollPhysics(),
+                  physics: AlwaysScrollableScrollPhysics(),
                   padding: REdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
@@ -295,9 +295,11 @@ class OrderDetailsScreen extends StatelessWidget {
                               .pharmaSpecificProductApi(
                                   productId: item.productId.toString(),
                                   categoryId: item.categoryId.toString());
-                          Get.to(() => PharmacyProductDetailsScreen( productId: item.productId.toString(),
-                            categoryId: item.categoryId.toString(),
-                            categoryName: item.categoryName.toString(),));
+                          Get.to(() => PharmacyProductDetailsScreen(
+                                productId: item.productId.toString(),
+                                categoryId: item.categoryId.toString(),
+                                categoryName: item.categoryName.toString(),
+                              ));
 
                           // Get.to(PharmacyProductDetailsScreen(
                           //   productId: item.productId.toString(),
@@ -326,27 +328,30 @@ class OrderDetailsScreen extends StatelessWidget {
                                 const Icon(Icons.error),
                           ),
                           wBox(15.h),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item.productName.toString(),
-                                style: AppFontStyle.text_14_600(
-                                    AppColors.darkText),
-                              ),
-                              hBox(10),
-                              Text(
-                                "Qty:${item.quantity.toString()}",
-                                style: AppFontStyle.text_12_400(
-                                    AppColors.darkText),
-                              ),
-                              hBox(10),
-                              Text(
-                                "\$${item.price.toString()}",
-                                style:
-                                    AppFontStyle.text_14_600(AppColors.primary),
-                              ),
-                            ],
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.productName.toString(),
+                                  maxLines: 2,
+                                  style: AppFontStyle.text_14_600(
+                                      AppColors.darkText),
+                                ),
+                                hBox(10),
+                                Text(
+                                  "Qty:${item.quantity.toString()}",
+                                  style: AppFontStyle.text_12_400(
+                                      AppColors.darkText),
+                                ),
+                                hBox(10),
+                                Text(
+                                  "\$${item.price.toString()}",
+                                  style: AppFontStyle.text_14_600(
+                                      AppColors.primary),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
