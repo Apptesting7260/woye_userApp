@@ -2,10 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/add_grocery_product_wishlist.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 
 class CustomBannerGrocery extends StatelessWidget {
   int index;
@@ -52,28 +51,32 @@ class CustomBannerGrocery extends StatelessWidget {
   // final PharmaSpecificProductController pharmaSpecificProductController =
   //     Get.put(PharmaSpecificProductController());
 
+  final GrocerySpecificProductController grocerySpecificProductController =
+      Get.put(GrocerySpecificProductController());
+
   @override
   Widget build(BuildContext context) {
     IconData favorite = Icons.favorite;
     IconData favoriteNot = Icons.favorite_border_outlined;
     return GestureDetector(
       onTap: () {
-        // pharmaSpecificProductController.pharmaSpecificProductApi(
-        //     productId: product_id.toString(),
-        //     categoryId: categoryId.toString());
-        // print("category_id ${categoryId}");
-        // print("category_id ${product_id}");
-        // print("category_id ${categoryName}");
-        // // Get.to(PharmacyProductDetailsScreen(
-        // //   productId: product_id.toString(),
-        // //   categoryId: categoryId.toString(),
-        // //   categoryName: categoryName.toString(),
-        // // ));
-        //
-        // Get.to(() => PharmacyProductDetailsScreen(  productId: product_id.toString(),
+        grocerySpecificProductController.pharmaSpecificProductApi(
+            productId: product_id.toString(),
+            categoryId: categoryId.toString());
+        print("category_id ${categoryId}");
+        print("category_id ${product_id}");
+        print("category_id ${categoryName}");
+        // Get.to(PharmacyProductDetailsScreen(
+        //   productId: product_id.toString(),
         //   categoryId: categoryId.toString(),
-        //   categoryName: categoryName.toString(),));
+        //   categoryName: categoryName.toString(),
+        // ));
 
+        Get.to(() => GroceryProductDetailsScreen(
+              productId: product_id.toString(),
+              categoryId: categoryId.toString(),
+              categoryName: categoryName.toString(),
+            ));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,8 +189,7 @@ class CustomBannerGrocery extends StatelessWidget {
               shop_name.toString(),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_300(
-                  AppColors.lightText),
+              style: AppFontStyle.text_14_300(AppColors.lightText),
             ),
           ),
         ],

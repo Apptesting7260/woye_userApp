@@ -8,26 +8,31 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/controller/grocery_navbar_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/all_grocery_shops/all_grocery_shops.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/controller/grocery_home_controller.dart';
 
 class GroceryHomeScreen extends StatefulWidget {
-   GroceryHomeScreen({super.key});
-
-
+  GroceryHomeScreen({super.key});
 
   @override
   State<GroceryHomeScreen> createState() => _GroceryHomeScreenState();
 }
 
-
-
 class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
   final GroceryHomeController groceryHomeController =
-  Get.put(GroceryHomeController());
+      Get.put(GroceryHomeController());
 
+  final GroceryDetailsController groceryDetailsController =
+      Get.put(GroceryDetailsController());
   final GroceryNavbarController navbarController =
-  Get.put(GroceryNavbarController());
+      Get.put(GroceryNavbarController());
+
+  final Grocerycategoriesdetailscontroller grocerycategoriesdetailscontroller =
+      Get.put(Grocerycategoriesdetailscontroller());
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +53,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       }
     });
   }
+
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -136,7 +142,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
             // enabled: false,
             readOnly: true,
             onTap: () {
-              Get.toNamed(AppRoutes.pharmcayHomeFilter);
+              Get.toNamed(AppRoutes.groceryHomeFilter);
             },
             showfilterIcon: false,
             searchIocnPadding: REdgeInsets.all(8),
@@ -173,8 +179,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
             itemCount: banners!.length,
             options: CarouselOptions(
               height: 150.h,
-              autoPlay:
-              groceryHomeController.homeData.value.banners!.length > 1
+              autoPlay: groceryHomeController.homeData.value.banners!.length > 1
                   ? true
                   : false,
               autoPlayInterval: const Duration(seconds: 3),
@@ -224,6 +229,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       ],
     );
   }
+
   Widget catergories() {
     return Column(
       children: [
@@ -268,23 +274,23 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   return Column(
                     children: [
                       GestureDetector(
-                        // onTap: () {
-                        //   Get.toNamed(AppRoutes.pharmacyCategoryDetails,
-                        //       arguments: {
-                        //         'name': pharmacyHomeController
-                        //             .homeData.value.category![index].name
-                        //             .toString(),
-                        //         'id': int.parse(pharmacyHomeController
-                        //             .homeData.value.category![index].id
-                        //             .toString()),
-                        //       });
-                        //   pharmacyCategoriesDetailsController
-                        //       .pharmacy_Categories_Details_Api(
-                        //     id: pharmacyHomeController
-                        //         .homeData.value.category![index].id
-                        //         .toString(),
-                        //   );
-                        // },
+                        onTap: () {
+                          Get.toNamed(AppRoutes.groceryCategoryDetails,
+                              arguments: {
+                                'name': groceryHomeController
+                                    .homeData.value.category![index].name
+                                    .toString(),
+                                'id': int.parse(groceryHomeController
+                                    .homeData.value.category![index].id
+                                    .toString()),
+                              });
+                          grocerycategoriesdetailscontroller
+                              .pharmacy_Categories_Details_Api(
+                            id: groceryHomeController
+                                .homeData.value.category![index].id
+                                .toString(),
+                          );
+                        },
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.r),
                             child: CachedNetworkImage(
@@ -295,7 +301,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                               height: 60.h,
                               width: 60.h,
                               errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                                  const Icon(Icons.error),
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: AppColors.gray,
                                 highlightColor: AppColors.lightText,
@@ -369,13 +375,14 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   itemBuilder: (context, index) {
                     final pharmashopsdata = shops[index];
                     return GestureDetector(
-                      // onTap: () {
-                      //   pharmacyDetailsController.restaurant_Details_Api(
-                      //     id: pharmashopsdata.id.toString(),
-                      //   );
-                      //   Get.to(PharmacyVendorDetailsScreen(
-                      //       pharmacyId: pharmashopsdata.id.toString()));
-                      // },
+                      onTap: () {
+                        groceryDetailsController.restaurant_Details_Api(
+                          id: pharmashopsdata.id.toString(),
+                        );
+                        Get.to(GroceryVendorDetailsScreen(
+                          groceryId: pharmashopsdata.id.toString(),
+                        ));
+                      },
                       child: pharmaShop(
                         index: index,
                         image: pharmashopsdata.shopimage,

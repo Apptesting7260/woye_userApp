@@ -1,30 +1,22 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/groceryhomeserchcontroller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
 
 class GroceryHomeFilter extends StatelessWidget {
   GroceryHomeFilter({super.key});
 
-  final RxMap<String, dynamic> _options = {
-    "Personal Care": true.obs,
-    "Skin Care": false.obs,
-    "Digestive Care": false.obs,
-    "Fever Care": false.obs,
-    "Heart Care": false.obs,
-  }.obs;
+  final GroceryHomeSearchController controller =
+  Get.put(GroceryHomeSearchController());
 
-  final RxDouble _lowerValue = 20.0.obs;
-
-  final RxDouble _upperValue = 600.0.obs;
-
-  RxInt priceRadioValue = 1.obs;
-
-  RxInt sizeRadioValue = 1.obs;
-
-  RxInt toppingsRadioValue = 1.obs;
+  final GroceryDetailsController groceryDetailsController =
+  Get.put(GroceryDetailsController());
 
   @override
   Widget build(BuildContext context) {
-    // bool select = false;
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
@@ -33,287 +25,265 @@ class GroceryHomeFilter extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 24.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              categories(),
-              hBox(30),
-              price(),
-              hBox(30),
-              sortBy(),
-              hBox(30),
-              priceRange(),
-              hBox(20),
-              buttons(),
-              hBox(50)
-            ],
-          ),
+        padding: REdgeInsets.symmetric(horizontal: 24.h),
+        child: CustomScrollView(
+          slivers: [
+            CustomSliverAppBar(
+              autofocus: true,
+              onChanged: (value) {
+                if (controller.stopLottie.value != true) {
+                  controller.showLottie.value = true;
+                }
+                if (value.length >= 3) {
+                  controller.restaurantHomeSearchApi(search: value.trim());
+                }
+              },
+              controller: controller.homeSearchController,
+            ),
+            Obx(() {
+              if (controller.showLottie.value == true) {
+                return SliverToBoxAdapter(
+                    child: Lottie.asset(
+                        'assets/lottieJson/Animation - 1734688929473.json'));
+              } else {
+                return const SliverToBoxAdapter(child: SizedBox());
+              }
+            }),
+            Obx(() {
+              if (controller.stopLottie.value == true &&
+                  controller.searchData.value.pharmaShop!.isEmpty &&
+                  controller.searchData.value.products!.isEmpty) {
+                return SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      // hBox(Get.height / 4),
+                      Center(
+                        child: SvgPicture.asset(
+                          ImageConstants.noData,
+                          height: 300.h,
+                          width: 200.h,
+                        ),
+                      ),
+                      Text(
+                        "We couldn't find any results",
+                        style: AppFontStyle.text_20_600(AppColors.darkText),
+                      ),
+                      hBox(5.h),
+                      Text(
+                        "Explore more and shortlist some items",
+                        style: AppFontStyle.text_16_400(AppColors.mediumText),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return const SliverToBoxAdapter(child: SizedBox());
+              }
+            }),
+            Obx(() {
+              if (controller.searchData.value.pharmaShop!.isNotEmpty) {
+                return SliverToBoxAdapter(child: shops());
+              } else {
+                return const SliverToBoxAdapter(child: SizedBox());
+              }
+            }),
+            Obx(() {
+              if (controller.searchData.value.products!.isNotEmpty) {
+                return SliverToBoxAdapter(child: products());
+              } else {
+                return const SliverToBoxAdapter(child: SizedBox());
+              }
+            }),
+
+          ],
         ),
       ),
     );
   }
 
-  Widget categories() {
+  Widget products() {
+    final products = controller.searchData.value.products;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Categories",
-            style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18.sp,
-                fontFamily: 'Gilroy')),
-        ..._options.keys.map((String key) {
-          return Obx(
-            () => Transform.translate(
-              offset: Offset(-10.w, 0),
-              child: SizedBox(
-                height: 35.h,
-                child: CheckboxListTile(
-                  title: Transform.translate(
-                    offset: Offset(-15.w, 0),
-                    child: Text(
-                      key,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 18.sp,
-                        fontFamily: 'Gilroy-Regular',
+        Text(
+          "Products",
+          style: AppFontStyle.text_24_600(AppColors.darkText),
+        ),
+        hBox(10.h),
+        GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: products?.length ?? 0,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.6.w,
+              crossAxisSpacing: 14.w,
+              mainAxisSpacing: 5.h,
+            ),
+            itemBuilder: (context, index) {
+              return CustomBanner(
+                image: products![index].urlImage.toString(),
+                sale_price: products[index].salePrice.toString(),
+                regular_price: products[index].regularPrice.toString(),
+                title: products[index].title.toString(),
+                quantity: products[index].packagingValue.toString(),
+                categoryId: products[index].categoryId.toString(),
+                product_id: products[index].id.toString(),
+                shop_name: products[index].shopName.toString(),
+                is_in_wishlist: products[index].isInWishlist,
+                isLoading: products[index].isLoading,
+                categoryName: products[index].categoryName.toString(),
+              );
+            }),
+        hBox(20.h),
+      ],
+    );
+  }
+
+  Widget shops() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Pharmacy Shops",
+          style: AppFontStyle.text_24_600(AppColors.darkText),
+        ),
+        hBox(5.h),
+        SizedBox(
+          height: Get.height / 3.6,
+          child: GetBuilder<GroceryHomeSearchController>(
+            init: controller,
+            builder: (controller) {
+              return Obx(() {
+                return ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount:
+                  controller.searchData.value.pharmaShop?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final pharmaShopdata =
+                    controller.searchData.value.pharmaShop?[index];
+                    return GestureDetector(
+                      onTap: () {
+                        groceryDetailsController.restaurant_Details_Api(
+                          id: pharmaShopdata!.id.toString(),
+                        );
+                        Get.to(GroceryVendorDetailsScreen(
+                          groceryId:pharmaShopdata!.id.toString(),
+                        ));
+                      },
+                      child: pharmaShop(
+                        index: index,
+                        image: pharmaShopdata?.shopimage,
+                        title: pharmaShopdata?.shopName,
+                        rating: pharmaShopdata?.rating,
+                        price: pharmaShopdata?.avgPrice,
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => wBox(20.h),
+                );
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget pharmaShop(
+      {index, String? image, title, type, isFavourite, rating, price}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Center(
+                child: CachedNetworkImage(
+                  imageUrl: image.toString(),
+                  fit: BoxFit.cover,
+                  height: 160.h,
+                  width: Get.width / 1.6,
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  placeholder: (context, url) => Shimmer.fromColors(
+                    baseColor: AppColors.gray,
+                    highlightColor: AppColors.lightText,
+                    child: Container(
+                      height: 160.h,
+                      width: Get.width / 1.6,
+                      decoration: BoxDecoration(
+                        color: AppColors.gray,
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                     ),
                   ),
-                  value: _options[key].value,
-                  onChanged: (value) {
-                    _options[key].value = value!;
-                  },
-                  checkboxShape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5.r),
-                      side: BorderSide(width: 1, color: AppColors.darkText)),
-                  activeColor: Colors.black,
-                  controlAffinity: ListTileControlAffinity.leading,
-                  contentPadding: EdgeInsets.zero,
                 ),
               ),
             ),
-          );
-        }),
-      ],
-    );
-  }
-
-  Widget price() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-        CustomRadioButton(
-          title: "Low to high",
-          value: 1.obs,
-          groupValue: priceRadioValue,
-          onChanged: (value) {
-            priceRadioValue.value = value!;
-          },
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Container(
+            //     margin: REdgeInsets.only(top: 15, right: 15),
+            //     padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(10.r),
+            //         color: AppColors.greyBackground),
+            //     child: isFavourite != true
+            //         ? Icon(
+            //             Icons.favorite_border_outlined,
+            //             size: 20.w,
+            //           )
+            //         : Icon(
+            //             Icons.favorite,
+            //             size: 20.w,
+            //           ),
+            //
+            //     // SvgPicture.asset(
+            //     //   "assets/svg/favorite-inactive.svg",
+            //     //   height: 15.h,
+            //     // ),
+            //   ),
+            // )
+          ],
         ),
-        CustomRadioButton(
-          title: "High to low",
-          value: 2.obs,
-          groupValue: priceRadioValue,
-          onChanged: (value) {
-            priceRadioValue.value = value!;
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget sortBy() {
-    List isSelected = [false.obs, false.obs, false.obs];
-    List labels = ["Newest", "Best Sale", "Popular"];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Sort By",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
         hBox(10),
-        Wrap(
-          spacing: 10.w,
-          runSpacing: 10.h,
-          children: [
-            ...List.generate(3, (index) {
-              return FilterChipWidget(
-                label: labels[index],
-                isSelect: isSelected[index],
-              );
-            }),
-          ],
+        Text(
+          title,
+          textAlign: TextAlign.left,
+          style: AppFontStyle.text_18_400(AppColors.darkText),
         ),
-      ],
-    );
-  }
-
-  Widget priceRange() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+        // hBox(10),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
-            Obx(() {
-              return Text("\$${_lowerValue.value} - \$${_upperValue.value}",
-                  style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16.sp,
-                      color: AppColors.primary));
-            }),
+            Text(
+              price,
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_600(AppColors.primary),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText),
+            ),
+            SvgPicture.asset("assets/svg/star-yellow.svg"),
+            wBox(4),
+            Text(
+              "$rating/5",
+              style: AppFontStyle.text_14_400(AppColors.lightText),
+            ),
           ],
-        ),
-        hBox(8),
-        Text("Average price: \$1.200",
-            style: TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 16.sp,
-                color: AppColors.lightText)),
-        hBox(4),
-        Obx(() {
-          return FlutterSlider(
-            values: [_lowerValue.value, _upperValue.value],
-            max: 1000,
-            min: 10,
-            rangeSlider: true,
-            handlerHeight: 24.h,
-            handler: FlutterSliderHandler(
-                child: SvgPicture.asset(
-              "assets/svg/slider.svg",
-              height: 26.h,
-            )
-                //  SvgPicture.asset("assets/svg/slider.svg"),
-                ),
-            rightHandler: FlutterSliderHandler(
-              child: SvgPicture.asset(
-                "assets/svg/slider.svg",
-                height: 26.h,
-              ),
-            ),
-            trackBar: FlutterSliderTrackBar(
-              activeTrackBarHeight: 8,
-              inactiveTrackBarHeight: 8,
-              activeTrackBar: BoxDecoration(
-                color: AppColors.primary, // Active color
-                borderRadius: BorderRadius.circular(4),
-              ),
-              inactiveTrackBar: BoxDecoration(
-                color: AppColors.lightText.withOpacity(.3), // Inactive color
-                borderRadius: BorderRadius.circular(4),
-              ),
-            ),
-            onDragging: (handlerIndex, lowerValue, upperValue) {
-              _lowerValue.value = lowerValue;
-              _upperValue.value = upperValue;
-            },
-          );
-        }),
-      ],
-    );
-  }
-
-  Row buttons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Expanded(
-            child: CustomElevatedButton(
-                height: 55.h,
-                text: "Clear",
-                color: AppColors.black,
-                onPressed: () {
-                  Get.back();
-                })),
-        wBox(10),
-        Expanded(
-            child: CustomElevatedButton(
-                height: 55.h,
-                text: "Apply",
-                onPressed: () {
-                  Get.back();
-                }))
+        )
       ],
     );
   }
 }
 
-class FilterChipWidget extends StatelessWidget {
-  final String label;
-  final RxBool isSelect; // Declare isSelect as a field
-
-  const FilterChipWidget({
-    super.key,
-    required this.label,
-    required this.isSelect, // Pass it as a parameter
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      return FilterChip(
-        showCheckmark: false,
-        selectedColor: AppColors.black,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-          side: BorderSide(color: AppColors.hintText),
-        ),
-        label: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Gilroy-Regular',
-            fontWeight: FontWeight.w400,
-            fontSize: 18.sp,
-            color: isSelect.value ? AppColors.white : AppColors.darkText,
-          ),
-        ),
-        selected: isSelect.value, // Use isSelect's value
-        onSelected: (isSelected) {
-          isSelect.value = isSelected; // Update isSelect's value
-        },
-      );
-    });
-  }
-}
-
-class TwoToneCircleSliderThumb extends SliderComponentShape {
-  final Color innerColor;
-  final Color outerColor;
-
-  TwoToneCircleSliderThumb(
-      {required this.innerColor, required this.outerColor});
-
-  @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) {
-    return const Size(20, 20); // Define size of the thumb
-  }
-
-  @override
-  void paint(
-    PaintingContext context,
-    Offset center, {
-    required Animation<double> activationAnimation,
-    required Animation<double> enableAnimation,
-    required bool isDiscrete,
-    required TextPainter labelPainter,
-    required RenderBox parentBox,
-    required SliderThemeData sliderTheme,
-    required TextDirection textDirection,
-    required double value,
-    required double textScaleFactor,
-    required Size sizeWithOverflow,
-  }) {
-    final Paint outerPaint = Paint()..color = outerColor;
-    final Paint innerPaint = Paint()..color = innerColor;
-    final double radius = sizeWithOverflow.shortestSide / 2;
-
-    context.canvas.drawCircle(center, radius, outerPaint);
-    context.canvas.drawCircle(center, radius * 0.8, innerPaint);
-  }
-}
