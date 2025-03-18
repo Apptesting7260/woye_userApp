@@ -5,10 +5,12 @@ import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/modal/grocery_categories_details_modal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/grocery_Categories_Filter_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/grocery_home_search_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/modal/grocery_specific_products_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_details_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/all_grocery_shops/modal/all_Grocery_shops.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/banners/grocery_banner_details_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/modal/grocery_home_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/Controller/grocery_Modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/groceryModal.dart';
@@ -547,5 +549,19 @@ class Repository {
     dynamic response =
     await _apiService.postApi(data, AppUrls.groceryHomeSearch, token);
     return GroceryHomeSearchModal.fromJson(response);
+  }
+
+  Future<dynamic> getGroceryCategoriesFilterApi() async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.getApi(AppUrls.getGroceryCategoriesFilter, token);
+    return GroceryCategoriesFilterModal.fromJson(response);
+  }
+
+  Future<dynamic> groceryBannerApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.groceryBannersData, token);
+    return GroceryBannerModal.fromJson(response);
   }
 }

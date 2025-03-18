@@ -91,7 +91,7 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
                                   }
                                   );
                               grocerycategoriesdetailscontroller
-                                  .pharmacy_Categories_Details_Api(
+                                  .groceryCategoriesDetailsApi(
                                 id: controller.filteredWishlistData[index].id
                                     .toString(),
                               );

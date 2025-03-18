@@ -12,6 +12,8 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_scre
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/all_grocery_shops/all_grocery_shops.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/banners/grocery_banner_details_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/banners/grocery_home_banner_data.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/controller/grocery_home_controller.dart';
 
 class GroceryHomeScreen extends StatefulWidget {
@@ -169,7 +171,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       ),
     );
   }
-
+  final GroceryBannerDetailsController bannerDetailsController =
+  Get.put(GroceryBannerDetailsController());
   Widget mainBanner() {
     return Column(
       children: [
@@ -192,11 +195,11 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
               final banner = banners[index];
               return GestureDetector(
                 onTap: () {
-                  // bannerDetailsController.bannerDataApi(
-                  //     bannerId: banners[index].id.toString());
-                  // Get.to(PharmacyHomeBanner(
-                  //   bannerID: banners[index].id.toString(),
-                  // ));
+                  bannerDetailsController.bannerDataApi(
+                      bannerId: banners[index].id.toString());
+                  Get.to(GroceryHomeBanner(
+                    bannerID: banners[index].id.toString(),
+                  ));
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20.r),
@@ -285,7 +288,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                     .toString()),
                               });
                           grocerycategoriesdetailscontroller
-                              .pharmacy_Categories_Details_Api(
+                              .groceryCategoriesDetailsApi(
                             id: groceryHomeController
                                 .homeData.value.category![index].id
                                 .toString(),

@@ -100,6 +100,8 @@ class AppUrls {
   static const String specificGroceryShop = "$baseUrl/specific-grocery";
   static const String grocerySpecificProduct = "$baseUrl/gspecific-product";
   static const String groceryHomeSearch = "$baseUrl/ghome-search";
+  static const String getGroceryCategoriesFilter = "$baseUrl/ginner-search-data";
 
+  static const String groceryBannersData = "$baseUrl/gbanners-data";
 
 }

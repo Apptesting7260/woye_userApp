@@ -15,6 +15,7 @@ import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/grocery_category_details.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/grocery_categories_filter.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/grocery_home_filter.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/More_Products/grocery_more_products.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Most_popular/grocery_most_popular.dart';
@@ -148,6 +149,7 @@ class AppRoutes {
   static const String groceryProductDetails = "/groceryProductDetails";
   static const String groceryVendorDetails = "/groceryVendorDetails";
   static const String groceryCategoryDetails = "/groceryCategoryDetails";
+  static const String groceryCategoryFilter = "/groceryCategoryFilter";
 
   static List<GetPage> pages = [
     GetPage(
@@ -273,5 +275,9 @@ class AppRoutes {
         name: groceryCategoryDetails, page: () => GroceryCategoryDetails()),
     // GetPage(
     //     name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
+    GetPage(
+        name: groceryCategoryFilter,
+        page: () =>  GroceryCategoriesFilter()),
+
   ];
 }

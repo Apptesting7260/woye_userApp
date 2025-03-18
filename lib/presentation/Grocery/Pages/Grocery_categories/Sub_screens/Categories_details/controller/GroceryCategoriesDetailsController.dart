@@ -31,7 +31,7 @@ class Grocerycategoriesdetailscontroller extends GetxController {
     }
   }
 
-  pharmacy_Categories_Details_Api({
+  groceryCategoriesDetailsApi({
     required String id,
   }) async {
     searchController.clear();
@@ -67,7 +67,7 @@ class Grocerycategoriesdetailscontroller extends GetxController {
     }
   }
 
-pharmacy_Categories_Details_filter_Api({
+groceryCategoriesDetailsFilterApi({
   required String id,
   required String product_type,
   required String price_sort,

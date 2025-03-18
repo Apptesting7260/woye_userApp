@@ -4,6 +4,7 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 
 class GroceryCategoryDetails extends StatelessWidget {
@@ -12,8 +13,8 @@ class GroceryCategoryDetails extends StatelessWidget {
   final Grocerycategoriesdetailscontroller controller =
       Get.put(Grocerycategoriesdetailscontroller());
 
-  // final PharmaCategoriesFilterController categoriesFilterController =
-  // Get.put(PharmaCategoriesFilterController());
+  final GroceryCategoriesFilterController categoriesFilterController =
+  Get.put(GroceryCategoriesFilterController());
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;
@@ -36,14 +37,14 @@ class GroceryCategoryDetails extends StatelessWidget {
             if (controller.error.value == 'No internet') {
               return InternetExceptionWidget(
                 onPress: () {
-                  controller.pharmacy_Categories_Details_Api(
+                  controller.groceryCategoriesDetailsApi(
                       id: categoryId.toString());
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
-                  controller.pharmacy_Categories_Details_Api(
+                  controller.groceryCategoriesDetailsApi(
                       id: categoryId.toString());
                 },
               );
@@ -51,7 +52,7 @@ class GroceryCategoryDetails extends StatelessWidget {
           case Status.COMPLETED:
             return RefreshIndicator(
               onRefresh: () async {
-                controller.pharmacy_Categories_Details_Api(
+                controller.groceryCategoriesDetailsApi(
                     id: categoryId.toString());
               },
               child: Padding(
@@ -83,14 +84,14 @@ class GroceryCategoryDetails extends StatelessWidget {
                               }
                             },
                             onFilterTap: () {
-                              // Get.toNamed(
-                              //   AppRoutes.pharmacyCategoryFilter,
-                              //   arguments: {
-                              //     'categoryId': categoryId.toString()
-                              //   },
-                              // );
-                              // categoriesFilterController
-                              //     .pharmacy_get_CategoriesFilter_Api();
+                              Get.toNamed(
+                                AppRoutes.groceryCategoryFilter,
+                                arguments: {
+                                  'categoryId': categoryId.toString()
+                                },
+                              );
+                              categoriesFilterController
+                                  .groceryGetCategoriesFilterApi();
                             },
                           )),
                         ),

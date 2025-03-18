@@ -95,6 +95,7 @@ class GroceryHomeFilter extends StatelessWidget {
               }
             }),
 
+
           ],
         ),
       ),
@@ -171,7 +172,7 @@ class GroceryHomeFilter extends StatelessWidget {
                           id: pharmaShopdata!.id.toString(),
                         );
                         Get.to(GroceryVendorDetailsScreen(
-                          groceryId:pharmaShopdata!.id.toString(),
+                          groceryId:pharmaShopdata.id.toString(),
                         ));
                       },
                       child: pharmaShop(
