@@ -150,7 +150,7 @@ class CategoryProduct {
     packagingValue = json['packaging_value'];
     categoryId = json['category_id'];
     isInWishlist = json['is_in_wishlist'];
-    shopName = json['pharma_name'];
+    shopName = json['grocery_name'];
     urlImage = json['url_image'];
     categoryName = json['category_name'];
   }
@@ -164,7 +164,7 @@ class CategoryProduct {
     data['packaging_value'] = this.packagingValue;
     data['category_id'] = this.categoryId;
     data['is_in_wishlist'] = this.isInWishlist;
-    data['pharma_name'] = this.shopName;
+    data['grocery_name'] = this.shopName;
     data['url_image'] = this.urlImage;
     data['category_name'] = this.categoryName;
     return data;

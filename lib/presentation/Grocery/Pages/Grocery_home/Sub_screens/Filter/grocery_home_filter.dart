@@ -5,15 +5,16 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/groceryhomeserchcontroller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
+import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 
 class GroceryHomeFilter extends StatelessWidget {
   GroceryHomeFilter({super.key});
 
   final GroceryHomeSearchController controller =
-  Get.put(GroceryHomeSearchController());
+      Get.put(GroceryHomeSearchController());
 
   final GroceryDetailsController groceryDetailsController =
-  Get.put(GroceryDetailsController());
+      Get.put(GroceryDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +95,6 @@ class GroceryHomeFilter extends StatelessWidget {
                 return const SliverToBoxAdapter(child: SizedBox());
               }
             }),
-
-
           ],
         ),
       ),
@@ -123,7 +122,7 @@ class GroceryHomeFilter extends StatelessWidget {
               mainAxisSpacing: 5.h,
             ),
             itemBuilder: (context, index) {
-              return CustomBanner(
+              return CustomBannerGrocery(
                 image: products![index].urlImage.toString(),
                 sale_price: products[index].salePrice.toString(),
                 regular_price: products[index].regularPrice.toString(),
@@ -162,17 +161,17 @@ class GroceryHomeFilter extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemCount:
-                  controller.searchData.value.pharmaShop?.length ?? 0,
+                      controller.searchData.value.pharmaShop?.length ?? 0,
                   itemBuilder: (context, index) {
                     final pharmaShopdata =
-                    controller.searchData.value.pharmaShop?[index];
+                        controller.searchData.value.pharmaShop?[index];
                     return GestureDetector(
                       onTap: () {
                         groceryDetailsController.restaurant_Details_Api(
                           id: pharmaShopdata!.id.toString(),
                         );
                         Get.to(GroceryVendorDetailsScreen(
-                          groceryId:pharmaShopdata.id.toString(),
+                          groceryId: pharmaShopdata.id.toString(),
                         ));
                       },
                       child: pharmaShop(
@@ -287,4 +286,3 @@ class GroceryHomeFilter extends StatelessWidget {
     );
   }
 }
-

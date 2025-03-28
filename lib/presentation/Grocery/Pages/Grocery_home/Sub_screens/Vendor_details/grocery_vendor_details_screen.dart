@@ -526,5 +526,4 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
       ],
     );
   }
-
 }

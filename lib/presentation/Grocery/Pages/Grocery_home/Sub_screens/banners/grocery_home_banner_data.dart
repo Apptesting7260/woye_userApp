@@ -8,6 +8,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_scre
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/banners/grocery_banner_details_controller.dart';
+import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 
 class GroceryHomeBanner extends StatelessWidget {
   final String bannerID;
@@ -204,7 +205,7 @@ class GroceryHomeBanner extends StatelessWidget {
               mainAxisSpacing: 5.h,
             ),
             itemBuilder: (context, index) {
-              return CustomBanner(
+              return CustomBannerGrocery(
                 image: controller.bannerData.value.products![index].urlImage
                     .toString(),
                 sale_price: controller

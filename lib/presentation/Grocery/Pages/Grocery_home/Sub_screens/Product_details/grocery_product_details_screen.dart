@@ -6,6 +6,8 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to_Cart/grocery_add_to_cartcontroller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/view/grocery_cart_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
@@ -27,22 +29,19 @@ class GroceryProductDetailsScreen extends StatelessWidget {
   });
 
   final GrocerySpecificProductController controller =
-  Get.put(GrocerySpecificProductController());
-
+      Get.put(GrocerySpecificProductController());
 
   final GroceryDetailsController groceryDetailsController =
-  Get.put(GroceryDetailsController());
+      Get.put(GroceryDetailsController());
 
-
-  // final PharmacyAddToCarController pharmacyAddToCarController =
-  // Get.put(PharmacyAddToCarController());
-
+  final GroceryAddToCarController pharmacyAddToCarController =
+  Get.put(GroceryAddToCarController());
 
   final AddGroceryProductWishlist addGroceryProductWishlist =
-  Get.put(AddGroceryProductWishlist());
+      Get.put(AddGroceryProductWishlist());
 
   final GetUserDataController getUserDataController =
-  Get.put(GetUserDataController());
+      Get.put(GetUserDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +73,8 @@ class GroceryProductDetailsScreen extends StatelessWidget {
               onTap: () async {
                 controller.isLoading.value = true;
                 controller.productData.value.product?.isInWishlist =
-                !controller.productData.value.product!.isInWishlist!;
-                await addGroceryProductWishlist
-                    .pharmacy_add_product_wishlist(
+                    !controller.productData.value.product!.isInWishlist!;
+                await addGroceryProductWishlist.pharmacy_add_product_wishlist(
                   categoryId: categoryId,
                   product_id: productId.toString(),
                 );
@@ -93,12 +91,12 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                 child: controller.isLoading.value
                     ? circularProgressIndicator(size: 18)
                     : Icon(
-                  controller.productData.value.product?.isInWishlist !=
-                      true
-                      ? Icons.favorite_outline_sharp
-                      : Icons.favorite_outlined,
-                  size: 24.w,
-                ),
+                        controller.productData.value.product?.isInWishlist !=
+                                true
+                            ? Icons.favorite_outline_sharp
+                            : Icons.favorite_outlined,
+                        size: 24.w,
+                      ),
               ),
             );
           }),
@@ -154,18 +152,20 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                       //
 
                       //
-                      if (controller.productData.value.product!.variant!.isNotEmpty)
+                      if (controller
+                          .productData.value.product!.variant!.isNotEmpty)
                         variant(context: context),
-                      if (controller.productData.value.product!.variant!.isNotEmpty)
+                      if (controller
+                          .productData.value.product!.variant!.isNotEmpty)
                         hBox(20),
                       description(),
                       hBox(30),
                       // shopCard(),
                       // hBox(20),
                       //
-                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
-                    //  buttons(context),
-                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
+                      if(controller.productData.value.product!.quanInStock.toString() != "0")
+                       buttons(context),
+                      if(controller.productData.value.product!.quanInStock.toString() != "0")
                       hBox(30),
                       //
                       // dropdownsSection(),
@@ -198,14 +198,14 @@ class GroceryProductDetailsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Obx(
-              () => ClipRRect(
+          () => ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
               imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
               errorWidget: (context, url, error) =>
-              const Center(child: Icon(Icons.error)),
+                  const Center(child: Icon(Icons.error)),
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: AppColors.gray,
                 highlightColor: AppColors.lightText,
@@ -245,7 +245,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                 controller.isSelected.value = 0;
 
                 return Obx(
-                      () => GestureDetector(
+                  () => GestureDetector(
                     onTap: () {
                       controller.isSelected.value = index;
 
@@ -267,7 +267,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                           fit: BoxFit.cover,
                           width: 75.h,
                           errorWidget: (context, url, error) =>
-                          const Center(child: Icon(Icons.error)),
+                              const Center(child: Icon(Icons.error)),
                           placeholder: (context, url) => Shimmer.fromColors(
                             baseColor: AppColors.gray,
                             highlightColor: AppColors.lightText,
@@ -391,7 +391,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
       Row(
         children: [
           Text(
-            product.packagingValue.toString(),
+            product.packagingValue.toString() + product.unit!.name.toString(),
             // "Strip of 10 tablets",
             style: AppFontStyle.text_14_400(AppColors.lightText),
           ),
@@ -409,14 +409,6 @@ class GroceryProductDetailsScreen extends StatelessWidget {
       ),
       hBox(10),
       GestureDetector(
-        // onTap: () {
-        //   pharmacyDetailsController.restaurant_Details_Api(
-        //     id: controller.productData.value.product!.userId.toString(),
-        //   );
-        //   Get.to(PharmacyVendorDetailsScreen(
-        //     pharmacyId: controller.productData.value.product!.userId.toString(),
-        //   ));
-        // },
         onTap: () {
           groceryDetailsController.restaurant_Details_Api(
             id: controller.productData.value.product!.userId.toString(),
@@ -453,13 +445,13 @@ class GroceryProductDetailsScreen extends StatelessWidget {
         children: [
           controller.productData.value.product!.salePrice != null
               ? Text(
-            "\$${controller.productData.value.product!.salePrice.toString()}",
-            style: AppFontStyle.text_16_600(AppColors.primary),
-          )
+                  "\$${controller.productData.value.product!.salePrice.toString()}",
+                  style: AppFontStyle.text_16_600(AppColors.primary),
+                )
               : Text(
-            "\$${controller.productData.value.product!.regularPrice.toString()}",
-            style: AppFontStyle.text_16_600(AppColors.primary),
-          ),
+                  "\$${controller.productData.value.product!.regularPrice.toString()}",
+                  style: AppFontStyle.text_16_600(AppColors.primary),
+                ),
           wBox(8),
           if (controller.productData.value.product!.salePrice != null)
             Text(
@@ -474,90 +466,89 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           const Spacer(),
           product.quanInStock.toString() != "0"
               ? Container(
-            height: 40.h,
-            width: 100.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50.r),
-              border: Border.all(width: 0.8.w, color: AppColors.primary),
-            ),
-            child: Obx(
-                  () => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (controller.cartCount.value > 1) {
-                        controller.cartCount.value--;
-                      }
-                    },
-                    child: Icon(
-                      Icons.remove,
-                      size: 20.w,
-                    ),
+                  height: 40.h,
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50.r),
+                    border: Border.all(width: 0.8.w, color: AppColors.primary),
                   ),
-                  Text(
-                    "${controller.cartCount.value}",
-                    style: AppFontStyle.text_14_400(AppColors.darkText),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      int stockQuantity =
-                          int.tryParse(product.quanInStock ?? '0') ?? 0;
+                  child: Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (controller.cartCount.value > 1) {
+                              controller.cartCount.value--;
+                            }
+                          },
+                          child: Icon(
+                            Icons.remove,
+                            size: 20.w,
+                          ),
+                        ),
+                        Text(
+                          "${controller.cartCount.value}",
+                          style: AppFontStyle.text_14_400(AppColors.darkText),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            int stockQuantity =product.quanInStock;
 
-                      if (controller.cartCount.value < stockQuantity) {
-                        controller.cartCount.value++;
-                      } else {
-                        Utils.showToast(
-                            "Quantity is limited. Only $stockQuantity items available.");
-                      }
-                    },
-                    child: Icon(
-                      Icons.add,
-                      size: 20.w,
+                            if (controller.cartCount.value < stockQuantity) {
+                              controller.cartCount.value++;
+                            } else {
+                              Utils.showToast(
+                                  "Quantity is limited. Only $stockQuantity items available.");
+                            }
+                          },
+                          child: Icon(
+                            Icons.add,
+                            size: 20.w,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          )
+                )
               : Opacity(
-            opacity: 0.5,
-            child: GestureDetector(
-              onTap: () {
-                Utils.showToast("Product not available at the moment.");
-              },
-              child: Container(
-                height: 40.h,
-                width: 100.w,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.r),
-                  border:
-                  Border.all(width: 0.8.w, color: AppColors.primary),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      child: Icon(
-                        Icons.remove,
-                        size: 20.w,
+                  opacity: 0.5,
+                  child: GestureDetector(
+                    onTap: () {
+                      Utils.showToast("Product not available at the moment.");
+                    },
+                    child: Container(
+                      height: 40.h,
+                      width: 100.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.r),
+                        border:
+                            Border.all(width: 0.8.w, color: AppColors.primary),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                            child: Icon(
+                              Icons.remove,
+                              size: 20.w,
+                            ),
+                          ),
+                          Text(
+                            "${0}",
+                            style: AppFontStyle.text_14_400(AppColors.darkText),
+                          ),
+                          GestureDetector(
+                            child: Icon(
+                              Icons.add,
+                              size: 20.w,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      "${0}",
-                      style: AppFontStyle.text_14_400(AppColors.darkText),
-                    ),
-                    GestureDetector(
-                      child: Icon(
-                        Icons.add,
-                        size: 20.w,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
+                  ),
+                )
         ],
       ),
       hBox(20),
@@ -572,12 +563,13 @@ class GroceryProductDetailsScreen extends StatelessWidget {
       ),
       hBox(20),
       Text(
-        "Expires Date",
+        "Shelf Life",
         style: AppFontStyle.text_16_400(AppColors.darkText),
       ),
       hBox(5),
       Text(
-        product.expire.toString(),
+        "${product.shelfLifeValue.toString()} ${product.shelfLifeType}",
+       // product.shelfLifeValue.toString() + product.shelfLifeType.toString(),
         style: AppFontStyle.text_14_400(AppColors.lightText),
       ),
     ]);
@@ -642,7 +634,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
               // },
               child: Container(
                 decoration: BoxDecoration(
-                  // color: AppColors.primary.withOpacity(.2),
+                    // color: AppColors.primary.withOpacity(.2),
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: AppColors.primary, width: 1)),
                 child: Padding(
@@ -675,72 +667,70 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     );
   }
 
+  Widget buttons(context) {
+    return controller.productData.value.product!.quanInStock.toString() != "0"
+        ? Obx(
+          () => controller.goToCart.value == true
+          ? CustomElevatedButton(
+          width: Get.width,
+          color: AppColors.primary,
+          isLoading:
+          pharmacyAddToCarController.rxRequestStatus.value ==
+              (Status.LOADING),
+          text: "Go to Cart",
+          onPressed: () {
+            Get.to(const GroceryCartScreen(isBack: true));
+            controller.goToCart.value = false;
+            controller.cartCount.value = 1;
+          })
+          : CustomElevatedButton(
+          width: Get.width,
+          color: AppColors.darkText,
+          isLoading:
+          pharmacyAddToCarController.rxRequestStatus.value ==
+              (Status.LOADING),
+          text: "Add to Cart",
+          onPressed: () {
+            if (getUserDataController.userData.value.user?.userType ==
+                "guestUser") {
+              showLoginRequired(context);
+            } else {
+              // ---------- add to cart api -----------
+              // controller.productPriceFun();
+              pharmacyAddToCarController.groceryAddToCartApi(
+                productId: controller.productData.value.product!.id
+                    .toString(),
+                productPrice:
+                controller.productData.value.product!.salePrice !=
+                    null
+                    ? controller
+                    .productData.value.product!.salePrice
+                    .toString()
+                    : controller
+                    .productData.value.product!.regularPrice
+                    .toString(),
+                productQuantity: controller.cartCount.toString(),
+                groceryId: controller.productData.value.product!.userId
+                    .toString(),
+                // addons: controller.selectedAddOn.toList(),
+                // extrasIds: controller.variantTitlesIdsId,
+                // extrasItemIds: controller.variantItemIdsId.toList(),
+                // extrasItemNames: controller.variantItemIdsName.toList(),
+                // extrasItemPrices: controller.variantItemIdsPrice.toList(),
 
-
-  // Widget buttons(context) {
-  //   return controller.productData.value.product!.quanInStock.toString() != "0"
-  //       ? Obx(
-  //         () => controller.goToCart.value == true
-  //         ? CustomElevatedButton(
-  //         width: Get.width,
-  //         color: AppColors.primary,
-  //         isLoading:
-  //         pharmacyAddToCarController.rxRequestStatus.value ==
-  //             (Status.LOADING),
-  //         text: "Go to Cart",
-  //         onPressed: () {
-  //           Get.to(const PharmacyCartScreen(isBack: true));
-  //           controller.goToCart.value = false;
-  //           controller.cartCount.value = 1;
-  //         })
-  //         : CustomElevatedButton(
-  //         width: Get.width,
-  //         color: AppColors.darkText,
-  //         isLoading:
-  //         pharmacyAddToCarController.rxRequestStatus.value ==
-  //             (Status.LOADING),
-  //         text: "Add to Cart",
-  //         onPressed: () {
-  //           if (getUserDataController.userData.value.user?.userType ==
-  //               "guestUser") {
-  //             showLoginRequired(context);
-  //           } else {
-  //             // ---------- add to cart api -----------
-  //             // controller.productPriceFun();
-  //             pharmacyAddToCarController.pharmaAddToCartApi(
-  //               productId: controller.productData.value.product!.id
-  //                   .toString(),
-  //               productPrice:
-  //               controller.productData.value.product!.salePrice !=
-  //                   null
-  //                   ? controller
-  //                   .productData.value.product!.salePrice
-  //                   .toString()
-  //                   : controller
-  //                   .productData.value.product!.regularPrice
-  //                   .toString(),
-  //               productQuantity: controller.cartCount.toString(),
-  //               pharmaId: controller.productData.value.product!.userId
-  //                   .toString(),
-  //               // addons: controller.selectedAddOn.toList(),
-  //               // extrasIds: controller.variantTitlesIdsId,
-  //               // extrasItemIds: controller.variantItemIdsId.toList(),
-  //               // extrasItemNames: controller.variantItemIdsName.toList(),
-  //               // extrasItemPrices: controller.variantItemIdsPrice.toList(),
-  //
-  //               // print("object ${controller.variantItemIdsName}"
-  //             );
-  //             // }
-  //           }
-  //         }),
-  //   )
-  //       : CustomElevatedButton(
-  //     width: Get.width,
-  //     color: AppColors.primary.withOpacity(.5),
-  //     text: "Out of Stock",
-  //     onPressed: () {},
-  //   );
-  // }
+                // print("object ${controller.variantItemIdsName}"
+              );
+              // }
+            }
+          }),
+    )
+        : CustomElevatedButton(
+      width: Get.width,
+      color: AppColors.primary.withOpacity(.5),
+      text: "Out of Stock",
+      onPressed: () {},
+    );
+  }
 
   List<RxBool> isExpandedList = List.generate(9, (index) => false.obs);
 
@@ -759,7 +749,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "Missed Dose",
             description:
-            controller.productData.value.product!.missedDose.toString(),
+                controller.productData.value.product!.missedDose.toString(),
             index: 1,
           ),
         if (controller.productData.value.product!.overdose != null &&
@@ -767,7 +757,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "Overdose",
             description:
-            controller.productData.value.product!.overdose.toString(),
+                controller.productData.value.product!.overdose.toString(),
             index: 2,
           ),
         if (controller.productData.value.product!.interactions != null &&
@@ -775,7 +765,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "Interactions",
             description:
-            controller.productData.value.product!.interactions.toString(),
+                controller.productData.value.product!.interactions.toString(),
             index: 3,
           ),
         if (controller.productData.value.product!.sideEffect != null &&
@@ -783,7 +773,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "Side Effect",
             description:
-            controller.productData.value.product!.sideEffect.toString(),
+                controller.productData.value.product!.sideEffect.toString(),
             index: 4,
           ),
         if (controller.productData.value.product!.advice != null &&
@@ -791,7 +781,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "Expert advice and Concern",
             description:
-            controller.productData.value.product!.advice.toString(),
+                controller.productData.value.product!.advice.toString(),
             index: 5,
           ),
         if (controller.productData.value.product!.notUse != null &&
@@ -799,7 +789,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "When not to use?",
             description:
-            controller.productData.value.product!.notUse.toString(),
+                controller.productData.value.product!.notUse.toString(),
             index: 6,
           ),
         if (controller.productData.value.product!.warnings != null &&
@@ -807,7 +797,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "General Instructions & Warnings",
             description:
-            controller.productData.value.product!.warnings.toString(),
+                controller.productData.value.product!.warnings.toString(),
             index: 7,
           ),
         if (controller.productData.value.product!.otherDetails != null &&
@@ -815,7 +805,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           commonDropdownsSection(
             title: "Other Details",
             description:
-            controller.productData.value.product!.otherDetails.toString(),
+                controller.productData.value.product!.otherDetails.toString(),
             index: 8,
           ),
       ],
@@ -830,7 +820,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 10.h, bottom: 10.h),
       child: Obx(
-            () => Container(
+        () => Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.r),
             border: Border.all(
@@ -869,7 +859,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                               description,
                               overflow: TextOverflow.visible,
                               style:
-                              AppFontStyle.text_14_400(AppColors.lightText),
+                                  AppFontStyle.text_14_400(AppColors.lightText),
                             ),
                           ],
                         ),
@@ -953,7 +943,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
 
   Future showLoginRequired(context) {
     return showCupertinoModalPopup(
-      // barrierDismissible: true,/
+        // barrierDismissible: true,/
         context: context,
         builder: (context) {
           return AlertDialog.adaptive(
@@ -988,7 +978,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                          AppFontStyle.text_14_400(AppColors.darkText),
+                              AppFontStyle.text_14_400(AppColors.darkText),
                         ),
                       ),
                       wBox(15),

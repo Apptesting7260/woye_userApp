@@ -49,7 +49,7 @@ class Product {
   bool? isInWishlist;
   var quanInStock;
   int? packagingId;
-  String? packagingValue;
+  var packagingValue;
   String? description;
   String? image;
   String? addimg;
@@ -73,43 +73,51 @@ class Product {
   String? pharmaImage;
   List<String>? urlAddimg;
   String? urlImage;
+  Unit? unit;
+
+  // New fields
+  String? shelfLifeType;
+  int? shelfLifeValue;
 
   Product(
       {this.id,
-      this.title,
-      this.slug,
-      this.userId,
-      this.categoryId,
-      this.consumeId,
-      this.expire,
-      this.regularPrice,
-      this.salePrice,
-      this.isInWishlist,
-      this.quanInStock,
-      this.packagingId,
-      this.packagingValue,
-      this.description,
-      this.image,
-      this.addimg,
-      this.variant,
-      this.prescription,
-      this.use,
-      this.missedDose,
-      this.overdose,
-      this.interactions,
-      this.sideEffect,
-      this.advice,
-      this.notUse,
-      this.warnings,
-      this.otherDetails,
-      this.status,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.pharmaName,
-      this.pharmaImage,
-      this.urlAddimg,
-      this.urlImage});
+        this.title,
+        this.slug,
+        this.userId,
+        this.categoryId,
+        this.consumeId,
+        this.expire,
+        this.regularPrice,
+        this.salePrice,
+        this.isInWishlist,
+        this.quanInStock,
+        this.packagingId,
+        this.packagingValue,
+        this.description,
+        this.image,
+        this.addimg,
+        this.variant,
+        this.prescription,
+        this.use,
+        this.missedDose,
+        this.overdose,
+        this.interactions,
+        this.sideEffect,
+        this.advice,
+        this.notUse,
+        this.warnings,
+        this.otherDetails,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.deletedAt,
+        this.pharmaName,
+        this.pharmaImage,
+        this.urlAddimg,
+        this.urlImage,
+        this.unit,
+        this.shelfLifeType, // Add to constructor
+        this.shelfLifeValue}); // Add to constructor
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -124,7 +132,7 @@ class Product {
     isInWishlist = json['is_in_wishlist'];
     quanInStock = json['quan_in_stock'];
     packagingId = json['packaging_id'];
-    packagingValue = json['packaging_value'];
+    packagingValue = json['unit_value'];
     description = json['description'];
     image = json['image'];
     addimg = json['addimg'];
@@ -152,6 +160,13 @@ class Product {
     pharmaImage = json['grocery_image'];
     urlAddimg = json['url_addimg'].cast<String>();
     urlImage = json['url_image'];
+    if (json['unit'] != null) {
+      unit = Unit.fromJson(json['unit']);
+    }
+
+    // Parse new fields
+    shelfLifeType = json['shelf_life_type']; // Add parsing for shelf_life_type
+    shelfLifeValue = json['shelf_life_value']; // Add parsing for shelf_life_value
   }
 
   Map<String, dynamic> toJson() {
@@ -168,7 +183,7 @@ class Product {
     data['is_in_wishlist'] = this.isInWishlist;
     data['quan_in_stock'] = this.quanInStock;
     data['packaging_id'] = this.packagingId;
-    data['packaging_value'] = this.packagingValue;
+    data['unit_value'] = this.packagingValue;
     data['description'] = this.description;
     data['image'] = this.image;
     data['addimg'] = this.addimg;
@@ -193,6 +208,35 @@ class Product {
     data['grocery_image'] = this.pharmaImage;
     data['url_addimg'] = this.urlAddimg;
     data['url_image'] = this.urlImage;
+
+    if (unit != null) {
+      data['unit'] = unit!.toJson();
+    }
+
+    // Add new fields to JSON
+    data['shelf_life_type'] = this.shelfLifeType; // Add shelf_life_type to JSON
+    data['shelf_life_value'] = this.shelfLifeValue; // Add shelf_life_value to JSON
+
+    return data;
+  }
+}
+
+
+class Unit {
+  int? id;
+  String? name;
+
+  Unit({this.id, this.name});
+
+  Unit.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }
@@ -205,11 +249,11 @@ class Variant {
   String? category_name;
 
   Variant({
-     this.name,
-     this.productId,
-     this.price,
-     this.categoryId,
-     this.category_name,
+    this.name,
+    this.productId,
+    this.price,
+    this.categoryId,
+    this.category_name,
   });
 
   factory Variant.fromJson(Map<String, dynamic> json) {
