@@ -170,7 +170,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                       //
                       // dropdownsSection(),
                       // hBox(30),
-                      productSummery(),
+                     // productSummery(),
                       // //
                       // productReviews(),
                       // hBox(8),

@@ -5,6 +5,7 @@ import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to_Cart/add_to_cart_modal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/modal/grocery_categories_details_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/grocery_Categories_Filter_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/grocery_home_search_modal.dart';
@@ -574,5 +575,11 @@ class Repository {
     dynamic response =
         await _apiService.postApi2(data, AppUrls.groceryAddToCart, token);
     return GroceryAddToCart.fromJson(response);
+  }
+
+  Future<dynamic> groceryAllCartGetDataApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.groceryAllCart, token);
+    return GroceryCartModal.fromJson(response);
   }
 }

@@ -121,6 +121,13 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     ),
                   ],
                 ),
+             
+                floatingActionButton: Padding(
+                  padding:  EdgeInsets.only(bottom: 60.h),
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                  ),
+                ),
               ),
             ),
           );
@@ -171,8 +178,10 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       ),
     );
   }
+
   final GroceryBannerDetailsController bannerDetailsController =
-  Get.put(GroceryBannerDetailsController());
+      Get.put(GroceryBannerDetailsController());
+
   Widget mainBanner() {
     return Column(
       children: [
