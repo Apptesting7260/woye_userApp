@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
@@ -23,8 +24,8 @@ class GroceryAddToCarController extends GetxController {
   void setData(GroceryAddToCart value) => addToCartData.value = value;
 
   void setUpdateCartData(GroceryAddToCart value) => updateCartData.value = value;
-  final PharmacyCartController pharmacyCartController =
-      Get.put(PharmacyCartController());
+  final GroceryCartController groceryCartController =
+      Get.put(GroceryCartController());
 
   void setError(String value) => error.value = value;
 
@@ -69,7 +70,7 @@ class GroceryAddToCarController extends GetxController {
         //     // extrasItemPrices: extrasItemPrices,
         //   );
         // } else {
-          pharmacyCartController.getPharmacyCartApi();
+        groceryCartController.getGroceryAllCartApi();
           setRxRequestStatus(Status.COMPLETED);
           grocerySpecificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
@@ -111,7 +112,7 @@ class GroceryAddToCarController extends GetxController {
       setUpdateCartData(value);
       if (updateCartData.value.status == true) {
         grocerySpecificProductController.goToCart.value = true;
-        pharmacyCartController.getPharmacyCartApi();
+        groceryCartController.getGroceryAllCartApi();
         Utils.showToast(updateCartData.value.message.toString());
         setRxRequestStatus2(Status.COMPLETED);
         Get.back();

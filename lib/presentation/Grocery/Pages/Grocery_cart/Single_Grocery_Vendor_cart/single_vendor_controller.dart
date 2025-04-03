@@ -1,11 +1,10 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
-import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_grocery_cart.dart';
 
-class GroceryCartController extends GetxController {
+class SingleGroceryCartController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
-  final cartData = GroceryCartModal().obs;
+  final cartData = SingleVendorGroceryCart().obs;
 
   final Rx<TextEditingController> couponCodeController =
       TextEditingController().obs;
@@ -16,20 +15,20 @@ class GroceryCartController extends GetxController {
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void cartSet(GroceryCartModal value) {
+  void cartSet(SingleVendorGroceryCart value) {
     cartData.value = value;
   }
 
   void setError(String value) => error.value = value;
 
-  final GroceryShowAllCartController groceryShowAllCartController =
-  Get.put(GroceryShowAllCartController());
+  // final GroceryShowAllCartController groceryShowAllCartController =
+  // Get.put(GroceryShowAllCartController());
 
-  getGroceryAllCartApi() async {
+  getGrocerySingleVendorCartApi(var cartId) async {
     readOnly.value = true;
     couponCodeController.value.clear();
-    api.groceryAllCartGetDataApi().then((value) {
-      groceryShowAllCartController.getGroceryAllShowApi();
+    Map data = {"cart_id": cartId};
+    api.grocerySingleVendorCartApi(data).then((value) {
       cartSet(value);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
@@ -40,11 +39,12 @@ class GroceryCartController extends GetxController {
     });
   }
 
-  refreshApi() async {
+  refreshApi(var cartId) async {
     setRxRequestStatus(Status.LOADING);
     couponCodeController.value.clear();
     readOnly.value = true;
-    api.groceryAllCartGetDataApi().then((value) {
+    Map data = {"cart_id": cartId};
+    api.grocerySingleVendorCartApi(data).then((value) {
       cartSet(value);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {

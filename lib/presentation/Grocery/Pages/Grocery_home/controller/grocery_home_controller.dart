@@ -39,7 +39,7 @@ class GroceryHomeController extends GetxController {
   void setError(String value) => error.value = value;
 
   homeApi(int page) async {
-    api.groceryHomeApi(page: page, perPage: 1).then((value) {
+    api.groceryHomeApi(page: page, perPage: 10).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
@@ -59,7 +59,7 @@ class GroceryHomeController extends GetxController {
     currentPage.value = 1;
     noLoading.value = false;
     setRxRequestStatus(Status.LOADING);
-    api.groceryHomeApi(page: 1, perPage: 1).then((value) {
+    api.groceryHomeApi(page: page, perPage: 10).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);

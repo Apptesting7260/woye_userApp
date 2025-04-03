@@ -1,3 +1,5 @@
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
 class GroceryCartModal {
   bool? status;
   Cart? cart;
@@ -108,6 +110,8 @@ class Buckets {
   String? vendorName;
   String? vendorImage;
   String? vendorAddress;
+  int? cartId;
+  Rx<bool> isVendorDelete = false.obs;
 
   Buckets({
     this.vendorId,
@@ -115,6 +119,7 @@ class Buckets {
     this.vendorName,
     this.vendorImage,
     this.vendorAddress,
+    this.cartId,
   });
 
   Buckets.fromJson(Map<String, dynamic> json) {
@@ -122,12 +127,13 @@ class Buckets {
     if (json['bucket'] != null) {
       bucket = <Bucket>[];
       json['bucket'].forEach((v) {
-        bucket!.add(new Bucket.fromJson(v));
+        bucket!.add(Bucket.fromJson(v));
       });
     }
     vendorName = json['vendor_name'];
     vendorImage = json['vendor_image'];
     vendorAddress = json['vendor_address'];
+    cartId = json['cart_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -139,9 +145,11 @@ class Buckets {
     data['vendor_name'] = this.vendorName;
     data['vendor_image'] = this.vendorImage;
     data['vendor_address'] = this.vendorAddress;
+    data['cart_id'] = this.cartId; // Add cart_id to the output JSON
     return data;
   }
 }
+
 
 
 class Bucket {
@@ -154,6 +162,7 @@ class Bucket {
   int? categoryId;
   String? categoryName;
   String? productImage;
+  Rx<bool> isDelete = false.obs;
 
   Bucket(
       {this.productId,

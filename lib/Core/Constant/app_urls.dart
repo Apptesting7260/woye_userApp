@@ -105,5 +105,11 @@ class AppUrls {
   static const String groceryBannersData = "$baseUrl/gbanners-data";
   static const String groceryAddToCart = "$baseUrl/gmake-cart";
   static const String groceryAllCart = "$baseUrl/gcheckout-all";
+  static const String grocerySingleVendorCart = "$baseUrl/gget-cart";
+  static const String groceryShowAllCart = "$baseUrl/all-carts";
+
+  static const String deleteGroceryProduct = "$baseUrl/gdelete-product";
+  static const String deleteGroceryVendor = "$baseUrl/gdelete-vendor";
+
 
 }

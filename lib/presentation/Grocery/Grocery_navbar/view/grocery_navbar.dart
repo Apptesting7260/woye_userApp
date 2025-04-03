@@ -15,10 +15,11 @@ class GroceryNavbar extends StatelessWidget {
             child: Scaffold(
               body: Stack(
                 children: [
-                  IndexedStack(
-                    index: navbarController.navbarCurrentIndex,
-                    children: navbarController.widgets,
-                  ),
+                  // IndexedStack(
+                  //   index: navbarController.navbarCurrentIndex,
+                  //   children: navbarController.widgets,
+                  // ),
+                  navbarController.widgets[navbarController.navbarCurrentIndex],
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: navbar(navbarController),

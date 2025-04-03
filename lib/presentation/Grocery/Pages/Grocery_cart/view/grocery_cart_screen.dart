@@ -7,6 +7,8 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_delete_ptoduct/delete_grocery_vendor.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_delete_ptoduct/delete_product_controller.dart';
 
 class GroceryCartScreen extends StatefulWidget {
   final bool isBack;
@@ -31,6 +33,11 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
       },
     );
   }
+
+  final DeleteGroceryProductController deleteProductController =
+      Get.put(DeleteGroceryProductController());
+  final DeleteGroceryVendorController deleteVendorController =
+      Get.put(DeleteGroceryVendorController());
 
   final ScrollController _scrollController = ScrollController();
 
@@ -111,13 +118,13 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                               cartItems(),
                               // hBox(20.h),
                               // promoCode(context),
-                              // hBox(30.h),
-                              // paymentDetails(),
+                              hBox(30.h),
+                              paymentDetails(),
                               hBox(30.h),
                               Divider(
                                   thickness: .5.w, color: AppColors.hintText),
                               hBox(15.h),
-                              //  checkoutButton(),
+                              checkoutButton(),
                               hBox(widget.isBack != true ? 100.h : 30.h)
                             ],
                           ),
@@ -258,7 +265,8 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
 
         return Container(
           width: Get.width,
-          padding: EdgeInsets.only(top: 10.r,bottom: 10.r,left: 10.r,right: 10.r),
+          padding:
+              EdgeInsets.only(top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(color: AppColors.hintText)),
@@ -267,27 +275,27 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
               Row(
                 children: [
                   Container(
-                        width: 50.h,
-                        height: 50.h,
-                        decoration: BoxDecoration(
+                      width: 50.h,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                      child: ClipRRect(
                           borderRadius: BorderRadius.circular(100.r),
-                        ),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(100.r),
-                            child: CachedNetworkImage(
-                              imageUrl: buckets.vendorImage.toString(),
-                              placeholder: (context, url) =>
-                                  circularProgressIndicator(),
-                              errorWidget: (context, url, error) => Icon(
-                                Icons.person,
-                                size: 40.h,
-                                color: AppColors.lightText.withOpacity(0.5),
-                              ),
-                              fit: BoxFit.cover,
-                            ))),
+                          child: CachedNetworkImage(
+                            imageUrl: buckets.vendorImage.toString(),
+                            placeholder: (context, url) =>
+                                circularProgressIndicator(),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.person,
+                              size: 40.h,
+                              color: AppColors.lightText.withOpacity(0.5),
+                            ),
+                            fit: BoxFit.cover,
+                          ))),
                   wBox(10.h),
                   Container(
-                    width: Get.width /2,
+                    width: Get.width / 2,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -307,24 +315,43 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                     ),
                   ),
                   const Spacer(),
-                   Text(
-                        "Remove",
-                        style: AppFontStyle.text_14_400(AppColors.red),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
+                  Obx(
+                    () => deleteVendorController.rxRequestStatus.value ==
+                                Status.LOADING &&
+                            buckets.isVendorDelete.value == true
+                        ? Center(
+                            child: Row(
+                              children: [
+                                circularProgressIndicator(size: 15.h),
+                                wBox(2.h),
+                              ],
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              buckets.isVendorDelete.value = true;
+                              deleteVendorController.deleteProductApi(
+                                  cartId: buckets.cartId.toString());
+                            },
+                            child: Text(
+                              "Remove",
+                              style: AppFontStyle.text_14_400(AppColors.red),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                  ),
                 ],
               ),
-              Divider(
-                  thickness: .5.w, color: AppColors.hintText),
+              Divider(thickness: .5.w, color: AppColors.hintText),
               ListView.separated(
                 padding: EdgeInsets.all(0.r),
                 itemCount: buckets.bucket!.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  var items =  buckets.bucket![index];
-                  return  Row(
+                  var items = buckets.bucket![index];
+                  return Row(
                     children: [
                       // Expanded(
                       //   flex: 1,
@@ -390,19 +417,19 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                         borderRadius: BorderRadius.circular(20.r),
                         child:
 
-                        // isLoading
-                        //     ? Shimmer.fromColors(
-                        //   baseColor: Colors.grey.shade300,
-                        //   highlightColor: Colors.grey.shade100,
-                        //   child: Container(
-                        //     color: Colors.white,
-                        //     height: 100.h,
-                        //     width: 100.h,
-                        //   ),
-                        // )
-                        //     :
+                            // isLoading
+                            //     ? Shimmer.fromColors(
+                            //   baseColor: Colors.grey.shade300,
+                            //   highlightColor: Colors.grey.shade100,
+                            //   child: Container(
+                            //     color: Colors.white,
+                            //     height: 100.h,
+                            //     width: 100.h,
+                            //   ),
+                            // )
+                            //     :
 
-                        GestureDetector(
+                            GestureDetector(
                           // onTap: () {
                           //   pharmaSpecificProductController
                           //       .pharmaSpecificProductApi(
@@ -441,8 +468,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           //
                           // },
                           child: CachedNetworkImage(
-                            imageUrl: items.productImage
-                                .toString(),
+                            imageUrl: items.productImage.toString(),
                             height: 100.h,
                             width: 100.h,
                             fit: BoxFit.cover,
@@ -456,7 +482,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                               ),
                             ),
                             errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),
@@ -486,64 +512,45 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 SizedBox(
                                   width: 110.w,
                                   child: Text(
-                                    items.productName
-                                        .toString(),
+                                    items.productName.toString(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: AppFontStyle.text_14_500(
                                         AppColors.darkText),
                                   ),
                                 ),
-                                // Obx(
-                                //       () => deleteProductController
-                                //       .rxRequestStatus.value ==
-                                //       Status.LOADING &&
-                                //       controller
-                                //           .cartData
-                                //           .value
-                                //           .cart!
-                                //           .decodedAttribute![index]
-                                //           .isDelete
-                                //           .value ==
-                                //           true
-                                //       ? Center(
-                                //     child: Row(
-                                //       children: [
-                                //         circularProgressIndicator(size: 15.h),
-                                //         wBox(2.h),
-                                //       ],
-                                //     ),
-                                //   )
-                                //       :
-
-                                GestureDetector(
-                                  // onTap: () {
-                                  //   controller
-                                  //       .cartData
-                                  //       .value
-                                  //       .cart!
-                                  //       .decodedAttribute![index]
-                                  //       .isDelete
-                                  //       .value = true;
-                                  //   deleteProductController.deleteProductApi(
-                                  //     productId: controller
-                                  //         .cartData
-                                  //         .value
-                                  //         .cart!
-                                  //         .decodedAttribute![index]
-                                  //         .productId
-                                  //         .toString(),
-                                  //     countId: controller.cartData.value.cart!
-                                  //         .decodedAttribute![index].count
-                                  //         .toString(),
-                                  //   );
-                                  // },
-                                  child: SvgPicture.asset(
-                                    "assets/svg/delete-outlined.svg",
-                                    height: 20,
-                                  ),
+                                Obx(
+                                  () => deleteProductController
+                                                  .rxRequestStatus.value ==
+                                              Status.LOADING &&
+                                          items.isDelete.value == true
+                                      ? Center(
+                                          child: Row(
+                                            children: [
+                                              circularProgressIndicator(
+                                                  size: 15.h),
+                                              wBox(2.h),
+                                            ],
+                                          ),
+                                        )
+                                      : GestureDetector(
+                                          onTap: () {
+                                            items.isDelete.value = true;
+                                            deleteProductController
+                                                .deleteProductApi(
+                                                    productId: items.productId
+                                                        .toString(),
+                                                    countId:
+                                                        items.count.toString(),
+                                                    cartId: buckets.cartId
+                                                        .toString());
+                                          },
+                                          child: SvgPicture.asset(
+                                            "assets/svg/delete-outlined.svg",
+                                            height: 20,
+                                          ),
+                                        ),
                                 ),
-                                // ),
                               ],
                             ),
                             hBox(15.h),
@@ -594,29 +601,28 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                   ),
                                   child:
 
-                                  // Obx(
-                                  //       () => quantityUpdateController
-                                  //       .rxRequestStatus.value ==
-                                  //       Status.LOADING &&
-                                  //       controller
-                                  //           .cartData
-                                  //           .value
-                                  //           .cart!
-                                  //           .decodedAttribute![index]
-                                  //           .isLoading
-                                  //           .value ==
-                                  //           true
-                                  //       ? Center(
-                                  //       child: circularProgressIndicator2())
-                                  //       :
-                                  Row(
+                                      // Obx(
+                                      //       () => quantityUpdateController
+                                      //       .rxRequestStatus.value ==
+                                      //       Status.LOADING &&
+                                      //       controller
+                                      //           .cartData
+                                      //           .value
+                                      //           .cart!
+                                      //           .decodedAttribute![index]
+                                      //           .isLoading
+                                      //           .value ==
+                                      //           true
+                                      //       ? Center(
+                                      //       child: circularProgressIndicator2())
+                                      //       :
+                                      Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                        MainAxisAlignment.spaceEvenly,
                                     children: [
                                       InkWell(
                                         splashColor: Colors.transparent,
-                                        highlightColor:
-                                        Colors.transparent,
+                                        highlightColor: Colors.transparent,
                                         // onTap: () {
                                         //   if (controller
                                         //       .cartData
@@ -687,15 +693,13 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                         ),
                                       ),
                                       Text(
-                                        items.quantity
-                                            .toString(),
+                                        items.quantity.toString(),
                                         style: AppFontStyle.text_14_400(
                                             AppColors.darkText),
                                       ),
                                       InkWell(
                                         splashColor: Colors.transparent,
-                                        highlightColor:
-                                        Colors.transparent,
+                                        highlightColor: Colors.transparent,
                                         // onTap: () {
                                         //   if (controller
                                         //       .cartData
@@ -762,10 +766,10 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                       ),
                     ],
                   );
-
-                }, separatorBuilder: (context, index) {
-                return hBox(20.h);
-              },
+                },
+                separatorBuilder: (context, index) {
+                  return hBox(20.h);
+                },
               ),
 
               // Row(
@@ -1459,204 +1463,207 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
   //   );
   // }
 
-  // Widget paymentDetails() {
-  //   bool isLoading =
-  //       checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
-  //           deleteProductController.rxRequestStatus.value == Status.LOADING ||
-  //           quantityUpdateController.rxRequestStatus.value == Status.LOADING;
-  //
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         "Payment Details",
-  //         style: AppFontStyle.text_22_600(AppColors.darkText),
-  //       ),
-  //       hBox(10.h),
-  //       if (isLoading) ...[
-  //         shimmerItem("Regular Price"),
-  //         shimmerItem("Save Amount"),
-  //         if (controller.cartData.value.cart!.couponApplied != null)
-  //           shimmerItem("Coupon Discount"),
-  //         if (controller.cartData.value.addressExists == true)
-  //           shimmerItem("Delivery Charge"),
-  //       ],
-  //       if (!isLoading) ...[
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Regular Price",
-  //               style: AppFontStyle.text_14_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "\$${controller.cartData.value.cart!.regularPrice.toString()}",
-  //               style: AppFontStyle.text_14_600(AppColors.darkText),
-  //             ),
-  //           ],
-  //         ),
-  //         hBox(10.h),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //           children: [
-  //             Text(
-  //               "Save Amount",
-  //               style: AppFontStyle.text_14_400(AppColors.lightText),
-  //             ),
-  //             Text(
-  //               "\$${controller.cartData.value.cart!.saveAmount.toString()}",
-  //               style: AppFontStyle.text_14_600(AppColors.darkText),
-  //             ),
-  //           ],
-  //         ),
-  //         if (controller.cartData.value.cart!.couponApplied != null)
-  //           Padding(
-  //             padding: EdgeInsets.only(top: 10.h),
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Text(
-  //                   "Coupon Discount",
-  //                   style: AppFontStyle.text_14_400(AppColors.lightText),
-  //                 ),
-  //                 Text(
-  //                   "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-  //                   style: AppFontStyle.text_14_600(AppColors.darkText),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         if (controller.cartData.value.addressExists == true)
-  //           Padding(
-  //             padding: EdgeInsets.only(top: 10.h),
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Text(
-  //                   "Delivery Charge",
-  //                   style: AppFontStyle.text_14_400(AppColors.lightText),
-  //                 ),
-  //                 Text(
-  //                   "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
-  //                   style: AppFontStyle.text_14_600(AppColors.darkText),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //       ],
-  //     ],
-  //   );
-  // }
+  Widget paymentDetails() {
+    bool isLoading =
+        //  checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
+        deleteProductController.rxRequestStatus.value == Status.LOADING;
+    // ||
+    // quantityUpdateController.rxRequestStatus.value == Status.LOADING;
 
-  // Widget checkoutButton() {
-  //   bool isLoading =
-  //       checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
-  //           deleteProductController.rxRequestStatus.value == Status.LOADING ||
-  //           quantityUpdateController.rxRequestStatus.value == Status.LOADING;
-  //
-  //   return Row(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: [
-  //       Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           Text(
-  //             "Total Price",
-  //             style: AppFontStyle.text_14_500(AppColors.darkText),
-  //           ),
-  //           isLoading
-  //               ? shimmerItem('\$0.00',
-  //               width: 70, height: 40, secondShimmer: false)
-  //               : Text(
-  //             "\$${controller.cartData.value.cart!.totalPrice.toString()}",
-  //             style: AppFontStyle.text_26_600(AppColors.primary),
-  //           ),
-  //         ],
-  //       ),
-  //       isLoading
-  //           ? shimmerButton()
-  //           : controller.cartData.value.addressExists == true
-  //           ? SizedBox(
-  //         width: 200.w,
-  //         height: 55.h,
-  //         child: CustomElevatedButton(
-  //           onPressed: () {
-  //             var selectedItems = controller
-  //                 .cartData.value.cart!.decodedAttribute!
-  //                 .where((item) => item.checked == "true")
-  //                 .map((item) => {
-  //               'name': item.productName,
-  //               'price': "\$${item.totalPrice.toString()}"
-  //             })
-  //                 .toList();
-  //
-  //             if (selectedItems.isNotEmpty) {
-  //               selectedItems.forEach((item) {
-  //                 print(
-  //                     "Selected Product: ${item['name']}, Price: ${item['price']}");
-  //
-  //                 Get.toNamed(
-  //                   AppRoutes.prescriptionScreen,
-  //                   arguments: {
-  //                     'address_id': controller
-  //                         .cartData.value.address!.id
-  //                         .toString(),
-  //                     'coupon_id': controller
-  //                         .cartData.value.cart!.couponApplied?.id
-  //                         .toString(),
-  //                     'vendor_id': controller
-  //                         .cartData.value.cart!.pharmaId
-  //                         .toString(),
-  //                     'total': controller
-  //                         .cartData.value.cart!.totalPrice
-  //                         .toString(),
-  //                     'regular_price': controller
-  //                         .cartData.value.cart!.regularPrice
-  //                         .toString(),
-  //                     'coupon_discount': controller
-  //                         .cartData.value.cart!.couponDiscount
-  //                         .toString(),
-  //                     'save_amount': controller
-  //                         .cartData.value.cart!.saveAmount
-  //                         .toString(),
-  //                     'delivery_charge': controller
-  //                         .cartData.value.cart!.deliveryCharge
-  //                         .toString(),
-  //                     'cart_id': controller.cartData.value.cart!.id
-  //                         .toString(),
-  //                     'wallet':
-  //                     controller.cartData.value.wallet.toString(),
-  //                     'cartType': "pharmacy",
-  //                     'prescription': controller.cartData.value.prescription.toString(),
-  //                   },
-  //                 );
-  //               });
-  //             } else {
-  //               Utils.showToast(
-  //                   "Please select product to proceed to checkout");
-  //             }
-  //           },
-  //           text: "Checkout",
-  //           textStyle: AppFontStyle.text_16_600(AppColors.white),
-  //         ),
-  //       )
-  //           : SizedBox(
-  //         width: 200.w,
-  //         height: 55.h,
-  //         child: CustomElevatedButton(
-  //           onPressed: () {
-  //             Get.toNamed(AppRoutes.addAddressScreen, arguments: {
-  //               'type': "PharmacyCart",
-  //               "fromcart": false,
-  //             });
-  //           },
-  //           text: "Complete Address",
-  //           textStyle: AppFontStyle.text_16_600(AppColors.white),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Payment Details",
+          style: AppFontStyle.text_22_600(AppColors.darkText),
+        ),
+        hBox(10.h),
+        if (isLoading) ...[
+          shimmerItem("Regular Price"),
+          shimmerItem("Save Amount"),
+          // if (controller.cartData.value.cart!.couponApplied != null)
+          //   shimmerItem("Coupon Discount"),
+          if (controller.cartData.value.addressExists == true)
+            shimmerItem("Delivery Charge"),
+        ],
+        if (!isLoading) ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Regular Price",
+                style: AppFontStyle.text_14_400(AppColors.lightText),
+              ),
+              Text(
+                "\$${controller.cartData.value.cart!.regularPrice.toString()}",
+                style: AppFontStyle.text_14_600(AppColors.darkText),
+              ),
+            ],
+          ),
+          hBox(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Save Amount",
+                style: AppFontStyle.text_14_400(AppColors.lightText),
+              ),
+              Text(
+                "\$${controller.cartData.value.cart!.saveAmount.toString()}",
+                style: AppFontStyle.text_14_600(AppColors.darkText),
+              ),
+            ],
+          ),
+          // if (controller.cartData.value.cart!.couponApplied != null)
+          //   Padding(
+          //     padding: EdgeInsets.only(top: 10.h),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text(
+          //           "Coupon Discount",
+          //           style: AppFontStyle.text_14_400(AppColors.lightText),
+          //         ),
+          //         Text(
+          //           "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
+          //           style: AppFontStyle.text_14_600(AppColors.darkText),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          if (controller.cartData.value.addressExists == true)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Delivery Charge",
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  Text(
+                    "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ],
+    );
+  }
+
+  Widget checkoutButton() {
+    bool isLoading =
+        //checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
+        deleteProductController.rxRequestStatus.value == Status.LOADING;
+    // ||
+    // quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Total Price",
+              style: AppFontStyle.text_14_500(AppColors.darkText),
+            ),
+            isLoading
+                ? shimmerItem('\$0.00',
+                    width: 70, height: 40, secondShimmer: false)
+                : Text(
+                    "\$${controller.cartData.value.cart!.totalPrice.toString()}",
+                    style: AppFontStyle.text_26_600(AppColors.primary),
+                  ),
+          ],
+        ),
+        isLoading
+            ? shimmerButton()
+            : controller.cartData.value.addressExists == true
+                ? SizedBox(
+                    width: 200.w,
+                    height: 55.h,
+                    child: CustomElevatedButton(
+                      onPressed: () {},
+                      // onPressed: () {
+                      //   var selectedItems = controller
+                      //       .cartData.value.cart!.decodedAttribute!
+                      //       .where((item) => item.checked == "true")
+                      //       .map((item) => {
+                      //     'name': item.productName,
+                      //     'price': "\$${item.totalPrice.toString()}"
+                      //   })
+                      //       .toList();
+                      //
+                      //   if (selectedItems.isNotEmpty) {
+                      //     selectedItems.forEach((item) {
+                      //       print(
+                      //           "Selected Product: ${item['name']}, Price: ${item['price']}");
+                      //
+                      //       Get.toNamed(
+                      //         AppRoutes.prescriptionScreen,
+                      //         arguments: {
+                      //           'address_id': controller
+                      //               .cartData.value.address!.id
+                      //               .toString(),
+                      //           'coupon_id': controller
+                      //               .cartData.value.cart!.couponApplied?.id
+                      //               .toString(),
+                      //           'vendor_id': controller
+                      //               .cartData.value.cart!.pharmaId
+                      //               .toString(),
+                      //           'total': controller
+                      //               .cartData.value.cart!.totalPrice
+                      //               .toString(),
+                      //           'regular_price': controller
+                      //               .cartData.value.cart!.regularPrice
+                      //               .toString(),
+                      //           'coupon_discount': controller
+                      //               .cartData.value.cart!.couponDiscount
+                      //               .toString(),
+                      //           'save_amount': controller
+                      //               .cartData.value.cart!.saveAmount
+                      //               .toString(),
+                      //           'delivery_charge': controller
+                      //               .cartData.value.cart!.deliveryCharge
+                      //               .toString(),
+                      //           'cart_id': controller.cartData.value.cart!.id
+                      //               .toString(),
+                      //           'wallet':
+                      //           controller.cartData.value.wallet.toString(),
+                      //           'cartType': "pharmacy",
+                      //           'prescription': controller.cartData.value.prescription.toString(),
+                      //         },
+                      //       );
+                      //     });
+                      //   } else {
+                      //     Utils.showToast(
+                      //         "Please select product to proceed to checkout");
+                      //   }
+                      // },
+                      text: "Checkout",
+                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                    ),
+                  )
+                : SizedBox(
+                    width: 200.w,
+                    height: 55.h,
+                    child: CustomElevatedButton(
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.addAddressScreen, arguments: {
+                          'type': "PharmacyCart",
+                          "fromcart": false,
+                        });
+                      },
+                      text: "Complete Address",
+                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                    ),
+                  ),
+      ],
+    );
+  }
 
   Widget shimmerButton() {
     return Shimmer.fromColors(

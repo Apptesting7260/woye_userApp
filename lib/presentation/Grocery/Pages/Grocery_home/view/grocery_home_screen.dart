@@ -8,6 +8,9 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/controller/grocery_navbar_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/singal_vendor_grocery_cart.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
@@ -34,11 +37,16 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
 
   final Grocerycategoriesdetailscontroller grocerycategoriesdetailscontroller =
       Get.put(Grocerycategoriesdetailscontroller());
+  final GroceryCartController groceryCartController =
+      Get.put(GroceryCartController());
+
+  final GroceryShowAllCartController groceryShowAllCartController =
+      Get.put(GroceryShowAllCartController());
 
   @override
   void initState() {
     super.initState();
-    // homeController.getPharmacyCartApi();
+    groceryCartController.getGroceryAllCartApi();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -82,6 +90,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
           return RefreshIndicator(
             onRefresh: () async {
               groceryHomeController.homeApiRefresh(1);
+              groceryCartController.getGroceryAllCartApi();
             },
             child: SafeArea(
               child: Scaffold(
@@ -121,18 +130,200 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     ),
                   ],
                 ),
-             
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
-                  padding:  EdgeInsets.only(bottom: 60.h),
-                  child: FloatingActionButton(
-                    onPressed: () {},
-                  ),
+                  padding: EdgeInsets.only(bottom: 80.h),
+                  child: groceryShowAllCartController
+                              .cartData.value.buttonCheck ==
+                          false
+                      ? SizedBox()
+                      : Container(
+                          padding: EdgeInsets.all(8.r),
+                          decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(30)),
+                          child: GestureDetector(
+                            onTap: () {
+                              showAllCart();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "All carts",
+                                  style:
+                                      AppFontStyle.text_12_600(AppColors.white),
+                                ),
+                                Icon(
+                                  Icons.arrow_drop_up,
+                                  color: AppColors.white,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                 ),
               ),
             ),
           );
       }
     });
+  }
+
+  showAllCart() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.all(24.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "Your Carts(${groceryShowAllCartController.cartData.value.carts!.length})",
+                      style: AppFontStyle.text_20_600(AppColors.darkText),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        Get.back();
+                        navbarController.getIndex(3);
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Checkout all",
+                            style: AppFontStyle.text_14_600(AppColors.primary),
+                          ),
+                          wBox(4),
+                          Icon(
+                            Icons.arrow_forward_sharp,
+                            color: AppColors.primary,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                hBox(20.h),
+                ListView.separated(
+                  itemCount:
+                      groceryShowAllCartController.cartData.value.carts!.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    var carts = groceryShowAllCartController
+                        .cartData.value.carts![index];
+                    return Container(
+                      width: Get.width,
+                      padding: EdgeInsets.only(
+                          top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(color: AppColors.hintText)),
+                      child: Row(
+                        children: [
+                          Container(
+                              width: 50.h,
+                              height: 50.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        carts.grocery!.shopimage.toString(),
+                                    placeholder: (context, url) =>
+                                        circularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.person,
+                                      size: 40.h,
+                                      color:
+                                          AppColors.lightText.withOpacity(0.5),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ))),
+                          wBox(10.h),
+                          Container(
+                            width: Get.width / 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  carts.grocery!.shopName.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppFontStyle.text_14_500(
+                                      AppColors.darkText),
+                                ),
+                                // Text(
+                                //   carts.vendorAddress.toString(),
+                                //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                                //   overflow: TextOverflow.ellipsis,
+                                //   maxLines: 1,
+                                // ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                Get.back();
+                                Get.to(SingleVendorGroceryCart(
+                                  cartId: carts.id.toString(),
+                                  isBack: true,
+                                ));
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "View Cart",
+                                    style: AppFontStyle.text_14_400(
+                                        AppColors.white),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    "items",
+                                    style: AppFontStyle.text_10_400(
+                                        AppColors.white.withOpacity(.5)),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ))
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return hBox(20.h);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget serchAndFilter() {
