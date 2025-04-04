@@ -1,8 +1,10 @@
+import 'package:get/get.dart';
+
 class SingleVendorGroceryCart {
   bool? status;
   String? message;
   Cart? cart;
-  String? wallet;
+  var wallet;
   Address? address;
   List<Coupons>? coupons;
   bool? addressExists;
@@ -58,22 +60,22 @@ class SingleVendorGroceryCart {
 class Cart {
   int? id;
   int? userId;
-  Null? productId;
+  var productId;
   int? groceryId;
   String? status;
-  Null? orderId;
+  var orderId;
   String? bucket;
-  Null? couponId;
+  var couponId;
   String? createdAt;
   String? updatedAt;
   DecodedAttribute? decodedAttribute;
-  int? regularPrice;
-  int? saveAmount;
-  int? deliveryCharge;
-  int? totalPrice;
-  int? couponDiscount;
-  int? grandTotalPrice;
-  int? totalProductsInCart;
+  var regularPrice;
+  var saveAmount;
+ var deliveryCharge;
+  var totalPrice;
+  var couponDiscount;
+  var grandTotalPrice;
+  var totalProductsInCart;
 
   Cart(
       {this.id,
@@ -181,6 +183,8 @@ class Bucket {
   String? categoryName;
   String? productImage;
   String? totalPrice;
+  Rx<bool> isLoading = false.obs;
+  Rx<bool> isDelete = false.obs;
 
   Bucket(
       {this.productId,

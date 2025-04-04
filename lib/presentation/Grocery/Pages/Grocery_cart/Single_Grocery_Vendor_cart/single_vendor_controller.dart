@@ -1,5 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_grocery_cart.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
 
 class SingleGroceryCartController extends GetxController {
   final api = Repository();
@@ -21,15 +22,19 @@ class SingleGroceryCartController extends GetxController {
 
   void setError(String value) => error.value = value;
 
-  // final GroceryShowAllCartController groceryShowAllCartController =
-  // Get.put(GroceryShowAllCartController());
 
+  final GroceryShowAllCartController groceryShowAllCartController =
+  Get.put(GroceryShowAllCartController());
   getGrocerySingleVendorCartApi(var cartId) async {
     readOnly.value = true;
     couponCodeController.value.clear();
     Map data = {"cart_id": cartId};
     api.grocerySingleVendorCartApi(data).then((value) {
       cartSet(value);
+      if(cartData.value.cart == null){
+        Get.back();
+      }
+      groceryShowAllCartController.getGroceryAllShowApi();
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());
@@ -46,6 +51,9 @@ class SingleGroceryCartController extends GetxController {
     Map data = {"cart_id": cartId};
     api.grocerySingleVendorCartApi(data).then((value) {
       cartSet(value);
+      if(cartData.value.cart == null){
+        Get.back();
+      }
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());

@@ -8,6 +8,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_delete_ptoduct/delete_grocery_product_modal.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_quantity_update/grocery_quantity_update_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/modal/grocery_categories_details_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/grocery_Categories_Filter_modal.dart';
@@ -615,5 +616,11 @@ class Repository {
   }
 
 
+  Future<dynamic> groceryUpdateQuantityApi(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.updateGroceryQuantity, token);
+    return GroceryQuantityUpdateModal.fromJson(response);
+  }
 
 }

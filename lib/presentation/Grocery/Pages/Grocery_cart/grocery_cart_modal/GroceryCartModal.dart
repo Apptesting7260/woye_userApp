@@ -53,13 +53,13 @@ class GroceryCartModal {
 }
 
 class Cart {
-  int? regularPrice;
-  int? saveAmount;
-  int? deliveryCharge;
-  int? totalPrice;
-  int? couponDiscount;
-  int? grandTotalPrice;
-  int? totalProductsInCart;
+  var regularPrice;
+  var saveAmount;
+  var deliveryCharge;
+  var totalPrice;
+  var couponDiscount;
+  var grandTotalPrice;
+  var totalProductsInCart;
   List<Buckets>? buckets;
 
   Cart(
@@ -162,6 +162,7 @@ class Bucket {
   int? categoryId;
   String? categoryName;
   String? productImage;
+  Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
 
   Bucket(

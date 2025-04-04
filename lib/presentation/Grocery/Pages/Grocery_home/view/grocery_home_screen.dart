@@ -133,37 +133,181 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 floatingActionButtonLocation:
                     FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
-                  padding: EdgeInsets.only(bottom: 80.h),
+                  padding: EdgeInsets.only(bottom: 60.h),
                   child: groceryShowAllCartController
                               .cartData.value.buttonCheck ==
                           false
                       ? SizedBox()
-                      : Container(
-                          padding: EdgeInsets.all(8.r),
-                          decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              borderRadius: BorderRadius.circular(30)),
-                          child: GestureDetector(
-                            onTap: () {
-                              showAllCart();
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                      : Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Stack(
+                              clipBehavior: Clip.none,
+                              alignment: AlignmentDirectional.topCenter,
                               children: [
-                                Text(
-                                  "All carts",
-                                  style:
-                                      AppFontStyle.text_12_600(AppColors.white),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: 10.r,
+                                      bottom: 10.r,
+                                      left: 20.r,
+                                      right: 20.r),
+                                  width: Get.width,
+                                  padding: EdgeInsets.only(
+                                      top: 10.r,
+                                      bottom: 10.r,
+                                      left: 10.r,
+                                      right: 10.r),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      borderRadius: BorderRadius.circular(20.r),
+                                      border: Border.all(
+                                          color: AppColors.hintText)),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                          width: 50.h,
+                                          height: 50.h,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100.r),
+                                          ),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(100.r),
+                                              child: CachedNetworkImage(
+                                                imageUrl:
+                                                    groceryShowAllCartController
+                                                        .cartData
+                                                        .value
+                                                        .carts![0]
+                                                        .grocery!
+                                                        .shopimage
+                                                        .toString(),
+                                                placeholder: (context, url) =>
+                                                    circularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        Icon(
+                                                  Icons.person,
+                                                  size: 40.h,
+                                                  color: AppColors.lightText
+                                                      .withOpacity(0.5),
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ))),
+                                      wBox(10.h),
+                                      Container(
+                                        width: Get.width / 3,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              groceryShowAllCartController
+                                                  .cartData
+                                                  .value
+                                                  .carts![0]
+                                                  .grocery!
+                                                  .shopName
+                                                  .toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: AppFontStyle.text_14_500(
+                                                  AppColors.darkText),
+                                            ),
+                                            // Text(
+                                            //   carts.vendorAddress.toString(),
+                                            //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                                            //   overflow: TextOverflow.ellipsis,
+                                            //   maxLines: 1,
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.primary,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            Get.back();
+                                            Get.to(SingleVendorGroceryCart(
+                                              cartId:
+                                                  groceryShowAllCartController
+                                                      .cartData
+                                                      .value
+                                                      .carts![0]
+                                                      .id
+                                                      .toString(),
+                                              isBack: true,
+                                            ));
+                                          },
+                                          child: Column(
+                                            children: [
+                                              Text(
+                                                "View Cart",
+                                                style: AppFontStyle.text_14_400(
+                                                    AppColors.white),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              ),
+                                              Text(
+                                                "items",
+                                                style: AppFontStyle.text_10_400(
+                                                    AppColors.white
+                                                        .withOpacity(.5)),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              ),
+                                            ],
+                                          ))
+                                    ],
+                                  ),
                                 ),
-                                Icon(
-                                  Icons.arrow_drop_up,
-                                  color: AppColors.white,
-                                )
+                                Positioned(
+                                  top: -15.h,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      showAllCart();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.all(8.r),
+                                      backgroundColor: AppColors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.r),
+                                      ),
+                                      elevation: 5,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        wBox(2.w),
+                                        Text(
+                                          "Carts",
+                                          style: AppFontStyle.text_12_600(
+                                              AppColors.primary),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_drop_up,
+                                          color: AppColors.primary,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
-                            ),
-                          ),
+                            )
+                          ],
                         ),
                 ),
               ),

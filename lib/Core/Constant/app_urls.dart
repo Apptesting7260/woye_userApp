@@ -110,6 +110,7 @@ class AppUrls {
 
   static const String deleteGroceryProduct = "$baseUrl/gdelete-product";
   static const String deleteGroceryVendor = "$baseUrl/gdelete-vendor";
-
+  static const String updateGroceryQuantity =
+      "$baseUrl/gupdate-product-quantity";
 
 }
