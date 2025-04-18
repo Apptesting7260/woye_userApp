@@ -1518,8 +1518,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
               style: AppFontStyle.text_14_500(AppColors.darkText),
             ),
             isLoading
-                ? shimmerItem('\$0.00',
-                    width: 70, height: 40, secondShimmer: false)
+                ? shimmerItem('\$0.00', width: 70, height: 40, secondShimmer: false)
                 : Text(
                     "\$${controller.cartData.value.cart!.totalPrice.toString()}",
                     style: AppFontStyle.text_26_600(AppColors.primary),
