@@ -2,6 +2,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../shared/widgets/CircularProgressIndicator.dart';
+import '../../../../../shared/widgets/custom_no_data_found.dart';
 import '../Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
 import '../controller/restaurant_categories_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -75,7 +76,8 @@ class _RestaurantCategoriesScreenState
                       controller: controller.searchController,
                     ),
                     SliverToBoxAdapter(
-                      child: ListView.separated(
+                      child: controller.filteredWishlistData.value.length == 0  ?
+                      CustomNoDataFound(heightBox:hBox(15.h) ) :   ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.filteredWishlistData.value.length,

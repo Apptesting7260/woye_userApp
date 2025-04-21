@@ -12,12 +12,11 @@ export 'package:country_code_picker/country_code_picker.dart';
 class EditAdressController extends GetxController {
   final Rx<TextEditingController> nameController = TextEditingController().obs;
   final Rx<TextEditingController> mobNoController = TextEditingController().obs;
-  final Rx<TextEditingController> houseNoController =
-      TextEditingController().obs;
-  final Rx<TextEditingController> deliveryInstructionController =
-      TextEditingController().obs;
+  final Rx<TextEditingController> houseNoController = TextEditingController().obs;
+  final Rx<TextEditingController> deliveryInstructionController = TextEditingController().obs;
   var location = ''.obs;
-  var addressType = "Home".obs;
+  var addressType = "".obs;
+  // var addressType = "Home".obs;
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
   final locationController = TextEditingController();
@@ -81,20 +80,15 @@ class EditAdressController extends GetxController {
       Get.put(DeliveryAddressController());
 
   setAddressData(int index,) async {
-    addressId = deliveryAddressController
-        .deliveryAddressData.value.data![index].id
-        .toString();
+    addressType.value = deliveryAddressController.deliveryAddressData.value.data![index].addressType ?? "Home";
+    print("Address Type value: ${addressType.value}");
+    addressId = deliveryAddressController.deliveryAddressData.value.data![index].id.toString();
     print("Address ID: $addressId");
 
-    nameController.value.text = deliveryAddressController
-        .deliveryAddressData.value.data![index].fullName
-        .toString()
-        .trim();
+    nameController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].fullName.toString().trim();
     print("Full Name: ${nameController.value.text}");
 
-    String countryCodeFromAPI = deliveryAddressController
-            .deliveryAddressData.value.data?[index].countryCode ??
-        "";
+    String countryCodeFromAPI = deliveryAddressController.deliveryAddressData.value.data?[index].countryCode ??"";
     print("countryCodeFrom API: $countryCodeFromAPI");
     if (countryCodeFromAPI.isNotEmpty) {
       String dialCode = countryCodeFromAPI;
@@ -148,14 +142,14 @@ class EditAdressController extends GetxController {
         "";
     print("Address Type From API: $addressTypeApi");
 
-    if (addressTypeApi == "Home") {
-      radioValue.value = 1;
+    if (addressTypeApi == "Home" || addressTypeApi == "home") {
+      radioValue.value = 0;
       print("Address Type: Home");
-    } else if (addressTypeApi == "Office") {
-      radioValue.value = 2;
+    } else if (addressTypeApi == "Office" ||addressTypeApi == "office") {
+      radioValue.value = 1;
       print("Address Type: Office");
-    } else if (addressTypeApi == "Other") {
-      radioValue.value = 3;
+    } else if (addressTypeApi == "Other" || addressTypeApi == "other") {
+      radioValue.value = 2;
       print("Address Type: Other");
     }
   }
@@ -175,6 +169,7 @@ class EditAdressController extends GetxController {
       'delivery_instruction': deliveryInstructionController.value.text,
       'is_default': defaultSet.value == true ? "1" : "0",
     };
+    print("default Set value ${defaultSet.value}");
     api.editAddressApi(body).then((value) {
       setData(value);
       deliveryAddressController.getDeliveryAddressApi();

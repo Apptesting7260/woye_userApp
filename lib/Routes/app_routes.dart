@@ -66,6 +66,7 @@ import 'package:woye_user/presentation/common/Update_profile/controller/Update_p
 import 'package:woye_user/presentation/common/Update_profile/view/Update_profile_Screen.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 
+import '../presentation/Grocery/Pages/Grocery_cart/Checkout/grocery_checkout_screen.dart';
 import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/product_reviews.dart';
 
 class AppRoutes {
@@ -150,6 +151,7 @@ class AppRoutes {
   static const String groceryVendorDetails = "/groceryVendorDetails";
   static const String groceryCategoryDetails = "/groceryCategoryDetails";
   static const String groceryCategoryFilter = "/groceryCategoryFilter";
+  static const String groceryCheckoutScreen = "/groceryCheckoutScreen";
 
   static List<GetPage> pages = [
     GetPage(
@@ -275,9 +277,8 @@ class AppRoutes {
         name: groceryCategoryDetails, page: () => GroceryCategoryDetails()),
     // GetPage(
     //     name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
-    GetPage(
-        name: groceryCategoryFilter,
-        page: () =>  GroceryCategoriesFilter()),
+    GetPage(name: groceryCategoryFilter,page: () =>  GroceryCategoriesFilter()),
+    GetPage(name: groceryCheckoutScreen,page: () =>  GroceryCheckoutScreen()),
 
   ];
 }

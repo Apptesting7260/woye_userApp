@@ -95,15 +95,21 @@ class ProfileScreen extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(100.r),
                             child: CachedNetworkImage(
-                              imageUrl: getUserDataController
-                                  .userData.value.user!.imageUrl
-                                  .toString(),
+                              imageUrl:getUserDataController.userData.value.user!.imageUrl.toString(),
                               placeholder: (context, url) =>
                                   circularProgressIndicator(),
-                              errorWidget: (context, url, error) => Icon(
-                                Icons.person,
-                                size: 40.h,
-                                color: AppColors.lightText.withOpacity(0.5),
+                              errorWidget: (context, url, error) => Container(
+                                width: 80.h,
+                                height: 80.h,
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(100.r),
+                                ),
+                                child: Icon(
+                                  Icons.person,
+                                  size: 40.h,
+                                  color: AppColors.lightText.withOpacity(0.5),
+                                ),
                               ),
                               fit: BoxFit.cover,
                             ))),

@@ -11,6 +11,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/pharmacy_wishlist_controller.dart';
 
+import '../../../../../shared/widgets/custom_no_data_found.dart';
+
 class PharmacyWishlistScreen extends StatefulWidget {
   PharmacyWishlistScreen({super.key});
 
@@ -125,21 +127,21 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                             ),
                           ),
                           if (controller
-                              .wishlistData.value.allWishlist!.isNotEmpty)
-                            SliverGrid(
+                              .wishlistData.value.allWishlist!.isNotEmpty)...[
+                            controller.filteredWishlistData.isNotEmpty ? SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     childCount: controller.filteredWishlistData
                                         .length, (context, index) {
                                   var product =
-                                      controller.filteredWishlistData[index];
+                                  controller.filteredWishlistData[index];
                                   return GestureDetector(
                                       onTap: () {
                                         pharmaSpecificProductController
                                             .pharmaSpecificProductApi(
-                                                productId:
-                                                    product.id.toString(),
-                                                categoryId: product.categoryId
-                                                    .toString());
+                                            productId:
+                                            product.id.toString(),
+                                            categoryId: product.categoryId
+                                                .toString());
                                         print(
                                             "category_id ${product.id.toString()}");
                                         print(
@@ -163,7 +165,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                       },
                                       child: Column(
                                         crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                         children: [
                                           Stack(
                                             alignment: Alignment.topRight,
@@ -172,8 +174,8 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: BoxDecoration(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.r),
+                                                  BorderRadius.circular(
+                                                      20.r),
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
@@ -182,48 +184,48 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
                                                     errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
+                                                        error) =>
+                                                    const Icon(Icons.error),
                                                     placeholder:
                                                         (context, url) =>
-                                                            Shimmer.fromColors(
-                                                      baseColor: AppColors.gray,
-                                                      highlightColor:
+                                                        Shimmer.fromColors(
+                                                          baseColor: AppColors.gray,
+                                                          highlightColor:
                                                           AppColors.lightText,
-                                                      child: Container(
-                                                        decoration:
+                                                          child: Container(
+                                                            decoration:
                                                             BoxDecoration(
-                                                          color: AppColors.gray,
-                                                          borderRadius:
+                                                              color: AppColors.gray,
+                                                              borderRadius:
                                                               BorderRadius
                                                                   .circular(
-                                                                      20.r),
+                                                                  20.r),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
                                                   ),
                                                 ),
                                               ),
                                               Obx(
-                                                () => Container(
+                                                    () => Container(
                                                   margin: REdgeInsets.only(
                                                       top: 10, right: 10),
                                                   padding: REdgeInsets.all(6),
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.r),
+                                                    BorderRadius.circular(
+                                                        10.r),
                                                     color: AppColors
                                                         .greyBackground,
                                                   ),
                                                   child: InkWell(
                                                     highlightColor:
-                                                        Colors.transparent,
+                                                    Colors.transparent,
                                                     splashColor:
-                                                        Colors.transparent,
+                                                    Colors.transparent,
                                                     onTap: () {
                                                       product.isLoading.value =
-                                                          true;
+                                                      true;
                                                       addPharmaProductWishlistController
                                                           .pharmacy_add_product_wishlist(
                                                         categoryId: "",
@@ -234,17 +236,17 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                           "product_id ${product.id.toString()}");
                                                     },
                                                     child: product
-                                                            .isLoading.value
+                                                        .isLoading.value
                                                         ? circularProgressIndicator(
-                                                            size: 18)
+                                                        size: 18)
                                                         : Icon(
-                                                            product.isInWishlist ==
-                                                                    true
-                                                                ? Icons.favorite
-                                                                : Icons
-                                                                    .favorite_border_outlined,
-                                                            size: 22,
-                                                          ),
+                                                      product.isInWishlist ==
+                                                          true
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                          .favorite_border_outlined,
+                                                      size: 22,
+                                                    ),
                                                   ),
                                                 ),
                                               )
@@ -255,37 +257,37 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                             children: [
                                               product.salePrice != null
                                                   ? Text(
-                                                      "\$${product.salePrice}",
-                                                      textAlign: TextAlign.left,
-                                                      style: AppFontStyle
-                                                          .text_16_600(AppColors
-                                                              .primary),
-                                                    )
+                                                "\$${product.salePrice}",
+                                                textAlign: TextAlign.left,
+                                                style: AppFontStyle
+                                                    .text_16_600(AppColors
+                                                    .primary),
+                                              )
                                                   : Text(
-                                                      "\$${product.regularPrice}",
-                                                      textAlign: TextAlign.left,
-                                                      style: AppFontStyle
-                                                          .text_16_600(AppColors
-                                                              .primary),
-                                                    ),
+                                                "\$${product.regularPrice}",
+                                                textAlign: TextAlign.left,
+                                                style: AppFontStyle
+                                                    .text_16_600(AppColors
+                                                    .primary),
+                                              ),
                                               wBox(5.h),
                                               if (product.salePrice != null)
                                                 Text(
                                                   "\$${product.regularPrice}",
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                  TextOverflow.ellipsis,
                                                   textAlign: TextAlign.left,
 
                                                   style: TextStyle(
                                                       fontSize: 14.sp,
                                                       fontWeight:
-                                                          FontWeight.w300,
+                                                      FontWeight.w300,
                                                       color:
-                                                          AppColors.lightText,
+                                                      AppColors.lightText,
                                                       decoration: TextDecoration
                                                           .lineThrough,
                                                       decorationColor:
-                                                          AppColors.lightText),
+                                                      AppColors.lightText),
 
                                                   //  AppFontStyle.text_14_300(AppColors.lightText),
                                                 ),
@@ -326,15 +328,20 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                   //  categoryItem(index);
                                 }),
                                 gridDelegate:
-                                    (SliverGridDelegateWithFixedCrossAxisCount(
+                                (SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   childAspectRatio: 0.6.w,
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
-                                ))),
-                          SliverToBoxAdapter(
-                            child: hBox(100),
-                          )
+                                ))):
+                                SliverToBoxAdapter(
+                                  child:CustomNoDataFound(heightBox: hBox(15.h),),
+                                ),
+                            SliverToBoxAdapter(
+                              child: hBox(100),
+                            )
+                          ],
+
                         ],
                       ),
               ),

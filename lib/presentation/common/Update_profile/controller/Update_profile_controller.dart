@@ -82,7 +82,8 @@ class SignUpForm_editProfileController extends GetxController {
             ? profileData.value.data?.email ?? ""
             : '';
         fisrtNameController.text = profileData.value.data?.firstName ?? "";
-        formattedCurrentDate.value = profileData.value.data?.dob ?? "";
+        formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        // formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";
         profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
         update();
@@ -123,7 +124,8 @@ class SignUpForm_editProfileController extends GetxController {
             ? profileData.value.data?.email ?? ""
             : '';
         fisrtNameController.text = profileData.value.data?.firstName ?? "";
-        formattedCurrentDate.value = profileData.value.data?.dob ?? "";
+        formattedCurrentDateController.value.text = profileData.value.data?.dob ?? "";
+        // formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";
         profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
         update();
@@ -139,7 +141,8 @@ class SignUpForm_editProfileController extends GetxController {
   }
 
   late DateTime selectedDate = DateTime.now();
-  RxString formattedCurrentDate = "".obs;
+  // RxString formattedCurrentDate = "".obs;
+  Rx<TextEditingController> formattedCurrentDateController = TextEditingController().obs;
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime initialDate =
@@ -157,15 +160,18 @@ class SignUpForm_editProfileController extends GetxController {
       ),
       initialDate: initialDate,
       firstDate: DateTime(1990, 1, 1),
+      // lastDate: DateTime.now(),
       lastDate: DateTime(2015, 12, 31),
     );
 
     if (picked != null && picked != selectedDate) {
       selectedDate = picked;
-      formattedCurrentDate.value =
-          DateFormat('dd-MM-yyyy').format(selectedDate!);
+      formattedCurrentDateController.value.text =
+          DateFormat('dd-MM-yyyy').format(selectedDate);
+      // formattedCurrentDate.value =
+      //     DateFormat('dd-MM-yyyy').format(selectedDate!);
 
-      print("Formatted Selected Date: ${formattedCurrentDate.value}");
+      print("Formatted Selected Date: ${formattedCurrentDateController.value.text }");
     }
   }
 
@@ -362,7 +368,8 @@ class SignUpForm_editProfileController extends GetxController {
       "first_name": fisrtNameController.text.toString(),
       "country_code": selectedCountryCode.value.toString(),
       "phone": mobileController.text.trim().toString(),
-      "dob": formattedCurrentDate.value,
+      "dob": formattedCurrentDateController.value.text.toString(),
+      // "dob": formattedCurrentDate.value,
       "email": emailController.text.trim().toString(),
       "gender": genderController.text.toString(),
     };

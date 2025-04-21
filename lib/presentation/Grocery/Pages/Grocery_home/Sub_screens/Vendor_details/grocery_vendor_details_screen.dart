@@ -493,7 +493,7 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Products",
+          "More Products",
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
         hBox(10.h),

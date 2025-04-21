@@ -192,7 +192,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.cartData.value.address!.addressType.toString(),
+                controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
                 style: AppFontStyle.text_15_600(AppColors.primary),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
@@ -1532,66 +1532,89 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                     width: 200.w,
                     height: 55.h,
                     child: CustomElevatedButton(
-                      onPressed: () {},
-                      // onPressed: () {
-                      //   var selectedItems = controller
-                      //       .cartData.value.cart!.decodedAttribute!
-                      //       .where((item) => item.checked == "true")
-                      //       .map((item) => {
-                      //     'name': item.productName,
-                      //     'price': "\$${item.totalPrice.toString()}"
-                      //   })
-                      //       .toList();
-                      //
-                      //   if (selectedItems.isNotEmpty) {
-                      //     selectedItems.forEach((item) {
-                      //       print(
-                      //           "Selected Product: ${item['name']}, Price: ${item['price']}");
-                      //
-                      //       Get.toNamed(
-                      //         AppRoutes.prescriptionScreen,
-                      //         arguments: {
-                      //           'address_id': controller
-                      //               .cartData.value.address!.id
-                      //               .toString(),
-                      //           'coupon_id': controller
-                      //               .cartData.value.cart!.couponApplied?.id
-                      //               .toString(),
-                      //           'vendor_id': controller
-                      //               .cartData.value.cart!.pharmaId
-                      //               .toString(),
-                      //           'total': controller
-                      //               .cartData.value.cart!.totalPrice
-                      //               .toString(),
-                      //           'regular_price': controller
-                      //               .cartData.value.cart!.regularPrice
-                      //               .toString(),
-                      //           'coupon_discount': controller
-                      //               .cartData.value.cart!.couponDiscount
-                      //               .toString(),
-                      //           'save_amount': controller
-                      //               .cartData.value.cart!.saveAmount
-                      //               .toString(),
-                      //           'delivery_charge': controller
-                      //               .cartData.value.cart!.deliveryCharge
-                      //               .toString(),
-                      //           'cart_id': controller.cartData.value.cart!.id
-                      //               .toString(),
-                      //           'wallet':
-                      //           controller.cartData.value.wallet.toString(),
-                      //           'cartType': "pharmacy",
-                      //           'prescription': controller.cartData.value.prescription.toString(),
-                      //         },
-                      //       );
-                      //     });
-                      //   } else {
-                      //     Utils.showToast(
-                      //         "Please select product to proceed to checkout");
-                      //   }
-                      // },
-                      text: "Checkout",
-                      textStyle: AppFontStyle.text_16_600(AppColors.white),
-                    ),
+                        // isLoading: controller.rxCreateOrderRequestStatus.value == Status.LOADING,
+                        onPressed: () {
+                          final vendorId = controller.cartData.value.cart?.buckets?.map((data)=>data.vendorId).toList();
+                          final cartId = controller.cartData.value.cart?.buckets?.map((data)=>data.cartId).toList();
+                          final specificTotalPrice = controller.cartData.value.cart?.buckets?.map((data)=>data.specificTotalPrice).toList();
+                          Get.toNamed(
+                              AppRoutes.checkoutScreen,
+                            arguments: {
+                              'address_id': controller.cartData.value.address!.id.toString(),
+                              'total': controller.cartData.value.cart!.totalPrice.toString(),
+                              'coupon_id' : "0",
+                              'regular_price': controller.cartData.value.cart!.regularPrice.toString(),
+                              'coupon_discount': controller.cartData.value.cart!.couponDiscount.toString(),
+                              'save_amount': controller.cartData.value.cart!.saveAmount.toString(),
+                              'delivery_charge': controller.cartData.value.cart!.deliveryCharge.toString(),
+                              'cart_id': cartId,
+                              'vendor_id': vendorId,
+                              'cart_total': specificTotalPrice,
+                              'cart_delivery':controller.cartData.value.cart!.deliveryCharge.toString(),
+                              'wallet': controller.cartData.value.wallet.toString(),
+                              'cartType': "grocery",
+                            }
+                          );
+                        },
+                        // onPressed: () {
+                        //   var selectedItems = controller
+                        //       .cartData.value.cart!.decodedAttribute!
+                        //       .where((item) => item.checked == "true")
+                        //       .map((item) => {
+                        //     'name': item.productName,
+                        //     'price': "\$${item.totalPrice.toString()}"
+                        //   })
+                        //       .toList();
+                        //
+                        //   if (selectedItems.isNotEmpty) {
+                        //     selectedItems.forEach((item) {
+                        //       print(
+                        //           "Selected Product: ${item['name']}, Price: ${item['price']}");
+                        //
+                        //       Get.toNamed(
+                        //         AppRoutes.prescriptionScreen,
+                        //         arguments: {
+                        //           'address_id': controller
+                        //               .cartData.value.address!.id
+                        //               .toString(),
+                        //           'coupon_id': controller
+                        //               .cartData.value.cart!.couponApplied?.id
+                        //               .toString(),
+                        //           'vendor_id': controller
+                        //               .cartData.value.cart!.pharmaId
+                        //               .toString(),
+                        //           'total': controller
+                        //               .cartData.value.cart!.totalPrice
+                        //               .toString(),
+                        //           'regular_price': controller
+                        //               .cartData.value.cart!.regularPrice
+                        //               .toString(),
+                        //           'coupon_discount': controller
+                        //               .cartData.value.cart!.couponDiscount
+                        //               .toString(),
+                        //           'save_amount': controller
+                        //               .cartData.value.cart!.saveAmount
+                        //               .toString(),
+                        //           'delivery_charge': controller
+                        //               .cartData.value.cart!.deliveryCharge
+                        //               .toString(),
+                        //           'cart_id': controller.cartData.value.cart!.id
+                        //               .toString(),
+                        //           'wallet':
+                        //           controller.cartData.value.wallet.toString(),
+                        //           'cartType': "pharmacy",
+                        //           'prescription': controller.cartData.value.prescription.toString(),
+                        //         },
+                        //       );
+                        //     });
+                        //   } else {
+                        //     Utils.showToast(
+                        //         "Please select product to proceed to checkout");
+                        //   }
+                        // },
+                        text: "Checkout",
+                        textStyle: AppFontStyle.text_16_600(AppColors.white),
+                      ),
                   )
                 : SizedBox(
                     width: 200.w,

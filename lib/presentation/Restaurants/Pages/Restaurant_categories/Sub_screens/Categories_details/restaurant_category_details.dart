@@ -105,8 +105,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                         'categoryId': categoryId.toString()
                                       },
                                     );
-                                    categoriesFilterController
-                                        .restaurant_get_CategoriesFilter_Api();
+                                    categoriesFilterController.restaurant_get_CategoriesFilter_Api();
                                   },
                                 )),
                               ),
@@ -545,7 +544,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       ),
                     ));
             }
-          }),
+          },
+         ),
         ),
       ),
     );

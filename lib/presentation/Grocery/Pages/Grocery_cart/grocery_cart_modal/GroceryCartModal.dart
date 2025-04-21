@@ -90,15 +90,15 @@ class Cart {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['regular_price'] = this.regularPrice;
-    data['save_amount'] = this.saveAmount;
-    data['delivery_charge'] = this.deliveryCharge;
-    data['total_price'] = this.totalPrice;
-    data['coupon_discount'] = this.couponDiscount;
-    data['grand_total_price'] = this.grandTotalPrice;
-    data['total_products_in_cart'] = this.totalProductsInCart;
-    if (this.buckets != null) {
-      data['buckets'] = this.buckets!.map((v) => v.toJson()).toList();
+    data['regular_price'] = regularPrice;
+    data['save_amount'] = saveAmount;
+    data['delivery_charge'] = deliveryCharge;
+    data['total_price'] = totalPrice;
+    data['coupon_discount'] = couponDiscount;
+    data['grand_total_price'] = grandTotalPrice;
+    data['total_products_in_cart'] = totalProductsInCart;
+    if (buckets != null) {
+      data['buckets'] = buckets!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -111,6 +111,8 @@ class Buckets {
   String? vendorImage;
   String? vendorAddress;
   int? cartId;
+  String? specificTotalPrice;
+  String? specificDeliveryCharge;
   Rx<bool> isVendorDelete = false.obs;
 
   Buckets({
@@ -120,6 +122,7 @@ class Buckets {
     this.vendorImage,
     this.vendorAddress,
     this.cartId,
+    this.specificTotalPrice,
   });
 
   Buckets.fromJson(Map<String, dynamic> json) {
@@ -134,18 +137,20 @@ class Buckets {
     vendorImage = json['vendor_image'];
     vendorAddress = json['vendor_address'];
     cartId = json['cart_id'];
+    specificTotalPrice = json['specific_total_price'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['vendor_id'] = this.vendorId;
-    if (this.bucket != null) {
-      data['bucket'] = this.bucket!.map((v) => v.toJson()).toList();
+    data['vendor_id'] = vendorId;
+    if (bucket != null) {
+      data['bucket'] = bucket!.map((v) => v.toJson()).toList();
     }
-    data['vendor_name'] = this.vendorName;
-    data['vendor_image'] = this.vendorImage;
-    data['vendor_address'] = this.vendorAddress;
-    data['cart_id'] = this.cartId; // Add cart_id to the output JSON
+    data['vendor_name'] = vendorName;
+    data['vendor_image'] = vendorImage;
+    data['vendor_address'] = vendorAddress;
+    data['cart_id'] = cartId; // Add cart_id to the output JSON
+    data['specific_total_price'] = specificTotalPrice;
     return data;
   }
 }
@@ -190,15 +195,15 @@ class Bucket {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['product_id'] = this.productId;
-    data['quantity'] = this.quantity;
-    data['price'] = this.price;
-    data['checked'] = this.checked;
-    data['count'] = this.count;
-    data['product_name'] = this.productName;
-    data['category_id'] = this.categoryId;
-    data['category_name'] = this.categoryName;
-    data['product_image'] = this.productImage;
+    data['product_id'] = productId;
+    data['quantity'] = quantity;
+    data['price'] = price;
+    data['checked'] = checked;
+    data['count'] = count;
+    data['product_name'] = productName;
+    data['category_id'] = categoryId;
+    data['category_name'] = categoryName;
+    data['product_image'] = productImage;
     return data;
   }
 }

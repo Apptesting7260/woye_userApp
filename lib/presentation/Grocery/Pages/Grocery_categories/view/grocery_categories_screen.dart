@@ -6,6 +6,8 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/controller/grocery_categories_controller.dart';
 
+import '../../../../../shared/widgets/custom_no_data_found.dart';
+
 class GroceryCategoriesScreen extends StatefulWidget {
   const GroceryCategoriesScreen({super.key});
 
@@ -72,7 +74,9 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
                       controller: controller.searchController,
                     ),
                     SliverToBoxAdapter(
-                      child: ListView.separated(
+                      child: controller.filteredWishlistData.value.length == 0 ?
+                      CustomNoDataFound(heightBox:hBox(15.h) ) :
+                      ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.filteredWishlistData.value.length,

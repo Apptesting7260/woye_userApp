@@ -11,13 +11,9 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 class RestaurantHomeFilter extends StatelessWidget {
   RestaurantHomeFilter({super.key});
 
-  final RestaurantHomeSearchController controller =
-      Get.put(RestaurantHomeSearchController());
-
-  final specific_Product_Controller specificProductController =
-      Get.put(specific_Product_Controller());
-  final RestaurantDetailsController restaurantDeatilsController =
-      Get.put(RestaurantDetailsController());
+  final RestaurantHomeSearchController controller = Get.put(RestaurantHomeSearchController());
+  final specific_Product_Controller specificProductController = Get.put(specific_Product_Controller());
+  final RestaurantDetailsController restaurantDeatilsController = Get.put(RestaurantDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +135,7 @@ class RestaurantHomeFilter extends StatelessWidget {
                       child: restaurantList(
                         index: index,
                         image: restaurant?.shopimage,
-                        title: restaurant?.shopName,
+                        title: restaurant?.shopName.toString().capitalize.toString(),
                         rating: restaurant?.rating,
                         price: restaurant?.avgPrice,
                       ),

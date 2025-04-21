@@ -38,7 +38,7 @@ class PharmacyHomeController extends GetxController {
   void setError(String value) => error.value = value;
 
   homeApi(int page) async {
-    api.pharmacyHomeApi(page: page, perPage: 1).then((value) {
+    api.pharmacyHomeApi(page: page, perPage: 10).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
@@ -58,7 +58,7 @@ class PharmacyHomeController extends GetxController {
     currentPage.value = 1;
     noLoading.value = false;
     setRxRequestStatus(Status.LOADING);
-    api.pharmacyHomeApi(page: 1, perPage: 1).then((value) {
+    api.pharmacyHomeApi(page: 1, perPage: 10).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);

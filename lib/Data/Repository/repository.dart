@@ -72,6 +72,8 @@ import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_mod
 import 'package:woye_user/presentation/common/get_user_data/user_data_modal.dart';
 import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user.dart';
 
+import '../../presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/grocery_create_order_model.dart';
+
 class Repository {
   final _apiService = NetworkApiServices();
 
@@ -621,6 +623,12 @@ class Repository {
     dynamic response =
     await _apiService.postApi(data, AppUrls.updateGroceryQuantity, token);
     return GroceryQuantityUpdateModal.fromJson(response);
+  }
+
+  Future<dynamic> groceryCreateOrderApi(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.groceryCreateOrder , token);
+    return GroceryCreateOrderModel.fromJson(response);
   }
 
 }

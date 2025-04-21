@@ -84,6 +84,7 @@ dependencies:
   dio:
   open_file:
   path_provider:
+  webview_flutter:
 
 #  sms_autofill: ^2.0.0
 

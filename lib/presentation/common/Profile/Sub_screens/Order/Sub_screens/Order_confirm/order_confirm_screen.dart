@@ -39,6 +39,7 @@ class OrderConfirmScreen extends StatelessWidget {
               Text(
                 "Your items has been placcd and is on it's way to being processed",
                 textAlign: TextAlign.center,
+                maxLines: 3,
                 style: AppFontStyle.text_14_400(AppColors.darkText),
               ),
               hBox(20),
@@ -58,6 +59,9 @@ class OrderConfirmScreen extends StatelessWidget {
                     homeController.getIndex(1);
                     homeController.navigate(1);
                    //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
+                  }else if(cartType == "grocery"){
+                    homeController.getIndex(2);
+                    homeController.navigate(2);
                   }
                 },
                 child: const Text("Continue Shopping"),

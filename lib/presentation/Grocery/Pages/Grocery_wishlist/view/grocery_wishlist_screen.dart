@@ -7,6 +7,7 @@ import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/Controller/grocery_wishlist_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/add_grocery_product_wishlist.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
 class GroceryWishlistScreen extends StatefulWidget {
   const GroceryWishlistScreen({super.key});
@@ -119,7 +120,9 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                             ),
                           ),
                           if (controller
-                              .wishlistData.value.allWishlist!.isNotEmpty)
+                              .wishlistData.value.allWishlist!.isNotEmpty)...[
+
+                            controller.filteredWishlistData.isNotEmpty?
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     childCount: controller.filteredWishlistData
@@ -314,14 +317,17 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                   childAspectRatio: 0.6.w,
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
-                                ))),
+                                ))):
+                            SliverToBoxAdapter(
+                              child:CustomNoDataFound(heightBox: hBox(15.h),),
+                            ),
                           SliverToBoxAdapter(
                             child: hBox(100),
                           )
                         ],
-                      ),
+                      ],
               ),
-            );
+            ));
         }
       }),
     );

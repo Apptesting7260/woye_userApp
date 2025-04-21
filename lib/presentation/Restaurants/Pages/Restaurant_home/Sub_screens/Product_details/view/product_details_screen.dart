@@ -32,26 +32,19 @@ class ProductDetailsScreen extends StatelessWidget {
   // final RestaurantHomeController restaurantHomeController =
   // Get.put(RestaurantHomeController());
 
-  final AddProductWishlistController add_Wishlist_Controller =
-      Get.put(AddProductWishlistController());
+  final AddProductWishlistController add_Wishlist_Controller = Get.put(AddProductWishlistController());
 
-  final specific_Product_Controller controller =
-      Get.put(specific_Product_Controller());
+  final specific_Product_Controller controller = Get.put(specific_Product_Controller());
 
-  final AddToCartController addToCartController =
-      Get.put(AddToCartController());
+  final AddToCartController addToCartController = Get.put(AddToCartController());
 
-  final seeAll_Product_Controller seeallproductcontroller =
-      Get.put(seeAll_Product_Controller());
+  final seeAll_Product_Controller seeallproductcontroller = Get.put(seeAll_Product_Controller());
 
-  final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
-  final RestaurantDetailsController restaurantDeatilsController =
-      Get.put(RestaurantDetailsController());
+  final RestaurantDetailsController restaurantDeatilsController = Get.put(RestaurantDetailsController());
 
-  // final SeeAllProductReviewController seeAllProductReviewController =
-  //     Get.put(SeeAllProductReviewController());
+  // final SeeAllProductReviewController seeAllProductReviewController = Get.put(SeeAllProductReviewController());
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +157,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       if (controller.productData.value.product!.extra != null)
                         extra(context: context),
                       if (controller.productData.value.product!.extra != null)
-                        hBox(20),
+                        hBox(10.h),
                       if (controller
                           .productData.value.product!.addOn!.isNotEmpty)
                         addOn(
@@ -691,6 +684,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   Widget extra({context}) {
     return ListView.builder(
+      padding: EdgeInsets.zero,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: controller.productData.value.product!.extra?.length,
@@ -714,7 +708,6 @@ class ProductDetailsScreen extends StatelessWidget {
         //   print("Final List of Names: ${controller.extrasItemIdsName}");
         //   print("Final List of Prices: ${controller.extrasItemIdsPrice}");
         // }
-
         print("Final List of IDs: ${controller.extrasItemIdsId}");
         print("Final List of Names: ${controller.extrasItemIdsName}");
         print("Final List of Prices: ${controller.extrasItemIdsPrice}");
@@ -725,7 +718,7 @@ class ProductDetailsScreen extends StatelessWidget {
               extra.title.toString(),
               style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
-            hBox(1.h),
+            // hBox(1.h),
             Row(
               children: [
                 Text(
@@ -743,9 +736,10 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            hBox(5),
+            // hBox(5.h),
             ListView.separated(
               shrinkWrap: true,
+              padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: extra.item?.length ?? 0,
               itemBuilder: (context, itemIndex) {
@@ -843,8 +837,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   priceValue: item.price.toString(),
                 );
               },
-              separatorBuilder: (context, itemIndex) => hBox(10.h),
+              separatorBuilder: (context, itemIndex) => hBox(8.h),
             ),
+            hBox(20.h),
           ],
         );
       },
@@ -863,7 +858,7 @@ class ProductDetailsScreen extends StatelessWidget {
           "Add On",
           style: AppFontStyle.text_20_600(AppColors.darkText),
         ),
-        hBox(10),
+        // hBox(10),
         // Row(
         //   children: [
         //     Text(
@@ -911,7 +906,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   isChecked: addOn.isChecked,
                 );
               },
-              separatorBuilder: (context, index) => hBox(8),
+              separatorBuilder: (context, index) => hBox(1.h),
             );
           },
         ),

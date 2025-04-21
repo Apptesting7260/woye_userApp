@@ -182,6 +182,7 @@ class AddAddressController extends GetxController {
       setData(value);
       if (addAddress.value.status == true) {
         if (location.value.isEmpty) {
+          print("object1111111");
           deliveryAddressController.getDeliveryAddressApi().then((value) {
             location.value = locationController.text;
             storage.write('location', location.value);
@@ -198,6 +199,7 @@ class AddAddressController extends GetxController {
           });
         } else {
           if (type == "RestaurantCart") {
+            print("object22222222");
             restaurantCartController.getRestaurantCartApi().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
@@ -214,6 +216,7 @@ class AddAddressController extends GetxController {
               return;
             });
           } else if (type == "PharmacyCart") {
+            print("object333333");
             pharmacyCartController.getPharmacyCartApi().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
@@ -230,6 +233,7 @@ class AddAddressController extends GetxController {
               return;
             });
           } else {
+            print("object444444");
             deliveryAddressController.getDeliveryAddressApi().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);

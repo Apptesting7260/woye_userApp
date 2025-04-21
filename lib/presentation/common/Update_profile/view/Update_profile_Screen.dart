@@ -160,34 +160,54 @@ class SignUpFormScreen extends StatelessWidget {
             // ),
 
             hBox(15),
-            GestureDetector(
+            // GestureDetector(
+            //   onTap: () => signUpFormController.selectDate(context),
+            //   child: Obx(() {
+            //     return Container(
+            //       padding: const EdgeInsets.all(16.0),
+            //       decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(16.0),
+            //         border: Border.all(color: AppColors.textFieldBorder),
+            //       ),
+            //       child: Row(
+            //         children: [
+            //           SvgPicture.asset(
+            //             ImageConstants.calendar,
+            //           ),
+            //           const SizedBox(
+            //             width: 10,
+            //           ),
+            //           Text(
+            //             signUpFormController.formattedCurrentDate.value.isEmpty
+            //                 ? "Date of Birth"
+            //                 : signUpFormController.formattedCurrentDate.value,
+            //             style: const TextStyle(fontSize: 16),
+            //           ),
+            //         ],
+            //       ),
+            //     );
+            //   }),
+            // ),
+
+            CustomTextFormField(
+              controller: signUpFormController.formattedCurrentDateController.value,
+              hintText: "Date of birth",
+              readOnly: true,
               onTap: () => signUpFormController.selectDate(context),
-              child: Obx(() {
-                return Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(color: AppColors.textFieldBorder),
-                  ),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        ImageConstants.calendar,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        signUpFormController.formattedCurrentDate.value.isEmpty
-                            ? "Date of Birth"
-                            : signUpFormController.formattedCurrentDate.value,
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                );
-              }),
+              prefix: Padding(
+                padding: const EdgeInsets.only(left: 13.0,right: 10),
+                child: SvgPicture.asset(
+                  ImageConstants.calendar,
+                ),
+              ),
+              validator: (value) {
+                if(value == null ||  value.isEmpty){
+                  return "Please select date of birth";
+                }
+                return null;
+              },
             ),
+
             hBox(15),
             Opacity(
               opacity:
@@ -285,7 +305,7 @@ class SignUpFormScreen extends StatelessWidget {
                   contentPadding:
                       REdgeInsets.symmetric(horizontal: 20, vertical: 18),
                   errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: AppColors.textFieldBorder),
+                      borderSide: BorderSide(color: AppColors.red),
                       borderRadius: BorderRadius.circular(15.r)),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: AppColors.textFieldBorder),
@@ -298,9 +318,18 @@ class SignUpFormScreen extends StatelessWidget {
                       value: element.toString(),
                       child: Text(element.toString())))
                   .toList(),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               onChanged: (value) {
                 signUpFormController.genderController.text = value.toString();
                 // print("${signUpFormController.genderController.text}");
+              },
+              validator: (value){
+
+                if(signUpFormController.genderController.text.isEmpty){
+                  return "Please select gender";
+                }
+
+                return null;
               },
             )
           ],
@@ -422,25 +451,25 @@ class SignUpFormScreen extends StatelessWidget {
     );
   }
 
-  void checkValid() {
-    controller.isValid = controller.formSignUpKey.currentState!.validate();
-    print("Path ---> ${controller.profileImageGetUrl.value}");
-
-    if (controller.isValid) {
-      if (controller.formattedCurrentDate.value.isEmpty) {
-        Utils.showToast("Please Select Date of Birth");
-        controller.isValid = false;
-      } else if (controller.genderController.text.isEmpty) {
-        Utils.showToast("Please choose your gender");
-        controller.isValid = false;
-      }
-      // else if (controller.profileImageFromAPI.value.isEmpty &&
-      //     controller.profileImageGetUrl.value.isEmpty) {
-      //   Utils.showToast("Please choose your profile image");
-      //   SignUpFormScreen.controller.isValid = false;
-      // }
-    }
-  }
+  // void checkValid() {
+  //   controller.isValid = controller.formSignUpKey.currentState!.validate();
+  //   print("Path ---> ${controller.profileImageGetUrl.value}");
+  //
+  //   // if (controller.isValid) {
+  //   //   if (controller.formattedCurrentDate.value.isEmpty) {
+  //   //     Utils.showToast("Please Select Date of Birth");
+  //   //     controller.isValid = false;
+  //   //   } else if (controller.genderController.text.isEmpty) {
+  //   //     Utils.showToast("Please choose your gender");
+  //   //     controller.isValid = false;
+  //   //   }
+  //     // else if (controller.profileImageFromAPI.value.isEmpty &&
+  //     //     controller.profileImageGetUrl.value.isEmpty) {
+  //     //   Utils.showToast("Please choose your profile image");
+  //     //   SignUpFormScreen.controller.isValid = false;
+  //     // }
+  //   }
+  //
 
   Widget continueButton(String type) {
     return CustomElevatedButton(
@@ -451,8 +480,10 @@ class SignUpFormScreen extends StatelessWidget {
           if (controller.profileData.value.data?.emailVerified != "true") {
             Utils.showToast("First Verify your Email");
           } else {
-            checkValid();
-            if (controller.isValid) {
+            // checkValid();
+            // if (controller.isValid) {
+            // }
+            if(controller.formSignUpKey.currentState!.validate()){
               controller.profileupdateApi(type);
             }
           }

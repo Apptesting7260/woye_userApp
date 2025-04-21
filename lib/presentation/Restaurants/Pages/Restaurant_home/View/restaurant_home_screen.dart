@@ -592,7 +592,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
         ),
         hBox(10),
         Text(
-          title,
+          title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_18_400(AppColors.darkText),
         ),
