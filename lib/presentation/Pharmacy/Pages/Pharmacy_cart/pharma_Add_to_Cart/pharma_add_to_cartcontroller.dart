@@ -55,8 +55,7 @@ class PharmacyAddToCarController extends GetxController {
     api.pharmaAddToCartApi(body).then((value) {
       setData(value);
       if (addToCartData.value.status == true) {
-        if (addToCartData.value.message ==
-            "Making cart from another pharmacy") {
+        if (addToCartData.value.message == "Making cart from another pharmacy") {
           setRxRequestStatus(Status.COMPLETED);
           showSwitchPharmacyDialog(
             productId: productId,

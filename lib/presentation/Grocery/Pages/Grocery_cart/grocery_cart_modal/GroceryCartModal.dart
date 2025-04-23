@@ -123,6 +123,7 @@ class Buckets {
     this.vendorAddress,
     this.cartId,
     this.specificTotalPrice,
+    this.specificDeliveryCharge,
   });
 
   Buckets.fromJson(Map<String, dynamic> json) {
@@ -138,6 +139,7 @@ class Buckets {
     vendorAddress = json['vendor_address'];
     cartId = json['cart_id'];
     specificTotalPrice = json['specific_total_price'];
+    specificDeliveryCharge = json['specific_delivery_charge'];
   }
 
   Map<String, dynamic> toJson() {
@@ -151,6 +153,7 @@ class Buckets {
     data['vendor_address'] = vendorAddress;
     data['cart_id'] = cartId; // Add cart_id to the output JSON
     data['specific_total_price'] = specificTotalPrice;
+    data['specific_delivery_charge'] = specificDeliveryCharge;
     return data;
   }
 }

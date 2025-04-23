@@ -103,7 +103,7 @@ class GroceryCategoryDetails extends StatelessWidget {
                     if (controller.categoriesDetailsData.value.filterProduct!
                             .isEmpty &&
                         controller.categoriesDetailsData.value.categoryProduct!
-                            .isEmpty)
+                            .isEmpty || controller.searchData.isEmpty)
                       SliverToBoxAdapter(
                         child: Column(
                           children: [

@@ -617,21 +617,21 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             var item = controller.productData.value.product!.variant![index];
             return InkWell(
-              // onTap: () {
-              //   Get.to(PharmacyProductDetailsScreen(
-              //     productId: item.productId.toString(),
-              //     categoryId: item.categoryId.toString(),
-              //     categoryName: item.category_name.toString(),
-              //   ));
-              //   controller.pharmaSpecificProductApi(
-              //     productId: item.productId.toString(),
-              //     categoryId: item.categoryId.toString(),
-              //   );
-              //
-              //   print("productId ${item.productId.toString()}");
-              //   print("categoryId ${item.categoryId.toString()}");
-              //   print("categoryName ${item.category_name.toString()} ");
-              // },
+              onTap: () {
+                Get.to(GroceryProductDetailsScreen(
+                  productId: item.productId.toString(),
+                  categoryId: item.categoryId.toString(),
+                  categoryName: item.category_name.toString(),
+                ));
+                controller.pharmaSpecificProductApi(
+                  productId: item.productId.toString(),
+                  categoryId: item.categoryId.toString(),
+                );
+
+                print("productId ${item.productId.toString()}");
+                print("categoryId ${item.categoryId.toString()}");
+                print("categoryName ${item.category_name.toString()} ");
+              },
               child: Container(
                 decoration: BoxDecoration(
                     // color: AppColors.primary.withOpacity(.2),

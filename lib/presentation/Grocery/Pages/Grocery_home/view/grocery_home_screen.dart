@@ -367,8 +367,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    var carts = groceryShowAllCartController
-                        .cartData.value.carts![index];
+                    var carts = groceryShowAllCartController.cartData.value.carts![index];
                     return Container(
                       width: Get.width,
                       padding: EdgeInsets.only(

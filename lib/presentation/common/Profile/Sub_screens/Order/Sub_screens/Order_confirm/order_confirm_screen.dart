@@ -10,7 +10,7 @@ class OrderConfirmScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var arguments = Get.arguments;
-    String cartType = arguments['type'];
+    String cartType = arguments['type'].toString();
     return PopScope(
       canPop: false,
       child: Scaffold(

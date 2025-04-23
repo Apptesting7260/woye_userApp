@@ -1537,6 +1537,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           final vendorId = controller.cartData.value.cart?.buckets?.map((data)=>data.vendorId).toList();
                           final cartId = controller.cartData.value.cart?.buckets?.map((data)=>data.cartId).toList();
                           final specificTotalPrice = controller.cartData.value.cart?.buckets?.map((data)=>data.specificTotalPrice).toList();
+                          final specificDeliveryCharge = controller.cartData.value.cart?.buckets?.map((data)=>data.specificDeliveryCharge).toList();
                           Get.toNamed(
                               AppRoutes.checkoutScreen,
                             arguments: {
@@ -1550,7 +1551,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                               'cart_id': cartId,
                               'vendor_id': vendorId,
                               'cart_total': specificTotalPrice,
-                              'cart_delivery':controller.cartData.value.cart!.deliveryCharge.toString(),
+                              'cart_delivery':specificDeliveryCharge,
                               'wallet': controller.cartData.value.wallet.toString(),
                               'cartType': "grocery",
                             }

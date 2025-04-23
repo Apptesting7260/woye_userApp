@@ -62,28 +62,30 @@ class GroceryCartController extends GetxController {
     required String couponId,
     required String total,
     required String type,
+    required List<String> cartIds,
     required List<Map<String,dynamic>> carts,
   }) async {
     var data = {
        "wallet_used": walletUsed.toString(),
-       "wallet_amount": walletAmount.toString(),
-       "payment_maethod": paymentMethod.toString(),
-       "payment_amount": paymentAmount.toString(),
-       "address_id": addressId.toString(),
-       "coupon_id": couponId.toString(),
-       "total":total.toString(),
-       "type": type,
-       "carts":jsonEncode(carts),
+       "wallet_amount": walletAmount,
+       "payment_method": paymentMethod,
+       "payment_amount": paymentAmount,
+       "address_id": addressId,
+       "coupon_id": couponId,
+       "total":total,
+       "type": "grocery",
+       "cart_ids": jsonEncode(cartIds),
+       "carts": jsonEncode(carts),
      };
     debugPrint("dataValue  >> $data");
     setRxCreateOrderRequestStatus(Status.LOADING);
     api.groceryCreateOrderApi(data).then((value) {
       setOrderData(value);
-      debugPrint("response value : $value");
       setRxCreateOrderRequestStatus(Status.COMPLETED);
-      Utils.showToast(value.message.toString());
-      Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': type});
-    },).onError((error, stackError) {
+      // Utils.showToast(value.message.toString());
+      Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "grocery"});
+    },)
+        .onError((error, stackError) {
       setError(error.toString());
       print(stackError);
       print('error create order grocery : ${error.toString()}');
@@ -91,10 +93,7 @@ class GroceryCartController extends GetxController {
     });
   }
 
-
-
-
-  refreshApi() async {
+   refreshApi() async {
     setRxRequestStatus(Status.LOADING);
     couponCodeController.value.clear();
     readOnly.value = true;
@@ -104,7 +103,7 @@ class GroceryCartController extends GetxController {
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr${error.toString()}');
+      print('errrrrrrrrrrrr refreshApi ${error.toString()}');
       setRxRequestStatus(Status.ERROR);
     });
   }
