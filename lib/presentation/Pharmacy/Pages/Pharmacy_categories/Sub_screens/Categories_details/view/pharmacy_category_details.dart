@@ -153,8 +153,8 @@ class PharmacyCategoryDetails extends StatelessWidget {
         child: GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount:
-                controller.categoriesDetailsData.value.categoryProduct!.length,
+            itemCount:controller.searchData.length,
+            // itemCount:controller.categoriesDetailsData.value.categoryProduct!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 0.6.w,
@@ -167,38 +167,59 @@ class PharmacyCategoryDetails extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               return CustomBanner(
-                image: controller.categoriesDetailsData.value
-                    .categoryProduct![index].urlImage
+                image: controller.searchData[index].urlImage
                     .toString(),
-                sale_price: controller.categoriesDetailsData.value
-                    .categoryProduct![index].salePrice
+                sale_price:  controller.searchData[index].salePrice
                     .toString(),
-                regular_price: controller.categoriesDetailsData.value
-                    .categoryProduct![index].regularPrice
+                regular_price:  controller.searchData[index].regularPrice
                     .toString(),
-                title: controller
-                    .categoriesDetailsData.value.categoryProduct![index].title
+                title:  controller.searchData[index].title
                     .toString(),
-                quantity: controller.categoriesDetailsData.value
-                    .categoryProduct![index].packagingValue
+                quantity: controller.searchData[index].packagingValue
                     .toString(),
-                categoryId: controller.categoriesDetailsData.value
-                    .categoryProduct![index].categoryId
+                categoryId:  controller.searchData[index].categoryId
                     .toString(),
-                product_id: controller
-                    .categoriesDetailsData.value.categoryProduct![index].id
+                product_id:  controller.searchData[index].id
                     .toString(),
-                shop_name: controller.categoriesDetailsData.value
-                    .categoryProduct![index].shopName
+                shop_name:  controller.searchData[index].shopName
                     .toString(),
-                is_in_wishlist: controller.categoriesDetailsData.value
-                    .categoryProduct![index].isInWishlist,
-                isLoading: controller.categoriesDetailsData.value
-                    .categoryProduct![index].isLoading,
-                categoryName: controller.categoriesDetailsData.value
-                    .categoryProduct![index].categoryName
-                    .toString(),
+                is_in_wishlist:  controller.searchData[index].isInWishlist,
+                isLoading:  controller.searchData[index].isLoading,
+                categoryName:  controller.searchData[index].categoryName.toString(),
               );
+              // return CustomBanner(
+              //   image: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].urlImage
+              //       .toString(),
+              //   sale_price: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].salePrice
+              //       .toString(),
+              //   regular_price: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].regularPrice
+              //       .toString(),
+              //   title: controller
+              //       .categoriesDetailsData.value.categoryProduct![index].title
+              //       .toString(),
+              //   quantity: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].packagingValue
+              //       .toString(),
+              //   categoryId: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].categoryId
+              //       .toString(),
+              //   product_id: controller
+              //       .categoriesDetailsData.value.categoryProduct![index].id
+              //       .toString(),
+              //   shop_name: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].shopName
+              //       .toString(),
+              //   is_in_wishlist: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].isInWishlist,
+              //   isLoading: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].isLoading,
+              //   categoryName: controller.categoriesDetailsData.value
+              //       .categoryProduct![index].categoryName
+              //       .toString(),
+              // );
             }));
   }
 

@@ -9,6 +9,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool? centetTitle;
   final bool isActions;
   final double? toolbarHeight;
+  final PreferredSizeWidget? bottom;
 
   const CustomAppBar(
       {super.key,
@@ -19,7 +20,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leadingWidth,
       this.centetTitle,
       this.isActions = false,
-      this.toolbarHeight});
+      this.toolbarHeight,
+      this.bottom,
+      });
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -51,6 +55,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 )
             : null,
         titleSpacing: 0,
+        bottom: bottom,
         centerTitle: isLeading,
         title: title,
         leadingWidth: leadingWidth ?? 44.w,

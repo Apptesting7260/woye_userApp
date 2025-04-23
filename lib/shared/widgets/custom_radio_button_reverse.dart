@@ -23,6 +23,7 @@ class CustomTitleRadioButton extends StatelessWidget {
       highlightColor: Colors.transparent,
       onTap: () => onChanged(value.value),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
@@ -30,6 +31,7 @@ class CustomTitleRadioButton extends StatelessWidget {
             style: AppFontStyle.text_16_400(AppColors.darkText),
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 priceValue,
@@ -47,7 +49,7 @@ class CustomTitleRadioButton extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   height: 20.h,
                   width: 20.h,
-                  margin: EdgeInsets.symmetric(vertical: 8.0.h),
+                  margin: EdgeInsets.symmetric(vertical: 3.0.h),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     shape: BoxShape.circle,

@@ -1017,7 +1017,27 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 width: 200.w,
                 height: 55.h,
                 child: CustomElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(
+                        AppRoutes.checkoutScreen,
+                        arguments: {
+                          'address_id': controller.cartData.value.address?.id.toString(),
+                          'total': controller.cartData.value.cart?.totalPrice.toString(),
+                          'coupon_id' : controller.cartData.value.cart?.couponId ?? "0",
+                          'regular_price': controller.cartData.value.cart?.regularPrice.toString(),
+                          'coupon_discount': controller.cartData.value.cart?.couponDiscount.toString(),
+                          'save_amount': controller.cartData.value.cart?.saveAmount.toString(),
+                          'delivery_charge': controller.cartData.value.cart?.deliveryCharge.toString(),
+                          'cart_id': controller.cartData.value.cart?.id,
+                          'vendor_id': controller.cartData.value.cart?.decodedAttribute?.vendorId,
+                          'cart_total': controller.cartData.value.cart?.totalPrice,
+                          'cart_delivery': controller.cartData.value.cart?.deliveryCharge,
+                          'wallet': controller.cartData.value.wallet.toString(),
+                          'cartType': "grocery",
+                          // 'cartType': "grocerySingleOrder",
+                        }
+                    );
+                  },
                   // onPressed: () {
                   //   var selectedItems = controller
                   //       .cartData.value.cart!.decodedAttribute!

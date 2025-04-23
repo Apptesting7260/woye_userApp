@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,120 +9,122 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 
+
 class PushNotificationService {
-  FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
-  String? fcmToken;
+  static String? fcmToken;
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-  final DarwinInitializationSettings initializationSettingsDarwin =
-      DarwinInitializationSettings();
+  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static DarwinInitializationSettings initializationSettingsDarwin =const DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
 
-  firebaseNotification() async {
+  static firebaseNotification() async {
     firebaseMessaging.requestPermission(
       alert: true,
       announcement: true,
       badge: true,
       carPlay: false,
-      criticalAlert: false,
+      criticalAlert: true,
       provisional: false,
       sound: true,
     );
     firebaseMessaging.isAutoInitEnabled;
-    var android =
-        const AndroidInitializationSettings('@drawable/launch_background');
+    var android = const AndroidInitializationSettings('@drawable/launch_background');
     var ios = const DarwinInitializationSettings();
 
     var platform = InitializationSettings(android: android, iOS: ios);
     flutterLocalNotificationsPlugin.initialize(platform);
-    firebaseMessaging.requestPermission();
+    // firebaseMessaging.requestPermission();
+
     initLocalNotification();
+
     FirebaseMessaging.onMessage.listen(
-      (RemoteMessage message) {
+          (RemoteMessage message) async {
         RemoteNotification? notification = message.notification;
         AndroidNotification? android = message.notification?.android;
         AppleNotification? appleNotification = message.notification?.apple;
-        // NotificationCountin.incrementfunction();
-        print('message notification body=====${message.notification?.body}');
-        print(
-            'notification body=====${notification}.  ${android}.   ${appleNotification}');
+
+        debugPrint(
+            'message notification body=====${message.notification?.body}');
+        debugPrint('notification body=====$notification.  $android.   $appleNotification');
 
         if (notification != null && android != null) {
           showNotification(message.notification);
-          // Utils.snackBar(
-          //     message.notification!.title!, message.notification!.body!, false);
-          print('android not null notification==${message.notification}');
+          debugPrint('android not null notification==${message.notification}');
           FirebaseMessaging.instance.getInitialMessage().then((message) {
             if (message != null) {
-              print("abc525");
-              // Get.offAll(NotificationScreen());
-              // Get.to(() => NotificationScreen());
+              debugPrint("abc525");
             } else {
-              print("123154115415abc");
+              debugPrint("123154115415abc");
             }
           });
         } else if (notification != null && appleNotification != null) {
-          Utils.snackBar1(
-            message.notification!.title!,
-            message.notification!.body!,
-          );
-          // showCustomSnackbar(notification.title.toString(),notification.body.toString(),context);
-          // showNotification(message.notification);
-        } else {}
+          // await showNotification(message.notification);
+          debugPrint('apple notification1');
+          // Utils.snackBar1(
+          //   message.notification!.title!,
+          //   message.notification!.body!,
+          // );
+          showCustomSnackBar(notification.title.toString(), notification.body.toString(), Get.context!);
+        }
       },
     );
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       if (message.notification != null) {
         // Get.offAll(NotificationScreen());
         showNotification(message.notification);
         // Get.to(() => NotificationScreen());
+        print(message.notification);
       }
     });
+
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     FirebaseMessaging.instance.getToken().then((String? token) async {
       if (token == null) {
-        print('FCM token is null');
+        debugPrint('FCM token is null');
       } else {
         fcmToken = token;
-        print('FCM token: $token');
+        debugPrint('FCM token: $token');
       }
     }).catchError((error) {
-      print('Error getting FCM token: ${error.toString()}');
+      debugPrint('Error getting FCM token: ${error.toString()}');
     });
+
     if (defaultTargetPlatform == TargetPlatform.iOS) {
-      print('FlutterFire Messaging Example: Getting APNs token...');
-      String? Token = await FirebaseMessaging.instance.getAPNSToken();
-      print('FlutterFire Messaging Example: Got APNs token: $Token');
+      debugPrint('FlutterFire Messaging Example: Getting APNs token...');
+      String? token = await FirebaseMessaging.instance.getAPNSToken();
+      debugPrint('FlutterFire Messaging Example: Got APNs token: $token');
     }
   }
 
-  Future initLocalNotification() async {
+  static Future initLocalNotification() async {
     if (Platform.isIOS) {
-      var initializationSettingsAndroid =
-          const AndroidInitializationSettings('ic_launcher');
-      // var initializationSettingsIOS = DarwinInitializationSettings(
-      //   requestAlertPermission: false,
-      //   requestBadgePermission: false,
-      //   requestSoundPermission: true,
-      //   onDidReceiveLocalNotification: _onDidReceiveLocalNotification,
-      // );
+      var initializationSettingsAndroid = const AndroidInitializationSettings('ic_launcher');
 
-      final InitializationSettings initializationSettings =
-          InitializationSettings(
-              android: initializationSettingsAndroid,
-              iOS: initializationSettingsDarwin);
+      final InitializationSettings initializationSettings = InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin);
+
       flutterLocalNotificationsPlugin.initialize(initializationSettings,
           onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
     } else {
       var initializationSettingsAndroid =
-          const AndroidInitializationSettings('@drawable/launch_background');
-      var initializationSettingsIOS = DarwinInitializationSettings(
+      const AndroidInitializationSettings('@drawable/launch_background');
+
+      const initializationSettingsIOS = DarwinInitializationSettings(
           onDidReceiveLocalNotification: _onDidReceiveLocalNotification);
+
       var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid,
         iOS: initializationSettingsIOS,
       );
+
       await flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
         onDidReceiveBackgroundNotificationResponse: (details) {
@@ -130,9 +134,10 @@ class PushNotificationService {
     }
   }
 
-  Future showNotification(RemoteNotification? notification) async {
+  static Future<void> showNotification(RemoteNotification? notification) async {
     var android = const AndroidNotificationDetails(
-      'CHANNLEID',
+      'high_importance_channel',
+      // 'CHANNLEID',
       "Woye",
       // "CHANNLENAME",
       channelDescription: "channelDescription",
@@ -144,62 +149,39 @@ class PushNotificationService {
     );
 
     var iOS = const DarwinNotificationDetails(
+      presentAlert: true,
+      presentSound: true,
+      presentBadge: true,
       sound: 'default',
     );
     var platform = NotificationDetails(android: android, iOS: iOS);
+
     await flutterLocalNotificationsPlugin.show(DateTime.now().second,
         notification?.title, notification?.body, platform);
   }
 
-  Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    print("Handling a background message==$message");
-    // Utils.snackBar(
-    //   message.notification!.title!,
-    //   message.notification!.body!,
-    // );
-
-    // Get.offAll(NotificationScreen());
-    // Get.to(() => NotificationScreen());
-  }
-
-  Future _onDidReceiveLocalNotification(
+  static Future _onDidReceiveLocalNotification(
       int? id, String? title, String? body, String? payload) async {
-    print("receive==$payload,== $body");
-    // Get.to(NotificationScreen());
-    // Get.to(() => NotificationScreen());
+    debugPrint("receive==$payload,== $body");
   }
 
-  Future _selectNotification(String? payload) async {
-    // Utils.snackBar('notification payload: ', payload!);
-    print('notification payload: $payload');
-    // Get.to(NotificationScreen());
-    // Get.to(() => NotificationScreen());
+  static Future _selectNotification(String? payload) async {
+    debugPrint('notification payload: $payload');
   }
 
-  void onDidReceiveNotificationResponse(
+  static void onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
     final String? payload = notificationResponse.payload;
     if (notificationResponse.payload != null) {
       debugPrint('notification payload: $payload');
-      print('notification payload: $payload');
-      // Utils.snackBar(
-      //   'notification payload: ',
-      //   payload!,
-      // );
-      // Get.to(NotificationScreen());
-      // Get.to(() => NotificationScreen());
-    } else {
-      // Utils.snackBar('notification payload: ', payload.toString());
-      // // Get.to(NotificationScreen());
-      // Get.to(() => NotificationScreen());
+      debugPrint('notification payload: $payload');
     }
   }
 
-  static showCustomSnackbar(
-      String title, String message, BuildContext context) {
+  static showCustomSnackBar(String title, String message, BuildContext context) {
     final snackBar = SnackBar(
+
       content: Row(
-        // mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: [
           Image.asset(
@@ -208,18 +190,13 @@ class PushNotificationService {
             height: 50,
             fit: BoxFit.cover,
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.black),
-                  maxLines: 1,
-                ),
+                Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black), maxLines: 1,),
                 Flexible(
                   child: Text(
                     message,
@@ -236,14 +213,37 @@ class PushNotificationService {
       backgroundColor: AppColors.greyBackground,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       behavior: SnackBarBehavior.floating,
-      duration: Duration(seconds: 3),
-      padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-      margin: EdgeInsets.only(
-          bottom: Get.height - (Get.height * 0.28), left: 10, right: 10),
+      duration: const Duration(seconds: 3),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+      margin: EdgeInsets.only(bottom: Get.height - (Get.height * 0.125), top: 0,left: 10, right: 10),
+      // margin: EdgeInsets.only(bottom: Get.height - (Get.height * 0.35), top: 0,left: 10, right: 10),
       dismissDirection: DismissDirection.up,
-    );
 
-    // Show the custom Snackbar
+    );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
+
+  // @pragma('vm:entry-point')
+  // static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  //   await Firebase.initializeApp();
+  //   log("Background Notification: ${message.notification?.body}");
+  // }
+
+// static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   log("background notification--> ${message.notification?.body}");
+// }
+  @pragma('vm:entry-point')
+  static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+    await Firebase.initializeApp();
+    log("📥 Background Notification: ${message.notification?.body}");
+  }
+
+  @pragma('vm:entry-point')
+  void backgroundNotificationTap(NotificationResponse notificationResponse) {
+    final String? payload = notificationResponse.payload;
+    debugPrint("🔙 Background Notification tapped. Payload: $payload");
+  }
+
 }
+

@@ -177,7 +177,7 @@ class GroceryHomeFilter extends StatelessWidget {
                       child: pharmaShop(
                         index: index,
                         image: pharmaShopdata?.shopimage,
-                        title: pharmaShopdata?.shopName,
+                        title: pharmaShopdata?.shopName.toString().capitalize.toString(),
                         rating: pharmaShopdata?.rating,
                         price: pharmaShopdata?.avgPrice,
                       ),

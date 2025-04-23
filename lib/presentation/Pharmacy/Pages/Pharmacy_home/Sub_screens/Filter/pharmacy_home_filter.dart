@@ -125,7 +125,7 @@ class PharmacyHomeFilter extends StatelessWidget {
                 image: products![index].urlImage.toString(),
                 sale_price: products[index].salePrice.toString(),
                 regular_price: products[index].regularPrice.toString(),
-                title: products[index].title.toString(),
+                title: products[index].title.toString().capitalize.toString(),
                 quantity: products[index].packagingValue.toString(),
                 categoryId: products[index].categoryId.toString(),
                 product_id: products[index].id.toString(),

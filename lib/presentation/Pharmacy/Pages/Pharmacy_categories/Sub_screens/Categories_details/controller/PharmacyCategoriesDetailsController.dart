@@ -68,11 +68,11 @@ class PharmacyCategoriesDetailsController extends GetxController {
   }
 
 pharmacy_Categories_Details_filter_Api({
-  required String id,
-  required String product_type,
-  required String price_sort,
-  required var quick_filter,
-  required String price_range,
+   String? id,
+   String? product_type,
+   String? price_sort,
+   var quick_filter,
+   String? price_range,
 }) async {
   searchController.clear();
   searchData.clear();
@@ -80,11 +80,12 @@ pharmacy_Categories_Details_filter_Api({
   setRxRequestStatus(Status.LOADING);
   Map data = {
     "category_id": id,
-    "brand_type": product_type,
-    "price_sort": price_sort,
-    "sort_by": quick_filter,
-    "price_range": price_range,
+    "brand_type": product_type ?? "",
+    "price_sort": price_sort ?? "",
+    "sort_by": quick_filter ?? "",
+    "price_range": price_range ?? "",
   };
+  print("Map data: $data");
   api.pharmacyCategoriesDetailsApi(data).then((value) {
     categories_Set(value);
     filterSearchDataFun(searchController.text);

@@ -1,10 +1,13 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
 
+import '../pharma_cart_modal/pharmacy_all_product_model.dart';
+
 class PharmacyCartController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
   final cartData = PharmaCartModal().obs;
+  final cartDataAll = PharmacyAllCartProductModel().obs;
 
   final Rx<TextEditingController> couponCodeController =
       TextEditingController().obs;
@@ -18,6 +21,9 @@ class PharmacyCartController extends GetxController {
   void cartSet(PharmaCartModal value) {
     cartData.value = value;
   }
+  // void cartSetAll(PharmacyAllCartProductModel value) {
+  //   cartDataAll.value = value;
+  // }
 
   void setError(String value) => error.value = value;
 
@@ -26,6 +32,7 @@ class PharmacyCartController extends GetxController {
     couponCodeController.value.clear();
     api.pharmacyCartGetDataApi().then((value) {
       cartSet(value);
+      // cartSetAll(value);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());

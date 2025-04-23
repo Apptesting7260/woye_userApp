@@ -59,6 +59,7 @@ class PrescriptionController extends GetxController {
         ),
         IOSUiSettings(
           title: 'Crop Image',
+          aspectRatioLockEnabled: true ,
         ),
       ],
     );

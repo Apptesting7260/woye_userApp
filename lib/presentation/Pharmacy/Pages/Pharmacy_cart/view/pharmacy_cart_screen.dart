@@ -128,18 +128,18 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                               controller.cartData.value.addressExists == true
                                   ? address()
                                   : locationAddress(),
-                              hBox(20.h),
-                              cartItems(),
-                              hBox(20.h),
-                              promoCode(context),
-                              hBox(30.h),
-                              paymentDetails(),
-                              hBox(30.h),
-                              Divider(
-                                  thickness: .5.w, color: AppColors.hintText),
-                              hBox(15.h),
-                              checkoutButton(),
-                              hBox(widget.isBack != true ? 100.h : 30.h)
+                              // hBox(20.h),
+                              // cartItems(),
+                              // hBox(20.h),
+                              // promoCode(context),
+                              // hBox(30.h),
+                              // paymentDetails(),
+                              // hBox(30.h),
+                              // Divider(
+                              //     thickness: .5.w, color: AppColors.hintText),
+                              // hBox(15.h),
+                              // checkoutButton(),
+                              // hBox(widget.isBack != true ? 100.h : 30.h)
                             ],
                           ),
                         ),
@@ -201,7 +201,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.cartData.value.address!.addressType.toString(),
+                controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
                 style: AppFontStyle.text_15_600(AppColors.primary),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),

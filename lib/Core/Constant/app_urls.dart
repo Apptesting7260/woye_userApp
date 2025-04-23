@@ -82,6 +82,7 @@ class AppUrls {
   static const String getPharmaCategoriesFilter = "$baseUrl/pinner-search-data";
   static const String pharmaAddToCart = "$baseUrl/pmake-cart";
   static const String pharmaUpdateCart = "$baseUrl/pupdate-cart";
+  // static const String getPharmaCartData = "$baseUrl/pall-carts";
   static const String getPharmaCartData = "$baseUrl/pget-cart";
   static const String deletePharmaProduct = "$baseUrl/pdelete-product";
   static const String updatePharmaQuantity =
@@ -110,7 +111,7 @@ class AppUrls {
 
   static const String deleteGroceryProduct = "$baseUrl/gdelete-product";
   static const String deleteGroceryVendor = "$baseUrl/gdelete-vendor";
-  static const String updateGroceryQuantity =
-      "$baseUrl/gupdate-product-quantity";
+  static const String updateGroceryQuantity = "$baseUrl/gupdate-product-quantity";
+  static const String groceryCreateOrder = "$baseUrl/gcreate-order";
 
 }

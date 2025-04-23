@@ -6,6 +6,8 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/controller/pharmacy_categories_controller.dart';
 
+import '../../../../../shared/widgets/custom_no_data_found.dart';
+
 class PharmacyCategoriesScreen extends StatefulWidget {
   const PharmacyCategoriesScreen({super.key});
 
@@ -74,7 +76,8 @@ class _PharmacyCategoriesScreenState extends State<PharmacyCategoriesScreen> {
                       controller: controller.searchController,
                     ),
                     SliverToBoxAdapter(
-                      child: ListView.separated(
+                      child: controller.filteredWishlistData.value.length == 0 ?
+                        CustomNoDataFound(heightBox:hBox(15.h) ) : ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.filteredWishlistData.value.length,

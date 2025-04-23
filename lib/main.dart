@@ -31,7 +31,7 @@ Future<void> main() async {
   //     statusBarIconBrightness: Brightness.dark,
   //     systemNavigationBarColor: Colors.transparent,
   //     statusBarBrightness: Brightness.light));
-  _notificationService.firebaseNotification();
+  PushNotificationService.firebaseNotification();
   Get.put(NetworkController());
   await GetStorage.init();
   runApp(MyApp());

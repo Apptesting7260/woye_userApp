@@ -9,11 +9,9 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 class DeliveryAddressScreen extends StatelessWidget {
   DeliveryAddressScreen({super.key});
 
-  final DeliveryAddressController controller =
-      Get.put(DeliveryAddressController());
+  final DeliveryAddressController controller = Get.put(DeliveryAddressController());
 
-  final DeleteAddressController deleteAddressController =
-      Get.put(DeleteAddressController());
+  final DeleteAddressController deleteAddressController = Get.put(DeleteAddressController());
 
   final EditAdressController editController = Get.put(EditAdressController());
 
@@ -22,6 +20,8 @@ class DeliveryAddressScreen extends StatelessWidget {
     var arguments = Get.arguments;
     String? type = arguments['type'];
     bool fromcart = arguments['fromcart'];
+    debugPrint("type >>>>>>>>> $type");
+    debugPrint("from cart >>>>>>>>> $fromcart");
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -59,7 +59,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     if (controller.deliveryAddressData.value.data!.isNotEmpty)
-                      addressList(),
+                      addressList(type:type),
                     hBox(30.h),
                     addAddress(type, fromcart),
                     if (type != "Profile") changeAddressButton(),
@@ -73,19 +73,21 @@ class DeliveryAddressScreen extends StatelessWidget {
     );
   }
 
-  Widget addressList() {
+  Widget addressList({String? type}) {
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: controller.deliveryAddressData.value.data!.length,
+      itemCount: controller.deliveryAddressData.value.data?.length ?? 0,
       itemBuilder: (context, index) {
         return Obx(
           () => InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              controller.selectedAddressIndex.value = index;
-              print("object${controller.selectedAddressIndex.value}");
+              if(type != "Profile"){
+                controller.selectedAddressIndex.value = index;
+                print("object${controller.selectedAddressIndex.value}");
+              }
             },
             child: Container(
               padding: EdgeInsets.all(20.r),
@@ -94,7 +96,8 @@ class DeliveryAddressScreen extends StatelessWidget {
                   border: Border.all(
                       color: (controller.selectedAddressIndex.value == index)
                           ? AppColors.primary
-                          : AppColors.lightPrimary)),
+                          : AppColors.lightPrimary),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,31 +129,27 @@ class DeliveryAddressScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              controller.deliveryAddressData.value.data![index]
-                                  .addressType
-                                  .toString(),
+                              controller.deliveryAddressData.value.data?[index]
+                                  .addressType?.capitalizeFirst.toString() ?? "" ,
                               style:
-                                  AppFontStyle.text_20_600(AppColors.darkText),
+                                  AppFontStyle.text_20_600
+
+                                    (AppColors.darkText),
                             ),
                             wBox(10.h),
-                            if (controller.deliveryAddressData.value
-                                    .data![index].isDefault ==
-                                1)
+                            if (controller.deliveryAddressData.value.data?[index].isDefault == 1)
                               Text(
                                 "default",
-                                style: AppFontStyle.text_14_400(
-                                    AppColors.lightText),
+                                style: AppFontStyle.text_14_400(AppColors.lightText),
                               ),
                             const Spacer(),
-                            if (controller.deliveryAddressData.value
-                                    .data![index].isDefault !=
-                                1)
+                            if (controller.deliveryAddressData.value.data![index].isDefault != 1)
                               GestureDetector(
                                 onTap: () {
                                   showDeleteAddressDialog(
                                       addressId: controller.deliveryAddressData
-                                          .value.data![index].id
-                                          .toString());
+                                          .value.data?[index].id
+                                          .toString() ?? "" );
                                 },
                                 child: SvgPicture.asset(
                                   "assets/svg/delete-outlined.svg",
@@ -168,29 +167,25 @@ class DeliveryAddressScreen extends StatelessWidget {
                         ),
                         hBox(10.h),
                         Text(
-                          controller
-                              .deliveryAddressData.value.data![index].fullName
-                              .toString(),
+                          controller.deliveryAddressData.value.data?[index].fullName?.capitalizeFirst.toString() ?? "",
                           style: AppFontStyle.text_14_400(AppColors.darkText),
                         ),
                         hBox(10.h),
                         Text(
-                          "${controller.deliveryAddressData.value.data![index].houseDetails.toString()}\n${controller.deliveryAddressData.value.data![index].address.toString()}",
+                          "${controller.deliveryAddressData.value.data?[index].houseDetails?.capitalizeFirst.toString()}\n${controller.deliveryAddressData.value.data?[index].address.toString()}",
                           style: AppFontStyle.text_14_400(AppColors.lightText),
                           maxLines: 4,
                         ),
                         hBox(10.h),
                         Text(
-                          "${controller.deliveryAddressData.value.data![index].countryCode.toString()} ${controller.deliveryAddressData.value.data![index].phoneNumber.toString()}",
+                          "${controller.deliveryAddressData.value.data?[index].countryCode.toString()} ${controller.deliveryAddressData.value.data?[index].phoneNumber.toString()}",
                           style: AppFontStyle.text_14_400(AppColors.darkText),
                         ),
-                        if (controller.deliveryAddressData.value.data![index]
-                                .deliveryInstruction !=
-                            null)
+                        if (controller.deliveryAddressData.value.data?[index].deliveryInstruction != null)
                           Padding(
                             padding: EdgeInsets.only(top: 10.h),
                             child: Text(
-                              "Delivery Instruction: ${controller.deliveryAddressData.value.data![index].deliveryInstruction.toString()}",
+                              "Delivery Instruction: ${controller.deliveryAddressData.value.data?[index].deliveryInstruction.toString()}",
                               maxLines: 2,
                               style:
                                   AppFontStyle.text_14_400(AppColors.darkText),
@@ -220,6 +215,8 @@ class DeliveryAddressScreen extends StatelessWidget {
             'type': type,
             "fromcart": fromcart,
           });
+          print("object>>>>>>>>>>>>>>>>>>  $fromcart");
+          print("object >>>>>>>>>>>>>>>>>>  $type");
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
         horizontalTitleGap: 10.w,

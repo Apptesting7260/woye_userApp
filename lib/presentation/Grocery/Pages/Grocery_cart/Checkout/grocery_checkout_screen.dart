@@ -4,8 +4,8 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 
-class PharmacyCheckoutScreen extends StatelessWidget {
-  PharmacyCheckoutScreen({super.key});
+class GroceryCheckoutScreen extends StatelessWidget {
+  GroceryCheckoutScreen({super.key});
 
   final DeliveryAddressScreen deliveryAddressScreen = DeliveryAddressScreen();
 
@@ -15,7 +15,7 @@ class PharmacyCheckoutScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         title: Text(
-          "Checkout",
+          "Checkouts",
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
       ),

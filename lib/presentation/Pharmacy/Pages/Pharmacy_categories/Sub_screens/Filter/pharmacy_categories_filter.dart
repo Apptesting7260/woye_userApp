@@ -20,116 +20,318 @@ class PharmacyCategoriesFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var categoryId = Get.arguments['categoryId'];
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: Text(
-          "Filter",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
-        ),
-      ),
-      body: Obx(() {
-        switch (controller.rxRequestStatus.value) {
-          case Status.LOADING:
-            return Center(child: circularProgressIndicator());
-          case Status.ERROR:
-            if (controller.error.value == 'No internet') {
-              return InternetExceptionWidget(
-                onPress: () {
-                  controller.Refresh_Api();
-                },
-              );
-            } else {
-              return GeneralExceptionWidget(
-                onPress: () {
-                  controller.Refresh_Api();
-                },
-              );
-            }
-          case Status.COMPLETED:
-            return RefreshIndicator(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        // appBar: CustomAppBar(
+        //   title: Text(
+        //     "Filter",
+        //     style: AppFontStyle.text_22_600(AppColors.darkText),
+        //   ),
+        // ),
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet') {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.Refresh_Api();
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.Refresh_Api();
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return RefreshIndicator(
                 onRefresh: () async {
                   controller.Refresh_Api();
                 },
-                child: Padding(
-                  padding: REdgeInsets.symmetric(horizontal: 24.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (controller
-                            .getFilterData.value.cuisineType!.isNotEmpty)
-                          Cuisines(),
-                        if (controller
-                            .getFilterData.value.cuisineType!.isNotEmpty)
-                          hBox(30),
-                        price(),
-                        hBox(30),
-                        quickFilter(),
-                        hBox(30),
-                        priceRange(),
-                        hBox(20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                                child: CustomElevatedButton(
-                                    height: 55.h,
-                                    text: "Clear",
-                                    color: AppColors.black,
-                                    onPressed: () {
-                                      controller.selectedCuisines.clear();
-                                      controller.selectedQuickFilters.clear();
-                                      controller.priceRadioValue.value = 0;
-                                      controller.lowerValue.value = controller
-                                          .getFilterData.value.minPrice!
-                                          .toDouble();
-                                      controller.upperValue.value = controller
-                                          .getFilterData.value.maxPrice!
-                                          .toDouble();
-                                      for (var cuisine in controller
-                                          .getFilterData.value.cuisineType!) {
-                                        cuisine.isSelected.value = false;
-                                      }
-                                    })),
-                            wBox(10),
-                            Expanded(
-                                child: CustomElevatedButton(
-                                    height: 55.h,
-                                    text: "Apply",
-                                    onPressed: () {
-                                      Get.back();
-                                      pharmacyCategoriesDetailsController
-                                          .pharmacy_Categories_Details_filter_Api(
-                                        id: categoryId.toString(),
-                                        product_type: controller
-                                            .selectedCuisines
-                                            .join(', '),
-                                        price_sort:
-                                            controller.priceRadioValue.value ==
-                                                    0
-                                                ? ""
-                                                : controller.priceRadioValue
-                                                            .value ==
-                                                        1
-                                                    ? "low to high"
-                                                    : "high to low",
-                                        quick_filter: controller
-                                            .selectedQuickFilters
-                                            .toString(),
-                                        price_range:
-                                            "${controller.lowerValue.value},${controller.upperValue.value}",
-                                      );
-                                    }))
-                          ],
-                        ),
-                        hBox(50)
-                      ],
+                child: Column(
+                  children: [
+                    appbar(),
+                    Padding(
+                      padding: REdgeInsets.symmetric(horizontal: 24.0),
+                      child: TabBar(
+                        labelPadding: EdgeInsets.zero,
+                        // indicatorPadding: EdgeInsets.only(right: 60.0),
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        dividerColor: AppColors.gray,
+                        dividerHeight: 0.5,
+                        labelStyle:
+                            AppFontStyle.text_18_600(AppColors.darkText),
+                        tabs: const [
+                          Tab(text: "Filter"),
+                          Tab(text: "Sort"),
+                        ],
+                      ),
                     ),
-                  ),
-                ));
-        }
-      }),
+                    Expanded(
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          filterWidget(categoryId),
+                          sortWidget(categoryId),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                // child: Padding(
+                //   padding: REdgeInsets.symmetric(horizontal: 24.0),
+                //   child: SingleChildScrollView(
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       mainAxisSize: MainAxisSize.min,
+                //       children: [
+                //         if (controller
+                //             .getFilterData.value.cuisineType!.isNotEmpty)
+                //           Cuisines(),
+                //         if (controller
+                //             .getFilterData.value.cuisineType!.isNotEmpty)
+                //           hBox(30),
+                //         price(),
+                //         hBox(30),
+                //         quickFilter(),
+                //         hBox(30),
+                //         priceRange(),
+                //         hBox(20),
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //           children: [
+                //             Expanded(
+                //                 child: CustomElevatedButton(
+                //                     height: 55.h,
+                //                     text: "Clear",
+                //                     color: AppColors.black,
+                //                     onPressed: () {
+                //                       controller.selectedCuisines.clear();
+                //                       controller.selectedQuickFilters.clear();
+                //                       controller.priceRadioValue.value = 0;
+                //                       controller.lowerValue.value = controller
+                //                           .getFilterData.value.minPrice!
+                //                           .toDouble();
+                //                       controller.upperValue.value = controller
+                //                           .getFilterData.value.maxPrice!
+                //                           .toDouble();
+                //                       for (var cuisine in controller
+                //                           .getFilterData.value.cuisineType!) {
+                //                         cuisine.isSelected.value = false;
+                //                       }
+                //                     })),
+                //             wBox(10),
+                //             Expanded(
+                //                 child: CustomElevatedButton(
+                //                     height: 55.h,
+                //                     text: "Apply",
+                //                     onPressed: () {
+                //                       Get.back();
+                //                       pharmacyCategoriesDetailsController
+                //                           .pharmacy_Categories_Details_filter_Api(
+                //                         id: categoryId.toString(),
+                //                         product_type: controller
+                //                             .selectedCuisines
+                //                             .join(', '),
+                //                         price_sort:
+                //                             controller.priceRadioValue.value ==
+                //                                     0
+                //                                 ? ""
+                //                                 : controller.priceRadioValue
+                //                                             .value ==
+                //                                         1
+                //                                     ? "low to high"
+                //                                     : "high to low",
+                //                         quick_filter: controller
+                //                             .selectedQuickFilters
+                //                             .toString(),
+                //                         price_range:
+                //                             "${controller.lowerValue.value},${controller.upperValue.value}",
+                //                       );
+                //                     }))
+                //           ],
+                //         ),
+                //         hBox(50)
+                //       ],
+                //     ),
+                //   ),
+                // ),
+              );
+          }
+        }),
+      ),
+    );
+  }
+
+  Padding filterWidget(categoryId) {
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            hBox(15.h),
+            if (controller.getFilterData.value.cuisineType!.isNotEmpty)
+              Cuisines(),
+            if (controller.getFilterData.value.cuisineType!.isNotEmpty)
+              hBox(20.h),
+            // price(),
+            // hBox(30),
+            quickFilter(),
+            hBox(30),
+            priceRange(),
+            hBox(20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                    child: CustomElevatedButton(
+                        height: 55.h,
+                        text: "Clear",
+                        color: AppColors.black,
+                        onPressed: () {
+                          controller.selectedCuisines.clear();
+                          controller.selectedQuickFilters.clear();
+                          // controller.priceRadioValue.value = 0;
+                          controller.lowerValue.value = controller
+                              .getFilterData.value.minPrice!
+                              .toDouble();
+                          controller.upperValue.value = controller
+                              .getFilterData.value.maxPrice!
+                              .toDouble();
+                          for (var cuisine
+                              in controller.getFilterData.value.cuisineType!) {
+                            cuisine.isSelected.value = false;
+                          }
+                        })),
+                wBox(10),
+                Expanded(
+                    child: CustomElevatedButton(
+                        height: 55.h,
+                        text: "Apply",
+                        onPressed: () {
+                          Get.back();
+                          controller.priceRadioValue.value = 0;
+                          pharmacyCategoriesDetailsController
+                              .pharmacy_Categories_Details_filter_Api(
+                            id: categoryId.toString(),
+                            product_type:
+                                controller.selectedCuisines.join(', '),
+                            // price_sort: controller.priceRadioValue.value == 0
+                            //     ? ""
+                            //     : controller.priceRadioValue.value == 1
+                            //         ? "low to high"
+                            //         : "high to low",
+                            quick_filter:
+                                controller.selectedQuickFilters.toString(),
+                            price_range:
+                                "${controller.lowerValue.value},${controller.upperValue.value}",
+                          );
+                        }))
+              ],
+            ),
+            hBox(50)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget sortWidget(categoryId) {
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24.0,vertical: 20),
+      child: Column(
+        children: [
+          price(),
+          hBox(Get.height * 0.5.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                  child: CustomElevatedButton(
+                      height: 55.h,
+                      text: "Clear",
+                      color: AppColors.black,
+                      onPressed: () {
+                        // controller.selectedCuisines.clear();
+                        // controller.selectedQuickFilters.clear();
+                        controller.priceRadioValue.value = 0;
+                        // controller.lowerValue.value =
+                        //     controller.getFilterData.value.minPrice!.toDouble();
+                        // controller.upperValue.value =
+                        //     controller.getFilterData.value.maxPrice!.toDouble();
+                        // for (var cuisine
+                        // in controller.getFilterData.value.cuisineType!) {
+                        //   cuisine.isSelected.value = false;
+                        // }
+                      })),
+              wBox(10),
+              Expanded(
+                  child: CustomElevatedButton(
+                      height: 55.h,
+                      text: "Apply",
+                      onPressed: () {
+                        Get.back();
+                        controller.selectedCuisines.clear();
+                        controller.selectedQuickFilters.clear();
+                        controller.lowerValue.value =
+                            controller.getFilterData.value.minPrice!.toDouble();
+                        controller.upperValue.value =
+                            controller.getFilterData.value.maxPrice!.toDouble();
+                        for (var cuisine
+                        in controller.getFilterData.value.cuisineType!) {
+                          cuisine.isSelected.value = false;
+                        }
+                        pharmacyCategoriesDetailsController.pharmacy_Categories_Details_filter_Api(
+                          id: categoryId.toString(),
+                          // product_type:
+                          // controller.selectedCuisines.join(', '),
+                          price_sort: controller.priceRadioValue.value == 0
+                              ? ""
+                              : controller.priceRadioValue.value == 1
+                              ? "low to high"
+                              : "high to low",
+                          // quick_filter:
+                          // controller.selectedQuickFilters.toString(),
+                          // price_range:
+                          // "${controller.lowerValue.value},${controller.upperValue.value}",
+                        );
+                      }))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding appbar() {
+    return Padding(
+      padding: REdgeInsets.only(left: 24, top: 18),
+      child: AppBar(
+        leadingWidth: 44.w,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            width: 44.h,
+            height: 44.h,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey.shade200,
+            ),
+            child: Center(
+              child: SvgPicture.asset("assets/svg/back.svg"),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -201,6 +403,7 @@ class PharmacyCategoriesFilter extends StatelessWidget {
                                     width: 1, color: Colors.black),
                               ),
                               activeColor: Colors.black,
+                              dense: true,
                               controlAffinity: ListTileControlAffinity.leading,
                               contentPadding: EdgeInsets.zero,
                             ),

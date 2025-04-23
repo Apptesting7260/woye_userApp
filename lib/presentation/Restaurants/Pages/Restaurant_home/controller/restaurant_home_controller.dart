@@ -37,7 +37,7 @@ class RestaurantHomeController extends GetxController {
   void setError(String value) => error.value = value;
 
   homeApi(int page) async {
-    api.homeApi(page: page, perPage: 1).then((value) {
+    api.homeApi(page: page, perPage: 10).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);
@@ -57,7 +57,7 @@ class RestaurantHomeController extends GetxController {
     currentPage.value = 1;
     noLoading.value = false;
     setRxRequestStatus(Status.LOADING);
-    api.homeApi(page: 1, perPage: 1).then((value) {
+    api.homeApi(page: 1, perPage: 10).then((value) {
       setRxRequestStatus(Status.COMPLETED);
       isLoading.value = false;
       homeSet(value);

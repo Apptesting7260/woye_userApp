@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_modal.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 
@@ -13,10 +15,12 @@ class CheckoutScreen extends StatelessWidget {
   //     Get.put(PaymentMethodController());
 
   final CreateOrderController controller = Get.put(CreateOrderController());
+  final GroceryCartController groceryCartController = Get.put(GroceryCartController());
 
   @override
   Widget build(BuildContext context) {
     var arguments = Get.arguments ?? {};
+    print("arguments:: $arguments");
     var addressId = arguments['address_id'] ?? '';
     var couponId = arguments['coupon_id'] ?? '';
     var vendorId = arguments['vendor_id'] ?? '';
@@ -54,6 +58,9 @@ class CheckoutScreen extends StatelessWidget {
     // } else {
     //   print("No image provided");
     // }
+    // grocery arguments
+    var cartTotal = arguments['cart_total'];
+    var cartDelivery = arguments['cart_delivery'];
 
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
@@ -66,6 +73,9 @@ class CheckoutScreen extends StatelessWidget {
     print("Coupon Discount: $couponDiscount");
     print("wallet: $walletBalance");
     print("Image Paths: $imagePaths");
+    print("cartTotal: $cartTotal");
+    print("cartDelivery: $cartDelivery");
+    print("cartType: $cartType");
 
 // Optionally, print the list of image files (paths converted to File objects)
     for (var imageFile in imageFiles) {
@@ -104,9 +114,9 @@ class CheckoutScreen extends StatelessWidget {
               hBox(30.h),
               Obx(
                 () => CustomElevatedButton(
-                  isLoading:
-                      (controller.rxRequestStatus.value == Status.LOADING),
+                  isLoading: (controller.rxRequestStatus.value == Status.LOADING) || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING,
                   onPressed: () {
+                    if(cartType != 'grocery'){
                     if (controller.isSelectable.value == true) {
                       controller.placeOrderApi(
                           addressId: addressId,
@@ -139,6 +149,48 @@ class CheckoutScreen extends StatelessWidget {
                           imageFiles: imageFiles);
                     } else {
                       Utils.showToast("Payment method not available");
+                    }
+                  }
+                    else if(cartType == 'grocery'){
+                      List<Map<String,dynamic>> carts = [];
+
+                      print("vendorId type :: ${vendorId.runtimeType}");
+                      if(vendorId.runtimeType != String){
+                        for(int i =0; i < vendorId.length; i++){
+                          carts.add({
+                            "vendor_id": arguments['vendor_id'][i],
+                            "cart_id": arguments['cart_id'][i],
+                            "cart_total": arguments['cart_total'][i],
+                            "cart_delivery":arguments['cart_delivery'][i],
+                          },
+                          );
+                        }
+                      }else{
+                        carts.add({
+                          "vendor_id": arguments['vendor_id'].toString(),
+                          "cart_id": arguments['cart_id'].toString(),
+                          "cart_total": arguments['cart_total'].toString(),
+                          "cart_delivery":arguments['cart_delivery'].toString(),
+                        },
+                        );
+                      }
+
+
+                      List<String> cartIDs = [];
+                      if(vendorId.runtimeType != String){
+                      for(int i = 0; i < cartId.length; i++){
+                        cartIDs.add(arguments['cart_id'][i].toString());
+                      }}else{
+                        cartIDs.add(arguments['cart_id'].toString());
+                      }
+
+                      groceryCartController.createOrderGrocery(
+                          walletUsed: controller.walletSelected.value,
+                          walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
+                          paymentMethod: controller.isSelectable.value == true ? "wallet" :controller.selectedIndex.value == 0 ?
+                                         "credit_card" :controller.selectedIndex.value == 1 ? "cash_on_delivery" : "",
+                          paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+                          addressId: addressId, couponId: couponId, total: total,cartIds: cartIDs, type: cartType, carts: carts);
                     }
                   },
                   text: controller.isSelectable.value == true

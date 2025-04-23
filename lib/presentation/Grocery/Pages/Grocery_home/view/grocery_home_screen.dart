@@ -367,8 +367,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    var carts = groceryShowAllCartController
-                        .cartData.value.carts![index];
+                    var carts = groceryShowAllCartController.cartData.value.carts![index];
                     return Container(
                       width: Get.width,
                       padding: EdgeInsets.only(
@@ -809,7 +808,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
         ),
         hBox(10),
         Text(
-          title,
+          title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_18_400(AppColors.darkText),
         ),

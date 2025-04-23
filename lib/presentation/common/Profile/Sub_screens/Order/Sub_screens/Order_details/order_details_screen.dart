@@ -358,7 +358,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     ),
                     if (controller.ordersData.value.orderDetails?.type !=
                         "pharmacy")
-                      if (item.attribute!.isNotEmpty)
+                      if (item.attribute?.isNotEmpty ?? true)
                         Padding(
                           padding: EdgeInsets.only(top: 10.h),
                           child: SizedBox(
@@ -368,7 +368,7 @@ class OrderDetailsScreen extends StatelessWidget {
                               spacing: 2.w,
                               runSpacing: 2.w,
                               children: List.generate(
-                                item.attribute!.length,
+                                item.attribute?.length ?? 0,
                                 (addonIndex) {
                                   bool isLast =
                                       addonIndex == item.attribute!.length - 1;
@@ -416,7 +416,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         ),
                     if (controller.ordersData.value.orderDetails?.type !=
                         "pharmacy")
-                      if (item.addons!.isNotEmpty)
+                      if (item.addons?.isNotEmpty ?? true)
                         SizedBox(
                           width: Get.width,
                           child: Wrap(
@@ -424,7 +424,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             spacing: 2.w,
                             runSpacing: 2.w,
                             children: List.generate(
-                              item.addons!.length,
+                              item.addons?.length ?? 0,
                               (addonIndex) {
                                 bool isLast =
                                     addonIndex == item.addons!.length - 1;

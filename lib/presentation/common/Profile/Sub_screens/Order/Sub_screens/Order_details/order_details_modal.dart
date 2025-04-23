@@ -126,31 +126,31 @@ class OrderDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = this.id;
-    data['order_id'] = this.orderId;
-    data['tracking_id'] = this.trackingId;
-    data['customer_id'] = this.customerId;
-    data['payment_method'] = this.paymentMethod;
-    data['address_id'] = this.addressId;
-    data['coupon_id'] = this.couponId;
-    if (this.coupon != null) {
-      data['coupon'] = this.coupon!.toJson(); // Serialize coupon
+    data['id'] = id;
+    data['order_id'] = orderId;
+    data['tracking_id'] = trackingId;
+    data['customer_id'] = customerId;
+    data['payment_method'] = paymentMethod;
+    data['address_id'] = addressId;
+    data['coupon_id'] = couponId;
+    if (coupon != null) {
+      data['coupon'] = coupon!.toJson(); // Serialize coupon
     }
-    data['type'] = this.type;
-    data['vendor_id'] = this.vendorId;
-    data['wallet_used'] = this.walletUsed;
-    data['remaining_payment'] = this.remainingPayment;
-    data['total'] = this.total;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.decodedAttribute != null) {
+    data['type'] = type;
+    data['vendor_id'] = vendorId;
+    data['wallet_used'] = walletUsed;
+    data['remaining_payment'] = remainingPayment;
+    data['total'] = total;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (decodedAttribute != null) {
       data['decoded_attribute'] =
-          this.decodedAttribute!.map((v) => v.toJson()).toList();
+          decodedAttribute!.map((v) => v.toJson()).toList();
     }
-    data['vendor_name'] = this.vendorName;
-    if (this.addressDetails != null) {
-      data['address_details'] = this.addressDetails!.toJson();
+    data['vendor_name'] = vendorName;
+    if (addressDetails != null) {
+      data['address_details'] = addressDetails!.toJson();
     }
     return data;
   }
@@ -183,9 +183,9 @@ class DecodedAttribute {
       this.categoryName});
 
   DecodedAttribute.fromJson(Map<String, dynamic> json) {
-    productId = json['product_id'];
+    productId = json['product_id']?.toString();
     quantity = json['quantity'];
-    price = json['price'];
+    price = json['price']?.toString();
     if (json['addons'] != null) {
       addons = <Addons>[];
       json['addons'].forEach((v) {
@@ -200,29 +200,29 @@ class DecodedAttribute {
     }
     checked = json['checked'];
     count = json['count'];
-    productName = json['product_name'];
-    productImage = json['product_image'];
+    productName = json['product_name']?.toString();
+    productImage = json['product_image']?.toString();
     categoryId = json['category_id'];
-    categoryName = json['category_name'];
+    categoryName = json['category_name']?.toString();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['product_id'] = this.productId;
-    data['quantity'] = this.quantity;
-    data['price'] = this.price;
-    if (this.addons != null) {
-      data['addons'] = this.addons!.map((v) => v.toJson()).toList();
+    data['product_id'] = productId;
+    data['quantity'] = quantity;
+    data['price'] = price;
+    if (addons != null) {
+      data['addons'] = addons!.map((v) => v.toJson()).toList();
     }
-    if (this.attribute != null) {
-      data['attribute'] = this.attribute!.map((v) => v.toJson()).toList();
+    if (attribute != null) {
+      data['attribute'] = attribute!.map((v) => v.toJson()).toList();
     }
-    data['checked'] = this.checked;
-    data['count'] = this.count;
-    data['product_name'] = this.productName;
-    data['product_image'] = this.productImage;
-    data['category_id'] = this.categoryId;
-    data['category_name'] = this.categoryName;
+    data['checked'] = checked;
+    data['count'] = count;
+    data['product_name'] = productName;
+    data['product_image'] = productImage;
+    data['category_id'] = categoryId;
+    data['category_name'] = categoryName;
     return data;
   }
 }
@@ -242,9 +242,9 @@ class Addons {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['price'] = this.price;
-    data['name'] = this.name;
+    data['id'] = id;
+    data['price'] = price;
+    data['name'] = name;
     return data;
   }
 }
@@ -264,9 +264,9 @@ class Attribute {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title_id'] = this.titleId;
-    if (this.itemDetails != null) {
-      data['item_details'] = this.itemDetails!.toJson();
+    data['title_id'] = titleId;
+    if (itemDetails != null) {
+      data['item_details'] = itemDetails!.toJson();
     }
     return data;
   }
@@ -287,9 +287,9 @@ class ItemDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['item_id'] = this.itemId;
-    data['item_name'] = this.itemName;
-    data['item_price'] = this.itemPrice;
+    data['item_id'] = itemId;
+    data['item_name'] = itemName;
+    data['item_price'] = itemPrice;
     return data;
   }
 }
@@ -345,20 +345,20 @@ class AddressDetails {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['user_id'] = this.userId;
-    data['full_name'] = this.fullName;
-    data['phone_number'] = this.phoneNumber;
-    data['country_code'] = this.countryCode;
-    data['house_details'] = this.houseDetails;
-    data['address'] = this.address;
-    data['address_type'] = this.addressType;
-    data['is_default'] = this.isDefault;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
-    data['delivery_instruction'] = this.deliveryInstruction;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['full_name'] = fullName;
+    data['phone_number'] = phoneNumber;
+    data['country_code'] = countryCode;
+    data['house_details'] = houseDetails;
+    data['address'] = address;
+    data['address_type'] = addressType;
+    data['is_default'] = isDefault;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['delivery_instruction'] = deliveryInstruction;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -433,13 +433,13 @@ class Coupon {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = this.id;
-    data['coupon_type'] = this.couponType;
-    data['title'] = this.title;
-    data['code'] = this.code;
+    data['id'] = id;
+    data['coupon_type'] = couponType;
+    data['title'] = title;
+    data['code'] = code;
     // data['limit_for_user'] = this.limitForUser;
-    data['discount_type'] = this.discountType;
-    data['discount_amount'] = this.discountAmount;
+    data['discount_type'] = discountType;
+    data['discount_amount'] = discountAmount;
     // data['min_purchase'] = this.minPurchase;
     // data['max_discount'] = this.maxDiscount;
     // data['start_date'] = this.startDate;
@@ -448,7 +448,7 @@ class Coupon {
     // data['sub_category_id'] = this.subCategoryId;
     // data['product_id'] = this.productId;
     // data['customer_id'] = this.customerId;
-    data['status'] = this.status;
+    data['status'] = status;
     // data['created_at'] = this.createdAt;
     // data['updated_at'] = this.updatedAt;
     // data['expiry_status'] = this.expiryStatus;
