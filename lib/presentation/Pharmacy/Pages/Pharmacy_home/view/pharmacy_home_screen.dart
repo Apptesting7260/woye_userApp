@@ -8,6 +8,7 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_cart_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
@@ -16,6 +17,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/banner_screens/pharma_banner_details_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/controller/pharmacy_home_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 
 class PharmacyHomeScreen extends StatefulWidget {
   const PharmacyHomeScreen({super.key});
@@ -25,25 +27,21 @@ class PharmacyHomeScreen extends StatefulWidget {
 }
 
 class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
-  final PharmacyHomeController pharmacyHomeController =
-      Get.put(PharmacyHomeController());
+  final PharmacyHomeController pharmacyHomeController =Get.put(PharmacyHomeController());
 
-  final PharmacyNavbarController pharmacyNavbarController =
-      Get.put(PharmacyNavbarController());
-  final PharmacyDetailsController pharmacyDetailsController =
-      Get.put(PharmacyDetailsController());
+  final PharmacyNavbarController pharmacyNavbarController =Get.put(PharmacyNavbarController());
+  final PharmacyDetailsController pharmacyDetailsController = Get.put(PharmacyDetailsController());
 
-  final PharmacyCategoriesDetailsController
-      pharmacyCategoriesDetailsController =
-      Get.put(PharmacyCategoriesDetailsController());
+  final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController = Get.put(PharmacyCategoriesDetailsController());
 
-  final PharmacyCartController pharmacyCartController =
-      Get.put(PharmacyCartController());
+  final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
 
   @override
   void initState() {
     super.initState();
-    pharmacyCartController.getPharmacyCartApi();
+    getApiData();
+    // pharmacyCartController.getPharmacyCartApi();
+    // pharmacyCartController.getAllPharmacyCartData();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
@@ -59,6 +57,11 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         }
       }
     });
+  }
+
+  getApiData()async{
+    await pharmacyCartController.getPharmacyCartApi();
+    await pharmacyCartController.getAllPharmacyCartData();
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -126,6 +129,164 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     ),
                   ],
                 ),
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+                floatingActionButton: Padding(
+                    padding: EdgeInsets.only(bottom: 60.h),
+                    child: pharmacyCartController.cartDataAll.value.buttonCheck == false
+                        ? const SizedBox()
+                        : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Stack(
+                          clipBehavior: Clip.none,
+                          alignment: AlignmentDirectional.topCenter,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: 10.r,
+                                  bottom: 10.r,
+                                  left: 20.r,
+                                  right: 20.r),
+                              width: Get.width,
+                              padding: EdgeInsets.only(
+                                  top: 10.r,
+                                  bottom: 10.r,
+                                  left: 10.r,
+                                  right: 10.r),
+                              decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  border: Border.all(
+                                      color: AppColors.hintText)),
+                              child: Row(
+                                children: [
+                                  Container(
+                                      width: 50.h,
+                                      height: 50.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(100.r),
+                                      ),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                          BorderRadius.circular(100.r),
+                                          child: CachedNetworkImage(
+                                            imageUrl: pharmacyCartController.cartDataAll.value.carts?[0].pharmacy?.shopimage.toString() ?? "",
+                                            placeholder: (context, url) =>
+                                                circularProgressIndicator(),
+                                            errorWidget:(context, url, error) =>
+                                                Icon(
+                                                  Icons.person,
+                                                  size: 40.h,
+                                                  color: AppColors.lightText
+                                                      .withOpacity(0.5),
+                                                ),
+                                            fit: BoxFit.cover,
+                                          ))),
+                                  wBox(10.h),
+                                  Container(
+                                    width: Get.width / 3,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          pharmacyCartController.cartDataAll.value.carts?[0].pharmacy?.shopName.toString() ?? "",
+                                          overflow: TextOverflow.ellipsis,
+                                          style: AppFontStyle.text_14_500(
+                                              AppColors.darkText),
+                                        ),
+                                        // Text(
+                                        //   carts.vendorAddress.toString(),
+                                        //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                                        //   overflow: TextOverflow.ellipsis,
+                                        //   maxLines: 1,
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.primary,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        Get.back();
+                                        Get.to(PharmacyCartScreen(
+                                          cartId:pharmacyCartController.cartDataAll.value.carts?[0].id.toString() ?? "",
+                                          isBack: true,
+                                        ));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            "View Cart",
+                                            style: AppFontStyle.text_14_400(
+                                                AppColors.white),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                          Text(
+                                            "items",
+                                            style: AppFontStyle.text_10_400(
+                                                AppColors.white
+                                                    .withOpacity(.5)),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
+                                        ],
+                                      ))
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              top: -15.h,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  print(pharmacyCartController.cartDataAll.value.carts?.length);
+                                  showAllCart();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.all(8.r),
+                                  backgroundColor: AppColors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(30.r),
+                                  ),
+                                  elevation: 5,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    wBox(2.w),
+                                    Text(
+                                      "Carts",
+                                      style: AppFontStyle.text_12_600(
+                                          AppColors.primary),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_drop_up,
+                                      color: AppColors.primary,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
               ),
             ),
           );
@@ -177,8 +338,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
     );
   }
 
-  final PharmaBannerDetailsControllerController bannerDetailsController =
-      Get.put(PharmaBannerDetailsControllerController());
+  final PharmaBannerDetailsControllerController bannerDetailsController = Get.put(PharmaBannerDetailsControllerController());
 
   Widget mainBanner() {
     return Column(
@@ -358,7 +518,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(AllPharmaShopsScreen());
+                  Get.to( ()=> AllPharmaShopsScreen());
                 },
                 child: Text(
                   "See All",
@@ -432,16 +592,14 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 fit: BoxFit.fill,
                 width: double.maxFinite,
                 height: 220.h,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
+                placeholder: (context, url) => const ShimmerWidget(),
+                errorWidget: (context, url, error) => Container(
+                    clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: AppColors.gray,
+                      border: Border.all(color: AppColors.textFieldBorder),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
-                  ),
-                ),
+                    child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
             // GestureDetector(
@@ -499,6 +657,157 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
           ],
         )
       ],
+    );
+  }
+
+  showAllCart() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.all(24.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "Your Carts(${pharmacyCartController.cartDataAll.value.carts?.length})",
+                      style: AppFontStyle.text_20_600(AppColors.darkText),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        Get.back();
+                        pharmacyNavbarController.getIndex(3);
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Checkout all",
+                            style: AppFontStyle.text_14_600(AppColors.primary),
+                          ),
+                          wBox(4),
+                          Icon(
+                            Icons.arrow_forward_sharp,
+                            color: AppColors.primary,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                hBox(20.h),
+                ListView.separated(
+                  itemCount:pharmacyCartController.cartDataAll.value.carts?.length ?? 0,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    var carts = pharmacyCartController.cartDataAll.value.carts?[index];
+                    return Container(
+                      width: Get.width,
+                      padding: EdgeInsets.only(
+                          top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(color: AppColors.hintText)),
+                      child: Row(
+                        children: [
+                          Container(
+                              width: 50.h,
+                              height: 50.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                    carts?.pharmacy?.shopimage.toString() ?? "",
+                                    placeholder: (context, url) =>
+                                        circularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.person,
+                                      size: 40.h,
+                                      color:
+                                      AppColors.lightText.withOpacity(0.5),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ))),
+                          wBox(10.h),
+                          Container(
+                            width: Get.width / 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  carts?.pharmacy?.shopName.toString() ?? "",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppFontStyle.text_14_500(
+                                      AppColors.darkText),
+                                ),
+                                // Text(
+                                //   carts.vendorAddress.toString(),
+                                //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                                //   overflow: TextOverflow.ellipsis,
+                                //   maxLines: 1,
+                                // ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                Get.back();
+                                Get.to(PharmacyCartScreen(
+                                  cartId: carts?.id.toString() ?? "",
+                                  isBack: true,
+                                ));
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "View Cart",
+                                    style: AppFontStyle.text_14_400(
+                                        AppColors.white),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    "items",
+                                    style: AppFontStyle.text_10_400(
+                                        AppColors.white.withOpacity(.5)),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ))
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return hBox(20.h);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

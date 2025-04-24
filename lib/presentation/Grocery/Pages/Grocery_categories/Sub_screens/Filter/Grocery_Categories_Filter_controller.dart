@@ -65,4 +65,17 @@ class GroceryCategoriesFilterController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+
+  clearData(){
+    selectedCuisines.clear();
+    selectedQuickFilters.clear();
+    priceRadioValue.value = 0;
+    lowerValue.value = getFilterData.value.minPrice?.toDouble();
+    upperValue.value = getFilterData.value.maxPrice?.toDouble();
+    for (var cuisine in getFilterData.value.cuisineType!) {
+      cuisine.isSelected.value = false;
+    }
+    update();
+  }
 }

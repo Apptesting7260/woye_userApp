@@ -429,6 +429,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 height: 20.h,
                 width: 20.h,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
               ),
             ),
             wBox(5),
@@ -748,7 +749,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                             (Status.LOADING),
                     text: "Go to Cart",
                     onPressed: () {
-                      Get.to(const PharmacyCartScreen(isBack: true));
+                      Get.to((()=>PharmacyCartScreen(isBack: true,cartId: pharmacyAddToCarController.cartId.value.toString())));
                       controller.goToCart.value = false;
                       controller.cartCount.value = 1;
                     })

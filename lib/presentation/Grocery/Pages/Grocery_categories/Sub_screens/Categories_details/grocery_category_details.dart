@@ -6,6 +6,7 @@ import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
 class GroceryCategoryDetails extends StatelessWidget {
   GroceryCategoryDetails({super.key});
@@ -89,8 +90,7 @@ class GroceryCategoryDetails extends StatelessWidget {
                                   'categoryId': categoryId.toString()
                                 },
                               );
-                              categoriesFilterController
-                                  .groceryGetCategoriesFilterApi();
+                              categoriesFilterController.groceryGetCategoriesFilterApi();
                             },
                           )),
                         ),
@@ -100,40 +100,17 @@ class GroceryCategoryDetails extends StatelessWidget {
                     SliverToBoxAdapter(
                       child: hBox(10.h),
                     ),
-                    if (controller.categoriesDetailsData.value.filterProduct!
-                            .isEmpty &&
-                        controller.categoriesDetailsData.value.categoryProduct!
-                            .isEmpty || controller.searchData.isEmpty)
+                    if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&
+                        controller.categoriesDetailsData.value.categoryProduct!.isEmpty||(
+                        (controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
+                        ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)))
                       SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            Center(
-                              child: SvgPicture.asset(
-                                ImageConstants.noData,
-                                height: 300.h,
-                                width: 200.h,
-                              ),
-                            ),
-                            Text(
-                              "We couldn't find any results",
-                              style:
-                                  AppFontStyle.text_20_600(AppColors.darkText),
-                            ),
-                            hBox(5.h),
-                            Text(
-                              "Explore more and shortlist some items",
-                              style: AppFontStyle.text_16_400(
-                                  AppColors.mediumText),
-                            ),
-                          ],
-                        ),
+                        child: CustomNoDataFound(heightBox: hBox(50.h),),
                       ),
-                    if (controller
-                        .categoriesDetailsData.value.filterProduct!.isEmpty)
-                      productList(),
-                    if (controller
-                        .categoriesDetailsData.value.filterProduct!.isNotEmpty)
-                      filterProductList(),
+                      if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)
+                        productList(),
+                      if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)
+                        filterProductList(),
                     SliverToBoxAdapter(
                       child: hBox(50.h),
                     )

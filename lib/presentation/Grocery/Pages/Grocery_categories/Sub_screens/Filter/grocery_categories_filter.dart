@@ -446,12 +446,12 @@ class GroceryCategoriesFilter extends StatelessWidget {
               ],
             );
           } else {
-            return SizedBox(); // Empty space if no need for buttons
+            return const SizedBox(); // Empty space if no need for buttons
           }
         }),
       ],
     );
-    ;
+
   }
 
   Widget price() {

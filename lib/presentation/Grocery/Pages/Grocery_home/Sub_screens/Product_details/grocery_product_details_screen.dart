@@ -841,6 +841,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+
                     children: [
                       Expanded(
                         flex: 1,

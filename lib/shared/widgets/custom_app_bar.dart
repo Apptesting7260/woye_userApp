@@ -10,6 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isActions;
   final double? toolbarHeight;
   final PreferredSizeWidget? bottom;
+  final void Function()? leadingOnTap;
 
   const CustomAppBar(
       {super.key,
@@ -22,6 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.isActions = false,
       this.toolbarHeight,
       this.bottom,
+      this.leadingOnTap,
       });
 
   @override
@@ -33,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: isLeading
             ? leading ??
                 GestureDetector(
-                  onTap: () {
+                  onTap: leadingOnTap ?? () {
                     Get.back();
                   },
                   child: Padding(

@@ -84,6 +84,7 @@ class AppUrls {
   static const String pharmaUpdateCart = "$baseUrl/pupdate-cart";
   // static const String getPharmaCartData = "$baseUrl/pall-carts";
   static const String getPharmaCartData = "$baseUrl/pget-cart";
+  static const String getAllPharmaCartData = "$baseUrl/pall-carts";
   static const String deletePharmaProduct = "$baseUrl/pdelete-product";
   static const String updatePharmaQuantity =
       "$baseUrl/pupdate-product-quantity";

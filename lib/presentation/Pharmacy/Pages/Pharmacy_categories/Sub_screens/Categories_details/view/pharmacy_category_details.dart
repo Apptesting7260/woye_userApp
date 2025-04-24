@@ -5,6 +5,7 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/Pharma_Categories_Filter_controller.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
 class PharmacyCategoryDetails extends StatelessWidget {
   PharmacyCategoryDetails({super.key});
@@ -102,33 +103,12 @@ class PharmacyCategoryDetails extends StatelessWidget {
                     SliverToBoxAdapter(
                       child: hBox(10.h),
                     ),
-                    if (controller.categoriesDetailsData.value.filterProduct!
-                            .isEmpty &&
-                        controller.categoriesDetailsData.value.categoryProduct!
-                            .isEmpty)
-                      SliverToBoxAdapter(
-                        child: Column(
-                          children: [
-                            Center(
-                              child: SvgPicture.asset(
-                                ImageConstants.noData,
-                                height: 300.h,
-                                width: 200.h,
-                              ),
-                            ),
-                            Text(
-                              "We couldn't find any results",
-                              style:
-                                  AppFontStyle.text_20_600(AppColors.darkText),
-                            ),
-                            hBox(5.h),
-                            Text(
-                              "Explore more and shortlist some items",
-                              style: AppFontStyle.text_16_400(
-                                  AppColors.mediumText),
-                            ),
-                          ],
-                        ),
+                    if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&
+                        controller.categoriesDetailsData.value.categoryProduct!.isEmpty ||
+                        (controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
+                        ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
+                    )
+                      SliverToBoxAdapter(child: CustomNoDataFound(heightBox: hBox(50.h)),
                       ),
                     if (controller
                         .categoriesDetailsData.value.filterProduct!.isEmpty)

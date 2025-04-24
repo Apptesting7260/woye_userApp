@@ -16,6 +16,8 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/theme/font_style.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 import '../../../../../../../Core/Utils/sized_box.dart';
 
 class All_Restaurant extends StatelessWidget {
@@ -75,7 +77,8 @@ class All_Restaurant extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Obx(() {
                           final restaurants = controller.filteredWishlistData;
-                          return ListView.separated(
+                          return restaurants.isEmpty ?
+                            CustomNoDataFound(heightBox: hBox(50.h)) : ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: restaurants.length,
@@ -125,24 +128,21 @@ class All_Restaurant extends StatelessWidget {
         Stack(
           alignment: Alignment.topRight,
           children: [
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
               child: CachedNetworkImage(
+                width: Get.width,
+                fit: BoxFit.fitWidth,
                 imageUrl: image.toString(),
                 height: 220.h,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
+                placeholder: (context, url) =>const ShimmerWidget(),
+                errorWidget: (context, url, error) => Container(
+                    clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: AppColors.gray,
+                      border: Border.all(color: AppColors.textFieldBorder),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
-                  ),
-                ),
+                    child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
             // GestureDetector(

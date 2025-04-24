@@ -12,6 +12,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 
 class RestaurantDetailsScreen extends StatefulWidget {
   final String Restaurantid;
@@ -156,14 +157,19 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              width: Get.width,
               imageUrl: controller.restaurant_Data.value.restaurant!.shopimage
                   .toString(),
-              placeholder: (context, url) => circularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(
-                Icons.error,
-                size: 60.h,
-                color: AppColors.lightText.withOpacity(0.5),
+              placeholder: (context, url) => const ShimmerWidget(),
+              errorWidget: (context, url, error) => Container(
+                  width: double.maxFinite,
+                  height: 220.h,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+              border: Border.all(color: AppColors.textFieldBorder),
+              borderRadius: BorderRadius.circular(20.r),
               ),
+              child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               fit: BoxFit.cover,
             )),
         hBox(15),
@@ -276,7 +282,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: SizedBox(
-              width: Get.width * 0.7,
+              // width: Get.width * 0.7,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

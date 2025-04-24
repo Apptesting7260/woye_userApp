@@ -7,7 +7,6 @@ class PharmacyCartController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
   final cartData = PharmaCartModal().obs;
-  final cartDataAll = PharmacyAllCartProductModel().obs;
 
   final Rx<TextEditingController> couponCodeController =
       TextEditingController().obs;
@@ -27,10 +26,11 @@ class PharmacyCartController extends GetxController {
 
   void setError(String value) => error.value = value;
 
-  getPharmacyCartApi() async {
+  getPharmacyCartApi({String? cartId}) async {
     readOnly.value = true;
     couponCodeController.value.clear();
-    api.pharmacyCartGetDataApi().then((value) {
+    setRxRequestStatus(Status.LOADING);
+    api.pharmacyCartGetDataApi({'cart_id': cartId ?? "341"}).then((value) {
       cartSet(value);
       // cartSetAll(value);
       setRxRequestStatus(Status.COMPLETED);
@@ -46,7 +46,7 @@ class PharmacyCartController extends GetxController {
     setRxRequestStatus(Status.LOADING);
     couponCodeController.value.clear();
     readOnly.value = true;
-    api.pharmacyCartGetDataApi().then((value) {
+    api.pharmacyCartGetDataApi({'cart_id':"341"}).then((value) {
       cartSet(value);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
@@ -56,4 +56,29 @@ class PharmacyCartController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+  //-----------------Get all pharmacy cart data api implementation
+
+  final cartDataAll = PharmacyAllCartProductModel().obs;
+  void setCartData(PharmacyAllCartProductModel value){
+    cartDataAll.value = value;
+  }
+
+  final rxGetAllPCartData = Status.LOADING.obs;
+  void rxSetGetAllPCartData(Status value) => rxGetAllPCartData.value = value;
+
+    getAllPharmacyCartData() async {
+      rxSetGetAllPCartData(Status.LOADING);
+      api.getAllPharmacyCartDataApi().then((value) {
+        setCartData(value);
+        if(cartDataAll.value.status == true){
+          rxSetGetAllPCartData(Status.COMPLETED);
+        }
+      },).onError((error, stackError) {
+        setError(error.toString());
+        print(stackError);
+        print('errrrrrrrrrrrr SetGetAllPCartData : ${error.toString()}');
+        rxSetGetAllPCartData(Status.ERROR);
+      });
+    }
 }

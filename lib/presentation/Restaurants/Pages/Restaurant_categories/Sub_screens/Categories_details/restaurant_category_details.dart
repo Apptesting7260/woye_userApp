@@ -6,6 +6,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
 import '../../../../../../Data/components/GeneralException.dart';
 import '../../../../../../Data/components/InternetException.dart';
@@ -115,33 +116,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           SliverToBoxAdapter(
                             child: hBox(10.h),
                           ),
-                          if (controller.categoriesDetailsData.value
-                                  .filterProduct!.isEmpty &&
-                              controller.categoriesDetailsData.value
-                                  .categoryProduct!.isEmpty)
+                          if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&
+                              controller.categoriesDetailsData.value.categoryProduct!.isEmpty ||
+                              (controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
+                              ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)                          )
                             SliverToBoxAdapter(
-                              child: Column(
-                                children: [
-                                  Center(
-                                    child: SvgPicture.asset(
-                                      ImageConstants.noData,
-                                      height: 300.h,
-                                      width: 200.h,
-                                    ),
-                                  ),
-                                  Text(
-                                    "We couldn't find any results",
-                                    style: AppFontStyle.text_20_600(
-                                        AppColors.darkText),
-                                  ),
-                                  hBox(5.h),
-                                  Text(
-                                    "Explore more and shortlist some items",
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.mediumText),
-                                  ),
-                                ],
-                              ),
+                              child:CustomNoDataFound(heightBox: hBox(50.h))
                             ),
                           if (controller.categoriesDetailsData.value
                               .filterProduct!.isEmpty)

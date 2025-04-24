@@ -279,7 +279,7 @@ class DecodedAttribute {
         .toList();
 
     return DecodedAttribute(
-      productId: json['product_id'],
+      productId: json['product_id']?.toString(),
       quantity: json['quantity'],
       price: json['price'],
       attribute: attributeList ?? [],

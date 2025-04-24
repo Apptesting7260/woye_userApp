@@ -18,6 +18,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/theme/font_style.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 import '../../../../../../../Core/Utils/sized_box.dart';
 
 class AllGroceryShops extends StatelessWidget {
@@ -79,7 +81,7 @@ class AllGroceryShops extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Obx(() {
                           final pharma = controller.filteredWishlistData;
-                          return ListView.separated(
+                          return pharma.isEmpty ? CustomNoDataFound(heightBox: hBox(50.h),) : ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: pharma.length,
@@ -138,16 +140,14 @@ class AllGroceryShops extends StatelessWidget {
                 fit: BoxFit.fill,
                 width: double.maxFinite,
                 height: 220.h,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
+                placeholder: (context, url) => const ShimmerWidget(),
+                errorWidget: (context, url, error) => Container(
+                    clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: AppColors.gray,
+                      border: Border.all(color: AppColors.textFieldBorder),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
-                  ),
-                ),
+                    child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
             // GestureDetector(

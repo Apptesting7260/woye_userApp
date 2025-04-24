@@ -19,6 +19,8 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/ba
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/banners/grocery_home_banner_data.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/controller/grocery_home_controller.dart';
 
+import '../../Grocery_categories/Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
+
 class GroceryHomeScreen extends StatefulWidget {
   GroceryHomeScreen({super.key});
 
@@ -27,8 +29,8 @@ class GroceryHomeScreen extends StatefulWidget {
 }
 
 class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
-  final GroceryHomeController groceryHomeController =
-      Get.put(GroceryHomeController());
+  final GroceryHomeController groceryHomeController = Get.put(GroceryHomeController());
+  final GroceryCategoriesFilterController groceryCategoriesFilterController = Get.put(GroceryCategoriesFilterController());
 
   final GroceryDetailsController groceryDetailsController =
       Get.put(GroceryDetailsController());
@@ -134,9 +136,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
                   padding: EdgeInsets.only(bottom: 60.h),
-                  child: groceryShowAllCartController
-                              .cartData.value.buttonCheck ==
-                          false
+                  child: groceryShowAllCartController.cartData.value.buttonCheck == false
                       ? SizedBox()
                       : Column(
                           mainAxisSize: MainAxisSize.min,
@@ -586,7 +586,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
               Row(
                 children: [
                   Text(
-                    "Categories",
+                    "Categories" ,
                     style: AppFontStyle.text_24_600(AppColors.darkText),
                   ),
                   const Spacer(),
@@ -595,6 +595,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     highlightColor: Colors.transparent,
                     onTap: () {
                       navbarController.getIndex(1);
+                      groceryCategoriesFilterController.clearData();
                     },
                     child: Row(
                       children: [
@@ -636,6 +637,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                 .homeData.value.category![index].id
                                 .toString(),
                           );
+                          groceryCategoriesFilterController.clearData();
                         },
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.r),

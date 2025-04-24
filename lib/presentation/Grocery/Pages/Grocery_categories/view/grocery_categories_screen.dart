@@ -7,6 +7,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_scre
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/controller/grocery_categories_controller.dart';
 
 import '../../../../../shared/widgets/custom_no_data_found.dart';
+import '../Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
 
 class GroceryCategoriesScreen extends StatefulWidget {
   const GroceryCategoriesScreen({super.key});
@@ -22,13 +23,15 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
   final Grocerycategoriesdetailscontroller
   grocerycategoriesdetailscontroller =
   Get.put(Grocerycategoriesdetailscontroller());
+  final GroceryCategoriesFilterController groceryCategoriesFilterController = Get.put(GroceryCategoriesFilterController());
 
+  @override
   void initState() {
-    // TODO: implement initState
-    print('thjjfr');
     controller.pharmacyCategoriesApi();
+    groceryCategoriesFilterController.clearData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

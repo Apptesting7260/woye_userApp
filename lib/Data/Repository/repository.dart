@@ -448,9 +448,8 @@ class Repository {
 
   Future<dynamic> pharmaAddToCartApi(var data) async {
     await initializeUser();
-    dynamic response =
-        await _apiService.postApi2(data, AppUrls.pharmaAddToCart, token);
-    return PharmaAddToCart.fromJson(response);
+    dynamic response = await _apiService.postApi(data, AppUrls.pharmaAddToCart, token);
+    return PharmaAddToCartModel.fromJson(response);
   }
 
   Future<dynamic> pharmaUpdateCartApi(var data) async {
@@ -466,17 +465,15 @@ class Repository {
   //       await _apiService.getApi(AppUrls.getPharmaCartData, token);
   //   return PharmacyAllCartProductModel.fromJson(response);
   // }
-  Future<dynamic> pharmacyCartGetDataApi() async {
+  Future<dynamic> pharmacyCartGetDataApi(var data) async {
     await initializeUser();
-    dynamic response =
-        await _apiService.getApi(AppUrls.getPharmaCartData, token);
+    dynamic response = await _apiService.postApi( data,AppUrls.getPharmaCartData, token);
     return PharmaCartModal.fromJson(response);
   }
 
   Future<dynamic> deletePharmaProductApi(var data) async {
     await initializeUser();
-    dynamic response =
-        await _apiService.postApi(data, AppUrls.deletePharmaProduct, token);
+    dynamic response = await _apiService.postApi(data, AppUrls.deletePharmaProduct, token);
     return DeletePharmaProductModal.fromJson(response);
   }
 
@@ -499,6 +496,12 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.applyPharmaCoupons, token);
     return ApplyCouponModal.fromJson(response);
+  }
+
+  Future<dynamic> getAllPharmacyCartDataApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.getAllPharmaCartData, token);
+    return PharmacyAllCartProductModel.fromJson(response);
   }
 
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */

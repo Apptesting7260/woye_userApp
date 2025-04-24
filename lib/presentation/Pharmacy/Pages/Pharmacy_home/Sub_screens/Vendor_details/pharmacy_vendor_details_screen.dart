@@ -7,6 +7,7 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 
 class PharmacyVendorDetailsScreen extends StatelessWidget {
   final String pharmacyId;
@@ -121,15 +122,17 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
-              imageUrl:
-                  controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
-              placeholder: (context, url) =>
-                  Center(child: circularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(
-                Icons.error,
-                size: 60.h,
-                color: AppColors.lightText.withOpacity(0.5),
+              imageUrl: controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
+              placeholder: (context, url) => const ShimmerWidget(),
+              errorWidget: (context, url, error) =>Container(
+              clipBehavior: Clip.antiAlias,
+              width: double.maxFinite,
+              height: 220.h,
+              decoration: BoxDecoration(
+              border: Border.all(color: AppColors.textFieldBorder),
+              borderRadius: BorderRadius.circular(20.r),
               ),
+              child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               fit: BoxFit.cover,
             )),
         hBox(15),
@@ -236,7 +239,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: SizedBox(
-              width: Get.width * 0.7,
+              // width: Get.width * 0.7,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

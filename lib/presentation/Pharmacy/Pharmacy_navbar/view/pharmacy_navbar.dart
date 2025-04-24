@@ -104,36 +104,20 @@ class PharmacyNavbar extends StatelessWidget {
                           ],
                         ),
                         if (index == 3)
-                          Obx(
-                                () => pharmacyCartController
-                                .cartData.value.cart !=
-                                null
-                                ? Positioned(
-                              top: 15,
-                              right: 2,
-                              child: pharmacyCartController
-                                  .cartData
-                                  .value
-                                  .cart
-                                  ?.totalProductsInCart !=
-                                  0
+                          Obx(() => pharmacyCartController.cartDataAll.value.carts != null
+                                ? Positioned(top: 15, right: 3,
+                              child: (pharmacyCartController.cartDataAll.value.carts?.isNotEmpty ?? true)
                                   ? Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: AppColors.black,
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.all(2.h),
+                                  padding: REdgeInsets.all(4),
                                   child: Obx(() {
                                     return Text(
-                                      pharmacyCartController
-                                          .cartData
-                                          .value
-                                          .cart
-                                          ?.totalProductsInCart
-                                          .toString() ??
-                                          "",
-                                      style: TextStyle(
+                                      pharmacyCartController.cartDataAll.value.carts?.length.toString() ?? "",
+                                      style: TextStyle(fontSize: 9,
                                           color: AppColors.white),
                                     );
                                   }),

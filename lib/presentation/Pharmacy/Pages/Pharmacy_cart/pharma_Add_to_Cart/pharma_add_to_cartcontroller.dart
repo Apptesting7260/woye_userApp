@@ -9,11 +9,11 @@ class PharmacyAddToCarController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final rxRequestStatus2 = Status.COMPLETED.obs;
-  final addToCartData = PharmaAddToCart().obs;
+  final addToCartData = PharmaAddToCartModel().obs;
   final updateCartData = PharmaAddToCart().obs;
   RxString error = ''.obs;
   String token = "";
-
+  RxString cartId = "".obs;
   final PharmaSpecificProductController pharmaSpecificProductController =
       Get.put(PharmaSpecificProductController());
 
@@ -21,7 +21,7 @@ class PharmacyAddToCarController extends GetxController {
 
   void setRxRequestStatus2(Status value) => rxRequestStatus2.value = value;
 
-  void setData(PharmaAddToCart value) => addToCartData.value = value;
+  void setData(PharmaAddToCartModel value) => addToCartData.value = value;
 
   void setUpdateCartData(PharmaAddToCart value) => updateCartData.value = value;
   final PharmacyCartController pharmacyCartController =
@@ -29,51 +29,100 @@ class PharmacyAddToCarController extends GetxController {
 
   void setError(String value) => error.value = value;
 
+  // pharmaAddToCartApi({
+  //   required String productId,
+  //   required String productQuantity,
+  //   required String productPrice,
+  //   required String pharmaId,
+  //   // required List<dynamic> extrasIds,
+  //   // required List<dynamic> extrasItemIds,
+  //   // required List<dynamic> extrasItemNames,
+  //   // required List<dynamic> extrasItemPrices,
+  // }) async {
+  //   setRxRequestStatus(Status.LOADING);
+  //   // initializeUser();
+  //
+  //   var body = jsonEncode({
+  //     "product_id": productId,
+  //     "quantity": productQuantity,
+  //     "price": productPrice,
+  //     "pharma_id": pharmaId,
+  //     // "title_id": extrasIds,
+  //     // "item_id": extrasItemIds,
+  //     // "item_name": extrasItemNames,
+  //     // "item_price": extrasItemPrices,
+  //   });
+  //   api.pharmaAddToCartApi(body).then((value) {
+  //     setData(value);
+  //     if (addToCartData.value.status == true) {
+  //       if (addToCartData.value.message == "Making cart from another pharmacy") {
+  //         setRxRequestStatus(Status.COMPLETED);
+  //         showSwitchPharmacyDialog(
+  //           productId: productId,
+  //           productQuantity: productQuantity,
+  //           productPrice: productPrice,
+  //           restaurantId: pharmaId,
+  //           // addons: addons,
+  //           // extrasIds: extrasIds,
+  //           // extrasItemIds: extrasItemIds,
+  //           // extrasItemNames: extrasItemNames,
+  //           // extrasItemPrices: extrasItemPrices,
+  //         );
+  //       } else {
+  //         pharmacyCartController.getPharmacyCartApi();
+  //         setRxRequestStatus(Status.COMPLETED);
+  //         pharmaSpecificProductController.goToCart.value = true;
+  //         Utils.showToast(addToCartData.value.message.toString());
+  //       }
+  //     } else {
+  //       Utils.showToast(addToCartData.value.message.toString());
+  //       setRxRequestStatus(Status.COMPLETED);
+  //     }
+  //   }).onError((error, stackError) {
+  //     print("Error: $error");
+  //     setError(error.toString());
+  //     print(stackError);
+  //     setRxRequestStatus(Status.ERROR);
+  //   });
+  // }
+
   pharmaAddToCartApi({
     required String productId,
     required String productQuantity,
     required String productPrice,
     required String pharmaId,
-    // required List<dynamic> extrasIds,
-    // required List<dynamic> extrasItemIds,
-    // required List<dynamic> extrasItemNames,
-    // required List<dynamic> extrasItemPrices,
+
   }) async {
     setRxRequestStatus(Status.LOADING);
-    // initializeUser();
-
-    var body = jsonEncode({
+    var body = {
       "product_id": productId,
       "quantity": productQuantity,
       "price": productPrice,
       "pharma_id": pharmaId,
-      // "title_id": extrasIds,
-      // "item_id": extrasItemIds,
-      // "item_name": extrasItemNames,
-      // "item_price": extrasItemPrices,
-    });
+    };
     api.pharmaAddToCartApi(body).then((value) {
       setData(value);
       if (addToCartData.value.status == true) {
-        if (addToCartData.value.message == "Making cart from another pharmacy") {
+        // if (addToCartData.value.message == "Making cart from another pharmacy") {
+        //   setRxRequestStatus(Status.COMPLETED);
+        //   showSwitchPharmacyDialog(
+        //     productId: productId,
+        //     productQuantity: productQuantity,
+        //     productPrice: productPrice,
+        //     restaurantId: pharmaId,
+        //     // addons: addons,
+        //     // extrasIds: extrasIds,
+        //     // extrasItemIds: extrasItemIds,
+        //     // extrasItemNames: extrasItemNames,
+        //     // extrasItemPrices: extrasItemPrices,
+        //   );
+        // } else {
+        //   pharmacyCartController.getPharmacyCartApi();
           setRxRequestStatus(Status.COMPLETED);
-          showSwitchPharmacyDialog(
-            productId: productId,
-            productQuantity: productQuantity,
-            productPrice: productPrice,
-            restaurantId: pharmaId,
-            // addons: addons,
-            // extrasIds: extrasIds,
-            // extrasItemIds: extrasItemIds,
-            // extrasItemNames: extrasItemNames,
-            // extrasItemPrices: extrasItemPrices,
-          );
-        } else {
-          pharmacyCartController.getPharmacyCartApi();
-          setRxRequestStatus(Status.COMPLETED);
+          cartId.value = addToCartData.value.cartId.toString();
           pharmaSpecificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
-        }
+        // }
       } else {
         Utils.showToast(addToCartData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);
