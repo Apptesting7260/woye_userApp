@@ -9,6 +9,7 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_cart_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_single_cart_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
@@ -60,8 +61,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
   }
 
   getApiData()async{
-    await pharmacyCartController.getPharmacyCartApi();
     await pharmacyCartController.getAllPharmacyCartData();
+    // await pharmacyCartController.getPharmacyCartApi(cartId:pharmacyCartController.cartDataAll.value.carts?.map((val)=>val.id.toString()).toList().toString() ?? "");
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -218,7 +219,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                       ),
                                       onPressed: () {
                                         Get.back();
-                                        Get.to(PharmacyCartScreen(
+                                        Get.to(PharmacySingleCartScreen(
                                           cartId:pharmacyCartController.cartDataAll.value.carts?[0].id.toString() ?? "",
                                           isBack: true,
                                         ));
@@ -772,7 +773,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                               ),
                               onPressed: () {
                                 Get.back();
-                                Get.to(PharmacyCartScreen(
+                                Get.to(PharmacySingleCartScreen(
                                   cartId: carts?.id.toString() ?? "",
                                   isBack: true,
                                 ));

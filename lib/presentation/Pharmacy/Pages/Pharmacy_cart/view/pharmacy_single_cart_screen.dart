@@ -43,7 +43,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
   Get.put(PharmaSpecificProductController());
 
   void initState() {
-    controller.getPharmacyCartApi(cartId: widget.cartId);
+    controller.getPharmacyCartApi(cartId: widget.cartId ?? "");
     super.initState();
     _scrollController.addListener(
           () {
@@ -58,6 +58,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    controller.refreshApi(cartId: widget.cartId.toString());
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -80,20 +81,20 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
               if (controller.error.value == 'No internet') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
+                    controller.refreshApi(cartId: widget.cartId.toString());
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
+                    controller.refreshApi(cartId: widget.cartId.toString());
                   },
                 );
               }
             case Status.COMPLETED:
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.refreshApi();
+                  controller.refreshApi(cartId:widget.cartId.toString());
                 },
                 child: controller.cartData.value.cartContent != "Notempty"
                     ? Column(
@@ -169,6 +170,8 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                 Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
                   'type': "PharmacyCart",
                   "fromcart": true,
+                  'cartId' :  controller.cartData.value.cart?.id.toString(),
+                  'cartScreenType' : "singleCart",
                 });
               },
               child: Row(
@@ -471,6 +474,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                     .isDelete
                                     .value = true;
                                 deleteProductController.deleteProductApi(
+                                  cartId: controller.cartData.value.cart?.id.toString() ?? "",
                                   productId: controller
                                       .cartData
                                       .value
@@ -585,6 +589,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                               .value = true;
                                           quantityUpdateController
                                               .updateQuantityApi(
+                                            cartId: controller.cartData.value.cart?.id.toString() ?? "",
                                             productId: controller
                                                 .cartData
                                                 .value
@@ -658,6 +663,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                             .value = true;
                                         quantityUpdateController
                                             .updateQuantityApi(
+                                          cartId: controller.cartData.value.cart?.id.toString() ?? "",
                                           productId: controller
                                               .cartData
                                               .value
@@ -1073,10 +1079,13 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
             isLoading
                 ? shimmerItem('\$0.00',
                 width: 70, height: 40, secondShimmer: false)
-                : Text(
-              "\$${controller.cartData.value.cart!.totalPrice.toString()}",
-              style: AppFontStyle.text_26_600(AppColors.primary),
-            ),
+                : SizedBox(
+              width: 135,
+                  child: Text(
+                                "\$${controller.cartData.value.cart!.totalPrice.toString()}",
+                                style: AppFontStyle.text_26_600(AppColors.primary),
+                              ),
+                ),
           ],
         ),
         isLoading

@@ -140,6 +140,7 @@ class PharmacyAddToCarController extends GetxController {
     required String productQuantity,
     required String productPrice,
     required String restaurantId,
+    required String cartId,
     // required List<dynamic> extrasIds,
     // required List<dynamic> extrasItemIds,
     // required List<dynamic> extrasItemNames,
@@ -160,7 +161,7 @@ class PharmacyAddToCarController extends GetxController {
       setUpdateCartData(value);
       if (updateCartData.value.status == true) {
         pharmaSpecificProductController.goToCart.value = true;
-        pharmacyCartController.getPharmacyCartApi();
+        pharmacyCartController.getPharmacyCartApi(cartId: cartId.toString());
         Utils.showToast(updateCartData.value.message.toString());
         setRxRequestStatus2(Status.COMPLETED);
         Get.back();
@@ -231,6 +232,7 @@ class PharmacyAddToCarController extends GetxController {
                       isLoading: rxRequestStatus2.value == (Status.LOADING),
                       onPressed: () {
                         pharmaUpdateCartApi(
+                          cartId: cartId.toString(),
                           productId: productId,
                           productQuantity: productQuantity,
                           productPrice: productPrice,

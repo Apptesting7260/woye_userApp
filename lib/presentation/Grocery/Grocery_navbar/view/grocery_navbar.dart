@@ -1,9 +1,12 @@
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/controller/grocery_navbar_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
 
 class GroceryNavbar extends StatelessWidget {
   final int navbarInitialIndex;
-  const GroceryNavbar({super.key, this.navbarInitialIndex = 0});
+   GroceryNavbar({super.key, this.navbarInitialIndex = 0});
+
+  GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +21,17 @@ class GroceryNavbar extends StatelessWidget {
                   // IndexedStack(
                   //   index: navbarController.navbarCurrentIndex,
                   //   children: navbarController.widgets,
-                  // ),
-                  navbarController.widgets[navbarController.navbarCurrentIndex],
+                  // // ),
+                  // navbarController.widgets[navbarController.navbarCurrentIndex],
+                  // Align(
+                  //   alignment: Alignment.bottomCenter,
+                  //   child: navbar(navbarController),
+                  // )
+                  if (navbarController.widgets.isNotEmpty)
+                    navbarController.widgets[navbarController.navbarCurrentIndex]
+                  else
+                    const SizedBox(),
+
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: navbar(navbarController),
@@ -57,9 +69,10 @@ class GroceryNavbar extends StatelessWidget {
         child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(navbarItems.length, (index) {
+
               bool isSelected = navbarController.navbarCurrentIndex == index;
-              String icon =
-                  isSelected ? navbarItemsFilled[index] : navbarItems[index];
+              String icon = isSelected ? navbarItemsFilled[index] : navbarItems[index];
+
               return InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,

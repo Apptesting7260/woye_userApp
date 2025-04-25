@@ -43,8 +43,7 @@ class AddAddressScreen extends StatelessWidget {
                   controller: controller.locationController,
                   onChanged: (value) {
                     controller.isValidAddress.value = false;
-                    print(
-                        "SelectedLocation 1${controller.isValidAddress.value}");
+                    print("SelectedLocation 1${controller.isValidAddress.value}");
                   },
                   suggestionsCallback: (query) async {
                     return await controller.searchAutocomplete(query);
@@ -70,8 +69,7 @@ class AddAddressScreen extends StatelessWidget {
                     controller.locationController.text =
                         selectedAddress.description ?? "";
                     controller.getLatLang(controller.locationController.text);
-                    controller.selectedLocation =
-                        controller.locationController.text;
+                    controller.selectedLocation = controller.locationController.text;
                     controller.isValidAddress.value = true;
                     controller.searchPlace.clear();
                     print("SelectedLocation ${controller.selectedLocation}");
@@ -131,8 +129,7 @@ class AddAddressScreen extends StatelessWidget {
           print("country code===========> ${countryCode.code}");
           controller.updateCountryCode(countryCode);
           controller.showError.value = false;
-          int? countrylength =
-              controller.countryPhoneDigits[countryCode.code.toString()];
+          int? countrylength = controller.countryPhoneDigits[countryCode.code.toString()];
           controller.chackCountryLength = countrylength!;
         },
         initialSelection: controller.selectedCountryCode.value.dialCode,

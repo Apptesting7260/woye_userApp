@@ -749,7 +749,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                             (Status.LOADING),
                     text: "Go to Cart",
                     onPressed: () {
-                      Get.to((()=>PharmacyCartScreen(isBack: true,cartId: pharmacyAddToCarController.cartId.value.toString())));
+                      Get.to((()=>const PharmacyCartScreen(isBack: true,/*cartId: pharmacyAddToCarController.cartId.value.toString()*/)));
                       controller.goToCart.value = false;
                       controller.cartCount.value = 1;
                     })

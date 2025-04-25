@@ -73,6 +73,7 @@ import 'package:woye_user/presentation/common/get_user_data/user_data_modal.dart
 import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user.dart';
 
 import '../../presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/grocery_create_order_model.dart';
+import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacyCheckoutAllModel.dart';
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_all_product_model.dart';
 
 class Repository {
@@ -502,6 +503,12 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.getAllPharmaCartData, token);
     return PharmacyAllCartProductModel.fromJson(response);
+  }
+
+  Future<dynamic> getPharmacyCheckOutAllApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.pharmacyCheckoutAll, token);
+    return PharmacyCheckOutAllModel.fromJson(response);
   }
 
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */

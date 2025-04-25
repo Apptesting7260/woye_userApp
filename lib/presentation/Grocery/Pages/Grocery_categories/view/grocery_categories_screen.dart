@@ -20,15 +20,15 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
   final GroceryCategoriesController controller =
   Get.put(GroceryCategoriesController());
 
-  final Grocerycategoriesdetailscontroller
-  grocerycategoriesdetailscontroller =
-  Get.put(Grocerycategoriesdetailscontroller());
+  final Grocerycategoriesdetailscontroller grocerycategoriesdetailscontroller = Get.put(Grocerycategoriesdetailscontroller());
   final GroceryCategoriesFilterController groceryCategoriesFilterController = Get.put(GroceryCategoriesFilterController());
 
   @override
   void initState() {
     controller.pharmacyCategoriesApi();
-    groceryCategoriesFilterController.clearData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      groceryCategoriesFilterController.clearData();
+    },);
     super.initState();
   }
 

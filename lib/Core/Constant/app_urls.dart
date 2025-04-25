@@ -86,11 +86,11 @@ class AppUrls {
   static const String getPharmaCartData = "$baseUrl/pget-cart";
   static const String getAllPharmaCartData = "$baseUrl/pall-carts";
   static const String deletePharmaProduct = "$baseUrl/pdelete-product";
-  static const String updatePharmaQuantity =
-      "$baseUrl/pupdate-product-quantity";
+  static const String updatePharmaQuantity = "$baseUrl/pupdate-product-quantity";
   static const String pharmaCheckedUnchecked = "$baseUrl/pchecked-unchecked";
 
   static const String applyPharmaCoupons = "$baseUrl/papply-coupons";
+  static const String pharmacyCheckoutAll = "$baseUrl/pcheckout-all";
 
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */
   static const String groceryHomeApi = "$baseUrl/grocery-home-api";

@@ -237,13 +237,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                           onPressed: () {
                                             Get.back();
                                             Get.to(SingleVendorGroceryCart(
-                                              cartId:
-                                                  groceryShowAllCartController
-                                                      .cartData
-                                                      .value
-                                                      .carts![0]
-                                                      .id
-                                                      .toString(),
+                                              cartId:groceryShowAllCartController.cartData.value.carts![0].id.toString(),
                                               isBack: true,
                                             ));
                                           },

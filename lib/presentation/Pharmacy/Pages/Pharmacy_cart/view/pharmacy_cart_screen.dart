@@ -19,9 +19,9 @@ import 'package:intl/intl.dart';
 
 class PharmacyCartScreen extends StatefulWidget {
   final bool isBack;
-  final String? cartId;
+  // final String? cartId;
 
-  const PharmacyCartScreen({super.key, this.isBack = false,this.cartId});
+  const PharmacyCartScreen({super.key, this.isBack = false,/*this.cartId*/});
 
   @override
   State<PharmacyCartScreen> createState() => _PharmacyCartScreenState();
@@ -37,7 +37,11 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
 
   @override
   void initState() {
-    controller.getPharmacyCartApi(cartId: widget.cartId);
+    controller.getAllCartProductsForCheckout();
+    print("zfvdsfsag");
+    // if(widget.cartId != null) {
+    //   controller.getPharmacyCartApi(cartId: widget.cartId);
+    // }
     super.initState();
     _scrollController.addListener(
       () {
@@ -67,29 +71,29 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
           ),
         ),
         body: Obx(() {
-          switch (controller.rxRequestStatus.value) {
+          switch (controller.rxGetCheckoutDataStatus.value ) {
             case Status.LOADING:
               return Center(child: circularProgressIndicator());
             case Status.ERROR:
               if (controller.error.value == 'No internet') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
-                  },
+                    controller.getAllCartProductsForCheckout();
+                    },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
-                  },
+                    controller.getAllCartProductsForCheckout();
+                    },
                 );
               }
             case Status.COMPLETED:
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.refreshApi();
+                  controller.getAllCartProductsForCheckout();
                 },
-                child: controller.cartData.value.cartContent != "Notempty"
+                child: controller.cartCheckoutData.value.cartContent != "Notempty"
                     ? Column(
                         children: [
                           hBox(Get.height / 3),
@@ -120,14 +124,14 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           controller: _scrollController,
                           child: Column(
                             children: [
-                              controller.cartData.value.addressExists == true
+                              controller.cartCheckoutData.value.addressExists == true
                                   ? address()
                                   : locationAddress(),
                               hBox(20.h),
                               cartItems(),
                               hBox(20.h),
-                              promoCode(context),
-                              hBox(30.h),
+                              // promoCode(context),
+                              // hBox(30.h),
                               paymentDetails(),
                               hBox(30.h),
                               Divider(
@@ -196,14 +200,15 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
+                controller.cartCheckoutData.value.address?.addressType.toString().capitalizeFirst.toString() ?? "",
+                // controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
                 style: AppFontStyle.text_15_600(AppColors.primary),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
               SizedBox(
                 width: Get.width * 0.6,
                 child: Text(
-                  controller.cartData.value.address!.address.toString(),
+                  controller.cartCheckoutData.value.address?.address.toString() ?? "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppFontStyle.text_14_400(AppColors.darkText),
@@ -770,590 +775,987 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   //     },
   //   );
   // }
+  
   Widget cartItems() {
     return ListView.separated(
-      itemCount: 1,
+      itemCount: controller.cartCheckoutData.value.cart!.buckets!.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
+        var buckets = controller.cartCheckoutData.value.cart!.buckets![index];
+        // bool isLoading =
+        //     checkedUncheckedController.rxRequestStatus.value ==
+        //
+        //
+        //
+        //     Status.LOADING &&
+        //     controller.cartData.value.cart!.decodedAttribute?[index]
+        //         .isSelectedLoading.value ==
+        //         true;
 
-        bool isLoading = checkedUncheckedController.rxRequestStatus.value == Status.LOADING &&
-        controller.cartData.value.cart!.decodedAttribute?[index].isSelectedLoading.value == true;
-
-        return Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                  // color: AppColors.textFieldBorder,
-                  borderRadius: BorderRadius.circular(15.r),
-                  border: Border.all(color: AppColors.mediumText)
-              ),
-              child: Padding(
-                padding: REdgeInsets.symmetric(horizontal: 10,vertical: 10),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        Container(
-                            width: 55.h,
-                            height: 55.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100.r),
+        return Container(
+          width: Get.width,
+          padding:
+          EdgeInsets.only(top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              border: Border.all(color: AppColors.hintText)),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                      width: 50.h,
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
+                      ),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.r),
+                          child: CachedNetworkImage(
+                            imageUrl: buckets.vendorImage.toString(),
+                            placeholder: (context, url) =>
+                                circularProgressIndicator(),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.person,
+                              size: 40.h,
+                              color: AppColors.lightText.withOpacity(0.5),
                             ),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100.r),
-                                child: CachedNetworkImage(
-                                  height: 70,
-                                  width: 70,
-                                  // imageUrl: "buckets.vendorImage.toString()",
-                                  imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
-                                  placeholder: (context, url) =>
-                                      circularProgressIndicator(),
-                                  errorWidget: (context, url, error) => Icon(
-                                    Icons.person,
-                                    size: 40.h,
-                                    color: AppColors.lightText.withOpacity(0.5),
-                                  ),
-                                  fit: BoxFit.cover,
-                                ))),
-                        wBox(10.h),
-                        Container(
-                          width: Get.width / 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "vendorName",
-                                overflow: TextOverflow.ellipsis,
-                                style: AppFontStyle.text_14_500(AppColors.darkText),
-                              ),
-                              Text(
-                                "Jaipur, Rajasthan, India",
-                                style: AppFontStyle.text_12_400(AppColors.lightText),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        // Obx(
-                        //       () => deleteVendorController.rxRequestStatus.value ==
-                        //       Status.LOADING &&
-                        //       buckets.isVendorDelete.value == true
-                        //       ?
-                        //       Center(
-                        //     child: Row(
-                        //       children: [
-                        //         circularProgressIndicator(size: 15.h),
-                        //         wBox(2.h),
-                        //       ],
-                        //     ),
-                        //   )
-                        //       :
-                              GestureDetector(
-                            onTap: () {
-                              // buckets.isVendorDelete.value = true;
-                              // deleteVendorController.deleteProductApi(
-                              //     cartId: buckets.cartId.toString());
-                            },
-                            child: Text(
-                              "Remove",
-                              style: AppFontStyle.text_14_400(AppColors.red),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ),
-                        // ),
-                      ],
-                    ),
-                    Divider(thickness: .5.w, color: AppColors.hintText),
-                    Row(
+                            fit: BoxFit.cover,
+                          ))),
+                  wBox(10.h),
+                  Container(
+                    width: Get.width / 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        // Expanded(
-                        //   flex: 1,
-                        //   child: Transform.scale(
-                        //     scale: 1.2,
-                        //     child: isLoading
-                        //         ? Shimmer.fromColors(
-                        //             baseColor: Colors.grey.shade300,
-                        //             highlightColor: Colors.grey.shade100,
-                        //             child: const Checkbox(
-                        //               value: false,
-                        //               onChanged: null,
-                        //             ),
-                        //           )
-                        //         : Checkbox(
-                        //             activeColor: AppColors.black,
-                        //             shape: RoundedRectangleBorder(
-                        //               borderRadius: BorderRadius.circular(5),
-                        //             ),
-                        //             value: controller.cartData.value.cart!.decodedAttribute![index].checked == 'true',
-                        //             // value: controller.cartData.value.cart!.decodedAttribute![index].checked == 'true',
-                        //             side: BorderSide(
-                        //               color: AppColors.black,
-                        //             ),
-                        //             onChanged: (value) {
-                        //               if (checkedUncheckedController
-                        //                       .rxRequestStatus.value !=
-                        //                   Status.LOADING) {
-                        //                 controller
-                        //                     .cartData
-                        //                     .value
-                        //                     .cart!
-                        //                     .decodedAttribute?[index]
-                        //                     .isSelectedLoading
-                        //                     .value = true;
-                        //                 bool newCheckedStatus = !(controller
-                        //                         .cartData
-                        //                         .value
-                        //                         .cart!
-                        //                         .decodedAttribute![index]
-                        //                         .checked ==
-                        //                     'true');
-                        //
-                        //                 checkedUncheckedController.checkedUncheckedApi(
-                        //                   productId: controller.cartData.value.cart!
-                        //                       .decodedAttribute![index].productId
-                        //                       .toString(),
-                        //                   cartId: controller.cartData.value.cart!.id
-                        //                       .toString(),
-                        //                   status: newCheckedStatus.toString(),
-                        //                   countId: controller.cartData.value.cart!
-                        //                       .decodedAttribute![index].count
-                        //                       .toString(),
-                        //                 );
-                        //               }
-                        //             },
-                        //           ),
-                        //   ),
-                        // ),
-                        // wBox(10.h),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20.r),
-                          child: isLoading
-                              ? Shimmer.fromColors(
-                                  baseColor: Colors.grey.shade300,
-                                  highlightColor: Colors.grey.shade100,
-                                  child: Container(
-                                    color: Colors.white,
-                                    height: 100.h,
-                                    width: 100.h,
-                                  ),
-                                )
-                              : GestureDetector(
-                                  onTap: () {
-                                    pharmaSpecificProductController.pharmaSpecificProductApi(
-                                    productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
-                                    categoryId: controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString());
-                                    print("category_id ${controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString()}");
-                                    print("category Name ${controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString()}");
-                                    print("product Id ${controller.cartData.value.cart!.decodedAttribute![index].productId.toString()}");
-                                    // Get.to(PharmacyProductDetailsScreen(
-                                    //   productId: controller.cartData.value.cart!
-                                    //       .decodedAttribute![index].productId
-                                    //       .toString(),
-                                    //   categoryId: controller.cartData.value.cart!
-                                    //       .decodedAttribute![index].categoryId
-                                    //       .toString(),
-                                    //   categoryName: controller.cartData.value.cart!
-                                    //       .decodedAttribute![index].categoryName
-                                    //       .toString(),
-                                    // ));
-                                    Get.to(() => PharmacyProductDetailsScreen(
-                                      productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
-                                      categoryId: controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString(),
-                                      categoryName: controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString(),
-                                    ),);
-                                  },
-                                  child: CachedNetworkImage(
-                                    imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
-                                    height: 100.h,
-                                    width: 100.h,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Shimmer.fromColors(
-                                      baseColor: AppColors.gray,
-                                      highlightColor: AppColors.lightText,
-                                      child: Container(
-                                        color: AppColors.gray,
-                                        height: 100.h,
-                                        width: 100.h,
-                                      ),
-                                    ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                  ),
-                                ),
+                        Text(
+                          buckets.vendorName.toString(),
+                          overflow: TextOverflow.ellipsis,
+                          style: AppFontStyle.text_14_500(AppColors.darkText),
                         ),
-                        wBox(10.h),
-                        Expanded(
-                          flex: 6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              hBox(5.h),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  isLoading
-                                      ? Shimmer.fromColors(
-                                          baseColor: Colors.grey.shade300,
-                                          highlightColor: Colors.grey.shade100,
-                                          child: Container(
-                                            height: 14.h,
-                                            width: 110.w,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : SizedBox(
-                                          width: 110.w,
-                                          child: Text(
-                                            controller.cartData.value.cart!
-                                                .decodedAttribute![index].productName
-                                                .toString(),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                            style: AppFontStyle.text_14_500(
-                                                AppColors.darkText),
-                                          ),
-                                        ),
-                                  Obx(
-                                    () => deleteProductController
-                                                    .rxRequestStatus.value ==
-                                                Status.LOADING &&
-                                            controller
-                                                    .cartData
-                                                    .value
-                                                    .cart!
-                                                    .decodedAttribute![index]
-                                                    .isDelete
-                                                    .value ==
-                                                true
-                                        ? Center(
-                                            child: Row(
-                                              children: [
-                                                circularProgressIndicator(size: 15.h),
-                                                wBox(2.h),
-                                              ],
-                                            ),
-                                          )
-                                        : GestureDetector(
-                                            onTap: () {
-                                              controller
-                                                  .cartData
-                                                  .value
-                                                  .cart!
-                                                  .decodedAttribute![index]
-                                                  .isDelete
-                                                  .value = true;
-                                              deleteProductController.deleteProductApi(
-                                                productId: controller.cartDataAll.value.carts?[index].id.toString() ?? "",
-                                                countId: controller.cartData.value.cart!.decodedAttribute![index].count.toString(),
-                                                // productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
-                                                // countId: controller.cartData.value.cart!.decodedAttribute![index].count.toString(),
-                                              );
-                                            },
-                                            child: SvgPicture.asset(
-                                              "assets/svg/delete-outlined.svg",
-                                              height: 20,
-                                            ),
-                                          ),
-                                  ),
-                                ],
-                              ),
-                              hBox(15.h),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  isLoading
-                                      ? Shimmer.fromColors(
-                                          baseColor: Colors.grey.shade300,
-                                          highlightColor: Colors.grey.shade100,
-                                          child: Container(
-                                            height: 14.h,
-                                            width: 60.w,
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : Text(
-                                          "\$${controller.cartData.value.cart!.decodedAttribute![index].totalPrice.toString()}",
-                                          overflow: TextOverflow.ellipsis,
-                                          style: AppFontStyle.text_14_600(
-                                              AppColors.primary),
-                                        ),
-                                  isLoading
-                                      ? Shimmer.fromColors(
-                                          baseColor: Colors.grey.shade300,
-                                          highlightColor: Colors.grey.shade100,
-                                          child: Container(
-                                            height: 35.h,
-                                            width: 90.w,
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(50.r),
-                                            ),
-                                          ),
-                                        )
-                                      : Container(
-                                          height: 35.h,
-                                          width: 90.w,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(50.r),
-                                            border: Border.all(
-                                                width: 0.8.w, color: AppColors.primary),
-                                          ),
-                                          child: Obx(
-                                            () => quantityUpdateController
-                                                            .rxRequestStatus.value ==
-                                                        Status.LOADING &&
-                                                    controller
-                                                            .cartData
-                                                            .value
-                                                            .cart!
-                                                            .decodedAttribute![index]
-                                                            .isLoading
-                                                            .value ==
-                                                        true
-                                                ? Center(
-                                                    child: circularProgressIndicator2())
-                                                : Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.spaceEvenly,
-                                                    children: [
-                                                      InkWell(
-                                                        splashColor: Colors.transparent,
-                                                        highlightColor:
-                                                            Colors.transparent,
-                                                        onTap: () {
-                                                          if (controller
-                                                                  .cartData
-                                                                  .value
-                                                                  .cart!
-                                                                  .decodedAttribute![
-                                                                      index]
-                                                                  .checked !=
-                                                              "false") {
-                                                            if (controller
-                                                                    .cartData
-                                                                    .value
-                                                                    .cart!
-                                                                    .decodedAttribute![
-                                                                        index]
-                                                                    .quantity ==
-                                                                1) {
-                                                              Utils.showToast(
-                                                                  "Qty can not less then 1");
-                                                            } else {
-                                                              controller
-                                                                  .cartData
-                                                                  .value
-                                                                  .cart!
-                                                                  .decodedAttribute![
-                                                                      index]
-                                                                  .isLoading
-                                                                  .value = true;
-                                                              quantityUpdateController
-                                                                  .updateQuantityApi(
-                                                                productId: controller
-                                                                    .cartData
-                                                                    .value
-                                                                    .cart!
-                                                                    .decodedAttribute![
-                                                                        index]
-                                                                    .productId
-                                                                    .toString(),
-                                                                countId: controller
-                                                                    .cartData
-                                                                    .value
-                                                                    .cart!
-                                                                    .decodedAttribute![
-                                                                        index]
-                                                                    .count
-                                                                    .toString(),
-                                                                productQuantity: (controller
-                                                                            .cartData
-                                                                            .value
-                                                                            .cart!
-                                                                            .decodedAttribute![
-                                                                                index]
-                                                                            .quantity! -
-                                                                        1)
-                                                                    .toString(),
-                                                              );
-                                                            }
-                                                          } else {
-                                                            Utils.showToast(
-                                                                "First select product",
-                                                                gravity: ToastGravity
-                                                                    .CENTER);
-                                                          }
-                                                        },
-                                                        child: Icon(
-                                                          Icons.remove,
-                                                          size: 16.w,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        controller
-                                                            .cartData
-                                                            .value
-                                                            .cart!
-                                                            .decodedAttribute![index]
-                                                            .quantity
-                                                            .toString(),
-                                                        style: AppFontStyle.text_14_400(
-                                                            AppColors.darkText),
-                                                      ),
-                                                      InkWell(
-                                                        splashColor: Colors.transparent,
-                                                        highlightColor:
-                                                            Colors.transparent,
-                                                        onTap: () {
-                                                          if (controller
-                                                                  .cartData
-                                                                  .value
-                                                                  .cart!
-                                                                  .decodedAttribute![
-                                                                      index]
-                                                                  .checked !=
-                                                              "false") {
-                                                            controller
-                                                                .cartData
-                                                                .value
-                                                                .cart!
-                                                                .decodedAttribute![
-                                                                    index]
-                                                                .isLoading
-                                                                .value = true;
-                                                            quantityUpdateController
-                                                                .updateQuantityApi(
-                                                              productId: controller
-                                                                  .cartData
-                                                                  .value
-                                                                  .cart!
-                                                                  .decodedAttribute![
-                                                                      index]
-                                                                  .productId
-                                                                  .toString(),
-                                                              countId: controller
-                                                                  .cartData
-                                                                  .value
-                                                                  .cart!
-                                                                  .decodedAttribute![
-                                                                      index]
-                                                                  .count
-                                                                  .toString(),
-                                                              productQuantity: (controller
-                                                                          .cartData
-                                                                          .value
-                                                                          .cart!
-                                                                          .decodedAttribute![
-                                                                              index]
-                                                                          .quantity! +
-                                                                      1)
-                                                                  .toString(),
-                                                            );
-                                                          } else {
-                                                            Utils.showToast(
-                                                                "First select product");
-                                                          }
-                                                        },
-                                                        child: Icon(
-                                                          Icons.add,
-                                                          size: 16.w,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                          ),
-                                        ),
-                                ],
-                              ),
-                            ],
-                          ),
+                        Text(
+                          buckets.vendorAddress.toString(),
+                          style: AppFontStyle.text_12_400(AppColors.lightText),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
                       ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            hBox(5.h),
-            hBox(10.h),
-            if (controller.cartData.value.cart!.decodedAttribute![index]
-                    .attribute!.isNotEmpty &&
-                controller.cartData.value.cart!.decodedAttribute![index]
-                        .checked ==
-                    "true")
-              Padding(
-                padding: EdgeInsets.only(bottom: 10.h),
-                child: SizedBox(
-                  width: Get.width,
-                  child: Wrap(
-                    direction: Axis.horizontal,
-                    spacing: 2.w,
-                    runSpacing: 2.w,
-                    children: List.generate(
-                      controller.cartData.value.cart!.decodedAttribute![index]
-                          .attribute!.length,
-                      (addonIndex) {
-                        bool isLast = addonIndex ==
-                            controller
-                                    .cartData
-                                    .value
-                                    .cart!
-                                    .decodedAttribute![index]
-                                    .attribute!
-                                    .length -
-                                1;
-                        return Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemName}',
-                              style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              ' - ',
-                              style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            Text(
-                              '\$${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemPrice}',
-                              style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                            if (!isLast)
-                              Text(
-                                ',',
-                                style:
-                                    AppFontStyle.text_12_400(AppColors.primary),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                          ],
-                        );
-                      },
                     ),
                   ),
-                ),
+                  // const Spacer(),
+                  // Obx(
+                  //       () =>
+                    //     deleteVendorController.rxRequestStatus.value ==
+                    //     Status.LOADING &&
+                    //     buckets.isVendorDelete.value == true
+                    //     ? Center(
+                    //   child: Row(
+                    //     children: [
+                    //       circularProgressIndicator(size: 15.h),
+                    //       wBox(2.h),
+                    //     ],
+                    //   ),
+                    // )
+                    //     :
+                        GestureDetector(
+                      onTap: () {
+                        // buckets.isVendorDelete.value = true;
+                        // deleteVendorController.deleteProductApi(
+                        //     cartId: buckets.cartId.toString());
+                      },
+                      child: Text(
+                        "Remove",
+                        style: AppFontStyle.text_14_400(AppColors.red),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  // ),
+                ],
               ),
-          ],
+              Divider(thickness: .5.w, color: AppColors.hintText),
+              ListView.separated(
+                padding: EdgeInsets.all(0.r),
+                itemCount: buckets.bucket!.length,
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  var items = buckets.bucket![index];
+                  return Row(
+                    children: [
+                      // Expanded(
+                      //   flex: 1,
+                      //   child: Transform.scale(
+                      //     scale: 1.2,
+                      //     child: isLoading
+                      //         ? Shimmer.fromColors(
+                      //       baseColor: Colors.grey.shade300,
+                      //       highlightColor: Colors.grey.shade100,
+                      //       child: const Checkbox(
+                      //         value: false,
+                      //         onChanged: null,
+                      //       ),
+                      //     )
+                      //         : Checkbox(
+                      //       activeColor: AppColors.black,
+                      //       shape: RoundedRectangleBorder(
+                      //         borderRadius: BorderRadius.circular(5),
+                      //       ),
+                      //       value: controller.cartData.value.cart!
+                      //           .decodedAttribute![index].checked ==
+                      //           'true',
+                      //       side: BorderSide(
+                      //         color: AppColors.black,
+                      //       ),
+                      //       onChanged: (value) {
+                      //         if (checkedUncheckedController
+                      //             .rxRequestStatus.value !=
+                      //             Status.LOADING) {
+                      //           controller
+                      //               .cartData
+                      //               .value
+                      //               .cart!
+                      //               .decodedAttribute?[index]
+                      //               .isSelectedLoading
+                      //               .value = true;
+                      //           bool newCheckedStatus = !(controller
+                      //               .cartData
+                      //               .value
+                      //               .cart!
+                      //               .decodedAttribute![index]
+                      //               .checked ==
+                      //               'true');
+                      //
+                      //           checkedUncheckedController.checkedUncheckedApi(
+                      //             productId: controller.cartData.value.cart!
+                      //                 .decodedAttribute![index].productId
+                      //                 .toString(),
+                      //             cartId: controller.cartData.value.cart!.id
+                      //                 .toString(),
+                      //             status: newCheckedStatus.toString(),
+                      //             countId: controller.cartData.value.cart!
+                      //                 .decodedAttribute![index].count
+                      //                 .toString(),
+                      //           );
+                      //         }
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
+                      // wBox(10.h),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20.r),
+                        child:
+
+                        // isLoading
+                        //     ? Shimmer.fromColors(
+                        //   baseColor: Colors.grey.shade300,
+                        //   highlightColor: Colors.grey.shade100,
+                        //   child: Container(
+                        //     color: Colors.white,
+                        //     height: 100.h,
+                        //     width: 100.h,
+                        //   ),
+                        // )
+                        //     :
+
+                        GestureDetector(
+                          // onTap: () {
+                          //   pharmaSpecificProductController
+                          //       .pharmaSpecificProductApi(
+                          //       productId: controller.cartData.value.cart!
+                          //           .decodedAttribute![index].productId
+                          //           .toString(),
+                          //       categoryId: controller.cartData.value.cart!
+                          //           .decodedAttribute![index].categoryId
+                          //           .toString());
+                          //   print(
+                          //       "category_id ${controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString()}");
+                          //   print(
+                          //       "category Name ${controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString()}");
+                          //   print(
+                          //       "product Id ${controller.cartData.value.cart!.decodedAttribute![index].productId.toString()}");
+                          //   // Get.to(PharmacyProductDetailsScreen(
+                          //   //   productId: controller.cartData.value.cart!
+                          //   //       .decodedAttribute![index].productId
+                          //   //       .toString(),
+                          //   //   categoryId: controller.cartData.value.cart!
+                          //   //       .decodedAttribute![index].categoryId
+                          //   //       .toString(),
+                          //   //   categoryName: controller.cartData.value.cart!
+                          //   //       .decodedAttribute![index].categoryName
+                          //   //       .toString(),
+                          //   // ));
+                          //   Get.to(() => PharmacyProductDetailsScreen( productId: controller.cartData.value.cart!
+                          //       .decodedAttribute![index].productId
+                          //       .toString(),
+                          //     categoryId: controller.cartData.value.cart!
+                          //         .decodedAttribute![index].categoryId
+                          //         .toString(),
+                          //     categoryName: controller.cartData.value.cart!
+                          //         .decodedAttribute![index].categoryName
+                          //         .toString(),));
+                          //
+                          // },
+                          child: CachedNetworkImage(
+                            imageUrl: items.productImage.toString(),
+                            height: 100.h,
+                            width: 100.h,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: AppColors.gray,
+                              highlightColor: AppColors.lightText,
+                              child: Container(
+                                color: AppColors.gray,
+                                height: 100.h,
+                                width: 100.h,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                          ),
+                        ),
+                      ),
+                      wBox(10.h),
+                      Expanded(
+                        flex: 6,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            hBox(5.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // isLoading
+                                //     ? Shimmer.fromColors(
+                                //   baseColor: Colors.grey.shade300,
+                                //   highlightColor: Colors.grey.shade100,
+                                //   child: Container(
+                                //     height: 14.h,
+                                //     width: 110.w,
+                                //     color: Colors.white,
+                                //   ),
+                                // )
+                                //     :
+
+                                SizedBox(
+                                  width: 110.w,
+                                  child: Text(
+                                    items.productName.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                    style: AppFontStyle.text_14_500(
+                                        AppColors.darkText),
+                                  ),
+                                ),
+                                // Obx(
+                                //       () =>
+                                  //     deleteProductController
+                                  //     .rxRequestStatus.value ==
+                                  //     Status.LOADING &&
+                                  //     items.isDelete.value == true
+                                  //     ? Center(
+                                  //   child: Row(
+                                  //     children: [
+                                  //       circularProgressIndicator(
+                                  //           size: 15.h),
+                                  //       wBox(2.h),
+                                  //     ],
+                                  //   ),
+                                  // )
+                                  //     :
+                                      GestureDetector(
+                                    onTap: () {
+                                      // items.isDelete.value = true;
+                                      // deleteProductController
+                                      //     .deleteProductApi(
+                                      //     productId: items.productId
+                                      //         .toString(),
+                                      //     countId:
+                                      //     items.count.toString(),
+                                      //     cartId: buckets.cartId
+                                      //         .toString());
+                                    },
+                                    child: SvgPicture.asset(
+                                      "assets/svg/delete-outlined.svg",
+                                      height: 20,
+                                    ),
+                                  ),
+                                // ),
+                              ],
+                            ),
+                            hBox(15.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                // isLoading
+                                //     ? Shimmer.fromColors(
+                                //   baseColor: Colors.grey.shade300,
+                                //   highlightColor: Colors.grey.shade100,
+                                //   child: Container(
+                                //     height: 14.h,
+                                //     width: 60.w,
+                                //     color: Colors.white,
+                                //   ),
+                                // )
+                                //     :
+
+                                Text(
+                                  "\$${items.price.toString()}",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppFontStyle.text_14_600(
+                                      AppColors.primary),
+                                ),
+                                // isLoading
+                                //     ?
+                                // Shimmer.fromColors(
+                                //   baseColor: Colors.grey.shade300,
+                                //   highlightColor: Colors.grey.shade100,
+                                //   child: Container(
+                                //     height: 35.h,
+                                //     width: 90.w,
+                                //     decoration: BoxDecoration(
+                                //       color: Colors.white,
+                                //       borderRadius: BorderRadius.circular(50.r),
+                                //     ),
+                                //   ),
+                                // )
+                                //     :
+                                Container(
+                                  height: 35.h,
+                                  width: 90.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(50.r),
+                                    border: Border.all(
+                                        width: 0.8.w, color: AppColors.primary),
+                                  ),
+                                  child:
+                                  // Obx(
+                                  //       () =>
+                                        // quantityUpdateController
+                                        // .rxRequestStatus.value ==
+                                        // Status.LOADING &&
+                                        // items.isLoading.value == true
+                                        // ? Center(
+                                        // child: circularProgressIndicator2())
+                                        // :
+                                        Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        InkWell(
+                                          splashColor: Colors.transparent,
+                                          highlightColor:
+                                          Colors.transparent,
+                                          onTap: () {
+                                            // if (controller
+                                            //     .cartData
+                                            //     .value
+                                            //     .cart!
+                                            //     .decodedAttribute![
+                                            // index]
+                                            //     .checked !=
+                                            //     "false") {
+                                            if (items.quantity == 1) {
+                                              Utils.showToast(
+                                                  "Qty can not less then 1");
+                                            } else {
+                                              // items.isLoading.value =
+                                              // true;
+                                              // quantityUpdateController
+                                              //     .updateQuantityApi(
+                                              //   cartId: buckets.cartId
+                                              //       .toString(),
+                                              //   productId: items.productId
+                                              //       .toString(),
+                                              //   countId: items.count
+                                              //       .toString(),
+                                              //   productQuantity:
+                                              //   (items.quantity! - 1)
+                                              //       .toString(),
+                                              // );
+                                            }
+                                            // }
+                                            // else {
+                                            //   Utils.showToast(
+                                            //       "First select product",
+                                            //       gravity: ToastGravity
+                                            //           .CENTER);
+                                            // }
+                                          },
+                                          child: Icon(
+                                            Icons.remove,
+                                            size: 16.w,
+                                          ),
+                                        ),
+                                        Text(
+                                          items.quantity.toString(),
+                                          style: AppFontStyle.text_14_400(
+                                              AppColors.darkText),
+                                        ),
+                                        InkWell(
+                                          splashColor: Colors.transparent,
+                                          highlightColor:
+                                          Colors.transparent,
+                                          onTap: () {
+                                            // if (controller
+                                            //     .cartData
+                                            //     .value
+                                            //     .cart!
+                                            //     .decodedAttribute![
+                                            // index]
+                                            //     .checked !=
+                                            //     "false") {
+
+                                            // items.isLoading.value = true;
+                                            // quantityUpdateController
+                                            //     .updateQuantityApi(
+                                            //   cartId: buckets.cartId
+                                            //       .toString(),
+                                            //   productId: items.productId
+                                            //       .toString(),
+                                            //   countId:
+                                            //   items.count.toString(),
+                                            //   productQuantity:
+                                            //   (items.quantity! + 1)
+                                            //       .toString(),
+                                            // );
+                                            // } else {
+                                            //   Utils.showToast(
+                                            //       "First select product");
+                                            // }
+                                          },
+                                          child: Icon(
+                                            Icons.add,
+                                            size: 16.w,
+                                          ),
+                                        ),
+                                      ],
+                                    // ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return hBox(20.h);
+                },
+              ),
+
+              // Row(
+              //   children: [
+              //     // Expanded(
+              //     //   flex: 1,
+              //     //   child: Transform.scale(
+              //     //     scale: 1.2,
+              //     //     child: isLoading
+              //     //         ? Shimmer.fromColors(
+              //     //       baseColor: Colors.grey.shade300,
+              //     //       highlightColor: Colors.grey.shade100,
+              //     //       child: const Checkbox(
+              //     //         value: false,
+              //     //         onChanged: null,
+              //     //       ),
+              //     //     )
+              //     //         : Checkbox(
+              //     //       activeColor: AppColors.black,
+              //     //       shape: RoundedRectangleBorder(
+              //     //         borderRadius: BorderRadius.circular(5),
+              //     //       ),
+              //     //       value: controller.cartData.value.cart!
+              //     //           .decodedAttribute![index].checked ==
+              //     //           'true',
+              //     //       side: BorderSide(
+              //     //         color: AppColors.black,
+              //     //       ),
+              //     //       onChanged: (value) {
+              //     //         if (checkedUncheckedController
+              //     //             .rxRequestStatus.value !=
+              //     //             Status.LOADING) {
+              //     //           controller
+              //     //               .cartData
+              //     //               .value
+              //     //               .cart!
+              //     //               .decodedAttribute?[index]
+              //     //               .isSelectedLoading
+              //     //               .value = true;
+              //     //           bool newCheckedStatus = !(controller
+              //     //               .cartData
+              //     //               .value
+              //     //               .cart!
+              //     //               .decodedAttribute![index]
+              //     //               .checked ==
+              //     //               'true');
+              //     //
+              //     //           checkedUncheckedController.checkedUncheckedApi(
+              //     //             productId: controller.cartData.value.cart!
+              //     //                 .decodedAttribute![index].productId
+              //     //                 .toString(),
+              //     //             cartId: controller.cartData.value.cart!.id
+              //     //                 .toString(),
+              //     //             status: newCheckedStatus.toString(),
+              //     //             countId: controller.cartData.value.cart!
+              //     //                 .decodedAttribute![index].count
+              //     //                 .toString(),
+              //     //           );
+              //     //         }
+              //     //       },
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //     // wBox(10.h),
+              //     ClipRRect(
+              //       borderRadius: BorderRadius.circular(20.r),
+              //       child: isLoading
+              //           ? Shimmer.fromColors(
+              //         baseColor: Colors.grey.shade300,
+              //         highlightColor: Colors.grey.shade100,
+              //         child: Container(
+              //           color: Colors.white,
+              //           height: 100.h,
+              //           width: 100.h,
+              //         ),
+              //       )
+              //           : GestureDetector(
+              //         onTap: () {
+              //           pharmaSpecificProductController
+              //               .pharmaSpecificProductApi(
+              //               productId: controller.cartData.value.cart!
+              //                   .decodedAttribute![index].productId
+              //                   .toString(),
+              //               categoryId: controller.cartData.value.cart!
+              //                   .decodedAttribute![index].categoryId
+              //                   .toString());
+              //           print(
+              //               "category_id ${controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString()}");
+              //           print(
+              //               "category Name ${controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString()}");
+              //           print(
+              //               "product Id ${controller.cartData.value.cart!.decodedAttribute![index].productId.toString()}");
+              //           // Get.to(PharmacyProductDetailsScreen(
+              //           //   productId: controller.cartData.value.cart!
+              //           //       .decodedAttribute![index].productId
+              //           //       .toString(),
+              //           //   categoryId: controller.cartData.value.cart!
+              //           //       .decodedAttribute![index].categoryId
+              //           //       .toString(),
+              //           //   categoryName: controller.cartData.value.cart!
+              //           //       .decodedAttribute![index].categoryName
+              //           //       .toString(),
+              //           // ));
+              //           Get.to(() => PharmacyProductDetailsScreen( productId: controller.cartData.value.cart!
+              //               .decodedAttribute![index].productId
+              //               .toString(),
+              //             categoryId: controller.cartData.value.cart!
+              //                 .decodedAttribute![index].categoryId
+              //                 .toString(),
+              //             categoryName: controller.cartData.value.cart!
+              //                 .decodedAttribute![index].categoryName
+              //                 .toString(),));
+              //
+              //         },
+              //         child: CachedNetworkImage(
+              //           imageUrl: controller.cartData.value.cart!
+              //               .decodedAttribute![index].productImage
+              //               .toString(),
+              //           height: 100.h,
+              //           width: 100.h,
+              //           fit: BoxFit.cover,
+              //           placeholder: (context, url) => Shimmer.fromColors(
+              //             baseColor: AppColors.gray,
+              //             highlightColor: AppColors.lightText,
+              //             child: Container(
+              //               color: AppColors.gray,
+              //               height: 100.h,
+              //               width: 100.h,
+              //             ),
+              //           ),
+              //           errorWidget: (context, url, error) =>
+              //           const Icon(Icons.error),
+              //         ),
+              //       ),
+              //     ),
+              //     wBox(10.h),
+              //     Expanded(
+              //       flex: 6,
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           hBox(5.h),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               isLoading
+              //                   ? Shimmer.fromColors(
+              //                 baseColor: Colors.grey.shade300,
+              //                 highlightColor: Colors.grey.shade100,
+              //                 child: Container(
+              //                   height: 14.h,
+              //                   width: 110.w,
+              //                   color: Colors.white,
+              //                 ),
+              //               )
+              //                   : SizedBox(
+              //                 width: 110.w,
+              //                 child: Text(
+              //                   controller.cartData.value.cart!
+              //                       .decodedAttribute![index].productName
+              //                       .toString(),
+              //                   overflow: TextOverflow.ellipsis,
+              //                   maxLines: 2,
+              //                   style: AppFontStyle.text_14_500(
+              //                       AppColors.darkText),
+              //                 ),
+              //               ),
+              //               Obx(
+              //                     () => deleteProductController
+              //                     .rxRequestStatus.value ==
+              //                     Status.LOADING &&
+              //                     controller
+              //                         .cartData
+              //                         .value
+              //                         .cart!
+              //                         .decodedAttribute![index]
+              //                         .isDelete
+              //                         .value ==
+              //                         true
+              //                     ? Center(
+              //                   child: Row(
+              //                     children: [
+              //                       circularProgressIndicator(size: 15.h),
+              //                       wBox(2.h),
+              //                     ],
+              //                   ),
+              //                 )
+              //                     : GestureDetector(
+              //                   onTap: () {
+              //                     controller
+              //                         .cartData
+              //                         .value
+              //                         .cart!
+              //                         .decodedAttribute![index]
+              //                         .isDelete
+              //                         .value = true;
+              //                     deleteProductController.deleteProductApi(
+              //                       productId: controller
+              //                           .cartData
+              //                           .value
+              //                           .cart!
+              //                           .decodedAttribute![index]
+              //                           .productId
+              //                           .toString(),
+              //                       countId: controller.cartData.value.cart!
+              //                           .decodedAttribute![index].count
+              //                           .toString(),
+              //                     );
+              //                   },
+              //                   child: SvgPicture.asset(
+              //                     "assets/svg/delete-outlined.svg",
+              //                     height: 20,
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //           hBox(15.h),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             children: [
+              //               isLoading
+              //                   ? Shimmer.fromColors(
+              //                 baseColor: Colors.grey.shade300,
+              //                 highlightColor: Colors.grey.shade100,
+              //                 child: Container(
+              //                   height: 14.h,
+              //                   width: 60.w,
+              //                   color: Colors.white,
+              //                 ),
+              //               )
+              //                   : Text(
+              //                 "\$${controller.cartData.value.cart!.decodedAttribute![index].totalPrice.toString()}",
+              //                 overflow: TextOverflow.ellipsis,
+              //                 style: AppFontStyle.text_14_600(
+              //                     AppColors.primary),
+              //               ),
+              //               isLoading
+              //                   ? Shimmer.fromColors(
+              //                 baseColor: Colors.grey.shade300,
+              //                 highlightColor: Colors.grey.shade100,
+              //                 child: Container(
+              //                   height: 35.h,
+              //                   width: 90.w,
+              //                   decoration: BoxDecoration(
+              //                     color: Colors.white,
+              //                     borderRadius: BorderRadius.circular(50.r),
+              //                   ),
+              //                 ),
+              //               )
+              //                   : Container(
+              //                 height: 35.h,
+              //                 width: 90.w,
+              //                 decoration: BoxDecoration(
+              //                   borderRadius: BorderRadius.circular(50.r),
+              //                   border: Border.all(
+              //                       width: 0.8.w, color: AppColors.primary),
+              //                 ),
+              //                 child: Obx(
+              //                       () => quantityUpdateController
+              //                       .rxRequestStatus.value ==
+              //                       Status.LOADING &&
+              //                       controller
+              //                           .cartData
+              //                           .value
+              //                           .cart!
+              //                           .decodedAttribute![index]
+              //                           .isLoading
+              //                           .value ==
+              //                           true
+              //                       ? Center(
+              //                       child: circularProgressIndicator2())
+              //                       : Row(
+              //                     mainAxisAlignment:
+              //                     MainAxisAlignment.spaceEvenly,
+              //                     children: [
+              //                       InkWell(
+              //                         splashColor: Colors.transparent,
+              //                         highlightColor:
+              //                         Colors.transparent,
+              //                         onTap: () {
+              //                           if (controller
+              //                               .cartData
+              //                               .value
+              //                               .cart!
+              //                               .decodedAttribute![
+              //                           index]
+              //                               .checked !=
+              //                               "false") {
+              //                             if (controller
+              //                                 .cartData
+              //                                 .value
+              //                                 .cart!
+              //                                 .decodedAttribute![
+              //                             index]
+              //                                 .quantity ==
+              //                                 1) {
+              //                               Utils.showToast(
+              //                                   "Qty can not less then 1");
+              //                             } else {
+              //                               controller
+              //                                   .cartData
+              //                                   .value
+              //                                   .cart!
+              //                                   .decodedAttribute![
+              //                               index]
+              //                                   .isLoading
+              //                                   .value = true;
+              //                               quantityUpdateController
+              //                                   .updateQuantityApi(
+              //                                 productId: controller
+              //                                     .cartData
+              //                                     .value
+              //                                     .cart!
+              //                                     .decodedAttribute![
+              //                                 index]
+              //                                     .productId
+              //                                     .toString(),
+              //                                 countId: controller
+              //                                     .cartData
+              //                                     .value
+              //                                     .cart!
+              //                                     .decodedAttribute![
+              //                                 index]
+              //                                     .count
+              //                                     .toString(),
+              //                                 productQuantity: (controller
+              //                                     .cartData
+              //                                     .value
+              //                                     .cart!
+              //                                     .decodedAttribute![
+              //                                 index]
+              //                                     .quantity! -
+              //                                     1)
+              //                                     .toString(),
+              //                               );
+              //                             }
+              //                           } else {
+              //                             Utils.showToast(
+              //                                 "First select product",
+              //                                 gravity: ToastGravity
+              //                                     .CENTER);
+              //                           }
+              //                         },
+              //                         child: Icon(
+              //                           Icons.remove,
+              //                           size: 16.w,
+              //                         ),
+              //                       ),
+              //                       Text(
+              //                         controller
+              //                             .cartData
+              //                             .value
+              //                             .cart!
+              //                             .decodedAttribute![index]
+              //                             .quantity
+              //                             .toString(),
+              //                         style: AppFontStyle.text_14_400(
+              //                             AppColors.darkText),
+              //                       ),
+              //                       InkWell(
+              //                         splashColor: Colors.transparent,
+              //                         highlightColor:
+              //                         Colors.transparent,
+              //                         onTap: () {
+              //                           if (controller
+              //                               .cartData
+              //                               .value
+              //                               .cart!
+              //                               .decodedAttribute![
+              //                           index]
+              //                               .checked !=
+              //                               "false") {
+              //                             controller
+              //                                 .cartData
+              //                                 .value
+              //                                 .cart!
+              //                                 .decodedAttribute![
+              //                             index]
+              //                                 .isLoading
+              //                                 .value = true;
+              //                             quantityUpdateController
+              //                                 .updateQuantityApi(
+              //                               productId: controller
+              //                                   .cartData
+              //                                   .value
+              //                                   .cart!
+              //                                   .decodedAttribute![
+              //                               index]
+              //                                   .productId
+              //                                   .toString(),
+              //                               countId: controller
+              //                                   .cartData
+              //                                   .value
+              //                                   .cart!
+              //                                   .decodedAttribute![
+              //                               index]
+              //                                   .count
+              //                                   .toString(),
+              //                               productQuantity: (controller
+              //                                   .cartData
+              //                                   .value
+              //                                   .cart!
+              //                                   .decodedAttribute![
+              //                               index]
+              //                                   .quantity! +
+              //                                   1)
+              //                                   .toString(),
+              //                             );
+              //                           } else {
+              //                             Utils.showToast(
+              //                                 "First select product");
+              //                           }
+              //                         },
+              //                         child: Icon(
+              //                           Icons.add,
+              //                           size: 16.w,
+              //                         ),
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // hBox(5.h),
+              // hBox(10.h),
+              // if (controller.cartData.value.cart!.decodedAttribute![index]
+              //     .attribute!.isNotEmpty &&
+              //     controller.cartData.value.cart!.decodedAttribute![index]
+              //         .checked ==
+              //         "true")
+              //   Padding(
+              //     padding: EdgeInsets.only(bottom: 10.h),
+              //     child: SizedBox(
+              //       width: Get.width,
+              //       child: Wrap(
+              //         direction: Axis.horizontal,
+              //         spacing: 2.w,
+              //         runSpacing: 2.w,
+              //         children: List.generate(
+              //           controller.cartData.value.cart!.decodedAttribute![index]
+              //               .attribute!.length,
+              //               (addonIndex) {
+              //             bool isLast = addonIndex ==
+              //                 controller
+              //                     .cartData
+              //                     .value
+              //                     .cart!
+              //                     .decodedAttribute![index]
+              //                     .attribute!
+              //                     .length -
+              //                     1;
+              //             return Row(
+              //               mainAxisSize: MainAxisSize.min,
+              //               mainAxisAlignment: MainAxisAlignment.start,
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               children: [
+              //                 Text(
+              //                   '${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemName}',
+              //                   style:
+              //                   AppFontStyle.text_12_400(AppColors.primary),
+              //                   overflow: TextOverflow.ellipsis,
+              //                   maxLines: 1,
+              //                 ),
+              //                 Text(
+              //                   ' - ',
+              //                   style:
+              //                   AppFontStyle.text_12_400(AppColors.primary),
+              //                   overflow: TextOverflow.ellipsis,
+              //                   maxLines: 1,
+              //                 ),
+              //                 Text(
+              //                   '\$${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemPrice}',
+              //                   style:
+              //                   AppFontStyle.text_12_400(AppColors.primary),
+              //                   overflow: TextOverflow.ellipsis,
+              //                   maxLines: 1,
+              //                 ),
+              //                 if (!isLast)
+              //                   Text(
+              //                     ',',
+              //                     style:
+              //                     AppFontStyle.text_12_400(AppColors.primary),
+              //                     overflow: TextOverflow.ellipsis,
+              //                     maxLines: 1,
+              //                   ),
+              //               ],
+              //             );
+              //           },
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+            ],
+          ),
         );
       },
       separatorBuilder: (context, index) {
-        return hBox(15.h);
+        return hBox(20.h);
       },
     );
   }
@@ -1362,7 +1764,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   FocusNode focusNode = FocusNode();
 
   Widget promoCode(context) {
-    return controller.cartData.value.cart!.couponApplied == null
+    return controller.cartData.value.cart?.couponApplied == null
         ? DottedBorder(
             strokeWidth: 2,
             borderType: BorderType.RRect,
@@ -1386,12 +1788,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         readOnly: controller.readOnly.value,
                         focusNode: focusNode,
                         onTap: () {
-                          if (controller.cartData.value.cart!.decodedAttribute!
-                              .where((item) => item.checked == "true")
-                              .isEmpty) {
+                          if (controller.cartData.value.cart?.decodedAttribute?.where((item) => item.checked == "true").isEmpty ?? true) {
                             Utils.showToast("Please select a product");
-                          } else if (controller
-                              .cartData.value.coupons!.isNotEmpty) {
+                          } else if (controller.cartData.value.coupons?.isNotEmpty ?? true) {
                             if (controller.readOnly.value) {
                               bottomBar(context);
                             }
@@ -1541,11 +1940,100 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
           );
   }
 
+  // Widget paymentDetails() {
+  //   bool isLoading =
+  //       checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
+  //           deleteProductController.rxRequestStatus.value == Status.LOADING ||
+  //           quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+  //
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       Text(
+  //         "Payment Details",
+  //         style: AppFontStyle.text_22_600(AppColors.darkText),
+  //       ),
+  //       hBox(10.h),
+  //       if (isLoading) ...[
+  //         shimmerItem("Regular Price"),
+  //         shimmerItem("Save Amount"),
+  //         if (controller.cartData.value.cart!.couponApplied != null)
+  //           shimmerItem("Coupon Discount"),
+  //         if (controller.cartData.value.addressExists == true)
+  //           shimmerItem("Delivery Charge"),
+  //       ],
+  //       if (!isLoading) ...[
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Regular Price",
+  //               style: AppFontStyle.text_14_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "\$${controller.cartData.value.cart!.regularPrice.toString()}",
+  //               style: AppFontStyle.text_14_600(AppColors.darkText),
+  //             ),
+  //           ],
+  //         ),
+  //         hBox(10.h),
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Text(
+  //               "Save Amount",
+  //               style: AppFontStyle.text_14_400(AppColors.lightText),
+  //             ),
+  //             Text(
+  //               "\$${controller.cartData.value.cart!.saveAmount.toString()}",
+  //               style: AppFontStyle.text_14_600(AppColors.darkText),
+  //             ),
+  //           ],
+  //         ),
+  //         if (controller.cartData.value.cart!.couponApplied != null)
+  //           Padding(
+  //             padding: EdgeInsets.only(top: 10.h),
+  //             child: Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Text(
+  //                   "Coupon Discount",
+  //                   style: AppFontStyle.text_14_400(AppColors.lightText),
+  //                 ),
+  //                 Text(
+  //                   "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
+  //                   style: AppFontStyle.text_14_600(AppColors.darkText),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         if (controller.cartData.value.addressExists == true)
+  //           Padding(
+  //             padding: EdgeInsets.only(top: 10.h),
+  //             child: Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Text(
+  //                   "Delivery Charge",
+  //                   style: AppFontStyle.text_14_400(AppColors.lightText),
+  //                 ),
+  //                 Text(
+  //                   "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
+  //                   style: AppFontStyle.text_14_600(AppColors.darkText),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //       ],
+  //     ],
+  //   );
+  // }
   Widget paymentDetails() {
     bool isLoading =
-        checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
-            deleteProductController.rxRequestStatus.value == Status.LOADING ||
-            quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+    //  checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
+    deleteProductController.rxRequestStatus.value == Status.LOADING
+        ||
+        quantityUpdateController.rxRequestStatus.value == Status.LOADING;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1558,9 +2046,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
         if (isLoading) ...[
           shimmerItem("Regular Price"),
           shimmerItem("Save Amount"),
-          if (controller.cartData.value.cart!.couponApplied != null)
-            shimmerItem("Coupon Discount"),
-          if (controller.cartData.value.addressExists == true)
+          // if (controller.cartData.value.cart!.couponApplied != null)
+          //   shimmerItem("Coupon Discount"),
+          if (controller.cartCheckoutData.value.addressExists == true)
             shimmerItem("Delivery Charge"),
         ],
         if (!isLoading) ...[
@@ -1572,7 +2060,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 style: AppFontStyle.text_14_400(AppColors.lightText),
               ),
               Text(
-                "\$${controller.cartData.value.cart!.regularPrice.toString()}",
+                "\$${controller.cartCheckoutData.value.cart?.regularPrice.toString() ?? ""}",
                 style: AppFontStyle.text_14_600(AppColors.darkText),
               ),
             ],
@@ -1586,29 +2074,29 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 style: AppFontStyle.text_14_400(AppColors.lightText),
               ),
               Text(
-                "\$${controller.cartData.value.cart!.saveAmount.toString()}",
+                "\$${controller.cartCheckoutData.value.cart?.saveAmount.toString() ?? ""}",
                 style: AppFontStyle.text_14_600(AppColors.darkText),
               ),
             ],
           ),
-          if (controller.cartData.value.cart!.couponApplied != null)
-            Padding(
-              padding: EdgeInsets.only(top: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Coupon Discount",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
-                  ),
-                  Text(
-                    "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
-                  ),
-                ],
-              ),
-            ),
-          if (controller.cartData.value.addressExists == true)
+          // if (controller.cartData.value.cart!.couponApplied != null)
+          //   Padding(
+          //     padding: EdgeInsets.only(top: 10.h),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text(
+          //           "Coupon Discount",
+          //           style: AppFontStyle.text_14_400(AppColors.lightText),
+          //         ),
+          //         Text(
+          //           "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
+          //           style: AppFontStyle.text_14_600(AppColors.darkText),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          if (controller.cartCheckoutData.value.addressExists == true)
             Padding(
               padding: EdgeInsets.only(top: 10.h),
               child: Row(
@@ -1619,7 +2107,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     style: AppFontStyle.text_14_400(AppColors.lightText),
                   ),
                   Text(
-                    "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
+                    "\$${controller.cartCheckoutData.value.cart?.deliveryCharge.toString() ?? ""}",
                     style: AppFontStyle.text_14_600(AppColors.darkText),
                   ),
                 ],
@@ -1650,73 +2138,73 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 ? shimmerItem('\$0.00',
                     width: 70, height: 40, secondShimmer: false)
                 : Text(
-                    "\$${controller.cartData.value.cart!.totalPrice.toString()}",
+                    "\$${controller.cartCheckoutData.value.cart?.totalPrice.toString() ?? ""}",
                     style: AppFontStyle.text_26_600(AppColors.primary),
                   ),
           ],
         ),
         isLoading
             ? shimmerButton()
-            : controller.cartData.value.addressExists == true
+            : controller.cartCheckoutData.value.addressExists == true
                 ? SizedBox(
                     width: 200.w,
                     height: 55.h,
                     child: CustomElevatedButton(
                       onPressed: () {
-                        var selectedItems = controller
-                            .cartData.value.cart!.decodedAttribute!
-                            .where((item) => item.checked == "true")
-                            .map((item) => {
-                                  'name': item.productName,
-                                  'price': "\$${item.totalPrice.toString()}"
-                                })
-                            .toList();
-
-                        if (selectedItems.isNotEmpty) {
-                          selectedItems.forEach((item) {
-                            print(
-                                "Selected Product: ${item['name']}, Price: ${item['price']}");
-
-                            Get.toNamed(
-                              AppRoutes.prescriptionScreen,
-                              arguments: {
-                                'address_id': controller
-                                    .cartData.value.address!.id
-                                    .toString(),
-                                'coupon_id': controller
-                                    .cartData.value.cart!.couponApplied?.id
-                                    .toString(),
-                                'vendor_id': controller
-                                    .cartData.value.cart!.pharmaId
-                                    .toString(),
-                                'total': controller
-                                    .cartData.value.cart!.totalPrice
-                                    .toString(),
-                                'regular_price': controller
-                                    .cartData.value.cart!.regularPrice
-                                    .toString(),
-                                'coupon_discount': controller
-                                    .cartData.value.cart!.couponDiscount
-                                    .toString(),
-                                'save_amount': controller
-                                    .cartData.value.cart!.saveAmount
-                                    .toString(),
-                                'delivery_charge': controller
-                                    .cartData.value.cart!.deliveryCharge
-                                    .toString(),
-                                'cart_id': controller.cartData.value.cart!.id
-                                    .toString(),
-                                'wallet':
-                                    controller.cartData.value.wallet.toString(),
-                                'cartType': "pharmacy",
-                                'prescription': controller.cartData.value.prescription.toString(),
-                              },
-                            );
-                          });
-                        } else {
-                          Utils.showToast(
-                              "Please select product to proceed to checkout");
-                        }
+                        // var selectedItems = controller
+                        //     .cartData.value.cart!.decodedAttribute!
+                        //     .where((item) => item.checked == "true")
+                        //     .map((item) => {
+                        //           'name': item.productName,
+                        //           'price': "\$${item.totalPrice.toString()}"
+                        //         })
+                        //     .toList();
+                        //
+                        // if (selectedItems.isNotEmpty) {
+                        //   selectedItems.forEach((item) {
+                        //     print(
+                        //         "Selected Product: ${item['name']}, Price: ${item['price']}");
+                        //
+                        //     Get.toNamed(
+                        //       AppRoutes.prescriptionScreen,
+                        //       arguments: {
+                        //         'address_id': controller
+                        //             .cartData.value.address!.id
+                        //             .toString(),
+                        //         'coupon_id': controller
+                        //             .cartData.value.cart!.couponApplied?.id
+                        //             .toString(),
+                        //         'vendor_id': controller
+                        //             .cartData.value.cart!.pharmaId
+                        //             .toString(),
+                        //         'total': controller
+                        //             .cartData.value.cart!.totalPrice
+                        //             .toString(),
+                        //         'regular_price': controller
+                        //             .cartData.value.cart!.regularPrice
+                        //             .toString(),
+                        //         'coupon_discount': controller
+                        //             .cartData.value.cart!.couponDiscount
+                        //             .toString(),
+                        //         'save_amount': controller
+                        //             .cartData.value.cart!.saveAmount
+                        //             .toString(),
+                        //         'delivery_charge': controller
+                        //             .cartData.value.cart!.deliveryCharge
+                        //             .toString(),
+                        //         'cart_id': controller.cartData.value.cart!.id
+                        //             .toString(),
+                        //         'wallet':
+                        //             controller.cartData.value.wallet.toString(),
+                        //         'cartType': "pharmacy",
+                        //         'prescription': controller.cartData.value.prescription.toString(),
+                        //       },
+                        //     );
+                        //   });
+                        // } else {
+                        //   Utils.showToast(
+                        //       "Please select product to proceed to checkout");
+                        // }
                       },
                       text: "Checkout",
                       textStyle: AppFontStyle.text_16_600(AppColors.white),

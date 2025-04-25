@@ -19,6 +19,7 @@ class DeletePharmaProductController extends GetxController {
   deleteProductApi({
     required String productId,
     required String countId,
+    required String cartId,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
@@ -28,7 +29,7 @@ class DeletePharmaProductController extends GetxController {
     api.deletePharmaProductApi(body).then((value) {
       setData(value);
       if (deleteProductData.value.status == true) {
-        pharmacyCartController.getPharmacyCartApi().then((value) async {
+        pharmacyCartController.getPharmacyCartApi(cartId: cartId).then((value) async {
           await Future.delayed(const Duration(milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
         });

@@ -79,11 +79,15 @@ class AddAddressController extends GetxController {
 
   Rx<CountryCode> selectedCountryCode =
       CountryCode(dialCode: '+91', code: 'IN').obs;
-
+  String? cartId = "";
   @override
   void onInit() {
     loadLocationData();
     print("objectiiiii");
+    var arguments = Get.arguments;
+    if(arguments['cartId'] != null){
+      cartId = arguments['cartId'];
+    }
     super.onInit();
   }
 
@@ -162,6 +166,7 @@ class AddAddressController extends GetxController {
   addAddressApi() async {
     var arguments = Get.arguments;
     String? type = arguments['type'];
+    String? cartId = arguments['cartId'];
     bool fromcart = arguments['fromcart'];
     print("cart--------------------------------$type");
     print("fromcart--------------------------------$fromcart");
@@ -178,6 +183,8 @@ class AddAddressController extends GetxController {
       'delivery_instruction': deliveryInstructionController.value.text,
       'is_default': defaultSet.value == true ? "1" : "0",
     };
+    // pharmacyCartController.getPharmacyCartApi(cartId: cartId.toString());
+    print('back and api call : :::: $body');
     api.addAddressApi(body).then((value) {
       setData(value);
       if (addAddress.value.status == true) {
@@ -217,7 +224,7 @@ class AddAddressController extends GetxController {
             });
           } else if (type == "PharmacyCart") {
             print("object333333");
-            pharmacyCartController.getPharmacyCartApi().then((value) {
+            pharmacyCartController.getAllCartProductsForCheckout().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
               if(fromcart == true){
@@ -232,6 +239,23 @@ class AddAddressController extends GetxController {
               radioValue.value = 0;
               return;
             });
+            if(cartId?.isNotEmpty ?? true){
+              pharmacyCartController.getPharmacyCartApi(cartId: cartId.toString()).then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if(fromcart == true){
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }
           } else {
             print("object444444");
             deliveryAddressController.getDeliveryAddressApi().then((value) {

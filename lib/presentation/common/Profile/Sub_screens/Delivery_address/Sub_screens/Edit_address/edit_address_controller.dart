@@ -7,6 +7,8 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Control
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
+
+import '../../../../../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 export 'package:country_code_picker/country_code_picker.dart';
 
 class EditAdressController extends GetxController {
@@ -24,8 +26,23 @@ class EditAdressController extends GetxController {
   RxInt radioValue = 0.obs;
   String addressId = "";
 
-  Rx<CountryCode> selectedCountryCode =
-      CountryCode(dialCode: '+91', code: 'IN').obs;
+  Rx<CountryCode> selectedCountryCode = CountryCode(dialCode: '+91', code: 'IN').obs;
+
+  String vendorType = "";
+  String cartScreenType = "";
+  String cartId = "";
+
+    @override
+  void onInit() {
+    var arguments = Get.arguments;
+    vendorType = arguments['type'] ?? "";
+    cartScreenType = arguments['cartScreenType'] ?? "";
+    cartId = arguments['cartId'] ?? "";
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $vendorType");
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $cartScreenType");
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $cartId");
+    super.onInit();
+  }
 
   // ---------------------------------------- Place API ---------------------------------------------
   RxBool isValidAddress = true.obs;
@@ -197,8 +214,8 @@ class EditAdressController extends GetxController {
   }
 
 
-  final RestaurantCartController restaurantCartController =
-  Get.put(RestaurantCartController());
+  final RestaurantCartController restaurantCartController =  Get.put(RestaurantCartController());
+  final PharmacyCartController pharmacyCartController =  Get.put(PharmacyCartController());
 
   changeAddressApi({
     required String addressId,
@@ -230,17 +247,43 @@ class EditAdressController extends GetxController {
       setData(value);
       deliveryAddressController.getDeliveryAddressApi();
       if (editAddress.value.status == true) {
-        restaurantCartController.getRestaurantCartApi().then((value) {
-          Utils.showToast(editAddress.value.message.toString());
-          setRxRequestStatus(Status.COMPLETED);
-          Get.back();
-          nameController.value.clear();
-          mobNoController.value.clear();
-          houseNoController.value.clear();
-          deliveryInstructionController.value.clear();
-          locationController.clear();
-          return;
-        });
+        if(vendorType =='PharmacyCart'){
+          cartScreenType == "singleCart" ?
+          pharmacyCartController.getPharmacyCartApi(cartId: cartId).then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          })
+          : pharmacyCartController.getAllCartProductsForCheckout().then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          });
+        }else if(vendorType =='RestaurantCart'){
+          restaurantCartController.getRestaurantCartApi().then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          });
+        }
       } else {
         Utils.showToast(editAddress.value.message.toString());
       }
