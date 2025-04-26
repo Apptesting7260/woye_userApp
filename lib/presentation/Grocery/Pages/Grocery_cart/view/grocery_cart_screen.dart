@@ -25,6 +25,7 @@ class GroceryCartScreen extends StatefulWidget {
 class _GroceryCartScreenState extends State<GroceryCartScreen> {
   final GroceryCartController controller = Get.put(GroceryCartController());
 
+  @override
   void initState() {
     controller.getGroceryAllCartApi();
     super.initState();
@@ -158,7 +159,8 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
               highlightColor: Colors.transparent,
               onTap: () {
                 Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
-                  'type': "PharmacyCart",
+                  // 'type': "PharmacyCart",
+                  'type': "GroceryCart",
                   "fromcart": true,
                 });
               },
@@ -279,6 +281,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
           child: Column(
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                       width: 50.h,
@@ -311,12 +314,56 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           overflow: TextOverflow.ellipsis,
                           style: AppFontStyle.text_14_500(AppColors.darkText),
                         ),
+                        hBox(3.h),
                         Text(
                           buckets.vendorAddress.toString(),
                           style: AppFontStyle.text_12_400(AppColors.lightText),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
+                        hBox(12.h),
+                        Row(
+                          children: [
+                            Container(
+                              height: 30,width: 60,
+                              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(ImageConstants.bikeLogo,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),height: 17,width: 17,),
+                                  wBox(5.w),
+                                  Text("\$2",
+                                    style: AppFontStyle.text_16_400(
+                                      AppColors.primary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            wBox(8.w),
+                            Container(
+                              height: 30,width: 91,
+                              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(ImageConstants.historyLogo,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),height: 17,width: 17,),
+                                  wBox(5.w),
+                                  Text("20min",
+                                    style: AppFontStyle.text_16_400(
+                                      AppColors.primary,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        hBox(5.h),
                       ],
                     ),
                   ),
@@ -333,23 +380,27 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                               ],
                             ),
                           )
-                        : GestureDetector(
-                            onTap: () {
-                              buckets.isVendorDelete.value = true;
-                              deleteVendorController.deleteProductApi(
-                                  cartId: buckets.cartId.toString());
-                            },
-                            child: Text(
-                              "Remove",
-                              style: AppFontStyle.text_14_400(AppColors.red),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+                        : Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: GestureDetector(
+                              onTap: () {
+                                buckets.isVendorDelete.value = true;
+                                deleteVendorController.deleteProductApi(
+                                    cartId: buckets.cartId.toString());
+                              },
+                              child: Text(
+                                "Remove",
+                                style: AppFontStyle.text_14_400(AppColors.red),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
                             ),
-                          ),
+                        ),
                   ),
                 ],
               ),
               Divider(thickness: .5.w, color: AppColors.hintText),
+              hBox(6.h),
               ListView.separated(
                 padding: EdgeInsets.all(0.r),
                 itemCount: buckets.bucket!.length,
@@ -1624,7 +1675,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                     child: CustomElevatedButton(
                       onPressed: () {
                         Get.toNamed(AppRoutes.addAddressScreen, arguments: {
-                          'type': "PharmacyCart",
+                          'type': "GroceryCart",
                           "fromcart": false,
                         });
                       },

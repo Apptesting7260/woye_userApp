@@ -121,7 +121,8 @@ class CreateOrderController extends GetxController {
           setRxRequestStatus(Status.COMPLETED);
         }
       } else {
-        Utils.showToast("Error: ${responseData.body}");
+        final responseMap = jsonDecode(responseData.body);
+        Utils.showToast("${responseMap['message']}");
         print("Error: ${responseData.body}");
         setRxRequestStatus(Status.COMPLETED);
       }

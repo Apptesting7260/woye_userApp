@@ -783,15 +783,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         var buckets = controller.cartCheckoutData.value.cart!.buckets![index];
-        // bool isLoading =
-        //     checkedUncheckedController.rxRequestStatus.value ==
-        //
-        //
-        //
-        //     Status.LOADING &&
-        //     controller.cartData.value.cart!.decodedAttribute?[index]
-        //         .isSelectedLoading.value ==
-        //         true;
+        // bool isLoading = checkedUncheckedController.rxRequestStatus.value ==Status.LOADING &&
+        //     controller.cartData.value.cart!.decodedAttribute?[index].isSelectedLoading.value == true;
 
         return Container(
           width: Get.width,
@@ -803,6 +796,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
           child: Column(
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                       width: 50.h,
@@ -835,12 +829,56 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           overflow: TextOverflow.ellipsis,
                           style: AppFontStyle.text_14_500(AppColors.darkText),
                         ),
+                        hBox(4.h),
                         Text(
                           buckets.vendorAddress.toString(),
                           style: AppFontStyle.text_12_400(AppColors.lightText),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
+                        hBox(12.h),
+                        Row(
+                          children: [
+                            Container(
+                              height: 30,width: 60,
+                              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(ImageConstants.bikeLogo,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),height: 17,width: 17,),
+                                  wBox(5.w),
+                                  Text("\$2",
+                                    style: AppFontStyle.text_16_400(
+                                      AppColors.primary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            wBox(8.w),
+                            Container(
+                              height: 30,width: 91,
+                              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(10.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(ImageConstants.historyLogo,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),height: 17,width: 17,),
+                                  wBox(5.w),
+                                  Text("20min",
+                                    style: AppFontStyle.text_16_400(
+                                      AppColors.primary,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        hBox(5.h),
                       ],
                     ),
                   ),
@@ -859,19 +897,22 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     //   ),
                     // )
                     //     :
-                        GestureDetector(
-                      onTap: () {
-                        // buckets.isVendorDelete.value = true;
-                        // deleteVendorController.deleteProductApi(
-                        //     cartId: buckets.cartId.toString());
-                      },
-                      child: Text(
-                        "Remove",
-                        style: AppFontStyle.text_14_400(AppColors.red),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: GestureDetector(
+                          onTap: () {
+                          // buckets.isVendorDelete.value = true;
+                          // deleteVendorController.deleteProductApi(
+                          //     cartId: buckets.cartId.toString());
+                          },
+                           child: Text(
+                          "Remove",
+                          style: AppFontStyle.text_14_400(AppColors.red),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                            ),
+                          ),
+                        ),
                   // ),
                 ],
               ),
@@ -882,7 +923,10 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  var items = buckets.bucket![index];
+                  var items = buckets.bu
+
+
+                  cket![index];
                   return Row(
                     children: [
                       // Expanded(
@@ -1134,15 +1178,15 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                         width: 0.8.w, color: AppColors.primary),
                                   ),
                                   child:
-                                  // Obx(
-                                  //       () =>
-                                        // quantityUpdateController
-                                        // .rxRequestStatus.value ==
-                                        // Status.LOADING &&
-                                        // items.isLoading.value == true
-                                        // ? Center(
-                                        // child: circularProgressIndicator2())
-                                        // :
+                                  Obx(
+                                        () =>
+                                        quantityUpdateController
+                                            .rxRequestStatus.value ==
+                                            Status.LOADING &&
+                                            items.isLoading.value == true
+                                        ? Center(
+                                        child: circularProgressIndicator2())
+                                        :
                                         Row(
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
@@ -1161,23 +1205,17 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                             //     .checked !=
                                             //     "false") {
                                             if (items.quantity == 1) {
-                                              Utils.showToast(
-                                                  "Qty can not less then 1");
+                                              Utils.showToast("Qty can not less then 1");
                                             } else {
                                               // items.isLoading.value =
                                               // true;
-                                              // quantityUpdateController
-                                              //     .updateQuantityApi(
-                                              //   cartId: buckets.cartId
-                                              //       .toString(),
-                                              //   productId: items.productId
-                                              //       .toString(),
-                                              //   countId: items.count
-                                              //       .toString(),
-                                              //   productQuantity:
-                                              //   (items.quantity! - 1)
-                                              //       .toString(),
-                                              // );
+                                              quantityUpdateController.updateQuantityApi(
+                                                isSingleCartScreen: false,
+                                                cartId: buckets.cartId.toString(),
+                                                productId: items.productId.toString(),
+                                                countId: items.count.toString(),
+                                                productQuantity:(items.quantity! - 1).toString(),
+                                              );
                                             }
                                             // }
                                             // else {
@@ -1212,18 +1250,18 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                             //     "false") {
 
                                             // items.isLoading.value = true;
-                                            // quantityUpdateController
-                                            //     .updateQuantityApi(
-                                            //   cartId: buckets.cartId
-                                            //       .toString(),
-                                            //   productId: items.productId
-                                            //       .toString(),
-                                            //   countId:
-                                            //   items.count.toString(),
-                                            //   productQuantity:
-                                            //   (items.quantity! + 1)
-                                            //       .toString(),
-                                            // );
+                                            quantityUpdateController.updateQuantityApi(
+                                              isSingleCartScreen: false,
+                                              cartId: buckets.cartId
+                                                  .toString(),
+                                              productId: items.productId
+                                                  .toString(),
+                                              countId:
+                                              items.count.toString(),
+                                              productQuantity:
+                                              (items.quantity! + 1)
+                                                  .toString(),
+                                            );
                                             // } else {
                                             //   Utils.showToast(
                                             //       "First select product");
@@ -1235,7 +1273,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                           ),
                                         ),
                                       ],
-                                    // ),
+                                    ),
                                   ),
                                 ),
                               ],

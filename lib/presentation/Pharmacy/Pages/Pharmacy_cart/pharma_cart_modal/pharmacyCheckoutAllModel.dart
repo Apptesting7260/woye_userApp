@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class PharmacyCheckOutAllModel {
   bool? status;
   String? message;
@@ -118,6 +120,7 @@ class Buckets {
   String? specificDeliveryCharge;
   String? grandtotalPrice;
 
+
   Buckets(
       {this.pharmaId,
         this.bucket,
@@ -173,6 +176,8 @@ class Bucket {
   int? categoryId;
   String? categoryName;
   String? productImage;
+  Rx<bool> isLoading = false.obs;
+  Rx<bool> isDelete = false.obs;
 
   Bucket(
       {this.productId,

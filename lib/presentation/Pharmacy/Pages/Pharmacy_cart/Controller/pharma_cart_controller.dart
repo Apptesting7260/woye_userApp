@@ -43,6 +43,22 @@ class PharmacyCartController extends GetxController {
     });
   }
 
+  getPharmacyCartApiAfterInc({required String cartId}) async {
+    readOnly.value = true;
+    couponCodeController.value.clear();
+    // setRxRequestStatus(Status.LOADING);
+    api.pharmacyCartGetDataApi({'cart_id': cartId}).then((value) {
+      cartSet(value);
+      // cartSetAll(value);
+      // setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr${error.toString()}');
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
   refreshApi({required String cartId}) async {
     setRxRequestStatus(Status.LOADING);
     couponCodeController.value.clear();
@@ -97,6 +113,21 @@ class PharmacyCartController extends GetxController {
 
   getAllCartProductsForCheckout() async {
     rxSetGetCheckoutData(Status.LOADING);
+    api.getPharmacyCheckOutAllApi().then((value) {
+      setCartCheckoutData(value);
+      if (value.status == true) {
+        rxSetGetCheckoutData(Status.COMPLETED);
+      }
+    },).onError((error, stackTrace) {
+      setError(error.toString());
+      print(stackTrace);
+      print('errrrrrrrrrrrr getPharmacyCheckOutAllApi : ${error.toString()}');
+      rxSetGetCheckoutData(Status.ERROR);
+    },);
+  }
+
+    refreshGetAllCartProductsForCheckout() async {
+    // rxSetGetCheckoutData(Status.LOADING);
     api.getPharmacyCheckOutAllApi().then((value) {
       setCartCheckoutData(value);
       if(value.status == true){

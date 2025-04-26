@@ -21,21 +21,32 @@ class PharmaQuantityController extends GetxController {
     required String productQuantity,
     required String countId,
     required String cartId,
+    required bool isSingleCartScreen,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "product_id": productId,
       "quantity": productQuantity,
       "count_id": countId,
+      "cart_id":cartId,
     };
+
     api.pharmacyUpdateQuantityApi(body).then((value) {
       setData(value);
       if (quantityData.value.status == true) {
-        pharmacyCartController.getPharmacyCartApi(cartId: cartId).then((value) async {
-          await Future.delayed(const Duration(milliseconds: 500));
-          setRxRequestStatus(Status.COMPLETED);
-          Utils.showToast(quantityData.value.message.toString());
-        });
+        if(isSingleCartScreen ==  true){
+          pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId).then((value) async {
+            await Future.delayed(const Duration(milliseconds: 500));
+            setRxRequestStatus(Status.COMPLETED);
+            Utils.showToast(quantityData.value.message.toString());
+          });
+        }else if(isSingleCartScreen == false){
+          pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) async {
+            setRxRequestStatus(Status.COMPLETED);
+            Utils.showToast(quantityData.value.message.toString());
+          });
+        }
+
       } else {
         Utils.showToast(quantityData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);

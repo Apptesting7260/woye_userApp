@@ -28,6 +28,8 @@ class ImageConstants {
   static String profileOutlined = "$svgPath/Profile-Inactive.svg";
   static String profilefilled = "$svgPath/profile-filled.svg";
   static String notification = "$svgPath/notification.svg";
+  static String historyLogo = "$svgPath/history.svg";
+  static String bikeLogo = "$svgPath/bike.svg";
 
   static String profileImage = "$imagePath/profile-image.png";
 

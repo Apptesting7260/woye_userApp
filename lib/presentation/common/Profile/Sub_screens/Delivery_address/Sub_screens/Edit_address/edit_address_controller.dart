@@ -8,6 +8,8 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 
+import '../../../../../../Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
+import '../../../../../../Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_controller.dart';
 import '../../../../../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 export 'package:country_code_picker/country_code_picker.dart';
 
@@ -216,6 +218,8 @@ class EditAdressController extends GetxController {
 
   final RestaurantCartController restaurantCartController =  Get.put(RestaurantCartController());
   final PharmacyCartController pharmacyCartController =  Get.put(PharmacyCartController());
+  final GroceryCartController groceryCartController =  Get.put(GroceryCartController());
+  final SingleGroceryCartController singleGroceryCartController =  Get.put(SingleGroceryCartController());
 
   changeAddressApi({
     required String addressId,
@@ -243,6 +247,7 @@ class EditAdressController extends GetxController {
       'delivery_instruction': deliveryInstruction,
       'is_default': "1",
     };
+    print("bodydata :: $body");
     api.editAddressApi(body).then((value) {
       setData(value);
       deliveryAddressController.getDeliveryAddressApi();
@@ -272,7 +277,32 @@ class EditAdressController extends GetxController {
             return;
           });
         }else if(vendorType =='RestaurantCart'){
+
           restaurantCartController.getRestaurantCartApi().then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          });
+        }else if(vendorType == "GroceryCart"){
+          cartScreenType == "singleCart" ?
+          singleGroceryCartController.getGrocerySingleVendorCartApi(cartId).then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          }):
+          groceryCartController.getGroceryAllCartApi().then((value) {
             Utils.showToast(editAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);
             Get.back();

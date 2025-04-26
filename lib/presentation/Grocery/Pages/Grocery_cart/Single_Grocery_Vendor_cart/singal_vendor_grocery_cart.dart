@@ -35,8 +35,7 @@ class SingleVendorGroceryCart extends StatefulWidget {
 }
 
 class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
-  final SingleGroceryCartController controller =
-      Get.put(SingleGroceryCartController());
+  final SingleGroceryCartController controller = Get.put(SingleGroceryCartController());
 
   void initState() {
     controller.refreshApi(widget.cartId);
@@ -175,8 +174,10 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
               highlightColor: Colors.transparent,
               onTap: () {
                 Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
-                  'type': "PharmacyCart",
+                  'type': "GroceryCart",
                   "fromcart": true,
+                  'cartId' :  widget.cartId.toString(),
+                  'cartScreenType' : "singleCart",
                 });
               },
               child: Row(

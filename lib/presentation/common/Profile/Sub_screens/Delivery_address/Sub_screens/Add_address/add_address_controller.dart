@@ -3,6 +3,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_modal.dart';
@@ -77,9 +79,10 @@ class AddAddressController extends GetxController {
     }
   }
 
-  Rx<CountryCode> selectedCountryCode =
-      CountryCode(dialCode: '+91', code: 'IN').obs;
+  Rx<CountryCode> selectedCountryCode = CountryCode(dialCode: '+91', code: 'IN').obs;
+
   String? cartId = "";
+
   @override
   void onInit() {
     loadLocationData();
@@ -88,6 +91,7 @@ class AddAddressController extends GetxController {
     if(arguments['cartId'] != null){
       cartId = arguments['cartId'];
     }
+    print("cart Id ----- ${cartId.toString()}");
     super.onInit();
   }
 
@@ -160,8 +164,9 @@ class AddAddressController extends GetxController {
   final RestaurantCartController restaurantCartController =
       Get.put(RestaurantCartController());
 
-  final PharmacyCartController pharmacyCartController =
-      Get.put(PharmacyCartController());
+  final PharmacyCartController pharmacyCartController =Get.put(PharmacyCartController());
+  final GroceryCartController groceryCartController =Get.put(GroceryCartController());
+  final SingleGroceryCartController singleGroceryCartController =Get.put(SingleGroceryCartController());
 
   addAddressApi() async {
     var arguments = Get.arguments;
@@ -170,6 +175,7 @@ class AddAddressController extends GetxController {
     bool fromcart = arguments['fromcart'];
     print("cart--------------------------------$type");
     print("fromcart--------------------------------$fromcart");
+    print("fromcart--------------------------------$cartId");
     setRxRequestStatus(Status.LOADING);
     var body = {
       'full_name': nameController.value.text,
@@ -222,7 +228,8 @@ class AddAddressController extends GetxController {
               radioValue.value = 0;
               return;
             });
-          } else if (type == "PharmacyCart") {
+          }
+          else if (type == "PharmacyCart") {
             print("object333333");
             pharmacyCartController.getAllCartProductsForCheckout().then((value) {
               Utils.showToast(addAddress.value.message.toString());
@@ -256,8 +263,44 @@ class AddAddressController extends GetxController {
                 return;
               });
             }
-          } else {
-            print("object444444");
+          }
+          else if (type == "GroceryCart") {
+            print("object333333");
+            if(cartId?.isEmpty ?? true){
+              groceryCartController.getGroceryAllCartApi().then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if(fromcart == true){
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }else if(cartId?.isNotEmpty ?? true){
+              singleGroceryCartController.getGrocerySingleVendorCartApi(cartId.toString()).then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if(fromcart == true){
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }
+          }else {
+            print("edfertgeryety");
             deliveryAddressController.getDeliveryAddressApi().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);

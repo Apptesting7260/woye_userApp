@@ -18,10 +18,13 @@ class DeliveryAddressScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var arguments = Get.arguments;
-    String? type = arguments['type'];
-    bool fromcart = arguments['fromcart'];
+    String? type = arguments['type'] ?? "";
+    bool fromcart = arguments['fromcart'] ?? "";
+    String cartId = arguments['cartId'] ?? "";
+    String cartScreenType = arguments['cartScreenType'] ?? "";
     debugPrint("type >>>>>>>>> $type");
     debugPrint("from cart >>>>>>>>> $fromcart");
+    debugPrint("from cart >>>>>>>>> $cartId");
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -61,7 +64,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                     if (controller.deliveryAddressData.value.data!.isNotEmpty)
                       addressList(type:type),
                     hBox(30.h),
-                    addAddress(type, fromcart),
+                    addAddress(type, fromcart,cartId,cartScreenType),
                     if (type != "Profile") changeAddressButton(),
                     hBox(30.h),
                   ],
@@ -204,7 +207,7 @@ class DeliveryAddressScreen extends StatelessWidget {
     );
   }
 
-  Widget addAddress(type, fromcart) {
+  Widget addAddress(type, fromcart,cartId,cartScreenType) {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
@@ -214,9 +217,11 @@ class DeliveryAddressScreen extends StatelessWidget {
           Get.toNamed(AppRoutes.addAddressScreen, arguments: {
             'type': type,
             "fromcart": fromcart,
+            'cartId' : cartId,
           });
           print("object>>>>>>>>>>>>>>>>>>  $fromcart");
           print("object >>>>>>>>>>>>>>>>>>  $type");
+          print("object >>>>>>>>>>>>>>>>>>  $cartId");
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
         horizontalTitleGap: 10.w,
@@ -265,39 +270,16 @@ class DeliveryAddressScreen extends StatelessWidget {
         child: CustomElevatedButton(
           onPressed: () {
             editController.changeAddressApi(
-              addressId: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].id
-                  .toString(),
-              name: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].fullName
-                  .toString(),
-              houseNo: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].houseDetails
-                  .toString(),
-              addressTypeName: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].addressType
-                  .toString(),
-              selectedCountryCode: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].countryCode
-                  .toString(),
-              mobNo: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].phoneNumber
-                  .toString(),
-              location: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].address
-                  .toString(),
-              latitude: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].latitude
-                  .toString(),
-              longitude: controller.deliveryAddressData.value
-                  .data![controller.selectedAddressIndex.value].longitude
-                  .toString(),
-              deliveryInstruction: controller
-                      .deliveryAddressData
-                      .value
-                      .data![controller.selectedAddressIndex.value]
-                      .deliveryInstruction ??
-                  "",
+              addressId: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].id.toString(),
+              name: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].fullName.toString(),
+              houseNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].houseDetails.toString(),
+              addressTypeName: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].addressType.toString(),
+              selectedCountryCode: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].countryCode.toString(),
+              mobNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].phoneNumber.toString(),
+              location: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].address.toString(),
+              latitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].latitude.toString(),
+              longitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].longitude.toString(),
+              deliveryInstruction: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].deliveryInstruction ?? "",
             );
           },
           isLoading: editController.rxRequestStatus.value == Status.LOADING,

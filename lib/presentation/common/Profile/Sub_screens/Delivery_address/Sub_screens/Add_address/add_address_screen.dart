@@ -229,6 +229,7 @@ class AddAddressScreen extends StatelessWidget {
                   onChanged: (value) {
                     controller.defaultSet.value = !controller.defaultSet.value;
                   }),
+
             ),
           ),
         ),
