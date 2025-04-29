@@ -36,7 +36,7 @@ class PharmaQuantityController extends GetxController {
       if (quantityData.value.status == true) {
         if(isSingleCartScreen ==  true){
           pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId).then((value) async {
-            await Future.delayed(const Duration(milliseconds: 500));
+            // await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
             Utils.showToast(quantityData.value.message.toString());
           });

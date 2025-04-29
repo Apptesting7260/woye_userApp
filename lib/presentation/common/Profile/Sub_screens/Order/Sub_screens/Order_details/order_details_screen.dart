@@ -87,9 +87,7 @@ class OrderDetailsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          controller.ordersData.value.addressDetails!.fullName
-              .toString()
-              .capitalize!,
+          controller.ordersData.value.addressDetails?.fullName.toString().capitalize ?? "",
           style: AppFontStyle.text_28_600(AppColors.darkText),
         ),
         hBox(20),
@@ -220,27 +218,23 @@ class OrderDetailsScreen extends StatelessWidget {
           ),
           hBox(10),
           Text(
-            controller.ordersData.value.addressDetails!.addressType
-                .toString()
-                .capitalize!,
+            controller.ordersData.value.addressDetails?.addressType.toString().capitalize ?? "",
             style: AppFontStyle.text_14_400(AppColors.primary),
           ),
           hBox(10),
           Text(
-            controller.ordersData.value.addressDetails!.fullName
-                .toString()
-                .capitalize!,
+            controller.ordersData.value.addressDetails?.fullName.toString().capitalize ?? "",
             style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
           hBox(10),
           Text(
-            controller.ordersData.value.addressDetails!.address.toString(),
+            controller.ordersData.value.addressDetails?.address.toString() ?? "",
             maxLines: 4,
             style: AppFontStyle.text_12_400(AppColors.lightText),
           ),
           hBox(10),
           Text(
-            "${controller.ordersData.value.addressDetails!.countryCode} ${controller.ordersData.value.addressDetails!.phoneNumber.toString()}",
+            "${controller.ordersData.value.addressDetails?.countryCode} ${controller.ordersData.value.addressDetails?.phoneNumber.toString()}",
             style: AppFontStyle.text_14_600(AppColors.darkText),
           ),
           hBox(15),

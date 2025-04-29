@@ -71,11 +71,12 @@ class GroceryCategoriesFilterController extends GetxController {
     selectedCuisines.clear();
     selectedQuickFilters.clear();
     priceRadioValue.value = 0;
-    lowerValue.value = getFilterData.value.minPrice?.toDouble();
-    upperValue.value = getFilterData.value.maxPrice?.toDouble();
+    lowerValue.value = getFilterData.value.minPrice?.toDouble() ?? 0.0;
+    upperValue.value = getFilterData.value.maxPrice?.toDouble() ?? 0.0;
+    if(getFilterData.value.cuisineType != null){
     for (var cuisine in getFilterData.value.cuisineType!) {
       cuisine.isSelected.value = false;
-    }
+    }}
     update();
   }
 }

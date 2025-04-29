@@ -16,7 +16,10 @@ class PrescriptionUploadScreen extends StatelessWidget {
     var addressId = arguments['address_id'] ?? '';
     var couponId = arguments['coupon_id'] ?? '';
     var vendorId = arguments['vendor_id'] ?? '';
+    // var formattedTotal = arguments['total'] ?? "0.00";
+    // var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
     var formattedTotal = arguments['total'] ?? "0.00";
+    formattedTotal = formattedTotal.replaceAll(',', '');
     var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
     var cartId = arguments['cart_id'] ?? "";
     var regularPrice = arguments['regular_price'] ?? "";
@@ -26,6 +29,8 @@ class PrescriptionUploadScreen extends StatelessWidget {
     var cartType = arguments['cartType'] ?? "";
     var walletBalance = arguments['wallet'] ?? "";
     var prescription = arguments['prescription'] ?? "";
+    var cartTotal = arguments['cart_total'] ?? "";
+    var cartDelivery = arguments['cart_delivery'] ?? "";
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
     print("Vendor Id: $vendorId");
@@ -38,6 +43,8 @@ class PrescriptionUploadScreen extends StatelessWidget {
     print("cartType: $cartType");
     print("wallet: $walletBalance");
     print("prescription: $prescription");
+    print("cartTotal: $cartTotal");
+    print("cartDelivery: $cartDelivery");
 
     return PopScope(
       onPopInvokedWithResult: (e,w){
@@ -122,9 +129,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                             Utils.showToast("Prescription is required to upload for this medication.");
                           } else {
                             if (controller.imageList.last.value != null) {
-                              List<String> imagePaths = controller.imageList
-                                  .map((fileRx) => fileRx.value?.path ?? "")
-                                  .toList();
+                              List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
                               Get.toNamed(
                                 AppRoutes.checkoutScreen,
                                 arguments: {
@@ -140,6 +145,8 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                   'wallet': walletBalance,
                                   'cartType': cartType,
                                   'imagePath': imagePaths,
+                                  'cart_total' : cartTotal,
+                                  'cart_delivery':cartDelivery,
                                 },
                               );
                             } else {
@@ -155,9 +162,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                       Obx(
                         () => CustomElevatedButton(
                           onPressed: () {
-                            List<String> imagePaths = controller.imageList
-                                .map((fileRx) => fileRx.value?.path ?? "")
-                                .toList();
+                            List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
                             Get.toNamed(
                               AppRoutes.checkoutScreen,
                               arguments: {
@@ -173,6 +178,9 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                 'wallet': walletBalance,
                                 'cartType': cartType,
                                 'imagePath': imagePaths,
+                                'cart_total' : cartTotal,
+                                'cart_delivery':cartDelivery,
+                                'prescription': controller.base64ImageList,
                               },
                             );
                           },

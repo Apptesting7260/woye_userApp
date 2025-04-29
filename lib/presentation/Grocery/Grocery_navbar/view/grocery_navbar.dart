@@ -85,28 +85,56 @@ class GroceryNavbar extends StatelessWidget {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     width: 44.w,
-                    child: Column(
+                    child: Stack(
                       children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.linear,
-                          height: 4.h,
-                          width: 44.w,
-                          decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r))),
+                        Column(
+                          children: [
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.linear,
+                              height: 4.h,
+                              width: 44.w,
+                              decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColors.primary
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10.r),
+                                      bottomRight: Radius.circular(10.r))),
+                            ),
+                            Padding(
+                              padding: REdgeInsets.only(top: 19, bottom: 23),
+                              child: SvgPicture.asset(
+                                icon,
+                                height: 24.h,
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: REdgeInsets.only(top: 19, bottom: 23),
-                          child: SvgPicture.asset(
-                            icon,
-                            height: 24.h,
-                          ),
-                        ),
+                        if (index == 3)
+                          Obx(() => groceryShowAllCartController.cartData.value.carts != null
+                              ? Positioned(top: 15, right: 3,
+                            child: (groceryShowAllCartController.cartData.value.carts?.isNotEmpty ?? true)
+                                ? Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.black,
+                              ),
+                              child: Padding(
+                                padding: REdgeInsets.all(4),
+                                child: Obx(() {
+                                  return Text(
+                                    groceryShowAllCartController.cartData.value.carts?.length.toString() ?? "",
+                                    style: TextStyle(fontSize: 9,
+                                        color: AppColors.white),
+                                  );
+                                }),
+                              ),
+                            )
+                                : const SizedBox(),
+                          )
+                              : const SizedBox(),
+                          )
                       ],
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/controller/pharmacy_home_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 
 class PharmacyAddToCarController extends GetxController {
@@ -14,8 +15,8 @@ class PharmacyAddToCarController extends GetxController {
   RxString error = ''.obs;
   String token = "";
   RxString cartId = "".obs;
-  final PharmaSpecificProductController pharmaSpecificProductController =
-      Get.put(PharmaSpecificProductController());
+  final PharmaSpecificProductController pharmaSpecificProductController = Get.put(PharmaSpecificProductController());
+  final PharmacyHomeController pharmacyHomeController = Get.put(PharmacyHomeController());
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
@@ -121,7 +122,9 @@ class PharmacyAddToCarController extends GetxController {
           setRxRequestStatus(Status.COMPLETED);
           cartId.value = addToCartData.value.cartId.toString();
           pharmaSpecificProductController.goToCart.value = true;
+
           Utils.showToast(addToCartData.value.message.toString());
+          pharmacyCartController.getAllPharmacyCartData();
         // }
       } else {
         Utils.showToast(addToCartData.value.message.toString());

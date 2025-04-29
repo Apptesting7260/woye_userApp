@@ -254,7 +254,7 @@ class EditAdressController extends GetxController {
       if (editAddress.value.status == true) {
         if(vendorType =='PharmacyCart'){
           cartScreenType == "singleCart" ?
-          pharmacyCartController.getPharmacyCartApi(cartId: cartId).then((value) {
+          pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId).then((value) {
             Utils.showToast(editAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);
             Get.back();
@@ -265,7 +265,7 @@ class EditAdressController extends GetxController {
             locationController.clear();
             return;
           })
-          : pharmacyCartController.getAllCartProductsForCheckout().then((value) {
+          : pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
             Utils.showToast(editAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);
             Get.back();
@@ -277,7 +277,6 @@ class EditAdressController extends GetxController {
             return;
           });
         }else if(vendorType =='RestaurantCart'){
-
           restaurantCartController.getRestaurantCartApi().then((value) {
             Utils.showToast(editAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);

@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
 
 import '../pharma_cart_modal/pharmacyCheckoutAllModel.dart';
 import '../pharma_cart_modal/pharmacy_all_product_model.dart';
@@ -9,8 +14,10 @@ class PharmacyCartController extends GetxController {
   final rxRequestStatus = Status.LOADING.obs;
   final cartData = PharmaCartModal().obs;
 
-  final Rx<TextEditingController> couponCodeController =
-      TextEditingController().obs;
+
+  PrescriptionController prescriptionController = Get.put(PrescriptionController());
+
+  final Rx<TextEditingController> couponCodeController =     TextEditingController().obs;
 
   var readOnly = true.obs;
 
@@ -117,6 +124,8 @@ class PharmacyCartController extends GetxController {
       setCartCheckoutData(value);
       if (value.status == true) {
         rxSetGetCheckoutData(Status.COMPLETED);
+      }else if(!value.status){
+        rxSetGetCheckoutData(Status.COMPLETED);
       }
     },).onError((error, stackTrace) {
       setError(error.toString());
@@ -140,5 +149,57 @@ class PharmacyCartController extends GetxController {
       rxSetGetCheckoutData(Status.ERROR);
     },);
   }
+
+/*-------------------------------------------Pharmacy Create Order----------------------------------------------------------*/
+
+  final rxRequestStatusCreateOrder = Status.COMPLETED.obs;
+  void rxSetRequestStatusCreateOrder(Status val) => rxRequestStatusCreateOrder.value = val;
+  final createOrderApiData =  PharmacyCreateOrderModel().obs;
+  void setApiData(PharmacyCreateOrderModel val)=> createOrderApiData.value = val;
+
+  pharmacyCreateOrder({
+    required bool isWalletUsed,
+    required String walletAmount,
+    required String paymentMethod,
+    required String paymentAmount,
+    required String addressId,
+    required String couponId,
+    required String totalAmount,
+    required List<String> cartIds,
+    required List<Map<String,dynamic>> carts,
+    required List<String> prescription,
+  }) async {
+    var data = {
+      "wallet_used": isWalletUsed.toString(),
+      "wallet_amount": walletAmount.toString(),
+      "payment_method": paymentMethod.toString(),
+      "payment_amount": paymentAmount.toString(),
+      "address_id": addressId.toString(),
+      "coupon_id": couponId.toString(),
+      "total": totalAmount.toString(),
+      "type": "pharmacy",
+      "cart_ids": jsonEncode(cartIds),
+      "carts": jsonEncode(carts),
+      'drslip' : jsonEncode(prescription),
+    };
+    print("data body >>> $data");
+    rxSetRequestStatusCreateOrder(Status.LOADING);
+    api.pharmacyCreateOrderApi(data).then((value) {
+      if(value.status == true) {
+        rxSetRequestStatusCreateOrder(Status.COMPLETED);
+        prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
+        Utils.showToast(value.message.toString());
+        Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "pharmacy"});
+      }if(value.status == false){
+        rxSetRequestStatusCreateOrder(Status.COMPLETED);
+        Utils.showToast(value.message.toString());
+      }
+    },).onError((error, stackTrace) {
+      print("Error create order $error");
+      setError(error.toString());
+      rxSetRequestStatusCreateOrder(Status.COMPLETED);
+    },);
+  }
+
 
 }

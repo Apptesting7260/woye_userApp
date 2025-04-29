@@ -43,8 +43,11 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
   Get.put(PharmaSpecificProductController());
 
   void initState() {
-    controller.getPharmacyCartApi(cartId: widget.cartId ?? "");
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getPharmacyCartApi(cartId: widget.cartId ?? "");
+    },);
     _scrollController.addListener(
           () {
         if (_scrollController.position.isScrollingNotifier.value) {
@@ -58,97 +61,100 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    controller.refreshApi(cartId: widget.cartId.toString());
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        controller.readOnly.value = true;
-      },
-      child: Scaffold(
-        appBar: CustomAppBar(
-          isLeading: widget.isBack,
-          isActions: true,
-          title: Text(
-            "My Cart",
-            style: AppFontStyle.text_24_600(AppColors.darkText),
+    // controller.refreshApi(cartId: widget.cartId.toString());
+    return PopScope(
+      canPop: false,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          controller.readOnly.value = true;
+        },
+        child: Scaffold(
+          appBar: CustomAppBar(
+            isLeading: widget.isBack,
+            isActions: true,
+            title: Text(
+              "My Cart",
+              style: AppFontStyle.text_24_600(AppColors.darkText),
+            ),
           ),
-        ),
-        body: Obx(() {
-          switch (controller.rxRequestStatus.value) {
-            case Status.LOADING:
-              return Center(child: circularProgressIndicator());
-            case Status.ERROR:
-              if (controller.error.value == 'No internet') {
-                return InternetExceptionWidget(
-                  onPress: () {
-                    controller.refreshApi(cartId: widget.cartId.toString());
+          body: Obx(() {
+            switch (controller.rxRequestStatus.value) {
+              case Status.LOADING:
+                return Center(child: circularProgressIndicator());
+              case Status.ERROR:
+                if (controller.error.value == 'No internet') {
+                  return InternetExceptionWidget(
+                    onPress: () {
+                      controller.refreshApi(cartId: widget.cartId.toString());
+                    },
+                  );
+                } else {
+                  return GeneralExceptionWidget(
+                    onPress: () {
+                      controller.refreshApi(cartId: widget.cartId.toString());
+                    },
+                  );
+                }
+              case Status.COMPLETED:
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    controller.refreshApi(cartId:widget.cartId.toString());
                   },
-                );
-              } else {
-                return GeneralExceptionWidget(
-                  onPress: () {
-                    controller.refreshApi(cartId: widget.cartId.toString());
-                  },
-                );
-              }
-            case Status.COMPLETED:
-              return RefreshIndicator(
-                onRefresh: () async {
-                  controller.refreshApi(cartId:widget.cartId.toString());
-                },
-                child: controller.cartData.value.cartContent != "Notempty"
-                    ? Column(
-                  children: [
-                    hBox(Get.height / 3),
-                    Center(
-                      child: Image.asset(
-                        ImageConstants.wishlistEmpty,
-                        height: 70.h,
-                        width: 100.h,
+                  child: controller.cartData.value.cartContent != "Notempty"
+                      ? Column(
+                    children: [
+                      hBox(Get.height / 3),
+                      Center(
+                        child: Image.asset(
+                          ImageConstants.wishlistEmpty,
+                          height: 70.h,
+                          width: 100.h,
+                        ),
+                      ),
+                      hBox(10.h),
+                      Text(
+                        "Your cart is empty!",
+                        style: AppFontStyle.text_20_600(AppColors.darkText),
+                      ),
+                      hBox(5.h),
+                      Text(
+                        "Explore more and shortlist some items",
+                        style:
+                        AppFontStyle.text_16_400(AppColors.mediumText),
+                      ),
+                    ],
+                  )
+                      : Padding(
+                    padding: REdgeInsets.symmetric(horizontal: 20.h),
+                    child: SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      controller: _scrollController,
+                      child: Column(
+                        children: [
+                          controller.cartData.value.addressExists == true
+                              ? address()
+                              : locationAddress(),
+                          hBox(20.h),
+                          cartItems(),
+                          hBox(20.h),
+                          promoCode(context),
+                          hBox(30.h),
+                          paymentDetails(),
+                          hBox(30.h),
+                          Divider(
+                              thickness: .5.w, color: AppColors.hintText),
+                          hBox(15.h),
+                          checkoutButton(),
+                          hBox(widget.isBack != true ? 100.h : 30.h)
+                        ],
                       ),
                     ),
-                    hBox(10.h),
-                    Text(
-                      "Your cart is empty!",
-                      style: AppFontStyle.text_20_600(AppColors.darkText),
-                    ),
-                    hBox(5.h),
-                    Text(
-                      "Explore more and shortlist some items",
-                      style:
-                      AppFontStyle.text_16_400(AppColors.mediumText),
-                    ),
-                  ],
-                )
-                    : Padding(
-                  padding: REdgeInsets.symmetric(horizontal: 20.h),
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    controller: _scrollController,
-                    child: Column(
-                      children: [
-                        controller.cartData.value.addressExists == true
-                            ? address()
-                            : locationAddress(),
-                        hBox(20.h),
-                        cartItems(),
-                        hBox(20.h),
-                        promoCode(context),
-                        hBox(30.h),
-                        paymentDetails(),
-                        hBox(30.h),
-                        Divider(
-                            thickness: .5.w, color: AppColors.hintText),
-                        hBox(15.h),
-                        checkoutButton(),
-                        hBox(widget.isBack != true ? 100.h : 30.h)
-                      ],
-                    ),
                   ),
-                ),
-              );
-          }
-        }),
+                );
+            }
+          }),
+        ),
       ),
     );
   }
@@ -426,6 +432,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                     .isDelete
                                     .value = true;
                                 deleteProductController.deleteProductApi(
+                                  isSingleCartScreen: true,
                                   cartId: controller.cartData.value.cart?.id.toString() ?? "",
                                   productId: controller
                                       .cartData
@@ -1010,36 +1017,33 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                   Get.toNamed(
                     AppRoutes.prescriptionScreen,
                     arguments: {
-                      'address_id': controller
-                          .cartData.value.address!.id
-                          .toString(),
-                      'coupon_id': controller
-                          .cartData.value.cart!.couponApplied?.id
-                          .toString(),
-                      'vendor_id': controller
-                          .cartData.value.cart!.pharmaId
-                          .toString(),
-                      'total': controller
-                          .cartData.value.cart!.totalPrice
-                          .toString(),
-                      'regular_price': controller
-                          .cartData.value.cart!.regularPrice
-                          .toString(),
-                      'coupon_discount': controller
-                          .cartData.value.cart!.couponDiscount
-                          .toString(),
-                      'save_amount': controller
-                          .cartData.value.cart!.saveAmount
-                          .toString(),
-                      'delivery_charge': controller
-                          .cartData.value.cart!.deliveryCharge
-                          .toString(),
-                      'cart_id': controller.cartData.value.cart!.id
-                          .toString(),
-                      'wallet':
-                      controller.cartData.value.wallet.toString(),
+                      'address_id': controller.cartData.value.address?.id.toString(),
+                      'total': controller.cartData.value.cart?.totalPrice.toString(),
+                      'coupon_id' : controller.cartData.value.cart?.couponId ?? "0",
+                      'regular_price': controller.cartData.value.cart?.regularPrice.toString(),
+                      'coupon_discount': controller.cartData.value.cart?.couponDiscount.toString(),
+                      'save_amount': controller.cartData.value.cart?.saveAmount.toString(),
+                      'delivery_charge': controller.cartData.value.cart?.deliveryCharge.toString(),
+                      'cart_id': controller.cartData.value.cart?.id,
+                      'vendor_id': controller.cartData.value.cart!.pharmaId.toString(),
+                      'cart_total': controller.cartData.value.cart?.totalPrice,
+                      'cart_delivery': controller.cartData.value.cart?.deliveryCharge,
+                      'wallet': controller.cartData.value.wallet.toString(),
                       'cartType': "pharmacy",
-                      'prescription': controller.cartData.value.prescription.toString(),
+                      // 'address_id': controller.cartData.value.address!.id.toString(),
+                      // 'coupon_id': controller.cartData.value.cart!.couponApplied?.id.toString(),
+                      // 'vendor_id': controller.cartData.value.cart!.pharmaId.toString(),
+                      // 'total': controller.cartData.value.cart!.totalPrice.toString(),
+                      // 'regular_price': controller.cartData.value.cart!.regularPrice.toString(),
+                      // 'coupon_discount': controller.cartData.value.cart!.couponDiscount.toString(),
+                      // 'save_amount': controller.cartData.value.cart!.saveAmount.toString(),
+                      // 'delivery_charge': controller.cartData.value.cart!.deliveryCharge.toString(),
+                      // 'cart_id': controller.cartData.value.cart!.id.toString(),
+                      // 'wallet': controller.cartData.value.wallet.toString(),
+                      // 'cartType': "pharmacy",
+                      // 'prescription': controller.cartData.value.prescription.toString(),
+                      // 'cart_total' : cartTotal,
+                      // 'cart_delivery':cartDelivery,
                     },
                   );
                 });

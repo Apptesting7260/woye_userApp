@@ -6,6 +6,10 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_groce
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 
+import '../../../shared/widgets/format_price.dart';
+import '../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
+import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
+
 class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({super.key});
 
@@ -16,6 +20,7 @@ class CheckoutScreen extends StatelessWidget {
 
   final CreateOrderController controller = Get.put(CreateOrderController());
   final GroceryCartController groceryCartController = Get.put(GroceryCartController());
+  final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +29,18 @@ class CheckoutScreen extends StatelessWidget {
     var addressId = arguments['address_id'] ?? '';
     var couponId = arguments['coupon_id'] ?? '';
     var vendorId = arguments['vendor_id'] ?? '';
+    // var totalPrice = arguments['total'] ?? '';
+    // print("Total price : ${arguments['total']}");
+    // var formattedTotal = arguments['total'] ?? "0.00";
+    // print("tota; procellknb $formattedTotal");
+    // var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
+    // print("tota; procellknb $total");
     var formattedTotal = arguments['total'] ?? "0.00";
+   formattedTotal = formattedTotal.replaceAll(',', '');
+    print("Total after removing commas: $formattedTotal");
     var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
+    print("Total price: $total");
+
     var cartId = arguments['cart_id'] ?? "";
     var regularPrice = arguments['regular_price'] ?? "";
     var saveAmount = arguments['save_amount'] ?? "";
@@ -33,10 +48,12 @@ class CheckoutScreen extends StatelessWidget {
     var couponDiscount = arguments['coupon_discount'] ?? "";
     var cartType = arguments['cartType'] ?? "";
     var walletBalance = arguments['wallet'] ?? "";
+    var prescription = arguments['prescription'] ?? [];
+    var cartTotal = arguments['cart_total'] ?? [];
+    var cartDelivery = arguments['cart_delivery'] ?? [];
     // var imagePath = arguments['imagePath'] ?? "";
     // File? imageFile;
-    List<String> imagePaths =
-        List<String>.from(Get.arguments['imagePath'] ?? []);
+    List<String> imagePaths = List<String>.from(Get.arguments['imagePath'] ?? []);
 
     // Convert the paths to File objects
     List<File?> imageFiles = imagePaths.map((path) => File(path)).toList();
@@ -59,8 +76,7 @@ class CheckoutScreen extends StatelessWidget {
     //   print("No image provided");
     // }
     // grocery arguments
-    var cartTotal = arguments['cart_total'];
-    var cartDelivery = arguments['cart_delivery'];
+
 
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
@@ -76,6 +92,7 @@ class CheckoutScreen extends StatelessWidget {
     print("cartTotal: $cartTotal");
     print("cartDelivery: $cartDelivery");
     print("cartType: $cartType");
+    print("prescription: $prescription");
 
 // Optionally, print the list of image files (paths converted to File objects)
     for (var imageFile in imageFiles) {
@@ -114,9 +131,12 @@ class CheckoutScreen extends StatelessWidget {
               hBox(30.h),
               Obx(
                 () => CustomElevatedButton(
-                  isLoading: (controller.rxRequestStatus.value == Status.LOADING) || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING,
+                  isLoading: (
+                        controller.rxRequestStatus.value == Status.LOADING)
+                    || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING
+                    || pharmacyCartController.rxRequestStatusCreateOrder.value == Status.LOADING,
                   onPressed: () {
-                    if(cartType != 'grocery'){
+                    if(cartType == 'restaurant'){
                     if (controller.isSelectable.value == true) {
                       controller.placeOrderApi(
                           addressId: addressId,
@@ -127,7 +147,8 @@ class CheckoutScreen extends StatelessWidget {
                           total: total,
                           cartType: cartType,
                           imageFiles: imageFiles);
-                    } else if (controller.selectedIndex.value == 0) {
+                    }
+                    else if (controller.selectedIndex.value == 0) {
                       controller.placeOrderApi(
                           addressId: addressId,
                           cartId: cartId,
@@ -137,7 +158,8 @@ class CheckoutScreen extends StatelessWidget {
                           total: total,
                           cartType: cartType,
                           imageFiles: imageFiles);
-                    } else if (controller.selectedIndex.value == 1) {
+                    }
+                    else if (controller.selectedIndex.value == 1) {
                       controller.placeOrderApi(
                           addressId: addressId,
                           cartId: cartId,
@@ -147,7 +169,8 @@ class CheckoutScreen extends StatelessWidget {
                           total: total,
                           cartType: cartType,
                           imageFiles: imageFiles);
-                    } else {
+                    }
+                    else {
                       Utils.showToast("Payment method not available");
                     }
                   }
@@ -192,16 +215,62 @@ class CheckoutScreen extends StatelessWidget {
                           paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
                           addressId: addressId, couponId: couponId, total: total,cartIds: cartIDs, type: cartType, carts: carts);
                     }
+                    else if(cartType == 'pharmacy'){
+                      List<String> cartIDs = [];
+                      if(vendorId.runtimeType != String){
+                        for(int i = 0; i < cartId.length; i++){
+                          cartIDs.add(arguments['cart_id'][i].toString());
+                        }}else{
+                        cartIDs.add(arguments['cart_id'].toString());
+                      }
+
+                      List<Map<String,dynamic>> carts = [];
+
+                      print("vendorId type :: ${vendorId.runtimeType}");
+                      if(vendorId.runtimeType != String){
+                        for(int i =0; i < vendorId.length; i++){
+                          carts.add({
+                            "vendor_id": arguments['vendor_id'][i],
+                            "cart_id": arguments['cart_id'][i],
+                            "cart_total": arguments['cart_total'][i],
+                            "cart_delivery":arguments['cart_delivery'][i],
+                          },
+                          );
+                        }
+                      }else{
+                        carts.add({
+                          "vendor_id": arguments['vendor_id'].toString(),
+                          "cart_id": arguments['cart_id'].toString(),
+                          "cart_total": arguments['cart_total'].toString(),
+                          "cart_delivery":arguments['cart_delivery'].toString(),
+                        },
+                        );
+                      }
+
+                      pharmacyCartController.pharmacyCreateOrder(
+                          isWalletUsed: controller.walletSelected.value,
+                          walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
+                          paymentMethod: controller.isSelectable.value == true ? "wallet" :controller.selectedIndex.value == 0 ?
+                          "credit_card" :controller.selectedIndex.value == 1 ? "cash_on_delivery" : "",
+                          paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+                          addressId: addressId.toString(),
+                          couponId: couponId.toString(),
+                          totalAmount: total.toString(),
+                          cartIds: cartIDs,
+                          carts: carts,
+                        prescription: prescription,
+                         );
+                    }
                   },
                   text: controller.isSelectable.value == true
                       ? "Place Order"
                       : controller.selectedIndex.value == 1
                           ? controller.walletSelected.value == false
-                              ? "\$$total Order with COD"
+                              ? "\$${formatPrice(total)} Order with COD"
                               : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Order with COD"
                           : controller.selectedIndex.value == 0
                               ? controller.walletSelected.value == false
-                                  ? "\$$total Pay with Card"
+                                  ? "\$${formatPrice(total)} Pay with Card"
                                   : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Pay with Card"
                               : "Place Order",
                 ),
@@ -560,7 +629,7 @@ class CheckoutScreen extends StatelessWidget {
               style: AppFontStyle.text_22_600(AppColors.darkText),
             ),
             Text(
-              totalPrice.toString(),
+            formatPrice(totalPrice.toString()),
               style: AppFontStyle.text_22_600(AppColors.primary),
             ),
           ],

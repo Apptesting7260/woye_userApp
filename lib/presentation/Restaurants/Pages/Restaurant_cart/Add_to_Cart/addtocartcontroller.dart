@@ -4,6 +4,8 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 
+import '../../../../Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
+
 class AddToCartController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
@@ -21,6 +23,7 @@ class AddToCartController extends GetxController {
   //   token = userModel.loginType!;
   //   print("RRRRRRRRRRRRR${token}");
   // }
+  GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
 
   final specific_Product_Controller specificProductController =
       Get.put(specific_Product_Controller());
@@ -84,6 +87,7 @@ class AddToCartController extends GetxController {
           setRxRequestStatus(Status.COMPLETED);
           specificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
+          groceryShowAllCartController.getGroceryAllShowApi();
         }
       } else {
         Utils.showToast(addToCartData.value.message.toString());

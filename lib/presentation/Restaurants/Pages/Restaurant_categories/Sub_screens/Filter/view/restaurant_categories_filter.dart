@@ -242,8 +242,13 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       padding: REdgeInsets.symmetric(horizontal: 24.0,vertical: 20),
       child: Column(
         children: [
-          price(),
-          hBox(Get.height * 0.5.h),
+          Expanded(
+            child: Column(
+              children: [
+                price(),
+              ],
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [

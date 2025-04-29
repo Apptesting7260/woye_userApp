@@ -100,6 +100,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    homeController.mainButtonIndex.value;
     // currentLocationController.getCurrentPosition(back: true);
     showLocationDialog();
     return Material(
@@ -228,8 +229,7 @@ class HomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: homeController.mainButtonbar.length,
                         itemBuilder: (context, index) {
-                          bool isSelected =
-                              homeController.mainButtonIndex.value == index;
+                          bool isSelected = homeController.mainButtonIndex.value == index;
                           return GestureDetector(
                             onTap: () {
                               if (index == 2) {
@@ -241,16 +241,9 @@ class HomeScreen extends StatelessWidget {
                               }
                             },
                             child: MainButtonBar(
-                              title: homeController.mainButtonbar[index]
-                                      ["title"] ??
-                                  "",
-                              image: isSelected
-                                  ? homeController.mainButtonbar[index]
-                                          ["imageEnabled"] ??
-                                      ""
-                                  : homeController.mainButtonbar[index]
-                                          ["imageDisabled"] ??
-                                      "",
+                              title: homeController.mainButtonbar[index]["title"] ?? "",
+                              image: isSelected ? homeController.mainButtonbar[index]["imageEnabled"] ?? ""
+                                  : homeController.mainButtonbar[index]["imageDisabled"] ?? "",
                               backgroundColor: isSelected
                                   ? AppColors.primary
                                   : Colors.transparent,

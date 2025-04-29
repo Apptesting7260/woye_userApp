@@ -119,7 +119,7 @@ class Buckets {
   String? specificTotalPrice;
   String? specificDeliveryCharge;
   String? grandtotalPrice;
-
+  Rx<bool> isVendorDelete = false.obs;
 
   Buckets(
       {this.pharmaId,

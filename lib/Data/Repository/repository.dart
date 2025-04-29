@@ -21,6 +21,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/modal/grocery_
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/Controller/grocery_Modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/groceryModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/checked_unchecked_modal.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/delete_vendor_phar/delete_vendor_phar_model.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_pharma_product_modal.dart';
@@ -75,6 +76,7 @@ import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_
 import '../../presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/grocery_create_order_model.dart';
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacyCheckoutAllModel.dart';
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_all_product_model.dart';
+import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
 
 class Repository {
   final _apiService = NetworkApiServices();
@@ -509,6 +511,18 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.pharmacyCheckoutAll, token);
     return PharmacyCheckOutAllModel.fromJson(response);
+  }
+
+  Future<dynamic> deleteVendorPharApi(var data) async {
+    await initializeUser();
+    dynamic response =  await _apiService.postApi(data, AppUrls.pharmacyDeleteVendor, token);
+    return VendorDeletePharModel.fromJson(response);
+  }
+
+  Future<dynamic> pharmacyCreateOrderApi(var data) async {
+    await initializeUser();
+    dynamic response =  await _apiService.postApi(data, AppUrls.pharmacyCreateOrder, token);
+    return PharmacyCreateOrderModel.fromJson(response);
   }
 
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */

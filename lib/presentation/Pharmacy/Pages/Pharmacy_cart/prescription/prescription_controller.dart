@@ -1,23 +1,23 @@
+import 'dart:developer';
 import 'dart:io';
-
 import 'package:image_cropper/image_cropper.dart';
-
 import '../../../../../Core/Utils/app_export.dart';
 
 class PrescriptionController extends GetxController {
   // Rx<File?> image = Rx<File?>(null);
   RxList<Rx<File?>> imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
+    List<String> base64ImageList = <String>[].obs;
 
   // @override
   // void onInit() {
   //   imageList.clear();
-  //   profileImageGetUrl.value = "";
+  //   profileImageGetUrl.value = "";s
   //   // TODO: implement onInit
   //   super.onInit();
   // }
 
   // var profileImageGetUrl = "".obs;
-
+  RxString imageBase64 = "".obs;
   Future<void> pickImage(ImageSource source, int index) async {
     final pickedImage = await ImagePicker().pickImage(source: source);
 
@@ -35,7 +35,12 @@ class PrescriptionController extends GetxController {
       if (croppedImage != null) {
         int croppedSize = await croppedImage.length();
         print('Cropped image size: $croppedSize bytes');
+        print("List base 64 $base64ImageList");
+
         imageList[index].value = croppedImage;
+        final base64 = await convertImageToBase64(croppedImage);
+        base64ImageList.add(base64);
+        print("List base 64 $base64ImageList");
         // profileImageGetUrl.value = croppedImage.path;
         // print("Cropped image path ---> ${profileImageGetUrl.value}");
         // imageUploadApi();
@@ -44,6 +49,19 @@ class PrescriptionController extends GetxController {
       }
     }
   }
+
+  Future<String> convertImageToBase64(File imageFile) async {
+    try {
+      final bytes = await imageFile.readAsBytes();
+      imageBase64.value = base64Encode(bytes);
+      log(imageBase64.value, name: "Base64IMAGE");
+      return imageBase64.value;
+    } catch (e) {
+      debugPrint("Error converting image to Base64: $e");
+      return '';
+    }
+  }
+
 
   Future<File?> _cropImage(String filePath) async {
     final croppedFile = await ImageCropper().cropImage(

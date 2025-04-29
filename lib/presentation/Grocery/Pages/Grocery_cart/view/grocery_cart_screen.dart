@@ -373,11 +373,14 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 Status.LOADING &&
                             buckets.isVendorDelete.value == true
                         ? Center(
-                            child: Row(
-                              children: [
-                                circularProgressIndicator(size: 15.h),
-                                wBox(2.h),
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 10,right: 22),
+                              child: Row(
+                                children: [
+                                  circularProgressIndicator(size: 15.h),
+                                  wBox(2.h),
+                                ],
+                              ),
                             ),
                           )
                         : Padding(
@@ -385,8 +388,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           child: GestureDetector(
                               onTap: () {
                                 buckets.isVendorDelete.value = true;
-                                deleteVendorController.deleteProductApi(
-                                    cartId: buckets.cartId.toString());
+                                deleteVendorController.deleteProductApi(cartId: buckets.cartId.toString());
                               },
                               child: Text(
                                 "Remove",
@@ -626,7 +628,6 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 //   ),
                                 // )
                                 //     :
-
                                 Text(
                                   "\$${items.price.toString()}",
                                   overflow: TextOverflow.ellipsis,
@@ -681,22 +682,14 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                                   //     .checked !=
                                                   //     "false") {
                                                   if (items.quantity == 1) {
-                                                    Utils.showToast(
-                                                        "Qty can not less then 1");
+                                                    Utils.showToast("Qty can not less then 1");
                                                   } else {
-                                                    items.isLoading.value =
-                                                        true;
-                                                    quantityUpdateController
-                                                        .updateQuantityApi(
-                                                      cartId: buckets.cartId
-                                                          .toString(),
-                                                      productId: items.productId
-                                                          .toString(),
-                                                      countId: items.count
-                                                          .toString(),
-                                                      productQuantity:
-                                                          (items.quantity! - 1)
-                                                              .toString(),
+                                                    items.isLoading.value = true;
+                                                    quantityUpdateController.updateQuantityApi(
+                                                      cartId: buckets.cartId.toString(),
+                                                      productId: items.productId.toString(),
+                                                      countId: items.count.toString(),
+                                                      productQuantity: (items.quantity! - 1).toString(),
                                                     );
                                                   }
                                                   // }

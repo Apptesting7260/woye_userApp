@@ -13,24 +13,29 @@ class DeletePharmaProductController extends GetxController {
   void setData(DeletePharmaProductModal value) =>
       deleteProductData.value = value;
 
-  final PharmacyCartController pharmacyCartController =
-      Get.put(PharmacyCartController());
+  final PharmacyCartController pharmacyCartController =     Get.put(PharmacyCartController());
 
   deleteProductApi({
     required String productId,
     required String countId,
     required String cartId,
+    required bool isSingleCartScreen,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "product_id": productId,
       "count_id": countId,
+      "cart_id" : cartId,
     };
     api.deletePharmaProductApi(body).then((value) {
       setData(value);
       if (deleteProductData.value.status == true) {
+        isSingleCartScreen == true ?
         pharmacyCartController.getPharmacyCartApi(cartId: cartId).then((value) async {
-          await Future.delayed(const Duration(milliseconds: 500));
+          // await Future.delayed(const Duration(milliseconds: 500));
+          setRxRequestStatus(Status.COMPLETED);
+        }):pharmacyCartController.getAllCartProductsForCheckout().then((value) async {
+          // await Future.delayed(const Duration(milliseconds: 200));
           setRxRequestStatus(Status.COMPLETED);
         });
       } else {

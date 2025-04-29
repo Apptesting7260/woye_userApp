@@ -91,6 +91,8 @@ class AppUrls {
 
   static const String applyPharmaCoupons = "$baseUrl/papply-coupons";
   static const String pharmacyCheckoutAll = "$baseUrl/pcheckout-all";
+  static const String pharmacyDeleteVendor = "$baseUrl/pdelete-vendor";
+  static const String pharmacyCreateOrder = "$baseUrl/pcreate-order";
 
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */
   static const String groceryHomeApi = "$baseUrl/grocery-home-api";
