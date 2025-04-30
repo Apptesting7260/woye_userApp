@@ -218,7 +218,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                         ),
                                       ),
                                       onPressed: () {
-                                        Get.back();
+                                        // Get.back();
                                         Get.to(PharmacySingleCartScreen(
                                           cartId:pharmacyCartController.cartDataAll.value.carts?[0].id.toString() ?? "",
                                           isBack: true,
@@ -772,7 +772,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                Get.back();
+                                // Get.back();
                                 Get.to(PharmacySingleCartScreen(
                                   cartId: carts?.id.toString() ?? "",
                                   isBack: true,

@@ -58,7 +58,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 controller.orderDetailsApi(orderId: id);
               },
               child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   padding: REdgeInsets.symmetric(horizontal: 24),
                   child: Column(
                     children: [
@@ -69,6 +69,10 @@ class OrderDetailsScreen extends StatelessWidget {
                       orderIdDetails(),
                       hBox(20),
                       paymentDetails(),
+                      hBox(20),
+                      if(controller.ordersData.value.orderDetails?.drslip != null || (controller.ordersData.value.orderDetails?.drslip?.isNotEmpty ?? true))...[
+                      prescriptions(),
+                      ],
                       hBox(20),
                       if (controller.ordersData.value.review != null) reviews(),
                       if (controller.ordersData.value.review != null) hBox(20),
@@ -631,6 +635,73 @@ class OrderDetailsScreen extends StatelessWidget {
         ),
         hBox(15)
       ]),
+    );
+  }
+
+  Widget prescriptions() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: AppColors.textFieldBorder)),
+      child: CustomExpansionTile(title: "Prescriptions", children: [
+        const Divider(),
+        hBox(8.h),
+        SizedBox(
+          height: 250,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            // itemCount: 5,
+            itemCount: controller.ordersData.value.orderDetails?.drslip?.length,
+            itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 18.0),
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5.r),
+                  child: GestureDetector(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.prescriptionsScreen,
+                          arguments: {
+                            "index" : index,
+                            "imageUrls" :controller.ordersData.value.orderDetails?.drslip,
+                          },
+                        );
+                      },
+                      child: CachedNetworkImage(
+                          imageUrl: controller.ordersData.value.orderDetails?.drslip?[index] ?? "",
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: AppColors.gray,
+                          highlightColor: AppColors.lightText,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.gray,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          width: 160.h,
+                          // height: 80.h,
+                          decoration: BoxDecoration(
+                            color: AppColors.white,
+                            border: Border.all(color: AppColors.greyBackground),
+                            borderRadius: BorderRadius.circular(5.r),
+                          ),
+                          child: Icon(
+                            Icons.broken_image_rounded,
+                            size: 40.h,
+                            color: AppColors.lightText.withOpacity(0.5),
+                          ),
+                        ),
+                      ),
+                  ),
+              ),
+            );
+          },),
+        ),
+        hBox(15.h),
+      ],
+      ),
     );
   }
 

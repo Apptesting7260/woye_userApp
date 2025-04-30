@@ -31,6 +31,8 @@ class PrescriptionUploadScreen extends StatelessWidget {
     var prescription = arguments['prescription'] ?? "";
     var cartTotal = arguments['cart_total'] ?? "";
     var cartDelivery = arguments['cart_delivery'] ?? "";
+    // var isPrescriptionRequired = arguments['prescription'];
+    print("prescription: $prescription");
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
     print("Vendor Id: $vendorId");
@@ -129,7 +131,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                             Utils.showToast("Prescription is required to upload for this medication.");
                           } else {
                             if (controller.imageList.last.value != null) {
-                              List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                              // List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
                               Get.toNamed(
                                 AppRoutes.checkoutScreen,
                                 arguments: {
@@ -144,9 +146,10 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                   'cart_id': cartId,
                                   'wallet': walletBalance,
                                   'cartType': cartType,
-                                  'imagePath': imagePaths,
+                                  // 'imagePath': imagePaths,
                                   'cart_total' : cartTotal,
                                   'cart_delivery':cartDelivery,
+                                  'prescription': controller.base64ImageList,
                                 },
                               );
                             } else {
@@ -162,7 +165,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                       Obx(
                         () => CustomElevatedButton(
                           onPressed: () {
-                            List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
+                            // List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
                             Get.toNamed(
                               AppRoutes.checkoutScreen,
                               arguments: {
@@ -177,7 +180,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                 'cart_id': cartId,
                                 'wallet': walletBalance,
                                 'cartType': cartType,
-                                'imagePath': imagePaths,
+                                // 'imagePath': imagePaths,
                                 'cart_total' : cartTotal,
                                 'cart_delivery':cartDelivery,
                                 'prescription': controller.base64ImageList,

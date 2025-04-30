@@ -213,6 +213,7 @@ class AddAddressController extends GetxController {
         } else {
           if (type == "RestaurantCart") {
             print("object22222222");
+
             restaurantCartController.getRestaurantCartApi().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
@@ -282,7 +283,8 @@ class AddAddressController extends GetxController {
                 radioValue.value = 0;
                 return;
               });
-            }else if(cartId?.isNotEmpty ?? true){
+            }
+            else if(cartId?.isNotEmpty ?? true){
               singleGroceryCartController.getGrocerySingleVendorCartApi(cartId.toString()).then((value) {
                 Utils.showToast(addAddress.value.message.toString());
                 setRxRequestStatus(Status.COMPLETED);
@@ -299,13 +301,16 @@ class AddAddressController extends GetxController {
                 return;
               });
             }
-          }else {
-            print("edfertgeryety");
+          }
+          else if(type == 'Profile'){
+            print("edfertgeryety Profile");
             deliveryAddressController.getDeliveryAddressApi().then((value) {
+              print("edfertgeryety1 Profile");
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
               Get.back();
-              nameController.value.clear();
+              Get.back();
+              // value.clear();0000
               mobNoController.value.clear();
               houseNoController.value.clear();
               deliveryInstructionController.value.clear();

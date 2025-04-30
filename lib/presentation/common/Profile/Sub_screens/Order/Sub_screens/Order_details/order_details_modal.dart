@@ -51,7 +51,7 @@ class OrderDetailsModal {
   }
 }
 
-class OrderDetails {
+class  OrderDetails {
   int? id;
   String? orderId;
   String? trackingId;
@@ -66,6 +66,7 @@ class OrderDetails {
   String? remainingPayment;
   var total;
   String? status;
+  List<String>? drslip;
   String? createdAt;
   String? updatedAt;
   List<DecodedAttribute>? decodedAttribute;
@@ -87,6 +88,7 @@ class OrderDetails {
       this.remainingPayment,
       this.total,
       this.status,
+      this.drslip,
       this.createdAt,
       this.updatedAt,
       this.decodedAttribute,
@@ -110,6 +112,9 @@ class OrderDetails {
     remainingPayment = json['remaining_payment'];
     total = json['total'];
     status = json['status'];
+    if(json['drslip'] != null){
+      drslip = json['drslip'].cast<String>();
+    }
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     if (json['decoded_attribute'] != null) {
@@ -142,6 +147,7 @@ class OrderDetails {
     data['remaining_payment'] = remainingPayment;
     data['total'] = total;
     data['status'] = status;
+    data['drslip'] = this.drslip;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     if (decodedAttribute != null) {

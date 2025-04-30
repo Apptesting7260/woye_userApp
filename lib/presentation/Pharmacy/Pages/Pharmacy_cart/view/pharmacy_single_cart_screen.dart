@@ -29,19 +29,13 @@ class PharmacySingleCartScreen extends StatefulWidget {
 
 class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
   final PharmacyCartController controller = Get.put(PharmacyCartController());
-  final PharmaQuantityController quantityUpdateController =
-  Get.put(PharmaQuantityController());
+  final PharmaQuantityController quantityUpdateController = Get.put(PharmaQuantityController());
+  final DeletePharmaProductController deleteProductController = Get.put(DeletePharmaProductController());
+  final ApplyCouponPharmaController applyCouponController = Get.put(ApplyCouponPharmaController());
+  final PharmaCheckedUncheckedController checkedUncheckedController = Get.put(PharmaCheckedUncheckedController());
+  final PharmaSpecificProductController pharmaSpecificProductController = Get.put(PharmaSpecificProductController());
 
-  final DeletePharmaProductController deleteProductController =
-  Get.put(DeletePharmaProductController());
-  final ApplyCouponPharmaController applyCouponController =
-  Get.put(ApplyCouponPharmaController());
-  final PharmaCheckedUncheckedController checkedUncheckedController =
-  Get.put(PharmaCheckedUncheckedController());
-
-  final PharmaSpecificProductController pharmaSpecificProductController =
-  Get.put(PharmaSpecificProductController());
-
+  @override
   void initState() {
     super.initState();
 
@@ -62,99 +56,96 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
   @override
   Widget build(BuildContext context) {
     // controller.refreshApi(cartId: widget.cartId.toString());
-    return PopScope(
-      canPop: false,
-      child: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-          controller.readOnly.value = true;
-        },
-        child: Scaffold(
-          appBar: CustomAppBar(
-            isLeading: widget.isBack,
-            isActions: true,
-            title: Text(
-              "My Cart",
-              style: AppFontStyle.text_24_600(AppColors.darkText),
-            ),
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        controller.readOnly.value = true;
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          isLeading: widget.isBack,
+          isActions: true,
+          title: Text(
+            "My Cart",
+            style: AppFontStyle.text_24_600(AppColors.darkText),
           ),
-          body: Obx(() {
-            switch (controller.rxRequestStatus.value) {
-              case Status.LOADING:
-                return Center(child: circularProgressIndicator());
-              case Status.ERROR:
-                if (controller.error.value == 'No internet') {
-                  return InternetExceptionWidget(
-                    onPress: () {
-                      controller.refreshApi(cartId: widget.cartId.toString());
-                    },
-                  );
-                } else {
-                  return GeneralExceptionWidget(
-                    onPress: () {
-                      controller.refreshApi(cartId: widget.cartId.toString());
-                    },
-                  );
-                }
-              case Status.COMPLETED:
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    controller.refreshApi(cartId:widget.cartId.toString());
+        ),
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet') {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.refreshApi(cartId: widget.cartId.toString());
                   },
-                  child: controller.cartData.value.cartContent != "Notempty"
-                      ? Column(
-                    children: [
-                      hBox(Get.height / 3),
-                      Center(
-                        child: Image.asset(
-                          ImageConstants.wishlistEmpty,
-                          height: 70.h,
-                          width: 100.h,
-                        ),
-                      ),
-                      hBox(10.h),
-                      Text(
-                        "Your cart is empty!",
-                        style: AppFontStyle.text_20_600(AppColors.darkText),
-                      ),
-                      hBox(5.h),
-                      Text(
-                        "Explore more and shortlist some items",
-                        style:
-                        AppFontStyle.text_16_400(AppColors.mediumText),
-                      ),
-                    ],
-                  )
-                      : Padding(
-                    padding: REdgeInsets.symmetric(horizontal: 20.h),
-                    child: SingleChildScrollView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      controller: _scrollController,
-                      child: Column(
-                        children: [
-                          controller.cartData.value.addressExists == true
-                              ? address()
-                              : locationAddress(),
-                          hBox(20.h),
-                          cartItems(),
-                          hBox(20.h),
-                          promoCode(context),
-                          hBox(30.h),
-                          paymentDetails(),
-                          hBox(30.h),
-                          Divider(
-                              thickness: .5.w, color: AppColors.hintText),
-                          hBox(15.h),
-                          checkoutButton(),
-                          hBox(widget.isBack != true ? 100.h : 30.h)
-                        ],
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.refreshApi(cartId: widget.cartId.toString());
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return RefreshIndicator(
+                onRefresh: () async {
+                  controller.refreshApi(cartId:widget.cartId.toString());
+                },
+                child: controller.cartData.value.cartContent != "Notempty"
+                    ? Column(
+                  children: [
+                    hBox(Get.height / 3),
+                    Center(
+                      child: Image.asset(
+                        ImageConstants.wishlistEmpty,
+                        height: 70.h,
+                        width: 100.h,
                       ),
                     ),
+                    hBox(10.h),
+                    Text(
+                      "Your cart is empty!",
+                      style: AppFontStyle.text_20_600(AppColors.darkText),
+                    ),
+                    hBox(5.h),
+                    Text(
+                      "Explore more and shortlist some items",
+                      style:
+                      AppFontStyle.text_16_400(AppColors.mediumText),
+                    ),
+                  ],
+                )
+                    : Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 20.h),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    controller: _scrollController,
+                    child: Column(
+                      children: [
+                        controller.cartData.value.addressExists == true
+                            ? address()
+                            : locationAddress(),
+                        hBox(20.h),
+                        cartItems(),
+                        hBox(20.h),
+                        promoCode(context),
+                        hBox(30.h),
+                        paymentDetails(),
+                        hBox(30.h),
+                        Divider(
+                            thickness: .5.w, color: AppColors.hintText),
+                        hBox(15.h),
+                        checkoutButton(),
+                        hBox(widget.isBack != true ? 100.h : 30.h)
+                      ],
+                    ),
                   ),
-                );
-            }
-          }),
-        ),
+                ),
+              );
+          }
+        }),
       ),
     );
   }

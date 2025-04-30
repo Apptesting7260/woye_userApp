@@ -252,6 +252,7 @@ class AddAddressScreen extends StatelessWidget {
     return Obx(
       () => CustomElevatedButton(
         onPressed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           if (_formKey.currentState!.validate()) {
             controller.addAddressApi();
           }

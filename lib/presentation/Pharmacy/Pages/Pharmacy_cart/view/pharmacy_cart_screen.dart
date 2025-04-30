@@ -2222,6 +2222,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                   'cart_delivery':specificDeliveryCharge,
                                   'wallet': controller.cartCheckoutData.value.wallet.toString(),
                                   'cartType': "pharmacy",
+                                  'prescription': controller.cartCheckoutData.value.prescription.toString(),
                                 }
                             );
                         //   });

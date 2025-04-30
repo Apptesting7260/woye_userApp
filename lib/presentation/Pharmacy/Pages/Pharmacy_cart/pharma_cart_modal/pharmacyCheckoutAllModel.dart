@@ -7,6 +7,7 @@ class PharmacyCheckOutAllModel {
   String? wallet;
   Address? address;
   List<Coupons>? coupons;
+  String? prescription;
   bool? addressExists;
   String? cartContent;
 
@@ -17,6 +18,7 @@ class PharmacyCheckOutAllModel {
         this.wallet,
         this.address,
         this.coupons,
+        this.prescription,
         this.addressExists,
         this.cartContent});
 
@@ -33,6 +35,7 @@ class PharmacyCheckOutAllModel {
         coupons!.add(Coupons.fromJson(v));
       });
     }
+    prescription = json['prescription'];
     addressExists = json['address_exists'];
     cartContent = json['cartContent'];
   }
@@ -51,6 +54,7 @@ class PharmacyCheckOutAllModel {
     if (coupons != null) {
       data['coupons'] = coupons!.map((v) => v.toJson()).toList();
     }
+    data['prescription'] = prescription;
     data['address_exists'] = addressExists;
     data['cartContent'] = cartContent;
     return data;

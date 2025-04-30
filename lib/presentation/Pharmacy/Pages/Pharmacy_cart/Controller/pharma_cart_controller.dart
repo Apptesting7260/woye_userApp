@@ -167,7 +167,7 @@ class PharmacyCartController extends GetxController {
     required String totalAmount,
     required List<String> cartIds,
     required List<Map<String,dynamic>> carts,
-    required List<String> prescription,
+    required List<dynamic> prescription,
   }) async {
     var data = {
       "wallet_used": isWalletUsed.toString(),
