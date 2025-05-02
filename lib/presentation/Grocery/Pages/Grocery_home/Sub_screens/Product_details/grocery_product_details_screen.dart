@@ -6,6 +6,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to_Cart/grocery_add_to_cartcontroller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/view/grocery_cart_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
@@ -15,6 +16,8 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_produc
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
+
+import '../../../Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
 
 class GroceryProductDetailsScreen extends StatelessWidget {
   final String productId;
@@ -40,8 +43,8 @@ class GroceryProductDetailsScreen extends StatelessWidget {
   final AddGroceryProductWishlist addGroceryProductWishlist =
       Get.put(AddGroceryProductWishlist());
 
-  final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
+  final GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +54,53 @@ class GroceryProductDetailsScreen extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              // Get.to(const PharmacyCartScreen(isBack: true));
-              // controller.goToCart.value = false;
-              // controller.cartCount.value = 1;
+              Get.to(const GroceryCartScreen(isBack: true));
+              controller.goToCart.value = false;
+              controller.cartCount.value = 1;
             },
-            child: Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: SvgPicture.asset(
-                ImageConstants.cart,
-              ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  padding: REdgeInsets.all(9),
+                  height: 44.h,
+                  width: 44.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.greyBackground,
+                      borderRadius: BorderRadius.circular(12.r)),
+                  child: SvgPicture.asset(
+                    ImageConstants.cart,
+                  ),
+                ),
+                Obx(
+                  () {
+                    return Positioned(
+                    right: -3,
+                    top: -8,
+                    child: groceryShowAllCartController.cartData.value.carts!.isEmpty ? const SizedBox.shrink() :
+                    Container(
+                      padding: REdgeInsets.all(4),
+                      // margin: REdgeInsets.all(4),
+                      // height: 44.h,
+                      // width: 44.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.black.withOpacity(0.8),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.5),
+                        child: Center(
+                          child:Text(
+                                  groceryShowAllCartController.cartData.value.carts?.length.toString() ?? "",
+                              style: TextStyle(fontSize: 9,color: AppColors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                  },
+                ),
+              ],
             ),
           ),
           wBox(8),
@@ -192,8 +228,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
   }
 
   Widget mainBanner() {
-    controller.selectedImageUrl.value =
-        controller.productData.value.product!.urlImage.toString();
+    controller.selectedImageUrl.value = controller.productData.value.product?.urlImage.toString() ?? "";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -698,20 +733,12 @@ class GroceryProductDetailsScreen extends StatelessWidget {
               // ---------- add to cart api -----------
               // controller.productPriceFun();
               pharmacyAddToCarController.groceryAddToCartApi(
-                productId: controller.productData.value.product!.id
-                    .toString(),
-                productPrice:
-                controller.productData.value.product!.salePrice !=
-                    null
-                    ? controller
-                    .productData.value.product!.salePrice
-                    .toString()
-                    : controller
-                    .productData.value.product!.regularPrice
-                    .toString(),
+                productId: controller.productData.value.product!.id.toString(),
+                productPrice:controller.productData.value.product!.salePrice !=null
+                    ? controller.productData.value.product!.salePrice.toString()
+                    : controller.productData.value.product!.regularPrice.toString(),
                 productQuantity: controller.cartCount.toString(),
-                groceryId: controller.productData.value.product!.userId
-                    .toString(),
+                groceryId: controller.productData.value.product!.userId.toString(),
                 // addons: controller.selectedAddOn.toList(),
                 // extrasIds: controller.variantTitlesIdsId,
                 // extrasItemIds: controller.variantItemIdsId.toList(),

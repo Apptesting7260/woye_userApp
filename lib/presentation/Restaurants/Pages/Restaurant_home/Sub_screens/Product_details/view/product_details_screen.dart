@@ -8,6 +8,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/re
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
@@ -32,17 +33,19 @@ class ProductDetailsScreen extends StatelessWidget {
   // final RestaurantHomeController restaurantHomeController =
   // Get.put(RestaurantHomeController());
 
-  final AddProductWishlistController add_Wishlist_Controller = Get.put(AddProductWishlistController());
+  final AddProductWishlistController addWishlistController = Get.put(AddProductWishlistController());
 
   final specific_Product_Controller controller = Get.put(specific_Product_Controller());
 
   final AddToCartController addToCartController = Get.put(AddToCartController());
 
-  final seeAll_Product_Controller seeallproductcontroller = Get.put(seeAll_Product_Controller());
+  final seeAll_Product_Controller seeAllProductController = Get.put(seeAll_Product_Controller());
 
   final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
-  final RestaurantDetailsController restaurantDeatilsController = Get.put(RestaurantDetailsController());
+  final RestaurantDetailsController restaurantDetailsController = Get.put(RestaurantDetailsController());
+  final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
+
 
   // final SeeAllProductReviewController seeAllProductReviewController = Get.put(SeeAllProductReviewController());
 
@@ -54,21 +57,54 @@ class ProductDetailsScreen extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(
-                  const RestaurantCartScreen(isBack: true));
+              Get.to(()=>const RestaurantCartScreen(isBack: true));
               controller.goToCart.value = false;
               controller.cartCount.value = 1;
             },
-            child: Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: SvgPicture.asset(
-                ImageConstants.cart,
-              ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  padding: REdgeInsets.all(9),
+                  height: 44.h,
+                  width: 44.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.greyBackground,
+                      borderRadius: BorderRadius.circular(12.r)),
+                  child: SvgPicture.asset(
+                    ImageConstants.cart,
+                  ),
+                ),
+                Obx(
+                () {
+                  return restaurantCartController.cartData.value.cart?.totalProductsInCart == null
+                  || restaurantCartController.cartData.value.cart?.totalProductsInCart == 0
+                  ? const SizedBox.shrink():
+                  Positioned(
+                    right: -3,
+                    top: -8,
+                    child: Container(
+                      padding: REdgeInsets.all(4),
+                      // margin: REdgeInsets.all(4),
+                      // height: 44.h,
+                      // width: 44.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.black.withOpacity(0.75),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.5),
+                        child: Center(
+                          child: Text(restaurantCartController.cartData.value.cart?.totalProductsInCart.toString() ?? "",
+                              style: TextStyle(fontSize: 9,color: AppColors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                ),
+              ],
             ),
           ),
           wBox(8),
@@ -78,7 +114,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 controller.isLoading.value = true;
                 controller.productData.value.product?.isInWishlist =
                     !controller.productData.value.product!.isInWishlist!;
-                await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                await addWishlistController.restaurant_add_product_wishlist(
                   categoryId: categoryId,
                   product_id: productId.toString(),
                 );
@@ -458,7 +494,7 @@ class ProductDetailsScreen extends StatelessWidget {
               Restaurantid:
                   controller.productData.value.product!.restaurantId.toString(),
             ));
-            restaurantDeatilsController.restaurant_Details_Api(
+            restaurantDetailsController.restaurant_Details_Api(
               id: controller.productData.value.product!.restaurantId.toString(),
             );
           },
@@ -1174,7 +1210,7 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
             InkWell(
               onTap: () {
-                seeallproductcontroller.seeAll_Product_Api(
+                seeAllProductController.seeAll_Product_Api(
                     restaurant_id: '', category_id: categoryId.toString());
                 Get.toNamed(AppRoutes.moreProducts, arguments: {
                   'restaurant_id': '',

@@ -403,38 +403,31 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                   AppColors.darkText),
                             ),
                           ),
-                          Obx(() => deleteProductController.rxRequestStatus.value == Status.LOADING &&
-                                controller.cartData.value.cart!.decodedAttribute![index].isDelete.value == true
-                                ? Center(
-                              child: Row(
-                                children: [
-                                  circularProgressIndicator(size: 15.h),
-                                  wBox(2.h),
-                                ],
-                              ),
-                            )
-                                : GestureDetector(
+                          // Obx(() => deleteProductController.rxRequestStatus.value == Status.LOADING &&
+                          //       controller.cartData.value.cart!.decodedAttribute![index].isDelete.value == true
+                          //       ? Center(
+                          //     child: Row(
+                          //       children: [
+                          //         circularProgressIndicator(size: 15.h),
+                          //         wBox(2.h),
+                          //       ],
+                          //     ),
+                          //   )
+                          //       :
+                          GestureDetector(
                               onTap: () {
-                                controller
-                                    .cartData
-                                    .value
-                                    .cart!
-                                    .decodedAttribute![index]
-                                    .isDelete
-                                    .value = true;
-                                deleteProductController.deleteProductApi(
-                                  isSingleCartScreen: true,
-                                  cartId: controller.cartData.value.cart?.id.toString() ?? "",
-                                  productId: controller
-                                      .cartData
-                                      .value
-                                      .cart!
-                                      .decodedAttribute![index]
-                                      .productId
-                                      .toString(),
-                                  countId: controller.cartData.value.cart!
-                                      .decodedAttribute![index].count
-                                      .toString(),
+                                // controller.cartData.value.cart!.decodedAttribute![index].isDelete.value = true;
+                                // deleteProductController.deleteProductApi(
+                                //   isSingleCartScreen: true,
+                                //   cartId: controller.cartData.value.cart?.id.toString() ?? "",
+                                //   productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
+                                //   countId: controller.cartData.value.cart!.decodedAttribute![index].count.toString(),
+                                // );
+                                showDeleteProductDialog(
+                                  index: index,
+                                  cartId: controller.cartData.value.cart!.id.toString(),
+                                    productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
+                                    countId: controller.cartData.value.cart!.decodedAttribute![index].count.toString(),
                                 );
                               },
                               child: SvgPicture.asset(
@@ -442,7 +435,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                 height: 20,
                               ),
                             ),
-                          ),
+                          // ),
                         ],
                       ),
                       hBox(15.h),
@@ -747,14 +740,9 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                 if (controller
                     .couponCodeController.value.text.isNotEmpty) {
                   applyCouponController.applyCouponApi(
-                    cartId: controller.cartData.value.cart!.id
-                        .toString(),
-                    couponCode: controller
-                        .couponCodeController.value.text
-                        .toString(),
-                    grandTotal: controller
-                        .cartData.value.cart!.grandTotalPrice
-                        .toString(),
+                    cartId: controller.cartData.value.cart!.id.toString(),
+                    couponCode: controller.couponCodeController.value.text.toString(),
+                    grandTotal: controller.cartData.value.cart!.grandTotalPrice.toString(),
                   );
                 } else {
                   Utils.showToast("Please Enter Coupon Code");
@@ -1286,4 +1274,82 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
       separatorBuilder: (context, index) => hBox(20.h),
     );
   }
+
+
+  Future showDeleteProductDialog({
+    // required  bool isItems,
+    required int index,
+    required String cartId,
+    required String productId,
+    required String countId,
+  }) {
+    return Get.dialog(
+      PopScope(
+        canPop: true,
+        child: AlertDialog.adaptive(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Delete Product',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Text(
+                'Are you sure you want to delete this product?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      height: 40.h,
+                      color: AppColors.black,
+                      onPressed: () {
+                        Get.back();
+                      },
+                      text: "Cancel",
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
+                  ),
+                  wBox(15),
+                  Obx(() =>
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          isLoading: deleteProductController.rxRequestStatus.value == Status.LOADING &&
+                              controller.cartData.value.cart!.decodedAttribute![index].isDelete.value == true,
+                          onPressed: (){
+                            controller.cartData.value.cart!.decodedAttribute![index].isDelete.value = true;
+                            deleteProductController.deleteProductApi(
+                              productId: productId,
+                              countId: countId,
+                              cartId: cartId,
+                              isSingleCartScreen: true,
+                            );
+                          },
+                          text: "Yes",
+                        ),
+                      ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
 }

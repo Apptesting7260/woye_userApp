@@ -91,8 +91,7 @@ class AppRoutes {
   static const String restaurantDetailsScreen = "/restaurant_details_screen";
   static const String productDetailsScreen = "/product_details_screen";
   static const String restaurantCategories = "/restaurant_categories";
-  static const String restaurantCategoriesFilter =
-      "/restaurant_categories_filter";
+  static const String restaurantCategoriesFilter = "/restaurant_categories_filter";
   static String restaurantCategoriesDetails = "/restaurant_categories_details";
   // static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
   static const String productReviews = "/product_reviews";
@@ -136,8 +135,7 @@ class AppRoutes {
   static const String pharmacyWishlistFilter = "/pharmacyWishlistFilter";
   static const String pharmacyMoreProduct = "/pharmacyMoreProduct";
   static const String pharmacyMostPopular = "/pharmacyMostPopular";
-  static const String pharmacyProductDetailsScreen =
-      "/pharmacyProductDetailsScreen";
+  static const String pharmacyProductDetailsScreen = "/pharmacyProductDetailsScreen";
   static const String pharmacyProductReviews = "/pharmacyProductReviews";
   static const String pharmacyVendorDetails = "/pharmacyVendorDetails";
   static const String pharmacyVendorReview = "/pharmacyVendorReview";
@@ -155,41 +153,17 @@ class AppRoutes {
   static const String groceryCheckoutScreen = "/groceryCheckoutScreen";
 
   static List<GetPage> pages = [
-    GetPage(
-      name: initalRoute,
-      page: () => const SplashScreen(),
-    ),
-    GetPage(
-        name: welcomeScreen,
-        page: () => WelcomeScreen(),
-        binding: WelcomeBinding()),
+    GetPage(name: initalRoute, page: () => const SplashScreen(),),
+    GetPage(name: welcomeScreen, page: () => WelcomeScreen(), binding: WelcomeBinding()),
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: login, page: () => LoginScreen(), binding: GuestBinding()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
-    GetPage(
-        name: signUpFom,
-        page: () => SignUpFormScreen(),
-        binding: SignUpFormBinding()),
-    GetPage(
-      name: homeScreen,
-      page: () => HomeScreen(),
-      // binding: RestaurantNavbarBinding()
-    ),
-    GetPage(
-        name: restaurantNavbar,
-        page: () => RestaurantNavbar(
-              navbarInitialIndex: 0,
-            ),
-        bindings: [RestaurantNavbarBinding(), HomeBinding()]),
-    GetPage(
-      name: pharmacyNavbar,
-      page: () => PharmacyNavbar(),
-    ),
-    GetPage(
-      name: groceryNavbar,
-      page: () => GroceryNavbar(),
-    ),
+    GetPage(name: signUpFom, page: () => SignUpFormScreen(), binding: SignUpFormBinding()),
+    GetPage(name: homeScreen, page: () => HomeScreen(), /*binding: RestaurantNavbarBinding()*/),
+    GetPage(name: restaurantNavbar, page: () => RestaurantNavbar(navbarInitialIndex: 0,), bindings: [RestaurantNavbarBinding(), HomeBinding()]),
+    GetPage(name: pharmacyNavbar, page: () => PharmacyNavbar(),),
+    GetPage(name: groceryNavbar, page: () => GroceryNavbar(),),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
     GetPage(name: productReviews, page: () => ProductReviews()),
     GetPage(name: moreProducts, page: () => MoreProducts()),
@@ -216,72 +190,39 @@ class AppRoutes {
     GetPage(name: support, page: () => const SupportScreen()),
     GetPage(name: faq, page: () => const FaqScreen()),
     GetPage(name: privayPolicy, page: () => const PrivayPolicyScreen()),
-    GetPage(
-        name: termsAndConditions, page: () => const TermAndConditionsScreen()),
-    GetPage(
-        name: notificationsSettings,
-        page: () =>  NotificationsSettingsScreen()),
-    GetPage(
-        name: transactionHistory, page: () => const TransactionHistoryScreen()),
+    GetPage(name: termsAndConditions, page: () => const TermAndConditionsScreen()),
+    GetPage(name: notificationsSettings, page: () =>  NotificationsSettingsScreen()),
+    GetPage(name: transactionHistory, page: () => const TransactionHistoryScreen()),
     GetPage(name: myWalletFilter, page: () => const MyWalletFilter()),
     GetPage(name: deliveryAddressScreen, page: () => DeliveryAddressScreen()),
-    GetPage(
-        name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
-    // GetPage(
-    //     name: restaurantCategoriesFilter,
-    //     page: () => RestaurantCategoriesFilter()),
-    GetPage(
-        name: restaurantCategoriesFilter,
-        page: () => RestaurantCategoriesFilter(),
-        binding: CategoriesFilterBinding()),
-    GetPage(
-        name: restaurantCategoriesDetails,
-        page: () => RestaurantCategoryDetails()),
-    // GetPage(
-    //     name: restaurantWishlistFilter,
-    //     page: () => const RestaurantWishlistFilter()),
-    GetPage(
-        name: rateAndReviewProductScreen,
-        page: () => RateAndReviewProductScreen()),
-
-    GetPage(
-        name: prescriptionsScreen,
-        page: () => PrescriptionsScreen()),
+    GetPage(name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
+    // GetPage(name: restaurantCategoriesFilter,page: () => RestaurantCategoriesFilter()),
+    GetPage(name: restaurantCategoriesFilter, page: () => RestaurantCategoriesFilter(), binding: CategoriesFilterBinding()),
+    GetPage(name: restaurantCategoriesDetails, page: () => RestaurantCategoryDetails()),
+    // GetPage( name: restaurantWishlistFilter, page: () => const RestaurantWishlistFilter()),
+    GetPage(name: rateAndReviewProductScreen, page: () => RateAndReviewProductScreen()),
+    GetPage(name: prescriptionsScreen, page: () => PrescriptionsScreen()),
 
     ///`pharmacy=====================================================>`
     GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),
-    GetPage(
-        name: pharmacyCategoryDetails, page: () => PharmacyCategoryDetails()),
-    GetPage(
-        name: pharmacyCategoryFilter, page: () => PharmacyCategoriesFilter()),
+    GetPage(name: pharmacyCategoryDetails, page: () => PharmacyCategoryDetails()),
+    GetPage(name: pharmacyCategoryFilter, page: () => PharmacyCategoriesFilter()),
     GetPage(name: pharmacyWishlistFilter, page: () => PharmacyWishlistFilter()),
-    GetPage(
-        name: pharmacyMoreProduct, page: () => const PharmacyMoreProducts()),
+    GetPage(name: pharmacyMoreProduct, page: () => const PharmacyMoreProducts()),
     GetPage(name: pharmacyMostPopular, page: () => const PharmacyMostPopular()),
-    GetPage(
-        name: pharmacyProductReviews,
-        page: () => const PharmacyProductReviews()),
-    GetPage(
-        name: pharmacyVendorReview,
-        page: () => const PharmacyVendorReviewScreen()),
-    GetPage(
-        name: pharmacyRateVendor, page: () => const PharmacyRateVendorScreen()),
+    GetPage(name: pharmacyProductReviews, page: () => const PharmacyProductReviews()),
+    GetPage(name: pharmacyVendorReview, page: () => const PharmacyVendorReviewScreen()),
+    GetPage(name: pharmacyRateVendor, page: () => const PharmacyRateVendorScreen()),
     // GetPage(name: pharmacyCheckout, page: () => const PharmacyCheckoutScreen()),
-
-    // GetPage(
-    //     name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),
-    // GetPage(
-    //     name: pharmacyProductDetailsScreen,
-    //     page: () => PharmacyProductDetailsScreen()),
+    // GetPage(name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),
+    // GetPage( name: pharmacyProductDetailsScreen, page: () => PharmacyProductDetailsScreen()),
 
     ///`pharmacy=====================================================>`
     GetPage(name: groceryHomeFilter, page: () => GroceryHomeFilter()),
     GetPage(name: groceryMostPopular, page: () => GroceryMostPopular()),
     GetPage(name: groceryMoreProducts, page: () => GroceryMoreProducts()),
-    GetPage(
-        name: groceryCategoryDetails, page: () => GroceryCategoryDetails()),
-    // GetPage(
-    //     name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
+    GetPage(name: groceryCategoryDetails, page: () => GroceryCategoryDetails()),
+    // GetPage(name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
     GetPage(name: groceryCategoryFilter,page: () =>  GroceryCategoriesFilter()),
     GetPage(name: groceryCheckoutScreen,page: () =>  GroceryCheckoutScreen()),
 

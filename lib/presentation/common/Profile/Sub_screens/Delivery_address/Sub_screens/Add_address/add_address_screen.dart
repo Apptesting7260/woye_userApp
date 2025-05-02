@@ -14,8 +14,12 @@ class AddAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.printUserNameAndPhone();
-    controller.loadLocationData();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.printUserNameAndPhone();
+      controller.loadLocationData();
+    },);
+
     return PopScope(
       canPop: controller.location.value == "" ? false : true,
       child: Scaffold(
@@ -254,7 +258,7 @@ class AddAddressScreen extends StatelessWidget {
         onPressed: () {
           FocusManager.instance.primaryFocus?.unfocus();
           if (_formKey.currentState!.validate()) {
-            controller.addAddressApi();
+              controller.addAddressApi();
           }
         },
         isLoading: controller.rxRequestStatus.value == Status.LOADING,

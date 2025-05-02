@@ -70,7 +70,9 @@ class OrderDetailsScreen extends StatelessWidget {
                       hBox(20),
                       paymentDetails(),
                       hBox(20),
-                      if(controller.ordersData.value.orderDetails?.drslip != null || (controller.ordersData.value.orderDetails?.drslip?.isNotEmpty ?? true))...[
+                      if(controller.ordersData.value.orderDetails?.type == 'pharmacy' && controller.ordersData.value.orderDetails?.drslip?.length != null ||
+                          controller.ordersData.value.orderDetails?.type == 'pharmacy' && (controller.ordersData.value.
+                          orderDetails?.drslip  != []))...[
                       prescriptions(),
                       ],
                       hBox(20),

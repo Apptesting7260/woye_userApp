@@ -82,7 +82,7 @@ class AddAddressController extends GetxController {
   Rx<CountryCode> selectedCountryCode = CountryCode(dialCode: '+91', code: 'IN').obs;
 
   String? cartId = "";
-
+  String? userType = '';
   @override
   void onInit() {
     loadLocationData();
@@ -91,6 +91,7 @@ class AddAddressController extends GetxController {
     if(arguments['cartId'] != null){
       cartId = arguments['cartId'];
     }
+    userType = arguments['type'] ?? "";
     print("cart Id ----- ${cartId.toString()}");
     super.onInit();
   }
@@ -232,7 +233,7 @@ class AddAddressController extends GetxController {
           }
           else if (type == "PharmacyCart") {
             print("object333333");
-            pharmacyCartController.getAllCartProductsForCheckout().then((value) {
+            pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
               if(fromcart == true){
@@ -248,7 +249,7 @@ class AddAddressController extends GetxController {
               return;
             });
             if(cartId?.isNotEmpty ?? true){
-              pharmacyCartController.getPharmacyCartApi(cartId: cartId.toString()).then((value) {
+              pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) {
                 Utils.showToast(addAddress.value.message.toString());
                 setRxRequestStatus(Status.COMPLETED);
                 if(fromcart == true){
@@ -309,8 +310,8 @@ class AddAddressController extends GetxController {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
               Get.back();
-              Get.back();
-              // value.clear();0000
+              // Get.back();
+              // value.clear();
               mobNoController.value.clear();
               houseNoController.value.clear();
               deliveryInstructionController.value.clear();
@@ -569,4 +570,5 @@ class AddAddressController extends GetxController {
     'VI': 10, // United States Virgin Islands
     'WF': 7, // Wallis and Futuna
   };
+
 }

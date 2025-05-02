@@ -3,6 +3,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
 
+import '../Single_Grocery_Vendor_cart/single_vendor_controller.dart';
 import '../grocery_cart_modal/grocery_create_order_model.dart';
 
 class GroceryCartController extends GetxController {
@@ -25,8 +26,7 @@ class GroceryCartController extends GetxController {
 
   void setError(String value) => error.value = value;
 
-  final GroceryShowAllCartController groceryShowAllCartController =
-  Get.put(GroceryShowAllCartController());
+  final GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
 
   getGroceryAllCartApi() async {
     readOnly.value = true;
@@ -78,20 +78,26 @@ class GroceryCartController extends GetxController {
        "carts": jsonEncode(carts),
      };
     debugPrint("dataValue  >> $data");
-    setRxCreateOrderRequestStatus(Status.LOADING);
-    api.groceryCreateOrderApi(data).then((value) {
-      setOrderData(value);
-      setRxCreateOrderRequestStatus(Status.COMPLETED);
-      // Utils.showToast(value.message.toString());
-      Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "grocery"});
-    },)
-        .onError((error, stackError) {
+        setRxCreateOrderRequestStatus(Status.LOADING);
+        api.groceryCreateOrderApi(data).then((value) {
+          setOrderData(value);
+          if(value.status == true) {
+            setRxCreateOrderRequestStatus(Status.COMPLETED);
+            Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "grocery"});
+          }else if(value.status == false){
+            setRxCreateOrderRequestStatus(Status.ERROR);
+            Utils.showToast(value.message.toString());
+          }
+        },
+        ).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
       print('error create order grocery : ${error.toString()}');
       setRxCreateOrderRequestStatus(Status.ERROR);
     });
   }
+
+//------------------------------------------------------
 
    refreshApi() async {
     setRxRequestStatus(Status.LOADING);

@@ -116,5 +116,6 @@ class AppUrls {
   static const String deleteGroceryVendor = "$baseUrl/gdelete-vendor";
   static const String updateGroceryQuantity = "$baseUrl/gupdate-product-quantity";
   static const String groceryCreateOrder = "$baseUrl/gcreate-order";
+  static const String groceryCheckUncheck = "$baseUrl/gchecked-unchecked";
 
 }

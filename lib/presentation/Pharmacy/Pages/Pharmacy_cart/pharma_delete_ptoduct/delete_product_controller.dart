@@ -31,12 +31,16 @@ class DeletePharmaProductController extends GetxController {
       setData(value);
       if (deleteProductData.value.status == true) {
         isSingleCartScreen == true ?
-        pharmacyCartController.getPharmacyCartApi(cartId: cartId).then((value) async {
+        pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId).then((value) async {
           // await Future.delayed(const Duration(milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
-        }):pharmacyCartController.getAllCartProductsForCheckout().then((value) async {
+          pharmacyCartController.getAllPharmacyCartData();
+          Get.back();
+        }):pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) async {
           // await Future.delayed(const Duration(milliseconds: 200));
           setRxRequestStatus(Status.COMPLETED);
+          pharmacyCartController.getAllPharmacyCartData();
+          Get.back();
         });
       } else {
         Utils.showToast(deleteProductData.value.message.toString());

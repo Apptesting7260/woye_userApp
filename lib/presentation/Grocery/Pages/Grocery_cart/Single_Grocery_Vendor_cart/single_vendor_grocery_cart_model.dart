@@ -176,6 +176,7 @@ class Bucket {
   int? productId;
   int? quantity;
   String? price;
+  Rx<bool> isSelectedLoading = false.obs;
   String? checked;
   int? count;
   String? productName;

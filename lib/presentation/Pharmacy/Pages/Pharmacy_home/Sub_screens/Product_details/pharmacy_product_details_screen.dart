@@ -16,6 +16,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controll
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
 
+import '../../../Pharmacy_cart/Controller/pharma_cart_controller.dart';
+
 class PharmacyProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String categoryId;
@@ -39,8 +41,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   final AddPharmaProductWishlistController addPharmaProductWishlistController =
       Get.put(AddPharmaProductWishlistController());
 
-  final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
+
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
+  final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,20 +53,54 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(const PharmacyCartScreen(isBack: true));
+              Get.to(()=>const PharmacyCartScreen(isBack: true));
               controller.goToCart.value = false;
               controller.cartCount.value = 1;
             },
-            child: Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: SvgPicture.asset(
-                ImageConstants.cart,
-              ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  padding: REdgeInsets.all(9),
+                  height: 44.h,
+                  width: 44.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.greyBackground,
+                      borderRadius: BorderRadius.circular(12.r)),
+                  child: SvgPicture.asset(
+                    ImageConstants.cart,
+                  ),
+                ),
+
+                Obx(
+                  () {
+                    return (pharmacyCartController.cartDataAll.value.carts?.isEmpty ?? true) ?
+                    const SizedBox.shrink() : Positioned(
+                    right: -3,
+                    top: -8,
+                    child: Container(
+                      padding: REdgeInsets.all(4),
+                      // margin: REdgeInsets.all(4),
+                      // height: 44.h,
+                      // width: 44.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.black.withOpacity(0.8),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 1.5),
+                        child: Center(
+                          child: Text(
+                              pharmacyCartController.cartDataAll.value.carts?.length.toString() ?? "",
+                              style: TextStyle(fontSize: 9,color: AppColors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                  },
+                ),
+              ],
             ),
           ),
           wBox(8),
@@ -91,12 +128,12 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 child: controller.isLoading.value
                     ? circularProgressIndicator(size: 18)
                     : Icon(
-                        controller.productData.value.product?.isInWishlist !=
-                                true
-                            ? Icons.favorite_outline_sharp
-                            : Icons.favorite_outlined,
-                        size: 24.w,
-                      ),
+                  controller.productData.value.product?.isInWishlist !=
+                      true
+                      ? Icons.favorite_outline_sharp
+                      : Icons.favorite_outlined,
+                  size: 24.w,
+                ),
               ),
             );
           }),

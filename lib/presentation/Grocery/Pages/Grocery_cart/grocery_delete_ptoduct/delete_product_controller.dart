@@ -39,13 +39,15 @@ class DeleteGroceryProductController extends GetxController {
         if (fromSingle == true) {
           singleGroceryCartController.getGrocerySingleVendorCartApi(cartId).then((value) async {
             singleGroceryCartController.update();
-            await Future.delayed(const Duration(milliseconds: 500));
+            // await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
+            Get.back();
           });
         } else {
           groceryCartController.getGroceryAllCartApi().then((value) async {
-            await Future.delayed(const Duration(milliseconds: 500));
+            // await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
+            Get.back();
           });
         }
       } else {

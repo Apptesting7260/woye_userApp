@@ -1,5 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_grocery_cart.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_grocery_cart_model.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
 
 class SingleGroceryCartController extends GetxController {
@@ -9,6 +9,8 @@ class SingleGroceryCartController extends GetxController {
 
   final Rx<TextEditingController> couponCodeController =
       TextEditingController().obs;
+
+
 
   var readOnly = true.obs;
 
@@ -45,7 +47,7 @@ class SingleGroceryCartController extends GetxController {
   }
 
   refreshApi(var cartId) async {
-    setRxRequestStatus(Status.LOADING);
+    // setRxRequestStatus(Status.LOADING);
     couponCodeController.value.clear();
     readOnly.value = true;
     Map data = {"cart_id": cartId};

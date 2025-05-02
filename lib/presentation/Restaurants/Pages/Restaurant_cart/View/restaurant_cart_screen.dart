@@ -422,57 +422,41 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                         AppColors.darkText),
                                   ),
                                 ),
-                          Obx(
-                            () => deleteProductController
-                                            .rxRequestStatus.value ==
-                                        Status.LOADING &&
-                                    controller
-                                            .cartData
-                                            .value
-                                            .cart!
-                                            .decodedAttribute![index]
-                                            .isDelete
-                                            .value ==
-                                        true
-                                ? Center(
-                                    child: Row(
-                                      children: [
-                                        circularProgressIndicator(size: 15.h),
-                                        wBox(2.h),
-                                      ],
-                                    ),
-                                  )
-                                : GestureDetector(
+                          // Obx(
+                          //   () =>
+                            // deleteProductController
+                            //                 .rxRequestStatus.value ==
+                            //             Status.LOADING &&
+                            //         controller
+                            //                 .cartData
+                            //                 .value
+                            //                 .cart!
+                            //                 .decodedAttribute![index]
+                            //                 .isDelete
+                            //                 .value ==
+                            //             true
+                            //     ? Center(
+                            //         child: Row(
+                            //           children: [
+                            //             circularProgressIndicator(size: 15.h),
+                            //             wBox(2.h),
+                            //           ],
+                            //         ),
+                            //       )
+                            //     :
+                            GestureDetector(
                                     onTap: () {
-                                      controller
-                                          .cartData
-                                          .value
-                                          .cart!
-                                          .decodedAttribute![index]
-                                          .isDelete
-                                          .value = true;
-                                      deleteProductController.deleteProductApi(
-                                          productId: controller
-                                              .cartData
-                                              .value
-                                              .cart!
-                                              .decodedAttribute![index]
-                                              .productId
-                                              .toString(),
-                                          countId: controller
-                                              .cartData
-                                              .value
-                                              .cart!
-                                              .decodedAttribute![index]
-                                              .count
-                                              .toString());
+                                      showDeleteProductDialog(
+                                          productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
+                                          countId: controller.cartData.value.cart!.decodedAttribute![index].count.toString()
+                                      );
                                     },
                                     child: SvgPicture.asset(
                                       "assets/svg/delete-outlined.svg",
                                       height: 20,
                                     ),
                                   ),
-                          ),
+                          // ),
                         ],
                       ),
                       hBox(15.h),
@@ -1427,6 +1411,76 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
         );
       },
       separatorBuilder: (context, index) => hBox(20.h),
+    );
+  }
+
+
+  //---------------------------------------------------------
+  Future showDeleteProductDialog({
+   required String productId,
+    required String countId,
+  }) {
+    return Get.dialog(
+      PopScope(
+        canPop: true,
+        child: AlertDialog.adaptive(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Delete Product',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Text(
+                'Are you sure you want to delete this product?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      height: 40.h,
+                      color: AppColors.black,
+                      onPressed: () {
+                        Get.back();
+                      },
+                      text: "Cancel",
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
+                  ),
+                  wBox(15),
+                  Obx(() =>
+                      Expanded(
+                      child: CustomElevatedButton(
+                        height: 40.h,
+                        isLoading: deleteProductController.rxRequestStatus.value == Status.LOADING,
+                          onPressed: (){
+                          deleteProductController.deleteProductApi(
+                          productId:productId,
+                          countId:countId);
+                          },
+                        text: "Yes",
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
     );
   }
 }

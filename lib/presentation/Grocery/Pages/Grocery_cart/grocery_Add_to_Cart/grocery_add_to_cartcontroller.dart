@@ -5,6 +5,8 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 
+import '../Single_Grocery_Vendor_cart/single_vendor_controller.dart';
+
 class GroceryAddToCarController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
@@ -16,6 +18,7 @@ class GroceryAddToCarController extends GetxController {
 
   final GrocerySpecificProductController grocerySpecificProductController =
       Get.put(GrocerySpecificProductController());
+  final SingleGroceryCartController singleGroceryCartController = Get.put(SingleGroceryCartController());
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
@@ -70,8 +73,8 @@ class GroceryAddToCarController extends GetxController {
         //     // extrasItemPrices: extrasItemPrices,
         //   );
         // } else {
+        setRxRequestStatus(Status.COMPLETED);
         groceryCartController.getGroceryAllCartApi();
-          setRxRequestStatus(Status.COMPLETED);
           grocerySpecificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
         // }

@@ -30,6 +30,7 @@ class DeleteProductController extends GetxController {
         restaurantCartController.getRestaurantCartApi().then((value) async {
           await Future.delayed(const Duration( milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
+          Get.back();
         });
       } else {
         Utils.showToast(deleteProductData.value.message.toString());

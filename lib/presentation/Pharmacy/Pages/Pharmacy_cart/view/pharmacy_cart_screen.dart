@@ -888,28 +888,25 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     ),
                   ),
                   const Spacer(),
-                  Obx(() =>deleteVendorPharController.rxDeleteVendorReqStatus.value == Status.LOADING &&
-                        buckets.isVendorDelete.value == true
-                        ? Padding(
-                          padding: const EdgeInsets.only(top: 10,right: 25),
-                          child: Center(
-                          child: Row(
-                          children: [
-                            circularProgressIndicator(size: 15.h),
-                            wBox(2.h),
-                          ],
-                            ),
-                          ),
-                        )
-                        :
+                  // Obx(() =>deleteVendorPharController.rxDeleteVendorReqStatus.value == Status.LOADING &&
+                  //       buckets.isVendorDelete.value == true
+                  //       ? Padding(
+                  //         padding: const EdgeInsets.only(top: 10,right: 25),
+                  //         child: Center(
+                  //         child: Row(
+                  //         children: [
+                  //           circularProgressIndicator(size: 15.h),
+                  //           wBox(2.h),
+                  //         ],
+                  //           ),
+                  //         ),
+                  //       )
+                  //       :
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: GestureDetector(
                           onTap: () {
-                          buckets.isVendorDelete.value = true;
-                            deleteVendorPharController.deletePharVendorApi(
-                              isSingleCartScreen: false,
-                              cartId: buckets.cartId.toString());
+                            showRemoveVendorDialog(cartId: buckets.cartId.toString(),index: index);
                           },
                            child: Text(
                           "Remove",
@@ -918,7 +915,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           maxLines: 1,
                             ),
                           ),
-                        ),
+                        // ),
                   ),
                 ],
               ),
@@ -928,8 +925,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 itemCount: buckets.bucket!.length,
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  var items = buckets.bucket![index];
+                itemBuilder: (context, index1) {
+                  var items = buckets.bucket![index1];
                   return Row(
                     children: [
                       // Expanded(
@@ -1009,43 +1006,23 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         //     :
 
                         GestureDetector(
-                          // onTap: () {
-                          //   pharmaSpecificProductController
-                          //       .pharmaSpecificProductApi(
-                          //       productId: controller.cartData.value.cart!
-                          //           .decodedAttribute![index].productId
-                          //           .toString(),
-                          //       categoryId: controller.cartData.value.cart!
-                          //           .decodedAttribute![index].categoryId
-                          //           .toString());
-                          //   print(
-                          //       "category_id ${controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString()}");
-                          //   print(
-                          //       "category Name ${controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString()}");
-                          //   print(
-                          //       "product Id ${controller.cartData.value.cart!.decodedAttribute![index].productId.toString()}");
-                          //   // Get.to(PharmacyProductDetailsScreen(
-                          //   //   productId: controller.cartData.value.cart!
-                          //   //       .decodedAttribute![index].productId
-                          //   //       .toString(),
-                          //   //   categoryId: controller.cartData.value.cart!
-                          //   //       .decodedAttribute![index].categoryId
-                          //   //       .toString(),
-                          //   //   categoryName: controller.cartData.value.cart!
-                          //   //       .decodedAttribute![index].categoryName
-                          //   //       .toString(),
-                          //   // ));
-                          //   Get.to(() => PharmacyProductDetailsScreen( productId: controller.cartData.value.cart!
-                          //       .decodedAttribute![index].productId
-                          //       .toString(),
-                          //     categoryId: controller.cartData.value.cart!
-                          //         .decodedAttribute![index].categoryId
-                          //         .toString(),
-                          //     categoryName: controller.cartData.value.cart!
-                          //         .decodedAttribute![index].categoryName
-                          //         .toString(),));
-                          //
-                          // },
+                          onTap: () {
+                            pharmaSpecificProductController.pharmaSpecificProductApi(
+                                productId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
+                                categoryId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString(),
+                            );
+
+                            print("category_id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString()}");
+                            print("category Name ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryName.toString()}");
+                            print("product Id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString()}");
+
+                            Get.to(() => PharmacyProductDetailsScreen(
+                              productId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
+                              categoryId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
+                              categoryName: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
+                            ),
+                          );
+                        },
                           child: CachedNetworkImage(
                             imageUrl: items.productImage.toString(),
                             height: 100.h,
@@ -1098,37 +1075,44 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                         AppColors.darkText),
                                   ),
                                 ),
-                                Obx(
-                                      () =>
-                                      deleteProductController
-                                      .rxRequestStatus.value ==
-                                      Status.LOADING &&
-                                      items.isDelete.value == true
-                                      ? Center(
-                                    child: Row(
-                                      children: [
-                                        circularProgressIndicator(
-                                            size: 15.h),
-                                        wBox(2.h),
-                                      ],
-                                    ),
-                                  )
-                                      :
+                                // Obx(
+                                //       () =>
+                                //       deleteProductController
+                                //       .rxRequestStatus.value ==
+                                //       Status.LOADING &&
+                                //       items.isDelete.value == true
+                                //       ? Center(
+                                //     child: Row(
+                                //       children: [
+                                //         circularProgressIndicator(
+                                //             size: 15.h),
+                                //         wBox(2.h),
+                                //       ],
+                                //     ),
+                                //   )
+                                //       :
                                       GestureDetector(
                                     onTap: () {
-                                      items.isDelete.value = true;
-                                      deleteProductController.deleteProductApi(
-                                        isSingleCartScreen: false,
+                                      // items.isDelete.value = true;
+                                      // deleteProductController.deleteProductApi(
+                                      //   isSingleCartScreen: false,
+                                      //     productId: items.productId.toString(),
+                                      //     countId: items.count.toString(),
+                                      //     cartId: buckets.cartId.toString());
+                                      showDeleteProductDialog(
+                                        index1: index1,
+                                          index: index,
+                                          cartId: buckets.cartId.toString(),
                                           productId: items.productId.toString(),
                                           countId: items.count.toString(),
-                                          cartId: buckets.cartId.toString());
+                                      );
                                     },
                                     child: SvgPicture.asset(
                                       "assets/svg/delete-outlined.svg",
                                       height: 20,
                                     ),
                                   ),
-                                ),
+                                // ),
                               ],
                             ),
                             hBox(15.h),
@@ -2475,6 +2459,150 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
     );
   }
 
+  Future  showDeleteProductDialog({
+    required  int index,
+    required  int index1,
+    required String cartId,
+    required String productId,
+    required String countId,
+  }) {
+    return Get.dialog(
+      PopScope(
+        canPop: true,
+        child: AlertDialog.adaptive(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Delete Product',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Text(
+                'Are you sure you want to delete this product?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      height: 40.h,
+                      color: AppColors.black,
+                      onPressed: () {
+                        Get.back();
+                      },
+                      text: "Cancel",
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
+                  ),
+                  wBox(15),
+                  Obx(() =>
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          isLoading: deleteProductController.rxRequestStatus.value ==Status.LOADING &&
+                              controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].isDelete.value == true,
+                          onPressed: (){
+                            controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].isDelete.value = true;;
+                            deleteProductController.deleteProductApi(
+                                productId: productId,
+                                countId: countId,
+                                cartId: cartId,
+                                isSingleCartScreen: false,
+                            );
+                          },
+                          text: "Yes",
+                        ),
+                      ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
 
+  Future  showRemoveVendorDialog({
+    required int index,
+    required String cartId,
+  }) {
+    return Get.dialog(
+      PopScope(
+        canPop: true,
+        child: AlertDialog.adaptive(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Remove Products',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Text(
+                'Are you sure you want to delete all products?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      height: 40.h,
+                      color: AppColors.black,
+                      onPressed: () {
+                        Get.back();
+                      },
+                      text: "Cancel",
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
+                  ),
+                  wBox(15),
+                  Obx(() =>
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          isLoading: deleteVendorPharController.rxDeleteVendorReqStatus.value == Status.LOADING &&
+                              controller.cartCheckoutData.value.cart!.buckets![index].isVendorDelete.value,
+                          onPressed: (){
+                            controller.cartCheckoutData.value.cart!.buckets![index].isVendorDelete.value = true;
+                            deleteVendorPharController.deletePharVendorApi(
+                                isSingleCartScreen: false,
+                                cartId: cartId);
+                          },
+                          text: "Yes",
+                        ),
+                      ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
 
 }

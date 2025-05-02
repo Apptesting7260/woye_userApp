@@ -32,6 +32,9 @@ class DeleteVendorPharController extends GetxController{
         pharmacyCartController.refreshGetAllCartProductsForCheckout():
         pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId);
         pharmacyCartController.getAllPharmacyCartData();
+        if(!isSingleCartScreen){
+          Get.back();
+        }
       }
     },).onError((error, _) {
       debugPrint("Error delete vendor $error");

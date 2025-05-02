@@ -4,7 +4,7 @@ import 'package:woye_user/Data/network/network_api_services.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
-import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_grocery_cart.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_grocery_cart_model.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_delete_ptoduct/delete_grocery_product_modal.dart';
@@ -661,5 +661,10 @@ class Repository {
     dynamic response = await _apiService.postApi(data, AppUrls.groceryCreateOrder , token);
     return GroceryCreateOrderModel.fromJson(response);
   }
+   Future<dynamic> groceryCheckUncheckApi(var data)async{
+      await initializeUser();
+      dynamic response = await _apiService.postApi(data, AppUrls.groceryCheckUncheck , token);
+      return CheckedUncheckedModal.fromJson(response);
+   }
 
 }

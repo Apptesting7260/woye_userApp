@@ -133,7 +133,7 @@ class RestaurantNavbar extends StatelessWidget {
                                               color: AppColors.black,
                                             ),
                                             child: Padding(
-                                              padding: EdgeInsets.all(2.h),
+                                              padding: REdgeInsets.all(4),
                                               child: Obx(() {
                                                 return Text(
                                                   restaurantCartController
@@ -144,6 +144,7 @@ class RestaurantNavbar extends StatelessWidget {
                                                           .toString() ??
                                                       "",
                                                   style: TextStyle(
+                                                    fontSize: 10,
                                                       color: AppColors.white),
                                                 );
                                               }),

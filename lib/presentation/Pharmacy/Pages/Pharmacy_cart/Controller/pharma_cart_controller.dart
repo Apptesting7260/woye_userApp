@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
@@ -182,7 +184,9 @@ class PharmacyCartController extends GetxController {
       "carts": jsonEncode(carts),
       'drslip' : jsonEncode(prescription),
     };
-    print("data body >>> $data");
+    if(kDebugMode) {
+      log("data body >>> $data");
+    }
     rxSetRequestStatusCreateOrder(Status.LOADING);
     api.pharmacyCreateOrderApi(data).then((value) {
       if(value.status == true) {
@@ -191,7 +195,7 @@ class PharmacyCartController extends GetxController {
         Utils.showToast(value.message.toString());
         Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "pharmacy"});
       }if(value.status == false){
-        rxSetRequestStatusCreateOrder(Status.COMPLETED);
+        rxSetRequestStatusCreateOrder(Status.ERROR);
         Utils.showToast(value.message.toString());
       }
     },).onError((error, stackTrace) {
