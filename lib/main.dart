@@ -9,7 +9,7 @@ import 'package:woye_user/presentation/push_notification/push_notification.dart'
 import 'firebase_options.dart';
 
 var inSplash = true.obs;
-final PushNotificationService _notificationService = PushNotificationService();
+final PushNotificationService  _notificationService = PushNotificationService();
 
 Future<void> main() async {
   await dotenv.load(fileName: "assets/.env");
