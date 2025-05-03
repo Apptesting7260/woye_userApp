@@ -2,13 +2,10 @@ import 'dart:io';
 import 'dart:math';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
-import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_modal.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
-
 import '../../../shared/widgets/format_price.dart';
 import '../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
-import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
 
 class CheckoutScreen extends StatelessWidget {
   CheckoutScreen({super.key});
@@ -101,9 +98,11 @@ class CheckoutScreen extends StatelessWidget {
 
     print("Reactive Image Files: $reactiveImageFiles");
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     controller.payAfterWallet.value = double.parse(total.toString());
-    controller.walletSelected.value = false;
-    controller.isSelectable.value = false;
+    controller.walletSelected.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ?  false : true;
+    controller.isSelectable.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ? false : true;
+    },);
 
     return SafeArea(
       child: Scaffold(
@@ -136,139 +135,173 @@ class CheckoutScreen extends StatelessWidget {
                     || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING
                     || pharmacyCartController.rxRequestStatusCreateOrder.value == Status.LOADING,
                   onPressed: () {
-                    if(cartType == 'restaurant'){
-                    if (controller.isSelectable.value == true) {
-                      controller.placeOrderApi(
-                          addressId: addressId,
-                          cartId: cartId,
-                          vendorId: vendorId,
-                          couponId: couponId,
-                          paymentMethod: "wallet",
-                          total: total,
-                          cartType: cartType,
-                          imageFiles: imageFiles);
-                    }
-                    else if (controller.selectedIndex.value == 0) {
-                      controller.placeOrderApi(
-                          addressId: addressId,
-                          cartId: cartId,
-                          vendorId: vendorId,
-                          couponId: couponId,
-                          paymentMethod: "credit_card",
-                          total: total,
-                          cartType: cartType,
-                          imageFiles: imageFiles);
-                    }
-                    else if (controller.selectedIndex.value == 1) {
-                      controller.placeOrderApi(
-                          addressId: addressId,
-                          cartId: cartId,
-                          vendorId: vendorId,
-                          couponId: couponId,
-                          paymentMethod: "cash_on_delivery",
-                          total: total,
-                          cartType: cartType,
-                          imageFiles: imageFiles);
-                    }
-                    else {
+                    if(!controller.isSelectable.value &&  controller.selectedIndex.value == 0) {
                       Utils.showToast("Payment method not available");
                     }
-                  }
-                    else if(cartType == 'grocery'){
-                      List<Map<String,dynamic>> carts = [];
+                    else{
+                      if (cartType == 'restaurant') {
+                        // if (controller.isSelectable.value == true) {
+                        controller.placeOrderApi(
+                            addressId: addressId,
+                            cartId: cartId,
+                            vendorId: vendorId,
+                            couponId: couponId,
+                            paymentMethod: controller.isSelectable.value == true
+                                ? "wallet"
+                                :
+                            controller.selectedIndex.value == 1
+                                ? "credit_card"
+                                :
+                            controller.selectedIndex.value == 2
+                                ? "cash_on_delivery"
+                                : "",
+                            total: total,
+                            cartType: cartType,
+                            imageFiles: imageFiles);
+                        // }
+                        // else if (controller.selectedIndex.value == 0) {
+                        //   controller.placeOrderApi(
+                        //       addressId: addressId,
+                        //       cartId: cartId,
+                        //       vendorId: vendorId,
+                        //       couponId: couponId,
+                        //       paymentMethod: "credit_card",
+                        //       total: total,
+                        //       cartType: cartType,
+                        //       imageFiles: imageFiles);
+                        // }
+                        // else if (controller.selectedIndex.value == 1) {
+                        //   controller.placeOrderApi(
+                        //       addressId: addressId,
+                        //       cartId: cartId,
+                        //       vendorId: vendorId,
+                        //       couponId: couponId,
+                        //       paymentMethod: "cash_on_delivery",
+                        //       total: total,
+                        //       cartType: cartType,
+                        //       imageFiles: imageFiles);
+                        // }
+                        // else {
+                        //   Utils.showToast("Payment method not available");
+                        // }
+                      }
+                      else if (cartType == 'grocery') {
+                        List<Map<String, dynamic>> carts = [];
 
-                      print("vendorId type :: ${vendorId.runtimeType}");
-                      if(vendorId.runtimeType != String){
-                        for(int i =0; i < vendorId.length; i++){
+                        print("vendorId type :: ${vendorId.runtimeType}");
+                        if (vendorId.runtimeType != String) {
+                          for (int i = 0; i < vendorId.length; i++) {
+                            carts.add({
+                              "vendor_id": arguments['vendor_id'][i],
+                              "cart_id": arguments['cart_id'][i],
+                              "cart_total": arguments['cart_total'][i],
+                              "cart_delivery": arguments['cart_delivery'][i],
+                            },
+                            );
+                          }
+                        } else {
                           carts.add({
-                            "vendor_id": arguments['vendor_id'][i],
-                            "cart_id": arguments['cart_id'][i],
-                            "cart_total": arguments['cart_total'][i],
-                            "cart_delivery":arguments['cart_delivery'][i],
+                            "vendor_id": arguments['vendor_id'].toString(),
+                            "cart_id": arguments['cart_id'].toString(),
+                            "cart_total": arguments['cart_total'].toString(),
+                            "cart_delivery": arguments['cart_delivery']
+                                .toString(),
                           },
                           );
                         }
-                      }else{
-                        carts.add({
-                          "vendor_id": arguments['vendor_id'].toString(),
-                          "cart_id": arguments['cart_id'].toString(),
-                          "cart_total": arguments['cart_total'].toString(),
-                          "cart_delivery":arguments['cart_delivery'].toString(),
-                        },
-                        );
+
+
+                        List<String> cartIDs = [];
+                        if (vendorId.runtimeType != String) {
+                          for (int i = 0; i < cartId.length; i++) {
+                            cartIDs.add(arguments['cart_id'][i].toString());
+                          }
+                        } else {
+                          cartIDs.add(arguments['cart_id'].toString());
+                        }
+
+                        groceryCartController.createOrderGrocery(
+                            walletUsed: controller.walletSelected.value,
+                            walletAmount: controller.walletDiscount.value
+                                .toStringAsFixed(2),
+                            paymentMethod: controller.isSelectable.value == true
+                                ? "wallet"
+                                : controller.selectedIndex.value == 1 ?
+                            "credit_card" : controller.selectedIndex.value == 2
+                                ? "cash_on_delivery"
+                                : "",
+                            paymentAmount: controller.payAfterWallet.value
+                                .toStringAsFixed(2),
+                            addressId: addressId,
+                            couponId: couponId,
+                            total: total,
+                            cartIds: cartIDs,
+                            type: cartType,
+                            carts: carts);
                       }
+                      else if (cartType == 'pharmacy') {
+                        List<String> cartIDs = [];
+                        if (vendorId.runtimeType != String) {
+                          for (int i = 0; i < cartId.length; i++) {
+                            cartIDs.add(arguments['cart_id'][i].toString());
+                          }
+                        } else {
+                          cartIDs.add(arguments['cart_id'].toString());
+                        }
 
+                        List<Map<String, dynamic>> carts = [];
 
-                      List<String> cartIDs = [];
-                      if(vendorId.runtimeType != String){
-                      for(int i = 0; i < cartId.length; i++){
-                        cartIDs.add(arguments['cart_id'][i].toString());
-                      }}else{
-                        cartIDs.add(arguments['cart_id'].toString());
-                      }
-
-                      groceryCartController.createOrderGrocery(
-                          walletUsed: controller.walletSelected.value,
-                          walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
-                          paymentMethod: controller.isSelectable.value == true ? "wallet" :controller.selectedIndex.value == 0 ?
-                                         "credit_card" :controller.selectedIndex.value == 1 ? "cash_on_delivery" : "",
-                          paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
-                          addressId: addressId, couponId: couponId, total: total,cartIds: cartIDs, type: cartType, carts: carts);
-                    }
-                    else if(cartType == 'pharmacy'){
-                      List<String> cartIDs = [];
-                      if(vendorId.runtimeType != String){
-                        for(int i = 0; i < cartId.length; i++){
-                          cartIDs.add(arguments['cart_id'][i].toString());
-                        }}else{
-                        cartIDs.add(arguments['cart_id'].toString());
-                      }
-
-                      List<Map<String,dynamic>> carts = [];
-
-                      print("vendorId type :: ${vendorId.runtimeType}");
-                      if(vendorId.runtimeType != String){
-                        for(int i =0; i < vendorId.length; i++){
+                        print("vendorId type :: ${vendorId.runtimeType}");
+                        if (vendorId.runtimeType != String) {
+                          for (int i = 0; i < vendorId.length; i++) {
+                            carts.add({
+                              "vendor_id": arguments['vendor_id'][i],
+                              "cart_id": arguments['cart_id'][i],
+                              "cart_total": arguments['cart_total'][i],
+                              "cart_delivery": arguments['cart_delivery'][i],
+                            },
+                            );
+                          }
+                        } else {
                           carts.add({
-                            "vendor_id": arguments['vendor_id'][i],
-                            "cart_id": arguments['cart_id'][i],
-                            "cart_total": arguments['cart_total'][i],
-                            "cart_delivery":arguments['cart_delivery'][i],
+                            "vendor_id": arguments['vendor_id'].toString(),
+                            "cart_id": arguments['cart_id'].toString(),
+                            "cart_total": arguments['cart_total'].toString(),
+                            "cart_delivery": arguments['cart_delivery']
+                                .toString(),
                           },
                           );
                         }
-                      }else{
-                        carts.add({
-                          "vendor_id": arguments['vendor_id'].toString(),
-                          "cart_id": arguments['cart_id'].toString(),
-                          "cart_total": arguments['cart_total'].toString(),
-                          "cart_delivery":arguments['cart_delivery'].toString(),
-                        },
-                        );
-                      }
 
-                      pharmacyCartController.pharmacyCreateOrder(
+                        pharmacyCartController.pharmacyCreateOrder(
                           isWalletUsed: controller.walletSelected.value,
-                          walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
-                          paymentMethod: controller.isSelectable.value == true ? "wallet" :controller.selectedIndex.value == 0 ?
-                          "credit_card" :controller.selectedIndex.value == 1 ? "cash_on_delivery" : "",
-                          paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+                          walletAmount: controller.walletDiscount.value
+                              .toStringAsFixed(2),
+                          paymentMethod: controller.isSelectable.value == true
+                              ? "wallet"
+                              : controller.selectedIndex.value == 1 ?
+                          "credit_card" : controller.selectedIndex.value == 2
+                              ? "cash_on_delivery"
+                              : "",
+                          paymentAmount: controller.payAfterWallet.value
+                              .toStringAsFixed(2),
                           addressId: addressId.toString(),
                           couponId: couponId.toString(),
                           totalAmount: total.toString(),
                           cartIds: cartIDs,
                           carts: carts,
-                        prescription: prescription,
-                         );
+                          prescription: prescription,
+                        );
+                      }
                     }
                   },
                   text: controller.isSelectable.value == true
                       ? "Place Order"
-                      : controller.selectedIndex.value == 1
+                      : controller.selectedIndex.value == 2
                           ? controller.walletSelected.value == false
                               ? "\$${formatPrice(total)} Order with COD"
                               : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Order with COD"
-                          : controller.selectedIndex.value == 0
+                          : controller.selectedIndex.value == 1
                               ? controller.walletSelected.value == false
                                   ? "\$${formatPrice(total)} Pay with Card"
                                   : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Pay with Card"
@@ -284,7 +317,8 @@ class CheckoutScreen extends StatelessWidget {
   }
 
   Widget wallet({required String walletBalance, required String totalPrice}) {
-    controller.walletSelected.value = false;
+    // controller.walletSelected.value = false;
+    controller.walletSelected.value = double.parse(walletBalance.replaceAll(",", "")) <= 0.0 ? false : true;
     return Obx(
       () => IgnorePointer(
         ignoring: walletBalance == "0" ? true : false,
@@ -292,10 +326,16 @@ class CheckoutScreen extends StatelessWidget {
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () {
-            double walletBalanceDouble = double.tryParse(walletBalance) ?? 0.0;
-            double totalPriceDouble = double.tryParse(totalPrice) ?? 0.0;
+            double walletBalanceDouble =double.parse(walletBalance.replaceAll(",", "")) ?? 0.0;
+            double totalPriceDouble = double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
 
-            controller.walletSelected.value = !controller.walletSelected.value;
+            if(walletBalanceDouble > 0.0){
+              controller.walletSelected.value = !controller.walletSelected.value;
+            }
+            if(walletBalanceDouble > 0 && controller.walletSelected.value){
+              controller.selectedIndex.value = 0;
+            }
+
             if (!controller.walletSelected.value) {
               controller.isSelectable.value = false;
             }
@@ -314,6 +354,7 @@ class CheckoutScreen extends StatelessWidget {
               controller.payAfterWallet.value = totalPriceDouble;
               controller.walletDiscount.value = 0.00;
             }
+            controller.update();
             // controller.payAfterWallet.value =
             //     double.tryParse(controller.payAfterWallet.value.toStringAsFixed(2))!;
             // controller.walletDiscount.value =
@@ -384,14 +425,14 @@ class CheckoutScreen extends StatelessWidget {
         hBox(15.h),
         wallet(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
-        methodList(),
+        methodList(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
         PaymentMethodScreen().addNewCard()
       ],
     );
   }
 
-  Widget methodList() {
+  Widget methodList({required String walletBalance, required String totalPrice}) {
     return GetBuilder(
       init: controller,
       builder: (controller) {
@@ -399,14 +440,17 @@ class CheckoutScreen extends StatelessWidget {
           () => IgnorePointer(
             ignoring: controller.isSelectable.value ? true : false,
             child: Opacity(
-              opacity: controller.isSelectable.value ? 0.3 : 1,
+              opacity: controller.isSelectable.value ? 0.6 : 1,
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 2,
+                itemCount: 3,
                 itemBuilder: (context, index) {
                   bool isSelected = controller.selectedIndex.value == index;
-                  if (index == 0) {
+                  final wBalance = double.parse(walletBalance.replaceAll(',', ''));
+                  final tPrice= double.parse(totalPrice.replaceAll(',', ''));
+                  if(index ==0 ){return const SizedBox.shrink();}
+                  else if (index == 1) {
                     return InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
@@ -471,15 +515,15 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                       ),
                     );
-                  } else {
+                  } else if(index == 2){
                     return InkWell(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () {
-                        controller.selectedIndex.value = index;
-                        controller.update();
-                      },
-                      child: Container(
+                          controller.selectedIndex.value = index;
+                          controller.update();
+                        },
+                   child: Container(
                         padding: EdgeInsets.all(16.r),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.r),
@@ -527,6 +571,7 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                     );
                   }
+                  return null;
                 },
                 separatorBuilder: (c, i) => hBox(15.h),
               ),
