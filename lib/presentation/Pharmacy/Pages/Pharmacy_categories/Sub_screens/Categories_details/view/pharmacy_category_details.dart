@@ -10,18 +10,15 @@ import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 class PharmacyCategoryDetails extends StatelessWidget {
   PharmacyCategoryDetails({super.key});
 
-  final PharmacyCategoriesDetailsController controller =
-      Get.put(PharmacyCategoriesDetailsController());
+  final PharmacyCategoriesDetailsController controller = Get.put(PharmacyCategoriesDetailsController());
 
-  final PharmaCategoriesFilterController categoriesFilterController =
-      Get.put(PharmaCategoriesFilterController());
+  final PharmaCategoriesFilterController categoriesFilterController = Get.put(PharmaCategoriesFilterController());
 
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;
-    String categoryTitle = args['name'];
+    String categoryTitle = args['name'] ?? "";
     int categoryId = args['id'];
-
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(
@@ -103,10 +100,9 @@ class PharmacyCategoryDetails extends StatelessWidget {
                     SliverToBoxAdapter(
                       child: hBox(10.h),
                     ),
-                    if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&
-                        controller.categoriesDetailsData.value.categoryProduct!.isEmpty ||
-                        (controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
-                        ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
+                    if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&controller.categoriesDetailsData.value.categoryProduct!.isEmpty
+                        // ||(controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
+                        // ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
                     )
                       SliverToBoxAdapter(child: CustomNoDataFound(heightBox: hBox(50.h)),
                       ),
@@ -222,17 +218,17 @@ class PharmacyCategoryDetails extends StatelessWidget {
             itemBuilder: (context, index) {
               var product = controller.filterProductSearchData[index];
               return CustomBanner(
-                image: product.urlImage.toString(),
-                sale_price: product.salePrice.toString(),
-                regular_price: product.regularPrice.toString(),
-                title: product.title.toString(),
-                quantity: product.packagingValue.toString(),
+                image: product.urlImage ?? "",
+                sale_price: product.salePrice ?? "",
+                regular_price: product.regularPrice ?? "",
+                title: product.title ?? "",
+                quantity: product.packagingValue ?? "",
                 categoryId: product.categoryId.toString(),
                 product_id: product.id.toString(),
-                shop_name: product.shopName.toString(),
+                shop_name: product.shopName ?? "",
                 is_in_wishlist: product.isInWishlist,
                 isLoading: product.isLoading,
-                categoryName: product.categoryName.toString(),
+                categoryName: product.categoryName ?? "",
               );
             }));
   }

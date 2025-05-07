@@ -729,7 +729,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         index: index,
                         image: pharmashopsdata.shopimage,
                         title: pharmashopsdata.shopName,
-                        rating: pharmashopsdata.rating,
+                        rating: cleanNumber(pharmashopsdata.avgRating ?? "0"),
                         price: pharmashopsdata.avgPrice,
                       ),
                     );
@@ -745,7 +745,12 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       ),
     );
   }
-
+  String cleanNumber(String input) {
+    double parsed = double.tryParse(input) ?? 0;
+    return parsed == parsed.toInt()
+        ? parsed.toInt().toString()
+        : parsed.toString();
+  }
   Widget pharmaShop(
       {index, String? image, title, type, isFavourite, rating, price}) {
     return Column(

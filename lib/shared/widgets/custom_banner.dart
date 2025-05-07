@@ -72,6 +72,7 @@ class CustomBanner extends StatelessWidget {
         Get.to(() => PharmacyProductDetailsScreen(  productId: product_id.toString(),
           categoryId: categoryId.toString(),
           categoryName: categoryName.toString(),));
+        pharmaSpecificProductController.cartCount.value = 1;
 
       },
       child: Column(

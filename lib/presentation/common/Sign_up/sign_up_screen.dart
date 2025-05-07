@@ -123,9 +123,11 @@ class SignUpScreen extends StatelessWidget {
         isLoading: (signUpController.isLoding.value ||
             checkUserController.rxRequestStatus.value == Status.LOADING),
         onPressed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           if (signUpController.signUpFormKey.currentState!.validate()) {
             checkUserController
                 .checkUserApi(
+              isLoginType: false,
                     country_code:
                         signUpController.selectedCountryCode.value.toString(),
                     mobile:

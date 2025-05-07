@@ -391,8 +391,9 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           padding: const EdgeInsets.only(top: 10),
                           child: GestureDetector(
                               onTap: () {
-                                buckets.isVendorDelete.value = true;
-                                deleteVendorController.deleteProductApi(cartId: buckets.cartId.toString());
+                                showRemoveVendorDialog(index: index, cartId: buckets.cartId.toString());
+                                // buckets.isVendorDelete.value = true;
+                                // deleteVendorController.deleteProductApi(cartId: buckets.cartId.toString());
                               },
                               child: Text(
                                 "Remove",
@@ -615,7 +616,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 // )
                                 //     :
                                 Text(
-                                  "\$${items.price.toString()}",
+                                  "\$${items.newPrice.toString()}",
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_14_600(
                                       AppColors.primary),
@@ -1944,6 +1945,74 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                               productId: productId,
                               countId: countId,
                             );
+                          },
+                          text: "Yes",
+                        ),
+                      ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  Future  showRemoveVendorDialog({
+    required int index,
+    required String cartId,
+  }) {
+    return Get.dialog(
+      PopScope(
+        canPop: true,
+        child: AlertDialog.adaptive(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Remove Products',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Text(
+                'Are you sure you want to delete all products?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomElevatedButton(
+                      height: 40.h,
+                      color: AppColors.black,
+                      onPressed: () {
+                        Get.back();
+                      },
+                      text: "Cancel",
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+                    ),
+                  ),
+                  wBox(15),
+                  Obx(() =>
+                      Expanded(
+                        child: CustomElevatedButton(
+                          height: 40.h,
+                          isLoading: deleteVendorController.rxRequestStatus.value ==Status.LOADING &&
+                              controller.cartData.value.cart!.buckets![index].isVendorDelete.value == true,
+                          onPressed: (){
+                            controller.cartData.value.cart!.buckets![index].isVendorDelete.value = true;
+                            deleteVendorController.deleteProductApi(cartId:cartId);
                           },
                           text: "Yes",
                         ),

@@ -97,6 +97,7 @@ class AllPharmaShopsScreen extends StatelessWidget {
                                 },
                                 child: pharmaShop(
                                   index: index,
+
                                   image: pharmaShops.shopimage.toString(),
                                   title: pharmaShops.shopName.toString(),
                                   rating: pharmaShops.rating.toString(),

@@ -16,6 +16,9 @@ class OtpController extends GetxController {
   var otpVerify = false.obs;
   var regVerify = false.obs;
   var logVerify = false.obs;
+  RxBool isResendEnabled = true.obs;
+  RxInt remainingTime = 60.obs;
+  late Timer timer1;
 
   // final OtpScreen _otpScreen = OtpScreen();
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -43,6 +46,7 @@ class OtpController extends GetxController {
   @override
   void onInit() {
     // mobNumber = _otpScreen.mobileNumber ?? "";
+    startTimer();
     super.onInit();
   }
 
@@ -50,6 +54,7 @@ class OtpController extends GetxController {
   void onClose() {
     otpPin.value.dispose();
   }
+
 
   PinTheme defaultPinTheme = PinTheme(
       width: 54.w,
@@ -210,6 +215,25 @@ class OtpController extends GetxController {
       setRxRequestStatus(Status.COMPLETED);
     });
   }
+
+
+
+  void startTimer() {
+    isResendEnabled.value = false;
+    remainingTime.value = 60;
+    timer1 = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (remainingTime.value > 0) {
+        remainingTime.value--;
+      } else {
+        isResendEnabled.value = true;
+        if(timer1.isActive){
+          timer1.cancel();
+        }
+
+      }
+    });
+  }
+
 
 // OtpTimerButtonController otpTimerButtonController =
 // OtpTimerButtonController();

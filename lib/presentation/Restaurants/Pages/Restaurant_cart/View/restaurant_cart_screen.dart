@@ -348,30 +348,33 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         )
                       : GestureDetector(
                           onTap: () {
-                            specific_product_controllerontroller
-                                .specific_Product_Api(
+                            if(controller.cartData.value.cart!.decodedAttribute![index].status == "1") {
+                              specific_product_controllerontroller
+                                  .specific_Product_Api(
+                                  productId: controller.cartData.value.cart!
+                                      .decodedAttribute![index].productId
+                                      .toString(),
+                                  categoryId: controller.cartData.value.cart!
+                                      .decodedAttribute![index].categoryId
+                                      .toString());
+                              Get.to(() =>
+                                  ProductDetailsScreen(
                                     productId: controller.cartData.value.cart!
                                         .decodedAttribute![index].productId
                                         .toString(),
                                     categoryId: controller.cartData.value.cart!
                                         .decodedAttribute![index].categoryId
-                                        .toString());
-                            Get.to(ProductDetailsScreen(
-                              productId: controller.cartData.value.cart!
-                                  .decodedAttribute![index].productId
-                                  .toString(),
-                              categoryId: controller.cartData.value.cart!
-                                  .decodedAttribute![index].categoryId
-                                  .toString(),
-                              categoryName: controller.cartData.value.cart!
-                                  .decodedAttribute![index].categoryName
-                                  .toString(),
-                            ));
+                                        .toString(),
+                                    categoryName: controller.cartData.value
+                                        .cart!.decodedAttribute![index]
+                                        .categoryName.toString(),
+                                  ));
+                            }else if(controller.cartData.value.cart!.decodedAttribute![index].status == "0"){
+                              Utils.showToast("Product not available.");
+                            }
                           },
                           child: CachedNetworkImage(
-                            imageUrl: controller.cartData.value.cart!
-                                .decodedAttribute![index].productImage
-                                .toString(),
+                            imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
                             height: 100.h,
                             width: 100.h,
                             fit: BoxFit.cover,

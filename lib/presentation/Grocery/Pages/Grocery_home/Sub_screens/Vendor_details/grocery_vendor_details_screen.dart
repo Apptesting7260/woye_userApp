@@ -8,16 +8,16 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 
+import '../../../../../Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
+
 class GroceryVendorDetailsScreen extends StatelessWidget {
   final String groceryId;
 
   GroceryVendorDetailsScreen({super.key, required this.groceryId});
 
-  final GroceryDetailsController controller =
-  Get.put(GroceryDetailsController());
+  final GroceryDetailsController controller =  Get.put(GroceryDetailsController());
 
-  // final SeeAllProductReviewController seeAllProductReviewController =
-  // Get.put(SeeAllProductReviewController());
+  final SeeAllProductReviewController seeAllProductReviewController =   Get.put(SeeAllProductReviewController());
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +121,7 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              width: Get.width,
               imageUrl:
               controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
               placeholder: (context, url) =>
@@ -236,7 +237,7 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 10.0),
             child: SizedBox(
-              width: Get.width * 0.7,
+              // width: Get.width * 0.7,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -397,9 +398,7 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
                                   ),
                                 ),
 
-                                if (controller.pharma_Data.value
-                                    .review![index].reply !=
-                                    null)
+                                if (controller.pharma_Data.value.review![index].reply != null)
                                   Padding(
                                     padding:  EdgeInsets.only(top: 10.h),
                                     child: Row(
@@ -448,22 +447,22 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
               InkWell(
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                // onTap: () {
-                //   Get.toNamed(
-                //     AppRoutes.productReviews,
-                //     arguments: {
-                //       'product_id': pharmacyId.toString(),
-                //       'product_review':
-                //       controller.pharma_Data.value.averageRating,
-                //       'review_count': controller
-                //           .pharma_Data.value.totalReviews
-                //           .toString(),
-                //       "type": "pharmacy",
-                //     },
-                //   );
-                //   seeAllProductReviewController.seeAllProductReviewApi(
-                //       vendorId: pharmacyId.toString(), type: "pharmacy");
-                // },
+                onTap: () {
+                  Get.toNamed(
+                    AppRoutes.productReviews,
+                    arguments: {
+                      'product_id': controller.pharma_Data.value.pharmaShop?.id,
+                      'product_review':
+                      controller.pharma_Data.value.averageRating,
+                      'review_count': controller
+                          .pharma_Data.value.totalReviews
+                          .toString(),
+                      "type": "grocery",
+                    },
+                  );
+                  seeAllProductReviewController.seeAllProductReviewApi(
+                      vendorId: controller.pharma_Data.value.pharmaShop!.id.toString(), type: "grocery");
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

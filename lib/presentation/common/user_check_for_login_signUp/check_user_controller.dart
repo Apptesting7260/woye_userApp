@@ -14,6 +14,7 @@ class CheckUserController extends GetxController {
   void setData(CheckUserModal value) => checkUser.value = value;
 
   Future checkUserApi({
+    required bool isLoginType,
     required String country_code,
     required String mobile,
   }) async {
@@ -27,7 +28,10 @@ class CheckUserController extends GetxController {
       if (checkUser.value.status == true) {
         setRxRequestStatus(Status.COMPLETED);
       } else {
-        Utils.showToast(checkUser.value.message.toString());
+        if(isLoginType == false && checkUser.value.message.toString() == 'User not exists'){}
+        else {
+          Utils.showToast(checkUser.value.message.toString());
+        }
         setRxRequestStatus(Status.COMPLETED);
       }
     }).onError((error, stackError) {

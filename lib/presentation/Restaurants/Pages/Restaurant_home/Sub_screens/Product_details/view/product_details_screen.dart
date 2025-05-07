@@ -202,8 +202,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       if (controller.productData.value.product!.addOn != null)
                         hBox(30),
-                      Obx(
-                        () => controller.goToCart.value == true
+                      Obx(() => controller.goToCart.value == true
                             ? CustomElevatedButton(
                                 width: Get.width,
                                 color: AppColors.primary,

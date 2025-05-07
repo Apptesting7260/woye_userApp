@@ -100,10 +100,11 @@ class GroceryCategoryDetails extends StatelessWidget {
                     SliverToBoxAdapter(
                       child: hBox(10.h),
                     ),
-                    if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&
-                        controller.categoriesDetailsData.value.categoryProduct!.isEmpty||(
-                        (controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
-                        ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)))
+                    if (controller.categoriesDetailsData.value.filterProduct!.isEmpty && controller.categoriesDetailsData.value.categoryProduct!.isEmpty
+                        // ||(
+                        // (controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
+                        // ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty))
+                        )
                       SliverToBoxAdapter(
                         child: CustomNoDataFound(heightBox: hBox(50.h),),
                       ),

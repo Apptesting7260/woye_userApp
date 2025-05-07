@@ -562,6 +562,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     ),
                   ),
                 ),
+                errorWidget: (context, url, error) => Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.textFieldBorder),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
             // GestureDetector(

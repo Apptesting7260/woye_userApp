@@ -102,6 +102,7 @@ class CheckoutScreen extends StatelessWidget {
     controller.payAfterWallet.value = double.parse(total.toString());
     controller.walletSelected.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ?  false : true;
     controller.isSelectable.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ? false : true;
+    controller.selectedIndex.value = 0;
     },);
 
     return SafeArea(
@@ -318,7 +319,10 @@ class CheckoutScreen extends StatelessWidget {
 
   Widget wallet({required String walletBalance, required String totalPrice}) {
     // controller.walletSelected.value = false;
-    controller.walletSelected.value = double.parse(walletBalance.replaceAll(",", "")) <= 0.0 ? false : true;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      controller.walletSelected.value = double.parse(walletBalance.replaceAll(",", "")) <= 0.0 ? false : true;
+    },);
+
     return Obx(
       () => IgnorePointer(
         ignoring: walletBalance == "0" ? true : false,
@@ -447,8 +451,6 @@ class CheckoutScreen extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (context, index) {
                   bool isSelected = controller.selectedIndex.value == index;
-                  final wBalance = double.parse(walletBalance.replaceAll(',', ''));
-                  final tPrice= double.parse(totalPrice.replaceAll(',', ''));
                   if(index ==0 ){return const SizedBox.shrink();}
                   else if (index == 1) {
                     return InkWell(

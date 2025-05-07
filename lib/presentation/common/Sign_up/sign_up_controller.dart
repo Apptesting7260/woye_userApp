@@ -77,16 +77,15 @@ class SignUpController extends GetxController {
           }
           verificationID.value = verificationId;
           completer.complete(true);
+          isLoding.value = false;
           Get.toNamed(
             AppRoutes.otp,
             arguments: {
               'type': 'signup',
               'countryCode': selectedCountryCode.value.toString(),
-              'mob':
-                  mobNoCon.value.text.trim().toString(),
+              'mob': mobNoCon.value.text.trim().toString(),
             },
           );
-          isLoding.value = false;
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
@@ -98,12 +97,11 @@ class SignUpController extends GetxController {
     return completer.future;
   }
 
-  OtpTimerButtonController otpTimerButtonController =
-      OtpTimerButtonController();
+  // OtpTimerButtonController otpTimerButtonController = OtpTimerButtonController();
 
   Future<bool> resendOtp() async {
     Completer<bool> completer = Completer<bool>();
-    otpTimerButtonController.loading();
+    // otpTimerButtonController.loading();
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
@@ -120,20 +118,20 @@ class SignUpController extends GetxController {
           } else {
             Utils.showToast('Something went wrong');
           }
-          otpTimerButtonController.enableButton();
+          // otpTimerButtonController.enableButton();
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           print('codesent');
           Utils.showToast('otp has been send successfully.');
           verificationID.value = verificationId;
-          otpTimerButtonController.startTimer();
+          // otpTimerButtonController.startTimer();
           completer.complete(true);
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
-      otpTimerButtonController.enableButton();
+      // otpTimerButtonController.enableButton();
       completer.complete(false);
       print('error == ${e.toString()}');
     }

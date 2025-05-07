@@ -49,9 +49,9 @@ class PrescriptionUploadScreen extends StatelessWidget {
     print("cartDelivery: $cartDelivery");
 
     return PopScope(
-      onPopInvokedWithResult: (e,w){
-        controller.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
-      },
+      // onPopInvokedWithResult: (e,w){
+      //   // controller.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
+      // },
       child: Scaffold(
         appBar: CustomAppBar(
           title: Text(
@@ -438,9 +438,10 @@ class PrescriptionUploadScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
+                        Get.back();
                         controller.pickImage(ImageSource.camera, index);
                         // _pickImageFromCamera();
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       },
                       child: Container(
                         padding: REdgeInsets.all(10.h),

@@ -174,6 +174,7 @@ class Bucket {
   int? productId;
   int? quantity;
   String? price;
+  String? newPrice;
   String? checked;
   int? count;
   String? productName;
@@ -187,6 +188,7 @@ class Bucket {
       {this.productId,
         this.quantity,
         this.price,
+        this.newPrice,
         this.checked,
         this.count,
         this.productName,
@@ -198,6 +200,7 @@ class Bucket {
     productId = json['product_id'];
     quantity = json['quantity'];
     price = json['price'];
+    newPrice = json['new_price']?.toString();
     checked = json['checked'];
     count = json['count'];
     productName = json['product_name'];
@@ -211,6 +214,7 @@ class Bucket {
     data['product_id'] = productId;
     data['quantity'] = quantity;
     data['price'] = price;
+    data['new_price'] = newPrice;
     data['checked'] = checked;
     data['count'] = count;
     data['product_name'] = productName;

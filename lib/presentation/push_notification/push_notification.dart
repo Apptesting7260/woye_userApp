@@ -18,6 +18,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 @pragma('vm:entry-point')
 void backgroundNotificationTap(NotificationResponse notificationResponse) {
   final String? payload = notificationResponse.payload;
+    Get.toNamed(AppRoutes.orders);
   debugPrint("🔙 Background Notification tapped. Payload: $payload");
 }
 
@@ -46,8 +47,7 @@ class PushNotificationService {
       sound: true,
     );
 
-    var android =
-    const AndroidInitializationSettings('@drawable/launch_background');
+    var android = const AndroidInitializationSettings('@drawable/launch_background');
     var ios = const DarwinInitializationSettings();
 
     var platform = InitializationSettings(android: android, iOS: ios);
@@ -60,19 +60,21 @@ class PushNotificationService {
       AndroidNotification? android = message.notification?.android;
       AppleNotification? appleNotification = message.notification?.apple;
 
-      debugPrint('message notification body=====${message.notification?.body}');
-      debugPrint(
-          'notification body=====$notification.  $android.   $appleNotification');
+      debugPrint('message notification body=====${message.notification?.body}' );
+      debugPrint('message notification payload =====${message.data}');
+      debugPrint('notification body=====$notification.  $android.   $appleNotification');
 
       if (notification != null && android != null) {
         showNotification(message.notification);
-        debugPrint(
-            'android not null notification==${message.notification}');
-        FirebaseMessaging.instance.getInitialMessage().then((message) {
+        debugPrint('android not null notification==${message.notification?.title}');
+        debugPrint('android not null notification body==${message.notification?.body}');
+        FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
           if (message != null) {
+            debugPrint("message  >> ${message.toString()}");
             debugPrint("abc525");
           } else {
             debugPrint("123154115415abc");
+
           }
         });
       } else if (notification != null && appleNotification != null) {
@@ -84,7 +86,10 @@ class PushNotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       if (message.notification != null) {
         showNotification(message.notification);
-        print(message.notification);
+        print("Notification message :: ${message.notification}");
+        if(message.notification?.title == "Order Placed Successfully" || message.notification?.title == "Order Delivered"){
+          Get.toNamed(AppRoutes.orders);
+        }
       }
     });
 
@@ -113,8 +118,7 @@ class PushNotificationService {
       var initializationSettingsAndroid =
       const AndroidInitializationSettings('ic_launcher');
 
-      final InitializationSettings initializationSettings =
-      InitializationSettings(
+      final InitializationSettings initializationSettings = InitializationSettings(
           android: initializationSettingsAndroid,
           iOS: initializationSettingsDarwin);
 
@@ -134,6 +138,7 @@ class PushNotificationService {
 
       await flutterLocalNotificationsPlugin.initialize(
         initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
         onDidReceiveBackgroundNotificationResponse: backgroundNotificationTap,
       );
     }
@@ -161,11 +166,10 @@ class PushNotificationService {
     var platform = NotificationDetails(android: android, iOS: iOS);
 
     await flutterLocalNotificationsPlugin.show(DateTime.now().second,
-        notification?.title, notification?.body, platform);
+        notification?.title, notification?.body, platform,payload: notification?.title);
   }
 
-  static Future _onDidReceiveLocalNotification(
-      int? id, String? title, String? body, String? payload) async {
+  static Future _onDidReceiveLocalNotification(int? id, String? title, String? body, String? payload) async {
     debugPrint("receive==$payload,== $body");
   }
 
@@ -178,6 +182,13 @@ class PushNotificationService {
     final String? payload = notificationResponse.payload;
     if (notificationResponse.payload != null) {
       debugPrint('notification payload: $payload');
+      if(notificationResponse.payload.toString() == 'Order Placed Successfully' ||
+          notificationResponse.payload.toString() == "Order Delivered"
+          || notificationResponse.payload.toString() == "Order Accepted"
+          || notificationResponse.payload.toString() == "Order Cancelled"
+      ){
+        Get.toNamed(AppRoutes.orders);
+      }
     }
   }
 

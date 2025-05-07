@@ -122,11 +122,11 @@ class Category {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['parent_category'] = this.parentCategory;
-    data['image'] = this.image;
-    data['image_url'] = this.imageUrl;
+    data['id'] = id;
+    data['name'] = name;
+    data['parent_category'] = parentCategory;
+    data['image'] = image;
+    data['image_url'] = imageUrl;
     return data;
   }
 }
@@ -263,6 +263,7 @@ class PharmaShops {
   String? opensAt;
   String? closesAt;
   String? rating;
+  String? avgRating;
   String? avgPrice;
 
   PharmaShops(
@@ -278,6 +279,7 @@ class PharmaShops {
       this.opensAt,
       this.closesAt,
       this.rating,
+      this.avgRating,
       this.avgPrice});
 
   PharmaShops.fromJson(Map<String, dynamic> json) {
@@ -293,24 +295,26 @@ class PharmaShops {
     opensAt = json['opens_at'];
     closesAt = json['closes_at'];
     rating = json['rating'];
+    avgRating = json['avg_rating']?.toString();
     avgPrice = json['avg_price'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['gender'] = this.gender;
-    data['dob'] = this.dob;
-    data['shopimage'] = this.shopimage;
-    data['shop_name'] = this.shopName;
-    data['shop_address'] = this.shopAddress;
-    data['opens_at'] = this.opensAt;
-    data['closes_at'] = this.closesAt;
-    data['rating'] = this.rating;
-    data['avg_price'] = this.avgPrice;
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['shopimage'] = shopimage;
+    data['shop_name'] = shopName;
+    data['shop_address'] = shopAddress;
+    data['opens_at'] = opensAt;
+    data['closes_at'] = closesAt;
+    data['rating'] = rating;
+    data['avg_rating'] = avgRating;
+    data['avg_price'] = avgPrice;
     return data;
   }
 }

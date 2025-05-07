@@ -31,6 +31,7 @@ class DeleteGroceryVendorController extends GetxController {
         groceryCartController.getGroceryAllCartApi().then((value) async {
           await Future.delayed(const Duration(milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
+          Get.back();
           groceryShowAllCartController.refreshApi();
         });
       } else {

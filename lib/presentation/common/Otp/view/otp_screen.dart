@@ -1,6 +1,7 @@
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 
 class OtpScreen extends StatelessWidget {
@@ -81,14 +82,15 @@ class OtpScreen extends StatelessWidget {
             Utils.showToast('Please enter a valid 6-digit OTP.');
             return;
           } else {
-            final verify = await otpController.verifyOtp(
-                verificationId: from == 'login'
-                    ? loginController.verificationID.value
-                    : signUpController.verificationID.value,
-                smsCode: otpController.otpPin.value.text,
-                countryCode: countryCode,
-                mob: mob);
-            if (from == 'login') {
+            if(otpController.remainingTime.value != 0){
+              final verify = await otpController.verifyOtp(
+                  verificationId: from == 'login'
+                      ? loginController.verificationID.value
+                      : signUpController.verificationID.value,
+                  smsCode: otpController.otpPin.value.text,
+                  countryCode: countryCode,
+                  mob: mob);
+              if (from == 'login') {
               if (verify) {
                 otpController.loginApi(countryCode: countryCode, mob: mob);
               }
@@ -97,7 +99,12 @@ class OtpScreen extends StatelessWidget {
                 otpController.registerApi(countryCode: countryCode, mob: mob);
               }
             }
-          } // Get.toNamed(AppRoutes.signUp);
+          }
+            else{
+              Utils.showToast("The OTP has expired. Please resend it.");
+            }
+            // Get.toNamed(AppRoutes.signUp);
+        }
         },
         text: "Verify",
       ),
@@ -113,39 +120,66 @@ class OtpScreen extends StatelessWidget {
           'Didn\'t receive OTP?',
           style: AppFontStyle.text_16_400(AppColors.black),
         ),
-        from == 'login'
-            ? OtpTimerButton(
-                buttonType: ButtonType.text_button,
-                controller: loginController.otpTimerButtonController,
-                loadingIndicatorColor: AppColors.primary,
-                onPressed: () {
-                  print('Resending OTP');
-                  loginController.resendOtp();
-                  otpController.otpPin.value.clear();
-                },
-                text: Text(
-                  'Resend',
-                  style: AppFontStyle.text_16_400(AppColors.lightText,
-                      fontWeight: FontWeight.w500),
-                ),
-                duration: 60,
-              )
-            : OtpTimerButton(
-                buttonType: ButtonType.text_button,
-                controller: signUpController.otpTimerButtonController,
-                loadingIndicatorColor: Colors.green,
-                onPressed: () {
-                  print('Resending OTP');
-                  signUpController.resendOtp();
-                  otpController.otpPin.value.clear();
-                },
-                text: Text(
-                  'Resend',
-                  style: AppFontStyle.text_16_400(AppColors.lightText,
-                      fontWeight: FontWeight.w500),
-                ),
-                duration: 60,
-              ),
+        Obx(
+        ()=> TextButton(
+          style: const ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero)),
+            onPressed: (){
+            if(otpController.remainingTime.value == 0) {
+              if (from == 'login') {
+                print('login Resending OTP');
+                loginController.resendOtp().then((value) {
+                  otpController.startTimer();
+                },);
+                otpController.otpPin.value.clear();
+              } else {
+                print('signUpController Resending OTP');
+                signUpController.resendOtp().then((value) {
+                  otpController.startTimer();
+                },);
+                otpController.otpPin.value.clear();
+              }
+            }
+            // otpController.remainingTime.value == 0 ? otpController.startTimer() : null;
+            },
+            child: Text(" Resend ${otpController.remainingTime.value} Sec",
+            style: AppFontStyle.text_16_400(otpController.remainingTime.value == 0 ? AppColors.black : AppColors.lightText,
+            fontWeight: FontWeight.w400),
+            ),
+          ),
+        ),
+        // from == 'login'
+        //     ? OtpTimerButton(
+        //         buttonType: ButtonType.text_button,
+        //         controller: loginController.otpTimerButtonController,
+        //         loadingIndicatorColor: AppColors.primary,
+        //         onPressed: () {
+        //           print('Resending OTP');
+        //           loginController.resendOtp();
+        //           otpController.otpPin.value.clear();
+        //         },
+        //         text: Text(
+        //           'Resend',
+        //           style: AppFontStyle.text_16_400(AppColors.lightText,
+        //               fontWeight: FontWeight.w500),
+        //         ),
+        //         duration: 60,
+        //       )
+        //     : OtpTimerButton(
+        //         buttonType: ButtonType.text_button,
+        //         controller: signUpController.otpTimerButtonController,
+        //         loadingIndicatorColor: Colors.green,
+        //         onPressed: () {
+        //           print('Resending OTP');
+        //           signUpController.resendOtp();
+        //           otpController.otpPin.value.clear();
+        //         },
+        //         text: Text(
+        //           'Resend',
+        //           style: AppFontStyle.text_16_400(AppColors.lightText,
+        //               fontWeight: FontWeight.w500),
+        //         ),
+        //         duration: 60,
+        //       ),
       ],
     );
   }

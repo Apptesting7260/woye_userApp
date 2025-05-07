@@ -18,7 +18,7 @@ class SignUpForm_editProfileController extends GetxController {
 
   @override
   void onInit() async {
-    getprofileApi();
+    // getprofileApi();
     fisrtNameController = TextEditingController();
     mobileController = TextEditingController();
     emailController = TextEditingController();
@@ -270,7 +270,7 @@ class SignUpForm_editProfileController extends GetxController {
   //   return croppedFile != null ? File(croppedFile.path) : null;
   // }
   Future<void> pickImage(ImageSource source) async {
-    final pickedImage = await ImagePicker().pickImage(source: source);
+    try{final pickedImage = await ImagePicker().pickImage(source: source);
 
     if (pickedImage != null) {
       File originalImage = File(pickedImage.path);
@@ -285,14 +285,16 @@ class SignUpForm_editProfileController extends GetxController {
 
       if (croppedImage != null) {
         int croppedSize = await croppedImage.length();
-        print('Cropped image size: $croppedSize bytes');
+        debugPrint('Cropped image size: $croppedSize bytes');
         image.value = croppedImage;
         profileImageGetUrl.value = croppedImage.path;
-        print("Cropped image path ---> ${profileImageGetUrl.value}");
+        debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
         imageUploadApi();
       } else {
-        print("Image cropping was canceled or failed.");
+        debugPrint("Image cropping was canceled or failed.");
       }
+    }}catch(e){
+      debugPrint("Error picking image: $e");
     }
   }
 

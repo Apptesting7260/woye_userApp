@@ -130,12 +130,12 @@ class LoginScreen extends StatelessWidget {
   Widget signInButton() {
     return Obx(() => CustomElevatedButton(
           text: "Sign In",
-          isLoading: (loginController.isLoding.value ||
-              checkUserController.rxRequestStatus.value == Status.LOADING),
+          isLoading: (loginController.isLoding.value || checkUserController.rxRequestStatus.value == Status.LOADING),
           onPressed: () async {
             if (loginController.loginFormKey.currentState!.validate()) {
               checkUserController
                   .checkUserApi(
+                isLoginType: true,
                       country_code:
                           loginController.selectedCountryCode.value.toString(),
                       mobile:

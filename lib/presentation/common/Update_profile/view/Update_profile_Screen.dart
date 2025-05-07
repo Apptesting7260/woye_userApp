@@ -7,14 +7,23 @@ import 'package:woye_user/presentation/common/Update_profile/controller/Update_p
 import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_email_controller.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
-class SignUpFormScreen extends StatelessWidget {
+class SignUpFormScreen extends StatefulWidget {
   SignUpFormScreen({super.key});
 
-  final SignUpForm_editProfileController controller =
-      Get.put(SignUpForm_editProfileController());
+  @override
+  State<SignUpFormScreen> createState() => _SignUpFormScreenState();
+}
 
-  final SendOtpEmailController sendOtpEmailController =
-      Get.put(SendOtpEmailController());
+class _SignUpFormScreenState extends State<SignUpFormScreen> {
+  final SignUpForm_editProfileController controller = Get.put(SignUpForm_editProfileController());
+
+  final SendOtpEmailController sendOtpEmailController = Get.put(SendOtpEmailController());
+
+    @override
+    void initState() {
+    controller.getprofileApi();
+      super.initState();
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +122,7 @@ class SignUpFormScreen extends StatelessWidget {
               ),
               prefixConstraints:
                   BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-              hintText: "First name",
+              hintText: "Name",
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
@@ -247,56 +256,42 @@ class SignUpFormScreen extends StatelessWidget {
                 suffix: controller.profileData.value.data?.type == "google"
                     ? SizedBox()
                     :
-
                 // signUpFormController.emailController.text.isEmpty
                 //         ? const SizedBox()
                 //         :
-                (controller.profileData.value.data?.emailVerified ==
-                                    "true" &&
-                                controller.emailVerify.value == false)
-                            ? Icon(
-                                Icons.check_circle,
-                                color: AppColors.primary,
-                              )
-                            :
-                Obx(
-                                () => TextButton(
-                                    onPressed: (sendOtpEmailController
-                                                .rxRequestStatus.value ==
-                                            Status.LOADING)
-                                        ? null
-                                        :() {
-                                      FocusManager.instance.primaryFocus?.unfocus();
+                (controller.profileData.value.data?.emailVerified =="true" && controller.emailVerify.value == false)
+                    ? Icon(
+                        Icons.check_circle,
+                        color: AppColors.primary,
+                      )
+                    :Obx(() => TextButton(
+                    onPressed: (sendOtpEmailController.rxRequestStatus.value == Status.LOADING) ? null
+                    :() {
+                              FocusManager.instance.primaryFocus?.unfocus();
 
-                                      String email = signUpFormController.emailController.text.trim();
+                              String email = signUpFormController.emailController.text.trim();
 
-                                      // Email validation
-                                      if (email.isEmpty) {
-                                        Get.snackbar("Error", "Email field cannot be empty");
-                                        return;
-                                      }
+                              // Email validation
+                              if (email.isEmpty) {
+                                Get.snackbar("Error", "Email field cannot be empty");
+                                return;
+                              }
 
-                                      if (!GetUtils.isEmail(email)) {
-                                        Get.snackbar("Error", "Enter a valid email address");
-                                        return;
-                                      }
+                              if (!GetUtils.isEmail(email)) {
+                                Get.snackbar("Error", "Enter a valid email address");
+                                return;
+                              }
 
-                                      // API call if validation passes
-                                      sendOtpEmailController.sendOtpApi(email: email).then((value) {
-                                        sendOtpEmailController.startTimer();
-                                      });
-                                    },
-
-                                    child: (sendOtpEmailController
-                                                .rxRequestStatus.value ==
-                                            Status.LOADING)
-                                        ? circularProgressIndicator(size: 18.h)
-                                        : Text(
-                                            "Verify",
-                                            style: AppFontStyle.text_16_400(
-                                                AppColors.primary,
-                                                fontWeight: FontWeight.w500),
-                                          )),
+                              // API call if validation passes
+                              sendOtpEmailController.sendOtpApi(email: email).then((value) {
+                                sendOtpEmailController.startTimer();
+                              });
+                            },
+                    child: (sendOtpEmailController.rxRequestStatus.value == Status.LOADING)
+                    ? circularProgressIndicator(size: 18.h)
+                    : Text("Verify",style: AppFontStyle.text_16_400(
+                            AppColors.primary,
+                            fontWeight: FontWeight.w500),)),
                               ),
               ),
             ),
@@ -461,25 +456,6 @@ class SignUpFormScreen extends StatelessWidget {
   }
 
   // void checkValid() {
-  //   controller.isValid = controller.formSignUpKey.currentState!.validate();
-  //   print("Path ---> ${controller.profileImageGetUrl.value}");
-  //
-  //   // if (controller.isValid) {
-  //   //   if (controller.formattedCurrentDate.value.isEmpty) {
-  //   //     Utils.showToast("Please Select Date of Birth");
-  //   //     controller.isValid = false;
-  //   //   } else if (controller.genderController.text.isEmpty) {
-  //   //     Utils.showToast("Please choose your gender");
-  //   //     controller.isValid = false;
-  //   //   }
-  //     // else if (controller.profileImageFromAPI.value.isEmpty &&
-  //     //     controller.profileImageGetUrl.value.isEmpty) {
-  //     //   Utils.showToast("Please choose your profile image");
-  //     //   SignUpFormScreen.controller.isValid = false;
-  //     // }
-  //   }
-  //
-
   Widget continueButton(String type) {
     return CustomElevatedButton(
         isLoading: controller.rxRequestStatus2.value == Status.LOADING,

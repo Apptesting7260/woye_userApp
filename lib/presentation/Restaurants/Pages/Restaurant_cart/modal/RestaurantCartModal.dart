@@ -351,6 +351,7 @@ class DecodedAttribute {
   var checked;
   int? categoryId;
   String? categoryName;
+  String? status;
 
   DecodedAttribute({
     this.productId,
@@ -365,6 +366,7 @@ class DecodedAttribute {
     this.checked,
     this.categoryId,
     this.categoryName,
+    this.status,
   });
 
   factory DecodedAttribute.fromJson(Map<String, dynamic> json) {
@@ -388,6 +390,7 @@ class DecodedAttribute {
       checked: json['checked'],
       categoryId: json['category_id'],
       categoryName: json['category_name'],
+      status: json['status']?.toString(),
     );
   }
 

@@ -558,7 +558,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         index: index,
                         image: pharmashopsdata.shopimage,
                         title: pharmashopsdata.shopName,
-                        rating: pharmashopsdata.rating,
+                        rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
                         price: pharmashopsdata.rating,
                       ),
                     );
@@ -640,7 +640,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              price,
+              price ?? "",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_600(AppColors.primary),
             ),
@@ -810,5 +810,12 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         );
       },
     );
+  }
+
+  String cleanNumber(String input) {
+    double parsed = double.tryParse(input) ?? 0;
+    return parsed == parsed.toInt()
+        ? parsed.toInt().toString()
+        : parsed.toString();
   }
 }

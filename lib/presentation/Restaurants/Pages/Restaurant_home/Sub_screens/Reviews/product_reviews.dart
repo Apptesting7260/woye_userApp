@@ -58,7 +58,7 @@ class ProductReviews extends StatelessWidget {
                     child: Column(
                       children: [
                         productReviews(
-                            rating: ProductReview, reviewcount: reviewcount),
+                            rating: double.parse(ProductReview.toString()), reviewcount: reviewcount),
                         hBox(30),
                         reviews(),
                         hBox(50)
@@ -130,8 +130,8 @@ class ProductReviews extends StatelessWidget {
                             borderRadius: BorderRadius.circular(50.r),
                             child: CachedNetworkImage(
                               imageUrl: controller.seeAllReview.value
-                                  .reviewAll![index].user!.imageUrl
-                                  .toString(),
+                                  .reviewAll![index].user?.imageUrl
+                                  .toString() ?? '',
                               fit: BoxFit.cover,
                               height: 50.h,
                               width: 50.h,
@@ -176,9 +176,7 @@ class ProductReviews extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        controller.seeAllReview.value.reviewAll![index]
-                                            .user!.firstName
-                                            .toString(),
+                                        controller.seeAllReview.value.reviewAll![index].user?.firstName.toString() ?? "",
                                         style: AppFontStyle.text_16_400(
                                           AppColors.darkText,
                                         ),

@@ -194,6 +194,7 @@ class PharmacyCartController extends GetxController {
         prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
         Utils.showToast(value.message.toString());
         Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "pharmacy"});
+        getAllPharmacyCartData();
       }if(value.status == false){
         rxSetRequestStatusCreateOrder(Status.ERROR);
         Utils.showToast(value.message.toString());

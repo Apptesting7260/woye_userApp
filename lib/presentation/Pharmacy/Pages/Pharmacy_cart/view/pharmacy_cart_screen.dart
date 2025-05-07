@@ -1133,7 +1133,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 //     :
 
                                 Text(
-                                  "\$${items.price.toString()}",
+                                  "\$${items.newPrice.toString()}",
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_14_600(
                                       AppColors.primary),

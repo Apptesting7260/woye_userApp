@@ -15,11 +15,13 @@ final RestaurantCategoriesDetailsController
     Get.put(RestaurantCategoriesDetailsController());
 
 class RestaurantCategoriesFilter extends StatelessWidget {
-  RestaurantCategoriesFilter({super.key});
+  const RestaurantCategoriesFilter({super.key});
+
 
   @override
   Widget build(BuildContext context) {
-    var categoryId = Get.arguments['categoryId'];
+    var categoryId = Get.arguments['categoryId'] ?? "";
+    // WidgetsBinding.instance.add
     return DefaultTabController(
       length: 2,
       child: Scaffold(

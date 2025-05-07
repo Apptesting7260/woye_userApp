@@ -199,9 +199,9 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                       // shopCard(),
                       // hBox(20),
                       //
-                      if(controller.productData.value.product!.quanInStock.toString() != "0")
+                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
                        buttons(context),
-                      if(controller.productData.value.product!.quanInStock.toString() != "0")
+                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
                       hBox(30),
                       //
                       // dropdownsSection(),
@@ -426,7 +426,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
       Row(
         children: [
           Text(
-            product.packagingValue.toString() + product.unit!.name.toString(),
+            "${product.packagingValue}${product.unit?.name.toString() ?? ""}",
             // "Strip of 10 tablets",
             style: AppFontStyle.text_14_400(AppColors.lightText),
           ),
@@ -750,7 +750,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
               // }
             }
           }),
-    )
+        )
         : CustomElevatedButton(
       width: Get.width,
       color: AppColors.primary.withOpacity(.5),
