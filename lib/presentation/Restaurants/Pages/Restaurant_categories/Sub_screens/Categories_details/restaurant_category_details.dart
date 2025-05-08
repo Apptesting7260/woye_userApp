@@ -30,9 +30,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var args = Get.arguments;
-    String categoryTitle = args['name'];
-    int categoryId = args['id'];
+    final args = Get.arguments ?? {};
+    final String categoryTitle = args['name'] ?? "";
+    final int categoryId = args['id'] ?? 0;
     return Container(
       color: AppColors.white,
       child: SafeArea(

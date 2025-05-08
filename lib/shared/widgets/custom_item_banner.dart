@@ -3,6 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 
+import '../../Core/Utils/image_cache_height.dart';
 import 'CircularProgressIndicator.dart';
 
 class CustomItemBanner extends StatelessWidget {
@@ -59,6 +60,7 @@ class CustomItemBanner extends StatelessWidget {
               ),
               child: Center(
                 child: CachedNetworkImage(
+                  memCacheHeight: memCacheHeight,
                   imageUrl: image.toString(),
                   fit: BoxFit.cover,
                   height: 160.h,

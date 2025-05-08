@@ -14,6 +14,8 @@ import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
 
+import '../../../../../../../Core/Utils/image_cache_height.dart';
+
 class RestaurantDetailsScreen extends StatefulWidget {
   final String Restaurantid;
 
@@ -140,7 +142,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                             hBox(30),
                           if (controller
                               .restaurant_Data.value.moreProducts!.isNotEmpty)
-                            moreProducts(context),
+                            moreProducts(context,widget.Restaurantid),
                           hBox(30),
                         ],
                       ),
@@ -157,6 +159,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              memCacheHeight: memCacheHeight,
               width: Get.width,
               imageUrl: controller.restaurant_Data.value.restaurant!.shopimage
                   .toString(),
@@ -548,7 +551,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
     );
   }
 
-  Widget moreProducts(context) {
+  Widget moreProducts(context,String? Restaurantid) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -604,53 +607,28 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               return GestureDetector(
                   onTap: () {
                     specific_product_controllerontroller.specific_Product_Api(
-                      productId: controller
-                          .restaurant_Data.value.moreProducts![index].id
-                          .toString(),
-                      categoryId: controller
-                          .restaurant_Data.value.moreProducts![index].categoryId
-                          .toString(),
+                      productId: controller.restaurant_Data.value.moreProducts![index].id.toString(),
+                      categoryId: controller.restaurant_Data.value.moreProducts![index].categoryId.toString(),
                     );
                     Get.to(ProductDetailsScreen(
-                      productId: controller
-                          .restaurant_Data.value.moreProducts![index].id
-                          .toString(),
-                      categoryId: controller
-                          .restaurant_Data.value.moreProducts![index].categoryId
-                          .toString(),
-                      categoryName: controller.restaurant_Data.value
-                          .moreProducts![index].categoryName
-                          .toString(),
+                      restaurantId: Restaurantid.toString(),
+                      productId: controller.restaurant_Data.value.moreProducts![index].id.toString(),
+                      categoryId: controller.restaurant_Data.value.moreProducts![index].categoryId.toString(),
+                      categoryName: controller.restaurant_Data.value.moreProducts![index].categoryName.toString(),
                     ));
                   },
                   child: CustomItemBanner(
                     index: index,
-                    product_id: controller
-                        .restaurant_Data.value.moreProducts![index].id
-                        .toString(),
-                    categoryId: controller
-                        .restaurant_Data.value.moreProducts![index].categoryId
-                        .toString(),
-                    image: controller
-                        .restaurant_Data.value.moreProducts![index].urlImage,
-                    title: controller
-                        .restaurant_Data.value.moreProducts![index].title,
-                    // rating: controller
-                    //     .restaurant_Data.value.moreProducts![index].rating
-                    //     .toString(),
-                    is_in_wishlist: controller.restaurant_Data.value
-                        .moreProducts![index].isInWishlist,
-                    isLoading: controller
-                        .restaurant_Data.value.moreProducts![index].isLoading,
-                    sale_price: controller
-                        .restaurant_Data.value.moreProducts![index].salePrice
-                        .toString(),
-                    regular_price: controller
-                        .restaurant_Data.value.moreProducts![index].regularPrice
-                        .toString(),
-                    resto_name: controller
-                        .restaurant_Data.value.moreProducts![index].restoName
-                        .toString(),
+                    product_id: controller.restaurant_Data.value.moreProducts![index].id.toString(),
+                    categoryId: controller.restaurant_Data.value.moreProducts![index].categoryId.toString(),
+                    image: controller.restaurant_Data.value.moreProducts![index].urlImage,
+                    title: controller.restaurant_Data.value.moreProducts![index].title,
+                    // rating: controller.restaurant_Data.value.moreProducts![index].rating.toString(),
+                    is_in_wishlist: controller.restaurant_Data.value.moreProducts![index].isInWishlist,
+                    isLoading: controller.restaurant_Data.value.moreProducts![index].isLoading,
+                    sale_price: controller.restaurant_Data.value.moreProducts![index].salePrice.toString(),
+                    regular_price: controller.restaurant_Data.value.moreProducts![index].regularPrice.toString(),
+                    resto_name: controller.restaurant_Data.value.moreProducts![index].restoName.toString(),
                   ));
             })
       ],

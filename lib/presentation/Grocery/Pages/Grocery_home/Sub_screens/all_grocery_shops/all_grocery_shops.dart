@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
@@ -136,6 +137,7 @@ class AllGroceryShops extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: CachedNetworkImage(
+                memCacheHeight:memCacheHeight,
                 imageUrl: image.toString(),
                 fit: BoxFit.fill,
                 width: double.maxFinite,

@@ -17,9 +17,9 @@ class GroceryCategoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var args = Get.arguments;
-    String categoryTitle = args['name'];
-    int categoryId = args['id'];
+    var args = Get.arguments ?? {};
+    String categoryTitle = args['name'] ?? "";
+    int categoryId = args['id'] ?? 0;
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(

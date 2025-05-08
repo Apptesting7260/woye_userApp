@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
@@ -179,6 +180,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
+                                                    memCacheHeight: memCacheHeight,
                                                     imageUrl: product.urlImage
                                                         .toString(),
                                                     fit: BoxFit.cover,
@@ -228,6 +230,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                       true;
                                                       addPharmaProductWishlistController
                                                           .pharmacy_add_product_wishlist(
+                                                        isRefresh: false,
                                                         categoryId: "",
                                                         product_id: product.id
                                                             .toString(),

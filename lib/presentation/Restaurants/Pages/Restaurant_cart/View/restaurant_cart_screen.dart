@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
@@ -42,6 +43,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
 
   void initState() {
     controller.getRestaurantCartApi();
+    // controller.isCartScreen.value = false;
     super.initState();
     _scrollController.addListener(
       () {
@@ -346,51 +348,44 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                             width: 100.h,
                           ),
                         )
-                      : GestureDetector(
-                          onTap: () {
-                            if(controller.cartData.value.cart!.decodedAttribute![index].status == "1") {
-                              specific_product_controllerontroller
-                                  .specific_Product_Api(
-                                  productId: controller.cartData.value.cart!
-                                      .decodedAttribute![index].productId
-                                      .toString(),
-                                  categoryId: controller.cartData.value.cart!
-                                      .decodedAttribute![index].categoryId
-                                      .toString());
-                              Get.to(() =>
-                                  ProductDetailsScreen(
-                                    productId: controller.cartData.value.cart!
-                                        .decodedAttribute![index].productId
-                                        .toString(),
-                                    categoryId: controller.cartData.value.cart!
-                                        .decodedAttribute![index].categoryId
-                                        .toString(),
-                                    categoryName: controller.cartData.value
-                                        .cart!.decodedAttribute![index]
-                                        .categoryName.toString(),
-                                  ));
-                            }else if(controller.cartData.value.cart!.decodedAttribute![index].status == "0"){
-                              Utils.showToast("Product not available.");
-                            }
-                          },
-                          child: CachedNetworkImage(
-                            imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
-                            height: 100.h,
-                            width: 100.h,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: AppColors.gray,
-                              highlightColor: AppColors.lightText,
-                              child: Container(
-                                color: AppColors.gray,
-                                height: 100.h,
-                                width: 100.h,
+                      : Obx(
+                           ()=> GestureDetector(
+                            onTap: () {
+                              if(controller.cartData.value.cart!.decodedAttribute![index].status == "1") {
+                                specific_product_controllerontroller.specific_Product_Api(
+                                    productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
+                                    categoryId: controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString());
+                                // controller.isCartScreen.value = true;
+                                // print("is cart screen : ${controller.isCartScreen.value }");
+                                Get.to(() => ProductDetailsScreen(
+                                      productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
+                                      categoryId: controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString(),
+                                      categoryName: controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString(),
+                                    ));
+                              }else if(controller.cartData.value.cart!.decodedAttribute![index].status == "0"){
+                                Utils.showToast("Product not available.");
+                              }
+                            },
+                            child: CachedNetworkImage(
+                              memCacheHeight: memCacheHeight,
+                              imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
+                              height: 100.h,
+                              width: 100.h,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.gray,
+                                highlightColor: AppColors.lightText,
+                                child: Container(
+                                  color: AppColors.gray,
+                                  height: 100.h,
+                                  width: 100.h,
+                                ),
                               ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
                           ),
-                        ),
+                      ),
                 ),
                 wBox(10.h),
                 Expanded(
@@ -505,9 +500,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                         width: 0.8.w, color: AppColors.primary),
                                   ),
                                   child: Obx(
-                                    () => quantityUpdateController
-                                                    .rxRequestStatus.value ==
-                                                Status.LOADING &&
+                                    () => quantityUpdateController.rxRequestStatus.value == Status.LOADING &&
                                             controller
                                                     .cartData
                                                     .value

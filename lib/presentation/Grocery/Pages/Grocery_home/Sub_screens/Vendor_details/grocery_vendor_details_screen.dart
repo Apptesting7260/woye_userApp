@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
@@ -8,6 +10,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 
+import '../../../../../../Core/Constant/app_urls.dart';
 import '../../../../../Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
 
 class GroceryVendorDetailsScreen extends StatelessWidget {
@@ -25,16 +28,25 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: Icon(
-              Icons.share_outlined,
-              size: 24.w,
+          GestureDetector(
+            onTap: () {
+              Share.share(
+                  '${AppUrls.hostUrl}/grocery?id=$groceryId',
+                  subject:
+                  controller.pharma_Data.value.pharmaShop?.shopName ??
+                      'Share Grocery Shop');
+            },
+            child: Container(
+              padding: REdgeInsets.all(9),
+              height: 44.h,
+              width: 44.h,
+              decoration: BoxDecoration(
+                  color: AppColors.greyBackground,
+                  borderRadius: BorderRadius.circular(12.r)),
+              child: Icon(
+                Icons.share_outlined,
+                size: 24.w,
+              ),
             ),
           ),
           // wBox(8),
@@ -50,15 +62,20 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
           //       size: 24.w,
           //     )),
           wBox(8),
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: SvgPicture.asset(
-              ImageConstants.notification,
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(AppRoutes.notifications);
+            },
+            child: Container(
+              padding: REdgeInsets.all(9),
+              height: 44.h,
+              width: 44.h,
+              decoration: BoxDecoration(
+                  color: AppColors.greyBackground,
+                  borderRadius: BorderRadius.circular(12.r)),
+              child: SvgPicture.asset(
+                ImageConstants.notification,
+              ),
             ),
           ),
         ],
@@ -121,6 +138,7 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              memCacheHeight: memCacheHeight,
               width: Get.width,
               imageUrl:
               controller.pharma_Data.value.pharmaShop!.shopimage.toString(),

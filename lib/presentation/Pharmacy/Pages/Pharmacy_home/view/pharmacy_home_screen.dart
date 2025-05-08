@@ -20,6 +20,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/controller/p
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
 
+import '../../../../../Core/Utils/image_cache_height.dart';
+
 class PharmacyHomeScreen extends StatefulWidget {
   const PharmacyHomeScreen({super.key});
 
@@ -589,6 +591,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
                 imageUrl: image.toString(),
                 fit: BoxFit.fill,
                 width: double.maxFinite,

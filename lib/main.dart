@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
@@ -34,6 +37,16 @@ Future<void> main() async {
   PushNotificationService.firebaseNotification();
   Get.put(NetworkController());
   await GetStorage.init();
+  try {
+    /// FIREBADE CRASHLYTICS ///..................................................
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  } catch (e) {
+    print(e);
+  }
   runApp(MyApp());
 }
 

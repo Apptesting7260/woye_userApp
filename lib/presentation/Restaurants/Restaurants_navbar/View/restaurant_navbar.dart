@@ -72,8 +72,7 @@ class RestaurantNavbar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(navbarItems.length, (index) {
               bool isSelected = navbarController.navbarCurrentIndex == index;
-              String icon =
-                  isSelected ? navbarItemsFilled[index] : navbarItems[index];
+              String icon = isSelected ? navbarItemsFilled[index] : navbarItems[index];
               return InkWell(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,

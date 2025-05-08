@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:http/http.dart' as http;
@@ -270,7 +271,11 @@ class SignUpForm_editProfileController extends GetxController {
   //   return croppedFile != null ? File(croppedFile.path) : null;
   // }
   Future<void> pickImage(ImageSource source) async {
-    try{final pickedImage = await ImagePicker().pickImage(source: source);
+    bool hasPermission = await _handlePermissions(source);
+    if (!hasPermission) return;
+
+    try{
+      final pickedImage = await ImagePicker().pickImage(source: source);
 
     if (pickedImage != null) {
       File originalImage = File(pickedImage.path);
@@ -296,6 +301,55 @@ class SignUpForm_editProfileController extends GetxController {
     }}catch(e){
       debugPrint("Error picking image: $e");
     }
+  }
+  Future<bool> _handlePermissions(ImageSource source) async {
+    if (source == ImageSource.camera) {
+      var status = await Permission.camera.status;
+      if (!status.isGranted) {
+        status = await Permission.camera.request();
+        if (status.isPermanentlyDenied || !status.isGranted) {
+          showPermissionDialog(Get.context!, "Camera");
+          return false;
+        }
+      }
+      return true;
+    } else {
+      var status =  await Permission.photos.status;
+
+      if (!status.isGranted) {
+        status = await Permission.photos.request();
+        if (status.isPermanentlyDenied || !status.isGranted) {
+          showPermissionDialog(Get.context!, "Gallery");
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+  void showPermissionDialog(BuildContext context, String permissionType) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Center(child: Text("Permission Required")),
+        content: Text(
+          "$permissionType permission is denied. Please enable it in settings.",
+          textAlign: TextAlign.start,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              openAppSettings();
+              Get.back();
+            },
+            child: const Text("Open Settings"),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<File?> _cropImage(String filePath) async {

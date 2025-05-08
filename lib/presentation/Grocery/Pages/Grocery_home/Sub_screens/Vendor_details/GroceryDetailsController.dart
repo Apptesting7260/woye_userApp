@@ -70,6 +70,54 @@ class GroceryDetailsController extends GetxController {
     });
   }
 
+  refresh_restaurant_Details_Api({
+    required String id,
+  }) async {
+    loadLocationData();
+/*
+    setRxRequestStatus(Status.LOADING);
+*/
+    Map data = {"grocery_id": id};
+
+    api.specificGroceryShopApi(data).then((value) {
+      restaurant_Set(value);
+      setRxRequestStatus(Status.COMPLETED);
+      double? apiLatitude = pharma_Data.value.pharmaShop?.latitude != null
+          ? double.tryParse(pharma_Data.value.pharmaShop!.latitude!)
+          : null;
+      double? apiLongitude = pharma_Data.value.pharmaShop?.longitude != null
+          ? double.tryParse(pharma_Data.value.pharmaShop!.longitude!)
+          : null;
+      if (apiLatitude != null && apiLongitude != null) {
+        distance.value = calculateDistance(
+          latitude.value,
+          longitude.value,
+          apiLatitude,
+          apiLongitude,
+        );
+      }
+
+      print("Location from api ${pharma_Data.value.pharmaShop?.shopAddress}");
+      print("latitude from api ${pharma_Data.value.pharmaShop?.latitude}");
+      print("longitude from api ${pharma_Data.value.pharmaShop?.longitude}");
+      print("Calculated Distance: ${distance.value} km");
+
+      double travelTimeInMinutes = calculateTravelTime(distance.value, 15);
+
+      travelTime.value = travelTimeInMinutes;
+
+      print(
+          "Estimated Travel Time: ${travelTime.value.toStringAsFixed(2)} minutes");
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
   void loadLocationData() async {
     var storage = GetStorage();
     location.value = storage.read('location') ?? '';

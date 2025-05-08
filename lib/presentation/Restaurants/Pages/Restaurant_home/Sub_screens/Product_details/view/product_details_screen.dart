@@ -18,16 +18,20 @@ import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 
+import '../../../../../../../Core/Utils/image_cache_height.dart';
+
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
+  final String? restaurantId;
 
   ProductDetailsScreen({
     super.key,
     required this.productId,
     required this.categoryId,
     required this.categoryName,
+    this.restaurantId,
   });
 
   // final RestaurantHomeController restaurantHomeController =
@@ -51,12 +55,16 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // restaurantCartController.isCartScreen.value;
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
           GestureDetector(
             onTap: () {
+              // print("is cart screen : ${restaurantCartController.isCartScreen.value }");
+              // restaurantCartController.isCartScreen.value ?
+              // Get.toNamed(AppRoutes.restaurantNavbar) :
               Get.to(()=>const RestaurantCartScreen(isBack: true));
               controller.goToCart.value = false;
               controller.cartCount.value = 1;
@@ -115,6 +123,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 controller.productData.value.product?.isInWishlist =
                     !controller.productData.value.product!.isInWishlist!;
                 await addWishlistController.restaurant_add_product_wishlist(
+                  restaurantId: restaurantId.toString(),
                   categoryId: categoryId,
                   product_id: productId.toString(),
                 );
@@ -211,10 +220,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                         (Status.LOADING),
                                 text: "Go to Cart",
                                 onPressed: () {
-                                  Get.to(
-                                      const RestaurantCartScreen(isBack: true));
-                                  controller.goToCart.value = false;
-                                  controller.cartCount.value = 1;
+                                  // restaurantCartController.isCartScreen.value ?
+                                  // Get.toNamed(AppRoutes.restaurantNavbar) :
+                                  Get.to(()=>const RestaurantCartScreen(isBack: true));
+                                    controller.goToCart.value = false;
+                                    controller.cartCount.value = 1;
                                 })
                             : CustomElevatedButton(
                                 width: Get.width,
@@ -297,6 +307,7 @@ class ProductDetailsScreen extends StatelessWidget {
           () => ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              memCacheHeight: memCacheHeight,
               imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
@@ -359,6 +370,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
+                          memCacheHeight: memCacheHeight,
                           imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           width: 75.h,

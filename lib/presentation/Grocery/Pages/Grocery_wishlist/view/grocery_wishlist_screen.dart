@@ -1,9 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/Controller/grocery_wishlist_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/add_grocery_product_wishlist.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
@@ -24,11 +27,11 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
     super.initState();
   }
 
-  final GroceryWishlistController controller =
-      Get.put(GroceryWishlistController());
+  final GroceryWishlistController controller = Get.put(GroceryWishlistController());
 
-  final AddGroceryProductWishlist addGroceryProductWishlist =
-      Get.put(AddGroceryProductWishlist());
+  final AddGroceryProductWishlist addGroceryProductWishlist = Get.put(AddGroceryProductWishlist());
+
+  final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
 
   @override
   Widget build(BuildContext context) {
@@ -158,6 +161,19 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                       //     product.categoryName.toString(),));
                                       //
                                       // },
+                                    onTap: () {
+                                      grocerySpecificProductController.pharmaSpecificProductApi(
+                                            productId:product.id.toString(),
+                                            categoryId: product.categoryId.toString(),
+                                      );
+
+                                      Get.to(()=>GroceryProductDetailsScreen(
+                                          isWishList: true,
+                                          productId: product.id.toString(),
+                                          categoryId: product.categoryId.toString(),
+                                          categoryName: product.categoryName.toString(),
+                                      ),);
+                                    },
                                       child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -173,6 +189,7 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                             ),
                                             child: Center(
                                               child: CachedNetworkImage(
+                                                memCacheHeight: memCacheHeight,
                                                 imageUrl:
                                                     product.urlImage.toString(),
                                                 fit: BoxFit.cover,

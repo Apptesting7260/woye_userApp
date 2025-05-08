@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
@@ -689,7 +690,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(AllGroceryShops());
+                  Get.to(()=>AllGroceryShops());
                 },
                 child: Text(
                   "See All",
@@ -765,6 +766,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
                 imageUrl: image.toString(),
                 fit: BoxFit.fill,
                 width: double.maxFinite,

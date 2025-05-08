@@ -12,8 +12,9 @@ class RestaurantCartController extends GetxController {
 
   // var cartCount = 0.obs;
 
-  final Rx<TextEditingController> couponCodeController =
-      TextEditingController().obs;
+  final Rx<TextEditingController> couponCodeController = TextEditingController().obs;
+
+  // RxBool isCartScreen = false.obs;
 
   var readOnly = true.obs;
 

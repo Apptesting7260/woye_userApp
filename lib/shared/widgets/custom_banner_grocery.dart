@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
@@ -91,6 +92,7 @@ class CustomBannerGrocery extends StatelessWidget {
                 ),
                 child: Center(
                   child: CachedNetworkImage(
+                    memCacheHeight: memCacheHeight,
                     imageUrl: image.toString(),
                     fit: BoxFit.cover,
                     height: 160.h,

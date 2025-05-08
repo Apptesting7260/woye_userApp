@@ -85,6 +85,7 @@ dependencies:
   open_file:
   path_provider:
   webview_flutter:
+  firebase_crashlytics:
 
 #  sms_autofill: ^2.0.0
 

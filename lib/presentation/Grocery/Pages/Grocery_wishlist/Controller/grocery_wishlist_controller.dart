@@ -45,7 +45,7 @@ class GroceryWishlistController extends GetxController {
 
   pharmacyProductWishlistRefreshApi() async {
     searchController.clear();
-    setRxRequestStatus(Status.LOADING);
+    // setRxRequestStatus(Status.LOADING);
     api.groceryAllProductWishlistApi().then((value) {
       wishlist_Set(value);
       filterWishlistData(searchController.text);

@@ -72,6 +72,54 @@ class RestaurantDetailsController extends GetxController {
     });
   }
 
+  Future refresh_restaurant_Details_Api({
+    required String id,
+  }) async {
+    loadLocationData();
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {"restaurant_id": id};
+   await api.specific_Restaurant_Api(data).then((value) {
+      restaurant_Set(value);
+      setRxRequestStatus(Status.COMPLETED);
+      double? apiLatitude = restaurant_Data.value.restaurant?.latitude != null
+          ? double.tryParse(restaurant_Data.value.restaurant!.latitude!)
+          : null;
+      double? apiLongitude = restaurant_Data.value.restaurant?.longitude != null
+          ? double.tryParse(restaurant_Data.value.restaurant!.longitude!)
+          : null;
+      if (apiLatitude != null && apiLongitude != null) {
+        distance.value = calculateDistance(
+          latitude.value,
+          longitude.value,
+          apiLatitude,
+          apiLongitude,
+        );
+      }
+
+      print(
+          "Location from api ${restaurant_Data.value.restaurant?.shopAddress}");
+      print("latitude from api ${restaurant_Data.value.restaurant?.latitude}");
+      print(
+          "longitude from api ${restaurant_Data.value.restaurant?.longitude}");
+      print("Calculated Distance: ${distance.value} km");
+
+      double travelTimeInMinutes = calculateTravelTime(distance.value, 15);
+
+      travelTime.value = travelTimeInMinutes;
+
+      print(
+          "Estimated Travel Time: ${travelTime.value.toStringAsFixed(2)} minutes");
+      update();
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
   void loadLocationData() async {
     var storage = GetStorage();
     location.value = storage.read('location') ?? '';

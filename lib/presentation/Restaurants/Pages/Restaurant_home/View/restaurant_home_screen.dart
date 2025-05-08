@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
@@ -119,6 +121,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                               sliver: SliverToBoxAdapter(
                                 child: Column(
                                   children: [
+                                    // GestureDetector(
+                                    //     onTap: (){
+                                    //       FirebaseCrashlytics.instance.crash();
+                                    //     },
+                                    //     child: Text("gff")),
                                     if (restaurantHomeController
                                         .homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
@@ -548,6 +555,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
                 imageUrl: image.toString(),
                 fit: BoxFit.fill,
                 width: double.maxFinite,

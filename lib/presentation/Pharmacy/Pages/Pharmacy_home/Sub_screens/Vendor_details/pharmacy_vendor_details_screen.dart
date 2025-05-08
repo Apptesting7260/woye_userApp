@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
@@ -9,13 +10,15 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
 
+import '../../../../../../Core/Constant/app_urls.dart';
+import '../../../../../../Core/Utils/image_cache_height.dart';
+
 class PharmacyVendorDetailsScreen extends StatelessWidget {
   final String pharmacyId;
 
   PharmacyVendorDetailsScreen({super.key, required this.pharmacyId});
 
-  final PharmacyDetailsController controller =
-      Get.put(PharmacyDetailsController());
+  final PharmacyDetailsController controller = Get.put(PharmacyDetailsController());
 
   final SeeAllProductReviewController seeAllProductReviewController =
       Get.put(SeeAllProductReviewController());
@@ -26,16 +29,25 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: Icon(
-              Icons.share_outlined,
-              size: 24.w,
+          GestureDetector(
+            onTap: () {
+              Share.share(
+                  '${AppUrls.hostUrl}/pharmacy?id=$pharmacyId',
+                  subject:
+                  controller.pharma_Data.value.pharmaShop?.shopName ??
+                      'Share Pharmacy Shop');
+            },
+            child: Container(
+              padding: REdgeInsets.all(9),
+              height: 44.h,
+              width: 44.h,
+              decoration: BoxDecoration(
+                  color: AppColors.greyBackground,
+                  borderRadius: BorderRadius.circular(12.r)),
+              child: Icon(
+                Icons.share_outlined,
+                size: 24.w,
+              ),
             ),
           ),
           // wBox(8),
@@ -51,15 +63,20 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
           //       size: 24.w,
           //     )),
           wBox(8),
-          Container(
-            padding: REdgeInsets.all(9),
-            height: 44.h,
-            width: 44.h,
-            decoration: BoxDecoration(
-                color: AppColors.greyBackground,
-                borderRadius: BorderRadius.circular(12.r)),
-            child: SvgPicture.asset(
-              ImageConstants.notification,
+          GestureDetector(
+            onTap: (){
+              Get.toNamed(AppRoutes.notifications);
+            },
+            child: Container(
+              padding: REdgeInsets.all(9),
+              height: 44.h,
+              width: 44.h,
+              decoration: BoxDecoration(
+                  color: AppColors.greyBackground,
+                  borderRadius: BorderRadius.circular(12.r)),
+              child: SvgPicture.asset(
+                ImageConstants.notification,
+              ),
             ),
           ),
         ],
@@ -122,6 +139,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              memCacheHeight: memCacheHeight,
               imageUrl: controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
               placeholder: (context, url) => const ShimmerWidget(),
               errorWidget: (context, url, error) =>Container(

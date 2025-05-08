@@ -3,6 +3,8 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 
+import '../../../Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
+
 class AddProductWishlistController extends GetxController {
   final RestaurantCategoriesDetailsController
       restaurantCategoriesDetailsController =
@@ -23,10 +25,12 @@ class AddProductWishlistController extends GetxController {
       add_Wishlist.value = value;
 
   void setError(String value) => error.value = value;
+  final RestaurantDetailsController restaurantDetailsController = Get.put(RestaurantDetailsController());
 
   Future<void> restaurant_add_product_wishlist({
     required String categoryId,
     required String product_id,
+    String? restaurantId,
   }) async {
     setRxRequestStatus(Status.LOADING);
     Map data = {"product_id": product_id};
@@ -38,6 +42,12 @@ class AddProductWishlistController extends GetxController {
         if (categoryId == "") {
           restaurantWishlistController.restaurant_product_wishlist_api();
         }
+        restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId);
+        if(restaurantId != null){
+          restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantId.toString());
+        }
+        restaurantWishlistController.restaurantProductWishlistRefreshApi();
+
         Utils.showToast(add_Wishlist.value.message.toString());
       } else {
         Utils.showToast(add_Wishlist.value.message.toString());

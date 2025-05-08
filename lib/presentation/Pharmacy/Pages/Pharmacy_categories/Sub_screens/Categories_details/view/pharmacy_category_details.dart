@@ -16,9 +16,9 @@ class PharmacyCategoryDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var args = Get.arguments;
+    var args = Get.arguments ?? {};
     String categoryTitle = args['name'] ?? "";
-    int categoryId = args['id'];
+    int categoryId = args['id'] ?? 0;
     return Scaffold(
       appBar: CustomAppBar(
         title: Text(

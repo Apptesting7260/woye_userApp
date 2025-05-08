@@ -52,6 +52,27 @@ class Grocerycategoriesdetailscontroller extends GetxController {
     });
   }
 
+  refreshGroceryCategoriesDetailsApi({
+    required String id,
+  }) async {
+    // searchController.clear();
+    // filterProductSearchData.clear();
+    // searchData.clear();
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {"category_id": id};
+    api.groceryCategoriesDetailsApi(data).then((value) {
+      categories_Set(value);
+      searchDataFun(searchController.text);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
   RxList<CategoryProduct> filterProductSearchData = RxList<CategoryProduct>();
 
   void filterSearchDataFun(String query) {

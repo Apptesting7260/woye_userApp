@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
@@ -23,12 +24,14 @@ class GroceryProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
+  bool? isWishList;
 
   GroceryProductDetailsScreen({
     super.key,
     required this.productId,
     required this.categoryId,
     required this.categoryName,
+    this.isWishList,
   });
 
   final GrocerySpecificProductController controller =
@@ -111,6 +114,8 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                 controller.productData.value.product?.isInWishlist =
                     !controller.productData.value.product!.isInWishlist!;
                 await addGroceryProductWishlist.pharmacy_add_product_wishlist(
+                  isWishListScreen: isWishList,
+                  groceryId: controller.productData.value.product?.userId.toString() ?? "",
                   categoryId: categoryId,
                   product_id: productId.toString(),
                 );
@@ -236,6 +241,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           () => ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              memCacheHeight: memCacheHeight,
               imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
@@ -298,6 +304,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
+                          memCacheHeight: memCacheHeight,
                           imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           width: 75.h,
@@ -915,28 +922,28 @@ class GroceryProductDetailsScreen extends StatelessWidget {
               "Similar Products",
               style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
-            InkWell(
-              onTap: () {
-                Get.toNamed(AppRoutes.pharmacyMoreProduct);
-              },
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "See All",
-                    style: AppFontStyle.text_14_600(AppColors.primary),
-                  ),
-                  wBox(4),
-                  Icon(
-                    Icons.arrow_forward_sharp,
-                    color: AppColors.primary,
-                    size: 18,
-                  )
-                ],
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //     Get.toNamed(AppRoutes.pharmacyMoreProduct);
+            //   },
+            //   splashColor: Colors.transparent,
+            //   highlightColor: Colors.transparent,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text(
+            //         "See All",
+            //         style: AppFontStyle.text_14_600(AppColors.primary),
+            //       ),
+            //       wBox(4),
+            //       Icon(
+            //         Icons.arrow_forward_sharp,
+            //         color: AppColors.primary,
+            //         size: 18,
+            //       )
+            //     ],
+            //   ),
+            // ),
           ],
         ),
         hBox(20.h),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
@@ -22,12 +23,14 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
+  // final String pharmacyId;
 
   PharmacyProductDetailsScreen({
     super.key,
     required this.productId,
     required this.categoryId,
     required this.categoryName,
+    // required this.pharmacyId,
   });
 
   final PharmaSpecificProductController controller =
@@ -112,9 +115,13 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 !controller.productData.value.product!.isInWishlist!;
                 await addPharmaProductWishlistController
                     .pharmacy_add_product_wishlist(
+                  // pharmacyId: pharmacyId.toString(),
+                  isRefresh: true,
                   categoryId: categoryId,
                   product_id: productId.toString(),
-                );
+                ).then((value) {
+                  pharmacyDetailsController.refresh_restaurant_Details_Api(id:controller.productData.value.product!.userId.toString());
+                },);
                 controller.isLoading.value = false;
               },
               child: Container(
@@ -236,6 +243,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           () => ClipRRect(
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
+              memCacheHeight: memCacheHeight,
               imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
@@ -994,28 +1002,28 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
               "Similar Products",
               style: AppFontStyle.text_20_600(AppColors.darkText),
             ),
-            InkWell(
-              onTap: () {
-                Get.toNamed(AppRoutes.pharmacyMoreProduct);
-              },
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "See All",
-                    style: AppFontStyle.text_14_600(AppColors.primary),
-                  ),
-                  wBox(4),
-                  Icon(
-                    Icons.arrow_forward_sharp,
-                    color: AppColors.primary,
-                    size: 18,
-                  )
-                ],
-              ),
-            ),
+            // InkWell(
+            //   onTap: () {
+            //     Get.toNamed(AppRoutes.pharmacyMoreProduct);
+            //   },
+            //   splashColor: Colors.transparent,
+            //   highlightColor: Colors.transparent,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Text(
+            //         "See All",
+            //         style: AppFontStyle.text_14_600(AppColors.primary),
+            //       ),
+            //       wBox(4),
+            //       Icon(
+            //         Icons.arrow_forward_sharp,
+            //         color: AppColors.primary,
+            //         size: 18,
+            //       )
+            //     ],
+            //   ),
+            // ),
           ],
         ),
         hBox(20.h),

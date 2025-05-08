@@ -44,7 +44,7 @@ class RestaurantWishlistController extends GetxController {
 
   restaurantProductWishlistRefreshApi() async {
     searchController.clear();
-    setRxRequestStatus(Status.LOADING);
+    // setRxRequestStatus(Status.LOADING);
     api.Restaurant_All_product_wishlist_Api().then((value) {
       wishlist_Set(value);
       filterWishlistData(searchController.text);
