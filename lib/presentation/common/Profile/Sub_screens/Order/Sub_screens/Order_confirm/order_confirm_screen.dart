@@ -46,7 +46,9 @@ class OrderConfirmScreen extends StatelessWidget {
               CustomElevatedButton(
                   text: "Track Oder",
                   onPressed: () {
-                    Get.toNamed(AppRoutes.trackOrder);
+                    Get.toNamed(AppRoutes.trackOrder,
+                        arguments: {'type': cartType}
+                    );
                   }),
               hBox(20),
               CustomOutlinedButton(

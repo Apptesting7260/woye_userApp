@@ -1,13 +1,19 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
-class OrderReveivedScreen extends StatelessWidget {
-  const OrderReveivedScreen({super.key});
+import '../../../../../Home/home_controller.dart';
 
-  static RestaurantNavbarController restaurantNavbarController =
-      RestaurantNavbarController();
+class OrderReveivedScreen extends StatelessWidget {
+  OrderReveivedScreen({super.key});
+
+  static RestaurantNavbarController restaurantNavbarController =RestaurantNavbarController();
+
+ final HomeController homeController = Get.put(HomeController());
+
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments ?? {};
+    String cartType = arguments['type'] ?? "";
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -40,12 +46,26 @@ class OrderReveivedScreen extends StatelessWidget {
             CustomElevatedButton(
                 text: "Continue shopping",
                 onPressed: () async {
-                  await Get.offAllNamed(AppRoutes.restaurantNavbar);
+                  if (cartType == "restaurant") {
+                    // await Get.offAllNamed(AppRoutes.restaurantNavbar);
+                    homeController.getIndex(0);
+                    homeController.navigate(0);
+                  } else if (cartType == "pharmacy") {
+                    homeController.getIndex(1);
+                    homeController.navigate(1);
+                    //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
+                  }else if(cartType == "grocery"){
+                    homeController.getIndex(2);
+                    homeController.navigate(2);
+                  }
+                  // await Get.offAllNamed(AppRoutes.restaurantNavbar);
                 }),
             hBox(20),
             CustomOutlinedButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.reviewDriver);
+                Get.toNamed(AppRoutes.reviewDriver,
+                    arguments: {'type': cartType}
+                );
               },
               child: const Text("Review This Driver"),
             ),

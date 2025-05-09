@@ -5,6 +5,8 @@ class TrackOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments ?? {};
+    String cartType = arguments['type'] ?? "";
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -32,7 +34,7 @@ class TrackOrderScreen extends StatelessWidget {
             hBox(20),
             addressBar(),
             hBox(20),
-            orderButton(),
+            orderButton(cartType),
             hBox(50)
           ],
         ),
@@ -316,12 +318,14 @@ class TrackOrderScreen extends StatelessWidget {
     );
   }
 
-  Widget orderButton() {
+  Widget orderButton(String? cartType) {
     return CustomElevatedButton(
-        color: AppColors.lightPrimary,
+        color: AppColors.primary  ,
         text: "Order Received",
         onPressed: () {
-          Get.toNamed(AppRoutes.orderReveived);
+          Get.toNamed(AppRoutes.orderReveived,
+              arguments: {'type': cartType}
+          );
         });
   }
 }

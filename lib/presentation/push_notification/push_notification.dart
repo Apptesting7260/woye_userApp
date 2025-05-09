@@ -99,7 +99,9 @@ class PushNotificationService {
             "pageIndex" : 1,
           });
         }else if( message.notification?.title == "Order Rejected"
-            || message.notification?.title == "Order Rejected Notification"){
+            || message.notification?.title == "Order Cancelled"
+            || message.notification?.title == "Order Rejected Notification"
+            || message.notification?.title == "Order has been cancelled"){
           Get.toNamed(AppRoutes.orders,arguments: {
             "pageIndex" : 3,
           });
@@ -196,12 +198,24 @@ class PushNotificationService {
     final String? payload = notificationResponse.payload;
     if (notificationResponse.payload != null) {
       debugPrint('notification payload: $payload');
-      if(notificationResponse.payload.toString() == 'Order Placed Successfully' ||
-          notificationResponse.payload.toString() == "Order Delivered"
-          || notificationResponse.payload.toString() == "Order Accepted"
-          || notificationResponse.payload.toString() == "Order Cancelled"
-      ){
+      if(notificationResponse.payload.toString()  == "Order Placed Successfully"){
         Get.toNamed(AppRoutes.orders);
+      } else if(notificationResponse.payload.toString()  == "Order Delivered"){
+        Get.toNamed(AppRoutes.orders,arguments: {
+          "pageIndex" : 2,
+        });
+      }else if(notificationResponse.payload.toString()  == "Order Accepted"
+          || notificationResponse.payload.toString()  == "Order Accepted Notification"){
+        Get.toNamed(AppRoutes.orders,arguments: {
+          "pageIndex" : 1,
+        });
+      }else if(notificationResponse.payload.toString() == "Order Rejected"
+          ||notificationResponse.payload.toString()  == "Order Rejected Notification"
+          ||notificationResponse.payload.toString()  == "Order Cancelled"
+          ||notificationResponse.payload.toString()  == "Order has been cancelled"){
+        Get.toNamed(AppRoutes.orders,arguments: {
+          "pageIndex" : 3,
+        });
       }
     }
   }

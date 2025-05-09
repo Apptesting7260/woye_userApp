@@ -1,10 +1,14 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/common/Home/home_controller.dart';
 
 class ReviewDriverScreen extends StatelessWidget {
-  const ReviewDriverScreen({super.key});
+  ReviewDriverScreen({super.key});
 
+  final HomeController homeController = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments ??{};
+    String cartType = arguments['type'] ?? "";
     return Scaffold(
       appBar: const CustomAppBar(
         isLeading: true,
@@ -20,7 +24,7 @@ class ReviewDriverScreen extends StatelessWidget {
             hBox(30),
             review(),
             hBox(15),
-            submitButton()
+            submitButton(cartType)
           ],
         ),
       ),
@@ -120,11 +124,22 @@ class ReviewDriverScreen extends StatelessWidget {
     );
   }
 
-  Widget submitButton() {
+  Widget submitButton(cartType) {
     return CustomElevatedButton(
         text: "Submit",
         onPressed: () async {
-          await Get.offAllNamed(AppRoutes.restaurantNavbar);
+          if (cartType == "restaurant") {
+            // await Get.offAllNamed(AppRoutes.restaurantNavbar);
+            homeController.getIndex(0);
+            homeController.navigate(0);
+          } else if (cartType == "pharmacy") {
+            homeController.getIndex(1);
+            homeController.navigate(1);
+            //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
+          }else if(cartType == "grocery"){
+            homeController.getIndex(2);
+            homeController.navigate(2);
+          }
         });
   }
 }
