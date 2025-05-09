@@ -102,9 +102,11 @@ class LoginController extends GetxController {
               'countryCode': '${selectedCountryCode.value.toString()}',
               'mob': '${mobNoCon.value.text.trim().toString()}',
             },
-          );
+          )?.then((value) {
+            return mobNoCon.value.clear();
+          },);
           isLoding.value = false;
-          mobNoCon.value.clear();
+
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
@@ -127,8 +129,7 @@ class LoginController extends GetxController {
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
-        phoneNumber:
-            '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+        phoneNumber: '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
          // await auth.signInWithCredential(credential);
         },

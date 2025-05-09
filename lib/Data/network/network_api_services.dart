@@ -139,6 +139,9 @@ class NetworkApiServices extends BaseApiServices {
       case 404:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
+      case 403:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
       case 503:
         throw UnauthenticatedException();
       case 500:

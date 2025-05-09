@@ -35,10 +35,16 @@ class PharmaSpecificProductController extends GetxController {
       "category_id": categoryId,
     };
     api.pharmacySpecificProductApi(data).then((value) {
+      if(value.status == true){
       goToCart.value = false;
       isSelected = (-1).obs;
       productdata_Set(value);
       setRxRequestStatus(Status.COMPLETED);
+      }else if(value.status == false){
+        Get.back();
+        setRxRequestStatus(Status.ERROR);
+        Utils.showToast("Product is not active.");
+      }
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);

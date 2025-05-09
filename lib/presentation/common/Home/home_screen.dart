@@ -161,6 +161,7 @@ class HomeScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                    // showLocationDialog();
+                    Get.toNamed(AppRoutes.notifications);
                   },
                   child: Container(
                     padding: REdgeInsets.all(9),

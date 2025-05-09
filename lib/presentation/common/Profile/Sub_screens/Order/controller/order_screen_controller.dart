@@ -6,6 +6,10 @@ class OrderScreenController extends GetxController {
 
   @override
   void onInit() {
+    var arguments = Get.arguments ?? {};
+    if (arguments['pageIndex'] != null && arguments['pageIndex'] is int) {
+      pageIndex = arguments['pageIndex'] as int;
+    }
     getOrdersListApi();
     // TODO: implement onInit
     super.onInit();

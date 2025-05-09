@@ -102,7 +102,10 @@ class CheckoutScreen extends StatelessWidget {
     controller.payAfterWallet.value = double.parse(total.toString());
     controller.walletSelected.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ?  false : true;
     controller.isSelectable.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ? false : true;
-    controller.selectedIndex.value = 0;
+    controller.selectedIndex.value = -1;
+    print("Updated payAfterWallet 1: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+    print("Updated payAfterWallet 1: ${controller.selectedIndex.value}");
+
     },);
 
     return SafeArea(
@@ -136,7 +139,8 @@ class CheckoutScreen extends StatelessWidget {
                     || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING
                     || pharmacyCartController.rxRequestStatusCreateOrder.value == Status.LOADING,
                   onPressed: () {
-                    if(!controller.isSelectable.value &&  controller.selectedIndex.value == 0) {
+                    print("controller.selectedIndex.value : ${controller.selectedIndex.value}");
+                    if(!controller.isSelectable.value &&  controller.selectedIndex.value == 0 || !controller.isSelectable.value &&  controller.selectedIndex.value == -1 ) {
                       Utils.showToast("Payment method not available");
                     }
                     else{
@@ -317,108 +321,204 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 
+  // Widget wallet({required String walletBalance, required String totalPrice}) {
+  //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+  //     controller.walletSelected.value = double.parse(walletBalance.replaceAll(",", "")) <= 0.0 ? false : true;
+  //   },);
+  //   return Obx(() {
+  //     if (controller.walletSelected.value) {
+  //       double walletBalanceDouble =double.parse(walletBalance.replaceAll(",", "")) ?? 0.0;
+  //       double totalPriceDouble = double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
+  //       if (walletBalanceDouble >= totalPriceDouble) {
+  //         controller.payAfterWallet.value = 0.00;
+  //         controller.walletDiscount.value = totalPriceDouble;
+  //         controller.isSelectable.value = true;
+  //         print("Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+  //         print("Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
+  //       }}
+  //     // if(double.tryParse(totalPrice.replaceAll(",", ""))! > 0.0 && controller.walletSelected.value){
+  //     //   controller.payAfterWallet.value = 0.00;
+  //     //   controller.walletDiscount.value = double.tryParse(totalPrice.replaceAll(",", ""))!;
+  //     // }
+  //     // if(double.parse(walletBalance.replaceAll(",", "")) < double.tryParse(totalPrice.replaceAll(",", ""))!){
+  //     //
+  //     // }
+  //       return IgnorePointer(
+  //       ignoring: walletBalance == "0" ? true : false,
+  //       child: InkWell(
+  //         splashColor: Colors.transparent,
+  //         highlightColor: Colors.transparent,
+  //         onTap: () {
+  //           double walletBalanceDouble =double.parse(walletBalance.replaceAll(",", "")) ?? 0.0;
+  //           double totalPriceDouble = double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
+  //
+  //           if(walletBalanceDouble > 0.0){
+  //             controller.walletSelected.value = !controller.walletSelected.value;
+  //           }
+  //           if(walletBalanceDouble > totalPriceDouble && controller.walletSelected.value){
+  //             controller.selectedIndex.value = 0;
+  //           }
+  //
+  //           if (!controller.walletSelected.value) {
+  //             controller.isSelectable.value = false;
+  //           }
+  //
+  //           if (controller.walletSelected.value) {
+  //             if (walletBalanceDouble >= totalPriceDouble) {
+  //               controller.payAfterWallet.value = 0.00;
+  //               controller.walletDiscount.value = totalPriceDouble;
+  //               controller.isSelectable.value = true;
+  //               print("Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+  //               print("Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
+  //             } else {
+  //               controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
+  //               controller.walletDiscount.value = walletBalanceDouble;
+  //               print("Updated payAfterWallet 2: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+  //               print("Wallet discount 2: ${controller.walletDiscount.value.toStringAsFixed(2)}");
+  //             }
+  //           } else {
+  //             controller.payAfterWallet.value = totalPriceDouble;
+  //             controller.walletDiscount.value = 0.00;
+  //             print("Updated payAfterWallet 3: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+  //             print("Wallet discount 3: ${controller.walletDiscount.value.toStringAsFixed(2)}");
+  //           }
+  //           controller.update();
+  //           // controller.payAfterWallet.value =
+  //           //     double.tryParse(controller.payAfterWallet.value.toStringAsFixed(2))!;
+  //           // controller.walletDiscount.value =
+  //           //     double.tryParse(controller.walletDiscount.value.toStringAsFixed(2))!;
+  //
+  //           // print("Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
+  //           // print(
+  //           //     "Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
+  //         },
+  //         child: Container(
+  //           padding: EdgeInsets.all(16.r),
+  //           decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(15.r),
+  //               border: Border.all(
+  //                   color: controller.walletSelected.value
+  //                       ? AppColors.primary
+  //                       : AppColors.lightPrimary)),
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.start,
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Expanded(
+  //                 flex: 9,
+  //                 child: Row(
+  //                   children: [
+  //                     SvgPicture.asset("assets/svg/wallet.svg"),
+  //                     wBox(10),
+  //                     Text(
+  //                       "My Wallet (\$$walletBalance)",
+  //                       style: AppFontStyle.text_16_400(AppColors.darkText),
+  //                     ),
+  //                     const Spacer(),
+  //                   ],
+  //                 ),
+  //               ),
+  //               wBox(6),
+  //               Expanded(
+  //                 flex: 1,
+  //                 child: Container(
+  //                   margin: EdgeInsets.only(top: 5.r),
+  //                   height: 20.h,
+  //                   width: 20.h,
+  //                   decoration: BoxDecoration(
+  //                       shape: BoxShape.circle,
+  //                       border: Border.all(color: AppColors.primary)),
+  //                   child: controller.walletSelected.value
+  //                       ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+  //                       : null,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //     },
+  //   );
+  // }
   Widget wallet({required String walletBalance, required String totalPrice}) {
-    // controller.walletSelected.value = false;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      controller.walletSelected.value = double.parse(walletBalance.replaceAll(",", "")) <= 0.0 ? false : true;
-    },);
+    return Obx(() {
+      final double walletBalanceDouble = double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
+      final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
 
-    return Obx(
-      () => IgnorePointer(
-        ignoring: walletBalance == "0" ? true : false,
+      return IgnorePointer(
+        ignoring: walletBalanceDouble <= 0.0,
         child: InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () {
-            double walletBalanceDouble =double.parse(walletBalance.replaceAll(",", "")) ?? 0.0;
-            double totalPriceDouble = double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
-
-            if(walletBalanceDouble > 0.0){
+            if (walletBalanceDouble > 0.0) {
               controller.walletSelected.value = !controller.walletSelected.value;
-            }
-            if(walletBalanceDouble > 0 && controller.walletSelected.value){
-              controller.selectedIndex.value = 0;
-            }
 
-            if (!controller.walletSelected.value) {
-              controller.isSelectable.value = false;
-            }
-
-            if (controller.walletSelected.value) {
-              if (walletBalanceDouble >= totalPriceDouble) {
-                controller.payAfterWallet.value = 0.00;
-                controller.walletDiscount.value = totalPriceDouble;
-                controller.isSelectable.value = true;
+              if (controller.walletSelected.value) {
+                if (walletBalanceDouble >= totalPriceDouble) {
+                  controller.payAfterWallet.value = 0.0;
+                  controller.walletDiscount.value = totalPriceDouble;
+                  controller.isSelectable.value = true;
+                  controller.selectedIndex.value = 0;
+                } else {
+                  controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
+                  controller.walletDiscount.value = walletBalanceDouble;
+                  controller.isSelectable.value = false;
+                }
               } else {
-                controller.payAfterWallet.value =
-                    totalPriceDouble - walletBalanceDouble;
-                controller.walletDiscount.value = walletBalanceDouble;
+                controller.payAfterWallet.value = totalPriceDouble;
+                controller.walletDiscount.value = 0.0;
+                controller.isSelectable.value = false;
+                controller.selectedIndex.value = 1;
               }
-            } else {
-              controller.payAfterWallet.value = totalPriceDouble;
-              controller.walletDiscount.value = 0.00;
+              controller.update();
             }
-            controller.update();
-            // controller.payAfterWallet.value =
-            //     double.tryParse(controller.payAfterWallet.value.toStringAsFixed(2))!;
-            // controller.walletDiscount.value =
-            //     double.tryParse(controller.walletDiscount.value.toStringAsFixed(2))!;
-
-            print(
-                "Updated payAfterWallet: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
-            print(
-                "Wallet discount: ${controller.walletDiscount.value.toStringAsFixed(2)}");
           },
           child: Container(
             padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.r),
-                border: Border.all(
-                    color: controller.walletSelected.value
-                        ? AppColors.primary
-                        : AppColors.lightPrimary)),
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(
+                color: controller.walletSelected.value
+                    ? AppColors.primary
+                    : AppColors.lightPrimary,
+              ),
+            ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  flex: 9,
-                  child: Row(
-                    children: [
-                      SvgPicture.asset("assets/svg/wallet.svg"),
-                      wBox(10),
-                      Text(
-                        "My Wallet (\$$walletBalance)",
-                        style: AppFontStyle.text_16_400(AppColors.darkText),
-                      ),
-                      const Spacer(),
-                    ],
-                  ),
+                SvgPicture.asset("assets/svg/wallet.svg"),
+                wBox(10),
+                Text(
+                  "My Wallet (\$$walletBalance)",
+                  style: AppFontStyle.text_16_400(AppColors.darkText),
                 ),
-                wBox(6),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 5.r),
-                    height: 20.h,
-                    width: 20.h,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.primary)),
-                    child: controller.walletSelected.value
-                        ? SvgPicture.asset("assets/svg/green-check-circle.svg")
-                        : null,
-                  ),
+                const Spacer(),
+                Container(
+                  margin: EdgeInsets.only(top: 5.r),
+                  height: 20.h,
+                  width: 20.h,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.primary)),
+                  child: controller.walletSelected.value
+                      ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+                      : null,
                 ),
               ],
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
-  Widget paymentMethod({walletBalance, totalPrice}) {
+
+  Widget paymentMethod({required String walletBalance, required String totalPrice}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.initializeWallet(walletBalance, totalPrice);
+    });
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -431,7 +531,7 @@ class CheckoutScreen extends StatelessWidget {
         hBox(15.h),
         methodList(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
-        PaymentMethodScreen().addNewCard()
+        PaymentMethodScreen().addNewCard(),
       ],
     );
   }
@@ -684,6 +784,25 @@ class CheckoutScreen extends StatelessWidget {
       ],
     );
   }
+
+
+// Widget paymentMethod({walletBalance, totalPrice}) {
+//   return Column(
+//     crossAxisAlignment: CrossAxisAlignment.start,
+//     children: [
+//       Text(
+//         "Payment Method",
+//         style: AppFontStyle.text_22_600(AppColors.darkText),
+//       ),
+//       hBox(15.h),
+//       wallet(walletBalance: walletBalance, totalPrice: totalPrice),
+//       hBox(15.h),
+//       methodList(walletBalance: walletBalance, totalPrice: totalPrice),
+//       hBox(15.h),
+//       PaymentMethodScreen().addNewCard()
+//     ],
+//   );
+// }
 
 // Widget paymentDetails(
 //     {regularPrice,

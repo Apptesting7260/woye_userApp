@@ -111,6 +111,7 @@ class CreateOrderController extends GetxController {
 
         if (createOrderData.value.status == true) {
           setRxRequestStatus(Status.COMPLETED);
+          // selectedIndex.value = -1;
           PrescriptionController prescriptionController = Get.put(PrescriptionController());
           prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
           Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': cartType});
@@ -134,4 +135,38 @@ class CreateOrderController extends GetxController {
   }
 
   void setError(String value) => error.value = value;
+
+  void initializeWallet(String walletBalanceStr, String totalPriceStr) {
+    final walletBalance = double.tryParse(walletBalanceStr.replaceAll(",", "")) ?? 0.0;
+    final totalPrice = double.tryParse(totalPriceStr.replaceAll(",", "")) ?? 0.0;
+
+    walletSelected.value = walletBalance > 0.0;
+
+    if (walletBalance >= totalPrice) {
+      // Full payment via wallet
+      walletDiscount.value = totalPrice;
+      payAfterWallet.value = 0.0;
+      isSelectable.value = true;
+      selectedIndex.value = 0; // Wallet only
+      update();
+    } else if (walletBalance > 0.0) {
+      // Partial wallet, remaining with another method
+      walletDiscount.value = walletBalance;
+      payAfterWallet.value = totalPrice - walletBalance;
+      isSelectable.value = false;
+      selectedIndex.value = -1; // ❗ Do not pre-select any method
+      update();
+
+    } else {
+      // No wallet used
+      walletSelected.value = false;
+      walletDiscount.value = 0.0;
+      payAfterWallet.value = totalPrice;
+      isSelectable.value = false;
+      selectedIndex.value = -1; // ❗ Do not pre-select any method
+      update();
+
+    }
+  }
+
 }

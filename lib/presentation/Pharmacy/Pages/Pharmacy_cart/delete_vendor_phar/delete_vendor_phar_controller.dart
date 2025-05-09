@@ -35,6 +35,10 @@ class DeleteVendorPharController extends GetxController{
         if(!isSingleCartScreen){
           Get.back();
         }
+      }else if(value.status == false){
+        setRxDeleteVendorStatus(Status.ERROR);
+        Utils.showToast(value.message.toString());
+        Get.back();
       }
     },).onError((error, _) {
       debugPrint("Error delete vendor $error");

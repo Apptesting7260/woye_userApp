@@ -133,13 +133,10 @@ class LoginScreen extends StatelessWidget {
           isLoading: (loginController.isLoding.value || checkUserController.rxRequestStatus.value == Status.LOADING),
           onPressed: () async {
             if (loginController.loginFormKey.currentState!.validate()) {
-              checkUserController
-                  .checkUserApi(
+              checkUserController.checkUserApi(
                 isLoginType: true,
-                      country_code:
-                          loginController.selectedCountryCode.value.toString(),
-                      mobile:
-                          loginController.mobNoCon.value.text.trim().toString())
+                country_code: loginController.selectedCountryCode.value.toString(),
+                mobile: loginController.mobNoCon.value.text.trim().toString())
                   .then((value) {
                 print("object ${checkUserController.checkUser.value.status}");
                 if (checkUserController.checkUser.value.status == true) {

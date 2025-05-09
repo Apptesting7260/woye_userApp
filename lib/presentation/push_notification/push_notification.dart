@@ -87,8 +87,22 @@ class PushNotificationService {
       if (message.notification != null) {
         showNotification(message.notification);
         print("Notification message :: ${message.notification}");
-        if(message.notification?.title == "Order Placed Successfully" || message.notification?.title == "Order Delivered"){
+        if(message.notification?.title == "Order Placed Successfully"){
           Get.toNamed(AppRoutes.orders);
+        } else if(message.notification?.title == "Order Delivered"){
+          Get.toNamed(AppRoutes.orders,arguments: {
+            "pageIndex" : 2,
+          });
+        }else if(message.notification?.title == "Order Accepted"
+            || message.notification?.title == "Order Accepted Notification"){
+          Get.toNamed(AppRoutes.orders,arguments: {
+            "pageIndex" : 1,
+          });
+        }else if( message.notification?.title == "Order Rejected"
+            || message.notification?.title == "Order Rejected Notification"){
+          Get.toNamed(AppRoutes.orders,arguments: {
+            "pageIndex" : 3,
+          });
         }
       }
     });
