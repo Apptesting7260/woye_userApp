@@ -25,6 +25,7 @@ class ProductDetailsScreen extends StatelessWidget {
   final String categoryId;
   final String categoryName;
   final String? restaurantId;
+  bool? fromCart;
 
   ProductDetailsScreen({
     super.key,
@@ -32,24 +33,31 @@ class ProductDetailsScreen extends StatelessWidget {
     required this.categoryId,
     required this.categoryName,
     this.restaurantId,
+    this.fromCart,
   });
 
   // final RestaurantHomeController restaurantHomeController =
   // Get.put(RestaurantHomeController());
 
-  final AddProductWishlistController addWishlistController = Get.put(AddProductWishlistController());
+  final AddProductWishlistController addWishlistController =
+      Get.put(AddProductWishlistController());
 
-  final specific_Product_Controller controller = Get.put(specific_Product_Controller());
+  final specific_Product_Controller controller =
+      Get.put(specific_Product_Controller());
 
-  final AddToCartController addToCartController = Get.put(AddToCartController());
+  final AddToCartController addToCartController =
+      Get.put(AddToCartController());
 
-  final seeAll_Product_Controller seeAllProductController = Get.put(seeAll_Product_Controller());
+  final seeAll_Product_Controller seeAllProductController =
+      Get.put(seeAll_Product_Controller());
 
-  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
-  final RestaurantDetailsController restaurantDetailsController = Get.put(RestaurantDetailsController());
-  final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
-
+  final RestaurantDetailsController restaurantDetailsController =
+      Get.put(RestaurantDetailsController());
+  final RestaurantCartController restaurantCartController =
+      Get.put(RestaurantCartController());
 
   // final SeeAllProductReviewController seeAllProductReviewController = Get.put(SeeAllProductReviewController());
 
@@ -65,7 +73,12 @@ class ProductDetailsScreen extends StatelessWidget {
               // print("is cart screen : ${restaurantCartController.isCartScreen.value }");
               // restaurantCartController.isCartScreen.value ?
               // Get.toNamed(AppRoutes.restaurantNavbar) :
-              Get.to(()=>const RestaurantCartScreen(isBack: true));
+              if (fromCart != null && fromCart == true) {
+                Get.back();
+              } else {
+                Get.off(() => const RestaurantCartScreen(isBack: true));
+              }
+
               controller.goToCart.value = false;
               controller.cartCount.value = 1;
             },
@@ -84,33 +97,42 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
                 Obx(
-                () {
-                  return restaurantCartController.cartData.value.cart?.totalProductsInCart == null
-                  || restaurantCartController.cartData.value.cart?.totalProductsInCart == 0
-                  ? const SizedBox.shrink():
-                  Positioned(
-                    right: -3,
-                    top: -8,
-                    child: Container(
-                      padding: REdgeInsets.all(4),
-                      // margin: REdgeInsets.all(4),
-                      // height: 44.h,
-                      // width: 44.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.black.withOpacity(0.75),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 1.5),
-                        child: Center(
-                          child: Text(restaurantCartController.cartData.value.cart?.totalProductsInCart.toString() ?? "",
-                              style: TextStyle(fontSize: 9,color: AppColors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                  () {
+                    return restaurantCartController
+                                    .cartData.value.cart?.totalProductsInCart ==
+                                null ||
+                            restaurantCartController
+                                    .cartData.value.cart?.totalProductsInCart ==
+                                0
+                        ? const SizedBox.shrink()
+                        : Positioned(
+                            right: -3,
+                            top: -8,
+                            child: Container(
+                              padding: REdgeInsets.all(4),
+                              // margin: REdgeInsets.all(4),
+                              // height: 44.h,
+                              // width: 44.h,
+                              decoration: BoxDecoration(
+                                color: AppColors.black.withOpacity(0.75),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 1.5),
+                                child: Center(
+                                  child: Text(
+                                    restaurantCartController.cartData.value.cart
+                                            ?.totalProductsInCart
+                                            .toString() ??
+                                        "",
+                                    style: TextStyle(
+                                        fontSize: 9, color: AppColors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                  },
                 ),
               ],
             ),
@@ -211,7 +233,8 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                       if (controller.productData.value.product!.addOn != null)
                         hBox(30),
-                      Obx(() => controller.goToCart.value == true
+                      Obx(
+                        () => controller.goToCart.value == true
                             ? CustomElevatedButton(
                                 width: Get.width,
                                 color: AppColors.primary,
@@ -222,9 +245,15 @@ class ProductDetailsScreen extends StatelessWidget {
                                 onPressed: () {
                                   // restaurantCartController.isCartScreen.value ?
                                   // Get.toNamed(AppRoutes.restaurantNavbar) :
-                                  Get.to(()=>const RestaurantCartScreen(isBack: true));
-                                    controller.goToCart.value = false;
-                                    controller.cartCount.value = 1;
+                                  if (fromCart != null && fromCart == true) {
+                                    Get.back();
+                                  } else {
+                                    Get.to(() => const RestaurantCartScreen(
+                                        isBack: true));
+                                  }
+
+                                  controller.goToCart.value = false;
+                                  controller.cartCount.value = 1;
                                 })
                             : CustomElevatedButton(
                                 width: Get.width,

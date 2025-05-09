@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_details_modal.dart';
@@ -41,6 +42,17 @@ class PharmacyDetailsController extends GetxController {
       double? apiLongitude = pharma_Data.value.pharmaShop?.longitude != null
           ? double.tryParse(pharma_Data.value.pharmaShop!.longitude!)
           : null;
+
+      // Debug logging for coordinates
+      print("\nDistance Calculation Debug:");
+      print("User Coordinates:");
+      print("Latitude: ${latitude.value}");
+      print("Longitude: ${longitude.value}");
+
+      print("\nPharmacy Coordinates:");
+      print("Latitude: ${apiLatitude}");
+      print("Longitude: ${apiLongitude}");
+
       if (apiLatitude != null && apiLongitude != null) {
         distance.value = calculateDistance(
           latitude.value,
@@ -48,6 +60,16 @@ class PharmacyDetailsController extends GetxController {
           apiLatitude,
           apiLongitude,
         );
+
+        // Show snackbar with coordinates
+        String userCoords =
+            "User: Lat ${latitude.value.toStringAsFixed(6)}, Lon ${longitude.value.toStringAsFixed(6)}";
+        String pharmacyCoords =
+            "Pharmacy: Lat ${apiLatitude.toStringAsFixed(6)}, Lon ${apiLongitude.toStringAsFixed(6)}";
+        String message = "Coordinates:\n\n$userCoords\n\n$pharmacyCoords";
+        // Utils.showToast(
+        //   "${message}",
+        // );
       }
 
       print("Location from api ${pharma_Data.value.pharmaShop?.shopAddress}");
@@ -87,6 +109,17 @@ class PharmacyDetailsController extends GetxController {
       double? apiLongitude = pharma_Data.value.pharmaShop?.longitude != null
           ? double.tryParse(pharma_Data.value.pharmaShop!.longitude!)
           : null;
+
+      // Debug logging for coordinates
+      print("\nDistance Calculation Debug:");
+      print("User Coordinates:");
+      print("Latitude: ${latitude.value}");
+      print("Longitude: ${longitude.value}");
+
+      print("\nPharmacy Coordinates:");
+      print("Latitude: ${apiLatitude}");
+      print("Longitude: ${apiLongitude}");
+
       if (apiLatitude != null && apiLongitude != null) {
         distance.value = calculateDistance(
           latitude.value,
@@ -94,6 +127,15 @@ class PharmacyDetailsController extends GetxController {
           apiLatitude,
           apiLongitude,
         );
+
+        // Show snackbar with coordinates
+        String userCoords =
+            "User: Lat ${latitude.value.toStringAsFixed(6)}, Lon ${longitude.value.toStringAsFixed(6)}";
+        String pharmacyCoords =
+            "Pharmacy: Lat ${apiLatitude.toStringAsFixed(6)}, Lon ${apiLongitude.toStringAsFixed(6)}";
+        String message = "Coordinates:\n\n$userCoords\n\n$pharmacyCoords";
+
+        Utils.showToast(message);
       }
 
       print("Location from api ${pharma_Data.value.pharmaShop?.shopAddress}");

@@ -23,6 +23,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
+  bool? fromCart;
   // final String pharmacyId;
 
   PharmacyProductDetailsScreen({
@@ -30,6 +31,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     required this.productId,
     required this.categoryId,
     required this.categoryName,
+    this.fromCart,
     // required this.pharmacyId,
   });
 
@@ -44,9 +46,10 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   final AddPharmaProductWishlistController addPharmaProductWishlistController =
       Get.put(AddPharmaProductWishlistController());
 
-
-  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
-  final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
+  final PharmacyCartController pharmacyCartController =
+      Get.put(PharmacyCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,11 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(()=>const PharmacyCartScreen(isBack: true));
+              if (fromCart != null && fromCart == true) {
+                Get.back();
+              } else {
+                Get.off(() => const PharmacyCartScreen(isBack: true));
+              }
               controller.goToCart.value = false;
               controller.cartCount.value = 1;
             },
@@ -74,33 +81,39 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                     ImageConstants.cart,
                   ),
                 ),
-
                 Obx(
                   () {
-                    return (pharmacyCartController.cartDataAll.value.carts?.isEmpty ?? true) ?
-                    const SizedBox.shrink() : Positioned(
-                    right: -3,
-                    top: -8,
-                    child: Container(
-                      padding: REdgeInsets.all(4),
-                      // margin: REdgeInsets.all(4),
-                      // height: 44.h,
-                      // width: 44.h,
-                      decoration: BoxDecoration(
-                        color: AppColors.black.withOpacity(0.8),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 1.5),
-                        child: Center(
-                          child: Text(
-                              pharmacyCartController.cartDataAll.value.carts?.length.toString() ?? "",
-                              style: TextStyle(fontSize: 9,color: AppColors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
+                    return (pharmacyCartController
+                                .cartDataAll.value.carts?.isEmpty ??
+                            true)
+                        ? const SizedBox.shrink()
+                        : Positioned(
+                            right: -3,
+                            top: -8,
+                            child: Container(
+                              padding: REdgeInsets.all(4),
+                              // margin: REdgeInsets.all(4),
+                              // height: 44.h,
+                              // width: 44.h,
+                              decoration: BoxDecoration(
+                                color: AppColors.black.withOpacity(0.8),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 1.5),
+                                child: Center(
+                                  child: Text(
+                                    pharmacyCartController
+                                            .cartDataAll.value.carts?.length
+                                            .toString() ??
+                                        "",
+                                    style: TextStyle(
+                                        fontSize: 9, color: AppColors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
                   },
                 ),
               ],
@@ -112,16 +125,21 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
               onTap: () async {
                 controller.isLoading.value = true;
                 controller.productData.value.product?.isInWishlist =
-                !controller.productData.value.product!.isInWishlist!;
+                    !controller.productData.value.product!.isInWishlist!;
                 await addPharmaProductWishlistController
                     .pharmacy_add_product_wishlist(
                   // pharmacyId: pharmacyId.toString(),
                   isRefresh: true,
                   categoryId: categoryId,
                   product_id: productId.toString(),
-                ).then((value) {
-                  pharmacyDetailsController.refresh_restaurant_Details_Api(id:controller.productData.value.product!.userId.toString());
-                },);
+                )
+                    .then(
+                  (value) {
+                    pharmacyDetailsController.refresh_restaurant_Details_Api(
+                        id: controller.productData.value.product!.userId
+                            .toString());
+                  },
+                );
                 controller.isLoading.value = false;
               },
               child: Container(
@@ -135,12 +153,12 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 child: controller.isLoading.value
                     ? circularProgressIndicator(size: 18)
                     : Icon(
-                  controller.productData.value.product?.isInWishlist !=
-                      true
-                      ? Icons.favorite_outline_sharp
-                      : Icons.favorite_outlined,
-                  size: 24.w,
-                ),
+                        controller.productData.value.product?.isInWishlist !=
+                                true
+                            ? Icons.favorite_outline_sharp
+                            : Icons.favorite_outlined,
+                        size: 24.w,
+                      ),
               ),
             );
           }),
@@ -196,9 +214,11 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       //
 
                       //
-                      if (controller.productData.value.product!.variant!.isNotEmpty)
+                      if (controller
+                          .productData.value.product!.variant!.isNotEmpty)
                         variant(context: context),
-                      if (controller.productData.value.product!.variant!.isNotEmpty)
+                      if (controller
+                          .productData.value.product!.variant!.isNotEmpty)
                         hBox(20),
                       description(),
                       hBox(30),
@@ -474,7 +494,8 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 height: 20.h,
                 width: 20.h,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.error),
               ),
             ),
             wBox(5),
@@ -794,7 +815,15 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                             (Status.LOADING),
                     text: "Go to Cart",
                     onPressed: () {
-                      Get.to((()=>const PharmacyCartScreen(isBack: true,/*cartId: pharmacyAddToCarController.cartId.value.toString()*/)));
+                      if (fromCart != null && fromCart == true) {
+                        Get.back();
+                      } else {
+                        Get.to((() => const PharmacyCartScreen(
+                              isBack:
+                                  true, /*cartId: pharmacyAddToCarController.cartId.value.toString()*/
+                            )));
+                      }
+
                       controller.goToCart.value = false;
                       controller.cartCount.value = 1;
                     })

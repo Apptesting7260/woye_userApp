@@ -202,7 +202,10 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
+                controller.cartData.value.address!.addressType
+                    .toString()
+                    .capitalizeFirst
+                    .toString(),
                 style: AppFontStyle.text_15_600(AppColors.primary),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
@@ -349,26 +352,62 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           ),
                         )
                       : Obx(
-                           ()=> GestureDetector(
+                          () => GestureDetector(
                             onTap: () {
-                              if(controller.cartData.value.cart!.decodedAttribute![index].status == "1") {
-                                specific_product_controllerontroller.specific_Product_Api(
-                                    productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
-                                    categoryId: controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString());
+                              if (controller.cartData.value.cart!
+                                      .decodedAttribute![index].status ==
+                                  "1") {
+                                specific_product_controllerontroller
+                                    .specific_Product_Api(
+                                        productId: controller
+                                            .cartData
+                                            .value
+                                            .cart!
+                                            .decodedAttribute![index]
+                                            .productId
+                                            .toString(),
+                                        categoryId: controller
+                                            .cartData
+                                            .value
+                                            .cart!
+                                            .decodedAttribute![index]
+                                            .categoryId
+                                            .toString());
                                 // controller.isCartScreen.value = true;
                                 // print("is cart screen : ${controller.isCartScreen.value }");
+
+                                // Get.removeRoute("/ProductDetailsScreen");
                                 Get.to(() => ProductDetailsScreen(
-                                      productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
-                                      categoryId: controller.cartData.value.cart!.decodedAttribute![index].categoryId.toString(),
-                                      categoryName: controller.cartData.value.cart!.decodedAttribute![index].categoryName.toString(),
+                                      productId: controller.cartData.value.cart!
+                                          .decodedAttribute![index].productId
+                                          .toString(),
+                                      categoryId: controller
+                                          .cartData
+                                          .value
+                                          .cart!
+                                          .decodedAttribute![index]
+                                          .categoryId
+                                          .toString(),
+                                      categoryName: controller
+                                          .cartData
+                                          .value
+                                          .cart!
+                                          .decodedAttribute![index]
+                                          .categoryName
+                                          .toString(),
+                                      fromCart: true,
                                     ));
-                              }else if(controller.cartData.value.cart!.decodedAttribute![index].status == "0"){
+                              } else if (controller.cartData.value.cart!
+                                      .decodedAttribute![index].status ==
+                                  "0") {
                                 Utils.showToast("Product not available.");
                               }
                             },
                             child: CachedNetworkImage(
                               memCacheHeight: memCacheHeight,
-                              imageUrl: controller.cartData.value.cart!.decodedAttribute![index].productImage.toString(),
+                              imageUrl: controller.cartData.value.cart!
+                                  .decodedAttribute![index].productImage
+                                  .toString(),
                               height: 100.h,
                               width: 100.h,
                               fit: BoxFit.cover,
@@ -385,7 +424,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                   const Icon(Icons.error),
                             ),
                           ),
-                      ),
+                        ),
                 ),
                 wBox(10.h),
                 Expanded(
@@ -422,38 +461,41 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                 ),
                           // Obx(
                           //   () =>
-                            // deleteProductController
-                            //                 .rxRequestStatus.value ==
-                            //             Status.LOADING &&
-                            //         controller
-                            //                 .cartData
-                            //                 .value
-                            //                 .cart!
-                            //                 .decodedAttribute![index]
-                            //                 .isDelete
-                            //                 .value ==
-                            //             true
-                            //     ? Center(
-                            //         child: Row(
-                            //           children: [
-                            //             circularProgressIndicator(size: 15.h),
-                            //             wBox(2.h),
-                            //           ],
-                            //         ),
-                            //       )
-                            //     :
-                            GestureDetector(
-                                    onTap: () {
-                                      showDeleteProductDialog(
-                                          productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
-                                          countId: controller.cartData.value.cart!.decodedAttribute![index].count.toString()
-                                      );
-                                    },
-                                    child: SvgPicture.asset(
-                                      "assets/svg/delete-outlined.svg",
-                                      height: 20,
-                                    ),
-                                  ),
+                          // deleteProductController
+                          //                 .rxRequestStatus.value ==
+                          //             Status.LOADING &&
+                          //         controller
+                          //                 .cartData
+                          //                 .value
+                          //                 .cart!
+                          //                 .decodedAttribute![index]
+                          //                 .isDelete
+                          //                 .value ==
+                          //             true
+                          //     ? Center(
+                          //         child: Row(
+                          //           children: [
+                          //             circularProgressIndicator(size: 15.h),
+                          //             wBox(2.h),
+                          //           ],
+                          //         ),
+                          //       )
+                          //     :
+                          GestureDetector(
+                            onTap: () {
+                              showDeleteProductDialog(
+                                  productId: controller.cartData.value.cart!
+                                      .decodedAttribute![index].productId
+                                      .toString(),
+                                  countId: controller.cartData.value.cart!
+                                      .decodedAttribute![index].count
+                                      .toString());
+                            },
+                            child: SvgPicture.asset(
+                              "assets/svg/delete-outlined.svg",
+                              height: 20,
+                            ),
+                          ),
                           // ),
                         ],
                       ),
@@ -500,7 +542,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                         width: 0.8.w, color: AppColors.primary),
                                   ),
                                   child: Obx(
-                                    () => quantityUpdateController.rxRequestStatus.value == Status.LOADING &&
+                                    () => quantityUpdateController
+                                                    .rxRequestStatus.value ==
+                                                Status.LOADING &&
                                             controller
                                                     .cartData
                                                     .value
@@ -1410,10 +1454,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
     );
   }
 
-
   //---------------------------------------------------------
   Future showDeleteProductDialog({
-   required String productId,
+    required String productId,
     required String countId,
   }) {
     return Get.dialog(
@@ -1456,16 +1499,17 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     ),
                   ),
                   wBox(15),
-                  Obx(() =>
-                      Expanded(
+                  Obx(
+                    () => Expanded(
                       child: CustomElevatedButton(
                         height: 40.h,
-                        isLoading: deleteProductController.rxRequestStatus.value == Status.LOADING,
-                          onPressed: (){
+                        isLoading:
+                            deleteProductController.rxRequestStatus.value ==
+                                Status.LOADING,
+                        onPressed: () {
                           deleteProductController.deleteProductApi(
-                          productId:productId,
-                          countId:countId);
-                          },
+                              productId: productId, countId: countId);
+                        },
                         text: "Yes",
                       ),
                     ),

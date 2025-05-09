@@ -23,7 +23,11 @@ class PharmacyCartScreen extends StatefulWidget {
   final bool isBack;
   // final String? cartId;
 
-  const PharmacyCartScreen({super.key, this.isBack = false,/*this.cartId*/});
+  const PharmacyCartScreen({
+    super.key,
+    this.isBack = false,
+    /*this.cartId*/
+  });
 
   @override
   State<PharmacyCartScreen> createState() => _PharmacyCartScreenState();
@@ -31,19 +35,27 @@ class PharmacyCartScreen extends StatefulWidget {
 
 class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   final PharmacyCartController controller = Get.put(PharmacyCartController());
-  final PharmaQuantityController quantityUpdateController = Get.put(PharmaQuantityController());
-  final DeletePharmaProductController deleteProductController = Get.put(DeletePharmaProductController());
-  final ApplyCouponPharmaController applyCouponController = Get.put(ApplyCouponPharmaController());
-  final PharmaCheckedUncheckedController checkedUncheckedController = Get.put(PharmaCheckedUncheckedController());
-  final PharmaSpecificProductController pharmaSpecificProductController = Get.put(PharmaSpecificProductController());
-  final DeleteVendorPharController deleteVendorPharController = Get.put(DeleteVendorPharController());
+  final PharmaQuantityController quantityUpdateController =
+      Get.put(PharmaQuantityController());
+  final DeletePharmaProductController deleteProductController =
+      Get.put(DeletePharmaProductController());
+  final ApplyCouponPharmaController applyCouponController =
+      Get.put(ApplyCouponPharmaController());
+  final PharmaCheckedUncheckedController checkedUncheckedController =
+      Get.put(PharmaCheckedUncheckedController());
+  final PharmaSpecificProductController pharmaSpecificProductController =
+      Get.put(PharmaSpecificProductController());
+  final DeleteVendorPharController deleteVendorPharController =
+      Get.put(DeleteVendorPharController());
 
   @override
   void initState() {
     print("zfvdsfsag");
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.getAllCartProductsForCheckout();
-    },);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        controller.getAllCartProductsForCheckout();
+      },
+    );
     // if(widget.cartId != null) {
     //   controller.getPharmacyCartApi(cartId: widget.cartId);
     // }
@@ -76,7 +88,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
           ),
         ),
         body: Obx(() {
-          switch (controller.rxGetCheckoutDataStatus.value ) {
+          switch (controller.rxGetCheckoutDataStatus.value) {
             case Status.LOADING:
               return Center(child: circularProgressIndicator());
             case Status.ERROR:
@@ -84,13 +96,13 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 return InternetExceptionWidget(
                   onPress: () {
                     controller.getAllCartProductsForCheckout();
-                    },
+                  },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
                     controller.getAllCartProductsForCheckout();
-                    },
+                  },
                 );
               }
             case Status.COMPLETED:
@@ -98,7 +110,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 onRefresh: () async {
                   controller.getAllCartProductsForCheckout();
                 },
-                child: controller.cartCheckoutData.value.cartContent != "Notempty"
+                child: controller.cartCheckoutData.value.cartContent !=
+                        "Notempty"
                     ? Column(
                         children: [
                           hBox(Get.height / 3),
@@ -129,7 +142,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           controller: _scrollController,
                           child: Column(
                             children: [
-                              controller.cartCheckoutData.value.addressExists == true
+                              controller.cartCheckoutData.value.addressExists ==
+                                      true
                                   ? address()
                                   : locationAddress(),
                               hBox(20.h),
@@ -205,7 +219,11 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.cartCheckoutData.value.address?.addressType.toString().capitalizeFirst.toString() ?? "",
+                controller.cartCheckoutData.value.address?.addressType
+                        .toString()
+                        .capitalizeFirst
+                        .toString() ??
+                    "",
                 // controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
                 style: AppFontStyle.text_15_600(AppColors.primary),
               ),
@@ -213,7 +231,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
               SizedBox(
                 width: Get.width * 0.6,
                 child: Text(
-                  controller.cartCheckoutData.value.address?.address.toString() ?? "",
+                  controller.cartCheckoutData.value.address?.address
+                          .toString() ??
+                      "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: AppFontStyle.text_14_400(AppColors.darkText),
@@ -780,7 +800,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   //     },
   //   );
   // }
-  
+
   Widget cartItems() {
     return ListView.separated(
       itemCount: controller.cartCheckoutData.value.cart!.buckets!.length,
@@ -794,7 +814,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
         return Container(
           width: Get.width,
           padding:
-          EdgeInsets.only(top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
+              EdgeInsets.only(top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.r),
               border: Border.all(color: AppColors.hintText)),
@@ -845,16 +865,25 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         Row(
                           children: [
                             Container(
-                              height: 30,width: 60,
-                              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1),
+                              height: 30,
+                              width: 60,
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(10.r),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SvgPicture.asset(ImageConstants.bikeLogo,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),height: 17,width: 17,),
+                                  SvgPicture.asset(
+                                    ImageConstants.bikeLogo,
+                                    colorFilter: ColorFilter.mode(
+                                        AppColors.primary, BlendMode.srcIn),
+                                    height: 17,
+                                    width: 17,
+                                  ),
                                   wBox(5.w),
-                                  Text("\$2",
+                                  Text(
+                                    "\$2",
                                     style: AppFontStyle.text_16_400(
                                       AppColors.primary,
                                     ),
@@ -864,16 +893,25 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                             ),
                             wBox(8.w),
                             Container(
-                              height: 30,width: 91,
-                              decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.1),
+                              height: 30,
+                              width: 91,
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(10.r),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SvgPicture.asset(ImageConstants.historyLogo,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),height: 17,width: 17,),
+                                  SvgPicture.asset(
+                                    ImageConstants.historyLogo,
+                                    colorFilter: ColorFilter.mode(
+                                        AppColors.primary, BlendMode.srcIn),
+                                    height: 17,
+                                    width: 17,
+                                  ),
                                   wBox(5.w),
-                                  Text("20min",
+                                  Text(
+                                    "20min",
                                     style: AppFontStyle.text_16_400(
                                       AppColors.primary,
                                     ),
@@ -902,20 +940,21 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                   //         ),
                   //       )
                   //       :
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: GestureDetector(
-                          onTap: () {
-                            showRemoveVendorDialog(cartId: buckets.cartId.toString(),index: index);
-                          },
-                           child: Text(
-                          "Remove",
-                          style: AppFontStyle.text_14_400(AppColors.red),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                            ),
-                          ),
-                        // ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        showRemoveVendorDialog(
+                            cartId: buckets.cartId.toString(), index: index);
+                      },
+                      child: Text(
+                        "Remove",
+                        style: AppFontStyle.text_14_400(AppColors.red),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                    // ),
                   ),
                 ],
               ),
@@ -993,36 +1032,72 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         borderRadius: BorderRadius.circular(20.r),
                         child:
 
-                        // isLoading
-                        //     ? Shimmer.fromColors(
-                        //   baseColor: Colors.grey.shade300,
-                        //   highlightColor: Colors.grey.shade100,
-                        //   child: Container(
-                        //     color: Colors.white,
-                        //     height: 100.h,
-                        //     width: 100.h,
-                        //   ),
-                        // )
-                        //     :
+                            // isLoading
+                            //     ? Shimmer.fromColors(
+                            //   baseColor: Colors.grey.shade300,
+                            //   highlightColor: Colors.grey.shade100,
+                            //   child: Container(
+                            //     color: Colors.white,
+                            //     height: 100.h,
+                            //     width: 100.h,
+                            //   ),
+                            // )
+                            //     :
 
-                        GestureDetector(
+                            GestureDetector(
                           onTap: () {
-                            pharmaSpecificProductController.pharmaSpecificProductApi(
-                                productId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
-                                categoryId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString(),
+                            pharmaSpecificProductController
+                                .pharmaSpecificProductApi(
+                              productId: controller.cartCheckoutData.value.cart!
+                                  .buckets![index].bucket![index1].productId
+                                  .toString(),
+                              categoryId: controller
+                                  .cartCheckoutData
+                                  .value
+                                  .cart!
+                                  .buckets![index]
+                                  .bucket![index1]
+                                  .categoryId
+                                  .toString(),
                             );
 
-                            print("category_id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString()}");
-                            print("category Name ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryName.toString()}");
-                            print("product Id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString()}");
+                            print(
+                                "category_id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString()}");
+                            print(
+                                "category Name ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryName.toString()}");
+                            print(
+                                "product Id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString()}");
 
-                            Get.to(() => PharmacyProductDetailsScreen(
-                              productId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
-                              categoryId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
-                              categoryName: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString(),
-                            ),
-                          );
-                        },
+                            Get.to(
+                              () => PharmacyProductDetailsScreen(
+                                fromCart: true,
+                                productId: controller
+                                    .cartCheckoutData
+                                    .value
+                                    .cart!
+                                    .buckets![index]
+                                    .bucket![index1]
+                                    .productId
+                                    .toString(),
+                                categoryId: controller
+                                    .cartCheckoutData
+                                    .value
+                                    .cart!
+                                    .buckets![index]
+                                    .bucket![index1]
+                                    .productId
+                                    .toString(),
+                                categoryName: controller
+                                    .cartCheckoutData
+                                    .value
+                                    .cart!
+                                    .buckets![index]
+                                    .bucket![index1]
+                                    .productId
+                                    .toString(),
+                              ),
+                            );
+                          },
                           child: CachedNetworkImage(
                             imageUrl: items.productImage.toString(),
                             height: 100.h,
@@ -1038,7 +1113,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                               ),
                             ),
                             errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
+                                const Icon(Icons.error),
                           ),
                         ),
                       ),
@@ -1091,27 +1166,27 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 //     ),
                                 //   )
                                 //       :
-                                      GestureDetector(
-                                    onTap: () {
-                                      // items.isDelete.value = true;
-                                      // deleteProductController.deleteProductApi(
-                                      //   isSingleCartScreen: false,
-                                      //     productId: items.productId.toString(),
-                                      //     countId: items.count.toString(),
-                                      //     cartId: buckets.cartId.toString());
-                                      showDeleteProductDialog(
-                                        index1: index1,
-                                          index: index,
-                                          cartId: buckets.cartId.toString(),
-                                          productId: items.productId.toString(),
-                                          countId: items.count.toString(),
-                                      );
-                                    },
-                                    child: SvgPicture.asset(
-                                      "assets/svg/delete-outlined.svg",
-                                      height: 20,
-                                    ),
+                                GestureDetector(
+                                  onTap: () {
+                                    // items.isDelete.value = true;
+                                    // deleteProductController.deleteProductApi(
+                                    //   isSingleCartScreen: false,
+                                    //     productId: items.productId.toString(),
+                                    //     countId: items.count.toString(),
+                                    //     cartId: buckets.cartId.toString());
+                                    showDeleteProductDialog(
+                                      index1: index1,
+                                      index: index,
+                                      cartId: buckets.cartId.toString(),
+                                      productId: items.productId.toString(),
+                                      countId: items.count.toString(),
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                    "assets/svg/delete-outlined.svg",
+                                    height: 20,
                                   ),
+                                ),
                                 // ),
                               ],
                             ),
@@ -1161,102 +1236,108 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                     border: Border.all(
                                         width: 0.8.w, color: AppColors.primary),
                                   ),
-                                  child:
-                                  Obx(
-                                        () =>
-                                        quantityUpdateController
-                                            .rxRequestStatus.value ==
-                                            Status.LOADING &&
+                                  child: Obx(
+                                    () => quantityUpdateController
+                                                    .rxRequestStatus.value ==
+                                                Status.LOADING &&
                                             items.isLoading.value == true
                                         ? Center(
-                                        child: circularProgressIndicator2())
-                                        :
-                                        Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        InkWell(
-                                          splashColor: Colors.transparent,
-                                          highlightColor:
-                                          Colors.transparent,
-                                          onTap: () {
-                                            // if (controller
-                                            //     .cartData
-                                            //     .value
-                                            //     .cart!
-                                            //     .decodedAttribute![
-                                            // index]
-                                            //     .checked !=
-                                            //     "false") {
-                                            if (items.quantity == 1) {
-                                              Utils.showToast("Qty can not less then 1");
-                                            } else {
-                                              items.isLoading.value = true;
-                                              quantityUpdateController.updateQuantityApi(
-                                                isSingleCartScreen: false,
-                                                cartId: buckets.cartId.toString(),
-                                                productId: items.productId.toString(),
-                                                countId: items.count.toString(),
-                                                productQuantity:(items.quantity! - 1).toString(),
-                                              );
-                                            }
-                                            // }
-                                            // else {
-                                            //   Utils.showToast(
-                                            //       "First select product",
-                                            //       gravity: ToastGravity
-                                            //           .CENTER);
-                                            // }
-                                          },
-                                          child: Icon(
-                                            Icons.remove,
-                                            size: 16.w,
-                                          ),
-                                        ),
-                                        Text(
-                                          items.quantity.toString(),
-                                          style: AppFontStyle.text_14_400(
-                                              AppColors.darkText),
-                                        ),
-                                        InkWell(
-                                          splashColor: Colors.transparent,
-                                          highlightColor:
-                                          Colors.transparent,
-                                          onTap: () {
-                                            // if (controller
-                                            //     .cartData
-                                            //     .value
-                                            //     .cart!
-                                            //     .decodedAttribute![
-                                            // index]
-                                            //     .checked !=
-                                            //     "false") {
+                                            child: circularProgressIndicator2())
+                                        : Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () {
+                                                  // if (controller
+                                                  //     .cartData
+                                                  //     .value
+                                                  //     .cart!
+                                                  //     .decodedAttribute![
+                                                  // index]
+                                                  //     .checked !=
+                                                  //     "false") {
+                                                  if (items.quantity == 1) {
+                                                    Utils.showToast(
+                                                        "Qty can not less then 1");
+                                                  } else {
+                                                    items.isLoading.value =
+                                                        true;
+                                                    quantityUpdateController
+                                                        .updateQuantityApi(
+                                                      isSingleCartScreen: false,
+                                                      cartId: buckets.cartId
+                                                          .toString(),
+                                                      productId: items.productId
+                                                          .toString(),
+                                                      countId: items.count
+                                                          .toString(),
+                                                      productQuantity:
+                                                          (items.quantity! - 1)
+                                                              .toString(),
+                                                    );
+                                                  }
+                                                  // }
+                                                  // else {
+                                                  //   Utils.showToast(
+                                                  //       "First select product",
+                                                  //       gravity: ToastGravity
+                                                  //           .CENTER);
+                                                  // }
+                                                },
+                                                child: Icon(
+                                                  Icons.remove,
+                                                  size: 16.w,
+                                                ),
+                                              ),
+                                              Text(
+                                                items.quantity.toString(),
+                                                style: AppFontStyle.text_14_400(
+                                                    AppColors.darkText),
+                                              ),
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () {
+                                                  // if (controller
+                                                  //     .cartData
+                                                  //     .value
+                                                  //     .cart!
+                                                  //     .decodedAttribute![
+                                                  // index]
+                                                  //     .checked !=
+                                                  //     "false") {
 
-                                            items.isLoading.value = true;
-                                            quantityUpdateController.updateQuantityApi(
-                                              isSingleCartScreen: false,
-                                              cartId: buckets.cartId
-                                                  .toString(),
-                                              productId: items.productId
-                                                  .toString(),
-                                              countId:
-                                              items.count.toString(),
-                                              productQuantity:
-                                              (items.quantity! + 1)
-                                                  .toString(),
-                                            );
-                                            // } else {
-                                            //   Utils.showToast(
-                                            //       "First select product");
-                                            // }
-                                          },
-                                          child: Icon(
-                                            Icons.add,
-                                            size: 16.w,
+                                                  items.isLoading.value = true;
+                                                  quantityUpdateController
+                                                      .updateQuantityApi(
+                                                    isSingleCartScreen: false,
+                                                    cartId: buckets.cartId
+                                                        .toString(),
+                                                    productId: items.productId
+                                                        .toString(),
+                                                    countId:
+                                                        items.count.toString(),
+                                                    productQuantity:
+                                                        (items.quantity! + 1)
+                                                            .toString(),
+                                                  );
+                                                  // } else {
+                                                  //   Utils.showToast(
+                                                  //       "First select product");
+                                                  // }
+                                                },
+                                                child: Icon(
+                                                  Icons.add,
+                                                  size: 16.w,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
                                   ),
                                 ),
                               ],
@@ -1781,7 +1862,6 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
     );
   }
 
-
   FocusNode focusNode = FocusNode();
 
   Widget promoCode(context) {
@@ -1809,9 +1889,14 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         readOnly: controller.readOnly.value,
                         focusNode: focusNode,
                         onTap: () {
-                          if (controller.cartData.value.cart?.decodedAttribute?.where((item) => item.checked == "true").isEmpty ?? true) {
+                          if (controller.cartData.value.cart?.decodedAttribute
+                                  ?.where((item) => item.checked == "true")
+                                  .isEmpty ??
+                              true) {
                             Utils.showToast("Please select a product");
-                          } else if (controller.cartData.value.coupons?.isNotEmpty ?? true) {
+                          } else if (controller
+                                  .cartData.value.coupons?.isNotEmpty ??
+                              true) {
                             if (controller.readOnly.value) {
                               bottomBar(context);
                             }
@@ -2051,10 +2136,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   // }
   Widget paymentDetails() {
     bool isLoading =
-    //  checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
-    deleteProductController.rxRequestStatus.value == Status.LOADING
-        ||
-        quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+        //  checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
+        deleteProductController.rxRequestStatus.value == Status.LOADING ||
+            quantityUpdateController.rxRequestStatus.value == Status.LOADING;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2186,29 +2270,53 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         //     print(
                         //         "Selected Product: ${item['name']}, Price: ${item['price']}");
                         //
-                        final vendorId = controller.cartCheckoutData.value.cart?.buckets?.map((data)=>data.pharmaId).toList();
-                        final cartId = controller.cartCheckoutData.value.cart?.buckets?.map((data)=>data.cartId).toList();
-                        final specificTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data)=>data.specificTotalPrice).toList();
-                        final specificDeliveryCharge = controller.cartCheckoutData.value.cart?.buckets?.map((data)=>data.specificDeliveryCharge).toList();
-                        Get.toNamed(
-                              AppRoutes.prescriptionScreen,
-                                arguments: {
-                                  'address_id': controller.cartCheckoutData.value.address!.id.toString(),
-                                  'total': controller.cartCheckoutData.value.cart!.totalPrice.toString(),
-                                  'coupon_id' : "0",
-                                  'regular_price': controller.cartCheckoutData.value.cart!.regularPrice.toString(),
-                                  'coupon_discount': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),
-                                  'save_amount': controller.cartCheckoutData.value.cart!.saveAmount.toString(),
-                                  'delivery_charge': controller.cartCheckoutData.value.cart!.deliveryCharge.toString(),
-                                  'cart_id': cartId,
-                                  'vendor_id': vendorId,
-                                  'cart_total': specificTotalPrice,
-                                  'cart_delivery':specificDeliveryCharge,
-                                  'wallet': controller.cartCheckoutData.value.wallet.toString(),
-                                  'cartType': "pharmacy",
-                                  'prescription': controller.cartCheckoutData.value.prescription.toString(),
-                                }
-                            );
+                        final vendorId = controller
+                            .cartCheckoutData.value.cart?.buckets
+                            ?.map((data) => data.pharmaId)
+                            .toList();
+                        final cartId = controller
+                            .cartCheckoutData.value.cart?.buckets
+                            ?.map((data) => data.cartId)
+                            .toList();
+                        final specificTotalPrice = controller
+                            .cartCheckoutData.value.cart?.buckets
+                            ?.map((data) => data.specificTotalPrice)
+                            .toList();
+                        final specificDeliveryCharge = controller
+                            .cartCheckoutData.value.cart?.buckets
+                            ?.map((data) => data.specificDeliveryCharge)
+                            .toList();
+                        Get.toNamed(AppRoutes.prescriptionScreen, arguments: {
+                          'address_id': controller
+                              .cartCheckoutData.value.address!.id
+                              .toString(),
+                          'total': controller
+                              .cartCheckoutData.value.cart!.totalPrice
+                              .toString(),
+                          'coupon_id': "0",
+                          'regular_price': controller
+                              .cartCheckoutData.value.cart!.regularPrice
+                              .toString(),
+                          'coupon_discount': controller
+                              .cartCheckoutData.value.cart!.couponDiscount
+                              .toString(),
+                          'save_amount': controller
+                              .cartCheckoutData.value.cart!.saveAmount
+                              .toString(),
+                          'delivery_charge': controller
+                              .cartCheckoutData.value.cart!.deliveryCharge
+                              .toString(),
+                          'cart_id': cartId,
+                          'vendor_id': vendorId,
+                          'cart_total': specificTotalPrice,
+                          'cart_delivery': specificDeliveryCharge,
+                          'wallet': controller.cartCheckoutData.value.wallet
+                              .toString(),
+                          'cartType': "pharmacy",
+                          'prescription': controller
+                              .cartCheckoutData.value.prescription
+                              .toString(),
+                        });
                         //   });
                         // } else {
                         //   Utils.showToast(
@@ -2459,9 +2567,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
     );
   }
 
-  Future  showDeleteProductDialog({
-    required  int index,
-    required  int index1,
+  Future showDeleteProductDialog({
+    required int index,
+    required int index1,
     required String cartId,
     required String productId,
     required String countId,
@@ -2506,24 +2614,42 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     ),
                   ),
                   wBox(15),
-                  Obx(() =>
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          isLoading: deleteProductController.rxRequestStatus.value ==Status.LOADING &&
-                              controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].isDelete.value == true,
-                          onPressed: (){
-                            controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].isDelete.value = true;;
-                            deleteProductController.deleteProductApi(
-                                productId: productId,
-                                countId: countId,
-                                cartId: cartId,
-                                isSingleCartScreen: false,
-                            );
-                          },
-                          text: "Yes",
-                        ),
+                  Obx(
+                    () => Expanded(
+                      child: CustomElevatedButton(
+                        height: 40.h,
+                        isLoading:
+                            deleteProductController.rxRequestStatus.value ==
+                                    Status.LOADING &&
+                                controller
+                                        .cartCheckoutData
+                                        .value
+                                        .cart!
+                                        .buckets![index]
+                                        .bucket![index1]
+                                        .isDelete
+                                        .value ==
+                                    true,
+                        onPressed: () {
+                          controller
+                              .cartCheckoutData
+                              .value
+                              .cart!
+                              .buckets![index]
+                              .bucket![index1]
+                              .isDelete
+                              .value = true;
+                          ;
+                          deleteProductController.deleteProductApi(
+                            productId: productId,
+                            countId: countId,
+                            cartId: cartId,
+                            isSingleCartScreen: false,
+                          );
+                        },
+                        text: "Yes",
                       ),
+                    ),
                   ),
                 ],
               ),
@@ -2535,7 +2661,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
     );
   }
 
-  Future  showRemoveVendorDialog({
+  Future showRemoveVendorDialog({
     required int index,
     required String cartId,
   }) {
@@ -2579,21 +2705,24 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     ),
                   ),
                   wBox(15),
-                  Obx(() =>
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          isLoading: deleteVendorPharController.rxDeleteVendorReqStatus.value == Status.LOADING &&
-                              controller.cartCheckoutData.value.cart!.buckets![index].isVendorDelete.value,
-                          onPressed: (){
-                            controller.cartCheckoutData.value.cart!.buckets![index].isVendorDelete.value = true;
-                            deleteVendorPharController.deletePharVendorApi(
-                                isSingleCartScreen: false,
-                                cartId: cartId);
-                          },
-                          text: "Yes",
-                        ),
+                  Obx(
+                    () => Expanded(
+                      child: CustomElevatedButton(
+                        height: 40.h,
+                        isLoading: deleteVendorPharController
+                                    .rxDeleteVendorReqStatus.value ==
+                                Status.LOADING &&
+                            controller.cartCheckoutData.value.cart!
+                                .buckets![index].isVendorDelete.value,
+                        onPressed: () {
+                          controller.cartCheckoutData.value.cart!
+                              .buckets![index].isVendorDelete.value = true;
+                          deleteVendorPharController.deletePharVendorApi(
+                              isSingleCartScreen: false, cartId: cartId);
+                        },
+                        text: "Yes",
                       ),
+                    ),
                   ),
                 ],
               ),
@@ -2604,5 +2733,4 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
       barrierDismissible: false,
     );
   }
-
 }

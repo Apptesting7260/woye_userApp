@@ -2,14 +2,17 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:woye_user/core/Utils/app_export.dart';
 
 class Utils {
-  static String? showToast(String msg,
-      {ToastGravity gravity = ToastGravity.BOTTOM}) {
+  static String? showToast(
+    String msg, {
+    Toast? toastLength,
+    ToastGravity gravity = ToastGravity.BOTTOM,
+  }) {
     Fluttertoast.showToast(
-      msg: msg,
-      backgroundColor: AppColors.black,
-      gravity: gravity,
-      textColor: AppColors.white,
-    );
+        msg: msg,
+        backgroundColor: AppColors.black,
+        gravity: gravity,
+        textColor: AppColors.white,
+        toastLength: toastLength);
     return null;
   }
 
