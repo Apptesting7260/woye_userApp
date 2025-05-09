@@ -42,9 +42,15 @@ class specific_Product_Controller extends GetxController {
       "category_id": categoryId,
     };
     api.specific_Product_Api(data).then((value) {
-      isSelected = (-1).obs;
-      productdata_Set(value);
-      setRxRequestStatus(Status.COMPLETED);
+      if(value.status == true){
+        isSelected = (-1).obs;
+        productdata_Set(value);
+        setRxRequestStatus(Status.COMPLETED);
+      }else if(value.status == false){
+        Get.back();
+        Utils.showToast("Product is not active.");
+        setRxRequestStatus(Status.ERROR);
+      }
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);

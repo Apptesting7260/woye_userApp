@@ -23,6 +23,9 @@ class AppUrls {
 
   // static const String updateStatus = "$baseUrl/update-status";
 
+  /* ------------------------------ Notification----------------------------  */
+  static const String userNotification = "$baseUrl/user-notification";
+
   /* ------------------------------ Address Section ----------------------------  */
 
   static const String getAddress = "$baseUrl/get-address";

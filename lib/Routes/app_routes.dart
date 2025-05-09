@@ -184,7 +184,7 @@ class AppRoutes {
     GetPage(name: orderDetails, page: () =>  OrderDetailsScreen()),
     GetPage(name: myWallet, page: () => MyWalletScreen()),
     GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),
-    GetPage(name: notifications, page: () => const NotificationsScreen()),
+    GetPage(name: notifications, page: () => NotificationsScreen()),
     GetPage(name: settings, page: () => const SettingsScreen()),
     GetPage(name: help, page: () => const HelpScreen()),
     GetPage(name: support, page: () => const SupportScreen()),

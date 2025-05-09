@@ -3,10 +3,13 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:open_file/open_file.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_expansion_tile.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
@@ -251,8 +254,8 @@ class OrderDetailsScreen extends StatelessWidget {
 
   final specific_Product_Controller specificProductController =
       Get.put(specific_Product_Controller());
-  final PharmaSpecificProductController pharmaSpecificProductController =
-      Get.put(PharmaSpecificProductController());
+  final PharmaSpecificProductController pharmaSpecificProductController = Get.put(PharmaSpecificProductController());
+  final GrocerySpecificProductController grocerySpecificProductController  = Get.put(GrocerySpecificProductController());
 
   Widget orderIdDetails() {
     return Container(
@@ -306,6 +309,18 @@ class OrderDetailsScreen extends StatelessWidget {
                           //   categoryId: item.categoryId.toString(),
                           //   categoryName: item.categoryName.toString(),
                           // ));
+                        }else if (controller
+                            .ordersData.value.orderDetails!.type
+                            .toString() ==
+                            "grocery") {
+                          grocerySpecificProductController.pharmaSpecificProductApi(
+                              productId: item.productId.toString(),
+                              categoryId: item.categoryId.toString());
+                          Get.to(() => GroceryProductDetailsScreen(
+                            productId: item.productId.toString(),
+                            categoryId: item.categoryId.toString(),
+                            categoryName: item.categoryName.toString(),
+                          ));
                         }
                       },
                       child: Row(
@@ -670,11 +685,14 @@ class OrderDetailsScreen extends StatelessWidget {
                         );
                       },
                       child: CachedNetworkImage(
-                          imageUrl: controller.ordersData.value.orderDetails?.drslip?[index] ?? "",
+                        memCacheHeight: memCacheHeight,
+                        imageUrl: controller.ordersData.value.orderDetails?.drslip?[index] ?? "",
                         placeholder: (context, url) => Shimmer.fromColors(
                           baseColor: AppColors.gray,
                           highlightColor: AppColors.lightText,
                           child: Container(
+                            width: 160.h,
+                            height: 160.h,
                             decoration: BoxDecoration(
                               color: AppColors.gray,
                               borderRadius: BorderRadius.circular(5.r),

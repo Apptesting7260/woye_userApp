@@ -26,21 +26,15 @@ class RestaurantCartScreen extends StatefulWidget {
 }
 
 class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
-  final RestaurantCartController controller =
-      Get.put(RestaurantCartController());
-  final QuantityController quantityUpdateController =
-      Get.put(QuantityController());
 
-  final DeleteProductController deleteProductController =
-      Get.put(DeleteProductController());
-  final ApplyCouponController applyCouponController =
-      Get.put(ApplyCouponController());
-  final CheckedUncheckedController checkedUncheckedController =
-      Get.put(CheckedUncheckedController());
+  final RestaurantCartController controller = Get.put(RestaurantCartController());
+  final QuantityController quantityUpdateController = Get.put(QuantityController());
+  final DeleteProductController deleteProductController = Get.put(DeleteProductController());
+  final ApplyCouponController applyCouponController = Get.put(ApplyCouponController());
+  final CheckedUncheckedController checkedUncheckedController = Get.put(CheckedUncheckedController());
+  final specific_Product_Controller specific_product_controllerontroller = Get.put(specific_Product_Controller());
 
-  final specific_Product_Controller specific_product_controllerontroller =
-      Get.put(specific_Product_Controller());
-
+  @override
   void initState() {
     controller.getRestaurantCartApi();
     // controller.isCartScreen.value = false;
@@ -267,12 +261,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        bool isLoading = checkedUncheckedController.rxRequestStatus.value ==
-                Status.LOADING &&
-            controller.cartData.value.cart!.decodedAttribute?[index]
-                    .isSelectedLoading.value ==
-                true;
-
+        bool isLoading = checkedUncheckedController.rxRequestStatus.value == Status.LOADING &&
+            controller.cartData.value.cart!.decodedAttribute?[index].isSelectedLoading.value == true;
         return Column(
           children: [
             Row(

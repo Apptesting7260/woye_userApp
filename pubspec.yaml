@@ -86,7 +86,8 @@ dependencies:
   path_provider:
   webview_flutter:
   firebase_crashlytics:
-
+  persistent_bottom_nav_bar:
+  intl:
 #  sms_autofill: ^2.0.0
 
 

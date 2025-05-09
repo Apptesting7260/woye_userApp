@@ -85,7 +85,9 @@ class SignUpController extends GetxController {
               'countryCode': selectedCountryCode.value.toString(),
               'mob': mobNoCon.value.text.trim().toString(),
             },
-          );
+          )?.then((value) {
+            mobNoCon.value.clear();
+          },);
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
