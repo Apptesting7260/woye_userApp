@@ -69,6 +69,7 @@ class AppUrls {
   static const String applyCoupons = "$baseUrl/apply-coupons";
   static const String checkedUnchecked = "$baseUrl/checked-unchecked";
   static const String createOrder = "$baseUrl/create-order";
+  static const String trackOrderRestaurant = "$baseUrl/track-order";
 
   /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
 

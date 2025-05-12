@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'dart:io';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:woye_user/presentation/common/app_link/deeplinkingController.dart';
 import 'package:woye_user/presentation/push_notification/push_notification.dart';
 import 'firebase_options.dart';
 
@@ -47,8 +47,19 @@ Future<void> main() async {
   } catch (e) {
     print(e);
   }
+
+  ///deepLinks
+
+  try {
+    deepLinkController.initDeepLinks();
+  } catch (e) {
+    print(e);
+  }
+
+
   runApp(MyApp());
 }
+final deepLinkController = Get.put(DeepLinkController());
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});

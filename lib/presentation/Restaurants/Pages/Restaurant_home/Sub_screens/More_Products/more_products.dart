@@ -17,9 +17,9 @@ class MoreProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = Get.arguments;
-    final restaurant_id = arguments['restaurant_id'];
-    final category_id = arguments['category_id'];
+    final arguments = Get.arguments ?? {};
+    final restaurant_id = arguments['restaurant_id'] ?? "";
+    final category_id = arguments['category_id'] ?? "";
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -56,13 +56,13 @@ class MoreProducts extends StatelessWidget {
                 },
                 child: SingleChildScrollView(
                     padding: EdgeInsets.symmetric(horizontal: 24.r),
-                    child: productList()));
+                    child: productList(restaurant_id)));
         }
       }),
     );
   }
 
-  GridView productList() {
+  GridView productList(restaurant_id) {
     return GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -84,6 +84,7 @@ class MoreProducts extends StatelessWidget {
                       .toString(),
                 );
                 Get.to(ProductDetailsScreen(
+                  restaurantId: restaurant_id.toString(),
                   productId: controller
                       .seeAll_Data.value.moreProducts![index].id
                       .toString(),

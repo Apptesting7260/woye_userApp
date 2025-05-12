@@ -15,6 +15,11 @@ class GroceryNavbar extends StatelessWidget {
         builder: (navbarController) {
           return PopScope(
             canPop: false,
+            onPopInvokedWithResult: (didPop, result) {
+              if (navbarController.navbarCurrentIndex != 0) {
+                navbarController.getIndex(0);
+              }
+            },
             child: Scaffold(
               body: Stack(
                 children: [

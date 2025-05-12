@@ -102,7 +102,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           },
           child: Container(
             padding: REdgeInsets.symmetric(vertical:controller.apiData.value.notification?[index].seen != "0"? 0 : 10),
-            decoration: BoxDecoration(color:  controller.apiData.value.notification?[index].seen == "0" ? AppColors.ultraLightPrimary : AppColors.white,
+            decoration: BoxDecoration(color:  controller.apiData.value.notification?[index].seen == "0" ? AppColors.ultraLightPrimary.withOpacity(0.05) : AppColors.white,
             borderRadius: BorderRadius.circular(15.r),
             ),
             child: Row(

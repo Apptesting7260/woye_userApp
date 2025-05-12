@@ -4,10 +4,11 @@ import 'package:woye_user/presentation/common/Home/home_controller.dart';
 class ReviewDriverScreen extends StatelessWidget {
   ReviewDriverScreen({super.key});
 
-  final HomeController homeController = Get.put(HomeController());
+  final HomeController homeController = HomeController();
+
   @override
   Widget build(BuildContext context) {
-    var arguments = Get.arguments ??{};
+    var arguments = Get.arguments ?? {};
     String cartType = arguments['type'] ?? "";
     return Scaffold(
       appBar: const CustomAppBar(

@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
@@ -131,6 +132,7 @@ class All_Restaurant extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(20.r),
               child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
                 width: Get.width,
                 fit: BoxFit.fitWidth,
                 imageUrl: image.toString(),

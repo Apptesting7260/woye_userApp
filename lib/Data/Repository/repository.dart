@@ -65,6 +65,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/wall
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Notifications/notification_model.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Rate_and_review_product/post_review_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Track_order/model/track_order_model.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/ordes_list_modal/orders_list_modal.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
@@ -358,6 +359,12 @@ class Repository {
     dynamic response =
         await _apiService.postApi(data, AppUrls.checkedUnchecked, token);
     return CheckedUncheckedModal.fromJson(response);
+  }
+
+  Future<dynamic> trackOrderRestaurant(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.trackOrderRestaurant, token);
+    return TrackOrderRestaurantModel.fromJson(response);
   }
 
   // Future<dynamic> createOrderApi(var data) async {

@@ -11,6 +11,7 @@ import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 import '../../../../../../Data/components/GeneralException.dart';
 import '../../../../../../Data/components/InternetException.dart';
 import '../../../../../../shared/widgets/CircularProgressIndicator.dart';
+import '../../../../Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'controller/RestaurantCategoriesDetailsController.dart';
 
 class RestaurantCategoryDetails extends StatelessWidget {
@@ -27,16 +28,18 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   final Categories_FilterController categoriesFilterController =
       Get.put(Categories_FilterController());
-
+  // RestaurantNavbarController navbarController = Get.put(RestaurantNavbarController());
   @override
   Widget build(BuildContext context) {
     final args = Get.arguments ?? {};
     final String categoryTitle = args['name'] ?? "";
     final int categoryId = args['id'] ?? 0;
+
     return Container(
       color: AppColors.white,
       child: SafeArea(
         child: Scaffold(
+          // bottomNavigationBar: navBarStatic(navbarItems),
           appBar: CustomAppBar(
             title: Text(
               categoryTitle,
@@ -446,7 +449,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           Row(
                                             children: [
                                               Text(
-                                                "\$${product.salePrice}",
+                                                "\$${product.salePrice ?? product.regularPrice}",
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle.text_16_600(
                                                     AppColors.primary),
@@ -530,4 +533,103 @@ class RestaurantCategoryDetails extends StatelessWidget {
       ),
     );
   }
+
+  // Container navBarStatic() {
+  //   List<String> navbarItems = [
+  //     ImageConstants.home,
+  //     ImageConstants.categories,
+  //     ImageConstants.wishlist,
+  //     ImageConstants.cart,
+  //     ImageConstants.profileOutlined,
+  //   ];
+  //   return Container( height: 70.h,
+  //         width: Get.width,
+  //         decoration: BoxDecoration(
+  //           color: AppColors.navbar,
+  //           borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)
+  //           ),
+  //         ),
+  //         child:  Row(
+  //             mainAxisAlignment: MainAxisAlignment.center,
+  //             children: List.generate(navbarItems.length, (index) {
+  //               bool isSelected = navbarController.navbarCurrentIndex == index;
+  //               // String icon = isSelected ? navbarItemsFilled[index] : navbarItems[index];
+  //               return InkWell(
+  //                 highlightColor: Colors.transparent,
+  //                 splashColor: Colors.transparent,
+  //                 onTap: () {
+  //                   // Get.to(RestaurantNavbar(navbarInitialIndex: index));
+  //                   navbarController.getIndex(index);
+  //                   Get.to(RestaurantNavbar(navbarInitialIndex: index));
+  //                 },
+  //                 child: Padding(
+  //                   padding: REdgeInsets.symmetric(horizontal: 12),
+  //                   child: AnimatedContainer(
+  //                     duration: const Duration(milliseconds: 300),
+  //                     curve: Curves.easeInOut,
+  //                     width: 44.w,
+  //                     child: Stack(
+  //                       children: [
+  //                         Column(
+  //                           children: [
+  //                             AnimatedContainer(
+  //                               duration: const Duration(milliseconds: 300),
+  //                               curve: Curves.linear,
+  //                               height: 4.h,
+  //                               width: 44.w,
+  //                               decoration: BoxDecoration(
+  //                                   color:
+  //                                   // isSelected
+  //                                   //     ? AppColors.primary
+  //                                   //     :
+  //                                   Colors.transparent,
+  //                                   borderRadius: BorderRadius.only(
+  //                                       bottomLeft: Radius.circular(10.r),
+  //                                       bottomRight: Radius.circular(10.r))),
+  //                             ),
+  //                             Padding(
+  //                               padding:
+  //                               REdgeInsets.only(top: 19, bottom: 23),
+  //                               child: SvgPicture.asset(
+  //                                 navbarItems[index],
+  //                                 height: 24.h,
+  //                               ),
+  //                             ),
+  //                           ],
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //               );
+  //             })
+  //           // navbarItems.map((icon) {
+  //           //   int index = navbarItems.indexOf(icon);
+  //           //   bool isSelected = navbarController.navbarCurrentIndex == index;
+  //           //   return GestureDetector(
+  //           //     onTap: () {
+  //           //       navbarController.getIndex(index);
+  //           //     },
+  //           //     child: Padding(
+  //           //       padding: REdgeInsets.symmetric(horizontal: 12),
+  //           //       child: AnimatedContainer(
+  //           //         duration: const Duration(milliseconds: 300),
+  //           //         curve: Curves.easeInOut,
+  //           //         height: 48.h,
+  //           //         width: 48.h,
+  //           //         child: Column(
+  //           //           children: [
+  //           //             SvgPicture.asset(
+  //           //               icon,
+  //           //             ),
+  //           //           ],
+  //           //         ),
+  //           //       ),
+  //           //     ),
+  //           //   );
+  //           // }).toList(),
+  //         ),
+  //       );
+  // }
 }

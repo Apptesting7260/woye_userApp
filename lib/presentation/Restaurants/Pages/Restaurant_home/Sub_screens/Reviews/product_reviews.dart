@@ -57,8 +57,7 @@ class ProductReviews extends StatelessWidget {
                     padding: REdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       children: [
-                        productReviews(
-                            rating: double.parse(ProductReview.toString()), reviewcount: reviewcount),
+                        productReviews(rating: double.parse(ProductReview.toString()), reviewcount: reviewcount),
                         hBox(30),
                         reviews(),
                         hBox(50)

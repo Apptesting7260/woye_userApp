@@ -1,7 +1,14 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
+import '../../../../../../../Data/components/GeneralException.dart';
+import '../../../../../../../Data/components/InternetException.dart';
+import '../../../../../../../Shared/Widgets/CircularProgressIndicator.dart';
+import 'controller/track_order_controller.dart';
+
 class TrackOrderScreen extends StatelessWidget {
-  const TrackOrderScreen({super.key});
+  TrackOrderScreen({super.key});
+
+  final TrackOrderController  controller = Get.put(TrackOrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +22,60 @@ class TrackOrderScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            deliveryBoyProfile(),
-            hBox(15),
-            map(),
-            hBox(20),
-            orderDetails(),
-            hBox(20),
-            orderPlaced(),
-            hBox(20),
-            orderConfirmed(),
-            hBox(20),
-            onItsWay(),
-            hBox(20),
-            addressBar(),
-            hBox(20),
-            orderButton(cartType),
-            hBox(50)
-          ],
-        ),
-      ),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.trackOrder(orderNo: controller.orderId.value);
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.trackOrder(orderNo: controller.orderId.value);
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+                onRefresh: () async {
+                  controller.trackOrder(orderNo: controller.orderId.value);
+                },
+                child: SingleChildScrollView(
+                  padding: REdgeInsets.symmetric(horizontal: 22),
+                  child: Obx(
+                    ()=> Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        deliveryBoyProfile(),
+                        hBox(15),
+                        map(),
+                        hBox(20),
+                        orderDetails(),
+                        hBox(20),
+                        orderPlaced(),
+                        hBox(20),
+                        if(controller.apiData.value.orderDetails?.status == "in_progress" || controller.apiData.value.orderDetails?.status == "completed")...[
+                          orderConfirmed(),
+                          hBox(20),
+                        ],
+                        if(controller.apiData.value.orderDetails?.status == "completed")
+                        onItsWay(),
+                        hBox(20),
+                        addressBar(),
+                        hBox(20),
+                        orderButton(cartType),
+                        hBox(50)
+                      ],
+                    ),
+                  ),
+                ),);
+        }
+      })
     );
   }
 
@@ -125,9 +162,11 @@ class TrackOrderScreen extends StatelessWidget {
                 style: AppFontStyle.text_14_400(AppColors.lightText),
               ),
               hBox(8),
-              Text(
-                "#1947034",
-                style: AppFontStyle.text_16_600(AppColors.darkText),
+              Obx(
+                ()=> Text(
+                  controller.apiData.value.orderDetails?.orderId ?? "",
+                  style: AppFontStyle.text_16_600(AppColors.darkText),
+                ),
               ),
             ],
           ),
@@ -143,6 +182,7 @@ class TrackOrderScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.r),
           border: Border.all(color: AppColors.primary)),
       child: Row(
+
         children: [
           Expanded(
               flex: 1,
@@ -170,9 +210,12 @@ class TrackOrderScreen extends StatelessWidget {
                   style: AppFontStyle.text_16_600(AppColors.darkText),
                 ),
                 hBox(8),
-                Text(
-                  "We have received your order at 09:00 AM",
-                  style: AppFontStyle.text_14_400(AppColors.lightText),
+                Obx(
+                    ()=> Text(
+                    "We have received your order at ${controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "")}",
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    maxLines: 2,
+                  ),
                 ),
               ],
             ),
@@ -215,8 +258,9 @@ class TrackOrderScreen extends StatelessWidget {
                 ),
                 hBox(8),
                 Text(
-                  "Your order has been confirmed at 09:10 AM",
+                  "Your order has been confirmed at ${controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "")}",
                   style: AppFontStyle.text_14_400(AppColors.lightText),
+                  maxLines: 2,
                 ),
               ],
             ),
@@ -271,49 +315,54 @@ class TrackOrderScreen extends StatelessWidget {
   }
 
   Widget addressBar() {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: AppColors.lightPrimary)),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 1,
-              child: Container(
-                height: 30.h,
-                width: 30.h,
-                decoration: BoxDecoration(
-                    color: AppColors.white, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.location_pin,
-                  color: AppColors.primary,
-                  size: 30.w,
-                ),
-              )),
-          wBox(10),
-          Expanded(
-            flex: 9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Home",
-                  style: AppFontStyle.text_16_600(AppColors.darkText),
-                ),
-                hBox(8),
-                Text(
-                  "888 Abc Road, Greenfield, Abc manchester,",
-                  style: AppFontStyle.text_14_400(AppColors.lightText),
-                ),
-                Text(
-                  "199 | 09:20 AM",
-                  style: AppFontStyle.text_14_400(AppColors.lightText),
-                ),
-              ],
-            ),
-          )
-        ],
+    return Obx(
+      ()=> Container(
+        padding: EdgeInsets.all(14.r),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
+            border: Border.all(color: AppColors.lightPrimary)),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Container(
+                  height: 30.h,
+                  width: 30.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.white, shape: BoxShape.circle),
+                  child: Icon(
+                    Icons.location_pin,
+                    color: AppColors.primary,
+                    size: 30.w,
+                  ),
+                )),
+            wBox(10),
+            Expanded(
+              flex: 9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    controller.apiData.value.orderDetails?.addressDetails?.addressType.toString() ?? "",
+                    style: AppFontStyle.text_16_600(AppColors.darkText),
+                  ),
+                  hBox(8),
+                  Text(
+                    "${controller.apiData.value.orderDetails?.addressDetails?.address.toString() ?? ""} ,"
+                        "${controller.apiData.value.orderDetails?.addressDetails?.houseDetails.toString() ?? ""}",
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    maxLines: 5,
+                  ),
+                  // Text(
+                  // // | 09:20 AM
+                  //   controller.apiData.value.orderDetails?.addressDetails?.houseDetails.toString() ?? "",
+                  //   style: AppFontStyle.text_14_400(AppColors.lightText),
+                  // ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

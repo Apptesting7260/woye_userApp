@@ -135,7 +135,7 @@ class PharmacyDetailsController extends GetxController {
             "Pharmacy: Lat ${apiLatitude.toStringAsFixed(6)}, Lon ${apiLongitude.toStringAsFixed(6)}";
         String message = "Coordinates:\n\n$userCoords\n\n$pharmacyCoords";
 
-        Utils.showToast(message);
+        // Utils.showToast(message);
       }
 
       print("Location from api ${pharma_Data.value.pharmaShop?.shopAddress}");

@@ -14,10 +14,27 @@ class OrderScreenController extends GetxController {
     // TODO: implement onInit
     super.onInit();
   }
+  final ScrollController scrollController = ScrollController();
+  final List<GlobalKey> tabKeys = List.generate(4, (index) => GlobalKey());
 
-  void getIndex(index) {
+  void getIndex(int index) {
     pageIndex = index;
     update();
+    scrollToIndex(index);
+  }
+
+  void scrollToIndex(int index) {
+    double itemWidth = 120.0;
+    double offset = itemWidth * index;
+    if (scrollController.hasClients) {
+      double maxExtent = scrollController.position.maxScrollExtent;
+      if (offset > maxExtent) offset = maxExtent;
+      scrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   final api = Repository();

@@ -3,6 +3,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 
+import '../../../Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import '../../../Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 
 class AddProductWishlistController extends GetxController {
@@ -26,6 +27,7 @@ class AddProductWishlistController extends GetxController {
 
   void setError(String value) => error.value = value;
   final RestaurantDetailsController restaurantDetailsController = Get.put(RestaurantDetailsController());
+  final seeAll_Product_Controller seeAllProductController =Get.put(seeAll_Product_Controller());
 
   Future<void> restaurant_add_product_wishlist({
     required String categoryId,
@@ -45,6 +47,10 @@ class AddProductWishlistController extends GetxController {
         restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId);
         if(restaurantId != null){
           restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantId.toString());
+        }
+        if(restaurantId != null&& categoryId != ''){
+          seeAllProductController.refresh_seeAll_Product_Api(
+              category_id: categoryId, restaurant_id: restaurantId);
         }
         restaurantWishlistController.restaurantProductWishlistRefreshApi();
 

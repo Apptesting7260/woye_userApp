@@ -62,7 +62,6 @@ class RestaurantHomeController extends GetxController {
       isLoading.value = false;
       homeSet(value);
       restaurantSet(value);
-
       if (homeData.value.status == true) {
         log('home data ==>>${homeData.value.status}');
       }

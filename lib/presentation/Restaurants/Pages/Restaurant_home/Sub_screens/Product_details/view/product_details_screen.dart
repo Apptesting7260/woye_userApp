@@ -399,7 +399,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.r),
                         child: CachedNetworkImage(
-                          memCacheHeight: memCacheHeight,
+                          memCacheHeight: 500,
                           imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           width: 75.h,

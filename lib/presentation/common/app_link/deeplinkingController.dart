@@ -6,8 +6,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 
 class DeepLinkController extends GetxService {
-  final RestaurantDetailsController restaurantDeatilsController =
-      Get.put(RestaurantDetailsController());
+  final RestaurantDetailsController restaurantDeatilsController = Get.put(RestaurantDetailsController());
   late AppLinks _appLinks;
   StreamSubscription<Uri>? _linkSubscription;
   var deepLinkRestaurantsId = "".obs;
@@ -20,6 +19,7 @@ class DeepLinkController extends GetxService {
   }
 
   Future<void> initDeepLinks() async {
+    print("Valuewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww11");
     _appLinks = AppLinks();
     _linkSubscription = _appLinks.uriLinkStream.listen((uri) async {
       print("uri from deeplink: ${uri}");
@@ -42,6 +42,7 @@ class DeepLinkController extends GetxService {
       // }
       else {
         deepLinkType.value = "";
+        print("Valuewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
       }
 
       // final groupId = uri.queryParameters['id'] ?? "";

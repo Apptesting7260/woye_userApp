@@ -8,7 +8,7 @@ class OrderReveivedScreen extends StatelessWidget {
 
   static RestaurantNavbarController restaurantNavbarController =RestaurantNavbarController();
 
- final HomeController homeController = Get.put(HomeController());
+ final HomeController homeController = HomeController();
 
   @override
   Widget build(BuildContext context) {

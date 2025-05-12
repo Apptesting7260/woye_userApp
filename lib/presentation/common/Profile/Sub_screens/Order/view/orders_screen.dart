@@ -84,6 +84,7 @@ class OrdersScreen extends StatelessWidget {
     return SizedBox(
       height: 45.h,
       child: ListView.separated(
+          controller: orderScreenController.scrollController,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           itemCount: 4,
@@ -100,6 +101,7 @@ class OrdersScreen extends StatelessWidget {
                 orderScreenController.getIndex(i);
               },
               child: AnimatedContainer(
+                key: orderScreenController.tabKeys[i],
                 duration: const Duration(microseconds: 500),
                 curve: Curves.easeInOut,
                 padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -801,14 +803,17 @@ class OrdersScreen extends StatelessWidget {
             ),
           ),
         wBox(10.h),
-        if (orderStatus != "pending" &&
-            orderStatus != "completed" &&
-            orderStatus != "cancelled")
+        // if (orderStatus != "pending" &&
+        //     orderStatus != "completed" &&
+        //     orderStatus != "cancelled")
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              Get.toNamed(AppRoutes.trackOrder);
+              Get.toNamed(AppRoutes.trackOrder,
+              arguments: {
+                "id" : orderId
+              });
             },
             child: Container(
               padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),

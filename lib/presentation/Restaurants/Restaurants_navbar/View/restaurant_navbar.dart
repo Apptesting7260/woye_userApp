@@ -26,6 +26,11 @@ class RestaurantNavbar extends StatelessWidget {
         builder: (navbarController) {
           return PopScope(
             canPop: false,
+            onPopInvokedWithResult: (didPop, result) {
+              if (navbarController.navbarCurrentIndex != 0) {
+                navbarController.getIndex(0);
+              }
+            },
             child: Scaffold(
               body: Stack(
                 children: [
@@ -34,10 +39,13 @@ class RestaurantNavbar extends StatelessWidget {
                   //   index: navbarController.navbarCurrentIndex,
                   //   children: navbarController.widgets,
                   // ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: navbar(navbarController),
-                  )
+                  // if(MediaQuery.of(context).viewInsets.bottom == 0) ...[
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: navbar(navbarController),
+                    ),
+                  // ],
+
                 ],
               ),
             ),
