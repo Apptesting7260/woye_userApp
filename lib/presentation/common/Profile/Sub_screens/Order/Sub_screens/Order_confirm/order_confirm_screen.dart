@@ -11,6 +11,8 @@ class OrderConfirmScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var arguments = Get.arguments ??{};
     String cartType = arguments['type'].toString() ?? "";
+    String orderNo = arguments['order_no'] ?? "";
+    print("object $orderNo");
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -44,10 +46,10 @@ class OrderConfirmScreen extends StatelessWidget {
               ),
               hBox(20),
               CustomElevatedButton(
-                  text: "Track Oder",
+                  text: "Track Order",
                   onPressed: () {
                     Get.toNamed(AppRoutes.trackOrder,
-                        arguments: {'type': cartType}
+                        arguments: {'type': cartType ,'id':orderNo}
                     );
                   }),
               hBox(20),

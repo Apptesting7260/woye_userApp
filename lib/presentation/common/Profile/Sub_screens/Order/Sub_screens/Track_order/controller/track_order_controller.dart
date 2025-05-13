@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/main.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Track_order/model/track_order_model.dart';
@@ -54,6 +55,15 @@ class TrackOrderController extends GetxController{
       debugPrint('Invalid date format: $createdAt');
       return '';
     }
+  }
+
+
+  Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 
 }

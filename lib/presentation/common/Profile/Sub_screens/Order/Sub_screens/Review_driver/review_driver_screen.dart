@@ -1,3 +1,4 @@
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Home/home_controller.dart';
 
@@ -5,11 +6,14 @@ class ReviewDriverScreen extends StatelessWidget {
   ReviewDriverScreen({super.key});
 
   final HomeController homeController = HomeController();
+  var ratingg = 0.0.obs;
 
   @override
   Widget build(BuildContext context) {
     var arguments = Get.arguments ?? {};
     String cartType = arguments['type'] ?? "";
+    String screenType = arguments['screenType'] ?? "";
+    print("sdgf >> $cartType  >>  $screenType ");
     return Scaffold(
       appBar: const CustomAppBar(
         isLeading: true,
@@ -25,7 +29,7 @@ class ReviewDriverScreen extends StatelessWidget {
             hBox(30),
             review(),
             hBox(15),
-            submitButton(cartType)
+            submitButton(cartType,screenType)
           ],
         ),
       ),
@@ -60,33 +64,48 @@ class ReviewDriverScreen extends StatelessWidget {
           style: AppFontStyle.text_16_600(AppColors.darkText),
         ),
         hBox(10),
-        Row(
-          children: [
-            SvgPicture.asset(
-              "assets/svg/star-white.svg",
-              height: 28.h,
-            ),
-            wBox(5),
-            SvgPicture.asset(
-              "assets/svg/star-white.svg",
-              height: 28.h,
-            ),
-            wBox(5),
-            SvgPicture.asset(
-              "assets/svg/star-white.svg",
-              height: 28.h,
-            ),
-            wBox(5),
-            SvgPicture.asset(
-              "assets/svg/star-white.svg",
-              height: 28.h,
-            ),
-            wBox(5),
-            SvgPicture.asset(
-              "assets/svg/star-white.svg",
-              height: 28.h,
-            ),
-          ],
+        // Row(
+        //   children: [
+        //     SvgPicture.asset(
+        //       "assets/svg/star-white.svg",
+        //       height: 28.h,
+        //     ),
+        //     wBox(5),
+        //     SvgPicture.asset(
+        //       "assets/svg/star-white.svg",
+        //       height: 28.h,
+        //     ),
+        //     wBox(5),
+        //     SvgPicture.asset(
+        //       "assets/svg/star-white.svg",
+        //       height: 28.h,
+        //     ),
+        //     wBox(5),
+        //     SvgPicture.asset(
+        //       "assets/svg/star-white.svg",
+        //       height: 28.h,
+        //     ),
+        //     wBox(5),
+        //     SvgPicture.asset(
+        //       "assets/svg/star-white.svg",
+        //       height: 28.h,
+        //     ),
+        //   ],
+        // ),
+        RatingBar(
+          itemPadding: EdgeInsets.only(right: 10.w),
+          itemSize: 36,
+          initialRating: ratingg.value,
+          allowHalfRating: false,
+          ratingWidget: RatingWidget(
+            full: Icon(Icons.star, color: AppColors.goldStar),
+            half: Icon(Icons.star_half, color: AppColors.goldStar),
+            empty: Icon(Icons.star_border, color: AppColors.normalStar),
+          ),
+          onRatingUpdate: (rating) {
+            print('Rating updated: $rating');
+            ratingg.value = rating;
+          },
         ),
       ],
     );
@@ -125,21 +144,22 @@ class ReviewDriverScreen extends StatelessWidget {
     );
   }
 
-  Widget submitButton(cartType) {
+  Widget submitButton(cartType,screenType) {
     return CustomElevatedButton(
         text: "Submit",
         onPressed: () async {
-          if (cartType == "restaurant") {
+          if (cartType == "restaurant" || screenType == 'restaurantProfileScreen') {
             // await Get.offAllNamed(AppRoutes.restaurantNavbar);
             homeController.getIndex(0);
             homeController.navigate(0);
-          } else if (cartType == "pharmacy") {
+          } else if (cartType == "pharmacy" || screenType == "pharmacyProfileScreen") {
             homeController.getIndex(1);
             homeController.navigate(1);
             //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
-          }else if(cartType == "grocery"){
+          }else if(cartType == "grocery" || screenType == "groceryProfileScreen") {
             homeController.getIndex(2);
             homeController.navigate(2);
+            homeController.mainButtonIndex.value = 0;
           }
         });
   }

@@ -11,16 +11,28 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Ve
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 
 import '../../../../../../Core/Constant/app_urls.dart';
+import '../../../../../../shared/widgets/shimmer.dart';
 import '../../../../../Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
 
-class GroceryVendorDetailsScreen extends StatelessWidget {
+class GroceryVendorDetailsScreen extends StatefulWidget {
   final String groceryId;
 
   GroceryVendorDetailsScreen({super.key, required this.groceryId});
 
+  @override
+  State<GroceryVendorDetailsScreen> createState() => _GroceryVendorDetailsScreenState();
+}
+
+class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen> {
   final GroceryDetailsController controller =  Get.put(GroceryDetailsController());
 
   final SeeAllProductReviewController seeAllProductReviewController =   Get.put(SeeAllProductReviewController());
+
+  @override
+  void initState() {
+    controller.restaurant_Details_Api(id: widget.groceryId);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +43,7 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Share.share(
-                  '${AppUrls.hostUrl}/grocery?id=$groceryId',
+                  '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
                   subject:
                   controller.pharma_Data.value.pharmaShop?.shopName ??
                       'Share Grocery Shop');
@@ -88,13 +100,13 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
             if (controller.error.value == 'No internet') {
               return InternetExceptionWidget(
                 onPress: () {
-                  controller.restaurant_Details_Api(id: groceryId);
+                  controller.restaurant_Details_Api(id: widget.groceryId);
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
-                  controller.restaurant_Details_Api(id: groceryId);
+                  controller.restaurant_Details_Api(id: widget.groceryId);
                 },
               );
             }
@@ -102,7 +114,7 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
             return Scaffold(
               body: RefreshIndicator(
                   onRefresh: () async {
-                    controller.restaurant_Details_Api(id: groceryId);
+                    controller.restaurant_Details_Api(id: widget.groceryId);
                   },
                   child: SingleChildScrollView(
                     padding: REdgeInsets.symmetric(horizontal: 24),
@@ -140,15 +152,16 @@ class GroceryVendorDetailsScreen extends StatelessWidget {
             child: CachedNetworkImage(
               memCacheHeight: memCacheHeight,
               width: Get.width,
-              imageUrl:
-              controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
-              placeholder: (context, url) =>
-                  Center(child: circularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(
-                Icons.error,
-                size: 60.h,
-                color: AppColors.lightText.withOpacity(0.5),
-              ),
+              imageUrl:controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
+              placeholder: (context, url) =>const ShimmerWidget(),
+              errorWidget: (context, url, error) => Container(
+                height: 220.h,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.textFieldBorder),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               fit: BoxFit.cover,
             )),
         hBox(15),

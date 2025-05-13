@@ -14,6 +14,9 @@ class OrderReveivedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var arguments = Get.arguments ?? {};
     String cartType = arguments['type'] ?? "";
+    String screenType = arguments['screenType'] ?? "";
+    print("sdgf >> $cartType  >>  $screenType ");
+
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -46,15 +49,15 @@ class OrderReveivedScreen extends StatelessWidget {
             CustomElevatedButton(
                 text: "Continue shopping",
                 onPressed: () async {
-                  if (cartType == "restaurant") {
+                  if (cartType == "restaurant" || screenType == "restaurantProfileScreen") {
                     // await Get.offAllNamed(AppRoutes.restaurantNavbar);
                     homeController.getIndex(0);
                     homeController.navigate(0);
-                  } else if (cartType == "pharmacy") {
+                  } else if (cartType == "pharmacy" || screenType == 'pharmacyProfileScreen') {
                     homeController.getIndex(1);
                     homeController.navigate(1);
                     //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
-                  }else if(cartType == "grocery"){
+                  }else if(cartType == "grocery" || screenType == "groceryProfileScreen"){
                     homeController.getIndex(2);
                     homeController.navigate(2);
                   }
@@ -63,8 +66,8 @@ class OrderReveivedScreen extends StatelessWidget {
             hBox(20),
             CustomOutlinedButton(
               onPressed: () {
-                Get.toNamed(AppRoutes.reviewDriver,
-                    arguments: {'type': cartType}
+                Get.offNamed(AppRoutes.reviewDriver,
+                    arguments: {'type': cartType,'screenType':screenType}
                 );
               },
               child: const Text("Review This Driver"),

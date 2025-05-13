@@ -57,8 +57,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 Share.share(
                     '${AppUrls.hostUrl}/restaurants?id=${widget.Restaurantid}',
                     subject:
-                        controller.restaurant_Data.value.restaurant?.shopName ??
-                            'Share Restaurant');
+                        controller.restaurant_Data.value.restaurant?.shopName ?? 'Share Restaurant');
               },
               child: Container(
                 padding: REdgeInsets.all(9),

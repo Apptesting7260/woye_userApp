@@ -29,10 +29,9 @@ class PharmacyDetailsController extends GetxController {
   restaurant_Details_Api({
     required String id,
   }) async {
-    loadLocationData();
+     loadLocationData();
     setRxRequestStatus(Status.LOADING);
     Map data = {"pharma_id": id};
-
     api.specificPharmaShopApi(data).then((value) {
       restaurant_Set(value);
       setRxRequestStatus(Status.COMPLETED);

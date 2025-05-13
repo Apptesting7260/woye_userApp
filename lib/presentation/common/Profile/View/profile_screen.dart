@@ -6,29 +6,32 @@ import 'package:woye_user/presentation/common/Profile/Controller/profile_control
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 import '../../../../Data/userPrefrenceController.dart';
+import '../../../Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
 import '../../Social_login/social_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+  String? profileScreenType;
+  ProfileScreen({super.key,this.profileScreenType});
 
   // UserModel userModel = UserModel();
 
-  static final ProfileController restaurantProfileController =
-      Get.put(ProfileController());
+  static final ProfileController restaurantProfileController =  Get.put(ProfileController());
 
-  // final RestaurantHomeController restaurantHomeController =
-  //     Get.put(RestaurantHomeController());
+  // final RestaurantHomeController restaurantHomeController =  Get.put(RestaurantHomeController());
 
-  final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
-  final SocialLoginController socialLoginController =
-      Get.put(SocialLoginController());
+  final SocialLoginController socialLoginController = Get.put(SocialLoginController());
+
+  // final PharmacyNavbarController pharmacyNavbarController = PharmacyNavbarController();
 
   UserPreference userPreference = UserPreference();
 
   @override
   Widget build(BuildContext context) {
+    if(profileScreenType != null) {
+      print("profileScreenType : $profileScreenType");
+    }
     return Scaffold(
       appBar: CustomAppBar(
         isActions: true,
@@ -206,7 +209,11 @@ class ProfileScreen extends StatelessWidget {
             "guestUser") {
           showLoginRequired(context);
         } else {
-          Get.toNamed(AppRoutes.orders);
+          Get.toNamed(AppRoutes.orders,
+          arguments: {
+            "screenType" : profileScreenType,
+            }
+          );
         }
       },
     );

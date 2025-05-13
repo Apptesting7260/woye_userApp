@@ -114,7 +114,7 @@ class CreateOrderController extends GetxController {
           // selectedIndex.value = -1;
           PrescriptionController prescriptionController = Get.put(PrescriptionController());
           prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
-          Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': cartType});
+          Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': cartType,"order_no" :createOrderData.value.orderNo.toString()});
 
         } else {
           Utils.showToast(createOrderData.value.message.toString());

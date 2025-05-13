@@ -21,7 +21,7 @@ class PharmacyNavbarController extends GetxController {
      PharmacyCategoriesScreen(),
      PharmacyWishlistScreen(),
      PharmacyCartScreen(),
-    ProfileScreen()
+    ProfileScreen(profileScreenType: "pharmacyProfileScreen")
   ];
 
   @override

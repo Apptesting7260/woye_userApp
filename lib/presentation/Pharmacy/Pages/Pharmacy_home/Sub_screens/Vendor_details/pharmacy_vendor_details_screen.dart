@@ -13,29 +13,40 @@ import 'package:woye_user/shared/widgets/shimmer.dart';
 import '../../../../../../Core/Constant/app_urls.dart';
 import '../../../../../../Core/Utils/image_cache_height.dart';
 
-class PharmacyVendorDetailsScreen extends StatelessWidget {
+class PharmacyVendorDetailsScreen extends StatefulWidget {
   final String pharmacyId;
 
   PharmacyVendorDetailsScreen({super.key, required this.pharmacyId});
 
+  @override
+  State<PharmacyVendorDetailsScreen> createState() => _PharmacyVendorDetailsScreenState();
+}
+
+class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScreen> {
   final PharmacyDetailsController controller = Get.put(PharmacyDetailsController());
 
   final SeeAllProductReviewController seeAllProductReviewController =
       Get.put(SeeAllProductReviewController());
 
   @override
+  void initState() {
+    print("Pharma ID >> ${widget.pharmacyId}");
+   controller.restaurant_Details_Api(id: widget.pharmacyId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
           GestureDetector(
             onTap: () {
               Share.share(
-                  '${AppUrls.hostUrl}/pharmacy?id=$pharmacyId',
-                  subject:
-                  controller.pharma_Data.value.pharmaShop?.shopName ??
-                      'Share Pharmacy Shop');
+                  '${AppUrls.hostUrl}/pharmacy?id=${widget.pharmacyId}',
+                  subject: controller.pharma_Data.value.pharmaShop?.shopName ?? 'Share Pharmacy Shop',
+              );
             },
             child: Container(
               padding: REdgeInsets.all(9),
@@ -89,13 +100,13 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             if (controller.error.value == 'No internet') {
               return InternetExceptionWidget(
                 onPress: () {
-                  controller.restaurant_Details_Api(id: pharmacyId);
+                  controller.restaurant_Details_Api(id: widget.pharmacyId);
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
-                  controller.restaurant_Details_Api(id: pharmacyId);
+                  controller.restaurant_Details_Api(id: widget.pharmacyId);
                 },
               );
             }
@@ -103,7 +114,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             return Scaffold(
               body: RefreshIndicator(
                   onRefresh: () async {
-                    controller.restaurant_Details_Api(id: pharmacyId);
+                    controller.restaurant_Details_Api(id: widget.pharmacyId);
                   },
                   child: SingleChildScrollView(
                     padding: REdgeInsets.symmetric(horizontal: 24),
@@ -116,11 +127,9 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
                         hBox(30),
                         description(),
                         reviews(),
-                        if (controller
-                            .pharma_Data.value.moreProducts!.isNotEmpty)
+                        if (controller.pharma_Data.value.moreProducts?.isNotEmpty ?? true)
                           hBox(30),
-                        if (controller
-                            .pharma_Data.value.moreProducts!.isNotEmpty)
+                        if (controller.pharma_Data.value.moreProducts?.isNotEmpty ?? true)
                           moreProducts(),
                         hBox(30),
                       ],
@@ -140,7 +149,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.r),
             child: CachedNetworkImage(
               memCacheHeight: memCacheHeight,
-              imageUrl: controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
+              imageUrl: controller.pharma_Data.value.pharmaShop?.shopimage.toString() ?? "",
               placeholder: (context, url) => const ShimmerWidget(),
               errorWidget: (context, url, error) =>Container(
               clipBehavior: Clip.antiAlias,
@@ -155,7 +164,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             )),
         hBox(15),
         Text(
-          controller.pharma_Data.value.pharmaShop!.shopName.toString(),
+          controller.pharma_Data.value.pharmaShop?.shopName.toString() ?? "",
           style: AppFontStyle.text_24_400(AppColors.darkText),
           maxLines: 2,
         ),
@@ -197,7 +206,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             wBox(8),
             Flexible(
               child: Text(
-                "${controller.pharma_Data.value.pharmaShop!.firstName ?? ""} ${controller.pharma_Data.value.pharmaShop!.lastName ?? ""}",
+                "${controller.pharma_Data.value.pharmaShop?.firstName ?? ""} ${controller.pharma_Data.value.pharmaShop?.lastName ?? ""}",
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.darkText,
@@ -214,7 +223,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             wBox(8),
             Flexible(
               child: Text(
-                controller.pharma_Data.value.pharmaShop!.email.toString(),
+                controller.pharma_Data.value.pharmaShop?.email.toString() ?? "",
                 overflow: TextOverflow.ellipsis,
                 style: AppFontStyle.text_14_400(AppColors.darkText),
               ),
@@ -228,7 +237,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
             wBox(8),
             Flexible(
               child: Text(
-                controller.pharma_Data.value.pharmaShop!.shopAddress.toString(),
+                controller.pharma_Data.value.pharmaShop?.shopAddress.toString() ?? "",
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppFontStyle.text_14_400(
@@ -243,7 +252,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
   }
 
   Widget openHours() {
-    var openingHours = controller.pharma_Data.value.pharmaShop!.openingHours;
+    var openingHours = controller.pharma_Data.value.pharmaShop?.openingHours;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,7 +300,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
         ),
         hBox(10),
         Text(
-          controller.pharma_Data.value.pharmaShop!.shopDes.toString(),
+          controller.pharma_Data.value.pharmaShop?.shopDes.toString() ?? "",
           style: AppFontStyle.text_16_400(AppColors.lightText),
           maxLines: 30,
         ),
@@ -309,10 +318,9 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.pharma_Data.value.review!.length,
+                itemCount: controller.pharma_Data.value.review?.length ?? 0,
                 itemBuilder: (context, index) {
-                  return controller.pharma_Data.value.review![index].user !=
-                          null
+                  return controller.pharma_Data.value.review?[index].user != null
                       ? Column(
                           children: [
                             Row(
@@ -473,7 +481,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
                         Get.toNamed(
                           AppRoutes.productReviews,
                           arguments: {
-                            'product_id': pharmacyId.toString(),
+                            'product_id': widget.pharmacyId.toString(),
                             'product_review':
                                 controller.pharma_Data.value.averageRating,
                             'review_count': controller
@@ -483,7 +491,7 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
                           },
                         );
                         seeAllProductReviewController.seeAllProductReviewApi(
-                            vendorId: pharmacyId.toString(), type: "pharmacy");
+                            vendorId: widget.pharmacyId.toString(), type: "pharmacy");
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -547,5 +555,4 @@ class PharmacyVendorDetailsScreen extends StatelessWidget {
       ],
     );
   }
-
 }

@@ -55,8 +55,7 @@ class AppUrls {
   static const String restaurantBannersData = "$baseUrl/banners-data";
   static const String specificProduct = "$baseUrl/specific-product";
   static const String addProductWishlist = "$baseUrl/product-wishlist";
-  static const String restaurantProductWishlist =
-      "$baseUrl/all-product-wishlist";
+  static const String restaurantProductWishlist = "$baseUrl/all-product-wishlist";
   static const String getCategoriesFilter = "$baseUrl/inner-search-data";
   static const String seeAllProducts = "$baseUrl/seeAll-specific-product";
   static const String seeAllReview = "$baseUrl/review-all";

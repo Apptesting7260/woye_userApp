@@ -14,6 +14,9 @@ class TrackOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var arguments = Get.arguments ?? {};
     String cartType = arguments['type'] ?? "";
+    String screenType = arguments['screenType'] ?? "";
+    String orderId = arguments['id'] ?? "";
+    print("sdgf >> $cartType  >>  $screenType  >>  $orderId");
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -47,8 +50,7 @@ class TrackOrderScreen extends StatelessWidget {
                 },
                 child: SingleChildScrollView(
                   padding: REdgeInsets.symmetric(horizontal: 22),
-                  child: Obx(
-                    ()=> Column(
+                  child:Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         deliveryBoyProfile(),
@@ -59,27 +61,28 @@ class TrackOrderScreen extends StatelessWidget {
                         hBox(20),
                         orderPlaced(),
                         hBox(20),
-                        if(controller.apiData.value.orderDetails?.status == "in_progress" || controller.apiData.value.orderDetails?.status == "completed")...[
+                        // if(controller.apiData.value.orderDetails?.status == "in_progress" || controller.apiData.value.orderDetails?.status == "completed")...[
                           orderConfirmed(),
                           hBox(20),
-                        ],
-                        if(controller.apiData.value.orderDetails?.status == "completed")
+                        // ],
+                        // if(controller.apiData.value.orderDetails?.status == "completed")
                         onItsWay(),
                         hBox(20),
                         addressBar(),
                         hBox(20),
-                        orderButton(cartType),
+                        orderButton(cartType,screenType),
                         hBox(50)
                       ],
                     ),
                   ),
-                ),);
+                );
         }
       })
     );
   }
 
   Widget deliveryBoyProfile() {
+    String phoneNumber = "+791 12 123 1234";
     return Container(
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
@@ -106,19 +109,24 @@ class TrackOrderScreen extends StatelessWidget {
               ),
               hBox(10),
               Text(
-                "+791 12 123 1234",
+                phoneNumber,
                 textAlign: TextAlign.center,
                 style: AppFontStyle.text_14_400(AppColors.lightText),
               )
             ],
           ),
           const Spacer(),
-          CircleAvatar(
-            radius: 20.r,
-            child: SvgPicture.asset(
-              "assets/svg/call.svg",
-              // height: 20,
-              fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              controller.makePhoneCall(phoneNumber);
+            },
+            child: CircleAvatar(
+              radius: 20.r,
+              child: SvgPicture.asset(
+                "assets/svg/call.svg",
+                // height: 20,
+                fit: BoxFit.cover,
+              ),
             ),
           )
         ],
@@ -182,7 +190,6 @@ class TrackOrderScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.r),
           border: Border.all(color: AppColors.primary)),
       child: Row(
-
         children: [
           Expanded(
               flex: 1,
@@ -226,90 +233,108 @@ class TrackOrderScreen extends StatelessWidget {
   }
 
   Widget orderConfirmed() {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: AppColors.primary)),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 1,
-              child: Container(
-                height: 25.h,
-                width: 25.h,
-                decoration: BoxDecoration(
-                    color: AppColors.primary, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 18.w,
-                ),
-              )),
-          wBox(10),
-          Expanded(
-            flex: 9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Order Confirmed",
-                  style: AppFontStyle.text_16_600(AppColors.darkText),
-                ),
-                hBox(8),
-                Text(
-                  "Your order has been confirmed at ${controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "")}",
-                  style: AppFontStyle.text_14_400(AppColors.lightText),
-                  maxLines: 2,
-                ),
-              ],
+    return Obx(
+      ()=> Container(
+        padding: EdgeInsets.all(14.r),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
+            border: Border.all(color:controller.apiData.value.orderDetails?.status == "in_progress"
+                || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.primary :AppColors.lightPrimary,
             ),
-          )
-        ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Container(
+                  height: 25.h,
+                  width: 25.h,
+                  decoration: BoxDecoration(
+                    color: controller.apiData.value.orderDetails?.status == "in_progress" ||
+                    controller.apiData.value.orderDetails?.status == "completed" ?
+                    AppColors.primary : AppColors.primary.withOpacity(0.4),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.check,
+                    color: Colors.white,
+                    size: 18.w,
+                  ),
+                )),
+            wBox(10),
+            Expanded(
+              flex: 9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Order Confirmed",
+                    style: AppFontStyle.text_16_600( controller.apiData.value.orderDetails?.status == "in_progress" ||
+                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText : AppColors.darkText.withOpacity(0.3)),
+                  ),
+                  hBox(8),
+                  Text(
+                    "Your order has been confirmed at ${ controller.apiData.value.orderDetails?.status == "in_progress" ||
+                        controller.apiData.value.orderDetails?.status == "completed" ?
+                    controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "") : "..."}",
+                    style: AppFontStyle.text_14_400( controller.apiData.value.orderDetails?.status == "in_progress" ||
+                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText : AppColors.lightText.withOpacity(.4)),
+                    maxLines: 2,
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 
   Widget onItsWay() {
-    return Container(
-      padding: EdgeInsets.all(14.r),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r),
-          border: Border.all(color: AppColors.primary)),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 1,
-              child: Container(
-                height: 30.h,
-                width: 30.h,
-                decoration: BoxDecoration(
-                    color: AppColors.white, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.access_time_filled_sharp,
-                  color: AppColors.primary,
-                  size: 30.w,
-                ),
-              )),
-          wBox(10),
-          Expanded(
-            flex: 9,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "On its way",
-                  style: AppFontStyle.text_16_600(AppColors.darkText),
-                ),
-                hBox(8),
-                Text(
-                  "Store Location | 09:15 AM",
-                  style: AppFontStyle.text_14_400(AppColors.lightText),
-                ),
-              ],
-            ),
-          )
-        ],
+    return Obx(
+      ()=> Container(
+        padding: EdgeInsets.all(14.r),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.r),
+            border: Border.all(color:controller.apiData.value.orderDetails?.status == "in_progress"
+                || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.primary :AppColors.lightPrimary,)),
+        child: Row(
+          children: [
+            Expanded(
+                flex: 1,
+                child: Container(
+                  height: 30.h,
+                  width: 30.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.white, shape: BoxShape.circle),
+                  child: Icon(
+                    Icons.access_time_filled_sharp,
+                    color:controller.apiData.value.orderDetails?.status == "in_progress"
+                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.primary :AppColors.lightPrimary,                  size: 30.w,
+                  ),
+                )),
+            wBox(10),
+            Expanded(
+              flex: 9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "On its way",
+                    style: AppFontStyle.text_16_600(controller.apiData.value.orderDetails?.status == "in_progress"
+                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText :AppColors.darkText.withOpacity(0.4),),
+                  ),
+                  hBox(8),
+                  Text(
+                    "Store Location | 09:15 AM",
+                    style: AppFontStyle.text_14_400(controller.apiData.value.orderDetails?.status == "in_progress"
+                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText :AppColors.lightText.withOpacity(0.4),),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -320,7 +345,7 @@ class TrackOrderScreen extends StatelessWidget {
         padding: EdgeInsets.all(14.r),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.r),
-            border: Border.all(color: AppColors.lightPrimary)),
+            border: Border.all(color:controller.apiData.value.orderDetails?.status == "completed" ? AppColors.primary : AppColors.lightPrimary)),
         child: Row(
           children: [
             Expanded(
@@ -367,14 +392,21 @@ class TrackOrderScreen extends StatelessWidget {
     );
   }
 
-  Widget orderButton(String? cartType) {
+  Widget orderButton(String? cartType,String screenType) {
     return CustomElevatedButton(
-        color: AppColors.primary  ,
-        text: "Order Received",
-        onPressed: () {
-          Get.toNamed(AppRoutes.orderReveived,
-              arguments: {'type': cartType}
-          );
-        });
+          // color: controller.apiData.value.orderDetails?.status == "completed" ? AppColors.primary : AppColors.primary.withOpacity(0.4)  ,
+          color: AppColors.primary,
+          text: "Order Received",
+          onPressed: () {
+            // if(controller.apiData.value.orderDetails?.status == "completed") {
+              Get.offNamed(AppRoutes.orderReveived,
+                  arguments: {'type': cartType,"screenType" : screenType}
+              );
+            // }
+            // else{
+            //   Utils.showToast("Your order is not delivered yet. Please wait for it to be delivered.");
+            // }
+          },
+    );
   }
 }

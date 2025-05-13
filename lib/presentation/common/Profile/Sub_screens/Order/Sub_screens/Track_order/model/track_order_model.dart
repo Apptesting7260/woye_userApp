@@ -40,7 +40,7 @@ class OrderDetails {
   String? remainingPayment;
   String? total;
   String? status;
-  String? drslip;
+  List<String>? drslip;
   String? deliveredAt;
   String? createdAt;
   String? updatedAt;
@@ -89,7 +89,9 @@ class OrderDetails {
     remainingPayment = json['remaining_payment'];
     total = json['total'];
     status = json['status'];
-    drslip = json['drslip'];
+    if(json['drslip'] != null){
+      drslip = json['drslip'].cast<String>();
+    }
     deliveredAt = json['delivered_at'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -167,18 +169,18 @@ class DecodedAttribute {
   });
 
   DecodedAttribute.fromJson(Map<String, dynamic> json) {
-    productId = json['product_id'];
+    productId = json['product_id']?.toString();
     quantity = json['quantity'];
-    price = json['price'];
+    price = json['price']?.toString();
     addons = json['addons'];
     attribute = json['attribute'];
-    checked = json['checked'];
+    checked = json['checked']?.toString();
     count = json['count'];
     addonName = json['addon_name'];
-    productName = json['product_name'];
+    productName = json['product_name']?.toString();
     categoryId = json['category_id'];
-    categoryName = json['category_name'];
-    productImage = json['product_image'];
+    categoryName = json['category_name']?.toString();
+    productImage = json['product_image']?.toString();
   }
 
   Map<String, dynamic> toJson() {

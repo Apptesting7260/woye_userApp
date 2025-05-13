@@ -3,24 +3,26 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/ordes_li
 
 class OrderScreenController extends GetxController {
   int pageIndex = 0;
-
+  String screenType = "";
   @override
   void onInit() {
     var arguments = Get.arguments ?? {};
     if (arguments['pageIndex'] != null && arguments['pageIndex'] is int) {
       pageIndex = arguments['pageIndex'] as int;
     }
+    screenType = arguments['screenType'] ?? "";
+    print("screenType : $screenType");
     getOrdersListApi();
     // TODO: implement onInit
     super.onInit();
   }
   final ScrollController scrollController = ScrollController();
-  final List<GlobalKey> tabKeys = List.generate(4, (index) => GlobalKey());
+  // final List<GlobalKey> tabKeys = List.generate(4, (index) => GlobalKey());
 
   void getIndex(int index) {
     pageIndex = index;
     update();
-    scrollToIndex(index);
+    // scrollToIndex(index);
   }
 
   void scrollToIndex(int index) {

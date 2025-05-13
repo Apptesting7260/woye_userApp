@@ -21,7 +21,7 @@ class GroceryNavbarController extends GetxController {
     GroceryCategoriesScreen(),
     GroceryWishlistScreen(),
     GroceryCartScreen(isBack: false,),
-    ProfileScreen()
+    ProfileScreen(profileScreenType: 'groceryProfileScreen',)
   ];
 
   @override

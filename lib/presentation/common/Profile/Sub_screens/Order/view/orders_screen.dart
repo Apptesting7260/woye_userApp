@@ -20,6 +20,12 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments ?? {};
+    if (arguments['pageIndex'] != null && arguments['pageIndex'] is int) {
+     controller.pageIndex = arguments['pageIndex'] as int;
+    }else{
+      controller.pageIndex = 0;
+    }
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -101,7 +107,7 @@ class OrdersScreen extends StatelessWidget {
                 orderScreenController.getIndex(i);
               },
               child: AnimatedContainer(
-                key: orderScreenController.tabKeys[i],
+                // key: orderScreenController.tabKeys[i],
                 duration: const Duration(microseconds: 500),
                 curve: Curves.easeInOut,
                 padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -803,17 +809,18 @@ class OrdersScreen extends StatelessWidget {
             ),
           ),
         wBox(10.h),
-        // if (orderStatus != "pending" &&
-        //     orderStatus != "completed" &&
-        //     orderStatus != "cancelled")
+        if (orderStatus != "pending" &&
+            orderStatus != "completed" &&
+            orderStatus != "cancelled")
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              Get.toNamed(AppRoutes.trackOrder,
-              arguments: {
-                "id" : orderId
-              });
+                Get.toNamed(AppRoutes.trackOrder,
+                  arguments: {
+                    "id" : orderId,
+                    "screenType" : controller.screenType,
+                  });
             },
             child: Container(
               padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),

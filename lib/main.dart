@@ -13,6 +13,7 @@ import 'firebase_options.dart';
 
 var inSplash = true.obs;
 final PushNotificationService  _notificationService = PushNotificationService();
+final deepLinkController = Get.put(DeepLinkController());
 
 Future<void> main() async {
   await dotenv.load(fileName: "assets/.env");
@@ -50,16 +51,8 @@ Future<void> main() async {
 
   ///deepLinks
 
-  try {
-    deepLinkController.initDeepLinks();
-  } catch (e) {
-    print(e);
-  }
-
-
   runApp(MyApp());
 }
-final deepLinkController = Get.put(DeepLinkController());
 
 class MyApp extends StatelessWidget {
   MyApp({super.key});
@@ -68,6 +61,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        deepLinkController.initDeepLinks();
+      } catch (e) {
+        print("deeplink error $e");
+      }
+    });
+
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

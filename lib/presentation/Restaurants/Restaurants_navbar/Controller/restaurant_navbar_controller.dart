@@ -24,7 +24,7 @@ class RestaurantNavbarController extends GetxController {
     RestaurantCategoriesScreen(),
     RestaurantWishlistScreen(),
     RestaurantCartScreen(),
-    ProfileScreen()
+    ProfileScreen(profileScreenType: "restaurantProfileScreen",)
   ];
 
   @override
