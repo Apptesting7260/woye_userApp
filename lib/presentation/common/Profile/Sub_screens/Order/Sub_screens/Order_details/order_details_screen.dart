@@ -26,6 +26,8 @@ class OrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("dafsfdafsf : ${controller.ordersData.value.orderDetails?.drslip}");
+
     final arguments = Get.arguments;
     final id = arguments['order_id'];
     print('Order ID: $id');
@@ -63,27 +65,27 @@ class OrderDetailsScreen extends StatelessWidget {
               child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   padding: REdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      heading(),
-                      hBox(30),
-                      orderDetails(),
-                      hBox(20),
-                      orderIdDetails(),
-                      hBox(20),
-                      paymentDetails(),
-                      hBox(20),
-                      if(controller.ordersData.value.orderDetails?.type == 'pharmacy' && controller.ordersData.value.orderDetails?.drslip?.length != null ||
-                          controller.ordersData.value.orderDetails?.type == 'pharmacy' && (controller.ordersData.value.
-                          orderDetails?.drslip  != []))...[
-                      prescriptions(),
+                  child: Obx(
+                    ()=> Column(
+                      children: [
+                        heading(),
+                        hBox(30),
+                        orderDetails(),
+                        hBox(20),
+                        orderIdDetails(),
+                        hBox(20),
+                        paymentDetails(),
+                        hBox(20),
+                        if(controller.ordersData.value.orderDetails?.type == 'pharmacy' && (controller.ordersData.value.orderDetails?.drslip?.isNotEmpty ?? false))...[
+                        prescriptions(),
+                        ],
+                        hBox(20),
+                        if (controller.ordersData.value.review != null) reviews(),
+                        if (controller.ordersData.value.review != null) hBox(20),
+                        buttons(),
+                        hBox(50)
                       ],
-                      hBox(20),
-                      if (controller.ordersData.value.review != null) reviews(),
-                      if (controller.ordersData.value.review != null) hBox(20),
-                      buttons(),
-                      hBox(50)
-                    ],
+                    ),
                   )),
             );
         }

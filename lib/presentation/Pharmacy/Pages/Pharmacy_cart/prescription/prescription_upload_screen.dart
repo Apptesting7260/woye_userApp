@@ -131,6 +131,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                             Utils.showToast("Prescription is required to upload for this medication.");
                           } else {
                             if (controller.imageList.last.value != null) {
+                              print("controller.base64ImageList ${controller.base64ImageList.length}");
                               // List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
                               Get.toNamed(
                                 AppRoutes.checkoutScreen,
@@ -336,7 +337,14 @@ class PrescriptionUploadScreen extends StatelessWidget {
                     if (controller.imageList.length > 1) ...[
                       GestureDetector(
                         onTap: () {
-                          controller.imageList.removeAt(index);
+                          // controller.imageList.removeAt(index);
+                          // controller.base64ImageList.removeAt(index);
+                          if (index < controller.imageList.length) {
+                            controller.imageList.removeAt(index);
+                          }
+                          if (index < controller.base64ImageList.length) {
+                            controller.base64ImageList.removeAt(index);
+                          }
                         },
                         child: Row(
                           children: [

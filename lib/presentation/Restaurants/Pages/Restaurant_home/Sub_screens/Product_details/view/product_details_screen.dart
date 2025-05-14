@@ -63,6 +63,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("restaurant>>>>>>>>>>>> 11  $restaurantId :: catid>>> $categoryId :: productId $productId  ::   catName >> $categoryName");
     // restaurantCartController.isCartScreen.value;
     return Scaffold(
       appBar: CustomAppBar(
@@ -142,13 +143,15 @@ class ProductDetailsScreen extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 controller.isLoading.value = true;
-                controller.productData.value.product?.isInWishlist =
-                    !controller.productData.value.product!.isInWishlist!;
+                controller.productData.value.product?.isInWishlist = !controller.productData.value.product!.isInWishlist!;
                 await addWishlistController.restaurant_add_product_wishlist(
                   restaurantId: restaurantId.toString(),
                   categoryId: categoryId,
                   product_id: productId.toString(),
                 );
+                Utils.showToast(productId.toString());s
+
+                print("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
                 controller.isLoading.value = false;
               },
               child: Container(
@@ -552,6 +555,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   height: 20.h,
                   width: 20.h,
                   fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
                 ),
               ),
               wBox(5),
@@ -1291,25 +1295,23 @@ class ProductDetailsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () {
+                    print("object  >>>> ${controller.productData.value.moreProducts![index].id}");
+                    productId.isEmpty;
+                    print("restaurant>>>>>>>>>>>> $restaurantId :: catid>>> $categoryId :: productId $productId >> :: ${controller.productData.value.moreProducts![index].id}  catName >> $categoryName");
                     Get.to(ProductDetailsScreen(
-                      productId: controller
-                          .productData.value.moreProducts![index].id
-                          .toString(),
+                      productId: controller.productData.value.moreProducts![index].id.toString(),
                       categoryId: categoryId,
                       categoryName: categoryName,
+                      restaurantId: restaurantId,
                     ));
 
                     controller.specific_Product_Api(
-                        productId: controller
-                            .productData.value.moreProducts![index].id
-                            .toString(),
+                        productId: controller.productData.value.moreProducts![index].id.toString(),
                         categoryId: categoryId.toString());
                   },
                   child: CustomItemBanner(
                     index: index,
-                    product_id: controller
-                        .productData.value.moreProducts![index].id
-                        .toString(),
+                    product_id: controller.productData.value.moreProducts![index].id.toString(),
                     categoryId: categoryId,
                     image: controller
                         .productData.value.moreProducts![index].urlImage,

@@ -17,62 +17,66 @@ class OrderReveivedScreen extends StatelessWidget {
     String screenType = arguments['screenType'] ?? "";
     print("sdgf >> $cartType  >>  $screenType ");
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        isLeading: true,
-        title: Text(
-          "Order Received",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          // isLeading: false,
+          leadingOnTap: () {},
+          title: Text(
+            "Order Received",
+            style: AppFontStyle.text_22_600(AppColors.darkText),
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/order-confirm.png",
-              height: 250.h,
-            ),
-            hBox(30),
-            Text(
-              "Order Received",
-              style: AppFontStyle.text_24_600(AppColors.darkText),
-            ),
-            hBox(20),
-            Text(
-              "Thank you for purchasing products from our store.Wishing you a nice day.",
-              textAlign: TextAlign.center,
-              style: AppFontStyle.text_14_400(AppColors.darkText),
-            ),
-            hBox(20),
-            CustomElevatedButton(
-                text: "Continue shopping",
-                onPressed: () async {
-                  if (cartType == "restaurant" || screenType == "restaurantProfileScreen") {
+        body: SingleChildScrollView(
+          padding: REdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/order-confirm.png",
+                height: 250.h,
+              ),
+              hBox(30),
+              Text(
+                "Order Received",
+                style: AppFontStyle.text_24_600(AppColors.darkText),
+              ),
+              hBox(20),
+              Text(
+                "Thank you for purchasing products from our store.Wishing you a nice day.",
+                textAlign: TextAlign.center,
+                style: AppFontStyle.text_14_400(AppColors.darkText),
+              ),
+              hBox(20),
+              CustomElevatedButton(
+                  text: "Continue shopping",
+                  onPressed: () async {
+                    if (cartType == "restaurant" || screenType == "restaurantProfileScreen") {
+                      // await Get.offAllNamed(AppRoutes.restaurantNavbar);
+                      homeController.getIndex(0);
+                      homeController.navigate(0);
+                    } else if (cartType == "pharmacy" || screenType == 'pharmacyProfileScreen') {
+                      homeController.getIndex(1);
+                      homeController.navigate(1);
+                      //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
+                    }else if(cartType == "grocery" || screenType == "groceryProfileScreen"){
+                      homeController.getIndex(2);
+                      homeController.navigate(2);
+                    }
                     // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-                    homeController.getIndex(0);
-                    homeController.navigate(0);
-                  } else if (cartType == "pharmacy" || screenType == 'pharmacyProfileScreen') {
-                    homeController.getIndex(1);
-                    homeController.navigate(1);
-                    //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
-                  }else if(cartType == "grocery" || screenType == "groceryProfileScreen"){
-                    homeController.getIndex(2);
-                    homeController.navigate(2);
-                  }
-                  // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-                }),
-            hBox(20),
-            CustomOutlinedButton(
-              onPressed: () {
-                Get.offNamed(AppRoutes.reviewDriver,
-                    arguments: {'type': cartType,'screenType':screenType}
-                );
-              },
-              child: const Text("Review This Driver"),
-            ),
-          ],
+                  }),
+              hBox(20),
+              CustomOutlinedButton(
+                onPressed: () {
+                  Get.offNamed(AppRoutes.reviewDriver,
+                      arguments: {'type': cartType,'screenType':screenType}
+                  );
+                },
+                child: const Text("Review This Driver"),
+              ),
+            ],
+          ),
         ),
       ),
     );

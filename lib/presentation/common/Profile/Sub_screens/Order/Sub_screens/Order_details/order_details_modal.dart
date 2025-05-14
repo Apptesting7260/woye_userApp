@@ -114,6 +114,8 @@ class  OrderDetails {
     status = json['status'];
     if(json['drslip'] != null){
       drslip = json['drslip'].cast<String>();
+    }else{
+      drslip = <String>[];
     }
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];

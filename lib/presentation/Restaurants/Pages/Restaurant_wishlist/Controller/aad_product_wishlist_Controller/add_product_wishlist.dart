@@ -41,14 +41,16 @@ class AddProductWishlistController extends GetxController {
       categories_Set(value);
       setRxRequestStatus(Status.COMPLETED);
       if (add_Wishlist.value.status == true) {
+        print("1234 $restaurantId");
+        print("1234 ${restaurantId.runtimeType}");
         if (categoryId == "") {
           restaurantWishlistController.restaurant_product_wishlist_api();
         }
         restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId);
-        if(restaurantId != null){
+        if (restaurantId != null && restaurantId.toString().trim().isNotEmpty) {
           restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantId.toString());
         }
-        if(restaurantId != null&& categoryId != ''){
+        if(restaurantId != null && categoryId != ''){
           seeAllProductController.refresh_seeAll_Product_Api(
               category_id: categoryId, restaurant_id: restaurantId);
         }

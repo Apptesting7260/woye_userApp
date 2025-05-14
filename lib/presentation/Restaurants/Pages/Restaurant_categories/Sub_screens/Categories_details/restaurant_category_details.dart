@@ -145,6 +145,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           productId: product.id.toString(),
                                           categoryId: categoryId.toString(),
                                           categoryName: categoryTitle,
+                                          restaurantId: product.userId.toString(),
                                         ));
                                       },
                                       child: Column(

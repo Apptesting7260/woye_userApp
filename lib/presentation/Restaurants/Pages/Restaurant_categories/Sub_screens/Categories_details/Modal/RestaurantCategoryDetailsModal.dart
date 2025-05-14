@@ -50,6 +50,7 @@ class CategoryProduct {
   bool? isInWishlist;
   String? restoName;
   String? urlImage;
+  String? userId;
   var rating;
   Rx<bool> isLoading = false.obs;
 
@@ -61,6 +62,7 @@ class CategoryProduct {
     this.isInWishlist,
     this.restoName,
     this.urlImage,
+    this.userId,
     this.rating,
   });
 
@@ -72,6 +74,7 @@ class CategoryProduct {
     isInWishlist = json['is_in_wishlist'];
     restoName = json['resto_name'];
     urlImage = json['url_image'];
+    userId = json['user_id']?.toString();
     rating = json['rating'];
   }
 
@@ -84,6 +87,7 @@ class CategoryProduct {
     data['is_in_wishlist'] = this.isInWishlist;
     data['resto_name'] = this.restoName;
     data['url_image'] = this.urlImage;
+    data['user_id'] = this.userId;
     data['rating'] = this.rating;
     return data;
   }

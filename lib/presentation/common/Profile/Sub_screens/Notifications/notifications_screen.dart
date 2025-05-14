@@ -5,6 +5,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Notifications/
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../Shared/Widgets/CircularProgressIndicator.dart';
+import '../../../../../shared/widgets/custom_no_data_found.dart';
 
 class NotificationsScreen extends StatefulWidget {
   NotificationsScreen({super.key});
@@ -58,7 +59,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 }
               case Status.COMPLETED:
                 return SingleChildScrollView(
-                  child: Column(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: controller.apiData.value.notificationCount == 0
+                  || (controller.apiData.value.notification?.isEmpty ?? true)
+                  ? const CustomNoDataFound() :
+                  Column(
                     children: [
                       hBox(20),
                       notificationsList(),

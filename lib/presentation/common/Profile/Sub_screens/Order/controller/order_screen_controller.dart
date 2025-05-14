@@ -12,7 +12,7 @@ class OrderScreenController extends GetxController {
     }
     screenType = arguments['screenType'] ?? "";
     print("screenType : $screenType");
-    getOrdersListApi();
+
     // TODO: implement onInit
     super.onInit();
   }

@@ -33,7 +33,7 @@ class seeAll_Product_Controller extends GetxController {
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
+      print('errrrrrrrrrrrr seeAll_Product_Api');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
@@ -55,7 +55,7 @@ class seeAll_Product_Controller extends GetxController {
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
+      print('errrrrrrrrrrrr refresh_seeAll_Product_Api');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);

@@ -66,7 +66,11 @@ class PrescriptionController extends GetxController {
           debugPrint('Cropped image size: $croppedSize bytes');
           imageList[index].value = croppedImage;
           final base64 = await convertImageToBase64(croppedImage);
-          base64ImageList.add(base64);
+          if (index < base64ImageList.length) {
+            base64ImageList[index] = base64;
+          } else {
+            base64ImageList.add(base64);
+          }
           debugPrint("List base 64 $base64ImageList");
         } else {
           debugPrint("Image cropping was canceled or failed.");

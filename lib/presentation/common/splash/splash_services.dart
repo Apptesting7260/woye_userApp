@@ -77,7 +77,7 @@ class SplashServices {
                     pharmacyId: deepLinkController.deepLinkRestaurantsId.value.toString(),
                   ));
                 } else if (deepLinkController.deepLinkType.value == 'grocery') {
-                  Get.offAllNamed(AppRoutes.pharmacyNavbar);
+                  Get.offAllNamed(AppRoutes.groceryNavbar);
                   Get.to(GroceryVendorDetailsScreen(
                     groceryId: deepLinkController.deepLinkRestaurantsId.value,
                   ));

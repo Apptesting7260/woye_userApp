@@ -147,7 +147,7 @@ class GroceryHomeFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Pharmacy Shops",
+          "Grocery Shops",
           style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
         hBox(5.h),

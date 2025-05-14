@@ -24,7 +24,7 @@ class DeepLinkController extends GetxService {
     // print("Valuewwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww11");
     _appLinks = AppLinks();
     _linkSubscription = _appLinks.uriLinkStream.listen((uri) async {
-      print("uri from deeplink: ${uri}");
+      print("uri from deeplink: $uri");
       if (uri.path.contains('restaurants')) {
         print("rrrrrrrrrrrrrrrrrrrrrrrrrr");
         deepLinkType.value = "restaurants";

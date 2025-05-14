@@ -182,16 +182,18 @@ class PharmacyCartController extends GetxController {
       "type": "pharmacy",
       "cart_ids": jsonEncode(cartIds),
       "carts": jsonEncode(carts),
+      if(prescription.isNotEmpty)
       'drslip' : jsonEncode(prescription),
     };
     if(kDebugMode) {
-      log("data body >>> $data");
+      log("data body >>>:: $data");
     }
     rxSetRequestStatusCreateOrder(Status.LOADING);
     api.pharmacyCreateOrderApi(data).then((value) {
       if(value.status == true) {
         rxSetRequestStatusCreateOrder(Status.COMPLETED);
         prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
+        prescriptionController.base64ImageList = <String>[].obs;
         Utils.showToast(value.message.toString());
         Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "pharmacy"});
         getAllPharmacyCartData();

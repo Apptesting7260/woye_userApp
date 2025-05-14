@@ -1,3 +1,4 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
@@ -9,14 +10,25 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_scre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   OrdersScreen({super.key});
 
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
   final OrderScreenController controller = Get.put(OrderScreenController());
-  final OrderDetailsController orderDetailsController =
-      Get.put(OrderDetailsController());
-  final CancelOrderController cancelOrderController =
-      Get.put(CancelOrderController());
+
+  final OrderDetailsController orderDetailsController = Get.put(OrderDetailsController());
+
+  final CancelOrderController cancelOrderController = Get.put(CancelOrderController());
+
+  @override
+  void initState() {
+    controller.getOrdersListApi();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

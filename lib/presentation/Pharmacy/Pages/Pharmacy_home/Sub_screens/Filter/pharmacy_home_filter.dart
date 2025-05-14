@@ -37,6 +37,7 @@ class PharmacyHomeFilter extends StatelessWidget {
                 if (value.length >= 3) {
                   controller.restaurantHomeSearchApi(search: value.trim());
                 }
+                controller.update();
               },
               controller: controller.homeSearchController,
             ),

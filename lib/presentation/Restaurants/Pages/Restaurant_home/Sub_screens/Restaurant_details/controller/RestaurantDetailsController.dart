@@ -78,6 +78,7 @@ class RestaurantDetailsController extends GetxController {
     loadLocationData();
     // setRxRequestStatus(Status.LOADING);
     Map data = {"restaurant_id": id};
+    print("objectdata $data");
    await api.specific_Restaurant_Api(data).then((value) {
       restaurant_Set(value);
       setRxRequestStatus(Status.COMPLETED);
@@ -113,7 +114,7 @@ class RestaurantDetailsController extends GetxController {
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
+      print('errrrrrrrrrrrr refresh_restaurant_Details_Api');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
