@@ -161,6 +161,9 @@ flutter:
     - family: GilroyHeavy
       fonts:
         - asset: assets/fonts/Gilroy-Heavy.ttf
+    - family: GilroyBlack
+      fonts:
+        - asset: assets/fonts/Gilroy-Black.ttf
 
   #         style: italic
   #   - family: Trajan Pro

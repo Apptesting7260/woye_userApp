@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 import '../../Core/Constant/image_constants.dart';
 import '../../Core/Utils/sized_box.dart';
@@ -27,12 +28,12 @@ class CustomNoDataFound extends StatelessWidget {
         ),
         Text(
           "We couldn't find any results",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(5.h),
         Text(
           "Explore more and shortlist some items",
-          style: AppFontStyle.text_16_400(AppColors.mediumText),
+          style: AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
         ),
       ],
     );

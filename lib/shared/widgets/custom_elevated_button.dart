@@ -12,6 +12,7 @@ class CustomElevatedButton extends StatelessWidget {
   final bool? isLoading;
   final String text;
   final TextStyle? textStyle;
+  final String? fontFamily;
 
   const CustomElevatedButton({
     super.key,
@@ -25,6 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.child,
     this.forGroundColor,
+    this.fontFamily,
   });
 
   @override
@@ -45,7 +47,7 @@ class CustomElevatedButton extends StatelessWidget {
             ),
           ),
           alignment: Alignment.center,
-          textStyle: textStyle ?? AppFontStyle.text_16_400(AppColors.white),
+          textStyle: textStyle ?? AppFontStyle.text_16_400(AppColors.white,family: fontFamily),
         ),
         child: child ??
             Center(

@@ -6,6 +6,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
 import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/PhoneNumberService.dart';
 
@@ -33,7 +34,7 @@ class LoginScreen extends StatelessWidget {
           child: SizedBox(
             height: Get.height,
             child: Padding(
-              padding: REdgeInsets.symmetric(horizontal: 24.h),
+              padding: REdgeInsets.symmetric(horizontal: 22.h),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +73,7 @@ class LoginScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Login to your\nAccount",
-        style: AppFontStyle.text_36_600(AppColors.darkText),
+        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       ),
       hBox(20),
       Text(
@@ -80,7 +81,9 @@ class LoginScreen extends StatelessWidget {
         style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w400,
-            color: AppColors.lightText),
+            color: AppColors.lightText,
+            fontFamily: AppFontFamily.gilroyRegular,
+        ),
       ),
     ]);
   }
@@ -101,9 +104,15 @@ class LoginScreen extends StatelessWidget {
                 loginController.countryPhoneDigits[countryCode.code.toString()];
             loginController.chackCountryLength = countrylength!;
           },
-          initialSelection: "IN"),
+        textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          initialSelection: "IN",
+      ),
+      errorStyle : AppFontStyle.text_11_400(AppColors.errorColor,family: AppFontFamily.gilroyMedium),
       hintText: "Phone Number",
+      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       textInputType: TextInputType.phone,
+
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your phone number';
@@ -130,7 +139,8 @@ class LoginScreen extends StatelessWidget {
   Widget signInButton() {
     return Obx(() => CustomElevatedButton(
           text: "Sign In",
-          isLoading: (loginController.isLoding.value || checkUserController.rxRequestStatus.value == Status.LOADING),
+      fontFamily: AppFontFamily.gilroyMedium,
+      isLoading: (loginController.isLoding.value || checkUserController.rxRequestStatus.value == Status.LOADING),
           onPressed: () async {
             if (loginController.loginFormKey.currentState!.validate()) {
               checkUserController.checkUserApi(
@@ -190,7 +200,7 @@ class LoginScreen extends StatelessWidget {
         ),
         Text(
           "or continue with",
-          style: AppFontStyle.text_16_400(AppColors.lightText),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
         ),
         Expanded(
           child: Divider(
@@ -260,11 +270,12 @@ class LoginScreen extends StatelessWidget {
               text: TextSpan(children: [
             TextSpan(
                 text: "Don't have an account? ",
-                style: AppFontStyle.text_16_400(AppColors.lightText)),
+                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
             TextSpan(
                 text: "Sign Up",
                 style: AppFontStyle.text_16_600(
                   AppColors.darkText,
+                  family: AppFontFamily.gilroyRegular,
                 )),
           ])),
         ),

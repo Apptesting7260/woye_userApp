@@ -6,6 +6,8 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delete_address/delete_address_controller.dart';
 
+import '../../../../../../shared/theme/font_family.dart';
+
 class DeliveryAddressScreen extends StatelessWidget {
   DeliveryAddressScreen({super.key});
 
@@ -30,7 +32,7 @@ class DeliveryAddressScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Delivery Address",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -139,15 +141,13 @@ class DeliveryAddressScreen extends StatelessWidget {
                                   controller.deliveryAddressData.value.data?[index]
                                       .addressType?.capitalizeFirst.toString() ?? "" ,
                                   style:
-                                      AppFontStyle.text_20_600
-
-                                        (AppColors.darkText),
+                                      AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                 ),
                                 wBox(10.h),
                                 if (controller.deliveryAddressData.value.data?[index].isDefault == 1)
                                   Text(
                                     "default",
-                                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                                   ),
                                 const Spacer(),
                                 if (controller.deliveryAddressData.value.data![index].isDefault != 1)
@@ -175,7 +175,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                             hBox(10.h),
                             Text(
                               controller.deliveryAddressData.value.data?[index].fullName?.capitalizeFirst.toString() ?? "",
-                              style: AppFontStyle.text_14_400(AppColors.darkText),
+                              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                             ),
                             hBox(10.h),
                             Text(

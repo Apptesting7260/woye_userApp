@@ -3,6 +3,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 class OtpScreen extends StatelessWidget {
   // String? mobileNumber = Get.arguments["mob"];
@@ -16,10 +17,10 @@ class OtpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = Get.arguments as Map<String, dynamic>;
-    final from = arguments['type'];
-    final countryCode = arguments['countryCode'];
-    final mob = arguments['mob'];
+    final arguments = Get.arguments as Map<String, dynamic> ?? {};
+    final from = arguments['type'] ?? "";
+    final countryCode = arguments['countryCode'] ?? "";
+    final mob = arguments['mob'] ?? "";
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -49,16 +50,16 @@ class OtpScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Verification code",
-        style: AppFontStyle.text_30_600(AppColors.darkText),
+        style: AppFontStyle.text_28_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       ),
       hBox(20),
       Text(
         "Please enter the verification code sent to",
-        style: AppFontStyle.text_16_400(AppColors.lightText),
+        style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
       ),
       Text(
         mob,
-        style: AppFontStyle.text_16_400(AppColors.primary),
+        style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
       ),
     ]);
   }
@@ -76,6 +77,7 @@ class OtpScreen extends StatelessWidget {
   Widget verifyButton(from, countryCode, mob) {
     return Obx(
       () => CustomElevatedButton(
+      fontFamily: AppFontFamily.gilroyMedium,
         isLoading: otpController.rxRequestStatus.value == Status.LOADING,
         onPressed: () async {
           if (otpController.otpPin.value.text.length < 6) {
@@ -118,7 +120,7 @@ class OtpScreen extends StatelessWidget {
       children: [
         Text(
           'Didn\'t receive OTP?',
-          style: AppFontStyle.text_16_400(AppColors.black),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         Obx(
         ()=> TextButton(
@@ -143,7 +145,7 @@ class OtpScreen extends StatelessWidget {
             },
             child: Text(" Resend ${otpController.remainingTime.value} Sec",
             style: AppFontStyle.text_16_400(otpController.remainingTime.value == 0 ? AppColors.black : AppColors.lightText,
-            fontWeight: FontWeight.w400),
+            fontWeight: FontWeight.w400,family: AppFontFamily.gilroyRegular),
             ),
           ),
         ),

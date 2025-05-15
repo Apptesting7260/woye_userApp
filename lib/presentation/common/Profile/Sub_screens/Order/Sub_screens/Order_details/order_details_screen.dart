@@ -19,6 +19,8 @@ import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
+import 'package:woye_user/shared/theme/font_family.dart';
+
 class OrderDetailsScreen extends StatelessWidget {
   OrderDetailsScreen({super.key});
 
@@ -36,7 +38,7 @@ class OrderDetailsScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Order Details",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -99,16 +101,17 @@ class OrderDetailsScreen extends StatelessWidget {
       children: [
         Text(
           controller.ordersData.value.addressDetails?.fullName.toString().capitalize ?? "",
-          style: AppFontStyle.text_28_600(AppColors.darkText),
+          style: AppFontStyle.text_24_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
-        hBox(20),
+        hBox(15.h),
         Wrap(
           children: [
             Text(
               "Thank you for your order! We'll keep you updated on its arrival.",
               style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
+                  fontFamily: AppFontFamily.gilroyRegular,
                   color: AppColors.lightText),
             ),
           ],
@@ -132,11 +135,13 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Order id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               Text(
                 controller.ordersData.value.orderDetails!.orderId.toString(),
-                style: AppFontStyle.text_12_600(AppColors.darkText),
+                // style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
               ),
             ],
           ),
@@ -146,14 +151,14 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Order Status",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               Text(
                 controller.ordersData.value.orderDetails!.status
                     .toString()
                     .replaceAll("_", " ")
                     .capitalize!,
-                style: AppFontStyle.text_12_600(AppColors.darkText),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
             ],
           ),
@@ -163,11 +168,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Tracking id",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               Text(
                 controller.ordersData.value.orderDetails!.trackingId.toString(),
-                style: AppFontStyle.text_12_600(AppColors.darkText),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
             ],
           ),
@@ -177,11 +182,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Order placed",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               Text(
                 controller.ordersData.value.orderDetails!.createdAt.toString(),
-                style: AppFontStyle.text_12_600(AppColors.darkText),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
             ],
           ),
@@ -193,7 +198,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 controller.ordersData.value.orderDetails!.type
                     .toString()
                     .capitalizeFirst!,
-                style: AppFontStyle.text_12_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               wBox(10),
               Flexible(
@@ -201,7 +206,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   controller.ordersData.value.orderDetails!.vendorName
                       .toString(),
                   maxLines: 2,
-                  style: AppFontStyle.text_12_600(AppColors.darkText),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
               ),
             ],
@@ -212,11 +217,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Total",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
               ),
               Text(
                 "\$${controller.ordersData.value.orderDetails!.total.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.primary),
+                style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
               ),
             ],
           ),
@@ -225,28 +230,28 @@ class OrderDetailsScreen extends StatelessWidget {
           hBox(10),
           Text(
             "Delivery Address",
-            style: AppFontStyle.text_18_600(AppColors.darkText),
+            style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
           ),
           hBox(10),
           Text(
             controller.ordersData.value.addressDetails?.addressType.toString().capitalize ?? "",
-            style: AppFontStyle.text_14_400(AppColors.primary),
+            style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
           ),
           hBox(10),
           Text(
             controller.ordersData.value.addressDetails?.fullName.toString().capitalize ?? "",
-            style: AppFontStyle.text_14_600(AppColors.darkText),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           hBox(10),
           Text(
             controller.ordersData.value.addressDetails?.address.toString() ?? "",
             maxLines: 4,
-            style: AppFontStyle.text_12_400(AppColors.lightText),
+            style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
           ),
           hBox(10),
           Text(
             "${controller.ordersData.value.addressDetails?.countryCode} ${controller.ordersData.value.addressDetails?.phoneNumber.toString()}",
-            style: AppFontStyle.text_14_600(AppColors.darkText),
+            style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           hBox(15),
         ],
@@ -270,7 +275,7 @@ class OrderDetailsScreen extends StatelessWidget {
           children: [
             ListView.separated(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: controller
                   .ordersData.value.orderDetails!.decodedAttribute!.length,
               itemBuilder: (context, index) {
@@ -352,20 +357,20 @@ class OrderDetailsScreen extends StatelessWidget {
                                 Text(
                                   item.productName.toString(),
                                   maxLines: 2,
-                                  style: AppFontStyle.text_14_600(
-                                      AppColors.darkText),
+                                  style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                  // style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                 ),
                                 hBox(10),
                                 Text(
                                   "Qty:${item.quantity.toString()}",
                                   style: AppFontStyle.text_12_400(
-                                      AppColors.darkText),
+                                      AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                 ),
                                 hBox(10),
                                 Text(
                                   "\$${item.price.toString()}",
                                   style: AppFontStyle.text_14_600(
-                                      AppColors.primary),
+                                      AppColors.primary,family: AppFontFamily.gilroyRegular),
                                 ),
                               ],
                             ),
@@ -398,21 +403,21 @@ class OrderDetailsScreen extends StatelessWidget {
                                       Text(
                                         '${item.attribute![addonIndex].itemDetails!.itemName}',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.primary),
+                                            AppColors.primary,family: AppFontFamily.gilroyMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
                                         ' - ',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.primary),
+                                            AppColors.primary,family: AppFontFamily.gilroyRegular),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
                                         '\$${item.attribute![addonIndex].itemDetails!.itemPrice}',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.primary),
+                                            AppColors.primary,family: AppFontFamily.gilroyMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
@@ -420,7 +425,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                         Text(
                                           ',',
                                           style: AppFontStyle.text_12_400(
-                                              AppColors.primary),
+                                              AppColors.primary,family: AppFontFamily.gilroyMedium),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
@@ -453,21 +458,21 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Text(
                                       '${item.addons![addonIndex].name}',
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.lightText),
+                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
                                     Text(
                                       ' - ',
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.lightText),
+                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
                                     Text(
                                       '\$${item.addons![addonIndex].price}',
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.lightText),
+                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
@@ -475,7 +480,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                       Text(
                                         ',',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.lightText),
+                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
@@ -514,7 +519,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Coupon Discount",
-                    style: AppFontStyle.text_12_400(AppColors.lightText),
+                    style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                   ),
                   Text(
                     controller.ordersData.value.orderDetails!.coupon!
@@ -523,7 +528,7 @@ class OrderDetailsScreen extends StatelessWidget {
                             "percent"
                         ? "${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}%"
                         : "\$${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}",
-                    style: AppFontStyle.text_12_600(AppColors.darkText),
+                    style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               ),
@@ -536,11 +541,14 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Sub Total",
-                      style: AppFontStyle.text_12_400(AppColors.lightText),
+                      // style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                     ),
                     Text(
                       "\$${controller.ordersData.value.subtotal.toString()}",
-                      style: AppFontStyle.text_12_600(AppColors.darkText),
+                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      // style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+
                     ),
                   ],
                 ),
@@ -550,11 +558,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Delivery Charge",
-                      style: AppFontStyle.text_12_400(AppColors.lightText),
+                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                     ),
                     Text(
                       "\$${controller.ordersData.value.deliveryCharges.toString()}",
-                      style: AppFontStyle.text_12_600(AppColors.darkText),
+                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                     ),
                   ],
                 ),
@@ -568,11 +576,11 @@ class OrderDetailsScreen extends StatelessWidget {
               children: [
                 Text(
                   "Total ",
-                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
                 Text(
                   "\$${controller.ordersData.value.orderDetails!.total.toString()}",
-                  style: AppFontStyle.text_14_600(AppColors.primary),
+                  style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
                 ),
               ],
             ),
@@ -594,7 +602,7 @@ class OrderDetailsScreen extends StatelessWidget {
           children: [
             Text(
               "Payment method",
-              style: AppFontStyle.text_12_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               controller.ordersData.value.orderDetails!.paymentMethod
@@ -602,7 +610,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   .replaceAll("_", " ")
                   .toString()
                   .capitalize!,
-              style: AppFontStyle.text_12_600(AppColors.darkText),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
             ),
           ],
         ),
@@ -614,11 +622,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Wallet",
-                style: AppFontStyle.text_12_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               Text(
                 "\$${controller.ordersData.value.orderDetails!.walletUsed.toString()}",
-                style: AppFontStyle.text_12_600(AppColors.darkText),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
             ],
           ),
@@ -630,11 +638,12 @@ class OrderDetailsScreen extends StatelessWidget {
           children: [
             Text(
               "Payment Date",
-              style: AppFontStyle.text_12_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               controller.ordersData.value.orderDetails!.createdAt.toString(),
-              style: AppFontStyle.text_12_600(AppColors.darkText),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              // style: AppFontStyle.text_12_600(AppColors.darkText),
             ),
           ],
         ),
@@ -644,11 +653,13 @@ class OrderDetailsScreen extends StatelessWidget {
           children: [
             Text(
               "Total",
-              style: AppFontStyle.text_12_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               "\$${controller.ordersData.value.orderDetails!.total.toString()}",
-              style: AppFontStyle.text_12_600(AppColors.darkText),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
+              // style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         ),

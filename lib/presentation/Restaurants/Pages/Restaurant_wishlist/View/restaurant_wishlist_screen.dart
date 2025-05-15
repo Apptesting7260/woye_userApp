@@ -8,6 +8,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
@@ -45,7 +46,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
         isActions: true,
         title: Text(
           "Wishlist",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -89,13 +90,13 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                           hBox(10.h),
                           Text(
                             "Your wishlist is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                                AppFontStyle.text_16_400(AppColors.mediumText),
+                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
                           ),
                         ],
                       )
@@ -116,6 +117,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                               title: SizedBox(
                                 height: 35.h,
                                 child: CustomSearchFilter(
+                                  textStyle: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                   onChanged: (value) {
                                     controller.filterWishlistData(value);
                                   },
@@ -248,14 +250,14 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary),
+                                                    .primary,family: AppFontFamily.gilroyRegular),
                                               )
                                                   : Text(
                                                 "\$${product.regularPrice}",
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary),
+                                                    .primary,family: AppFontFamily.gilroyRegular),
                                               ),
                                               wBox(5.h),
                                               if (product.salePrice != null)
@@ -264,27 +266,20 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                   overflow:
                                                   TextOverflow.ellipsis,
                                                   textAlign: TextAlign.left,
-
                                                   style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                      FontWeight.w300,
-                                                      color:
-                                                      AppColors.lightText,
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
-                                                      decorationColor:
-                                                      AppColors.lightText),
-
+                                                      fontSize: 14.sp,fontFamily: AppFontFamily.gilroyRegular,
+                                                      fontWeight: FontWeight.w300,
+                                                      color: AppColors.lightText,
+                                                      decoration: TextDecoration.lineThrough,
+                                                      decorationColor: AppColors.lightText),
                                                   //  AppFontStyle.text_14_300(AppColors.lightText),
                                                 ),
                                             ],
                                           ),
                                           Text(
-                                            product.title.toString(),
+                                            product.title.toString().capitalize.toString(),
                                             textAlign: TextAlign.left,
-                                            style: AppFontStyle.text_16_400(
-                                                AppColors.darkText),
+                                            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                           ),
                                           Row(
                                             children: [
@@ -294,7 +289,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                               Text(
                                                 "${product.rating.toString()}/5",
                                                 style: AppFontStyle.text_14_300(
-                                                    AppColors.lightText),
+                                                    AppColors.lightText,family: AppFontFamily.gilroyRegular),
                                               ),
                                               wBox(4),
                                               // Text(

@@ -7,6 +7,8 @@ import 'package:woye_user/presentation/common/Social_login/social_controller.dar
 import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user_controller.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 
+import '../../../shared/theme/font_family.dart';
+
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
@@ -64,7 +66,7 @@ class SignUpScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Create your\nAccount",
-        style: AppFontStyle.text_36_600(AppColors.darkText),
+        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       ),
       hBox(20),
       Text(
@@ -72,6 +74,7 @@ class SignUpScreen extends StatelessWidget {
         style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w400,
+            fontFamily: AppFontFamily.gilroyRegular,
             color: AppColors.lightText),
       ),
     ]);
@@ -92,9 +95,13 @@ class SignUpScreen extends StatelessWidget {
                 .countryPhoneDigits[countryCode.code.toString()];
             signUpController.checkCountryLength = countrylength!;
           },
+          textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
           initialSelection: "IN"),
       hintText: "Phone Number",
       textInputType: TextInputType.phone,
+      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your phone number';
@@ -120,6 +127,7 @@ class SignUpScreen extends StatelessWidget {
     return Obx(
       () => CustomElevatedButton(
         text: "Sign Up",
+        fontFamily: AppFontFamily.gilroyMedium,
         isLoading: (signUpController.isLoding.value ||
             checkUserController.rxRequestStatus.value == Status.LOADING),
         onPressed: () {
@@ -160,7 +168,7 @@ class SignUpScreen extends StatelessWidget {
         ),
         Text(
           "or continue with",
-          style: AppFontStyle.text_16_400(AppColors.lightText),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
         ),
         Expanded(
           child: Divider(
@@ -230,11 +238,12 @@ class SignUpScreen extends StatelessWidget {
               text: TextSpan(children: [
             TextSpan(
                 text: "Already have an account? ",
-                style: AppFontStyle.text_16_400(AppColors.lightText)),
+                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
             TextSpan(
                 text: "Sign In",
                 style: AppFontStyle.text_16_600(
                   AppColors.darkText,
+                    family: AppFontFamily.gilroyRegular
                 )),
           ])),
         ),

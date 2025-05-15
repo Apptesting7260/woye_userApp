@@ -5,6 +5,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});
@@ -18,7 +19,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 24),
+        padding: REdgeInsets.symmetric(horizontal: 22),
         child: Column(
           children: [
             Expanded(
@@ -61,13 +62,14 @@ class WelcomeScreen extends StatelessWidget {
       children: [
         SvgPicture.asset(
           ImageConstants.welcomeLogo,
-          height: 42.h,
+          height: 39.h,
         ),
-        hBox(20),
+        hBox(25.h),
         Text(
           "Let’s Get Started!",
-          style: AppFontStyle.text_36_600(AppColors.darkText),
+          style: AppFontStyle.text_30_600(AppColors.darkText,family:AppFontFamily.gilroyRegular),
         ),
+        hBox(5.h),
       ],
     );
   }
@@ -75,6 +77,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget signInWithPhoneNumberButton() {
     return CustomElevatedButton(
       text: "Sign In With Phone Number",
+      fontFamily: AppFontFamily.gilroyMedium,
       onPressed: () {
         Get.toNamed(AppRoutes.login);
       },
@@ -102,7 +105,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     wBox(12),
                     Text("Continue As Guest",
-                        style: AppFontStyle.text_16_400(AppColors.darkText))
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
                   ],
                 )),
     );
@@ -120,7 +123,7 @@ class WelcomeScreen extends StatelessWidget {
         ),
         Text(
           "or",
-          style: AppFontStyle.text_16_400(AppColors.lightText),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
         ),
         Expanded(
           child: Divider(
@@ -148,7 +151,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Facebook",
-                style: AppFontStyle.text_16_400(AppColors.darkText))
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
           ],
         ));
   }
@@ -168,7 +171,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Google",
-                style: AppFontStyle.text_16_400(AppColors.darkText)
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium)
                 // AppFontStyle.text_16_800(AppColors.darkText),
                 )
           ],
@@ -192,7 +195,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Apple",
-                style: AppFontStyle.text_16_400(AppColors.darkText))
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
           ],
         ));
   }
@@ -210,10 +213,10 @@ class WelcomeScreen extends StatelessWidget {
             text: TextSpan(children: [
           TextSpan(
               text: "Don't have an account? ",
-              style: AppFontStyle.text_16_400(AppColors.lightText)),
+              style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
           TextSpan(
               text: "Sign Up",
-              style: AppFontStyle.text_16_600(AppColors.darkText)),
+              style: AppFontStyle.text_16_600(AppColors.darkText,family: AppFontFamily.gilroyRegular)),
         ])),
       ),
     );

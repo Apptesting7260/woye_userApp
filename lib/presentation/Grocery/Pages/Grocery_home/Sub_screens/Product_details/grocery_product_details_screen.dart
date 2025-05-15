@@ -129,11 +129,9 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                     !controller.productData.value.product!.isInWishlist!;
                 await addGroceryProductWishlist.pharmacy_add_product_wishlist(
                   isWishListScreen: isWishList,
-                  groceryId:
-                      controller.productData.value.product?.userId.toString() ??
-                          "",
-                  categoryId: categoryId,
-                  product_id: productId.toString(),
+                  groceryId:controller.productData.value.product?.userId.toString() ?? "",
+                  categoryId: categoryId ?? "",
+                  product_id:  controller.productData.value.product?.id.toString() ?? productId.toString(),
                 );
                 controller.isLoading.value = false;
               },

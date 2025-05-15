@@ -3,6 +3,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import '../../../../../../../Data/components/GeneralException.dart';
 import '../../../../../../../Data/components/InternetException.dart';
 import '../../../../../../../Shared/Widgets/CircularProgressIndicator.dart';
+import '../../../../../../../shared/theme/font_family.dart';
 import 'controller/track_order_controller.dart';
 
 class TrackOrderScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class TrackOrderScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Track Order",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -105,13 +106,13 @@ class TrackOrderScreen extends StatelessWidget {
               Text(
                 "David Ronney",
                 textAlign: TextAlign.center,
-                style: AppFontStyle.text_18_400(AppColors.darkText),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
               ),
               hBox(10),
               Text(
                 phoneNumber,
                 textAlign: TextAlign.center,
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               )
             ],
           ),
@@ -153,12 +154,12 @@ class TrackOrderScreen extends StatelessWidget {
             children: [
               Text(
                 "Transit Time",
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               hBox(8),
               Text(
                 "20 Minutes",
-                style: AppFontStyle.text_16_600(AppColors.darkText),
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
               ),
             ],
           ),
@@ -167,13 +168,13 @@ class TrackOrderScreen extends StatelessWidget {
             children: [
               Text(
                 "Order id",
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               hBox(8),
               Obx(
                 ()=> Text(
                   controller.apiData.value.orderDetails?.orderId ?? "",
-                  style: AppFontStyle.text_16_600(AppColors.darkText),
+                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
                 ),
               ),
             ],
@@ -214,13 +215,13 @@ class TrackOrderScreen extends StatelessWidget {
               children: [
                 Text(
                   "Order Placed",
-                  style: AppFontStyle.text_16_600(AppColors.darkText),
+                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
                 ),
                 hBox(8),
                 Obx(
                     ()=> Text(
                     "We have received your order at ${controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "")}",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                     maxLines: 2,
                   ),
                 ),
@@ -269,18 +270,21 @@ class TrackOrderScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Order Confirmed",
-                    style: AppFontStyle.text_16_600( controller.apiData.value.orderDetails?.status == "in_progress" ||
-                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText : AppColors.darkText.withOpacity(0.3)),
+                    style: AppFontStyle.text_16_400( controller.apiData.value.orderDetails?.status == "in_progress" ||
+                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText : AppColors.darkText.withOpacity(0.3)
+                        ,family: AppFontFamily.gilroySemiBold
+                    ),
                   ),
                   hBox(8),
                   Text(
                     "Your order has been confirmed at ${ controller.apiData.value.orderDetails?.status == "in_progress" ||
                         controller.apiData.value.orderDetails?.status == "completed" ?
                     controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "") : "..."}",
-                    style: AppFontStyle.text_14_400( controller.apiData.value.orderDetails?.status == "in_progress" ||
-                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText : AppColors.lightText.withOpacity(.4)),
+                    style: AppFontStyle.text_13_400( controller.apiData.value.orderDetails?.status == "in_progress" ||
+                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText : AppColors.lightText.withOpacity(.4),family: AppFontFamily.gilroyRegular),
                     maxLines: 2,
                   ),
+
                 ],
               ),
             )
@@ -321,14 +325,14 @@ class TrackOrderScreen extends StatelessWidget {
                 children: [
                   Text(
                     "On its way",
-                    style: AppFontStyle.text_16_600(controller.apiData.value.orderDetails?.status == "in_progress"
-                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText :AppColors.darkText.withOpacity(0.4),),
+                    style: AppFontStyle.text_16_400(controller.apiData.value.orderDetails?.status == "in_progress"
+                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText :AppColors.darkText.withOpacity(0.4),family: AppFontFamily.gilroySemiBold),
                   ),
                   hBox(8),
                   Text(
                     "Store Location | 09:15 AM",
-                    style: AppFontStyle.text_14_400(controller.apiData.value.orderDetails?.status == "in_progress"
-                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText :AppColors.lightText.withOpacity(0.4),),
+                    style: AppFontStyle.text_13_400(controller.apiData.value.orderDetails?.status == "in_progress"
+                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText :AppColors.lightText.withOpacity(0.4),family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               ),
@@ -369,13 +373,13 @@ class TrackOrderScreen extends StatelessWidget {
                 children: [
                   Text(
                     controller.apiData.value.orderDetails?.addressDetails?.addressType.toString() ?? "",
-                    style: AppFontStyle.text_16_600(AppColors.darkText),
+                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
                   ),
                   hBox(8),
                   Text(
                     "${controller.apiData.value.orderDetails?.addressDetails?.address.toString() ?? ""} ,"
                         "${controller.apiData.value.orderDetails?.addressDetails?.houseDetails.toString() ?? ""}",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                     maxLines: 5,
                   ),
                   // Text(
@@ -396,6 +400,7 @@ class TrackOrderScreen extends StatelessWidget {
     return CustomElevatedButton(
           // color: controller.apiData.value.orderDetails?.status == "completed" ? AppColors.primary : AppColors.primary.withOpacity(0.4)  ,
           color: AppColors.primary,
+          fontFamily: AppFontFamily.gilroyMedium,
           text: "Order Received",
           onPressed: () {
             // if(controller.apiData.value.orderDetails?.status == "completed") {

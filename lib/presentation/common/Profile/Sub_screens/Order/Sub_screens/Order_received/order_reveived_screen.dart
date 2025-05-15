@@ -1,6 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
+import '../../../../../../../shared/theme/font_family.dart';
 import '../../../../../Home/home_controller.dart';
 
 class OrderReveivedScreen extends StatelessWidget {
@@ -25,7 +26,7 @@ class OrderReveivedScreen extends StatelessWidget {
           leadingOnTap: () {},
           title: Text(
             "Order Received",
-            style: AppFontStyle.text_22_600(AppColors.darkText),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
         ),
         body: SingleChildScrollView(
@@ -40,16 +41,18 @@ class OrderReveivedScreen extends StatelessWidget {
               hBox(30),
               Text(
                 "Order Received",
-                style: AppFontStyle.text_24_600(AppColors.darkText),
+                style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
               hBox(20),
               Text(
-                "Thank you for purchasing products from our store.Wishing you a nice day.",
+                "Thank you for purchasing products from our store. Wishing you a nice day.",
+                maxLines: 4,
                 textAlign: TextAlign.center,
-                style: AppFontStyle.text_14_400(AppColors.darkText),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
               hBox(20),
               CustomElevatedButton(
+                  fontFamily: AppFontFamily.gilroyMedium,
                   text: "Continue shopping",
                   onPressed: () async {
                     if (cartType == "restaurant" || screenType == "restaurantProfileScreen") {
@@ -73,7 +76,7 @@ class OrderReveivedScreen extends StatelessWidget {
                       arguments: {'type': cartType,'screenType':screenType}
                   );
                 },
-                child: const Text("Review This Driver"),
+                child: Text("Review This Driver",style:  AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),),
               ),
             ],
           ),

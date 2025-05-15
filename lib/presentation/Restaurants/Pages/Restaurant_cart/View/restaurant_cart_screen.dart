@@ -15,6 +15,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantity_update/quantityupdatecontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 class RestaurantCartScreen extends StatefulWidget {
   final bool isBack;
@@ -63,7 +64,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           isActions: true,
           title: Text(
             "My Cart",
-            style: AppFontStyle.text_24_600(AppColors.darkText),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
         ),
         body: Obx(() {
@@ -103,13 +104,13 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           hBox(10.h),
                           Text(
                             "Your cart is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                                AppFontStyle.text_16_400(AppColors.mediumText),
+                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
                           ),
                         ],
                       )
@@ -153,7 +154,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           children: [
             Text(
               "Delivery Address",
-              style: AppFontStyle.text_20_600(AppColors.darkText),
+              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
             const Spacer(),
             InkWell(
@@ -169,7 +170,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                 children: [
                   Text(
                     "Change Address",
-                    style: AppFontStyle.text_14_600(AppColors.primary),
+                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                   ),
                   wBox(4),
                   Icon(
@@ -182,7 +183,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             ),
           ],
         ),
-        hBox(10.h),
+        hBox(8.h),
         Container(
           height: 82.h,
           width: Get.width,
@@ -200,7 +201,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     .toString()
                     .capitalizeFirst
                     .toString(),
-                style: AppFontStyle.text_15_600(AppColors.primary),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
               SizedBox(
@@ -209,7 +210,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                   controller.cartData.value.address!.address.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
               ),
             ],
@@ -241,7 +242,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           Text(
             "Your\nLocation",
             textAlign: TextAlign.center,
-            style: AppFontStyle.text_15_600(AppColors.primary),
+            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
           ),
           VerticalDivider(thickness: 1.w, color: AppColors.hintText),
           SizedBox(
@@ -250,7 +251,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               currentLocation.value,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_14_400(AppColors.darkText),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ),
         ],
@@ -445,8 +446,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                         .toString(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
-                                    style: AppFontStyle.text_14_500(
-                                        AppColors.darkText),
+                                    style: AppFontStyle.text_14_600(
+                                        AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                   ),
                                 ),
                           // Obx(
@@ -508,7 +509,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                   "\$${controller.cartData.value.cart!.decodedAttribute![index].totalPrice.toString()}",
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_14_600(
-                                      AppColors.primary),
+                                      AppColors.primary,family: AppFontFamily.gilroyRegular),
                                 ),
                           isLoading
                               ? Shimmer.fromColors(
@@ -631,7 +632,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                                     .quantity
                                                     .toString(),
                                                 style: AppFontStyle.text_14_400(
-                                                    AppColors.darkText),
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                               ),
                                               InkWell(
                                                 splashColor: Colors.transparent,
@@ -739,21 +740,21 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                             Text(
                               '${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemName}',
                               style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
+                                  AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             Text(
                               ' - ',
                               style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
+                                  AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             Text(
                               '\$${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemPrice}',
                               style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
+                                  AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -761,7 +762,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                               Text(
                                 ',',
                                 style:
-                                    AppFontStyle.text_12_400(AppColors.primary),
+                                    AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -799,21 +800,21 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           Text(
                             '${controller.cartData.value.cart!.decodedAttribute![index].addons![addonIndex].name}',
                             style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
+                                AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                           Text(
                             ' - ',
                             style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
+                                AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                           Text(
                             '\$${controller.cartData.value.cart!.decodedAttribute![index].addons![addonIndex].price}',
                             style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
+                                AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -821,7 +822,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                             Text(
                               ',',
                               style:
-                                  AppFontStyle.text_12_400(AppColors.lightText),
+                                  AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -850,9 +851,10 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             radius: Radius.circular(15.r),
             color: AppColors.primary,
             dashPattern: [6.w, 3.w],
+            borderPadding: const EdgeInsets.symmetric(horizontal: 2),
             child: SizedBox(
               height: Get.height * 0.065,
-              width: Get.width * 0.9,
+              width: Get.width,
               child: Row(
                 children: [
                   wBox(15.h),
@@ -887,8 +889,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         prefixConstraints:
                             BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
                         hintText: "Enter coupon code",
-                        hintStyle:
-                            AppFontStyle.text_16_400(AppColors.lightText),
+                        hintStyle:AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                        textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         onTapOutside: (event) {
                           FocusScope.of(context).unfocus();
                         },
@@ -918,7 +920,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           },
                           child: Text(
                             "Apply",
-                            style: AppFontStyle.text_16_600(AppColors.primary),
+                            style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                           ),
                         ),
                   wBox(20.h),
@@ -999,19 +1001,20 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                               controller
                                   .cartData.value.cart!.couponApplied!.code
                                   .toString(),
-                              style: AppFontStyle.text_18_600(AppColors.black),
+                              style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
                             ),
                             wBox(5.h),
                             Text(
                               "Applied",
                               style:
-                                  AppFontStyle.text_16_600(AppColors.primary),
+                                  AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                             ),
                           ],
                         ),
+                        hBox(2.h),
                         Text(
                           "-\$${controller.cartData.value.cart!.couponDiscount}",
-                          style: AppFontStyle.text_16_400(AppColors.lightText),
+                          style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                         ),
                       ],
                     ),
@@ -1033,7 +1036,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
       children: [
         Text(
           "Payment Details",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10.h),
         if (isLoading) ...[
@@ -1050,11 +1053,11 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             children: [
               Text(
                 "Regular Price",
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
                 "\$${controller.cartData.value.cart!.regularPrice.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
           ),
@@ -1064,11 +1067,11 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             children: [
               Text(
                 "Save Amount",
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
                 "\$${controller.cartData.value.cart!.saveAmount.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
           ),
@@ -1080,11 +1083,11 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                 children: [
                   Text(
                     "Coupon Discount",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
                     "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               ),
@@ -1097,11 +1100,11 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                 children: [
                   Text(
                     "Delivery Charge",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
                     "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               ),
@@ -1125,14 +1128,14 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
           children: [
             Text(
               "Total Price",
-              style: AppFontStyle.text_14_500(AppColors.darkText),
+              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
             ),
             isLoading
                 ? shimmerItem('\$0.00',
                     width: 70, height: 40, secondShimmer: false)
                 : Text(
                     "\$${controller.cartData.value.cart!.totalPrice.toString()}",
-                    style: AppFontStyle.text_26_600(AppColors.primary),
+                    style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   ),
           ],
         ),
@@ -1200,7 +1203,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         }
                       },
                       text: "Checkout",
-                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                      textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
                     ),
                   )
                 : SizedBox(
@@ -1292,7 +1295,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                     children: [
                       Text(
                         "Your Promo Codes",
-                        style: AppFontStyle.text_20_400(AppColors.darkText),
+                        style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                       InkWell(
                         splashColor: Colors.transparent,
@@ -1354,8 +1357,8 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         children: [
                           Text(
                             "${controller.cartData.value.coupons![index].discountAmount}",
-                            style: AppFontStyle.text_30_600(Colors.white,
-                                height: 1.h),
+                            style: AppFontStyle.text_28_600(Colors.white,
+                                height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
                             controller.cartData.value.coupons![index]
@@ -1364,14 +1367,14 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                                     "percent"
                                 ? "%"
                                 : "\$",
-                            style: AppFontStyle.text_14_400(Colors.white),
+                            style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
                           )
                         ],
                       ),
                     ),
                     Text(
                       "OFF",
-                      style: AppFontStyle.text_15_400(Colors.white),
+                      style: AppFontStyle.text_15_400(Colors.white,family: AppFontFamily.gilroyRegular),
                     )
                   ],
                 ),
@@ -1384,9 +1387,9 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                   children: [
                     Text(
                       controller.cartData.value.coupons![index].couponType
-                          .toString(),
+                          .toString().capitalize.toString(),
                       overflow: TextOverflow.ellipsis,
-                      style: AppFontStyle.text_13_400(AppColors.lightText),
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
                     hBox(10),
                     FittedBox(
@@ -1394,7 +1397,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         controller.cartData.value.coupons![index].code
                             .toString(),
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_15_400(AppColors.darkText,
+                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
                             height: 1.h),
                       ),
                     ),
@@ -1412,7 +1415,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         daysRemaining,
                         // overflow: TextOverflow.ellipsis,
                         maxLines: 2,
-                        style: AppFontStyle.text_12_400(AppColors.lightText),
+                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                       ),
                     ),
                     hBox(8),
@@ -1421,14 +1424,12 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         "Expired")
                       CustomElevatedButton(
                         textStyle:
-                            AppFontStyle.text_13_400(Colors.white, height: 1.0),
+                            AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),
                         width: 85.w,
                         height: 36.h,
                         text: "Select",
                         onPressed: () {
-                          controller.couponCodeController.value.text =
-                              controller.cartData.value.coupons![index].code
-                                  .toString();
+                          controller.couponCodeController.value.text = controller.cartData.value.coupons![index].code.toString();
                           Get.back();
                           FocusScope.of(context).unfocus();
                         },

@@ -4,6 +4,7 @@ import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/current_location/current_location.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 import '../../../shared/widgets/CircularProgressIndicator.dart';
 
@@ -25,7 +26,7 @@ class HomeScreen extends StatelessWidget {
             child: AlertDialog(
               title: Image.asset(
                 "assets/images/Location.png",
-                height: 100.h,
+                height: 95.h,
               ),
               content: Padding(
                 padding: REdgeInsets.all(0.h),
@@ -36,12 +37,12 @@ class HomeScreen extends StatelessWidget {
                       "Location Permission is off",
                       maxLines: 2,
                       textAlign: TextAlign.center,
-                      style: AppFontStyle.text_22_600(AppColors.darkText),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                     ),
                     hBox(10.h),
                     Text(
                       "Getting location permission will ensure accurate address and hassle free delivery",
-                      style: AppFontStyle.text_16_400(AppColors.lightText),
+                      style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                       maxLines: 4,
                       textAlign: TextAlign.center,
                     ),
@@ -55,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                             back: true);
                       },
                       text: "Allow Location Access",
-                      textStyle: AppFontStyle.text_14_400(AppColors.white),
+                      textStyle: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroySemiBold),
                     ),
                     SizedBox(height: 10.h),
                     GestureDetector(
@@ -80,7 +81,7 @@ class HomeScreen extends StatelessWidget {
                               Text(
                                 "Add Address",
                                 style:
-                                    AppFontStyle.text_16_400(AppColors.primary),
+                                    AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               ),
                             ],
                           )),
@@ -195,14 +196,13 @@ class HomeScreen extends StatelessWidget {
                           Text(
                             "Your Location",
                             style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
+                                AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                           ),
                           hBox(5.w),
                           Obx(
                             () => Text(
                               homeController.location.value,
-                              style:
-                                  AppFontStyle.text_14_400(AppColors.darkText),
+                              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -212,7 +212,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Icon(
                       Icons.arrow_forward_ios_sharp,
-                      size: 22,
+                      size: 20,
                       color: AppColors.darkText.withOpacity(0.8),
                     )
                   ],
@@ -307,7 +307,7 @@ class MainButtonBar extends StatelessWidget {
           wBox(6),
           Text(
             title,
-            style: AppFontStyle.text_12_400(titleColor),
+            style: AppFontStyle.text_12_400(titleColor,family: AppFontFamily.gilroyMedium),
           )
         ],
       ),

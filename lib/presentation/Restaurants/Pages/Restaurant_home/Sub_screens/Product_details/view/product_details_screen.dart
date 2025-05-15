@@ -17,6 +17,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Con
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../../../../../../Core/Utils/image_cache_height.dart';
 
@@ -63,7 +64,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("restaurant>>>>>>>>>>>> 11  $restaurantId :: catid>>> $categoryId :: productId $productId  ::   catName >> $categoryName");
+    pt("restaurant>>>>>>>>>>>> 11  $restaurantId :: catid>>> $categoryId :: productId $productId  ::   catName >> $categoryName");
     // restaurantCartController.isCartScreen.value;
     return Scaffold(
       appBar: CustomAppBar(
@@ -71,7 +72,7 @@ class ProductDetailsScreen extends StatelessWidget {
         actions: [
           GestureDetector(
             onTap: () {
-              // print("is cart screen : ${restaurantCartController.isCartScreen.value }");
+              // pt("is cart screen : ${restaurantCartController.isCartScreen.value }");
               // restaurantCartController.isCartScreen.value ?
               // Get.toNamed(AppRoutes.restaurantNavbar) :
               if (fromCart != null && fromCart == true) {
@@ -147,11 +148,12 @@ class ProductDetailsScreen extends StatelessWidget {
                 await addWishlistController.restaurant_add_product_wishlist(
                   restaurantId: restaurantId.toString(),
                   categoryId: categoryId,
-                  product_id: productId.toString(),
+                  product_id: controller.productData.value.product?.id.toString() ?? productId.toString(),
                 );
-                Utils.showToast(productId.toString());s
+                // Utils.showToast("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
 
-                print("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
+                pt("productId 1>> :: $productId");
+                pt("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
                 controller.isLoading.value = false;
               },
               child: Container(
@@ -301,8 +303,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                           .extrasItemIdsPrice
                                           .toList(),
                                     );
-                                    print(
-                                        "object ${controller.extrasItemIdsName}");
+                                    pt("object ${controller.extrasItemIdsName}");
                                   }
                                 }),
                       ),
@@ -388,7 +389,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     onTap: () {
                       controller.isSelected.value = index;
 
-                      print("object  ${controller.isSelected.value}");
+                      pt("object  ${controller.isSelected.value}");
 
                       controller.selectedImageUrl.value = imageUrl;
                     },
@@ -667,7 +668,7 @@ class ProductDetailsScreen extends StatelessWidget {
   //       var extra = controller.productData.value.product!.extra![index];
   //       if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
   //         controller.extrasTitlesIdsId.add(extra.titleid);
-  //         print("itemIdsIds ${controller.extrasTitlesIdsId}");
+  //         pt("itemIdsIds ${controller.extrasTitlesIdsId}");
   //       }
   //
   //       if (controller.extrasItemIdsName.isEmpty) {
@@ -679,9 +680,9 @@ class ProductDetailsScreen extends StatelessWidget {
   //                 .add(extra.item![0].price.toString());
   //           }
   //         });
-  //         print("Final List of IDs: ${controller.extrasItemIdsId}");
-  //         print("Final List of Names: ${controller.extrasItemIdsName}");
-  //         print("Final List of Prices: ${controller.extrasItemIdsPrice}");
+  //         pt("Final List of IDs: ${controller.extrasItemIdsId}");
+  //         pt("Final List of Names: ${controller.extrasItemIdsName}");
+  //         pt("Final List of Prices: ${controller.extrasItemIdsPrice}");
   //       }
   //       return Column(
   //         crossAxisAlignment: CrossAxisAlignment.start,
@@ -730,7 +731,7 @@ class ProductDetailsScreen extends StatelessWidget {
   //                   // } else {
   //                   //   controller.extrasItemIdsName.add(item.name.toString());
   //                   // }
-  //                   // print(
+  //                   // pt(
   //                   //     "Updated selected names: ${controller.extrasItemIdsName}");
   //                   if (controller.extrasItemIdsName.length > index) {
   //                     controller.extrasItemIdsName[index] =
@@ -744,11 +745,11 @@ class ProductDetailsScreen extends StatelessWidget {
   //                     controller.extrasItemIdsPrice.add(item.price.toString());
   //                   }
   //
-  //                   print(
+  //                   pt(
   //                       "Updated selected names: ${controller.extrasItemIdsName}");
-  //                   print(
+  //                   pt(
   //                       "Updated selected IDs: ${controller.extrasItemIdsId}");
-  //                   print(
+  //                   pt(
   //                       "Updated selected prices: ${controller.extrasItemIdsPrice}");
   //                 },
   //                 priceValue: item.price.toString(),
@@ -772,7 +773,7 @@ class ProductDetailsScreen extends StatelessWidget {
         var extra = controller.productData.value.product!.extra![index];
         // if (!controller.extrasTitlesIdsId.contains(extra.titleid)) {
         //   controller.extrasTitlesIdsId.add(extra.titleid);
-        //   print("itemIdsIds ${controller.extrasTitlesIdsId}");
+        //   pt("itemIdsIds ${controller.extrasTitlesIdsId}");
         // }
         //
         // if (controller.extrasItemIdsName.isEmpty) {
@@ -784,13 +785,13 @@ class ProductDetailsScreen extends StatelessWidget {
         //           .add(extra.item![0].price.toString());
         //     }
         //   });
-        //   print("Final List of IDs: ${controller.extrasItemIdsId}");
-        //   print("Final List of Names: ${controller.extrasItemIdsName}");
-        //   print("Final List of Prices: ${controller.extrasItemIdsPrice}");
+        //   pt("Final List of IDs: ${controller.extrasItemIdsId}");
+        //   pt("Final List of Names: ${controller.extrasItemIdsName}");
+        //   pt("Final List of Prices: ${controller.extrasItemIdsPrice}");
         // }
-        print("Final List of IDs: ${controller.extrasItemIdsId}");
-        print("Final List of Names: ${controller.extrasItemIdsName}");
-        print("Final List of Prices: ${controller.extrasItemIdsPrice}");
+        pt("Final List of IDs: ${controller.extrasItemIdsId}");
+        pt("Final List of Names: ${controller.extrasItemIdsName}");
+        pt("Final List of Prices: ${controller.extrasItemIdsPrice}");
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -882,13 +883,13 @@ class ProductDetailsScreen extends StatelessWidget {
                         .where((item) => item.isNotEmpty)
                         .toList());
 
-                    print(
+                    pt(
                         "Updated selected extrasTitlesIdsId: ${controller.extrasTitlesIdsId}");
-                    print(
+                    pt(
                         "Updated selected names: ${controller.extrasItemIdsName}");
-                    print(
+                    pt(
                         "Updated selected IDs: ${controller.extrasItemIdsId}");
-                    print(
+                    pt(
                         "Updated selected prices: ${controller.extrasItemIdsPrice}");
                   },
                   //     onChanged: (value) {
@@ -907,11 +908,11 @@ class ProductDetailsScreen extends StatelessWidget {
                   //     controller.extrasItemIdsPrice.add(item.price.toString());
                   //   }
                   //
-                  //   print(
+                  //   pt(
                   //       "Updated selected names: ${controller.extrasItemIdsName}");
-                  //   print(
+                  //   pt(
                   //       "Updated selected IDs: ${controller.extrasItemIdsId}");
-                  //   print(
+                  //   pt(
                   //       "Updated selected prices: ${controller.extrasItemIdsPrice}");
                   // },
                   priceValue: item.price.toString(),
@@ -980,7 +981,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           element['price'] == addOn.price.toString() &&
                           element['name'] == addOn.name.toString());
                     }
-                    print("selected AddOn${controller.selectedAddOn}");
+                    pt("selected AddOn${controller.selectedAddOn}");
                   },
                   priceValue: addOn.price.toString(),
                   isChecked: addOn.isChecked,
@@ -1295,19 +1296,23 @@ class ProductDetailsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () {
-                    print("object  >>>> ${controller.productData.value.moreProducts![index].id}");
-                    productId.isEmpty;
-                    print("restaurant>>>>>>>>>>>> $restaurantId :: catid>>> $categoryId :: productId $productId >> :: ${controller.productData.value.moreProducts![index].id}  catName >> $categoryName");
-                    Get.to(ProductDetailsScreen(
+                    pt("object productId >>>> ${controller.productData.value.moreProducts![index].id}");
+                    // Utils.showToast("restaurant>>>>>>>>>>>> $restaurantId :: catid>>> $categoryId :: productId $productId >> :: ${controller.productData.value.moreProducts![index].id}  catName >> $categoryName");
+                    pt("restaurant>>>>>>>>>>>> $restaurantId :: catid>>> $categoryId :: productId $productId >> :: ${controller.productData.value.moreProducts![index].id}  catName >> $categoryName");
+
+                    controller.specific_Product_Api(
+                      productId: controller.productData.value.moreProducts![index].id.toString(),
+                      categoryId: categoryId.toString(),
+                    );
+
+                    Get.to(()=>ProductDetailsScreen(
                       productId: controller.productData.value.moreProducts![index].id.toString(),
                       categoryId: categoryId,
                       categoryName: categoryName,
                       restaurantId: restaurantId,
                     ));
 
-                    controller.specific_Product_Api(
-                        productId: controller.productData.value.moreProducts![index].id.toString(),
-                        categoryId: categoryId.toString());
+
                   },
                   child: CustomItemBanner(
                     index: index,

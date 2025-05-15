@@ -7,6 +7,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/controller/homeserchcontroller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 class RestaurantHomeFilter extends StatelessWidget {
   RestaurantHomeFilter({super.key});
@@ -21,7 +22,7 @@ class RestaurantHomeFilter extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           "Filter",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Padding(
@@ -107,9 +108,9 @@ class RestaurantHomeFilter extends StatelessWidget {
       children: [
         Text(
           "Restaurant",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
-        hBox(5.h),
+        hBox(10.h),
         SizedBox(
           height: Get.height / 3.6,
           child: GetBuilder<RestaurantHomeSearchController>(
@@ -155,11 +156,12 @@ class RestaurantHomeFilter extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(5.h),
         Text(
           "Products",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
-        hBox(5.h),
+        hBox(10.h),
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -314,7 +316,7 @@ class RestaurantHomeFilter extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.left,
-            style: AppFontStyle.text_18_400(AppColors.darkText),
+            style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           // hBox(10),
           Row(
@@ -323,7 +325,7 @@ class RestaurantHomeFilter extends StatelessWidget {
               Text(
                 price,
                 textAlign: TextAlign.left,
-                style: AppFontStyle.text_16_600(AppColors.primary),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
               ),
               Text(
                 " • ",
@@ -334,7 +336,7 @@ class RestaurantHomeFilter extends StatelessWidget {
               wBox(4),
               Text(
                 "$rating/5",
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
             ],
           )

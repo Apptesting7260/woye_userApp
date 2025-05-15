@@ -1,5 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
+import '../theme/font_family.dart';
+
 class CustomExpansionTile extends StatelessWidget {
   final String title;
   final TextStyle? titleTextStyle;
@@ -19,11 +21,12 @@ class CustomExpansionTile extends StatelessWidget {
         expandedCrossAxisAlignment: CrossAxisAlignment.start,
         shape: Border.all(color: Colors.transparent),
         collapsedShape: Border.all(color: Colors.transparent),
-        tilePadding: EdgeInsets.symmetric(horizontal: 15.r),
-        childrenPadding: EdgeInsets.symmetric(horizontal: 15.r),
+        tilePadding: EdgeInsets.symmetric(horizontal: 12.r),
+        childrenPadding: EdgeInsets.symmetric(horizontal: 12.r),
         title: Text(
           title,
-          style: titleTextStyle ?? AppFontStyle.text_18_600(AppColors.darkText),
+          // style: titleTextStyle ?? AppFontStyle.text_18_600(AppColors.darkText),
+          style: titleTextStyle ?? AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         onExpansionChanged: onExpansionChanged,
         children: children);

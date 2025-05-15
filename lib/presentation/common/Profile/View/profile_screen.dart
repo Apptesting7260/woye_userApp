@@ -4,6 +4,7 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 import '../../../../Data/userPrefrenceController.dart';
 import '../../../Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
@@ -38,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
         isLeading: false,
         title: Text(
           "My Profile",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -146,13 +147,13 @@ class ProfileScreen extends StatelessWidget {
                                   .userData.value.user?.firstName!.characters
                                   .toString() ??
                               "",
-                          style: AppFontStyle.text_18_600(AppColors.darkText),
+                          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                         ),
                         hBox(10),
                         Text(
                           getUserDataController.userData.value.user?.email ??
                               "",
-                          style: AppFontStyle.text_14_400(AppColors.darkText),
+                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                           maxLines: 2,
                         ),
                       ],
@@ -170,14 +171,15 @@ class ProfileScreen extends StatelessWidget {
 
   Widget editProfile(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
       title: Text(
         'Edit Profile',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
         if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
@@ -196,14 +198,16 @@ class ProfileScreen extends StatelessWidget {
 
   Widget orders(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/cart-dark.svg"),
       title: Text(
         'Orders',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        // style: AppFontStyle.text_16_500(AppColors.darkText),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
         if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
@@ -221,14 +225,15 @@ class ProfileScreen extends StatelessWidget {
 
   Widget deliveryAddress(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/location-pin-dark.svg"),
       title: Text(
         'Delivery Address',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
         if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
@@ -266,14 +271,16 @@ class ProfileScreen extends StatelessWidget {
 
   Widget myWallet(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
+
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/wallet-dark.svg"),
       title: Text(
         'My Wallet',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
         if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
@@ -308,14 +315,16 @@ class ProfileScreen extends StatelessWidget {
 
   Widget inviteFriends(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
+
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
       title: Text(
         'Invite Friends',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
         if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
@@ -329,14 +338,16 @@ class ProfileScreen extends StatelessWidget {
 
   Widget settings(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
+
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/settings-dark.svg"),
       title: Text(
         'Settings',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
         if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
@@ -352,12 +363,13 @@ class ProfileScreen extends StatelessWidget {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
+      contentPadding: EdgeInsets.zero,
       leading: SvgPicture.asset("assets/svg/help-dark.svg"),
       title: Text(
         'Help',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
         if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
@@ -371,12 +383,13 @@ class ProfileScreen extends StatelessWidget {
 
   Widget logout(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/logout.svg"),
       title: Text(
         'Logout',
-        style: AppFontStyle.text_16_500(AppColors.primary),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
       onTap: () {
         logoutPopUp(context);
@@ -402,13 +415,13 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Logout',
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                   ),
                   // hBox(15),
                   Text(
                     'Are you sure you want to log out?',
                     maxLines: 2,
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                   ),
                   // hBox(15),
                   Row(
@@ -422,14 +435,14 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+                              AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
                       ),
                       wBox(15),
                       Expanded(
                         child: CustomElevatedButton(
                           height: 40.h,
-                          onPressed: () {
+                          textStyle:AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),                          onPressed: () {
                             socialLoginController.signout();
                             userPreference.removeUser();
                             Get.offAllNamed(AppRoutes.welcomeScreen);
@@ -464,12 +477,12 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Login Required',
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                   ),
                   // hBox(15),
                   Text(
                     'You need to log in first',
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                   ),
                   // hBox(15),
                   Row(
@@ -483,7 +496,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+                              AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
                       ),
                       wBox(15),
@@ -495,6 +508,8 @@ class ProfileScreen extends StatelessWidget {
                             Get.offAllNamed(AppRoutes.signUp);
                           },
                           text: "Login",
+                          textStyle:
+                          AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
                       ),
                     ],

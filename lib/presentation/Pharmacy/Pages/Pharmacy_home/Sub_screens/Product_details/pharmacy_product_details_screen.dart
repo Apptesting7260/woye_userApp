@@ -131,7 +131,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                   // pharmacyId: pharmacyId.toString(),
                   isRefresh: true,
                   categoryId: categoryId,
-                  product_id: productId.toString(),
+                  product_id:  controller.productData.value.product?.id.toString() ?? productId.toString(),
                 )
                     .then(
                   (value) {

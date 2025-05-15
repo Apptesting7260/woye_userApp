@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 import '../../Core/Utils/image_cache_height.dart';
 import 'CircularProgressIndicator.dart';
@@ -142,12 +143,12 @@ class CustomItemBanner extends StatelessWidget {
                 ? Text(
                     "\$$sale_price",
                     textAlign: TextAlign.left,
-                    style: AppFontStyle.text_16_600(AppColors.primary),
+                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   )
                 : Text(
                     "\$$regular_price",
                     textAlign: TextAlign.left,
-                    style: AppFontStyle.text_16_600(AppColors.primary),
+                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   ),
             wBox(5.h),
             sale_price != "null"
@@ -155,11 +156,11 @@ class CustomItemBanner extends StatelessWidget {
                     "\$$regular_price",
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
-
                     style: TextStyle(
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w300,
                         color: AppColors.lightText,
+                        fontFamily: AppFontFamily.gilroyRegular,
                         decoration: TextDecoration.lineThrough,
                         decorationColor: AppColors.lightText),
 
@@ -170,16 +171,16 @@ class CustomItemBanner extends StatelessWidget {
         ),
         // hBox(10),
         Text(
-          title.toString(),
+          title.toString().capitalizeFirst.toString(),
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_16_400(AppColors.darkText),
+          style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Text(
           resto_name.toString(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_14_300(AppColors.lightText),
+          style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
         ),
         // hBox(10),
         // Row(

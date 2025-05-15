@@ -12,6 +12,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/banner_details_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/home_banner_data.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../shared/widgets/CircularProgressIndicator.dart';
@@ -172,7 +173,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             showfilterIcon: false,
             searchIocnPadding: REdgeInsets.all(8),
             searchIconHeight: 16.h,
-            hintStyle: AppFontStyle.text_10_400(AppColors.hintText),
+            hintStyle: AppFontStyle.text_10_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
             textStyle: AppFontStyle.text_10_400(AppColors.darkText),
             prefixConstraints: BoxConstraints(
               maxHeight: 18.h,
@@ -270,7 +271,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 children: [
                   Text(
                     "Categories",
-                    style: AppFontStyle.text_24_600(AppColors.darkText),
+                    style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                   const Spacer(),
                   InkWell(
@@ -283,7 +284,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       children: [
                         Text(
                           "See All",
-                          style: AppFontStyle.text_14_600(AppColors.primary),
+                          style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                         ),
                         wBox(4),
                         Icon(
@@ -345,10 +346,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       ),
                       hBox(15),
                       Text(
-                        restaurantHomeController
-                            .homeData.value.category![index].name
-                            .toString(),
-                        style: AppFontStyle.text_14_400(AppColors.darkText),
+                        restaurantHomeController.homeData.value.category![index].name.toString(),
+                        style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                     ],
                   );
@@ -479,7 +478,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             children: [
               Text(
                 "Popular Restaurant",
-                style: AppFontStyle.text_24_600(AppColors.darkText),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -488,7 +487,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 },
                 child: Text(
                   "See All",
-                  style: AppFontStyle.text_14_600(AppColors.primary),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                 ),
               ),
               wBox(4),
@@ -605,11 +604,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             // )
           ],
         ),
-        hBox(10),
+        hBox(10.h),
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(
@@ -618,7 +617,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
             ),
             Text(
               " • ",
@@ -629,7 +628,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         )

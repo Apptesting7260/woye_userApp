@@ -2,6 +2,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Home/home_controller.dart';
 
+import '../../../../../../../shared/theme/font_family.dart';
+
 class ReviewDriverScreen extends StatelessWidget {
   ReviewDriverScreen({super.key});
 
@@ -48,7 +50,7 @@ class ReviewDriverScreen extends StatelessWidget {
         Text(
           "David Ronney",
           textAlign: TextAlign.center,
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
       ],
     );
@@ -61,7 +63,7 @@ class ReviewDriverScreen extends StatelessWidget {
         Text(
           "What is your rate?",
           textAlign: TextAlign.center,
-          style: AppFontStyle.text_16_600(AppColors.darkText),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         hBox(10),
         // Row(
@@ -118,7 +120,7 @@ class ReviewDriverScreen extends StatelessWidget {
         Text(
           "How was your experience ?",
           textAlign: TextAlign.center,
-          style: AppFontStyle.text_16_600(AppColors.darkText),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         hBox(10),
         TextFormField(
@@ -136,7 +138,7 @@ class ReviewDriverScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.r)),
             hintText: "Write your review...",
             hintStyle: AppFontStyle.text_14_400(
-              AppColors.lightText,
+              AppColors.lightText,family: AppFontFamily.gilroySemiBold,
             ),
           ),
         ),
@@ -146,6 +148,7 @@ class ReviewDriverScreen extends StatelessWidget {
 
   Widget submitButton(cartType,screenType) {
     return CustomElevatedButton(
+    fontFamily: AppFontFamily.gilroySemiBold,
         text: "Submit",
         onPressed: () async {
           if (cartType == "restaurant" || screenType == 'restaurantProfileScreen') {

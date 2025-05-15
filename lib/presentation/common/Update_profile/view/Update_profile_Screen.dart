@@ -5,6 +5,7 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_controller.dart';
 import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_email_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 
 class SignUpFormScreen extends StatefulWidget {
@@ -89,7 +90,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         Text(
           typeFrom == "back" ? "Update your profile" : "Fill your profile",
           maxLines: 2,
-          style: AppFontStyle.text_36_600(AppColors.darkText),
+          style: AppFontStyle.text_28_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(15),
         Text(
@@ -97,7 +98,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
           style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w400,
-              color: AppColors.lightText),
+              color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular),
         ),
       ],
     );
@@ -136,6 +137,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               ],
               prefix: CountryCodePicker(
                 padding: const EdgeInsets.only(left: 10),
+                textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                 onChanged: (CountryCode countryCode) {
                   print("country code===========> ${countryCode.code}");
                   signUpFormController.updateCountryCode(countryCode);
@@ -291,7 +293,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                     ? circularProgressIndicator(size: 18.h)
                     : Text("Verify",style: AppFontStyle.text_16_400(
                             AppColors.primary,
-                            fontWeight: FontWeight.w500),)),
+                            fontWeight: FontWeight.w500,family: AppFontFamily.gilroyMedium),)),
                               ),
               ),
             ),
@@ -301,9 +303,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                 signUpFormController.genderController.text.isEmpty
                     ? "Gender"
                     : signUpFormController.genderController.text,
-                style: AppFontStyle.text_16_400(AppColors.darkText),
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
-              style: AppFontStyle.text_16_400(AppColors.darkText),
+              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               icon: SvgPicture.asset(ImageConstants.arrowDown),
               decoration: InputDecoration(
                   contentPadding:
@@ -460,6 +462,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
     return CustomElevatedButton(
         isLoading: controller.rxRequestStatus2.value == Status.LOADING,
         text: type == "back" ? "Update" : "Continue",
+        fontFamily: AppFontFamily.gilroyMedium,
         onPressed: () {
           print("object ${controller.profileData.value.data?.emailVerified}");
           // if (controller.profileData.value.data?.emailVerified != "true") {

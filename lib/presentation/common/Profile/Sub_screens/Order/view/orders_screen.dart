@@ -9,6 +9,7 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 class OrdersScreen extends StatefulWidget {
   OrdersScreen({super.key});
@@ -43,7 +44,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         isLeading: true,
         title: Text(
           "Orders",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -130,8 +131,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 child: Center(
                   child: Text(
                     buttonNames[i],
-                    style: AppFontStyle.text_16_400(
-                        isSelected ? AppColors.white : AppColors.black),
+                    style: AppFontStyle.text_15_400(
+                        isSelected ? AppColors.white : AppColors.black,family: AppFontFamily.gilroyMedium),
                   ),
                 ),
               ),
@@ -149,7 +150,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         return Center(
           child: Text(
             "No orders available",
-            style: AppFontStyle.text_14_600(AppColors.darkText),
+            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
         );
       }
@@ -161,7 +162,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemCount: controller.ordersData.value.orders?.length ?? 0,
                 itemBuilder: (context, index) {
                   var order = controller.ordersData.value.orders![index];
@@ -190,25 +191,28 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           },
                           child: Row(
                             children: [
-                              CachedNetworkImage(
-                                imageUrl: order
-                                    .decodedAttribute![0].productImage
-                                    .toString(),
-                                height: 100.h,
-                                width: 100.h,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) =>
-                                    Shimmer.fromColors(
-                                  baseColor: AppColors.gray,
-                                  highlightColor: AppColors.lightText,
-                                  child: Container(
-                                    color: AppColors.white,
-                                    height: 100.h,
-                                    width: 100.h,
+                              ClipRRect(
+                                borderRadius : BorderRadius.circular(10),
+                                child: CachedNetworkImage(
+                                  imageUrl: order
+                                      .decodedAttribute![0].productImage
+                                      .toString(),
+                                  height: 100.h,
+                                  width: 100.h,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                    baseColor: AppColors.gray,
+                                    highlightColor: AppColors.lightText,
+                                    child: Container(
+                                      color: AppColors.white,
+                                      height: 100.h,
+                                      width: 100.h,
+                                    ),
                                   ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
                               ),
                               wBox(15.h),
                               Flexible(
@@ -216,16 +220,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      order.decodedAttribute![0].productName
-                                          .toString(),
+                                      order.decodedAttribute![0].productName.toString(),
                                       style: AppFontStyle.text_14_600(
-                                          AppColors.darkText),
+                                          AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                     ),
                                     hBox(10),
                                     Text(
                                       "Qty:${order.decodedAttribute![0].quantity.toString()}",
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.darkText),
+                                          AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                     ),
                                   ],
                                 ),
@@ -720,11 +723,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
       children: [
         Text(
           label,
-          style: AppFontStyle.text_12_400(AppColors.lightText),
+          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
         ),
         Text(
           value,
-          style: AppFontStyle.text_12_600(AppColors.darkText),
+          // style: AppFontStyle.text_12_600(AppColors.darkText),
+          style: AppFontStyle.text_12_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
       ],
     );
@@ -736,11 +740,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
       children: [
         Text(
           "Total Amount:",
-          style: AppFontStyle.text_14_600(AppColors.darkText),
+          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         Text(
           "\$$total",
-          style: AppFontStyle.text_14_600(AppColors.primary),
+          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
       ],
     );
@@ -752,12 +756,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
       children: [
         Text(
           "Your order will be delivered to you at ",
-          style: AppFontStyle.text_12_400(AppColors.lightText),
+          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
         ),
         hBox(4),
         Text(
           "12 Apr - 10:00 AM",
-          style: AppFontStyle.text_12_400(AppColors.lightText),
+          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
         ),
       ],
     );
@@ -796,7 +800,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
             child: Center(
               child: Text(
                 "Details",
-                style: AppFontStyle.text_16_400(AppColors.white),
+                style: AppFontStyle.text_15_400(AppColors.white,family: AppFontFamily.gilroyMedium),
               ),
             ),
           ),
@@ -815,7 +819,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               child: Center(
                 child: Text(
                   "Cancel",
-                  style: AppFontStyle.text_16_400(AppColors.white),
+                  style: AppFontStyle.text_15_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                 ),
               ),
             ),
@@ -843,7 +847,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               child: Center(
                 child: Text(
                   "Track",
-                  style: AppFontStyle.text_16_400(AppColors.primary),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                 ),
               ),
             ),
@@ -875,7 +879,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
               child: Center(
                 child: Text(
                   "Rate & Review",
-                  style: AppFontStyle.text_16_400(AppColors.primary),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                 ),
               ),
             ),
