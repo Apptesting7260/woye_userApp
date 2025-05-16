@@ -267,7 +267,8 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                   TextOverflow.ellipsis,
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
-                                                      fontSize: 14.sp,fontFamily: AppFontFamily.gilroyRegular,
+                                                      fontSize: 14.sp,
+                                                      fontFamily: AppFontFamily.gilroyRegular,
                                                       fontWeight: FontWeight.w300,
                                                       color: AppColors.lightText,
                                                       decoration: TextDecoration.lineThrough,

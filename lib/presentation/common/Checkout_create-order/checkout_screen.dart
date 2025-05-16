@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
@@ -50,7 +51,7 @@ class CheckoutScreen extends StatelessWidget {
     var cartDelivery = arguments['cart_delivery'] ?? [];
     // var imagePath = arguments['imagePath'] ?? "";
     // File? imageFile;
-    List<String> imagePaths = List<String>.from(Get.arguments['imagePath'] ?? []);
+    List<String> imagePaths = List<String>.from(arguments['imagePath'] ?? []);
 
     // Convert the paths to File objects
     List<File?> imageFiles = imagePaths.map((path) => File(path)).toList();
@@ -114,7 +115,7 @@ class CheckoutScreen extends StatelessWidget {
           isLeading: true,
           title: Text(
             "Checkout",
-            style: AppFontStyle.text_24_600(AppColors.darkText),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
         ),
         body: SingleChildScrollView(
@@ -134,6 +135,7 @@ class CheckoutScreen extends StatelessWidget {
               hBox(30.h),
               Obx(
                 () => CustomElevatedButton(
+                fontFamily: AppFontFamily.gilroyMedium,
                   isLoading: (
                         controller.rxRequestStatus.value == Status.LOADING)
                     || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING
@@ -491,7 +493,7 @@ class CheckoutScreen extends StatelessWidget {
                 wBox(10),
                 Text(
                   "My Wallet (\$$walletBalance)",
-                  style: AppFontStyle.text_16_400(AppColors.darkText),
+                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
                 const Spacer(),
                 Container(
@@ -524,17 +526,69 @@ class CheckoutScreen extends StatelessWidget {
       children: [
         Text(
           "Payment Method",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(15.h),
         wallet(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
         methodList(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
-        PaymentMethodScreen().addNewCard(),
+        addNewCard(),
       ],
     );
   }
+  Widget addNewCard() {
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: () {
+        Get.toNamed(AppRoutes.addCard);
+      },
+      child: Container(
+        padding: REdgeInsetsDirectional.all(15),
+        height: 60.h,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.r),
+            border: Border.all(color: AppColors.primary)),
+        child: Row(
+          children: [
+            SvgPicture.asset("assets/svg/payment_card.svg"),
+            wBox(10),
+            Text(
+              "Add New Card",
+              style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+            ),
+            const Spacer(),
+            const Icon(Icons.arrow_forward_ios_sharp)
+          ],
+        ),
+      ),
+    );
+
+    // Container(
+    //   padding: REdgeInsetsDirectional.all(15),
+    //   height: 60.h,
+    //   decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(20.r),
+    //       border: Border.all(color: AppColors.primary)),
+    //   child: Row(
+    //     children: [
+    //       SvgPicture.asset("assets/svg/pin_location.svg"),
+    //       wBox(10),
+    //       Text(
+    //         "Add Address",
+    //         style: AppFontStyle.text_16_400(AppColors.primary),
+    //       ),
+    //       Spacer(),
+    //       Icon(
+    //         Icons.arrow_forward_ios_sharp,
+    //         size: 20.h,
+    //       )
+    //     ],
+    //   ),
+    // );
+  }
+
 
   Widget methodList({required String walletBalance, required String totalPrice}) {
     return GetBuilder(
@@ -585,12 +639,12 @@ class CheckoutScreen extends StatelessWidget {
                                     "•••• •••• ••••",
                                     style: AppFontStyle.text_16_400(
                                         AppColors.darkText,
-                                        height: 1.h),
+                                        height: 1.h,family: AppFontFamily.gilroyMedium),
                                   ),
                                   Text(
                                     "8888",
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.darkText),
+                                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
                                   ),
                                   const Spacer(),
                                 ],
@@ -644,8 +698,7 @@ class CheckoutScreen extends StatelessWidget {
                                   // SvgPicture.asset("assets/svg/cod-icon.svg"),
                                   Text(
                                     "Cash On Delivery",
-                                    style: AppFontStyle.text_16_400(
-                                        AppColors.darkText),
+                                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                   ),
                                   const Spacer(),
                                 ],
@@ -697,7 +750,7 @@ class CheckoutScreen extends StatelessWidget {
       children: [
         Text(
           "Payment Details",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(20.h),
         Row(
@@ -705,13 +758,13 @@ class CheckoutScreen extends StatelessWidget {
           children: [
             Text(
               "Regular Price",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             Text(
               regularPrice != ""
                   ? "\$$regularPrice"
                   : "\$${Random.secure().nextInt(100)}.00",
-              style: AppFontStyle.text_14_600(AppColors.darkText),
+              style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         ),
@@ -721,13 +774,13 @@ class CheckoutScreen extends StatelessWidget {
           children: [
             Text(
               "Save Amount",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             Text(
               saveAmount != ""
                   ? "\$$saveAmount"
                   : "\$${Random.secure().nextInt(20)}.00",
-              style: AppFontStyle.text_14_600(AppColors.darkText),
+              style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         ),
@@ -738,13 +791,13 @@ class CheckoutScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Coupon Discount",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
                     couponDiscount != ""
                         ? "-\$$couponDiscount"
                         : "-\$${Random.secure().nextInt(20)}.00",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               )
@@ -757,13 +810,13 @@ class CheckoutScreen extends StatelessWidget {
           children: [
             Text(
               "Delivery Charge",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             Text(
               deliveryCharge != ""
                   ? "\$$deliveryCharge"
                   : "\$${Random.secure().nextInt(20)}.00",
-              style: AppFontStyle.text_14_600(AppColors.darkText),
+              style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         ),
@@ -773,11 +826,11 @@ class CheckoutScreen extends StatelessWidget {
           children: [
             Text(
               "Total Price",
-              style: AppFontStyle.text_22_600(AppColors.darkText),
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
             Text(
             formatPrice(totalPrice.toString()),
-              style: AppFontStyle.text_22_600(AppColors.primary),
+              style: AppFontStyle.text_20_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/Add_card/add_card_controller.dart';
 
 
@@ -15,7 +16,7 @@ class AddCardScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Add Card",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -70,6 +71,7 @@ class AddCardScreen extends StatelessWidget {
 
   Widget saveButton() {
     return CustomElevatedButton(
+        fontFamily: AppFontFamily.gilroyMedium,
         text: "Save",
         onPressed: () {
           Get.back();

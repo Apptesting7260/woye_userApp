@@ -7,6 +7,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_sc
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/Pharma_Categories_Filter_controller.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
+import '../../../../../../../Shared/theme/font_family.dart';
+
 class PharmacyCategoryDetails extends StatelessWidget {
   PharmacyCategoryDetails({super.key});
 
@@ -23,9 +25,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           categoryTitle,
-          style: AppFontStyle.text_22_600(
-            AppColors.darkText,
-          ),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {

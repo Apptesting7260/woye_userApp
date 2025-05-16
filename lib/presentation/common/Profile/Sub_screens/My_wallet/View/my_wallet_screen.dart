@@ -2,6 +2,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/wallet_controller/wallet_controller.dart';
 
 class MyWalletScreen extends StatelessWidget {
@@ -16,7 +17,7 @@ class MyWalletScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "My Wallet",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -72,13 +73,13 @@ class MyWalletScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "Credit balance ",
-            style: AppFontStyle.text_16_400(AppColors.darkText),
+            "Credit Balance ",
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           hBox(10),
           Text(
             "\$${controller.userWalletData.value.currentBalance}",
-            style: AppFontStyle.text_24_600(AppColors.primary),
+            style: AppFontStyle.text_24_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
           ),
         ],
       ),

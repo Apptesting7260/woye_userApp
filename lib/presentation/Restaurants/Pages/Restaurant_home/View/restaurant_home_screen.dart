@@ -13,6 +13,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/banner_details_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/home_banner_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../shared/widgets/CircularProgressIndicator.dart';
@@ -49,6 +50,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   final RestaurantDetailsController restaurantDeatilsController =
       Get.put(RestaurantDetailsController());
 
+  final ScrollController _horizontalScrollController = ScrollController();
   final ScrollController _scrollController = ScrollController();
   final RestaurantCartController restaurantCartController =
       Get.put(RestaurantCartController());
@@ -58,18 +60,32 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     super.initState();
     restaurantCartController.getRestaurantCartApi();
     WidgetsBinding.instance.addPostFrameCallback(_getHeight);
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (restaurantHomeController.noLoading.value != true) {
-          if (!restaurantHomeController.isLoading.value) {
-            restaurantHomeController.isLoading.value = true;
-            restaurantHomeController.currentPage++;
-            print(
-                "currentPage value ${restaurantHomeController.currentPage.value}");
-            restaurantHomeController
-                .homeApi(restaurantHomeController.currentPage.value);
-          }
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //       _scrollController.position.maxScrollExtent) {
+    //     if (restaurantHomeController.noLoading.value != true) {
+    //       if (!restaurantHomeController.isLoading.value) {
+    //         restaurantHomeController.isLoading.value = true;
+    //         restaurantHomeController.currentPage++;
+    //         print(
+    //             "currentPage value ${restaurantHomeController.currentPage.value}");
+    //         restaurantHomeController
+    //             .homeApi(restaurantHomeController.currentPage.value);
+    //       }
+    //     }
+    //   }
+    // });
+
+    _horizontalScrollController.addListener(() {
+      if (_horizontalScrollController.position.pixels >=
+          _horizontalScrollController.position.maxScrollExtent - 100) {
+        // Load next page horizontally
+        if (!restaurantHomeController.isLoading.value &&
+            !restaurantHomeController.noLoading.value) {
+          restaurantHomeController.isLoading.value = true;
+          restaurantHomeController.currentPage++;
+          restaurantHomeController
+              .homeApi(restaurantHomeController.currentPage.value);
         }
       }
     });
@@ -347,7 +363,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       hBox(15),
                       Text(
                         restaurantHomeController.homeData.value.category![index].name.toString(),
-                        style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                     ],
                   );
@@ -499,42 +515,56 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             ],
           ),
           hBox(20),
-          GetBuilder<RestaurantHomeController>(
-            init: restaurantHomeController,
-            builder: (controller) {
-              return Obx(() {
-                final restaurants = restaurantHomeController.restaurantList;
-                return ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: restaurants.length,
-                  itemBuilder: (context, index) {
-                    final restaurant = restaurants[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                          Restaurantid: restaurants[index].id.toString(),
-                        ));
-                        restaurantDeatilsController.restaurant_Details_Api(
-                          id: restaurants[index].id.toString(),
-                        );
-                      },
-                      child: restaurantList(
-                        index: index,
-                        image: restaurant.shopImageUrl,
-                        title: restaurant.shopName?.capitalize!,
-                        rating: restaurant.rating,
-                        price: restaurant.avgPrice,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => hBox(20),
-                );
-              });
-            },
+          SizedBox(
+            height: 285.h,
+            child: GetBuilder<RestaurantHomeController>(
+              init: restaurantHomeController,
+              builder: (controller) {
+                return Obx(() {
+                  final restaurants = restaurantHomeController.restaurantList;
+                  return ListView.separated(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    controller: _horizontalScrollController,
+                    scrollDirection: Axis.horizontal,
+                    // itemCount: restaurants.length,
+                    itemCount: restaurantHomeController.restaurantList.length +
+                        (restaurantHomeController.isLoading.value ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == restaurantHomeController.restaurantList.length) {
+                        return Container(
+                          width: Get.width*0.78,
+                          margin: const EdgeInsets.only(bottom: 65),
+                        child: const ShimmerWidget(),);
+                      }
+                      final restaurant = restaurants[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.to(RestaurantDetailsScreen(
+                            Restaurantid: restaurants[index].id.toString(),
+                          ));
+                          restaurantDeatilsController.restaurant_Details_Api(
+                            id: restaurants[index].id.toString(),
+                          );
+                        },
+                        child: SizedBox(
+                          width: Get.width*0.78,
+                          child: restaurantList(
+                            index: index,
+                            image: restaurant.shopImageUrl,
+                            title: restaurant.shopName?.capitalize!,
+                            rating: restaurant.rating,
+                            price: restaurant.avgPrice,
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => wBox(15.w),
+                  );
+                });
+              },
+            ),
           ),
-          if (restaurantHomeController.isLoading.value)
-            circularProgressIndicator(),
         ],
       ),
     );
@@ -559,16 +589,17 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 fit: BoxFit.fill,
                 width: double.maxFinite,
                 height: 220.h,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.gray,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                  ),
-                ),
+                placeholder: (context, url) => const ShimmerWidget(),
+                // placeholder: (context, url) => Shimmer.fromColors(
+                //   baseColor: AppColors.gray,
+                //   highlightColor: AppColors.lightText,
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       color: AppColors.gray,
+                //       borderRadius: BorderRadius.circular(20.r),
+                //     ),
+                //   ),
+                // ),
                 errorWidget: (context, url, error) => Container(
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
@@ -617,12 +648,12 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+              style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),

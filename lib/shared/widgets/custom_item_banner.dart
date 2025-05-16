@@ -173,7 +173,7 @@ class CustomItemBanner extends StatelessWidget {
         Text(
           title.toString().capitalizeFirst.toString(),
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Text(

@@ -89,6 +89,7 @@ dependencies:
   url_launcher:
 #  persistent_bottom_nav_bar:
   intl:
+  dropdown_button2:
 #  sms_autofill: ^2.0.0
 
 

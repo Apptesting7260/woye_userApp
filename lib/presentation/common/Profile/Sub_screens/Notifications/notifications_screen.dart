@@ -5,6 +5,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Notifications/
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../Shared/Widgets/CircularProgressIndicator.dart';
+import '../../../../../Shared/theme/font_family.dart';
 import '../../../../../shared/widgets/custom_no_data_found.dart';
 
 class NotificationsScreen extends StatefulWidget {
@@ -19,7 +20,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     controller.getNotifications();
     super.initState();
   }
@@ -31,7 +31,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         isLeading: true,
         title: Text(
           "Notifications",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: RefreshIndicator(
@@ -107,7 +107,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           },
           child: Container(
             padding: REdgeInsets.symmetric(vertical:controller.apiData.value.notification?[index].seen != "0"? 0 : 10),
-            decoration: BoxDecoration(color:  controller.apiData.value.notification?[index].seen == "0" ? AppColors.ultraLightPrimary.withOpacity(0.05) : AppColors.white,
+            decoration: BoxDecoration(color:  controller.apiData.value.notification?[index].seen == "0" ?
+            AppColors.ultraLightPrimary.withOpacity(0.05) : AppColors.white,
             borderRadius: BorderRadius.circular(15.r),
             ),
             child: Row(
@@ -131,18 +132,18 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     children: [
                       Text(
                         controller.apiData.value.notification?[index].title.toString() ?? "",
-                        style: AppFontStyle.text_16_500(AppColors.darkText),
+                        style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                       hBox(5.h),
                       Text(
                         controller.apiData.value.notification?[index].message.toString() ?? "",
-                        style: AppFontStyle.text_14_400(AppColors.lightText),
+                        style: AppFontStyle.text_14_500(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                         maxLines: 2,
                       ),
                       hBox(5.h),
                       Text(
                         formatDate(controller.apiData.value.notification?[index].createdAt.toString() ?? ""),
-                        style: AppFontStyle.text_14_400(AppColors.lightText),
+                        style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                       ),
                     ],
                   ),

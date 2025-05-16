@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 
 class CustomTitleRadioButton extends StatelessWidget {
   final String title;
@@ -28,7 +29,7 @@ class CustomTitleRadioButton extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppFontStyle.text_16_400(AppColors.darkText),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,8 +38,8 @@ class CustomTitleRadioButton extends StatelessWidget {
                 priceValue,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
-                  fontFamily: 'Gilroy-Regular',
+                  fontSize: 17.5.sp,
+                  fontFamily: AppFontFamily.gilroyMedium,
                 ),
               ),
               wBox(10),
@@ -114,7 +115,7 @@ class CustomTitleCheckbox extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppFontStyle.text_16_400(AppColors.darkText),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           Row(
             children: [
@@ -122,8 +123,8 @@ class CustomTitleCheckbox extends StatelessWidget {
                 priceValue,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
-                  fontFamily: 'Gilroy-Regular',
+                  fontSize: 17.5.sp,
+                  fontFamily:AppFontFamily.gilroyMedium,
                 ),
               ),
               wBox(10),

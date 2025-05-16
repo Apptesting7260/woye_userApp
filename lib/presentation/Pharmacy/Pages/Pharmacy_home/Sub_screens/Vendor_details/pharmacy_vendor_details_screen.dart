@@ -12,6 +12,7 @@ import 'package:woye_user/shared/widgets/shimmer.dart';
 
 import '../../../../../../Core/Constant/app_urls.dart';
 import '../../../../../../Core/Utils/image_cache_height.dart';
+import '../../../../../../Shared/theme/font_family.dart';
 
 class PharmacyVendorDetailsScreen extends StatefulWidget {
   final String pharmacyId;
@@ -164,8 +165,8 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
             )),
         hBox(15),
         Text(
-          controller.pharma_Data.value.pharmaShop?.shopName.toString() ?? "",
-          style: AppFontStyle.text_24_400(AppColors.darkText),
+          controller.pharma_Data.value.pharmaShop?.shopName.toString().capitalize.toString() ?? "",
+          style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           maxLines: 2,
         ),
         hBox(15),
@@ -173,29 +174,29 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
           children: [
             Text(
               "${controller.distance.toStringAsFixed(2)} KM",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             wBox(4),
             Text(
               "•",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             wBox(4),
             Text(
               "${controller.travelTime.toStringAsFixed(0)} Min",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             wBox(4),
             Text(
               "•",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             wBox(4),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "${controller.pharma_Data.value.averageRating}/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
           ],
         ),
@@ -210,6 +211,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                 style: TextStyle(
                   fontSize: 14.sp,
                   color: AppColors.darkText,
+                  fontFamily: AppFontFamily.gilroyMedium,
                   fontWeight: FontWeight.w400,
                 ),
               ),
@@ -225,7 +227,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
               child: Text(
                 controller.pharma_Data.value.pharmaShop?.email.toString() ?? "",
                 overflow: TextOverflow.ellipsis,
-                style: AppFontStyle.text_14_400(AppColors.darkText),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
             )
           ],
@@ -241,7 +243,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: AppFontStyle.text_14_400(
-                  AppColors.darkText,
+                  AppColors.darkText,family: AppFontFamily.gilroyMedium,
                 ),
               ),
             )
@@ -259,7 +261,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
       children: [
         Text(
           "Open Hours",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(14),
         for (var openingHour in openingHours!)
@@ -272,14 +274,14 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                 children: [
                   Text(
                     openingHour.day ?? "",
-                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     openingHour.status == null
                         ? 'Closed'
                         : "${openingHour.open} - ${openingHour.close}",
-                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     textAlign: TextAlign.start,
                   ),
                 ],
@@ -296,12 +298,12 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
       children: [
         Text(
           "Descriptions",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10),
         Text(
           controller.pharma_Data.value.pharmaShop?.shopDes.toString() ?? "",
-          style: AppFontStyle.text_16_400(AppColors.lightText),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
           maxLines: 30,
         ),
       ],
@@ -318,7 +320,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.pharma_Data.value.review?.length ?? 0,
+                itemCount: 1,
                 itemBuilder: (context, index) {
                   return controller.pharma_Data.value.review?[index].user != null
                       ? Column(
@@ -384,7 +386,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                                     .review![index].user!.firstName
                                                     .toString(),
                                                 style: AppFontStyle.text_16_400(
-                                                    AppColors.darkText),
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                               ),
                                               hBox(5),
                                               RatingBar.readOnly(
@@ -407,7 +409,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                                     .review![index].message
                                                     .toString(),
                                                 style: AppFontStyle.text_16_400(
-                                                    AppColors.darkText),
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                                 maxLines: 2,
                                               ),
                                               hBox(10),
@@ -418,8 +420,8 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                                     .review![index]
                                                     .updatedAt
                                                     .toString()),
-                                                style: AppFontStyle.text_16_400(
-                                                    AppColors.lightText),
+                                                style: AppFontStyle.text_15_400(
+                                                    AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                               ),
                                             ],
                                           ),
@@ -446,7 +448,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                                       .toString()
                                                       .trim(),
                                                   style: AppFontStyle.text_16_400(
-                                                      AppColors.lightText),
+                                                      AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                                   maxLines: 100,
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
@@ -498,7 +500,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                         children: [
                           Text(
                             "See All (${controller.pharma_Data.value.totalReviews.toString()})",
-                            style: AppFontStyle.text_14_600(AppColors.primary),
+                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                           ),
                           Icon(
                             Icons.arrow_forward,
@@ -523,7 +525,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
       children: [
         Text(
           "Products",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10.h),
         GridView.builder(

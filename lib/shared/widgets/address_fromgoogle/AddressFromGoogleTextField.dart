@@ -6,6 +6,8 @@ import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/theme/font_style.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 
+import '../../theme/font_family.dart';
+
 class AddressFromGoogleAPI extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -57,6 +59,7 @@ class AddressFromGoogleAPI extends StatelessWidget {
               onChanged: onChanged,
               validator: validator,
               autovalidateMode: AutovalidateMode.onUserInteraction,
+              style:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle: AppFontStyle.text_14_400(AppColors.hintText),

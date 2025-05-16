@@ -7,6 +7,8 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Pr
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/add_grocery_product_wishlist.dart';
 
+import '../theme/font_family.dart';
+
 class CustomBannerGrocery extends StatelessWidget {
   int index;
   final String? description;
@@ -149,12 +151,12 @@ class CustomBannerGrocery extends StatelessWidget {
                   ? Text(
                       "\$$sale_price",
                       textAlign: TextAlign.left,
-                      style: AppFontStyle.text_16_600(AppColors.primary),
+                      style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                     )
                   : Text(
                       "\$$regular_price",
                       textAlign: TextAlign.left,
-                      style: AppFontStyle.text_16_600(AppColors.primary),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                     ),
               wBox(5.h),
               if (sale_price != "null")
@@ -165,6 +167,7 @@ class CustomBannerGrocery extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w300,
+                      fontFamily: AppFontFamily.gilroyRegular,
                       color: AppColors.lightText,
                       decoration: TextDecoration.lineThrough,
                       decorationColor: AppColors.lightText),
@@ -175,7 +178,7 @@ class CustomBannerGrocery extends StatelessWidget {
           Text(
             title.toString(),
             textAlign: TextAlign.left,
-            style: AppFontStyle.text_14_500(AppColors.darkText),
+            style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
           ),
           // hBox(10),
           if (quantity.toString() != "null")
@@ -183,17 +186,17 @@ class CustomBannerGrocery extends StatelessWidget {
               quantity.toString(),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
 
           Flexible(
-            child: Text(
-              shop_name.toString(),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_300(AppColors.lightText),
-            ),
+          child: Text(
+            shop_name ?? "",
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.left,
+            style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
           ),
+        ),
         ],
       ),
     );

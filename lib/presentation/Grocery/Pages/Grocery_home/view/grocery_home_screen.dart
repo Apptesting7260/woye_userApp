@@ -20,6 +20,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/ba
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/banners/grocery_home_banner_data.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/controller/grocery_home_controller.dart';
 
+import '../../../../../Shared/theme/font_family.dart';
 import '../../Grocery_categories/Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
 
 class GroceryHomeScreen extends StatefulWidget {
@@ -215,7 +216,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                                   .toString(),
                                               overflow: TextOverflow.ellipsis,
                                               style: AppFontStyle.text_14_500(
-                                                  AppColors.darkText),
+                                                  AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                             ),
                                             // Text(
                                             //   carts.vendorAddress.toString(),
@@ -582,7 +583,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 children: [
                   Text(
                     "Categories" ,
-                    style: AppFontStyle.text_24_600(AppColors.darkText),
+                    style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                   const Spacer(),
                   InkWell(
@@ -596,7 +597,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                       children: [
                         Text(
                           "See All",
-                          style: AppFontStyle.text_14_600(AppColors.primary),
+                          style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                         ),
                         wBox(4),
                         Icon(
@@ -609,7 +610,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   ),
                 ],
               ),
-              hBox(20.h),
+              hBox(15.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(4, (index) {
@@ -662,7 +663,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         groceryHomeController
                             .homeData.value.category![index].name
                             .toString(),
-                        style: AppFontStyle.text_14_400(AppColors.darkText),
+                        style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                     ],
                   );
@@ -685,7 +686,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
             children: [
               Text(
                 "Popular Shops",
-                style: AppFontStyle.text_24_600(AppColors.darkText),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -694,7 +695,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 },
                 child: Text(
                   "See All",
-                  style: AppFontStyle.text_14_600(AppColors.primary),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                 ),
               ),
               wBox(4),
@@ -705,7 +706,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
               )
             ],
           ),
-          hBox(20),
+          hBox(15.h),
           GetBuilder<GroceryHomeController>(
             init: groceryHomeController,
             builder: (controller) {
@@ -813,7 +814,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(
@@ -822,18 +823,18 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         )

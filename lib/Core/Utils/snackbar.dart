@@ -1,6 +1,8 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:woye_user/core/Utils/app_export.dart';
 
+import '../../Shared/theme/font_family.dart';
+
 class Utils {
   static String? showToast(
     String msg, {
@@ -24,7 +26,7 @@ class Utils {
         content: Center(
           child: Text(
             message,
-            style: TextStyle(fontSize: 14.sp, color: Colors.white),
+            style: TextStyle(fontSize: 14.sp, color: Colors.white,fontFamily: AppFontFamily.gilroyMedium),
           ),
         )));
 

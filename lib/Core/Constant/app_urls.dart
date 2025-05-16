@@ -26,6 +26,9 @@ class AppUrls {
   /* ------------------------------ Notification----------------------------  */
   static const String userNotification = "$baseUrl/user-notification";
 
+  /* ------------------------------ invite friends ----------------------------  */
+  static const String inviteFriends = "$baseUrl/invite-friends";
+
   /* ------------------------------ Address Section ----------------------------  */
 
   static const String getAddress = "$baseUrl/get-address";

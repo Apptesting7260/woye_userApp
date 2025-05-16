@@ -7,6 +7,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 
+import '../theme/font_family.dart';
+
 class CustomBanner extends StatelessWidget {
   int index;
   final String? description;
@@ -147,12 +149,13 @@ class CustomBanner extends StatelessWidget {
                   ? Text(
                       "\$$sale_price",
                       textAlign: TextAlign.left,
-                      style: AppFontStyle.text_16_600(AppColors.primary),
-                    )
+                style: AppFontStyle.text_16_600(
+                    AppColors.primary,family: AppFontFamily.gilroyRegular),
+              )
                   : Text(
                       "\$$regular_price",
                       textAlign: TextAlign.left,
-                      style: AppFontStyle.text_16_600(AppColors.primary),
+                      style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                     ),
               wBox(5.h),
               if (sale_price != "null")
@@ -164,6 +167,7 @@ class CustomBanner extends StatelessWidget {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w300,
                       color: AppColors.lightText,
+                      fontFamily: AppFontFamily.gilroyRegular,
                       decoration: TextDecoration.lineThrough,
                       decorationColor: AppColors.lightText),
                 ),
@@ -173,7 +177,8 @@ class CustomBanner extends StatelessWidget {
           Text(
             title.toString(),
             textAlign: TextAlign.left,
-            style: AppFontStyle.text_14_500(AppColors.darkText),
+            style: AppFontStyle.text_16_400(
+                AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           // hBox(10),
           if (quantity.toString() != "null")
@@ -181,7 +186,8 @@ class CustomBanner extends StatelessWidget {
               quantity.toString(),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(
+                  AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
 
           Flexible(
@@ -190,7 +196,9 @@ class CustomBanner extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: AppFontStyle.text_14_300(
-                  AppColors.lightText),
+                  AppColors.lightText,
+                family: AppFontFamily.gilroyRegular,
+              ),
             ),
           ),
         ],

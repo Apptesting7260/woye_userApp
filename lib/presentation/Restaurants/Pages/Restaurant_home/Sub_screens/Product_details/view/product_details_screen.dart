@@ -20,6 +20,7 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../../../../../../Core/Utils/image_cache_height.dart';
+import '../../../../../../../Shared/theme/font_family.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
@@ -127,8 +128,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                             ?.totalProductsInCart
                                             .toString() ??
                                         "",
-                                    style: TextStyle(
-                                        fontSize: 9, color: AppColors.white),
+                                    style: TextStyle(fontSize: 9, color: AppColors.white),
                                   ),
                                 ),
                               ),
@@ -241,7 +241,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       Obx(
                         () => controller.goToCart.value == true
                             ? CustomElevatedButton(
-                                width: Get.width,
+                            fontFamily: AppFontFamily.gilroyMedium,
+                            width: Get.width,
                                 color: AppColors.primary,
                                 isLoading:
                                     addToCartController.rxRequestStatus.value ==
@@ -261,7 +262,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                   controller.cartCount.value = 1;
                                 })
                             : CustomElevatedButton(
-                                width: Get.width,
+                            fontFamily: AppFontFamily.gilroyMedium,
+                            width: Get.width,
                                 color: AppColors.darkText,
                                 isLoading:
                                     addToCartController.rxRequestStatus.value ==
@@ -318,7 +320,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       //     .productData.value.product!.productreview!.isNotEmpty)
                       //   reviews(),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
-                        hBox(30),
+                        hBox(20.h),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
                         moreProducts(),
                       hBox(20),
@@ -512,12 +514,12 @@ class ProductDetailsScreen extends StatelessWidget {
         Text(
           categoryName,
           style: AppFontStyle.text_16_400(AppColors.primary,
-              fontWeight: FontWeight.bold),
+              family: AppFontFamily.gilroyMedium),
         ),
         hBox(10),
         Text(
           controller.productData.value.product!.title.toString(),
-          style: AppFontStyle.text_20_400(AppColors.darkText),
+          style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         hBox(10),
         // Row(
@@ -565,7 +567,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   controller.productData.value.product!.restoName
                       .toString()
                       .capitalize!,
-                  style: AppFontStyle.text_14_600(AppColors.darkText),
+                  style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -578,11 +580,11 @@ class ProductDetailsScreen extends StatelessWidget {
             controller.productData.value.product!.salePrice != null
                 ? Text(
                     "\$${controller.productData.value.product!.salePrice.toString()}",
-                    style: AppFontStyle.text_16_600(AppColors.primary),
+                    style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   )
                 : Text(
                     "\$${controller.productData.value.product!.regularPrice.toString()}",
-                    style: AppFontStyle.text_16_600(AppColors.primary),
+                    style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   ),
             wBox(8),
             if (controller.productData.value.product!.salePrice != null)
@@ -592,6 +594,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     fontSize: 14.sp,
                     color: AppColors.mediumText,
                     fontWeight: FontWeight.w400,
+                    fontFamily: AppFontFamily.gilroyRegular,
                     decoration: TextDecoration.lineThrough,
                     decorationColor: AppColors.mediumText),
               ),
@@ -647,12 +650,12 @@ class ProductDetailsScreen extends StatelessWidget {
       children: [
         Text(
           "Descriptions",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10),
         Text(
           controller.productData.value.product!.description.toString(),
-          style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4),
+          style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4,family: AppFontFamily.gilroyRegular),
           maxLines: 20,
         ),
       ],
@@ -797,23 +800,23 @@ class ProductDetailsScreen extends StatelessWidget {
           children: [
             Text(
               extra.title.toString(),
-              style: AppFontStyle.text_20_600(AppColors.darkText),
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
             // hBox(1.h),
             Row(
               children: [
                 Text(
                   "Required",
-                  style: AppFontStyle.text_12_200(AppColors.lightText),
+                  style: AppFontStyle.text_12_200(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                 ),
                 Text(
                   "•",
-                  style: AppFontStyle.text_12_200(AppColors.lightText),
+                  style: AppFontStyle.text_12_200(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                 ),
                 wBox(4),
                 Text(
                   "Select any 1 option",
-                  style: AppFontStyle.text_12_200(AppColors.lightText),
+                  style: AppFontStyle.text_12_200(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                 ),
               ],
             ),
@@ -937,7 +940,7 @@ class ProductDetailsScreen extends StatelessWidget {
       children: [
         Text(
           "Add On",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         // hBox(10),
         // Row(
@@ -1251,7 +1254,7 @@ class ProductDetailsScreen extends StatelessWidget {
           children: [
             Text(
               "More Products",
-              style: AppFontStyle.text_20_600(AppColors.darkText),
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
             InkWell(
               onTap: () {
@@ -1269,7 +1272,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     "See All",
-                    style: AppFontStyle.text_16_600(AppColors.primary),
+                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   ),
                   wBox(4),
                   Icon(
@@ -1282,7 +1285,7 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ],
         ),
-        hBox(10),
+        hBox(15.h),
         GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -1338,7 +1341,8 @@ class ProductDetailsScreen extends StatelessWidget {
                     resto_name: controller
                         .productData.value.moreProducts![index].restoName
                         .toString(),
-                  ));
+                  ),
+              );
             })
       ],
     );

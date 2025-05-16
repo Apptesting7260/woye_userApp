@@ -12,6 +12,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/pharmacy_wishlist_controller.dart';
 
+import '../../../../../Shared/theme/font_family.dart';
 import '../../../../../shared/widgets/custom_no_data_found.dart';
 
 class PharmacyWishlistScreen extends StatefulWidget {
@@ -46,7 +47,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
         isActions: true,
         title: Text(
           "Wishlist",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -90,13 +91,13 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                           hBox(10.h),
                           Text(
                             "Your wishlist is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                                AppFontStyle.text_16_400(AppColors.mediumText),
+                            AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
                           ),
                         ],
                       )
@@ -264,14 +265,14 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary),
+                                                    .primary,family: AppFontFamily.gilroyRegular),
                                               )
                                                   : Text(
                                                 "\$${product.regularPrice}",
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary),
+                                                    .primary,family: AppFontFamily.gilroyRegular),
                                               ),
                                               wBox(5.h),
                                               if (product.salePrice != null)
@@ -282,6 +283,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                   textAlign: TextAlign.left,
 
                                                   style: TextStyle(
+                                                      fontFamily: AppFontFamily.gilroyRegular,
                                                       fontSize: 14.sp,
                                                       fontWeight:
                                                       FontWeight.w300,
@@ -299,8 +301,8 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                           Text(
                                             product.title.toString(),
                                             textAlign: TextAlign.left,
-                                            style: AppFontStyle.text_16_400(
-                                                AppColors.darkText),
+                                            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
                                           ),
                                           Row(
                                             children: [

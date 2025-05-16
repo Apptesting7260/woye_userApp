@@ -6,6 +6,7 @@ import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_Add_to_Cart/grocery_add_to_cartcontroller.dart';
@@ -434,14 +435,14 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         categoryName,
-        style: AppFontStyle.text_16_400(AppColors.primary),
+        style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
       ),
-      hBox(10),
+      hBox(8.h),
       Text(
         product!.title.toString(),
         overflow: TextOverflow.visible,
         style: AppFontStyle.text_18_600(
-          AppColors.darkText,
+          AppColors.darkText,family: AppFontFamily.gilroyRegular
         ),
       ),
       hBox(10),
@@ -450,7 +451,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           Text(
             "${product.packagingValue}${product.unit?.name.toString() ?? ""}",
             // "Strip of 10 tablets",
-            style: AppFontStyle.text_14_400(AppColors.lightText),
+            style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
           ),
           // Text(
           //   " • ",
@@ -478,7 +479,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           children: [
             Text(
               "Provided by",
-              style: AppFontStyle.text_12_400(AppColors.lightText),
+              style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             wBox(5),
             ClipRRect(
@@ -493,7 +494,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
             wBox(5),
             Text(
               product.pharmaName.toString(),
-              style: AppFontStyle.text_14_600(AppColors.darkText),
+              style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         ),
@@ -503,11 +504,11 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           controller.productData.value.product!.salePrice != null
               ? Text(
                   "\$${controller.productData.value.product!.salePrice.toString()}",
-                  style: AppFontStyle.text_16_600(AppColors.primary),
+                  style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                 )
               : Text(
                   "\$${controller.productData.value.product!.regularPrice.toString()}",
-                  style: AppFontStyle.text_16_600(AppColors.primary),
+                  style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                 ),
           wBox(8),
           if (controller.productData.value.product!.salePrice != null)
@@ -517,6 +518,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                   fontSize: 14.sp,
                   color: AppColors.mediumText,
                   fontWeight: FontWeight.w400,
+                  fontFamily:  AppFontFamily.gilroyRegular,
                   decoration: TextDecoration.lineThrough,
                   decorationColor: AppColors.mediumText),
             ),
@@ -546,7 +548,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                         ),
                         Text(
                           "${controller.cartCount.value}",
-                          style: AppFontStyle.text_14_400(AppColors.darkText),
+                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -608,26 +610,26 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                 )
         ],
       ),
-      hBox(20),
+      hBox(18.h),
       Text(
         "Consume Type",
-        style: AppFontStyle.text_16_400(AppColors.darkText),
+        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
       hBox(5),
       Text(
         "ORAL",
-        style: AppFontStyle.text_14_400(AppColors.lightText),
+        style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
       ),
       hBox(20),
       Text(
         "Shelf Life",
-        style: AppFontStyle.text_16_400(AppColors.darkText),
+        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       ),
       hBox(5),
       Text(
         "${product.shelfLifeValue.toString()} ${product.shelfLifeType}",
         // product.shelfLifeValue.toString() + product.shelfLifeType.toString(),
-        style: AppFontStyle.text_14_400(AppColors.lightText),
+        style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
       ),
     ]);
   }
@@ -636,16 +638,17 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(8.h),
         Text(
           "Descriptions",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10),
         Text(
           controller.productData.value.product!.description.toString(),
           overflow: TextOverflow.visible,
           maxLines: 100,
-          style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4),
+          style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4,family: AppFontFamily.gilroyRegular),
         ),
       ],
     );
@@ -656,11 +659,12 @@ class GroceryProductDetailsScreen extends StatelessWidget {
       // mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(3.h),
         Text(
           "Other Variant",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
-        hBox(10),
+        hBox(10.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -701,16 +705,16 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         item.name.toString(),
-                        style: AppFontStyle.text_16_400(AppColors.darkText),
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                       hBox(10),
                       Text(
                         "\$${item.price.toString()}",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 18.sp,
+                          fontSize: 17.sp,
                           color: AppColors.primary,
-                          fontFamily: 'Gilroy-Regular',
+                          fontFamily: AppFontFamily.gilroyMedium
                         ),
                       )
                     ],
@@ -729,7 +733,8 @@ class GroceryProductDetailsScreen extends StatelessWidget {
         ? Obx(
             () => controller.goToCart.value == true
                 ? CustomElevatedButton(
-                    width: Get.width,
+                fontFamily: AppFontFamily.gilroyMedium,
+                width: Get.width,
                     color: AppColors.primary,
                     isLoading:
                         pharmacyAddToCarController.rxRequestStatus.value ==
@@ -745,7 +750,8 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                       controller.cartCount.value = 1;
                     })
                 : CustomElevatedButton(
-                    width: Get.width,
+                fontFamily: AppFontFamily.gilroyMedium,
+                width: Get.width,
                     color: AppColors.darkText,
                     isLoading:
                         pharmacyAddToCarController.rxRequestStatus.value ==
@@ -787,6 +793,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                     }),
           )
         : CustomElevatedButton(
+            fontFamily: AppFontFamily.gilroyMedium,
             width: Get.width,
             color: AppColors.primary.withOpacity(.5),
             text: "Out of Stock",
@@ -947,7 +954,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           children: [
             Text(
               "Similar Products",
-              style: AppFontStyle.text_20_600(AppColors.darkText),
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
             // InkWell(
             //   onTap: () {

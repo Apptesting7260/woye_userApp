@@ -130,6 +130,9 @@ class AppFontStyle {
   static text_18_600(Color color, {height,family}) {
     return _textStyle(color, 18.sp, FontWeight.w600, height: height,fontFamily:family);
   }
+  static text_18_500(Color color, {height,family}) {
+    return _textStyle(color, 18.sp, FontWeight.w500, height: height,fontFamily:family);
+  }
 
   static text_20_600(Color color, {height,family}) {
     return _textStyle(color, 20.sp, FontWeight.w600, height: height,fontFamily:family);

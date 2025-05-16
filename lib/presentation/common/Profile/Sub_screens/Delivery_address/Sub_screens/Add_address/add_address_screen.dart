@@ -5,6 +5,8 @@ import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumbe
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/AddressFromGoogleTextField.dart';
 
+import '../../../../../../../Shared/theme/font_family.dart';
+
 class AddAddressScreen extends StatelessWidget {
   AddAddressScreen({super.key});
 
@@ -27,7 +29,7 @@ class AddAddressScreen extends StatelessWidget {
           isLeading: controller.location.value == "" ? false : true,
           title: Text(
             "Add New Address",
-            style: AppFontStyle.text_22_600(AppColors.darkText),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
         ),
         body: SingleChildScrollView(
@@ -52,6 +54,7 @@ class AddAddressScreen extends StatelessWidget {
                   suggestionsCallback: (query) async {
                     return await controller.searchAutocomplete(query);
                   },
+
                   itemBuilder: (context, Predictions suggestion) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
@@ -128,6 +131,7 @@ class AddAddressScreen extends StatelessWidget {
         FilteringTextInputFormatter.digitsOnly,
       ],
       prefix: CountryCodePicker(
+        textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         padding: const EdgeInsets.only(left: 10),
         onChanged: (CountryCode countryCode) {
           print("country code===========> ${countryCode.code}");
@@ -139,6 +143,7 @@ class AddAddressScreen extends StatelessWidget {
         initialSelection: controller.selectedCountryCode.value.dialCode,
       ),
       hintText: "Phone Number",
+      textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       textInputType: TextInputType.phone,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -239,7 +244,7 @@ class AddAddressScreen extends StatelessWidget {
         ),
         Text(
           "Set default",
-          style: AppFontStyle.text_16_400(AppColors.darkText),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
       ],
     );
@@ -255,6 +260,7 @@ class AddAddressScreen extends StatelessWidget {
   Widget saveButton() {
     return Obx(
       () => CustomElevatedButton(
+        fontFamily: AppFontFamily.gilroyMedium,
         onPressed: () {
           FocusManager.instance.primaryFocus?.unfocus();
           if (_formKey.currentState!.validate()) {

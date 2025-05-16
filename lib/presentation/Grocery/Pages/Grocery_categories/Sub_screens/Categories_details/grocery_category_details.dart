@@ -3,6 +3,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
@@ -24,9 +25,7 @@ class GroceryCategoryDetails extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           categoryTitle,
-          style: AppFontStyle.text_22_600(
-            AppColors.darkText,
-          ),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {

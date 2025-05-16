@@ -11,6 +11,7 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_sliver_app_bar.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/controller/all_restaurants_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
@@ -35,8 +36,8 @@ class All_Restaurant extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           "Restaurants",
-          style: AppFontStyle.text_22_600(
-            AppColors.darkText,
+          style: AppFontStyle.text_20_600(
+            AppColors.darkText,family: AppFontFamily.gilroyRegular,
           ),
         ),
       ),
@@ -177,7 +178,7 @@ class All_Restaurant extends StatelessWidget {
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         // hBox(10),
         Row(
@@ -186,18 +187,18 @@ class All_Restaurant extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         )

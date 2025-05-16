@@ -6,6 +6,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
 import '../../../../../../Data/components/GeneralException.dart';
@@ -43,9 +44,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
           appBar: CustomAppBar(
             title: Text(
               categoryTitle,
-              style: AppFontStyle.text_22_600(
-                AppColors.darkText,
-              ),
+              style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ),
           body: Obx(() {
@@ -251,14 +250,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                       textAlign: TextAlign.left,
                                                       style: AppFontStyle
                                                           .text_16_600(AppColors
-                                                              .primary),
+                                                              .primary,family: AppFontFamily.gilroyRegular),
                                                     )
                                                   : Text(
                                                       "\$${product.regularPrice}",
                                                       textAlign: TextAlign.left,
                                                       style: AppFontStyle
                                                           .text_16_600(AppColors
-                                                              .primary),
+                                                              .primary,family: AppFontFamily.gilroyRegular),
                                                     ),
                                               wBox(5.h),
                                               if (product.salePrice != null)
@@ -277,7 +276,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                       decoration: TextDecoration
                                                           .lineThrough,
                                                       decorationColor:
-                                                          AppColors.lightText),
+                                                          AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular),
 
                                                   //  AppFontStyle.text_14_300(AppColors.lightText),
                                                 ),
@@ -288,7 +287,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             product.title.toString(),
                                             textAlign: TextAlign.left,
                                             style: AppFontStyle.text_16_400(
-                                                AppColors.darkText),
+                                                AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                           ),
                                           // hBox(10),
 
@@ -310,7 +309,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.left,
                                               style: AppFontStyle.text_14_300(
-                                                  AppColors.lightText),
+                                                  AppColors.lightText,family: AppFontFamily.gilroyRegular),
                                             ),
                                           ),
                                           //   ],
@@ -453,14 +452,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "\$${product.salePrice ?? product.regularPrice}",
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle.text_16_600(
-                                                    AppColors.primary),
+                                                    AppColors.primary,family: AppFontFamily.gilroyRegular),
                                               ),
                                               wBox(5),
                                               Text(
                                                 "\$${product.regularPrice}",
                                                 overflow: TextOverflow.ellipsis,
                                                 textAlign: TextAlign.left,
-
                                                 style: TextStyle(
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w300,
@@ -468,7 +466,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     decoration: TextDecoration
                                                         .lineThrough,
                                                     decorationColor:
-                                                        AppColors.lightText),
+                                                        AppColors.lightText,
+                                                    fontFamily: AppFontFamily.gilroyRegular,
+                                                ),
 
                                                 //  AppFontStyle.text_14_300(AppColors.lightText),
                                               ),
@@ -479,7 +479,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             product.title.toString(),
                                             textAlign: TextAlign.left,
                                             style: AppFontStyle.text_16_400(
-                                                AppColors.darkText),
+                                                AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                           ),
                                           // hBox(10),
 
@@ -501,7 +501,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               textAlign: TextAlign.left,
                                               style: AppFontStyle.text_14_300(
-                                                  AppColors.lightText),
+                                                  AppColors.lightText,family: AppFontFamily.gilroyRegular),
                                             ),
                                           ),
                                           //   ],

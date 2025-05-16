@@ -144,7 +144,7 @@ class _RestaurantCategoriesScreenState
                                           wBox(20),
                                           Text(
                                             controller.filteredWishlistData[index].name.toString(),
-                                            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                           )
                                         ],
                                       ),

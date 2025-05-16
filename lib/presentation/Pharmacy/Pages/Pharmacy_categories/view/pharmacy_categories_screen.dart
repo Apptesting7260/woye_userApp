@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/controller/pharmacy_categories_controller.dart';
@@ -39,7 +40,7 @@ class _PharmacyCategoriesScreenState extends State<PharmacyCategoriesScreen> {
         isActions: true,
         title: Text(
           "Categories",
-          style: AppFontStyle.text_28_600(AppColors.darkText),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -128,19 +129,22 @@ class _PharmacyCategoriesScreenState extends State<PharmacyCategoriesScreen> {
                                                     BorderRadius.circular(10.r)),
                                             height: 70.w,
                                             width: 70.w,
-                                            child: CachedNetworkImage(
-                                              imageUrl: controller
-                                                  .filteredWishlistData[index]
-                                                  .imageUrl
-                                                  .toString(),
-                                              height: 80.h,
-                                              width: 70.w,
-                                              fit: BoxFit.fill,
-                                              placeholder: (context, url) =>
-                                                  circularProgressIndicator(),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(Icons.error),
+                                            child: ClipRRect(
+                                              borderRadius:BorderRadius.circular(10.r),
+                                              child: CachedNetworkImage(
+                                                imageUrl: controller
+                                                    .filteredWishlistData[index]
+                                                    .imageUrl
+                                                    .toString(),
+                                                height: 80.h,
+                                                width: 70.w,
+                                                fit: BoxFit.fill,
+                                                placeholder: (context, url) =>
+                                                    circularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                        const Icon(Icons.error),
+                                              ),
                                             ),
                                           ),
                                           wBox(20.h),
@@ -148,14 +152,14 @@ class _PharmacyCategoriesScreenState extends State<PharmacyCategoriesScreen> {
                                             controller
                                                 .filteredWishlistData[index].name
                                                 .toString(),
-                                            style: AppFontStyle.text_18_400(
-                                                AppColors.darkText),
+                                            style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
                                           )
                                         ],
                                       ),
                                     ),
-                                    const Icon(Icons.arrow_forward_ios,
-                                        weight: 1),
+                                    const Icon(Icons.arrow_forward_ios,size: 20,),
+
                                   ],
                                 ),
                               ),

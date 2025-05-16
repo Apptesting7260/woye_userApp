@@ -79,6 +79,7 @@ import '../../presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/grocery
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacyCheckoutAllModel.dart';
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_all_product_model.dart';
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
+import '../../presentation/common/Profile/Sub_screens/Invite_friends/invite_friends_model.dart';
 
 class Repository {
   final _apiService = NetworkApiServices();
@@ -681,5 +682,11 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.userNotification , token);
     return NotificationModel.fromJson(response);
+  }
+  /////////////////////////inviteFriends
+  Future<dynamic> inviteFriendsApi(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data,AppUrls.inviteFriends , token);
+    return InviteFriendsModel.fromJson(response);
   }
 }

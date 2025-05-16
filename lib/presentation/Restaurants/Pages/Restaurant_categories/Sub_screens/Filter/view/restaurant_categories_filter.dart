@@ -7,6 +7,8 @@ import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/modal/CategoriesFilter_modal.dart';
 
+import '../../../../../../../Shared/theme/font_family.dart';
+
 final Categories_FilterController controller =
     Get.put(Categories_FilterController());
 
@@ -65,7 +67,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                         dividerColor: AppColors.gray,
                         dividerHeight: 0.5,
                         labelStyle:
-                            AppFontStyle.text_18_600(AppColors.darkText),
+                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                         tabs: const [
                           Tab(text: "Filter"),
                           Tab(text: "Sort"),
@@ -192,6 +194,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               children: [
                 Expanded(
                     child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
                         height: 55.h,
                         text: "Clear",
                         color: AppColors.black,
@@ -213,6 +216,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 wBox(10),
                 Expanded(
                     child: CustomElevatedButton(
+                      fontFamily: AppFontFamily.gilroyMedium,
                         height: 55.h,
                         text: "Apply",
                         onPressed: () {
@@ -256,6 +260,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             children: [
               Expanded(
                   child: CustomElevatedButton(
+                      fontFamily: AppFontFamily.gilroyMedium,
                       height: 55.h,
                       text: "Clear",
                       color: AppColors.black,
@@ -275,6 +280,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               wBox(10),
               Expanded(
                   child: CustomElevatedButton(
+                      fontFamily: AppFontFamily.gilroyMedium,
                       height: 55.h,
                       text: "Apply",
                       onPressed: () {
@@ -349,7 +355,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: 'Gilroy',
+            fontFamily: AppFontFamily.gilroyMedium,
           ),
         ),
         Obx(() {
@@ -385,8 +391,8 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                                   cuisine.name.toString(),
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontSize: 16.sp,
+                                    fontFamily:AppFontFamily.gilroyMedium,
                                   ),
                                 ),
                               ),
@@ -437,7 +443,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Gilroy-Regular',
+                        fontFamily: AppFontFamily.gilroyMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -458,7 +464,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Gilroy-Regular',
+                        fontFamily: AppFontFamily.gilroyMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -471,7 +477,6 @@ class RestaurantCategoriesFilter extends StatelessWidget {
         }),
       ],
     );
-    ;
   }
 
   Widget price() {
@@ -479,7 +484,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
         CustomRadioButton(
           title: "Low to high",
           value: 1.obs,
@@ -512,7 +517,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
         hBox(10),
         Wrap(
           spacing: 10.w,
@@ -548,14 +553,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
             Obx(() {
               return Text(
                   "\$${controller.lowerValue.value} - \$${controller.upperValue.value}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16.sp,
-                      color: AppColors.primary));
+                      color: AppColors.primary,fontFamily: AppFontFamily.gilroyMedium));
             }),
           ],
         ),
@@ -564,7 +569,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
-                color: AppColors.lightText)),
+                color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular)),
         hBox(4),
         Obx(() {
           double minPrice = controller.getFilterData.value.minPrice!.toDouble();
@@ -642,9 +647,9 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: 'Gilroy-Regular',
+            fontFamily: AppFontFamily.gilroyMedium,
             fontWeight: FontWeight.w400,
-            fontSize: 18.sp,
+            fontSize: 17.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,
           ),
         ),

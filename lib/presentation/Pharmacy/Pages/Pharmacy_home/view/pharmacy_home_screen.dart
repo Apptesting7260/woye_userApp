@@ -21,6 +21,7 @@ import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharm
 import 'package:woye_user/shared/widgets/shimmer.dart';
 
 import '../../../../../Core/Utils/image_cache_height.dart';
+import '../../../../../Shared/theme/font_family.dart';
 
 class PharmacyHomeScreen extends StatefulWidget {
   const PharmacyHomeScreen({super.key});
@@ -415,7 +416,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 children: [
                   Text(
                     "Categories",
-                    style: AppFontStyle.text_24_600(AppColors.darkText),
+                    style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                   const Spacer(),
                   InkWell(
@@ -428,7 +429,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                       children: [
                         Text(
                           "See All",
-                          style: AppFontStyle.text_14_600(AppColors.primary),
+                          style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                         ),
                         wBox(4),
                         Icon(
@@ -493,7 +494,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         pharmacyHomeController
                             .homeData.value.category![index].name
                             .toString(),
-                        style: AppFontStyle.text_14_400(AppColors.darkText),
+                        style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                     ],
                   );
@@ -516,7 +517,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             children: [
               Text(
                 "Popular Shops",
-                style: AppFontStyle.text_24_600(AppColors.darkText),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -525,7 +526,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 },
                 child: Text(
                   "See All",
-                  style: AppFontStyle.text_14_600(AppColors.primary),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                 ),
               ),
               wBox(4),
@@ -636,7 +637,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(
@@ -645,18 +646,18 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             Text(
               price ?? "",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         )

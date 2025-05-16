@@ -1217,7 +1217,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         });
                       },
                       text: "Complete Address",
-                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                      textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
                     ),
                   ),
       ],
@@ -1461,6 +1461,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                 'Delete Product',
                 style: TextStyle(
                   fontSize: 18.sp,
+                  fontFamily: AppFontFamily.gilroyRegular,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -1471,6 +1472,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,
+                  fontFamily: AppFontFamily.gilroyMedium,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey,
                 ),
@@ -1486,13 +1488,15 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                         Get.back();
                       },
                       text: "Cancel",
-                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
+                      textStyle: AppFontStyle.text_16_400(AppColors.darkText ,family: AppFontFamily.gilroyMedium,),
                     ),
                   ),
                   wBox(15),
                   Obx(
                     () => Expanded(
                       child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
+
                         height: 40.h,
                         isLoading:
                             deleteProductController.rxRequestStatus.value ==

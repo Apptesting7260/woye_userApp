@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 
 class CustomRadioButton extends StatelessWidget {
   final String title;
@@ -56,8 +57,8 @@ class CustomRadioButton extends StatelessWidget {
             title,
             style: TextStyle(
               fontWeight: FontWeight.w400,
-              fontSize: 18.sp,
-              fontFamily: 'Gilroy-Regular',
+              fontSize: 17.sp,
+              fontFamily: AppFontFamily.gilroyMedium,
             ),
           ),
         ],

@@ -6,6 +6,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/controller/grocery_categories_controller.dart';
 
+import '../../../../../Shared/theme/font_family.dart';
 import '../../../../../shared/widgets/custom_no_data_found.dart';
 import '../Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
 
@@ -40,7 +41,7 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
           isActions: true,
           title: Text(
             "Categories",
-            style: AppFontStyle.text_28_600(AppColors.darkText),
+            style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
         ),
       body: Obx(() {
@@ -131,19 +132,22 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
                                                 BorderRadius.circular(10.r)),
                                             height: 70.w,
                                             width: 70.w,
-                                            child: CachedNetworkImage(
-                                              imageUrl: controller
-                                                  .filteredWishlistData[index]
-                                                  .imageUrl
-                                                  .toString(),
-                                              height: 80.h,
-                                              width: 70.w,
-                                              fit: BoxFit.fill,
-                                              placeholder: (context, url) =>
-                                                  circularProgressIndicator(),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                              const Icon(Icons.error),
+                                            child: ClipRRect(
+                                              borderRadius:BorderRadius.circular(10.r),
+                                              child: CachedNetworkImage(
+                                                imageUrl: controller
+                                                    .filteredWishlistData[index]
+                                                    .imageUrl
+                                                    .toString(),
+                                                height: 80.h,
+                                                width: 70.w,
+                                                fit: BoxFit.fill,
+                                                placeholder: (context, url) =>
+                                                    circularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                const Icon(Icons.error),
+                                              ),
                                             ),
                                           ),
                                           wBox(20.h),
@@ -151,15 +155,15 @@ class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
                                             child: Text(
                                               controller.filteredWishlistData[index].name.toString(),
 
-                                              style: AppFontStyle.text_18_400(
-                                                  AppColors.darkText),
+                                              style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
                                             ),
                                           )
                                         ],
                                       ),
                                     ),
-                                    const Icon(Icons.arrow_forward_ios,
-                                        weight: 1),
+                                    const Icon(Icons.arrow_forward_ios,size: 20,),
+
                                   ],
                                 ),
                               ),
