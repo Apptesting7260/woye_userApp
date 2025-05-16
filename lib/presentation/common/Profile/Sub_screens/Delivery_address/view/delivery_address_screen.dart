@@ -180,13 +180,13 @@ class DeliveryAddressScreen extends StatelessWidget {
                             hBox(10.h),
                             Text(
                               "${controller.deliveryAddressData.value.data?[index].houseDetails?.capitalizeFirst.toString()}\n${controller.deliveryAddressData.value.data?[index].address.toString()}",
-                              style: AppFontStyle.text_14_400(AppColors.lightText),
+                              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                               maxLines: 4,
                             ),
                             hBox(10.h),
                             Text(
                               "${controller.deliveryAddressData.value.data?[index].countryCode.toString()} ${controller.deliveryAddressData.value.data?[index].phoneNumber.toString()}",
-                              style: AppFontStyle.text_14_400(AppColors.darkText),
+                              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                             ),
                             if (controller.deliveryAddressData.value.data?[index].deliveryInstruction != null)
                               Padding(
@@ -195,7 +195,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                                   "Delivery Instruction: ${controller.deliveryAddressData.value.data?[index].deliveryInstruction.toString()}",
                                   maxLines: 2,
                                   style:
-                                      AppFontStyle.text_14_400(AppColors.darkText),
+                                      AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                 ),
                               ),
                           ],
@@ -236,7 +236,7 @@ class DeliveryAddressScreen extends StatelessWidget {
         ),
         title: Text(
           "Add Address",
-          style: AppFontStyle.text_16_400(AppColors.primary),
+          style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios_sharp,
