@@ -53,10 +53,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         appBar: CustomAppBar(
           isLeading: true,
           actions: [
-            const Spacer(),
-            Container(height: 50,width: 115,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),),
-            Container(height: 50,width: 115,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),),
-            const Spacer(),
+            deliveryAndCollectionsCard(),
+            wBox(3.w),
+            // const Spacer(),
             GestureDetector(
               onTap: () {
                 Share.share(
@@ -156,6 +155,58 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         }));
   }
 
+  Container deliveryAndCollectionsCard() {
+    return Container(
+            height: 54.h,
+            decoration: BoxDecoration(color: AppColors.ultraLightPrimary,borderRadius: BorderRadius.circular(100)),
+              child: Padding(
+                padding: REdgeInsets.symmetric(horizontal: 8.0,vertical: 5),
+                child: Row(
+                children: [
+                    Container(
+                      padding: REdgeInsets.only(left: 10,right: 3),
+                      height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: REdgeInsets.only(bottom: 3.0),
+                          child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+                        ),
+                        wBox(5.h),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Delivery",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyBold),),
+                            Text("30-50 mins",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyRegular),),
+                          ],
+                        ),
+                      ],
+                    ),
+                    ),
+                  Container(
+                    padding: REdgeInsets.only(left: 10),
+                    height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
+                        wBox(5.h),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
+                            Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+                ),
+              ),
+          );
+  }
+
   Widget mainBanner() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,43 +231,86 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               fit: BoxFit.cover,
             )),
         hBox(15),
-        Text(
-          controller.restaurant_Data.value.restaurant!.shopName
-              .toString()
-              .capitalize!,
-          style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-          maxLines: 2,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                controller.restaurant_Data.value.restaurant!.shopName
+                    .toString()
+                    .capitalize!,
+                style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                maxLines: 2,
+              ),
+            ),
+            wBox(5.w),
+            GestureDetector(child: Icon(Icons.info_outline,color: AppColors.black,size: 22,))
+          ],
         ),
-        hBox(15),
+        hBox(10.h),
         Row(
           children: [
-            Text(
-              "${controller.travelTime.toStringAsFixed(0)} Min",
-              // "32min",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
-            Text(
-              "•",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
-            Text(
-              // "2km",
-              "${controller.distance.toStringAsFixed(2)} KM",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
-            Text(
-              "•",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
+            // Text(
+            //   "${controller.travelTime.toStringAsFixed(0)} Min",
+            //   // "32min",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
+            // Text(
+            //   "•",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
+            // Text(
+            //   // "2km",
+            //   "${controller.distance.toStringAsFixed(2)} KM",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
+            // Text(
+            //   "•",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
+            SvgPicture.asset("assets/svg/star-yellow.svg",height: 16,width: 17,),
             wBox(4),
             Text(
               "${controller.restaurant_Data.value.averageRating}/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            ),
+            wBox(3.w),
+            Text(
+              "(${controller.restaurant_Data.value.averageRating}/5)",
+              style:TextStyle(fontSize: 15.sp,fontFamily: AppFontFamily.gilroyRegular,decoration: TextDecoration.underline,color: AppColors.lightText,decorationColor: AppColors.lightText),
+            ),
+          ],
+        ),
+        hBox(15.h),
+        Row(
+          children: [
+            SvgPicture.asset(ImageConstants.scooterImage,height: 18,width: 18,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+            wBox(6.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "\$5 Delivery",
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Text(
+              "  •  ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.cartIconImage,height: 18,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(6.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "No min. order",
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
             ),
           ],
         ),

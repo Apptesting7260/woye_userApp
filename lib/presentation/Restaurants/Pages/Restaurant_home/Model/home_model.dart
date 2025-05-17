@@ -1,6 +1,9 @@
 class HomeModel {
   bool? status;
   List<Category>? category;
+  RestaurantsData? freedelResto;
+  RestaurantsData? nearbyResto;
+  RestaurantsData? popularResto;
   RestaurantsData? restaurants;
   List<Banner>? banners;
   String? message;
@@ -8,6 +11,9 @@ class HomeModel {
   HomeModel({
     this.status,
     this.category,
+    this.freedelResto,
+    this.nearbyResto,
+    this.popularResto,
     this.restaurants,
     this.banners,
     this.message,
@@ -19,9 +25,18 @@ class HomeModel {
             ? []
             : List<Category>.from(
                 json["category"]!.map((x) => Category.fromJson(x))),
-        restaurants: json["restaurants"] == null
+        freedelResto: json["freedel_resto"] == null
+            ? null
+            :RestaurantsData.fromJson(json['freedel_resto']),
+      nearbyResto: json["nearby_resto"] == null
+            ? null
+            : RestaurantsData.fromJson(json["nearby_resto"]),
+    restaurants: json["restaurants"] == null
             ? null
             : RestaurantsData.fromJson(json["restaurants"]),
+    popularResto : json["popular_resto"] == null
+            ? null
+            : RestaurantsData.fromJson(json["popular_resto"]),
         banners: json["banners"] == null
             ? []
             : List<Banner>.from(
@@ -35,6 +50,9 @@ class HomeModel {
         "category": category == null
             ? []
             : List<dynamic>.from(category!.map((x) => x.toJson())),
+        "freedel_resto": freedelResto?.toJson(),
+        "nearby_resto": nearbyResto?.toJson(),
+        "popular_resto": popularResto?.toJson(),
         "restaurants": restaurants?.toJson(),
         "banners": banners == null
             ? []

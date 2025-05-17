@@ -40,6 +40,10 @@ class ImageConstants {
   static String groceryDisable = "$imagePath/grocery-green.png";
   static String groceryEnable = "$imagePath/grocery-white.png";
 
+  static String scooterImage = "$svgPath/scooter-linear.svg";
+  static String cartIconImage = "$svgPath/cart_icon.svg";
   static String uploadImage = "$svgPath/upload-Image.svg";
+  static String clockIcon = "$svgPath/clock_icon.svg";
+  static String collections = "$svgPath/collections.svg";
 
 }
