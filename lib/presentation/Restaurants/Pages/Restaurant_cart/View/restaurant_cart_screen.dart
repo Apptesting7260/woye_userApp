@@ -114,35 +114,264 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
                           ),
                         ],
                       )
-                    : Padding(
-                        padding: REdgeInsets.symmetric(horizontal: 20.h),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          controller: _scrollController,
-                          child: Column(
-                            children: [
-                              controller.cartData.value.addressExists == true
-                                  ? address()
-                                  : locationAddress(),
-                              hBox(20.h),
-                              cartItems(),
-                              hBox(20.h),
-                              promoCode(context),
-                              hBox(30.h),
-                              paymentDetails(),
-                              hBox(30.h),
-                              Divider(
-                                  thickness: .5.w, color: AppColors.hintText),
-                              hBox(15.h),
-                              checkoutButton(),
-                              hBox(widget.isBack != true ? 100.h : 30.h)
-                            ],
+                    : SingleChildScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      controller: _scrollController,
+                      child: Column(
+                        children: [
+                          controller.cartData.value.addressExists == true
+                              ? Padding(
+                            padding: REdgeInsets.symmetric(horizontal: 20.h),
+                                child: address(),
+                              )
+                              : Padding(
+                            padding: REdgeInsets.symmetric(horizontal: 20.h),
+                                child: locationAddress(),
+                              ),
+                          hBox(20.h),
+                          Padding(
+                            padding: REdgeInsets.symmetric(horizontal: 20.h),
+                            child: cartItems(),
                           ),
-                        ),
+                          hBox(20.h),
+                          Padding(
+                            padding: REdgeInsets.symmetric(horizontal: 20.h),
+                            child: promoCode(context),
+                          ),
+                          hBox(30.h),
+                          Padding(
+                            padding: REdgeInsets.symmetric(horizontal: 20.h),
+                            child: paymentDetails(),
+                          ),
+                          hBox(50.h),
+                          moreAddToCart(),
+                          hBox(20.h),
+                          Divider(thickness: .2.w, color: AppColors.hintText),
+                          hBox(15.h),
+                          Padding(
+                            padding: REdgeInsets.symmetric(horizontal: 20.h),
+                            child: checkoutButton(),
+                          ),
+                          hBox(widget.isBack != true ? 100.h : 30.h)
+                        ],
                       ),
+                    ),
               );
           }
         }),
+      ),
+    );
+  }
+
+  Widget moreAddToCart() {
+    return Container(
+      // height: 200,
+      width: Get.width,
+      decoration: BoxDecoration(color: AppColors.primary.withOpacity(0.03),),
+      child: Padding(
+        padding: REdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+          Text("You may be interested in... ",
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
+            hBox(20.h),
+           ListView.separated(
+             physics: const NeverScrollableScrollPhysics(),
+             shrinkWrap: true,
+               itemCount: 2,
+               itemBuilder: (context, index) {
+             return  Row(
+               children: [
+                 ClipRRect(
+                   borderRadius: BorderRadius.circular(20.r),
+                   child: Obx(
+                         () => GestureDetector(
+                       onTap: () {
+                         // if (controller.cartData.value.cart!
+                         //     .decodedAttribute![index].status ==
+                         //     "1") {
+                         //   specific_product_controllerontroller
+                         //       .specific_Product_Api(
+                         //       productId: controller
+                         //           .cartData
+                         //           .value
+                         //           .cart!
+                         //           .decodedAttribute![index]
+                         //           .productId
+                         //           .toString(),
+                         //       categoryId: controller
+                         //           .cartData
+                         //           .value
+                         //           .cart!
+                         //           .decodedAttribute![index]
+                         //           .categoryId
+                         //           .toString());
+                         //   // controller.isCartScreen.value = true;
+                         //   // print("is cart screen : ${controller.isCartScreen.value }");
+                         //
+                         //   // Get.removeRoute("/ProductDetailsScreen");
+                         //   Get.to(() => ProductDetailsScreen(
+                         //     productId: controller.cartData.value.cart!
+                         //         .decodedAttribute![index].productId
+                         //         .toString(),
+                         //     categoryId: controller
+                         //         .cartData
+                         //         .value
+                         //         .cart!
+                         //         .decodedAttribute![index]
+                         //         .categoryId
+                         //         .toString(),
+                         //     categoryName: controller
+                         //         .cartData
+                         //         .value
+                         //         .cart!
+                         //         .decodedAttribute![index]
+                         //         .categoryName
+                         //         .toString(),
+                         //     fromCart: true,
+                         //   ));
+                         // } else if (controller.cartData.value.cart!
+                         //     .decodedAttribute![index].status ==
+                         //     "0") {
+                         //   Utils.showToast("Product not available.");
+                         // }
+                       },
+                       child: CachedNetworkImage(
+                         memCacheHeight: memCacheHeight,
+                         imageUrl: controller.cartData.value.cart!
+                             .decodedAttribute![0].productImage
+                             .toString(),
+                         height: 100.h,
+                         width: 100.h,
+                         fit: BoxFit.cover,
+                         placeholder: (context, url) => Shimmer.fromColors(
+                           baseColor: AppColors.gray,
+                           highlightColor: AppColors.lightText,
+                           child: Container(
+                             color: AppColors.gray,
+                             height: 100.h,
+                             width: 100.h,
+                           ),
+                         ),
+                         errorWidget: (context, url, error) =>
+                         const Icon(Icons.error),
+                       ),
+                     ),
+                   ),
+                 ),
+                 wBox(10.h),
+                 Expanded(
+                   flex: 6,
+                   child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                     children: [
+                       hBox(5.h),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           // isLoading
+                           //     ? Shimmer.fromColors(
+                           //   baseColor: Colors.grey.shade300,
+                           //   highlightColor: Colors.grey.shade100,
+                           //   child: Container(
+                           //     height: 14.h,
+                           //     width: 110.w,
+                           //     color: Colors.white,
+                           //   ),
+                           // )
+                           //     :
+                           SizedBox(
+                             width: 110.w,
+                             child: Text(
+                               controller.cartData.value.cart!
+                                   .decodedAttribute![0].productName
+                                   .toString(),
+                               overflow: TextOverflow.ellipsis,
+                               maxLines: 2,
+                               style: AppFontStyle.text_16_400(
+                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                             ),
+                           ),
+                           // Obx(
+                           //   () =>
+                           // deleteProductController
+                           //                 .rxRequestStatus.value ==
+                           //             Status.LOADING &&
+                           //         controller
+                           //                 .cartData
+                           //                 .value
+                           //                 .cart!
+                           //                 .decodedAttribute![index]
+                           //                 .isDelete
+                           //                 .value ==
+                           //             true
+                           //     ? Center(
+                           //         child: Row(
+                           //           children: [
+                           //             circularProgressIndicator(size: 15.h),
+                           //             wBox(2.h),
+                           //           ],
+                           //         ),
+                           //       )
+                           //     :
+                           // ),
+                         ],
+                       ),
+                       hBox(5.h),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.start,
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: [
+                           // isLoading
+                           //     ? Shimmer.fromColors(
+                           //   baseColor: Colors.grey.shade300,
+                           //   highlightColor: Colors.grey.shade100,
+                           //   child: Container(
+                           //     height: 14.h,
+                           //     width: 60.w,
+                           //     color: Colors.white,
+                           //   ),
+                           // )
+                           //     :
+                           Text(
+                             "\$${controller.cartData.value.cart!.decodedAttribute![0].totalPrice.toString()}",
+                             overflow: TextOverflow.ellipsis,
+                             style: AppFontStyle.text_15_600(
+                                 AppColors.primary,family: AppFontFamily.gilroyRegular),
+                           ),
+                           wBox(8.w),
+                           Text(
+                               "\$${controller.cartData.value.cart!.decodedAttribute![0].totalPrice.toString()}",
+                               overflow: TextOverflow.ellipsis,
+                               style: TextStyle( color: AppColors.lightText,fontSize: 15.sp,fontFamily: AppFontFamily.gilroyRegular,fontWeight: FontWeight.w400,decoration: TextDecoration.lineThrough,decorationColor: AppColors.lightText)
+                             // AppFontStyle.text_15_600(
+                             //     AppColors.primary,family: AppFontFamily.gilroyRegular),
+                           ),
+                         ],
+                       ),
+                       hBox(10.h),
+                       CustomElevatedButton(
+                         height: 36.h,
+                         width: 110.w,
+                         onPressed: () {},
+                         child: Text("Add to cart",
+                           style: AppFontStyle.text_12_400(
+                               AppColors.white,family: AppFontFamily.gilroyMedium),
+                         ),
+                       ),
+                     ],
+                   ),
+                 ),
+               ],
+             );
+           }, separatorBuilder: (context, index) => hBox(25.h)),
+            hBox(8.h),
+        ],
+        ),
       ),
     );
   }
@@ -851,7 +1080,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
             radius: Radius.circular(15.r),
             color: AppColors.primary,
             dashPattern: [6.w, 3.w],
-            borderPadding: const EdgeInsets.symmetric(horizontal: 2),
+            borderPadding: const EdgeInsets.symmetric(horizontal: 0),
             child: SizedBox(
               height: Get.height * 0.065,
               width: Get.width,

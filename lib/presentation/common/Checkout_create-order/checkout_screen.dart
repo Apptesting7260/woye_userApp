@@ -13,8 +13,7 @@ class CheckoutScreen extends StatelessWidget {
 
   // static DeliveryAddressScreen deliveryAddressScreen = DeliveryAddressScreen();
 
-  // final PaymentMethodController paymentMethodController =
-  //     Get.put(PaymentMethodController());
+  // final PaymentMethodController paymentMethodController = Get.put(PaymentMethodController());
 
   final CreateOrderController controller = Get.put(CreateOrderController());
   final GroceryCartController groceryCartController = Get.put(GroceryCartController());
@@ -121,8 +120,15 @@ class CheckoutScreen extends StatelessWidget {
         body: SingleChildScrollView(
           padding: REdgeInsets.symmetric(horizontal: 24.h),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               paymentMethod(walletBalance: walletBalance, totalPrice: total),
+              hBox(15.h),
+              deliveryNotes(),
+              hBox(15.h),
+              deliveryAsSoonAsPossible(),
+              hBox(33.h),
+              tips(),
               hBox(30.h),
               paymentDetails(
                 deliveryCharge: deliveryCharge,
@@ -320,6 +326,104 @@ class CheckoutScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget tips() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text("Tip for the courier",
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        ),
+        Text(
+          "It’s optional but a tip can brighten courier’s day.",
+          maxLines: 2,
+          style: AppFontStyle.text_15_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular,),
+        ),
+        hBox(8.h),
+       SizedBox(
+         height: 52.h,
+         child: Padding(
+           padding: REdgeInsets.symmetric(vertical: 5),
+           child: ListView.separated(
+             shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: 4,
+             itemBuilder: (context, index) {
+             return  SizedBox(
+               width: 89.w,
+               height: 40.h,
+               child: Obx(
+                 ()=> CustomOutlinedButton(
+                   backgroundColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.white,
+                   borderColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.darkText,
+                   onPressed: (){
+                     print("Tips valueee >>>> ${controller.tipsController.value.text}");
+                     print("Tips valueee >>>> ${index}");
+                     if (controller.selectedTipsIndexValue.value == index) {
+                       controller.selectedTipsIndexValue.value = -1;
+                       controller.tipsController.value.clear();
+                     }else {
+                       controller.selectedTipsIndexValue.value = index;
+                       if(index == 0){
+                         controller.tipsController.value.text = "5";
+                       }else if(index == 1){
+                         controller.tipsController.value.text = "10";
+                       }else if(index == 2){
+                         controller.tipsController.value.text = "15";
+                       }
+                       else if (index == 3) {
+                         showDialog(context: context,
+                           barrierDismissible: false,
+                           builder: (context) {
+                             return PopScope(
+                               canPop: false,
+                               child: Stack(
+                                 children: [
+                                   AlertDialog(
+                                       insetPadding: const EdgeInsets.symmetric(
+                                           horizontal: 22),
+                                       shape: RoundedRectangleBorder(
+                                         borderRadius: BorderRadius.circular(
+                                             15),
+                                       ),
+                                       contentPadding: EdgeInsets.zero,
+                                       backgroundColor: AppColors.white,
+                                       content: Stack(children: [
+                                         addTips(context,),
+                                         Positioned(
+                                           right: 0,
+                                           top: 0,
+                                           child: IconButton(onPressed: () {
+                                             Get.back();
+                                           },
+                                         icon: Icon(Icons.cancel,
+                                           color: AppColors.primary,
+                                           size: 26,)),
+                                         ),
+                                       ])
+                                   ),
+
+                                 ],
+                               ),
+                             );
+                           },);
+                       }
+                     }
+                   },
+                   child: Text(
+                    index == 1 ? "\$10" : index == 2 ? "\$15" : index == 3 ? "Other" : "\$5" ,
+                     style: AppFontStyle.text_17_400( controller.selectedTipsIndexValue.value == index ? AppColors.white :AppColors.darkText,family: AppFontFamily.gilroyMedium,),
+                   ),
+                 ),
+               ),
+             );
+           }, separatorBuilder: (context, index) => wBox(8.w),),
+         ),
+       )
+      ],
     );
   }
 
@@ -537,6 +641,7 @@ class CheckoutScreen extends StatelessWidget {
       ],
     );
   }
+
   Widget addNewCard() {
     return InkWell(
       splashColor: Colors.transparent,
@@ -559,7 +664,88 @@ class CheckoutScreen extends StatelessWidget {
               style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
             ),
             const Spacer(),
-            const Icon(Icons.arrow_forward_ios_sharp)
+             Icon(Icons.arrow_forward_ios_sharp,color: AppColors.darkText,size: 21,)
+          ],
+        ),
+      ),
+    );
+
+    // Container(
+    //   padding: REdgeInsetsDirectional.all(15),
+    //   height: 60.h,
+    //   decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(20.r),
+    //       border: Border.all(color: AppColors.primary)),
+    //   child: Row(
+    //     children: [
+    //       SvgPicture.asset("assets/svg/pin_location.svg"),
+    //       wBox(10),
+    //       Text(
+    //         "Add Address",
+    //         style: AppFontStyle.text_16_400(AppColors.primary),
+    //       ),
+    //       Spacer(),
+    //       Icon(
+    //         Icons.arrow_forward_ios_sharp,
+    //         size: 20.h,
+    //       )
+    //     ],
+    //   ),
+    // );
+  }
+
+  Widget deliveryNotes() {
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: () {
+        // Get.toNamed(AppRoutes.addCard);
+      },
+      child: Container(
+        padding: REdgeInsetsDirectional.all(15),
+        height: 60.h,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.r),
+            border: Border.all(color: AppColors.ultraLightPrimary)),
+        child: Row(
+          children: [
+            SvgPicture.asset(ImageConstants.deliveryNotes),
+            wBox(10),
+            Text(
+              "Add Delivery Notes",
+              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            ),
+            const Spacer(),
+            Icon(Icons.add,color: AppColors.darkText,size: 23,)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget deliveryAsSoonAsPossible() {
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onTap: () {
+        // Get.toNamed(AppRoutes.addCard);
+      },
+      child: Container(
+        padding: REdgeInsetsDirectional.all(15),
+        height: 60.h,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.r),
+            border: Border.all(color: AppColors.ultraLightPrimary)),
+        child: Row(
+          children: [
+            SvgPicture.asset(ImageConstants.clockIcon,height: 26,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),),
+            wBox(10),
+            Text(
+              "Delivery as soon as possible",
+              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            ),
+            const Spacer(),
+            Icon(Icons.arrow_forward_ios_sharp,color: AppColors.darkText,size: 21,)
           ],
         ),
       ),
@@ -838,6 +1024,66 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 
+  addTips(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      child: Stack(
+        children: [
+          // Obx(() =>
+              Form(
+                // key: restaurantAddOnController.addOnKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    hBox(30.h),
+                    Center(child: Text( "Tips for the courier",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
+                    hBox(20.h),
+                    Padding(
+                      padding: REdgeInsets.symmetric(horizontal: 25.0),
+                      child: CustomTextFormField(
+                        controller: TextEditingController(text: controller.tipsController.value.text),
+                        onChanged: (value){},
+                        hintText: 'Enter tips for the courier',
+                        hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
+                        // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
+                        onTapOutside: (value){
+                          // restaurantAddOnController.isRedClr.value =false;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        onTap: (){
+                          // restaurantAddOnController.isRedClr.value =false;
+                        },
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return "Please enter addon name";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    hBox(13.h),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
+                        width: 145.w,
+                        height: 50.h,
+                        onPressed: () {
+                          Get.back();
+                        },
+                        text: "Submit" ,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    hBox(30.h),
+                  ],
+                ),
+              ),
+          // ),
+        ],
+      ),
+    );
+  }
 
 // Widget paymentMethod({walletBalance, totalPrice}) {
 //   return Column(

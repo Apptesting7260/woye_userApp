@@ -185,7 +185,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     hBox(75.h)
                                   ],
                                 ),
-                              ))
+                              ),
+                          ),
                         ],
                       ),
                     ),

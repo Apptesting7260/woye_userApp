@@ -91,10 +91,6 @@ class RestaurantHomeController extends GetxController {
       api.homeApi(page: page, perPage: 10).then((value) {
         setRxRequestStatus(Status.COMPLETED);
         // isLoading.value = false;
-        // if (restaurantType =a= "restaurant") isLoadingRestaurant.value = false;
-        // if (restaurantType == "popularResto") isLoadingPopular.value = false;
-        // if (restaurantType == "nearbyResto") isLoadingNearby.value = false;
-        // if (restaurantType == "freedelResto") isLoadingFree.value = false;
         isLoadingRestaurant.value = false;
         isLoadingPopular.value = false;
         isLoadingNearby.value = false;
@@ -122,33 +118,6 @@ class RestaurantHomeController extends GetxController {
             noMoreDataRestaurant.value = true;
           }
         }
-        // if (homeData.value.restaurants!.data!.isNotEmpty) {
-        //   restaurantList.addAll(value.restaurants?.data ?? []);
-        //   if (restaurantList.length >= (value.restaurants?.total ?? 0)) {
-        //     noMoreDataRestaurant.value = true;
-        //   }
-        // }
-        //
-        // if (homeData.value.popularResto!.data!.isNotEmpty) {
-        //   popularRestaurantList.addAll(value.popularResto?.data ?? []);
-        //   if (popularRestaurantList.length >= (value.popularResto?.total ?? 0)) {
-        //     noMoreDataPopular.value = true;
-        //   }
-        // }
-        //
-        // if (homeData.value.nearbyResto!.data!.isNotEmpty) {
-        //   nearByRestaurantList.addAll(value.nearbyResto?.data ?? []);
-        //   if (nearByRestaurantList.length >= (value.nearbyResto?.total ?? 0)) {
-        //     noMoreDataNearby.value = true;
-        //   }
-        // }
-        //
-        // if (homeData.value.freedelResto!.data!.isNotEmpty) {
-        //   freeDeliveryRestaurantList.addAll(value.freedelResto?.data ?? []);
-        //   if (freeDeliveryRestaurantList.length >= (value.freedelResto?.total ?? 0)) {
-        //     noMoreDataFree.value = true;
-        //   }
-        // }
       }).onError((error, stackError) {
         setError(error.toString());
         print(stackError);

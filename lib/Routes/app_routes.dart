@@ -68,6 +68,7 @@ import 'package:woye_user/presentation/common/Update_profile/view/Update_profile
 import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 
 import '../presentation/Grocery/Pages/Grocery_cart/Checkout/grocery_checkout_screen.dart';
+import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_information_screen.dart';
 import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/product_reviews.dart';
 
 class AppRoutes {
@@ -127,6 +128,7 @@ class AppRoutes {
   static const String termsAndConditions = "/termAndConditions";
   static const String rateAndReviewProductScreen ="/rateAndReviewProductScreen";
   static const String prescriptionsScreen ="/prescriptionsScreen";
+  static const String restaurantInformationScreen ="/restaurantInformationScreen";
 
   ///`pharmacy=====================================================>`
   static const String pharmcayHomeFilter = "/pharmcayHomeFilter";
@@ -202,6 +204,7 @@ class AppRoutes {
     // GetPage( name: restaurantWishlistFilter, page: () => const RestaurantWishlistFilter()),
     GetPage(name: rateAndReviewProductScreen, page: () => RateAndReviewProductScreen()),
     GetPage(name: prescriptionsScreen, page: () => PrescriptionsScreen()),
+    GetPage(name: restaurantInformationScreen, page: () => RestaurantInformationScreen()),
 
     ///`pharmacy=====================================================>`
     GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),

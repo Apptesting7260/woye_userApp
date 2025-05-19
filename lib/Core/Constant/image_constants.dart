@@ -45,5 +45,6 @@ class ImageConstants {
   static String uploadImage = "$svgPath/upload-Image.svg";
   static String clockIcon = "$svgPath/clock_icon.svg";
   static String collections = "$svgPath/collections.svg";
+  static String deliveryNotes = "$svgPath/delivery_notes.svg";
 
 }

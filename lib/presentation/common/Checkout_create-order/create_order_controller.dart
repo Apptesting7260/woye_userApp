@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
@@ -15,8 +16,12 @@ import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.
 
 class CreateOrderController extends GetxController {
 
+  Rx<TextEditingController> tipsController = Rx(TextEditingController());
+
   @override
   void onInit() {
+    selectedTipsIndexValue.value = -1;
+
     walletSelected.value = false;
     isSelectable.value = false;
     // TODO: implement onInit
@@ -36,6 +41,9 @@ class CreateOrderController extends GetxController {
     // TODO: implement dispose
     super.dispose();
   }
+
+  RxInt selectedTipsIndexValue = 0.obs;
+
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final createOrderData = CreateOrder().obs;
