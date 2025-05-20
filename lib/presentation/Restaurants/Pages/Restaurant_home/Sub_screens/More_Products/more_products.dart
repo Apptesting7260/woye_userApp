@@ -25,7 +25,7 @@ class MoreProducts extends StatelessWidget {
       appBar: CustomAppBar(
         isLeading: true,
         title: Text(
-          "More Products",
+          "All Products",
           style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),

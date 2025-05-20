@@ -39,6 +39,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
   final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController = Get.put(PharmacyCategoriesDetailsController());
 
   final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
+  final ScrollController _scrollControllerFreeDel = ScrollController();
+  final ScrollController _horScrollControllerPopularShop = ScrollController();
 
   @override
   void initState() {
@@ -46,21 +48,41 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
     getApiData();
     // pharmacyCartController.getPharmacyCartApi();
     // pharmacyCartController.getAllPharmacyCartData();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (pharmacyHomeController.noLoading.value != true) {
-          if (!pharmacyHomeController.isLoading.value) {
-            pharmacyHomeController.isLoading.value = true;
-            pharmacyHomeController.currentPage++;
-            print(
-                "currentPage value ${pharmacyHomeController.currentPage.value}");
-            pharmacyHomeController
-                .homeApi(pharmacyHomeController.currentPage.value);
-          }
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //       _scrollController.position.maxScrollExtent) {
+    //     if (pharmacyHomeController.noLoading.value != true) {
+    //       if (!pharmacyHomeController.isLoading.value) {
+    //         pharmacyHomeController.isLoading.value = true;
+    //         pharmacyHomeController.currentPage++;
+    //         print(
+    //             "currentPage value ${pharmacyHomeController.currentPage.value}");
+    //         pharmacyHomeController
+    //             .homeApi(pharmacyHomeController.currentPage.value);
+    //       }
+    //     }
+    //   }
+    // });
+    _horScrollControllerPopularShop.addListener(() {
+      if (_horScrollControllerPopularShop.position.pixels >= _horScrollControllerPopularShop.position.maxScrollExtent - 100) {
+        if (!pharmacyHomeController.isLoadingPopular.value && !pharmacyHomeController.noMoreDataPopularLoading.value) {
+          pharmacyHomeController.isLoadingPopular.value = true;
+          pharmacyHomeController.currentPage.value++;
+          pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
         }
       }
     });
+
+    _scrollControllerFreeDel.addListener(() {
+      if (_scrollControllerFreeDel.position.pixels >= _scrollControllerFreeDel.position.maxScrollExtent - 100) {
+        if (!pharmacyHomeController.isLoadingFree.value && !pharmacyHomeController.noMoreDataFreeLoading.value) {
+          pharmacyHomeController.isLoadingFree.value = true;
+          pharmacyHomeController.currentPage.value++;
+          pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
+        }
+      }
+    });
+
   }
 
   getApiData()async{
@@ -68,7 +90,6 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
     // await pharmacyCartController.getPharmacyCartApi(cartId:pharmacyCartController.cartDataAll.value.carts?.map((val)=>val.id.toString()).toList().toString() ?? "");
   }
 
-  final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +123,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     HomeScreen(),
                     Expanded(
                       child: CustomScrollView(
-                        controller: _scrollController,
+                        // controller: _scrollController,
                         slivers: [
                           SliverPadding(
                             padding: REdgeInsets.symmetric(
@@ -121,9 +142,9 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                     if (pharmacyHomeController
                                         .homeData.value.category!.isNotEmpty)
                                       catergories(),
-                                    if (pharmacyHomeController.homeData.value
-                                        .pharmaShops!.data!.isNotEmpty)
+                                    if (pharmacyHomeController.homeData.value.pharmaShops!.data!.isNotEmpty)
                                       popularShop(),
+                                      freeDeliveryShops(),
                                     hBox(100.h)
                                   ],
                                 ),
@@ -509,11 +530,12 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
   }
 
   Widget popularShop() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.h),
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        hBox(10.h),
+        Padding(
+          padding: REdgeInsets.symmetric(horizontal: 24),
+          child: Row(
             children: [
               Text(
                 "Popular Shops",
@@ -537,17 +559,30 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               )
             ],
           ),
-          hBox(20),
-          GetBuilder<PharmacyHomeController>(
+        ),
+        hBox(20.h),
+        SizedBox(
+          // color: AppColors.primary,
+          height: 315.h,
+          child: GetBuilder<PharmacyHomeController>(
             init: pharmacyHomeController,
             builder: (controller) {
               return Obx(() {
                 final shops = pharmacyHomeController.shopsList;
                 return ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  controller: _horScrollControllerPopularShop,
+                  padding: REdgeInsets.only(left:22,right: 20,top: 1),
+                  // physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: shops.length,
+                  itemCount: shops.length +  (pharmacyHomeController.isLoadingPopular.value ? 1 : 0),
                   itemBuilder: (context, index) {
+                    if (index ==  shops.length) {
+                      return Container(
+                        width: Get.width*0.78,
+                        margin: const EdgeInsets.only(bottom: 102),
+                        child: const ShimmerWidget(isRestaurantCard: true),);
+                    }
                     final pharmashopsdata = shops[index];
                     return GestureDetector(
                       onTap: () {
@@ -557,24 +592,114 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         Get.to(PharmacyVendorDetailsScreen(
                             pharmacyId: pharmashopsdata.id.toString()));
                       },
-                      child: pharmaShop(
-                        index: index,
-                        image: pharmashopsdata.shopimage,
-                        title: pharmashopsdata.shopName,
-                        rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
-                        price: pharmashopsdata.rating,
+                      child: SizedBox(
+                        width: Get.width * 0.78,
+                        child: pharmaShop(
+                          index: index,
+                          image: pharmashopsdata.shopimage,
+                          title: pharmashopsdata.shopName,
+                          rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
+                          price: pharmashopsdata.rating,
+                        ),
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => hBox(20.h),
+                  separatorBuilder: (context, index) => wBox(15.w),
                 );
               });
             },
           ),
-          if (pharmacyHomeController.isLoading.value)
-            circularProgressIndicator(),
-        ],
-      ),
+        ),
+        // if (pharmacyHomeController.isLoading.value)
+        //   circularProgressIndicator(),
+      ],
+    );
+  }
+
+  Widget freeDeliveryShops() {
+    return Column(
+      children: [
+        hBox(25.h),
+        Padding(
+          padding: REdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            children: [
+              Text(
+                "Free Delivery Shops",
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Get.to( ()=> AllPharmaShopsScreen());
+                },
+                child: Text(
+                  "See All",
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                ),
+              ),
+              wBox(4),
+              Icon(
+                Icons.arrow_forward_sharp,
+                color: AppColors.primary,
+                size: 18,
+              ),
+            ],
+          ),
+        ),
+        hBox(20.h),
+        SizedBox(
+          // color: AppColors.primary,
+          height: 315.h,
+          child: GetBuilder<PharmacyHomeController>(
+            init: pharmacyHomeController,
+            builder: (controller) {
+              return Obx(() {
+                final shops = pharmacyHomeController.freeDeliveryShopsList;
+                return ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  controller: _scrollControllerFreeDel,
+                  padding: REdgeInsets.only(left:22,right: 20,top: 1),
+                  // physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: shops.length +  (pharmacyHomeController.isLoadingFree.value ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index ==  shops.length) {
+                      return Container(
+                        width: Get.width*0.78,
+                        margin: const EdgeInsets.only(bottom: 102),
+                        child: const ShimmerWidget(isRestaurantCard: true),);
+                    }
+                    final pharmashopsdata = shops[index];
+                    return GestureDetector(
+                      onTap: () {
+                        pharmacyDetailsController.restaurant_Details_Api(
+                          id: pharmashopsdata.id.toString(),
+                        );
+                        Get.to(PharmacyVendorDetailsScreen(
+                            pharmacyId: pharmashopsdata.id.toString()));
+                      },
+                      child: SizedBox(
+                        width: Get.width * 0.78,
+                        child: freeDeliveryPharmacyShopList(
+                          index: index,
+                          image: pharmashopsdata.shopimage,
+                          title: pharmashopsdata.shopName,
+                          rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
+                          price: pharmashopsdata.rating,
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => wBox(15.w),
+                );
+              });
+            },
+          ),
+        ),
+        // if (pharmacyHomeController.isLoading.value)
+        //   circularProgressIndicator(),
+      ],
     );
   }
 
@@ -591,7 +716,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.r),
               ),
-              child: CachedNetworkImage(
+              child:image != null ? CachedNetworkImage(
                 memCacheHeight: memCacheHeight,
                 imageUrl: image.toString(),
                 fit: BoxFit.fill,
@@ -605,7 +730,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
-              ),
+              ):Container(
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.textFieldBorder),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
             ),
             // GestureDetector(
             //   onTap: () {},
@@ -637,30 +768,110 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         // hBox(10),
+        // Row(
+        //   // crossAxisAlignment: CrossAxisAlignment.end,
+        //   children: [
+        //     Text(
+        //       price ?? "",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+        //     ),
+        //     Text(
+        //       " • ",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //     SvgPicture.asset("assets/svg/star-yellow.svg"),
+        //     wBox(4),
+        //     Text(
+        //       "$rating/5",
+        //       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //   ],
+        // )
+        hBox(2.h),
         Row(
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(
-              price ?? "",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            // Text(
+            //   price,
+            //   textAlign: TextAlign.left,
+            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            // ),
+
+            SvgPicture.asset("assets/svg/star-yellow.svg",height: 15,),
+            wBox(4),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "$rating/5",
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
             Text(
-              "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              "Pizza, Burger, Cake",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
           ],
-        )
+        ),
+        hBox(2.h),
+        Row(
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            // Text(
+            //   price,
+            //   textAlign: TextAlign.left,
+            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            // ),
+
+            SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "30-50 mins",
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "\$5 Delivery",
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.cartIconImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "No min. order",
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -822,4 +1033,90 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         ? parsed.toInt().toString()
         : parsed.toString();
   }
+
+  Widget freeDeliveryPharmacyShopList({index, String? image, title, type, isFavourite, rating, price}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
+                imageUrl: image.toString(),
+                fit: BoxFit.fill,
+                width: double.maxFinite,
+                height: 210.h,
+                placeholder: (context, url) => const ShimmerWidget(),
+                errorWidget: (context, url, error) => Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.textFieldBorder),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
+              ),
+            ),
+          ],
+        ),
+        hBox(10.h),
+        Text(
+          title.toString().capitalize ?? "",
+          textAlign: TextAlign.left,
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+        ),
+        hBox(2.h),
+        Row(
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            SvgPicture.asset("assets/svg/star-yellow.svg",height: 15,),
+            wBox(4),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "$rating/5",
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "30-50 mins",
+                style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+          ],
+        ),
+        hBox(4.h),
+        Container(
+          padding: REdgeInsets.symmetric(horizontal: 7,vertical: 6),
+          // height: 20,
+          decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(6.r)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+              wBox(5.w),
+              Text(
+                "Free Delivery",
+                style: AppFontStyle.text_13_400(AppColors.white,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),),
+      ],
+    );
+  }
+
 }

@@ -47,9 +47,11 @@ class AddProductWishlistController extends GetxController {
           restaurantWishlistController.restaurant_product_wishlist_api();
         }
         restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId);
-        if (restaurantId != null && restaurantId.toString().trim().isNotEmpty) {
-          restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantId.toString());
-        }
+        // if (restaurantId != null && restaurantId.toString().trim().isNotEmpty) {
+        //   restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId);
+        // }
+        restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId ?? "");
+
         if(restaurantId != null && categoryId != ''){
           seeAllProductController.refresh_seeAll_Product_Api(
               category_id: categoryId, restaurant_id: restaurantId);

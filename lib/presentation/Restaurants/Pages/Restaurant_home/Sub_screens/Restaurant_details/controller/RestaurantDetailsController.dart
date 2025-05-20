@@ -12,6 +12,7 @@ class RestaurantDetailsController extends GetxController {
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
 
+  RxInt categoriesIndex = 0.obs;
   RxString error = ''.obs;
 
   var distance = 0.0.obs;
@@ -27,6 +28,7 @@ class RestaurantDetailsController extends GetxController {
   Future restaurant_Details_Api({
     required String id,
   }) async {
+    categoriesIndex.value = 0;
     loadLocationData();
     setRxRequestStatus(Status.LOADING);
     Map data = {"restaurant_id": id};

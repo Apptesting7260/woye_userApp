@@ -8,6 +8,7 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
 
 import '../../../../../../Core/Constant/app_urls.dart';
@@ -42,6 +43,8 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
       appBar: CustomAppBar(
         isLeading: true,
         actions: [
+          deliveryAndCollectionsCard(),
+          wBox(5.w),
           GestureDetector(
             onTap: () {
               Share.share(
@@ -74,23 +77,22 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
           //       Icons.favorite_outline_sharp,
           //       size: 24.w,
           //     )),
-          wBox(8),
-          GestureDetector(
-            onTap: (){
-              Get.toNamed(AppRoutes.notifications);
-            },
-            child: Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: SvgPicture.asset(
-                ImageConstants.notification,
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: (){
+          //     Get.toNamed(AppRoutes.notifications);
+          //   },
+          //   child: Container(
+          //     padding: REdgeInsets.all(9),
+          //     height: 44.h,
+          //     width: 44.h,
+          //     decoration: BoxDecoration(
+          //         color: AppColors.greyBackground,
+          //         borderRadius: BorderRadius.circular(12.r)),
+          //     child: SvgPicture.asset(
+          //       ImageConstants.notification,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
       body: Obx(() {
@@ -123,14 +125,12 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         mainBanner(),
-                        hBox(30),
-                        openHours(),
-                        hBox(30),
-                        description(),
-                        reviews(),
-                        if (controller.pharma_Data.value.moreProducts?.isNotEmpty ?? true)
-                          hBox(30),
-                        if (controller.pharma_Data.value.moreProducts?.isNotEmpty ?? true)
+                        // hBox(30),
+                        // openHours(),
+                        // hBox(30),
+                        // description(),
+                        // reviews(),
+                        // if (controller.pharma_Data.value.moreProducts?.isNotEmpty ?? true)
                           moreProducts(),
                         hBox(30),
                       ],
@@ -164,90 +164,180 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
               fit: BoxFit.cover,
             )),
         hBox(15),
-        Text(
-          controller.pharma_Data.value.pharmaShop?.shopName.toString().capitalize.toString() ?? "",
-          style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-          maxLines: 2,
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                controller.pharma_Data.value.pharmaShop?.shopName.toString().capitalize.toString() ?? "",
+                style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                maxLines: 2,
+              ),
+            ),
+            wBox(5.w),
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(AppRoutes.pharmacyVendorInformationScreen,
+                    arguments: {
+                      "pharmacyId" : widget.pharmacyId,
+                    }
+                );
+              },
+              child: Icon(Icons.info_outline,color: AppColors.black,size: 22,),
+            )
+          ],
         ),
-        hBox(15),
+        hBox(10.h),
         Row(
           children: [
-            Text(
-              "${controller.distance.toStringAsFixed(2)} KM",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
-            Text(
-              "•",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
-            Text(
-              "${controller.travelTime.toStringAsFixed(0)} Min",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
-            Text(
-              "•",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(4),
+            // Text(
+            //   "${controller.distance.toStringAsFixed(2)} KM",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
+            // Text(
+            //   "•",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
+            // Text(
+            //   "${controller.travelTime.toStringAsFixed(0)} Min",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
+            // Text(
+            //   "•",
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            // ),
+            // wBox(4),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
+            wBox(4.w),
             Text(
               "${controller.pharma_Data.value.averageRating}/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            ),
+            wBox(5.w),
+            GestureDetector(
+              onTap: () {
+                if(controller.pharma_Data.value.review?.isNotEmpty ?? false){
+                  Get.toNamed(
+                    AppRoutes.productReviews,
+                    arguments: {
+                      'product_id': widget.pharmacyId.toString(),
+                      'product_review':
+                      controller.pharma_Data.value.averageRating,
+                      'review_count': controller
+                          .pharma_Data.value.totalReviews
+                          .toString(),
+                      "type": "pharmacy",
+                    },
+                  );
+                  seeAllProductReviewController.seeAllProductReviewApi(
+                      vendorId: widget.pharmacyId.toString(), type: "pharmacy");
+                }
+              },
+              child: Text(
+                "(${controller.pharma_Data.value.review?.length} Reviews)",
+                style:TextStyle(fontSize: 15.sp,fontFamily: AppFontFamily.gilroyRegular,decoration: TextDecoration.underline,color: AppColors.lightText,decorationColor: AppColors.lightText),
+              ),
             ),
           ],
         ),
-        hBox(20),
+        hBox(8.h),
         Row(
           children: [
-            const Icon(Icons.person_outline_rounded),
-            wBox(8),
-            Flexible(
+            SvgPicture.asset(ImageConstants.scooterImage,height: 18,width: 18,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+            wBox(6.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
               child: Text(
-                "${controller.pharma_Data.value.pharmaShop?.firstName ?? ""} ${controller.pharma_Data.value.pharmaShop?.lastName ?? ""}",
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  color: AppColors.darkText,
-                  fontFamily: AppFontFamily.gilroyMedium,
-                  fontWeight: FontWeight.w400,
-                ),
+                "\$5 Delivery",
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
-            )
+            ),
+            Text(
+              "  •  ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.cartIconImage,height: 18,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(6.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "No min. order",
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
           ],
         ),
-        hBox(10),
-        Row(
-          children: [
-            const Icon(Icons.mail_outline_rounded),
-            wBox(8),
-            Flexible(
-              child: Text(
-                controller.pharma_Data.value.pharmaShop?.email.toString() ?? "",
-                overflow: TextOverflow.ellipsis,
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-              ),
-            )
-          ],
-        ),
-        hBox(10),
-        Row(
-          children: [
-            const Icon(Icons.location_on_outlined),
-            wBox(8),
-            Flexible(
-              child: Text(
-                controller.pharma_Data.value.pharmaShop?.shopAddress.toString() ?? "",
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: AppFontStyle.text_14_400(
-                  AppColors.darkText,family: AppFontFamily.gilroyMedium,
+        // hBox(20),
+        // Row(
+        //   children: [
+        //     const Icon(Icons.person_outline_rounded),
+        //     wBox(8),
+        //     Flexible(
+        //       child: Text(
+        //         "${controller.pharma_Data.value.pharmaShop?.firstName ?? ""} ${controller.pharma_Data.value.pharmaShop?.lastName ?? ""}",
+        //         style: TextStyle(
+        //           fontSize: 14.sp,
+        //           color: AppColors.darkText,
+        //           fontFamily: AppFontFamily.gilroyMedium,
+        //           fontWeight: FontWeight.w400,
+        //         ),
+        //       ),
+        //     )
+        //   ],
+        // ),
+        // hBox(10),
+        // Row(
+        //   children: [
+        //     const Icon(Icons.mail_outline_rounded),
+        //     wBox(8),
+        //     Flexible(
+        //       child: Text(
+        //         controller.pharma_Data.value.pharmaShop?.email.toString() ?? "",
+        //         overflow: TextOverflow.ellipsis,
+        //         style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        //       ),
+        //     )
+        //   ],
+        // ),
+        // hBox(10),
+        // Row(
+        //   children: [
+        //     const Icon(Icons.location_on_outlined),
+        //     wBox(8),
+        //     Flexible(
+        //       child: Text(
+        //         controller.pharma_Data.value.pharmaShop?.shopAddress.toString() ?? "",
+        //         maxLines: 2,
+        //         overflow: TextOverflow.ellipsis,
+        //         style: AppFontStyle.text_14_400(
+        //           AppColors.darkText,family: AppFontFamily.gilroyMedium,
+        //         ),
+        //       ),
+        //     )
+        //   ],
+        // ),
+        hBox(15.h),
+        Container(
+          decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(54.r)),
+          padding: REdgeInsets.symmetric(vertical: 7,horizontal: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(ImageConstants.scooterImage,height: 18,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+              wBox(8.w),
+              Padding(
+                padding: REdgeInsets.only(top: 3.0),
+                child: Text("Free delivery when you spend over \$1009",
+                  style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                 ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -320,7 +410,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 1,
+                itemCount: (controller.pharma_Data.value.review?.isNotEmpty ?? false) ? 1 : 0,
                 itemBuilder: (context, index) {
                   return controller.pharma_Data.value.review?[index].user != null
                       ? Column(
@@ -523,12 +613,13 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(30.h),
         Text(
           "Products",
           style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10.h),
-        GridView.builder(
+        (products?.isEmpty ?? true)  ? CustomNoDataFound(heightBox: hBox(0.h),) : GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: products?.length ?? 0,
@@ -557,4 +648,57 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
       ],
     );
   }
+
+  Widget deliveryAndCollectionsCard() {
+    return Container(
+      height: 54.h,
+      decoration: BoxDecoration(color: AppColors.ultraLightPrimary,borderRadius: BorderRadius.circular(100)),
+      child: Padding(
+        padding: REdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
+        child: Row(
+          children: [
+            Container(
+              padding: REdgeInsets.only(left: 10,right: 3),
+              height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: REdgeInsets.only(bottom: 3.0),
+                    child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+                  ),
+                  wBox(5.h),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Delivery",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyBold),),
+                      Text("30-50 mins",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyRegular),),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: REdgeInsets.only(left: 10),
+              height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+              child: Row(
+                children: [
+                  SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
+                  wBox(5.h),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
+                      Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
 }

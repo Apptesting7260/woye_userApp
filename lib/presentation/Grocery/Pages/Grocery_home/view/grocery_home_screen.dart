@@ -21,6 +21,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/ba
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/controller/grocery_home_controller.dart';
 
 import '../../../../../Shared/theme/font_family.dart';
+import '../../../../../shared/widgets/shimmer.dart';
 import '../../Grocery_categories/Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
 
 class GroceryHomeScreen extends StatefulWidget {
@@ -34,41 +35,59 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
   final GroceryHomeController groceryHomeController = Get.put(GroceryHomeController());
   final GroceryCategoriesFilterController groceryCategoriesFilterController = Get.put(GroceryCategoriesFilterController());
 
-  final GroceryDetailsController groceryDetailsController =
-      Get.put(GroceryDetailsController());
-  final GroceryNavbarController navbarController =
-      Get.put(GroceryNavbarController());
+  final GroceryDetailsController groceryDetailsController = Get.put(GroceryDetailsController());
+  final GroceryNavbarController navbarController = Get.put(GroceryNavbarController());
 
-  final Grocerycategoriesdetailscontroller grocerycategoriesdetailscontroller =
-      Get.put(Grocerycategoriesdetailscontroller());
-  final GroceryCartController groceryCartController =
-      Get.put(GroceryCartController());
+  final Grocerycategoriesdetailscontroller grocerycategoriesdetailscontroller = Get.put(Grocerycategoriesdetailscontroller());
+  final GroceryCartController groceryCartController = Get.put(GroceryCartController());
 
-  final GroceryShowAllCartController groceryShowAllCartController =
-      Get.put(GroceryShowAllCartController());
+  final GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
+
+  final ScrollController _scrollController = ScrollController();
+  final ScrollController _horScrollControllerPopularShop = ScrollController();
+  final ScrollController _scrollControllerFreeDeliveryShop = ScrollController();
 
   @override
   void initState() {
     super.initState();
     groceryCartController.getGroceryAllCartApi();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        if (groceryHomeController.noLoading.value != true) {
-          if (!groceryHomeController.isLoading.value) {
-            groceryHomeController.isLoading.value = true;
-            groceryHomeController.currentPage++;
-            print(
-                "currentPage value ${groceryHomeController.currentPage.value}");
-            groceryHomeController
-                .homeApi(groceryHomeController.currentPage.value);
-          }
+    // _scrollController.addListener(() {
+    //   if (_scrollController.position.pixels ==
+    //       _scrollController.position.maxScrollExtent) {
+    //     if (groceryHomeController.noLoading.value != true) {
+    //       if (!groceryHomeController.isLoading.value) {
+    //         groceryHomeController.isLoading.value = true;
+    //         groceryHomeController.currentPage++;
+    //         print(
+    //             "currentPage value ${groceryHomeController.currentPage.value}");
+    //         groceryHomeController
+    //             .homeApi(groceryHomeController.currentPage.value);
+    //       }
+    //     }
+    //   }
+    // });
+
+    _horScrollControllerPopularShop.addListener(() {
+      if (_horScrollControllerPopularShop.position.pixels >= _horScrollControllerPopularShop.position.maxScrollExtent - 100) {
+        if (!groceryHomeController.isLoadingPopular.value && !groceryHomeController.noMoreDataPopularLoading.value) {
+          groceryHomeController.isLoadingPopular.value = true;
+          groceryHomeController.currentPage.value++;
+          groceryHomeController.homeApi(groceryHomeController.currentPage.value);
         }
       }
     });
-  }
 
-  final ScrollController _scrollController = ScrollController();
+    _scrollControllerFreeDeliveryShop.addListener(() {
+      if (_scrollControllerFreeDeliveryShop.position.pixels >= _scrollControllerFreeDeliveryShop.position.maxScrollExtent - 100) {
+        if (!groceryHomeController.isLoadingFree.value && !groceryHomeController.noMoreDataFreeLoading.value) {
+          groceryHomeController.isLoadingFree.value = true;
+          groceryHomeController.currentPage.value++;
+          groceryHomeController.homeApi(groceryHomeController.currentPage.value);
+        }
+      }
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +122,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     HomeScreen(),
                     Expanded(
                       child: CustomScrollView(
-                        controller: _scrollController,
+                        // controller: _scrollController,
                         slivers: [
                           SliverPadding(
                             padding: REdgeInsets.symmetric(
@@ -116,15 +135,13 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                               sliver: SliverToBoxAdapter(
                                 child: Column(
                                   children: [
-                                    if (groceryHomeController
-                                        .homeData.value.banners!.isNotEmpty)
+                                    if (groceryHomeController.homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
-                                    if (groceryHomeController
-                                        .homeData.value.category!.isNotEmpty)
+                                    if (groceryHomeController.homeData.value.category!.isNotEmpty)
                                       catergories(),
-                                    if (groceryHomeController.homeData.value
-                                        .groceryShops!.data!.isNotEmpty)
+                                    if (groceryHomeController.homeData.value.groceryShops!.data!.isNotEmpty)
                                       popularShop(),
+                                      freeDeliveryShop(),
                                     hBox(100.h)
                                   ],
                                 ),
@@ -660,10 +677,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                       ),
                       hBox(15),
                       Text(
-                        groceryHomeController
-                            .homeData.value.category![index].name
-                            .toString(),
-                        style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        groceryHomeController.homeData.value.category![index].name.toString(),
+                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                     ],
                   );
@@ -678,14 +693,15 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
   }
 
   Widget popularShop() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.h),
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        hBox(5.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.h),
+          child: Row(
             children: [
               Text(
-                "Popular Shops",
+                "Most Popular Shops",
                 style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
               const Spacer(),
@@ -706,17 +722,29 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
               )
             ],
           ),
-          hBox(15.h),
-          GetBuilder<GroceryHomeController>(
+        ),
+        hBox(15.h),
+        SizedBox(
+          height: 316.h,
+          child: GetBuilder<GroceryHomeController>(
             init: groceryHomeController,
             builder: (controller) {
               return Obx(() {
                 final shops = groceryHomeController.shopsList;
                 return ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
+                  padding: REdgeInsets.only(left:22,right: 20,top: 1),
+                  controller: _horScrollControllerPopularShop,
+                  // physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: shops.length,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: shops.length + (groceryHomeController.isLoadingPopular.value ? 1:0),
                   itemBuilder: (context, index) {
+                    if (index ==  shops.length) {
+                      return Container(
+                        width: Get.width*0.78,
+                        margin: const EdgeInsets.only(bottom: 102),
+                        child: const ShimmerWidget(isRestaurantCard: true),);
+                    }
                     final pharmashopsdata = shops[index];
                     return GestureDetector(
                       onTap: () {
@@ -727,34 +755,128 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                           groceryId: pharmashopsdata.id.toString(),
                         ));
                       },
-                      child: pharmaShop(
-                        index: index,
-                        image: pharmashopsdata.shopimage,
-                        title: pharmashopsdata.shopName,
-                        rating: cleanNumber(pharmashopsdata.avgRating ?? "0"),
-                        price: pharmashopsdata.avgPrice,
+                      child: SizedBox(
+                        width: Get.width*0.78,
+                        child: pharmaShop(
+                          index: index,
+                          image: pharmashopsdata.shopimage,
+                          title: pharmashopsdata.shopName,
+                          rating: cleanNumber(pharmashopsdata.avgRating ?? "0"),
+                          price: pharmashopsdata.avgPrice,
+                        ),
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => hBox(20.h),
+                  separatorBuilder: (context, index) => wBox(15.w),
                 );
               });
             },
           ),
-          if (groceryHomeController.isLoading.value)
-            circularProgressIndicator(),
-        ],
-      ),
+        ),
+        // if (groceryHomeController.isLoading.value)
+        //   circularProgressIndicator(),
+      ],
     );
   }
+
+
+  Widget freeDeliveryShop() {
+    return Column(
+      children: [
+        hBox(30.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.h),
+          child: Row(
+            children: [
+              Text(
+                "Free Delivery Shops",
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Get.to(()=>AllGroceryShops());
+                },
+                child: Text(
+                  "See All",
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                ),
+              ),
+              wBox(4),
+              Icon(
+                Icons.arrow_forward_sharp,
+                color: AppColors.primary,
+                size: 18,
+              )
+            ],
+          ),
+        ),
+        hBox(15.h),
+        SizedBox(
+          height: 320.h,
+          child: GetBuilder<GroceryHomeController>(
+            init: groceryHomeController,
+            builder: (controller) {
+              return Obx(() {
+                final shops = groceryHomeController.freeDeliveryShopsList;
+                return ListView.separated(
+                  controller: _scrollControllerFreeDeliveryShop,
+                  padding: REdgeInsets.only(left:22,right: 20,top: 1),
+                  // physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: shops.length +  (groceryHomeController.isLoadingFree.value ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index ==  shops.length) {
+                      return Container(
+                        width: Get.width*0.78,
+                        margin: const EdgeInsets.only(bottom: 102),
+                        child: const ShimmerWidget(isRestaurantCard: true),);
+                    }
+                    final pharmashopsdata = shops[index];
+                    return GestureDetector(
+                      onTap: () {
+                        groceryDetailsController.restaurant_Details_Api(
+                          id: pharmashopsdata.id.toString(),
+                        );
+                        Get.to(GroceryVendorDetailsScreen(
+                          groceryId: pharmashopsdata.id.toString(),
+                        ));
+                      },
+                      child: SizedBox(
+                        width: Get.width*0.78,
+                        child: freeDeliveryPharmaShop(
+                          index: index,
+                          image: pharmashopsdata.shopimage,
+                          title: pharmashopsdata.shopName,
+                          rating: cleanNumber(pharmashopsdata.avgRating ?? "0"),
+                          price: pharmashopsdata.avgPrice,
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => wBox(15.w),
+                );
+              });
+            },
+          ),
+        ),
+        // if (groceryHomeController.isLoading.value)
+        //   circularProgressIndicator(),
+      ],
+    );
+  }
+
+
+
   String cleanNumber(String input) {
     double parsed = double.tryParse(input) ?? 0;
     return parsed == parsed.toInt()
         ? parsed.toInt().toString()
         : parsed.toString();
   }
-  Widget pharmaShop(
-      {index, String? image, title, type, isFavourite, rating, price}) {
+
+  Widget pharmaShop({index, String? image, title, type, isFavourite, rating, price}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -817,28 +939,323 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
           style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
+        // Row(
+        //   // crossAxisAlignment: CrossAxisAlignment.end,
+        //   children: [
+        //     Text(
+        //       price,
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+        //     ),
+        //     Text(
+        //       " • ",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //     SvgPicture.asset("assets/svg/star-yellow.svg"),
+        //     wBox(4),
+        //     Text(
+        //       "$rating/5",
+        //       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //   ],
+        // ),
+        hBox(2.h),
         Row(
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(
-              price,
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            // Text(
+            //   price,
+            //   textAlign: TextAlign.left,
+            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            // ),
+
+            SvgPicture.asset("assets/svg/star-yellow.svg",height: 15,),
+            wBox(4),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "$rating/5",
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
-            SvgPicture.asset("assets/svg/star-yellow.svg"),
-            wBox(4),
             Text(
-              "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              "Drink,Juices,Snacks",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
           ],
-        )
+        ),
+        hBox(2.h),
+        Row(
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            // Text(
+            //   price,
+            //   textAlign: TextAlign.left,
+            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            // ),
+
+            SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "30-50 mins",
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "\$5 Delivery",
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.cartIconImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "No min. order",
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
+
+
+  Widget freeDeliveryPharmaShop({index, String? image, title, type, isFavourite, rating, price}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
+                imageUrl: image.toString(),
+                fit: BoxFit.fill,
+                width: double.maxFinite,
+                height: 220.h,
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: AppColors.gray,
+                  highlightColor: AppColors.lightText,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.gray,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Container(
+            //     margin: REdgeInsets.only(top: 15, right: 15),
+            //     padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
+            //     decoration: BoxDecoration(
+            //         borderRadius: BorderRadius.circular(10.r),
+            //         color: AppColors.greyBackground),
+            //     child: isFavourite != true
+            //         ? Icon(
+            //             Icons.favorite_border_outlined,
+            //             size: 20.w,
+            //           )
+            //         : Icon(
+            //             Icons.favorite,
+            //             size: 20.w,
+            //           ),
+            //
+            //     // SvgPicture.asset(
+            //     //   "assets/svg/favorite-inactive.svg",
+            //     //   height: 15.h,
+            //     // ),
+            //   ),
+            // )
+          ],
+        ),
+        hBox(10),
+        Text(
+          title.toString().capitalize ?? "",
+          textAlign: TextAlign.left,
+          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        ),
+        // hBox(10),
+        // Row(
+        //   // crossAxisAlignment: CrossAxisAlignment.end,
+        //   children: [
+        //     Text(
+        //       price,
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+        //     ),
+        //     Text(
+        //       " • ",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //     SvgPicture.asset("assets/svg/star-yellow.svg"),
+        //     wBox(4),
+        //     Text(
+        //       "$rating/5",
+        //       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //   ],
+        // ),
+        // hBox(2.h),
+        // Row(
+        //   // crossAxisAlignment: CrossAxisAlignment.end,
+        //   children: [
+        //     // Text(
+        //     //   price,
+        //     //   textAlign: TextAlign.left,
+        //     //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+        //     // ),
+        //
+        //     SvgPicture.asset("assets/svg/star-yellow.svg",height: 15,),
+        //     wBox(4),
+        //     Padding(
+        //       padding: const EdgeInsets.only(top: 3.0),
+        //       child: Text(
+        //         "$rating/5",
+        //         style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        //       ),
+        //     ),
+        //     Text(
+        //       " • ",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //     Text(
+        //       "Drink,Juices,Snacks",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //   ],
+        // ),
+        // hBox(2.h),
+        // Row(
+        //   // crossAxisAlignment: CrossAxisAlignment.end,
+        //   children: [
+        //     // Text(
+        //     //   price,
+        //     //   textAlign: TextAlign.left,
+        //     //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+        //     // ),
+        //
+        //     SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+        //     wBox(3.w),
+        //     Padding(
+        //       padding: const EdgeInsets.only(top: 3.0),
+        //       child: Text(
+        //         "30-50 mins",
+        //         style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        //       ),
+        //     ),
+        //     Text(
+        //       " • ",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //     SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+        //     wBox(3.w),
+        //     Padding(
+        //       padding: const EdgeInsets.only(top: 3.0),
+        //       child: Text(
+        //         "\$5 Delivery",
+        //         style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        //       ),
+        //     ),
+        //     Text(
+        //       " • ",
+        //       textAlign: TextAlign.left,
+        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //     ),
+        //     SvgPicture.asset(ImageConstants.cartIconImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+        //     wBox(3.w),
+        //     Padding(
+        //       padding: const EdgeInsets.only(top: 3.0),
+        //       child: Text(
+        //         "No min. order",
+        //         style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        hBox(2.h),
+        Row(
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            SvgPicture.asset("assets/svg/star-yellow.svg",height: 15,),
+            wBox(4),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "$rating/5",
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Text(
+              " • ",
+              textAlign: TextAlign.left,
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            ),
+            SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+            wBox(3.w),
+            Padding(
+              padding: const EdgeInsets.only(top: 3.0),
+              child: Text(
+                "30-50 mins",
+                style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+          ],
+        ),
+        hBox(4.h),
+        Container(
+          padding: REdgeInsets.symmetric(horizontal: 7,vertical: 6),
+          // height: 20,
+          decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(6.r)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+              wBox(5.w),
+              Text(
+                "Free Delivery",
+                style: AppFontStyle.text_13_400(AppColors.white,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),),
+      ],
+    );
+  }
+
 }

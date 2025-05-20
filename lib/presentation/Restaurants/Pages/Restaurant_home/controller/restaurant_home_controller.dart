@@ -99,6 +99,9 @@ class RestaurantHomeController extends GetxController {
         // restaurantSet(value,/*restaurantType*/);
         if(homeData.value.freedelResto!.data!.isNotEmpty){
           freeDeliveryRestaurantList.addAll(homeData.value.freedelResto?.data ?? []);
+          if (freeDeliveryRestaurantList.length >= (value.freedelResto?.total ?? 0)) {
+            noMoreDataFree.value = true;
+          }
         }
         if(homeData.value.popularResto!.data!.isNotEmpty){
           popularRestaurantList.addAll(homeData.value.popularResto?.data ?? []);

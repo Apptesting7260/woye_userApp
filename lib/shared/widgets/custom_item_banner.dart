@@ -8,6 +8,7 @@ import '../../Core/Utils/image_cache_height.dart';
 import 'CircularProgressIndicator.dart';
 
 class CustomItemBanner extends StatelessWidget {
+  // String? restaurantId;
   int? index;
   final String? image;
   final double? imageHeight;
@@ -25,6 +26,7 @@ class CustomItemBanner extends StatelessWidget {
 
   CustomItemBanner(
       {super.key,
+      // this.restaurantId,
       this.index,
       this.image,
       this.imageHeight,
@@ -92,8 +94,8 @@ class CustomItemBanner extends StatelessWidget {
                   onTap: () async {
                     is_in_wishlist = !is_in_wishlist!;
                     isLoading?.value = true;
-                    await add_Wishlist_Controller
-                        .restaurant_add_product_wishlist(
+                    await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                      // restaurantId: restaurantId.toString(),
                       categoryId: categoryId.toString(),
                       product_id: product_id.toString(),
                     );

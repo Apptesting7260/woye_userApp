@@ -425,9 +425,10 @@ class Highlights {
   String? categoryId;
   String? isWishlist;
   List<String>? urlAddimg;
+  String? restoName;
   String? urlImage;
   // List<Null>? addOnWithNames;
-  RestaurantHigh? restaurantHigh;
+  // RestaurantHigh? restaurantHigh;
   Category? category;
   RxBool isInWishlist =  false.obs;
   RxBool isLoading = false.obs;
@@ -445,9 +446,10 @@ class Highlights {
         this.categoryId,
         this.isWishlist,
         this.urlAddimg,
+        this.restoName,
         this.urlImage,
         // this.addOnWithNames,
-        this.restaurantHigh,
+        // this.restaurantHigh,
         this.category,
         // this.productreview,
       });
@@ -468,6 +470,7 @@ class Highlights {
     }else{
       urlAddimg = [];
     }
+    restoName = json['resto_name']?.toString();
     urlImage = json['url_image']?.toString();
     // if (json['add_on_with_names'] != null) {
     //   addOnWithNames = <Null>[];
@@ -475,9 +478,9 @@ class Highlights {
     //     addOnWithNames!.add(new Null.fromJson(v));
     //   });
     // }
-    restaurantHigh = json['restaurant'] != null
-        ? RestaurantHigh.fromJson(json['restaurant'])
-        : null;
+    // restaurantHigh = json['restaurant'] != null
+    //     ? RestaurantHigh.fromJson(json['restaurant'])
+    //     : null;
     category = json['category'] != null
         ? Category.fromJson(json['category'])
         : null;
@@ -502,14 +505,15 @@ class Highlights {
     data['category_id'] = categoryId;
     data['is_in_wishlist'] = isWishlist;
     data['url_addimg'] = urlAddimg;
+    data['resto_name'] = restoName;
     data['url_image'] = urlImage;
     // if (this.addOnWithNames != null) {
     //   data['add_on_with_names'] =
     //       this.addOnWithNames!.map((v) => v.toJson()).toList();
     // }
-    if (restaurantHigh != null) {
-      data['restaurant'] = restaurantHigh!.toJson();
-    }
+    // if (restaurantHigh != null) {
+    //   data['restaurant'] = restaurantHigh!.toJson();
+    // }
     if (category != null) {
       data['category'] = category!.toJson();
     }
@@ -520,154 +524,154 @@ class Highlights {
     return data;
   }
 }
-class RestaurantHigh {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? name;
-  String? email;
-  String? image;
-  String? dob;
-  String? gender;
-  String? rating;
-  String? emailVerify;
-  String? avgPrice;
-  String? currentStatus;
-  String? phoneCode;
-  String? phone;
-  String? step;
-  String? deviceToken;
-  String? imageUrl;
-  String? shopName;
-  String? shopEmail;
-  String? shopimage;
-  String? shopAddress;
-  String? latitude;
-  String? longitude;
-  String? shopDes;
-  OpeningHours? openingHours;
-  List<int>? categoryId;
-  String? role;
-  String? status;
-  String? delivery;
-  String? addedBy;
-  String? createdAt;
-  String? updatedAt;
-
-  RestaurantHigh(
-      {this.id,
-        this.firstName,
-        this.lastName,
-        this.name,
-        this.email,
-        this.image,
-        this.dob,
-        this.gender,
-        this.rating,
-        this.emailVerify,
-        this.avgPrice,
-        this.currentStatus,
-        this.phoneCode,
-        this.phone,
-        this.step,
-        this.deviceToken,
-        this.imageUrl,
-        this.shopName,
-        this.shopEmail,
-        this.shopimage,
-        this.shopAddress,
-        this.latitude,
-        this.longitude,
-        this.shopDes,
-        this.openingHours,
-        this.categoryId,
-        this.role,
-        this.status,
-        this.delivery,
-        this.addedBy,
-        this.createdAt,
-        this.updatedAt});
-
-  RestaurantHigh.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstName = json['first_name']?.toString();
-    lastName = json['last_name']?.toString();
-    name = json['name']?.toString();
-    email = json['email']?.toString();
-    image = json['image']?.toString();
-    dob = json['dob']?.toString();
-    gender = json['gender']?.toString();
-    rating = json['rating']?.toString();
-    emailVerify = json['email_verify']?.toString();
-    avgPrice = json['avg_price']?.toString();
-    currentStatus = json['current_status']?.toString();
-    phoneCode = json['phone_code']?.toString();
-    phone = json['phone']?.toString();
-    step = json['step']?.toString();
-    deviceToken = json['device_token']?.toString();
-    imageUrl = json['image_url']?.toString();
-    shopName = json['shop_name']?.toString();
-    shopEmail = json['shop_email']?.toString();
-    shopimage = json['shopimage']?.toString();
-    shopAddress = json['shop_address']?.toString();
-    latitude = json['latitude']?.toString();
-    longitude = json['longitude']?.toString();
-    shopDes = json['shop_des']?.toString();
-    openingHours = json['opening_hours'] != null
-        ? OpeningHours.fromJson(json['opening_hours'])
-        : null;
-    if(json['category_id'] != null){
-      categoryId = json['category_id'].cast<int>();
-    }else{
-      categoryId = [];
-    }
-    role = json['role']?.toString();
-    status = json['status']?.toString();
-    delivery = json['delivery']?.toString();
-    addedBy = json['added_by']?.toString();
-    createdAt = json['created_at']?.toString();
-    updatedAt = json['updated_at']?.toString();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['first_name'] = firstName;
-    data['last_name'] = lastName;
-    data['name'] = name;
-    data['email'] = email;
-    data['image'] = image;
-    data['dob'] = dob;
-    data['gender'] = gender;
-    data['rating'] = rating;
-    data['email_verify'] = emailVerify;
-    data['avg_price'] = avgPrice;
-    data['current_status'] = currentStatus;
-    data['phone_code'] = phoneCode;
-    data['phone'] = phone;
-    data['step'] = step;
-    data['device_token'] = deviceToken;
-    data['image_url'] = imageUrl;
-    data['shop_name'] = shopName;
-    data['shop_email'] = shopEmail;
-    data['shopimage'] = shopimage;
-    data['shop_address'] = shopAddress;
-    data['latitude'] = latitude;
-    data['longitude'] = longitude;
-    data['shop_des'] = shopDes;
-    if (openingHours != null) {
-      data['opening_hours'] = openingHours!.toJson();
-    }
-    data['category_id'] = categoryId;
-    data['role'] = role;
-    data['status'] = status;
-    data['delivery'] = delivery;
-    data['added_by'] = addedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    return data;
-  }
-}
+// class RestaurantHigh {
+//   int? id;
+//   String? firstName;
+//   String? lastName;
+//   String? name;
+//   String? email;
+//   String? image;
+//   String? dob;
+//   String? gender;
+//   String? rating;
+//   String? emailVerify;
+//   String? avgPrice;
+//   String? currentStatus;
+//   String? phoneCode;
+//   String? phone;
+//   String? step;
+//   String? deviceToken;
+//   String? imageUrl;
+//   String? shopName;
+//   String? shopEmail;
+//   String? shopimage;
+//   String? shopAddress;
+//   String? latitude;
+//   String? longitude;
+//   String? shopDes;
+//   OpeningHours? openingHours;
+//   List<int>? categoryId;
+//   String? role;
+//   String? status;
+//   String? delivery;
+//   String? addedBy;
+//   String? createdAt;
+//   String? updatedAt;
+//
+//   RestaurantHigh(
+//       {this.id,
+//         this.firstName,
+//         this.lastName,
+//         this.name,
+//         this.email,
+//         this.image,
+//         this.dob,
+//         this.gender,
+//         this.rating,
+//         this.emailVerify,
+//         this.avgPrice,
+//         this.currentStatus,
+//         this.phoneCode,
+//         this.phone,
+//         this.step,
+//         this.deviceToken,
+//         this.imageUrl,
+//         this.shopName,
+//         this.shopEmail,
+//         this.shopimage,
+//         this.shopAddress,
+//         this.latitude,
+//         this.longitude,
+//         this.shopDes,
+//         this.openingHours,
+//         this.categoryId,
+//         this.role,
+//         this.status,
+//         this.delivery,
+//         this.addedBy,
+//         this.createdAt,
+//         this.updatedAt});
+//
+//   RestaurantHigh.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     firstName = json['first_name']?.toString();
+//     lastName = json['last_name']?.toString();
+//     name = json['name']?.toString();
+//     email = json['email']?.toString();
+//     image = json['image']?.toString();
+//     dob = json['dob']?.toString();
+//     gender = json['gender']?.toString();
+//     rating = json['rating']?.toString();
+//     emailVerify = json['email_verify']?.toString();
+//     avgPrice = json['avg_price']?.toString();
+//     currentStatus = json['current_status']?.toString();
+//     phoneCode = json['phone_code']?.toString();
+//     phone = json['phone']?.toString();
+//     step = json['step']?.toString();
+//     deviceToken = json['device_token']?.toString();
+//     imageUrl = json['image_url']?.toString();
+//     shopName = json['shop_name']?.toString();
+//     shopEmail = json['shop_email']?.toString();
+//     shopimage = json['shopimage']?.toString();
+//     shopAddress = json['shop_address']?.toString();
+//     latitude = json['latitude']?.toString();
+//     longitude = json['longitude']?.toString();
+//     shopDes = json['shop_des']?.toString();
+//     openingHours = json['opening_hours'] != null
+//         ? OpeningHours.fromJson(json['opening_hours'])
+//         : null;
+//     if(json['category_id'] != null){
+//       categoryId = json['category_id'].cast<int>();
+//     }else{
+//       categoryId = [];
+//     }
+//     role = json['role']?.toString();
+//     status = json['status']?.toString();
+//     delivery = json['delivery']?.toString();
+//     addedBy = json['added_by']?.toString();
+//     createdAt = json['created_at']?.toString();
+//     updatedAt = json['updated_at']?.toString();
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['id'] = id;
+//     data['first_name'] = firstName;
+//     data['last_name'] = lastName;
+//     data['name'] = name;
+//     data['email'] = email;
+//     data['image'] = image;
+//     data['dob'] = dob;
+//     data['gender'] = gender;
+//     data['rating'] = rating;
+//     data['email_verify'] = emailVerify;
+//     data['avg_price'] = avgPrice;
+//     data['current_status'] = currentStatus;
+//     data['phone_code'] = phoneCode;
+//     data['phone'] = phone;
+//     data['step'] = step;
+//     data['device_token'] = deviceToken;
+//     data['image_url'] = imageUrl;
+//     data['shop_name'] = shopName;
+//     data['shop_email'] = shopEmail;
+//     data['shopimage'] = shopimage;
+//     data['shop_address'] = shopAddress;
+//     data['latitude'] = latitude;
+//     data['longitude'] = longitude;
+//     data['shop_des'] = shopDes;
+//     if (openingHours != null) {
+//       data['opening_hours'] = openingHours!.toJson();
+//     }
+//     data['category_id'] = categoryId;
+//     data['role'] = role;
+//     data['status'] = status;
+//     data['delivery'] = delivery;
+//     data['added_by'] = addedBy;
+//     data['created_at'] = createdAt;
+//     data['updated_at'] = updatedAt;
+//     return data;
+//   }
+// }
 class Category {
   int? id;
   String? name;
@@ -1092,14 +1096,14 @@ class Category {
 
 
 class Categories {
-  Map<String, List<Pizza>> data = {};
+  Map<String, List<AllProducts>> data = {};
 
   Categories();
 
   Categories.fromJson(Map<String, dynamic> json) {
     json.forEach((key, value) {
       if (value is List) {
-        data[key] = value.map((item) => Pizza.fromJson(item)).toList();
+        data[key] = value.map((item) => AllProducts.fromJson(item)).toList();
       }
     });
   }
@@ -1113,7 +1117,7 @@ class Categories {
   }
 }
 
-class Pizza {
+class AllProducts {
   int? id;
   String? image;
   int? rating;
@@ -1134,7 +1138,7 @@ class Pizza {
   // List<Null>? addOnWithNames;
   // List<Null>? productreview;
 
-  Pizza(
+  AllProducts(
       {this.id,
         this.image,
         this.rating,
@@ -1154,7 +1158,7 @@ class Pizza {
         // this.productreview,
       });
 
-  Pizza.fromJson(Map<String, dynamic> json) {
+  AllProducts.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     image = json['image'];
     rating = json['rating'];

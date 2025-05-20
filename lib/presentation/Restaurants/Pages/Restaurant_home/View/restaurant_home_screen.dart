@@ -1002,7 +1002,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       },
                       child: SizedBox(
                         width: Get.width*0.78,
-                        child: popularRestaurantList(
+                        child: freeDeliveryRestaurantList(
                           index: index,
                           image: restaurant.shopImageUrl,
                           title: restaurant.shopName?.capitalize!,
