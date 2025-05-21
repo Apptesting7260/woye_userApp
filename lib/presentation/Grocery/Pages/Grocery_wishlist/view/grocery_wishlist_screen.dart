@@ -12,6 +12,8 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_produc
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
+import '../../../../../Shared/theme/font_family.dart';
+
 class GroceryWishlistScreen extends StatefulWidget {
   const GroceryWishlistScreen({super.key});
 
@@ -41,7 +43,7 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
         isActions: true,
         title: Text(
           "Wishlist",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -85,13 +87,13 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                           hBox(10.h),
                           Text(
                             "Your wishlist is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                                AppFontStyle.text_16_400(AppColors.mediumText),
+                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
                           ),
                         ],
                       )
@@ -133,34 +135,6 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                   var product =
                                       controller.filteredWishlistData[index];
                                   return GestureDetector(
-                                      // onTap: () {
-                                      //   pharmaSpecificProductController
-                                      //       .pharmaSpecificProductApi(
-                                      //       productId:
-                                      //       product.id.toString(),
-                                      //       categoryId: product.categoryId
-                                      //           .toString());
-                                      //   print(
-                                      //       "category_id ${product.id.toString()}");
-                                      //   print(
-                                      //       "category_id ${product.categoryId.toString()}");
-                                      //   print(
-                                      //       "category_id ${product.categoryName.toString()}");
-                                      //   // Get.to(PharmacyProductDetailsScreen(
-                                      //   //   productId: product.id.toString(),
-                                      //   //   categoryId:
-                                      //   //       product.categoryId.toString(),
-                                      //   //   categoryName:
-                                      //   //       product.categoryName.toString(),
-                                      //   // ));
-                                      //
-                                      //   Get.to(() => PharmacyProductDetailsScreen(  productId: product.id.toString(),
-                                      //     categoryId:
-                                      //     product.categoryId.toString(),
-                                      //     categoryName:
-                                      //     product.categoryName.toString(),));
-                                      //
-                                      // },
                                     onTap: () {
                                       grocerySpecificProductController.pharmaSpecificProductApi(
                                             productId:product.id.toString(),
@@ -264,15 +238,15 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                                   "\$${product.salePrice}",
                                                   textAlign: TextAlign.left,
                                                   style:
-                                                      AppFontStyle.text_16_600(
-                                                          AppColors.primary),
+                                                      AppFontStyle.text_15_600(
+                                                          AppColors.primary,family: AppFontFamily.gilroyRegular),
                                                 )
                                               : Text(
                                                   "\$${product.regularPrice}",
                                                   textAlign: TextAlign.left,
                                                   style:
-                                                      AppFontStyle.text_16_600(
-                                                          AppColors.primary),
+                                                      AppFontStyle.text_15_600(
+                                                          AppColors.primary,family: AppFontFamily.gilroyRegular),
                                                 ),
                                           wBox(5.h),
                                           if (product.salePrice != null)
@@ -285,10 +259,9 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.w300,
                                                   color: AppColors.lightText,
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                  decorationColor:
-                                                      AppColors.lightText),
+                                                  decoration: TextDecoration.lineThrough,
+                                                  decorationColor:AppColors.lightText,
+                                                  fontFamily: AppFontFamily.gilroyMedium),
 
                                               //  AppFontStyle.text_14_300(AppColors.lightText),
                                             ),
@@ -298,18 +271,18 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                         product.title.toString(),
                                         textAlign: TextAlign.left,
                                         style: AppFontStyle.text_16_400(
-                                            AppColors.darkText),
+                                            AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                       ),
                                       Row(
                                         children: [
                                           SvgPicture.asset(
                                               "assets/svg/star-yellow.svg"),
-                                          // wBox(4),
-                                          // Text(
-                                          //   "${product.rating.toString()}/5",
-                                          //   style: AppFontStyle.text_14_300(
-                                          //       AppColors.lightText),
-                                          // ),
+                                          wBox(4),
+                                          Text(
+                                            "${product.rating ?? 0}/5",
+                                            style: AppFontStyle.text_14_300(
+                                                AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                          ),
                                           wBox(4),
                                           // Text(
                                           //   controller

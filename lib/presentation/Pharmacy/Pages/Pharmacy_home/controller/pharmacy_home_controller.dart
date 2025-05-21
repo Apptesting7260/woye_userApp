@@ -35,8 +35,10 @@ class PharmacyHomeController extends GetxController {
 
   void homeSet(PharamacyHomeModal value) => homeData.value = value;
 
-  RxList<PharmaShops> shopsList = <PharmaShops>[].obs;
-  RxList<PharmaShops> freeDeliveryShopsList = <PharmaShops>[].obs;
+  RxList<Data> allPharmaShopsList = <Data>[].obs;
+  RxList<Data> freeDeliveryShopsList = <Data>[].obs;
+  RxList<Data> nearByShopsList = <Data>[].obs;
+  RxList<Data> popularShopsList = <Data>[].obs;
 
   // void pharmaShopSet(PharamacyHomeModal value) {
   //   if (value.pharmaShops?.data != null) {
@@ -60,16 +62,30 @@ class PharmacyHomeController extends GetxController {
       homeSet(value);
 
       if(homeData.value.pharmaShops!.data!.isNotEmpty){
-        shopsList.addAll(homeData.value.pharmaShops?.data ?? []);
-        if (shopsList.length >= (value.pharmaShops?.total ?? 0)) {
+        allPharmaShopsList.addAll(homeData.value.pharmaShops?.data ?? []);
+        if (allPharmaShopsList.length >= (int.parse(value.pharmaShops?.total ?? 0) )) {
+          noMoreDataPharmacyLoading.value = true;
+        }
+      }
+
+      if(homeData.value.freedelPharma!.data!.isNotEmpty){
+        freeDeliveryShopsList.addAll(homeData.value.freedelPharma?.data ?? []);
+        if (freeDeliveryShopsList.length >= (int.parse(value.freedelPharma?.total ?? 0))) {
+          noMoreDataFreeLoading.value = true;
+        }
+      }
+
+      if(homeData.value.popularPharma!.data!.isNotEmpty){
+        popularShopsList.addAll(homeData.value.popularPharma?.data ?? []);
+        if (popularShopsList.length >= (int.parse(value.popularPharma?.total ?? 0))) {
           noMoreDataPopularLoading.value = true;
         }
       }
 
-      if(homeData.value.pharmaShops!.data!.isNotEmpty){
-        freeDeliveryShopsList.addAll(homeData.value.pharmaShops?.data ?? []);
-        if (freeDeliveryShopsList.length >= (value.pharmaShops?.total ?? 0)) {
-          noMoreDataFreeLoading.value = true;
+      if(homeData.value.nearbyPharma!.data!.isNotEmpty){
+        nearByShopsList.addAll(homeData.value.nearbyPharma?.data ?? []);
+        if (nearByShopsList.length >= (int.parse(value.nearbyPharma?.total ?? 0))) {
+          noMoreDataNearbyLoading.value = true;
         }
       }
 
@@ -77,7 +93,7 @@ class PharmacyHomeController extends GetxController {
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
+      print('errrrrrrrrrrrr Home pharma');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
@@ -85,8 +101,10 @@ class PharmacyHomeController extends GetxController {
   }
 
   homeApiRefresh(int page) async {
-    shopsList.clear();
+    allPharmaShopsList.clear();
     freeDeliveryShopsList.clear();
+    nearByShopsList.clear();
+    popularShopsList.clear();
     currentPage.value = 1;
     isLoadingPharmacy.value = false;
     noMoreDataPharmacyLoading.value = false;
@@ -109,16 +127,30 @@ class PharmacyHomeController extends GetxController {
       homeSet(value);
       // pharmaShopSet(value);
       if(homeData.value.pharmaShops!.data!.isNotEmpty){
-        shopsList.addAll(homeData.value.pharmaShops?.data ?? []);
-        if (shopsList.length >= (value.pharmaShops?.total ?? 0)) {
+        allPharmaShopsList.addAll(homeData.value.pharmaShops?.data ?? []);
+        if (allPharmaShopsList.length >= (int.parse(value.pharmaShops?.total ?? 0) )) {
+          noMoreDataPharmacyLoading.value = true;
+        }
+      }
+
+      if(homeData.value.freedelPharma!.data!.isNotEmpty){
+        freeDeliveryShopsList.addAll(homeData.value.freedelPharma?.data ?? []);
+        if (freeDeliveryShopsList.length >= (int.parse(value.freedelPharma?.total ?? 0))) {
+          noMoreDataFreeLoading.value = true;
+        }
+      }
+
+      if(homeData.value.popularPharma!.data!.isNotEmpty){
+        popularShopsList.addAll(homeData.value.popularPharma?.data ?? []);
+        if (popularShopsList.length >= (int.parse(value.popularPharma?.total ?? 0))) {
           noMoreDataPopularLoading.value = true;
         }
       }
 
-      if(homeData.value.pharmaShops!.data!.isNotEmpty){
-        freeDeliveryShopsList.addAll(homeData.value.pharmaShops?.data ?? []);
-        if (freeDeliveryShopsList.length >= (value.pharmaShops?.total ?? 0)) {
-          noMoreDataFreeLoading.value = true;
+      if(homeData.value.nearbyPharma!.data!.isNotEmpty){
+        nearByShopsList.addAll(homeData.value.nearbyPharma?.data ?? []);
+        if (nearByShopsList.length >= (int.parse(value.nearbyPharma?.total ?? 0))) {
+          noMoreDataNearbyLoading.value = true;
         }
       }
 

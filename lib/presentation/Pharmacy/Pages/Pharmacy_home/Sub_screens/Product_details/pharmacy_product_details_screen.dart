@@ -130,7 +130,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 await addPharmaProductWishlistController
                     .pharmacy_add_product_wishlist(
                   // pharmacyId: pharmacyId.toString(),
-                  isRefresh: true,
+                  isRefresh:fromCart != null && fromCart == true ? true : false,
                   categoryId: categoryId,
                   product_id:  controller.productData.value.product?.id.toString() ?? productId.toString(),
                 )

@@ -20,6 +20,7 @@ class CustomBanner extends StatelessWidget {
   final String? title;
   bool? is_in_wishlist;
   final String? shop_name;
+  // final String? pharmaId;
 
   // final String? rating;
   final String? categoryId;
@@ -62,7 +63,8 @@ class CustomBanner extends StatelessWidget {
       onTap: () {
         pharmaSpecificProductController.pharmaSpecificProductApi(
             productId: product_id.toString(),
-            categoryId: categoryId.toString());
+            categoryId: categoryId.toString(),
+        );
         print("category_id ${categoryId}");
         print("category_id ${product_id}");
         print("category_id ${categoryName}");
@@ -75,7 +77,7 @@ class CustomBanner extends StatelessWidget {
         Get.to(() => PharmacyProductDetailsScreen(  productId: product_id.toString(),
           categoryId: categoryId.toString(),
           categoryName: categoryName.toString(),));
-        pharmaSpecificProductController.cartCount.value = 1;
+
 
       },
       child: Column(
@@ -123,8 +125,7 @@ class CustomBanner extends StatelessWidget {
                     onTap: () async {
                       is_in_wishlist = !is_in_wishlist!;
                       isLoading?.value = true;
-                      await addPharmaProductWishlistController
-                          .pharmacy_add_product_wishlist(
+                      await addPharmaProductWishlistController.pharmacy_add_product_wishlist(
                         isRefresh: false,
                         categoryId: categoryId.toString(),
                         product_id: product_id.toString(),

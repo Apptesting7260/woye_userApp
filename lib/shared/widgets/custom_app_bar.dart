@@ -2,7 +2,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
-  final Text? title;
+  final Widget? title;
   final List<Widget>? actions;
   final bool isLeading;
   final double? leadingWidth;

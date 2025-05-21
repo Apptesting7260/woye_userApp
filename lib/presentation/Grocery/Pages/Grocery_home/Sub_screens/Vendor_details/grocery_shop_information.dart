@@ -237,7 +237,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                                        mainAxisAlignment: MainAxisAlignment.start,
                                        children: [
                                          Text(
-                                           controller.pharma_Data.value.review?[index].user?.firstName.toString() ?? "",
+                                           controller.pharma_Data.value.review?[index].user?.firstName.toString() ?? "Unknown User",
                                            style: AppFontStyle.text_16_400(
                                                AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                          ),

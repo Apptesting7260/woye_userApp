@@ -29,6 +29,7 @@ class GrocerySpecificProductController extends GetxController {
     required String productId,
     required String categoryId,
   }) async {
+    cartCount.value = 1;
     setRxRequestStatus(Status.LOADING);
     Map data = {
       "product_id": productId,

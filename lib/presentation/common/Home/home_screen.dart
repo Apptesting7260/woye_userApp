@@ -307,7 +307,7 @@ class MainButtonBar extends StatelessWidget {
           wBox(6),
           Text(
             title,
-            style: AppFontStyle.text_12_400(titleColor,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_12_500(titleColor,family: AppFontFamily.gilroyMedium),
           )
         ],
       ),

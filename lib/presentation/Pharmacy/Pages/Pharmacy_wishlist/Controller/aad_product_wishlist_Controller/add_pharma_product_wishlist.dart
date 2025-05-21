@@ -19,8 +19,7 @@ class AddPharmaProductWishlistController extends GetxController {
 
   void setError(String value) => error.value = value;
 
-  final PharmacyWishlistController pharmacyWishlistController =
-      Get.put(PharmacyWishlistController());
+  final PharmacyWishlistController pharmacyWishlistController = Get.put(PharmacyWishlistController());
   final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController = Get.put(PharmacyCategoriesDetailsController());
   final PharmacyDetailsController pharmacyDetailsController = Get.put(PharmacyDetailsController());
 
@@ -43,7 +42,9 @@ class AddPharmaProductWishlistController extends GetxController {
           pharmacyCategoriesDetailsController.refresh_pharmacy_Categories_Details_Api(id: categoryId.toString());
       }
         pharmacyWishlistController.pharmacy_product_wishlist_api();
-
+        if(isRefresh == true && pharmacyId != null) {
+          pharmacyDetailsController.refresh_restaurant_Details_Api(id: pharmacyId.toString());
+        }
         Utils.showToast(add_Wishlist.value.message.toString());
       } else {
         Utils.showToast(add_Wishlist.value.message.toString());

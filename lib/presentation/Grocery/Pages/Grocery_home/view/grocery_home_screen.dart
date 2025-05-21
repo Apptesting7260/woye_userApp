@@ -264,14 +264,14 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                             children: [
                                               Text(
                                                 "View Cart",
-                                                style: AppFontStyle.text_14_400(
-                                                    AppColors.white),
+                                                style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                               ),
                                               Text(
                                                 "items",
                                                 style: AppFontStyle.text_10_400(
+                                                  family: AppFontFamily.gilroyMedium,
                                                     AppColors.white
                                                         .withOpacity(.5)),
                                                 overflow: TextOverflow.ellipsis,
@@ -308,7 +308,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                         Text(
                                           "Carts",
                                           style: AppFontStyle.text_12_600(
-                                              AppColors.primary),
+                                              AppColors.primary,family:AppFontFamily.gilroyRegular),
                                         ),
                                         Icon(
                                           Icons.arrow_drop_up,
@@ -346,7 +346,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   children: [
                     Text(
                       "Your Carts(${groceryShowAllCartController.cartData.value.carts!.length})",
-                      style: AppFontStyle.text_20_600(AppColors.darkText),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                     ),
                     const Spacer(),
                     InkWell(
@@ -360,7 +360,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         children: [
                           Text(
                             "Checkout all",
-                            style: AppFontStyle.text_14_600(AppColors.primary),
+                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                           ),
                           wBox(4),
                           Icon(
@@ -422,7 +422,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                   carts.grocery!.shopName.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_14_500(
-                                      AppColors.darkText),
+                                      AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                 ),
                                 // Text(
                                 //   carts.vendorAddress.toString(),
@@ -453,14 +453,14 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                   Text(
                                     "View Cart",
                                     style: AppFontStyle.text_14_400(
-                                        AppColors.white),
+                                        AppColors.white,family: AppFontFamily.gilroyMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
                                     "items",
                                     style: AppFontStyle.text_10_400(
-                                        AppColors.white.withOpacity(.5)),
+                                        AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -748,12 +748,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     final pharmashopsdata = shops[index];
                     return GestureDetector(
                       onTap: () {
-                        groceryDetailsController.restaurant_Details_Api(
-                          id: pharmashopsdata.id.toString(),
-                        );
-                        Get.to(GroceryVendorDetailsScreen(
-                          groceryId: pharmashopsdata.id.toString(),
-                        ));
+                        groceryDetailsController.restaurant_Details_Api(id: pharmashopsdata.id.toString());
+                        Get.to(GroceryVendorDetailsScreen(groceryId: pharmashopsdata.id.toString()));
                       },
                       child: SizedBox(
                         width: Get.width*0.78,

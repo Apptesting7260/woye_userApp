@@ -127,12 +127,18 @@ class ProductReviews extends StatelessWidget {
                       children: [
                         Flexible(
                           flex: 1,
-                          child: ClipRRect(
+                          child:controller.seeAllReview.value.reviewAll?[index].user?.imageUrl == null ? Container(
+                            height: 50.h,
+                            width: 50.h,
+                            decoration: BoxDecoration(shape: BoxShape.circle,color: AppColors.gray.withOpacity(.2),),
+                            child: Icon(
+                              Icons.person,
+                              color: AppColors.gray,
+                            ),
+                          ): ClipRRect(
                             borderRadius: BorderRadius.circular(50.r),
                             child: CachedNetworkImage(
-                              imageUrl: controller.seeAllReview.value
-                                  .reviewAll![index].user?.imageUrl
-                                  .toString() ?? '',
+                              imageUrl: controller.seeAllReview.value.reviewAll![index].user!.imageUrl.toString(),
                               fit: BoxFit.cover,
                               height: 50.h,
                               width: 50.h,
@@ -156,7 +162,7 @@ class ProductReviews extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                            ),
+                            )
                           ),
                         ),
                         wBox(15),
@@ -177,7 +183,7 @@ class ProductReviews extends StatelessWidget {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        controller.seeAllReview.value.reviewAll![index].user?.firstName.toString() ?? "",
+                                        controller.seeAllReview.value.reviewAll?[index].user?.firstName.toString() ?? "Unknown User",
                                         style: AppFontStyle.text_16_400(
                                           AppColors.darkText,family: AppFontFamily.gilroyMedium
                                         ),

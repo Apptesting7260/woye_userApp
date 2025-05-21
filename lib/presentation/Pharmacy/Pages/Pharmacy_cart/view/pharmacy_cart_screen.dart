@@ -93,7 +93,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
             case Status.LOADING:
               return Center(child: circularProgressIndicator());
             case Status.ERROR:
-              if (controller.error.value == 'No internet') {
+              if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
                 return InternetExceptionWidget(
                   onPress: () {
                     controller.getAllCartProductsForCheckout();
@@ -131,8 +131,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
-                            style:
-                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
+                            style:AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
                           ),
                         ],
                       )

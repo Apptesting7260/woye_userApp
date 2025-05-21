@@ -6,6 +6,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/main.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
@@ -53,9 +54,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
     return Scaffold(
         appBar: CustomAppBar(
           isLeading: true,
+          title: deliveryAndCollectionsCard(),
           actions: [
-            deliveryAndCollectionsCard(),
-            wBox(5.w),
+            // deliveryAndCollectionsCard(),
+            // wBox(5.w),
             // const Spacer(),
             GestureDetector(
               onTap: () {
@@ -150,9 +152,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           if(controller.restaurant_Data.value.highlights?.isEmpty ?? true)...[
                             hBox(20.h),
                           ],
-                          if((controller.restaurant_Data.value.categories?.data.isNotEmpty ?? false) && controller.categoriesIndex.value != 0)...[
-                            categoriesProducts(context,widget.Restaurantid),
-                          ],
+                            if((controller.restaurant_Data.value.categories?.data.isNotEmpty ?? false) && controller.categoriesIndex.value != 0)...[
+                              categoriesProducts(context,widget.Restaurantid),
+                            ],
                           if( /*(controller.restaurant_Data.value.moreProducts?.isNotEmpty ?? false) && */controller.categoriesIndex.value == 0)...[
                             moreProducts(context,widget.Restaurantid),
                           ],
@@ -197,8 +199,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     productId: controller.restaurant_Data.value.highlights![index].id.toString(),
                     categoryId: controller.restaurant_Data.value.highlights![index].categoryId.toString(),
                   );
-                  Get.to(ProductDetailsScreen(
-                    restaurantId: restaurantId.toString(),
+                  Get.to(PharmacyProductDetailsScreen(
                     productId: controller.restaurant_Data.value.highlights![index].id.toString(),
                     categoryId: controller.restaurant_Data.value.highlights![index].categoryId.toString(),
                     categoryName: controller.restaurant_Data.value.highlights![index].category?.name.toString() ?? "",
@@ -334,56 +335,61 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
     );
   }
 
-  Container deliveryAndCollectionsCard() {
-    return Container(
-            height: 54.h,
-            decoration: BoxDecoration(color: AppColors.ultraLightPrimary,borderRadius: BorderRadius.circular(100)),
-              child: Padding(
-                padding: REdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
-                child: Row(
-                children: [
-                    Container(
-                      padding: REdgeInsets.only(left: 10,right: 3),
-                      height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: REdgeInsets.only(bottom: 3.0),
-                          child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
-                        ),
-                        wBox(5.h),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Delivery",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyBold),),
-                            Text("30-50 mins",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyRegular),),
-                          ],
-                        ),
-                      ],
-                    ),
-                    ),
-                  Container(
-                    padding: REdgeInsets.only(left: 10),
-                    height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
-                        wBox(5.h),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
-                            Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
-                          ],
-                        ),
-                      ],
-                    ),
+  Widget deliveryAndCollectionsCard() {
+    return Center(
+      child: Padding(
+        padding: REdgeInsets.symmetric(horizontal: 5),
+        child: Container(
+          height: 54.h,
+          decoration: BoxDecoration(color: AppColors.ultraLightPrimary.withOpacity(0.06),borderRadius: BorderRadius.circular(100)),
+          child: Padding(
+            padding: REdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
+            child: Row(
+              children: [
+                Container(
+                  padding: REdgeInsets.only(left: 10,right: 3),
+                  height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: REdgeInsets.only(bottom: 3.0),
+                        child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+                      ),
+                      wBox(5.h),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Delivery",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyBold),),
+                          Text("30-50 mins",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyRegular),),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
                 ),
-              ),
-          );
+                Container(
+                  padding: REdgeInsets.only(left: 10),
+                  height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
+                      wBox(5.h),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
+                          Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget mainBanner() {

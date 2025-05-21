@@ -60,20 +60,38 @@
 class PharamacyHomeModal {
   bool? status;
   List<Category>? category;
-  PharmaShopsData? pharmaShops;
+  // PharmaShopsData? pharmaShops;
+  FreedelPharma? freedelPharma;
+  NearbyPharma? nearbyPharma;
+  NearbyPharma? popularPharma;
+  NearbyPharma? pharmaShops;
   List<Banner>? banners;
   String? message;
+  // Map<String, NearbyPharma>? pharmaCategories;
 
   PharamacyHomeModal({
     this.status,
     this.category,
     this.pharmaShops,
+    this.freedelPharma,
+    this.nearbyPharma,
+    this.popularPharma,
     this.banners,
     this.message,
+    // this.pharmaCategories,
   });
 
-  factory PharamacyHomeModal.fromJson(Map<String, dynamic> json) =>
-      PharamacyHomeModal(
+  factory PharamacyHomeModal.fromJson(Map<String, dynamic> json) {
+    // final Map<String, NearbyPharma> extractedPharmaCategories = {};
+
+    // json.forEach((key, value) {
+    //   if (key.endsWith("_pharma") && value is Map<String, dynamic>) {
+    //     extractedPharmaCategories[key] = NearbyPharma.fromJson(value);
+    //   }
+    // });
+
+
+    return PharamacyHomeModal(
         status: json["status"],
         category: json["category"] == null
             ? []
@@ -81,25 +99,45 @@ class PharamacyHomeModal {
                 json["category"]!.map((x) => Category.fromJson(x))),
         pharmaShops: json["pharma_shops"] == null
             ? null
-            : PharmaShopsData.fromJson(json["pharma_shops"]),
+            : NearbyPharma.fromJson(json["pharma_shops"]),
+        freedelPharma: json["freedel_pharma"] == null
+            ? null
+            : FreedelPharma.fromJson(json["freedel_pharma"]),
+        nearbyPharma: json["nearby_pharma"] == null
+            ? null
+            : NearbyPharma.fromJson(json["nearby_pharma"]),
+        popularPharma: json["popular_pharma"] == null
+            ? null
+            : NearbyPharma.fromJson(json["popular_pharma"]),
         banners: json["banner"] == null
             ? []
             : List<Banner>.from(json["banner"]!.map((x) => Banner.fromJson(x))),
         message: json["message"],
-      );
+      // pharmaCategories: extractedPharmaCategories,
 
-  Map<String, dynamic> toJson() => {
+      );
+  }
+
+  Map<String, dynamic> toJson() {
+    // final pharmaMap = pharmaCategories?.map((key, value) => MapEntry(key, value.toJson()));
+
+    return {
         "status": status,
         // "userdata": userdata?.toJson(),
         "category": category == null
             ? []
             : List<dynamic>.from(category!.map((x) => x.toJson())),
         "pharma_shops": pharmaShops?.toJson(),
+        "freedel_pharma": freedelPharma?.toJson(),
+        "nearby_pharma": nearbyPharma?.toJson(),
+        "popular_pharma": popularPharma?.toJson(),
         "banner": banners == null
             ? []
             : List<dynamic>.from(banners!.map((x) => x.toJson())),
         "message": message,
-      };
+      // ...?pharmaMap, // Spreads all dynamic _pharma keys
+    };
+  }
 }
 
 class Category {
@@ -121,7 +159,7 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
     data['parent_category'] = parentCategory;
@@ -284,23 +322,23 @@ class PharmaShops {
 
   PharmaShops.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    email = json['email'];
-    phone = json['phone'];
-    gender = json['gender'];
-    dob = json['dob'];
-    shopimage = json['shopimage'];
-    shopName = json['shop_name'];
-    shopAddress = json['shop_address'];
-    opensAt = json['opens_at'];
-    closesAt = json['closes_at'];
-    rating = json['rating'];
+    name = json['name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    gender = json['gender']?.toString();
+    dob = json['dob']?.toString();
+    shopimage = json['shopimage']?.toString();
+    shopName = json['shop_name']?.toString();
+    shopAddress = json['shop_address']?.toString();
+    opensAt = json['opens_at']?.toString();
+    closesAt = json['closes_at']?.toString();
+    rating = json['rating']?.toString();
     avgRating = json['avg_rating']?.toString();
-    avgPrice = json['avg_price'];
+    avgPrice = json['avg_price']?.toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
     data['email'] = email;
@@ -315,6 +353,231 @@ class PharmaShops {
     data['rating'] = rating;
     data['avg_rating'] = avgRating;
     data['avg_price'] = avgPrice;
+    return data;
+  }
+}
+class FreedelPharma {
+  String? currentPage;
+  List<Data>? data;
+  String? firstPageUrl;
+  String? from;
+  String? lastPage;
+  String? lastPageUrl;
+  // List<Links>? links;
+  String? nextPageUrl;
+  String? path;
+  String? perPage;
+  String? prevPageUrl;
+  String? to;
+  String? total;
+
+  FreedelPharma(
+      {this.currentPage,
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        // this.links,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total});
+
+  FreedelPharma.fromJson(Map<String, dynamic> json) {
+    currentPage = json['current_page']?.toString();
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(Data.fromJson(v));
+      });
+    }
+    firstPageUrl = json['first_page_url']?.toString();
+    from = json['from']?.toString();
+    lastPage = json['last_page']?.toString();
+    lastPageUrl = json['last_page_url']?.toString();
+    // if (json['links'] != null) {
+    //   links = <Links>[];
+    //   json['links'].forEach((v) {
+    //     links!.add(new Links.fromJson(v));
+    //   });
+    // }
+    nextPageUrl = json['next_page_url']?.toString();
+    path = json['path']?.toString();
+    perPage = json['per_page']?.toString();
+    prevPageUrl = json['prev_page_url']?.toString();
+    to = json['to']?.toString();
+    total = json['total']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    // if (this.links != null) {
+    //   data['links'] = this.links!.map((v) => v.toJson()).toList();
+    // }
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
+    return data;
+  }
+}
+
+class Data {
+  String? id;
+  String? name;
+  String? email;
+  String? phone;
+  String? gender;
+  String? dob;
+  String? rating;
+  String? shopimage;
+  String? shopName;
+  String? avgPrice;
+  String? shopAddress;
+  String? opensAt;
+  String? closesAt;
+  String? avgRating;
+
+  Data(
+      {this.id,
+        this.name,
+        this.email,
+        this.phone,
+        this.gender,
+        this.dob,
+        this.rating,
+        this.shopimage,
+        this.shopName,
+        this.avgPrice,
+        this.shopAddress,
+        this.opensAt,
+        this.closesAt,
+        this.avgRating});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    name = json['name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    gender = json['gender']?.toString();
+    dob = json['dob']?.toString();
+    rating = json['rating']?.toString();
+    shopimage = json['shopimage']?.toString();
+    shopName = json['shop_name']?.toString();
+    avgPrice = json['avg_price']?.toString();
+    shopAddress = json['shop_address']?.toString();
+    opensAt = json['opens_at']?.toString();
+    closesAt = json['closes_at']?.toString();
+    avgRating = json['avg_rating']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['rating'] = rating;
+    data['shopimage'] = shopimage;
+    data['shop_name'] = shopName;
+    data['avg_price'] = avgPrice;
+    data['shop_address'] = shopAddress;
+    data['opens_at'] = opensAt;
+    data['closes_at'] = closesAt;
+    data['avg_rating'] = avgRating;
+    return data;
+  }
+}
+class NearbyPharma {
+  String? currentPage;
+  List<Data>? data;
+  String? firstPageUrl;
+  String? from;
+  String? lastPage;
+  String? lastPageUrl;
+  // List<Links>? links;
+  String? nextPageUrl;
+  String? path;
+  String? perPage;
+  String? prevPageUrl;
+  String? to;
+  String? total;
+
+  NearbyPharma(
+      {this.currentPage,
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        // this.links,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total});
+
+  NearbyPharma.fromJson(Map<String, dynamic> json) {
+    currentPage = json['current_page']?.toString();
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(Data.fromJson(v));
+      });
+    }
+    firstPageUrl = json['first_page_url']?.toString();
+    from = json['from']?.toString();
+    lastPage = json['last_page']?.toString();
+    lastPageUrl = json['last_page_url']?.toString();
+    // if (json['links'] != null) {
+    //   links = <Links>[];
+    //   json['links'].forEach((v) {
+    //     links!.add(new Links.fromJson(v));
+    //   });
+    // }
+    nextPageUrl = json['next_page_url']?.toString();
+    path = json['path']?.toString();
+    perPage = json['per_page']?.toString();
+    prevPageUrl = json['prev_page_url']?.toString();
+    to = json['to']?.toString();
+    total = json['total']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    // if (this.links != null) {
+    //   data['links'] = this.links!.map((v) => v.toJson()).toList();
+    // }
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
     return data;
   }
 }

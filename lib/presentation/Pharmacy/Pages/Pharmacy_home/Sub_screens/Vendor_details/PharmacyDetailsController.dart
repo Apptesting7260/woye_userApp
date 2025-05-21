@@ -15,7 +15,9 @@ class PharmacyDetailsController extends GetxController {
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
 
+  RxInt categoriesIndex = 0.obs;
   RxString error = ''.obs;
+
 
   var distance = 0.0.obs;
   var travelTime = 0.0.obs;
@@ -30,6 +32,7 @@ class PharmacyDetailsController extends GetxController {
     required String id,
   }) async {
      loadLocationData();
+     categoriesIndex.value = 0;
     setRxRequestStatus(Status.LOADING);
     Map data = {"pharma_id": id};
     api.specificPharmaShopApi(data).then((value) {
@@ -95,6 +98,7 @@ class PharmacyDetailsController extends GetxController {
   refresh_restaurant_Details_Api({
     required String id,
   }) async {
+    categoriesIndex.value = 0;
     loadLocationData();
     // setRxRequestStatus(Status.LOADING);
     Map data = {"pharma_id": id};

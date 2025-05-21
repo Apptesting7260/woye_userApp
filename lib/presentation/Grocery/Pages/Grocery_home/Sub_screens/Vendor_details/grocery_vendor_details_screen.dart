@@ -40,9 +40,10 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
+        title: deliveryAndCollectionsCard(),
         actions: [
-          deliveryAndCollectionsCard(),
-          wBox(5.w),
+          // deliveryAndCollectionsCard(),
+          // wBox(5.w),
           GestureDetector(
             onTap: () {
               Share.share(
@@ -645,52 +646,57 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
 
 
   Widget deliveryAndCollectionsCard() {
-    return Container(
-      height: 54.h,
-      decoration: BoxDecoration(color: AppColors.ultraLightPrimary,borderRadius: BorderRadius.circular(100)),
+    return Center(
       child: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
-        child: Row(
-          children: [
-            Container(
-              padding: REdgeInsets.only(left: 10,right: 3),
-              height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: REdgeInsets.only(bottom: 3.0),
-                    child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
-                  ),
-                  wBox(5.h),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        padding: REdgeInsets.symmetric(horizontal: 5),
+        child: Container(
+          height: 54.h,
+          decoration: BoxDecoration(color: AppColors.ultraLightPrimary.withOpacity(0.06),borderRadius: BorderRadius.circular(100)),
+          child: Padding(
+            padding: REdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
+            child: Row(
+              children: [
+                Container(
+                  padding: REdgeInsets.only(left: 10,right: 3),
+                  height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text("Delivery",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyBold),),
-                      Text("30-50 mins",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyRegular),),
+                      Padding(
+                        padding: REdgeInsets.only(bottom: 3.0),
+                        child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+                      ),
+                      wBox(5.h),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Delivery",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyBold),),
+                          Text("30-50 mins",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyRegular),),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            Container(
-              padding: REdgeInsets.only(left: 10),
-              height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
-              child: Row(
-                children: [
-                  SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
-                  wBox(5.h),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                Container(
+                  padding: REdgeInsets.only(left: 10),
+                  height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                  child: Row(
                     children: [
-                      Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
-                      Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
+                      SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
+                      wBox(5.h),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
+                          Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

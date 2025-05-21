@@ -58,8 +58,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
 
   @override
   void initState() {
-    super.initState();
     restaurantCartController.getRestaurantCartApi();
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback(_getHeight);
     // _scrollController.addListener(() {
     //   if (_scrollController.position.pixels ==

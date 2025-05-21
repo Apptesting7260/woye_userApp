@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 
 class GeneralExceptionWidget extends StatefulWidget {
   final VoidCallback onPress;
@@ -16,7 +17,7 @@ class _GeneralExceptionWidgetState extends State<GeneralExceptionWidget> {
     final height = MediaQuery.of(context).size.height;
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           SizedBox(
@@ -27,8 +28,8 @@ class _GeneralExceptionWidgetState extends State<GeneralExceptionWidget> {
             color: Colors.red, // Red to indicate an error
             size: Get.height * 0.18,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
+           Padding(
+            padding: EdgeInsets.only(top: 30),
             child: Center(
               child: Text(
                 "Oops!\nSomething went wrong. Please try again.",
@@ -36,7 +37,7 @@ class _GeneralExceptionWidgetState extends State<GeneralExceptionWidget> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  fontFamily: 'RammettoOne',
+                  fontFamily: AppFontFamily.gilroyMedium,
                 ),
               ),
             ),
@@ -59,7 +60,7 @@ class _GeneralExceptionWidgetState extends State<GeneralExceptionWidget> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    fontFamily: 'RammettoOne',
+                    fontFamily: AppFontFamily.gilroyMedium,
                     color: Colors.white,
                   ),
                 ),
