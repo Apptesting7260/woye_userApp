@@ -43,9 +43,12 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
 
   final GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
 
-  final ScrollController _scrollController = ScrollController();
+  final GroceryBannerDetailsController bannerDetailsController = Get.put(GroceryBannerDetailsController());
+
+  final ScrollController _scrollControllerAllShops = ScrollController();
   final ScrollController _horScrollControllerPopularShop = ScrollController();
   final ScrollController _scrollControllerFreeDeliveryShop = ScrollController();
+  final ScrollController _scrollControllerNearByShop = ScrollController();
 
   @override
   void initState() {
@@ -87,6 +90,26 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       }
     });
 
+    _scrollControllerNearByShop.addListener(() {
+      if (_scrollControllerNearByShop.position.pixels >= _scrollControllerNearByShop.position.maxScrollExtent - 100) {
+        if (!groceryHomeController.isLoadingNearby.value && !groceryHomeController.noMoreDataNearbyLoading.value) {
+          groceryHomeController.isLoadingNearby.value = true;
+          groceryHomeController.currentPage.value++;
+          groceryHomeController.homeApi(groceryHomeController.currentPage.value);
+        }
+      }
+    });
+
+    _scrollControllerAllShops.addListener(() {
+      if (_scrollControllerAllShops.position.pixels >= _scrollControllerAllShops.position.maxScrollExtent - 100) {
+        if (!groceryHomeController.isLoadingGrocery.value && !groceryHomeController.noMoreDataGroceryLoading.value) {
+          groceryHomeController.isLoadingGrocery.value = true;
+          groceryHomeController.currentPage.value++;
+          groceryHomeController.homeApi(groceryHomeController.currentPage.value);
+        }
+      }
+    });
+
   }
 
   @override
@@ -112,8 +135,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
         case Status.COMPLETED:
           return RefreshIndicator(
             onRefresh: () async {
-              groceryHomeController.homeApiRefresh(1);
               groceryCartController.getGroceryAllCartApi();
+              groceryHomeController.homeApiRefresh(1);
             },
             child: SafeArea(
               child: Scaffold(
@@ -137,11 +160,22 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                   children: [
                                     if (groceryHomeController.homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
+
                                     if (groceryHomeController.homeData.value.category!.isNotEmpty)
                                       catergories(),
-                                    if (groceryHomeController.homeData.value.groceryShops!.data!.isNotEmpty)
+
+                                    if (groceryHomeController.popularShopsList.isNotEmpty)
                                       popularShop(),
+
+                                    if (groceryHomeController.freeDeliveryShopsList.isNotEmpty)
                                       freeDeliveryShop(),
+
+                                    if (groceryHomeController.nearByShopsList.isNotEmpty)
+                                      nearbyShop(),
+
+                                    if (groceryHomeController.allShopsList.isNotEmpty)
+                                      allShop(),
+
                                     hBox(100.h)
                                   ],
                                 ),
@@ -255,7 +289,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                           ),
                                           onPressed: () {
                                             // Get.back();
-                                            Get.to(SingleVendorGroceryCart(
+                                            Get.to(()=>SingleVendorGroceryCart(
                                               cartId:groceryShowAllCartController.cartData.value.carts![0].id.toString(),
                                               isBack: true,
                                             ));
@@ -443,7 +477,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                               ),
                               onPressed: () {
                                 // Get.back();
-                                Get.to(SingleVendorGroceryCart(
+                                Get.to(()=>SingleVendorGroceryCart(
                                   cartId: carts.id.toString(),
                                   isBack: true,
                                 ));
@@ -526,9 +560,6 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
     );
   }
 
-  final GroceryBannerDetailsController bannerDetailsController =
-      Get.put(GroceryBannerDetailsController());
-
   Widget mainBanner() {
     return Column(
       children: [
@@ -553,7 +584,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 onTap: () {
                   bannerDetailsController.bannerDataApi(
                       bannerId: banners[index].id.toString());
-                  Get.to(GroceryHomeBanner(
+                  Get.to(()=>GroceryHomeBanner(
                     bannerID: banners[index].id.toString(),
                   ));
                 },
@@ -694,6 +725,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
 
   Widget popularShop() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         hBox(5.h),
         Padding(
@@ -730,7 +762,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
             init: groceryHomeController,
             builder: (controller) {
               return Obx(() {
-                final shops = groceryHomeController.shopsList;
+                final shops = groceryHomeController.popularShopsList;
                 return ListView.separated(
                   padding: REdgeInsets.only(left:22,right: 20,top: 1),
                   controller: _horScrollControllerPopularShop,
@@ -748,8 +780,9 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     final pharmashopsdata = shops[index];
                     return GestureDetector(
                       onTap: () {
-                        groceryDetailsController.restaurant_Details_Api(id: pharmashopsdata.id.toString());
-                        Get.to(GroceryVendorDetailsScreen(groceryId: pharmashopsdata.id.toString()));
+                        // groceryDetailsController.restaurant_Details_Api(id: pharmashopsdata.id.toString());
+                        Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata.id.toString()));
+                        // Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata.id.toString()));
                       },
                       child: SizedBox(
                         width: Get.width*0.78,
@@ -775,9 +808,177 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
     );
   }
 
+  Widget nearbyShop() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        hBox(30.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.h),
+          child: Row(
+            children: [
+              Text(
+                "Nearby Shops",
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Get.to(()=>AllGroceryShops());
+                },
+                child: Text(
+                  "See All",
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                ),
+              ),
+              wBox(4),
+              Icon(
+                Icons.arrow_forward_sharp,
+                color: AppColors.primary,
+                size: 18,
+              )
+            ],
+          ),
+        ),
+        hBox(15.h),
+        SizedBox(
+          height: 316.h,
+          child: GetBuilder<GroceryHomeController>(
+            init: groceryHomeController,
+            builder: (controller) {
+              return Obx(() {
+                final shops = groceryHomeController.nearByShopsList;
+                return ListView.separated(
+                  padding: REdgeInsets.only(left:22,right: 20,top: 1),
+                  controller: _scrollControllerNearByShop,
+                  // physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: shops.length + (groceryHomeController.isLoadingNearby.value ? 1:0),
+                  itemBuilder: (context, index) {
+                    if (index ==  shops.length) {
+                      return Container(
+                        width: Get.width*0.78,
+                        margin: const EdgeInsets.only(bottom: 102),
+                        child: const ShimmerWidget(isRestaurantCard: true),);
+                    }
+                    final pharmashopsdata = shops[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // groceryDetailsController.restaurant_Details_Api(id: pharmashopsdata.id.toString());
+                        Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata.id.toString()));
+                      },
+                      child: SizedBox(
+                        width: Get.width*0.78,
+                        child: pharmaShop(
+                          index: index,
+                          image: pharmashopsdata.shopimage,
+                          title: pharmashopsdata.shopName,
+                          rating: cleanNumber(pharmashopsdata.avgRating ?? "0"),
+                          price: pharmashopsdata.avgPrice,
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => wBox(15.w),
+                );
+              });
+            },
+          ),
+        ),
+        // if (groceryHomeController.isLoading.value)
+        //   circularProgressIndicator(),
+      ],
+    );
+  }
+
+  Widget allShop() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        hBox(30.h),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.h),
+          child: Row(
+            children: [
+              Text(
+                "All Grocery Shops",
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Get.to(()=>AllGroceryShops());
+                },
+                child: Text(
+                  "See All",
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                ),
+              ),
+              wBox(4),
+              Icon(
+                Icons.arrow_forward_sharp,
+                color: AppColors.primary,
+                size: 18,
+              )
+            ],
+          ),
+        ),
+        hBox(15.h),
+        SizedBox(
+          height: 316.h,
+          child: GetBuilder<GroceryHomeController>(
+            init: groceryHomeController,
+            builder: (controller) {
+              return Obx(() {
+                final shops = groceryHomeController.allShopsList;
+                return ListView.separated(
+                  padding: REdgeInsets.only(left:22,right: 20,top: 1),
+                  controller: _scrollControllerAllShops,
+                  // physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: shops.length + (groceryHomeController.isLoadingGrocery.value ? 1:0),
+                  itemBuilder: (context, index) {
+                    if (index ==  shops.length) {
+                      return Container(
+                        width: Get.width*0.78,
+                        margin: const EdgeInsets.only(bottom: 102),
+                        child: const ShimmerWidget(isRestaurantCard: true),);
+                    }
+                    final pharmashopsdata = shops[index];
+                    return GestureDetector(
+                      onTap: () {
+                        // groceryDetailsController.restaurant_Details_Api(id: pharmashopsdata.id.toString());
+                        Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata.id.toString()));
+                      },
+                      child: SizedBox(
+                        width: Get.width*0.78,
+                        child: pharmaShop(
+                          index: index,
+                          image: pharmashopsdata.shopimage,
+                          title: pharmashopsdata.shopName,
+                          rating: cleanNumber(pharmashopsdata.avgRating ?? "0"),
+                          price: pharmashopsdata.avgPrice,
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => wBox(15.w),
+                );
+              });
+            },
+          ),
+        ),
+        // if (groceryHomeController.isLoading.value)
+        //   circularProgressIndicator(),
+      ],
+    );
+  }
 
   Widget freeDeliveryShop() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         hBox(30.h),
         Padding(
@@ -832,10 +1033,10 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     final pharmashopsdata = shops[index];
                     return GestureDetector(
                       onTap: () {
-                        groceryDetailsController.restaurant_Details_Api(
-                          id: pharmashopsdata.id.toString(),
-                        );
-                        Get.to(GroceryVendorDetailsScreen(
+                        // groceryDetailsController.restaurant_Details_Api(
+                        //   id: pharmashopsdata.id.toString(),
+                        // );
+                        Get.to(()=>GroceryVendorDetailsScreen(
                           groceryId: pharmashopsdata.id.toString(),
                         ));
                       },
@@ -862,8 +1063,6 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       ],
     );
   }
-
-
 
   String cleanNumber(String input) {
     double parsed = double.tryParse(input) ?? 0;
@@ -1039,7 +1238,6 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
       ],
     );
   }
-
 
   Widget freeDeliveryPharmaShop({index, String? image, title, type, isFavourite, rating, price}) {
     return Column(

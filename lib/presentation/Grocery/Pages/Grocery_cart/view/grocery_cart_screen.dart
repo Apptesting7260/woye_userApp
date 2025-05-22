@@ -75,7 +75,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
             case Status.LOADING:
               return Center(child: circularProgressIndicator());
             case Status.ERROR:
-              if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
+              if (controller.error.value == 'No internet'/* || controller.error.value == "InternetExceptionWidget"*/) {
                 return InternetExceptionWidget(
                   onPress: () {
                     controller.refreshApi();

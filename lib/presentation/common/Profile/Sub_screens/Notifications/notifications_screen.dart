@@ -132,7 +132,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     children: [
                       Text(
                         controller.apiData.value.notification?[index].title.toString() ?? "",
-                        style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_15_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                       ),
                       hBox(5.h),
                       Text(

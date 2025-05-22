@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
@@ -33,18 +32,19 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(),
+      appBar: const CustomAppBar(),
         body: Padding(
           padding: REdgeInsets.symmetric(horizontal: 24.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 nameEmailAdd(),
-              hBox(35.h),
+              hBox(25.h),
               openHours(),
-              description(),
-              if (controller.pharma_Data.value.review?.isNotEmpty ?? false)
-            reviews(),
+                hBox(18.h),
+                description(),
+            //   if (controller.pharma_Data.value.review?.isNotEmpty ?? false)
+            // reviews(),
                hBox(15.h),
             ],
                   ),
@@ -100,7 +100,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                child: Text(
                  controller.pharma_Data.value.pharmaShop!.shopAddress
                      .toString(),
-                 maxLines: 2,
+                 maxLines: 10,
                  overflow: TextOverflow.ellipsis,
                  style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
                ),
@@ -360,7 +360,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                ),
              ],
            )
-               : SizedBox(),
+               : const SizedBox(),
          ],
        ),
      );

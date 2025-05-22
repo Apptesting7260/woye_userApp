@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
@@ -278,7 +279,8 @@ class SignUpForm_editProfileController extends GetxController {
       final pickedImage = await ImagePicker().pickImage(source: source);
 
     if (pickedImage != null) {
-      File originalImage = File(pickedImage.path);
+      // File originalImage = File(pickedImage.path);
+      File originalImage = await _copyToTempDirectory(pickedImage);
       int originalSize = await originalImage.length();
       print('Original image size: $originalSize bytes');
 
@@ -326,6 +328,7 @@ class SignUpForm_editProfileController extends GetxController {
       return true;
     }
   }
+
   void showPermissionDialog(BuildContext context, String permissionType) {
     showDialog(
       context: context,
@@ -372,6 +375,12 @@ class SignUpForm_editProfileController extends GetxController {
     );
 
     return croppedFile != null ? File(croppedFile.path) : null;
+  }
+
+  Future<File> _copyToTempDirectory(XFile xFile) async {
+    final tempDir = await getTemporaryDirectory();
+    final newFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}_${xFile.name}');
+    return await File(xFile.path).copy(newFile.path);
   }
 
   // final RestaurantHomeController restaurantHomeController =

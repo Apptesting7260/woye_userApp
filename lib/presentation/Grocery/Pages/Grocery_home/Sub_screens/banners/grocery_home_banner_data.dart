@@ -4,6 +4,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
@@ -120,7 +121,7 @@ class GroceryHomeBanner extends StatelessWidget {
       children: [
         Text(
           "Categories",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(20.h),
         GridView.builder(
@@ -173,7 +174,7 @@ class GroceryHomeBanner extends StatelessWidget {
                   hBox(15),
                   Text(
                     banners[index].name.toString(),
-                    style: AppFontStyle.text_16_400(AppColors.darkText),
+                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                   ),
                 ],
               ),
@@ -191,7 +192,7 @@ class GroceryHomeBanner extends StatelessWidget {
       children: [
         Text(
           "Products",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10.h),
         GridView.builder(
@@ -247,7 +248,7 @@ class GroceryHomeBanner extends StatelessWidget {
       children: [
         Text(
           "Grocery Shops",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(5.h),
         GetBuilder<GroceryBannerDetailsController>(
@@ -281,7 +282,7 @@ class GroceryHomeBanner extends StatelessWidget {
                     ),
                   );
                 },
-                separatorBuilder: (context, index) => hBox(10.h),
+                separatorBuilder: (context, index) => hBox(12.h),
               );
             });
           },
@@ -350,7 +351,7 @@ class GroceryHomeBanner extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(
@@ -359,7 +360,7 @@ class GroceryHomeBanner extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               " • ",
@@ -370,10 +371,11 @@ class GroceryHomeBanner extends StatelessWidget {
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
           ],
-        )
+        ),
+
       ],
     );
   }

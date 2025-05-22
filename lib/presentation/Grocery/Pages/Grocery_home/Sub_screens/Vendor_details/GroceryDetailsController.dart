@@ -8,6 +8,7 @@ class GroceryDetailsController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final pharma_Data = SpecificGroceryModal().obs;
+  RxInt categoriesIndex = 0.obs;
 
   var location = ''.obs;
   var latitude = 0.0.obs;
@@ -27,6 +28,7 @@ class GroceryDetailsController extends GetxController {
   restaurant_Details_Api({
     required String id,
   }) async {
+    categoriesIndex.value = 0;
     loadLocationData();
     setRxRequestStatus(Status.LOADING);
     Map data = {"grocery_id": id};

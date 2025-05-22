@@ -36,8 +36,10 @@ class GroceryHomeController extends GetxController {
 
   void homeSet(GroceryHomeModal value) => homeData.value = value;
 
-  RxList<GroceryShops> shopsList = <GroceryShops>[].obs;
-  RxList<GroceryShops> freeDeliveryShopsList = <GroceryShops>[].obs;
+  RxList<GroceryShops> allShopsList = <GroceryShops>[].obs;
+  RxList<Data> freeDeliveryShopsList = <Data>[].obs;
+  RxList<GroceryShops> nearByShopsList = <GroceryShops>[].obs;
+  RxList<GroceryShops> popularShopsList = <GroceryShops>[].obs;
 
   // void pharmaShopSet(GroceryHomeModal value) {
   //   if (value.groceryShops?.data != null) {
@@ -60,16 +62,31 @@ class GroceryHomeController extends GetxController {
       // isLoading.value = false;
       homeSet(value);
       // pharmaShopSet(value);
-      if(homeData.value.groceryShops?.data?.isNotEmpty ?? false){
-        shopsList.addAll(homeData.value.groceryShops?.data ?? []);
-        if (shopsList.length >= (value.groceryShops?.total ?? 0)) {
+      if(homeData.value.popularGrocery?.data?.isNotEmpty ?? false){
+        popularShopsList.addAll(homeData.value.popularGrocery?.data ?? []);
+        if (popularShopsList.length >= (value.popularGrocery?.total ?? 0)) {
           noMoreDataPopularLoading.value = true;
         }
       }
-      if(homeData.value.groceryShops?.data?.isNotEmpty ?? false){
-        freeDeliveryShopsList.addAll(homeData.value.groceryShops?.data ?? []);
-        if (freeDeliveryShopsList.length >= (value.groceryShops?.total ?? 0)) {
+
+      if(homeData.value.freedelGrocery?.data?.isNotEmpty ?? false){
+        freeDeliveryShopsList.addAll(homeData.value.freedelGrocery?.data ?? []);
+        if (freeDeliveryShopsList.length >= (int.parse(value.freedelGrocery?.total  ?? 0))) {
           noMoreDataFreeLoading.value = true;
+        }
+      }
+
+      if(homeData.value.nearbyGrocery?.data?.isNotEmpty ?? false){
+        nearByShopsList.addAll(homeData.value.nearbyGrocery?.data ?? []);
+        if (nearByShopsList.length >= (value.nearbyGrocery?.total ?? 0)) {
+          noMoreDataNearbyLoading.value = true;
+        }
+      }
+
+      if(homeData.value.groceryShops?.data?.isNotEmpty ?? false){
+        allShopsList.addAll(homeData.value.groceryShops?.data ?? []);
+        if (allShopsList.length >= (value.groceryShops?.total ?? 0)) {
+          noMoreDataGroceryLoading.value = true;
         }
       }
 
@@ -84,8 +101,10 @@ class GroceryHomeController extends GetxController {
   }
 
   homeApiRefresh(int page) async {
-    shopsList.clear();
+    allShopsList.clear();
     freeDeliveryShopsList.clear();
+    nearByShopsList.clear();
+    popularShopsList.clear();
     currentPage.value = 1;
     isLoadingGrocery.value = false;
     noMoreDataGroceryLoading.value = false;

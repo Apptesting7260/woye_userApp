@@ -7,13 +7,18 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_details_modal.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
 import '../../../../../../Core/Constant/app_urls.dart';
 import '../../../../../../Shared/theme/font_family.dart';
 import '../../../../../../shared/widgets/shimmer.dart';
 import '../../../../../Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
+import '../../../Grocery_wishlist/aad_product_wishlist_Controller/add_grocery_product_wishlist.dart';
+import '../Product_details/controller/grocery_specific_product_controller.dart';
 
 class GroceryVendorDetailsScreen extends StatefulWidget {
   final String groceryId;
@@ -26,8 +31,9 @@ class GroceryVendorDetailsScreen extends StatefulWidget {
 
 class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen> {
   final GroceryDetailsController controller =  Get.put(GroceryDetailsController());
-
+  final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
   final SeeAllProductReviewController seeAllProductReviewController =   Get.put(SeeAllProductReviewController());
+  final AddGroceryProductWishlist addGroceryProductWishlist = Get.put(AddGroceryProductWishlist());
 
   @override
   void initState() {
@@ -48,9 +54,8 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
             onTap: () {
               Share.share(
                   '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
-                  subject:
-                  controller.pharma_Data.value.pharmaShop?.shopName ??
-                      'Share Grocery Shop');
+                  subject:controller.pharma_Data.value.pharmaShop?.shopName ?? 'Share Grocery Shop',
+              );
             },
             child: Container(
               padding: REdgeInsets.all(9),
@@ -121,7 +126,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                     controller.restaurant_Details_Api(id: widget.groceryId);
                   },
                   child: SingleChildScrollView(
-                    padding: REdgeInsets.symmetric(horizontal: 24),
+                    // padding: REdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -131,8 +136,20 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                         // hBox(30),
                         // description(),
                         // reviews(),
-                        if (controller.pharma_Data.value.moreProducts!.isNotEmpty)
-                          moreProducts(),
+                        hBox(20.h),
+                        categoriesList(),
+                        if(controller.pharma_Data.value.highlights?.isNotEmpty ?? false)...[
+                          highlights(widget.groceryId),
+                        ],
+                        if(controller.pharma_Data.value.highlights?.isEmpty ?? true)...[
+                          hBox(20.h),
+                        ],
+                        if((controller.pharma_Data.value.categories?.data.isNotEmpty ?? false) && controller.categoriesIndex.value != 0)...[
+                          categoriesProducts(context,widget.groceryId),
+                        ],
+                        if( /*(controller.restaurant_Data.value.moreProducts?.isNotEmpty ?? false) && */controller.categoriesIndex.value == 0)...[
+                          allProducts(),
+                        ],
                         hBox(30),
                       ],
                     ),
@@ -144,198 +161,201 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
   }
 
   Widget mainBanner() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ClipRRect(
-            borderRadius: BorderRadius.circular(20.r),
-            child: CachedNetworkImage(
-              memCacheHeight: memCacheHeight,
-              width: Get.width,
-              imageUrl:controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
-              placeholder: (context, url) =>const ShimmerWidget(),
-              errorWidget: (context, url, error) => Container(
-                height: 220.h,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.textFieldBorder),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
-              fit: BoxFit.cover,
-            )),
-        hBox(15.h),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Text(
-                controller.pharma_Data.value.pharmaShop?.shopName.toString().capitalize.toString() ?? "",
-                style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                maxLines: 2,
-              ),
-            ),
-            wBox(5.w),
-            GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.groceryShopInformation,
-                    arguments: {
-                      "groceryId" : widget.groceryId,
-                    }
-                );
-              },
-              child: Icon(Icons.info_outline,color: AppColors.black,size: 22,),
-            )
-          ],
-        ),
-        hBox(10.h),
-        Row(
-          children: [
-            // Text(
-            //   "${controller.distance.toStringAsFixed(2)} KM",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText),
-            // ),
-            // wBox(4),
-            // Text(
-            //   "•",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText),
-            // ),
-            // wBox(4),
-            // Text(
-            //   "${controller.travelTime.toStringAsFixed(0)} Min",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText),
-            // ),
-            // wBox(4),
-            // Text(
-            //   "•",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText),
-            // ),
-            // wBox(4),
-            SvgPicture.asset("assets/svg/star-yellow.svg",height: 18),
-            wBox(4.w),
-            Text(
-              "${controller.pharma_Data.value.averageRating}/5",
-              style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-            ),
-            wBox(5.w),
-            GestureDetector(
-              onTap: () {
-                if(controller.pharma_Data.value.review?.isNotEmpty ?? false){
-                  Get.toNamed(
-                    AppRoutes.productReviews,
-                    arguments: {
-                      'product_id': widget.groceryId.toString(),
-                      'product_review':controller.pharma_Data.value.averageRating,
-                      'review_count': controller.pharma_Data.value.totalReviews.toString(),
-                      "type": "grocery",
-                    },
-                  );
-                  seeAllProductReviewController.seeAllProductReviewApi(vendorId: widget.groceryId.toString(), type: "grocery");
-                }
-              },
-              child: Text(
-                "(${controller.pharma_Data.value.review?.length} Reviews)",
-                style:TextStyle(fontSize: 15.sp,fontFamily: AppFontFamily.gilroyRegular,decoration: TextDecoration.underline,color: AppColors.lightText,decorationColor: AppColors.lightText),
-              ),
-            ),
-          ],
-        ),
-        hBox(8.h),
-        Row(
-          children: [
-            SvgPicture.asset(ImageConstants.scooterImage,height: 18,width: 18,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
-            wBox(6.w),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: Text(
-                "\$5 Delivery",
-                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-              ),
-            ),
-            Text(
-              "  •  ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-            ),
-            SvgPicture.asset(ImageConstants.cartIconImage,height: 18,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
-            wBox(6.w),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: Text(
-                "No min. order",
-                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-              ),
-            ),
-          ],
-        ),
-        hBox(15.h),
-        Container(
-          decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(54.r)),
-          padding: REdgeInsets.symmetric(vertical: 7,horizontal: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
+              child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
+                width: Get.width,
+                imageUrl:controller.pharma_Data.value.pharmaShop!.shopimage.toString(),
+                placeholder: (context, url) =>const ShimmerWidget(),
+                errorWidget: (context, url, error) => Container(
+                  height: 220.h,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.textFieldBorder),
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
+                    child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
+                fit: BoxFit.cover,
+              )),
+          hBox(15.h),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset(ImageConstants.scooterImage,height: 18,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
-              wBox(8.w),
-              Padding(
-                padding: REdgeInsets.only(top: 3.0),
-                child: Text("Free delivery when you spend over \$1009",
-                  style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+              Flexible(
+                child: Text(
+                  controller.pharma_Data.value.pharmaShop?.shopName.toString().capitalize.toString() ?? "",
+                  style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  maxLines: 2,
+                ),
+              ),
+              wBox(5.w),
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(AppRoutes.groceryShopInformation,
+                      arguments: {
+                        "groceryId" : widget.groceryId,
+                      }
+                  );
+                },
+                child: Icon(Icons.info_outline,color: AppColors.black,size: 22,),
+              )
+            ],
+          ),
+          hBox(10.h),
+          Row(
+            children: [
+              // Text(
+              //   "${controller.distance.toStringAsFixed(2)} KM",
+              //   style: AppFontStyle.text_14_400(AppColors.lightText),
+              // ),
+              // wBox(4),
+              // Text(
+              //   "•",
+              //   style: AppFontStyle.text_14_400(AppColors.lightText),
+              // ),
+              // wBox(4),
+              // Text(
+              //   "${controller.travelTime.toStringAsFixed(0)} Min",
+              //   style: AppFontStyle.text_14_400(AppColors.lightText),
+              // ),
+              // wBox(4),
+              // Text(
+              //   "•",
+              //   style: AppFontStyle.text_14_400(AppColors.lightText),
+              // ),
+              // wBox(4),
+              SvgPicture.asset("assets/svg/star-yellow.svg",height: 18),
+              wBox(4.w),
+              Text(
+                "${controller.pharma_Data.value.averageRating}/5",
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              ),
+              wBox(5.w),
+              GestureDetector(
+                onTap: () {
+                  if(controller.pharma_Data.value.review?.isNotEmpty ?? false){
+                    Get.toNamed(
+                      AppRoutes.productReviews,
+                      arguments: {
+                        'product_id': widget.groceryId.toString(),
+                        'product_review':controller.pharma_Data.value.averageRating,
+                        'review_count': controller.pharma_Data.value.totalReviews.toString(),
+                        "type": "grocery",
+                      },
+                    );
+                    seeAllProductReviewController.seeAllProductReviewApi(vendorId: widget.groceryId.toString(), type: "grocery");
+                  }
+                },
+                child: Text(
+                  "(${controller.pharma_Data.value.review?.length} Reviews)",
+                  style:TextStyle(fontSize: 15.sp,fontFamily: AppFontFamily.gilroyRegular,decoration: TextDecoration.underline,color: AppColors.lightText,decorationColor: AppColors.lightText),
                 ),
               ),
             ],
           ),
-        ),
-        // hBox(20),
-        // Row(
-        //   children: [
-        //     const Icon(Icons.person_outline_rounded),
-        //     wBox(8),
-        //     Flexible(
-        //       child: Text(
-        //         "${controller.pharma_Data.value.pharmaShop!.firstName ?? ""} ${controller.pharma_Data.value.pharmaShop!.lastName ?? ""}",
-        //         style: TextStyle(
-        //           fontSize: 14.sp,
-        //           color: AppColors.darkText,
-        //           fontWeight: FontWeight.w400,
-        //         ),
-        //       ),
-        //     )
-        //   ],
-        // ),
-        // hBox(10),
-        // Row(
-        //   children: [
-        //     const Icon(Icons.mail_outline_rounded),
-        //     wBox(8),
-        //     Flexible(
-        //       child: Text(
-        //         controller.pharma_Data.value.pharmaShop!.email.toString(),
-        //         overflow: TextOverflow.ellipsis,
-        //         style: AppFontStyle.text_14_400(AppColors.darkText),
-        //       ),
-        //     )
-        //   ],
-        // ),
-        // hBox(10),
-        // Row(
-        //   children: [
-        //     const Icon(Icons.location_on_outlined),
-        //     wBox(8),
-        //     Flexible(
-        //       child: Text(
-        //         controller.pharma_Data.value.pharmaShop!.shopAddress.toString(),
-        //         maxLines: 2,
-        //         overflow: TextOverflow.ellipsis,
-        //         style: AppFontStyle.text_14_400(
-        //           AppColors.darkText,
-        //         ),
-        //       ),
-        //     )
-        //   ],
-        // ),
-      ],
+          hBox(8.h),
+          Row(
+            children: [
+              SvgPicture.asset(ImageConstants.scooterImage,height: 18,width: 18,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+              wBox(6.w),
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Text(
+                  "\$5 Delivery",
+                  style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                ),
+              ),
+              Text(
+                "  •  ",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              ),
+              SvgPicture.asset(ImageConstants.cartIconImage,height: 18,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+              wBox(6.w),
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Text(
+                  "No min. order",
+                  style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                ),
+              ),
+            ],
+          ),
+          hBox(15.h),
+          Container(
+            decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(54.r)),
+            padding: REdgeInsets.symmetric(vertical: 7,horizontal: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SvgPicture.asset(ImageConstants.scooterImage,height: 18,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+                wBox(8.w),
+                Padding(
+                  padding: REdgeInsets.only(top: 3.0),
+                  child: Text("Free delivery when you spend over \$1009",
+                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // hBox(20),
+          // Row(
+          //   children: [
+          //     const Icon(Icons.person_outline_rounded),
+          //     wBox(8),
+          //     Flexible(
+          //       child: Text(
+          //         "${controller.pharma_Data.value.pharmaShop!.firstName ?? ""} ${controller.pharma_Data.value.pharmaShop!.lastName ?? ""}",
+          //         style: TextStyle(
+          //           fontSize: 14.sp,
+          //           color: AppColors.darkText,
+          //           fontWeight: FontWeight.w400,
+          //         ),
+          //       ),
+          //     )
+          //   ],
+          // ),
+          // hBox(10),
+          // Row(
+          //   children: [
+          //     const Icon(Icons.mail_outline_rounded),
+          //     wBox(8),
+          //     Flexible(
+          //       child: Text(
+          //         controller.pharma_Data.value.pharmaShop!.email.toString(),
+          //         overflow: TextOverflow.ellipsis,
+          //         style: AppFontStyle.text_14_400(AppColors.darkText),
+          //       ),
+          //     )
+          //   ],
+          // ),
+          // hBox(10),
+          // Row(
+          //   children: [
+          //     const Icon(Icons.location_on_outlined),
+          //     wBox(8),
+          //     Flexible(
+          //       child: Text(
+          //         controller.pharma_Data.value.pharmaShop!.shopAddress.toString(),
+          //         maxLines: 2,
+          //         overflow: TextOverflow.ellipsis,
+          //         style: AppFontStyle.text_14_400(
+          //           AppColors.darkText,
+          //         ),
+          //       ),
+          //     )
+          //   ],
+          // ),
+        ],
+      ),
     );
   }
 
@@ -603,47 +623,50 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
     );
   }
 
-  Widget moreProducts() {
+  Widget allProducts() {
     final products = controller.pharma_Data.value.moreProducts;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        hBox(30.h),
-        Text(
-          "All Products",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-        ),
-        hBox(10.h),
-        GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: products?.length ?? 0,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.6.w,
-              crossAxisSpacing: 14.w,
-              mainAxisSpacing: 5.h,
-            ),
-            itemBuilder: (context, index) {
-              return CustomBannerGrocery(
-                image: products![index].urlImage.toString(),
-                sale_price: products[index].salePrice.toString(),
-                regular_price: products[index].regularPrice.toString(),
-                title: products[index].title.toString(),
-                quantity: products[index].packagingValue.toString(),
-                categoryId: products[index].categoryId.toString(),
-                product_id: products[index].id.toString(),
-                shop_name: products[index].shopName.toString(),
-                is_in_wishlist: products[index].isInWishlist,
-                isLoading: products[index].isLoading,
-                categoryName: products[index].categoryName.toString(),
-              );
-            }),
-        hBox(20.h),
-      ],
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // hBox(2.h),
+          Text(
+            "All Products",
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
+          hBox(10.h),
+          (products?.isEmpty ?? false)? CustomNoDataFound(heightBox: hBox(0.h),) :
+          GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: products?.length ?? 0,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.6.w,
+                crossAxisSpacing: 14.w,
+                mainAxisSpacing: 5.h,
+              ),
+              itemBuilder: (context, index) {
+                return CustomBannerGrocery(
+                  image: products![index].urlImage.toString(),
+                  sale_price: products[index].salePrice.toString(),
+                  regular_price: products[index].regularPrice.toString(),
+                  title: products[index].title.toString(),
+                  quantity: products[index].packagingValue.toString(),
+                  categoryId: products[index].categoryId.toString(),
+                  product_id: products[index].id.toString(),
+                  shop_name: products[index].shopName.toString(),
+                  is_in_wishlist: products[index].isInWishlist,
+                  isLoading: products[index].isLoading,
+                  categoryName: products[index].categoryName.toString(),
+                );
+              }),
+          hBox(20.h),
+        ],
+      ),
     );
   }
-
 
   Widget deliveryAndCollectionsCard() {
     return Center(
@@ -701,4 +724,310 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
       ),
     );
   }
+
+  Widget categoriesList() {
+    // final categoryKeys = controller.restaurant_Data.value.categories?.data.keys.toList() ?? [];
+    final categoryKeys = ["All", ...(controller.pharma_Data.value.categories?.data.keys.toList() ?? [])];
+
+    return SizedBox(
+      height: 35,
+      child: ListView.separated(
+        padding: REdgeInsets.symmetric(horizontal: 24),
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: categoryKeys.length,
+        itemBuilder: (context, index) {
+          return Obx(
+                ()=> GestureDetector(
+              onTap: () {
+                controller.categoriesIndex.value = index;
+              },
+              child: Container(
+                padding: REdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                    color:controller.categoriesIndex.value == index ? AppColors.darkText : AppColors.bgColor,
+                    borderRadius: BorderRadius.circular(100.r)),
+                child: Center(
+                  child: Text(
+                    categoryKeys[index],
+                    style: AppFontStyle.text_15_400(controller.categoriesIndex.value == index  ? AppColors.white : AppColors.darkText,
+                        family:controller.categoriesIndex.value == index ? AppFontFamily.gilroySemiBold : AppFontFamily.gilroyMedium),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        separatorBuilder: (context, index) => wBox(8.w),
+      ),
+    );
+  }
+
+  Widget categoriesProducts(context,String? pharmacyId) {
+    final categoryKeys = ["All", ...(controller.pharma_Data.value.categories?.data.keys.toList() ?? [])];
+
+    final selectedKey = controller.categoriesIndex.value == 0 ? "All" : categoryKeys[controller.categoriesIndex.value];
+
+    final List<AllProducts> catValue =/* controller.categoriesIndex.value == 0
+         ? controller.restaurant_Data.value.categories?.data.values.expand((e) => e).toList() ?? [] :*/
+    controller.pharma_Data.value.categories?.data[selectedKey] ?? [];
+
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // hBox(30.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                selectedKey,
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     seeallproductcontroller.seeAll_Product_Api(
+              //         restaurant_id: widget.Restaurantid.toString(),
+              //         category_id: "");
+              //     Get.toNamed(AppRoutes.moreProducts, arguments: {
+              //       'restaurant_id': widget.Restaurantid.toString(),
+              //       'category_id': '',
+              //     });
+              //   },
+              //   splashColor: Colors.transparent,
+              //   highlightColor: Colors.transparent,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         "See All",
+              //         style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              //       ),
+              //       wBox(4),
+              //       Icon(
+              //         Icons.arrow_forward_sharp,
+              //         color: AppColors.primary,
+              //         size: 18,
+              //       )
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
+          hBox(10.h),
+          catValue.isEmpty ? CustomNoDataFound(heightBox: hBox(0.h)) :
+          GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: catValue.length ?? 0,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.6.w,
+                crossAxisSpacing: 14.w,
+                mainAxisSpacing: 5.h,
+              ),
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                    onTap: () {
+                      // specific_product_controllerontroller.specific_Product_Api(
+                      //   productId: catValue[index].id.toString(),
+                      //   categoryId: catValue[index].categoryId.toString(),
+                      // );
+                      // Get.to(ProductDetailsScreen(
+                      //   restaurantId: restaurantId.toString(),
+                      //   productId:  catValue[index].id.toString(),
+                      //   categoryId: catValue[index].categoryId.toString(),
+                      //   categoryName:  catValue[index].categoryName.toString(),
+                      // ));
+                    },
+                    child: CustomBannerGrocery(
+                      index: index,
+                      product_id: catValue[index].id.toString(),
+                      categoryId: catValue[index].categoryId.toString(),
+                      image: catValue[index].urlImage,
+                      title: catValue[index].title,
+                      // rating: controller.restaurant_Data.value.moreProducts![index].rating.toString(),
+                      is_in_wishlist:catValue[index].isInWishlist,
+                      isLoading: catValue[index].isLoading,
+                      sale_price: catValue[index].salePrice,
+                      regular_price: catValue[index].regularPrice,
+                      shop_name: catValue[index].restoName,
+                    ));
+              }),
+          hBox(20.h),
+        ],
+      ),
+    );
+  }
+
+  Widget highlights(pharmacyId) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        hBox(23.h),
+        Padding(
+          padding: REdgeInsets.symmetric(horizontal: 24),
+          child: Text(
+            "Highlights",
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
+        ),
+        hBox(10.h),
+        Obx(
+              ()=> SizedBox(
+            width: /*240.w*/ Get.width,
+            height: 286.h,
+            child: ListView.separated(
+              padding: REdgeInsets.symmetric(horizontal: 23,vertical: 3),
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: controller.pharma_Data.value.highlights?.length ?? 0,
+              itemBuilder: (context, index) {
+                controller.pharma_Data.value.highlights![index].isInWishlist.value = controller.pharma_Data.value.highlights![index].isWishlist == "true" ? true : false;
+                final item = controller.pharma_Data.value.highlights?[index];
+                final price = item?.salePrice ?? item?.regularPrice ?? 0;
+                return GestureDetector(
+                  onTap: (){
+                    grocerySpecificProductController.pharmaSpecificProductApi(
+                      productId: controller.pharma_Data.value.highlights![index].id.toString(),
+                      categoryId: controller.pharma_Data.value.highlights![index].categoryId.toString(),
+                    );
+                    Get.to(()=>GroceryProductDetailsScreen(
+                      productId: controller.pharma_Data.value.highlights?[index].id.toString() ?? "",
+                      categoryId: controller.pharma_Data.value.highlights?[index].categoryId.toString() ?? "",
+                      categoryName: controller.pharma_Data.value.highlights?[index].categoryName.toString() ?? "",
+                    ));
+                  },
+                  child: Container(
+                    width: 240.w,
+                    height: 287.h,
+                    decoration: BoxDecoration(color: AppColors.white,borderRadius: BorderRadius.circular(20.r)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            controller.pharma_Data.value.highlights![index].urlImage != null ?
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20.r),
+                              child: CachedNetworkImage(
+                                memCacheHeight: memCacheHeight,
+                                imageUrl: controller.pharma_Data.value.highlights![index].urlImage.toString(),
+                                fit: BoxFit.cover,
+                                height: 182.h,
+                                width: Get.width,
+                                errorWidget: (context, url, error) =>Container(
+                                  clipBehavior: Clip.antiAlias,
+                                  width: double.maxFinite,
+                                  height: 220.h,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppColors.textFieldBorder),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Icon(Icons.broken_image_rounded,color:AppColors.textFieldBorder,),
+                                ),
+                                placeholder: (context, url) => Shimmer.fromColors(
+                                  baseColor: AppColors.gray,
+                                  highlightColor: AppColors.lightText,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.gray,
+                                      borderRadius: BorderRadius.circular(20.r),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ) : Container(
+                              clipBehavior: Clip.antiAlias,
+                              width: double.maxFinite,
+                              height: 220.h,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColors.textFieldBorder),
+                                borderRadius: BorderRadius.circular(20.r),
+                              ),
+                              child: Icon(Icons.broken_image_rounded,color:AppColors.textFieldBorder,),
+                            ),
+                            Container(
+                              margin: REdgeInsets.only(top: 10, right: 10),
+                              padding: REdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  color: AppColors.greyBackground),
+                              child:  Obx(
+                                    ()=> InkWell(
+                                  highlightColor: Colors.transparent,
+                                  splashColor: Colors.transparent,
+                                  onTap: () async {
+                                    controller.pharma_Data.value.highlights?[index].isInWishlist.value = !controller.pharma_Data.value.highlights![index].isInWishlist.value;
+                                    controller.pharma_Data.value.highlights?[index].isLoading.value = true;
+                                    await addGroceryProductWishlist.pharmacy_add_product_wishlist(
+                                      groceryId:pharmacyId.toString(),
+                                      categoryId: controller.pharma_Data.value.highlights![index].categoryId.toString(),
+                                      product_id:controller.pharma_Data.value.highlights![index].id.toString(),
+                                    );
+                                  },
+                                  child: controller.pharma_Data.value.highlights![index].isLoading.value
+                                      ? circularProgressIndicator(size: 18)
+                                      : Icon(
+                                    controller.pharma_Data.value.highlights![index].isInWishlist.value ?
+                                    Icons.favorite : Icons.favorite_border_outlined,
+                                    size: 22,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        hBox(14.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "\$$price",
+                              textAlign: TextAlign.left,
+                              style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                            ),
+                            wBox(5.h),
+                            Text(
+                              "\$${item?.regularPrice}",
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w300,
+                                  color: AppColors.lightText,
+                                  fontFamily: AppFontFamily.gilroyRegular,
+                                  decoration: TextDecoration.lineThrough,
+                                  decorationColor: AppColors.lightText),
+                              //  AppFontStyle.text_14_300(AppColors.lightText),
+                            ),
+                          ],
+                        ),
+                        // hBox(10),
+                        Text(
+                          item?.title.toString().capitalizeFirst.toString() ?? "",
+                          // textAlign: TextAlign.left,
+                          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        ),
+                        // hBox(10),
+                        Text(
+                          item?.groceryName.toString() ?? "",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                        ),
+                        hBox(18.h)
+                      ],
+                    ),
+                  ),
+                );
+              }, separatorBuilder: (context, index) => wBox(15.w),),
+          ),
+        )
+      ],
+    );
+  }
+
 }

@@ -122,7 +122,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         case Status.LOADING:
           return Center(child: circularProgressIndicator());
         case Status.ERROR:
-          if (pharmacyHomeController.error.value == 'No internet' || pharmacyHomeController.error.value == 'InternetExceptionWidget') {
+          if (pharmacyHomeController.error.value == 'No internet' /*|| pharmacyHomeController.error.value == 'InternetExceptionWidget'*/) {
             return InternetExceptionWidget(
               onPress: () {
                 pharmacyHomeController.homeApiRefresh(1);
@@ -941,12 +941,16 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     ),
                     child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ):Container(
+                  height: 220.h,
+                  width: Get.width * 0.78,
+
+
                   clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.textFieldBorder),
-                    borderRadius: BorderRadius.circular(20.r),
-                  ),
-                  child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.textFieldBorder),
+                borderRadius: BorderRadius.circular(20.r),
+              ),
+              child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
             ),
             // GestureDetector(
             //   onTap: () {},
@@ -1256,7 +1260,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.r),
               ),
-              child: CachedNetworkImage(
+              child: image != null ? CachedNetworkImage(
                 memCacheHeight: memCacheHeight,
                 imageUrl: image.toString(),
                 fit: BoxFit.fill,
@@ -1270,7 +1274,15 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
-              ),
+              ):Container(
+                  height: 220.h,
+                  width: Get.width * 0.78,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.textFieldBorder),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
             ),
           ],
         ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../Single_Grocery_Vendor_cart/single_vendor_controller.dart';
 import '../grocery_cart_modal/grocery_create_order_model.dart';
@@ -35,10 +36,14 @@ class GroceryCartController extends GetxController {
       groceryShowAllCartController.getGroceryAllShowApi();
       cartSet(value);
       setRxRequestStatus(Status.COMPLETED);
+      if(value.status == false){
+        setRxRequestStatus(Status.COMPLETED);
+        pt("cartData.value.message >>>>>>>>>>>>>> ${cartData.value.message}");
+      }
     }).onError((error, stackError) {
       setError(error.toString());
-      print(stackError);
-      print('errrrrrrrrrrrr${error.toString()}');
+      pt(stackError);
+      pt('error grocery cart screen >>>> ::: ${error.toString()}');
       setRxRequestStatus(Status.ERROR);
     });
   }

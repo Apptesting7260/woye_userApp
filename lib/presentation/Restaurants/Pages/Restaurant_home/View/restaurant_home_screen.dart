@@ -169,7 +169,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     //     onTap: (){
                                     //       FirebaseCrashlytics.instance.crash();
                                     //     },
-                                    //     child: Text("gff")),
+                                    //     child: Text("Crash")),
                                     if (restaurantHomeController.homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
                                     if (restaurantHomeController.homeData.value.category!.isNotEmpty)

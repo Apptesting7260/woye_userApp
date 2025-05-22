@@ -43,8 +43,8 @@ class AddGroceryProductWishlist extends GetxController {
         if(categoryId != ""){
           grocerycategoriesdetailscontroller.refreshGroceryCategoriesDetailsApi(id: categoryId.toString());
         }
-        if(groceryId != null && groceryId != ""){
-          groceryDetailsController.refresh_restaurant_Details_Api(id: groceryId);
+        if((groceryId != null && groceryId != "") || (groceryDetailsController.pharma_Data.value.pharmaShop?.id != null)){
+          groceryDetailsController.refresh_restaurant_Details_Api(id:groceryDetailsController.pharma_Data.value.pharmaShop?.id.toString() ?? groceryId.toString());
         }
         if(isWishListScreen  == true){
           groceryWishlistController.pharmacyProductWishlistRefreshApi();

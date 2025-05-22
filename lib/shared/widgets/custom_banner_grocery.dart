@@ -48,8 +48,7 @@ class CustomBannerGrocery extends StatelessWidget {
     this.isLoading,
   });
 
-  final AddGroceryProductWishlist addGroceryProductWishlist =
-      Get.put(AddGroceryProductWishlist());
+  final AddGroceryProductWishlist addGroceryProductWishlist = Get.put(AddGroceryProductWishlist());
 
   // final PharmaSpecificProductController pharmaSpecificProductController =
   //     Get.put(PharmaSpecificProductController());

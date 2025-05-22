@@ -68,6 +68,13 @@ class SpecificPharmacyModal {
     if (moreProducts != null) {
       data['moreProducts'] = moreProducts!.map((v) => v.toJson()).toList();
     }
+    if (categories != null) {
+      data['categories'] = categories!.toJson();
+    }
+
+    if (highlights != null) {
+      data['highlights'] = highlights!.map((v) => v.toJson()).toList();
+    }
 
     if (review != null) {
       data['reviews'] = review!.map((v) => v.toJson()).toList();

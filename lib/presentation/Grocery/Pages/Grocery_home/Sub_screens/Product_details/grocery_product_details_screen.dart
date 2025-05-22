@@ -37,8 +37,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     this.fromCart,
   });
 
-  final GrocerySpecificProductController controller =
-      Get.put(GrocerySpecificProductController());
+  final GrocerySpecificProductController controller = Get.put(GrocerySpecificProductController());
 
   final GroceryDetailsController groceryDetailsController =
       Get.put(GroceryDetailsController());
@@ -489,6 +488,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                 height: 20.h,
                 width: 20.h,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image_rounded,size: 14,color: AppColors.lightText),
               ),
             ),
             wBox(5),

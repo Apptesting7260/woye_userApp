@@ -2,6 +2,9 @@ class GroceryHomeModal {
   bool? status;
   List<Category>? category;
   GroceryShopsData? groceryShops;
+  FreedelGrocery? freedelGrocery;
+  GroceryShopsData? nearbyGrocery;
+  GroceryShopsData? popularGrocery;
   List<Banner>? banners;
   String? message;
 
@@ -9,6 +12,9 @@ class GroceryHomeModal {
     this.status,
     this.category,
     this.groceryShops,
+    this.freedelGrocery,
+    this.nearbyGrocery,
+    this.popularGrocery,
     this.banners,
     this.message,
   });
@@ -20,12 +26,27 @@ class GroceryHomeModal {
             ? []
             : List<Category>.from(
                 json["category"]!.map((x) => Category.fromJson(x))),
+
         groceryShops: json["grocery_shops"] == null
             ? null
             : GroceryShopsData.fromJson(json["grocery_shops"]),
+
+        freedelGrocery: json["freedel_grocery"] == null
+            ? null
+            : FreedelGrocery.fromJson(json["freedel_grocery"]),
+
+        nearbyGrocery: json["nearby_grocery"] == null
+            ? null
+            : GroceryShopsData.fromJson(json["nearby_grocery"]),
+
+        popularGrocery: json["popular_grocery"] == null
+            ? null
+            : GroceryShopsData.fromJson(json["popular_grocery"]),
+
         banners: json["banner"] == null
             ? []
             : List<Banner>.from(json["banner"]!.map((x) => Banner.fromJson(x))),
+
         message: json["message"],
       );
 
@@ -62,7 +83,7 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
     data['parent_category'] = parentCategory;
@@ -241,7 +262,7 @@ class GroceryShops {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
     data['email'] = email;
@@ -256,6 +277,145 @@ class GroceryShops {
     data['avg_rating'] = avgRating;
     data['rating'] = rating;
     data['avg_price'] = avgPrice;
+    return data;
+  }
+}
+class FreedelGrocery {
+  String? currentPage;
+  List<Data>? data;
+  String? firstPageUrl;
+  String? from;
+  String? lastPage;
+  String? lastPageUrl;
+  String? nextPageUrl;
+  String? path;
+  String? perPage;
+  String? prevPageUrl;
+  String? to;
+  String? total;
+
+  FreedelGrocery(
+      {this.currentPage,
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total});
+
+  FreedelGrocery.fromJson(Map<String, dynamic> json) {
+    currentPage = json['current_page']?.toString();
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(Data.fromJson(v));
+      });
+    }
+    firstPageUrl = json['first_page_url']?.toString();
+    from = json['from']?.toString();
+    lastPage = json['last_page']?.toString();
+    lastPageUrl = json['last_page_url']?.toString();
+    nextPageUrl = json['next_page_url']?.toString();
+    path = json['path']?.toString();
+    perPage = json['per_page']?.toString();
+    prevPageUrl = json['prev_page_url']?.toString();
+    to = json['to']?.toString();
+    total = json['total']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['current_page'] = currentPage;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    data['first_page_url'] = firstPageUrl;
+    data['from'] = from;
+    data['last_page'] = lastPage;
+    data['last_page_url'] = lastPageUrl;
+    // if (this.links != null) {
+    //   data['links'] = this.links!.map((v) => v.toJson()).toList();
+    // }
+    data['next_page_url'] = nextPageUrl;
+    data['path'] = path;
+    data['per_page'] = perPage;
+    data['prev_page_url'] = prevPageUrl;
+    data['to'] = to;
+    data['total'] = total;
+    return data;
+  }
+}
+
+class Data {
+  String? id;
+  String? name;
+  String? email;
+  String? phone;
+  String? gender;
+  String? dob;
+  String? shopimage;
+  String? shopName;
+  String? rating;
+  String? avgPrice;
+  String? shopAddress;
+  String? opensAt;
+  String? closesAt;
+  String? avgRating;
+
+  Data(
+      {this.id,
+        this.name,
+        this.email,
+        this.phone,
+        this.gender,
+        this.dob,
+        this.shopimage,
+        this.shopName,
+        this.rating,
+        this.avgPrice,
+        this.shopAddress,
+        this.opensAt,
+        this.closesAt,
+        this.avgRating});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    name = json['name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    gender = json['gender']?.toString();
+    dob = json['dob']?.toString();
+    shopimage = json['shopimage']?.toString();
+    shopName = json['shop_name']?.toString();
+    rating = json['rating']?.toString();
+    avgPrice = json['avg_price']?.toString();
+    shopAddress = json['shop_address']?.toString();
+    opensAt = json['opens_at']?.toString();
+    closesAt = json['closes_at']?.toString();
+    avgRating = json['avg_rating']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['shopimage'] = shopimage;
+    data['shop_name'] = shopName;
+    data['rating'] = rating;
+    data['avg_price'] = avgPrice;
+    data['shop_address'] = shopAddress;
+    data['opens_at'] = opensAt;
+    data['closes_at'] = closesAt;
+    data['avg_rating'] = avgRating;
     return data;
   }
 }
