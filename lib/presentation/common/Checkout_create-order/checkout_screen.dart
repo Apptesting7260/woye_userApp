@@ -5,6 +5,7 @@ import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 import '../../../shared/widgets/format_price.dart';
 import '../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 
@@ -105,7 +106,7 @@ class CheckoutScreen extends StatelessWidget {
     controller.selectedIndex.value = -1;
     print("Updated payAfterWallet 1: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
     print("Updated payAfterWallet 1: ${controller.selectedIndex.value}");
-
+    controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
     },);
 
     return SafeArea(
@@ -124,11 +125,11 @@ class CheckoutScreen extends StatelessWidget {
             children: [
               paymentMethod(walletBalance: walletBalance, totalPrice: total),
               hBox(15.h),
-              deliveryNotes(),
+              deliveryNotes(context),
               hBox(15.h),
               deliveryAsSoonAsPossible(),
               hBox(33.h),
-              tips(),
+              tips(total,walletBalance),
               hBox(30.h),
               paymentDetails(
                 deliveryCharge: deliveryCharge,
@@ -148,12 +149,14 @@ class CheckoutScreen extends StatelessWidget {
                     || pharmacyCartController.rxRequestStatusCreateOrder.value == Status.LOADING,
                   onPressed: () {
                     print("controller.selectedIndex.value : ${controller.selectedIndex.value}");
-                    if(!controller.isSelectable.value &&  controller.selectedIndex.value == 0 || !controller.isSelectable.value &&  controller.selectedIndex.value == -1 ) {
+                    if(!controller.isSelectable.value &&  controller.selectedIndex.value == 0 ||
+                        !controller.isSelectable.value &&  controller.selectedIndex.value == -1 ||
+                        controller.isSelectable.value && controller.totalPriceIncludingTips.value > double.parse(walletBalance)
+                    ) {
                       Utils.showToast("Payment method not available");
                     }
                     else{
                       if (cartType == 'restaurant') {
-                        // if (controller.isSelectable.value == true) {
                         controller.placeOrderApi(
                             addressId: addressId,
                             cartId: cartId,
@@ -161,42 +164,15 @@ class CheckoutScreen extends StatelessWidget {
                             couponId: couponId,
                             paymentMethod: controller.isSelectable.value == true
                                 ? "wallet"
-                                :
-                            controller.selectedIndex.value == 1
+                                : controller.selectedIndex.value == 1
                                 ? "credit_card"
-                                :
-                            controller.selectedIndex.value == 2
+                                :controller.selectedIndex.value == 2
                                 ? "cash_on_delivery"
                                 : "",
                             total: total,
                             cartType: cartType,
-                            imageFiles: imageFiles);
-                        // }
-                        // else if (controller.selectedIndex.value == 0) {
-                        //   controller.placeOrderApi(
-                        //       addressId: addressId,
-                        //       cartId: cartId,
-                        //       vendorId: vendorId,
-                        //       couponId: couponId,
-                        //       paymentMethod: "credit_card",
-                        //       total: total,
-                        //       cartType: cartType,
-                        //       imageFiles: imageFiles);
-                        // }
-                        // else if (controller.selectedIndex.value == 1) {
-                        //   controller.placeOrderApi(
-                        //       addressId: addressId,
-                        //       cartId: cartId,
-                        //       vendorId: vendorId,
-                        //       couponId: couponId,
-                        //       paymentMethod: "cash_on_delivery",
-                        //       total: total,
-                        //       cartType: cartType,
-                        //       imageFiles: imageFiles);
-                        // }
-                        // else {
-                        //   Utils.showToast("Payment method not available");
-                        // }
+                            imageFiles: imageFiles,
+                        );
                       }
                       else if (cartType == 'grocery') {
                         List<Map<String, dynamic>> carts = [];
@@ -312,11 +288,13 @@ class CheckoutScreen extends StatelessWidget {
                       ? "Place Order"
                       : controller.selectedIndex.value == 2
                           ? controller.walletSelected.value == false
-                              ? "\$${formatPrice(total)} Order with COD"
+                              ? "\$${formatPrice(controller.totalPriceIncludingTips.value.toString())} Order with COD"
+                              // ? "\$${formatPrice(total)} Order with COD"
                               : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Order with COD"
                           : controller.selectedIndex.value == 1
                               ? controller.walletSelected.value == false
-                                  ? "\$${formatPrice(total)} Pay with Card"
+                                  ? "\$${formatPrice(controller.totalPriceIncludingTips.value.toString())} Pay with Card"
+                                  // ? "\$${formatPrice(total)} Pay with Card"
                                   : "\$${controller.payAfterWallet.value.toStringAsFixed(2)} Pay with Card"
                               : "Place Order",
                 ),
@@ -329,103 +307,6 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 
-  Widget tips() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text("Tip for the courier",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-        ),
-        Text(
-          "It’s optional but a tip can brighten courier’s day.",
-          maxLines: 2,
-          style: AppFontStyle.text_15_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular,),
-        ),
-        hBox(8.h),
-       SizedBox(
-         height: 52.h,
-         child: Padding(
-           padding: REdgeInsets.symmetric(vertical: 5),
-           child: ListView.separated(
-             shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: 4,
-             itemBuilder: (context, index) {
-             return  SizedBox(
-               width: 89.w,
-               height: 40.h,
-               child: Obx(
-                 ()=> CustomOutlinedButton(
-                   backgroundColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.white,
-                   borderColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.darkText,
-                   onPressed: (){
-                     print("Tips valueee >>>> ${controller.tipsController.value.text}");
-                     print("Tips valueee >>>> ${index}");
-                     if (controller.selectedTipsIndexValue.value == index) {
-                       controller.selectedTipsIndexValue.value = -1;
-                       controller.tipsController.value.clear();
-                     }else {
-                       controller.selectedTipsIndexValue.value = index;
-                       if(index == 0){
-                         controller.tipsController.value.text = "5";
-                       }else if(index == 1){
-                         controller.tipsController.value.text = "10";
-                       }else if(index == 2){
-                         controller.tipsController.value.text = "15";
-                       }
-                       else if (index == 3) {
-                         showDialog(context: context,
-                           barrierDismissible: false,
-                           builder: (context) {
-                             return PopScope(
-                               canPop: false,
-                               child: Stack(
-                                 children: [
-                                   AlertDialog(
-                                       insetPadding: const EdgeInsets.symmetric(
-                                           horizontal: 22),
-                                       shape: RoundedRectangleBorder(
-                                         borderRadius: BorderRadius.circular(
-                                             15),
-                                       ),
-                                       contentPadding: EdgeInsets.zero,
-                                       backgroundColor: AppColors.white,
-                                       content: Stack(children: [
-                                         addTips(context,),
-                                         Positioned(
-                                           right: 0,
-                                           top: 0,
-                                           child: IconButton(onPressed: () {
-                                             Get.back();
-                                           },
-                                         icon: Icon(Icons.cancel,
-                                           color: AppColors.primary,
-                                           size: 26,)),
-                                         ),
-                                       ])
-                                   ),
-
-                                 ],
-                               ),
-                             );
-                           },);
-                       }
-                     }
-                   },
-                   child: Text(
-                    index == 1 ? "\$10" : index == 2 ? "\$15" : index == 3 ? "Other" : "\$5" ,
-                     style: AppFontStyle.text_17_400( controller.selectedTipsIndexValue.value == index ? AppColors.white :AppColors.darkText,family: AppFontFamily.gilroyMedium,),
-                   ),
-                 ),
-               ),
-             );
-           }, separatorBuilder: (context, index) => wBox(8.w),),
-         ),
-       )
-      ],
-    );
-  }
 
   // Widget wallet({required String walletBalance, required String totalPrice}) {
   //   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -557,31 +438,63 @@ class CheckoutScreen extends StatelessWidget {
         child: InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          onTap: () {
-            if (walletBalanceDouble > 0.0) {
-              controller.walletSelected.value = !controller.walletSelected.value;
+          // onTap: () {
+          //   if (walletBalanceDouble > 0.0) {
+          //     controller.walletSelected.value = !controller.walletSelected.value;
+          //
+          //     if (controller.walletSelected.value) {
+          //       if (walletBalanceDouble >= totalPriceDouble && walletBalanceDouble < controller.totalPriceIncludingTips.value) {
+          //         controller.payAfterWallet.value = 0.0;
+          //         controller.walletDiscount.value = totalPriceDouble;
+          //         controller.isSelectable.value = true;
+          //         controller.selectedIndex.value = 0;
+          //       }  else {
+          //         controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
+          //         controller.walletDiscount.value = walletBalanceDouble;
+          //         controller.isSelectable.value = false;
+          //       }
+          //       if (walletBalanceDouble < controller.totalPriceIncludingTips.value) {
+          //         controller.payAfterWallet.value = controller.totalPriceIncludingTips.value;
+          //         controller.walletDiscount.value = 0.0;
+          //         controller.isSelectable.value = false;
+          //         // controller.payAfterWallet.value = 0.0;
+          //         // controller.walletDiscount.value = totalPriceDouble;
+          //         // controller.isSelectable.value = true;
+          //         // controller.selectedIndex.value = 0;
+          //       }
+          //     } else {
+          //       controller.payAfterWallet.value = totalPriceDouble;
+          //       controller.walletDiscount.value = 0.0;
+          //       controller.isSelectable.value = false;
+          //       // controller.selectedIndex.value = 1;
+          //     }
+          //     controller.update();
+          //   }
+          // },
+            onTap: () {
+              if (walletBalanceDouble > 0.0) {
+                controller.walletSelected.value = !controller.walletSelected.value;
 
-              if (controller.walletSelected.value) {
-                if (walletBalanceDouble >= totalPriceDouble) {
-                  controller.payAfterWallet.value = 0.0;
-                  controller.walletDiscount.value = totalPriceDouble;
-                  controller.isSelectable.value = true;
-                  controller.selectedIndex.value = 0;
+                if (controller.walletSelected.value) {
+                  if (walletBalanceDouble >= controller.totalPriceIncludingTips.value) {
+                    controller.walletDiscount.value = controller.totalPriceIncludingTips.value;
+                    controller.payAfterWallet.value = 0.0;
+                    controller.isSelectable.value = true;
+                    controller.selectedIndex.value = 0;
+                  } else {
+                    controller.walletDiscount.value = walletBalanceDouble;
+                    controller.payAfterWallet.value = controller.totalPriceIncludingTips.value - walletBalanceDouble;
+                    controller.isSelectable.value = false;
+                  }
                 } else {
-                  controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
-                  controller.walletDiscount.value = walletBalanceDouble;
+                  controller.walletDiscount.value = 0.0;
+                  controller.payAfterWallet.value = controller.totalPriceIncludingTips.value;
                   controller.isSelectable.value = false;
                 }
-              } else {
-                controller.payAfterWallet.value = totalPriceDouble;
-                controller.walletDiscount.value = 0.0;
-                controller.isSelectable.value = false;
-                controller.selectedIndex.value = 1;
+                controller.update();
               }
-              controller.update();
-            }
-          },
-          child: Container(
+            },
+            child: Container(
             padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r),
@@ -618,7 +531,6 @@ class CheckoutScreen extends StatelessWidget {
       );
     });
   }
-
 
   Widget paymentMethod({required String walletBalance, required String totalPrice}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -694,59 +606,110 @@ class CheckoutScreen extends StatelessWidget {
     // );
   }
 
-  Widget deliveryNotes() {
+  Widget deliveryNotes(context) {
     return InkWell(
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       onTap: () {
-        // Get.toNamed(AppRoutes.addCard);
-      },
-      child: Container(
-        padding: REdgeInsetsDirectional.all(15),
-        height: 60.h,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: AppColors.ultraLightPrimary)),
-        child: Row(
-          children: [
-            SvgPicture.asset(ImageConstants.deliveryNotes),
-            wBox(10),
-            Text(
-              "Add Delivery Notes",
-              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-            ),
-            const Spacer(),
-            Icon(Icons.add,color: AppColors.darkText,size: 23,)
-          ],
+        showDialog(context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return PopScope(
+              canPop: false,
+              child: Stack(
+                children: [
+                  AlertDialog(
+                      insetPadding: const EdgeInsets.symmetric(horizontal: 22),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      backgroundColor: AppColors.white,
+                      content: Stack(children: [
+                        deliveryNotesTextFields(context,),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: IconButton(
+                              onPressed: () {
+                            Get.back();
+                            controller.deliveryNotesController.value.clear();
+                            controller.isDeliveryNotes.value = false;
+                          },
+                          icon: Icon(Icons.cancel,
+                            color: AppColors.primary,
+                            size: 26,),
+                          ),
+                        ),
+                      ])
+                  ),
+
+                ],
+              ),
+            );
+          },);
+        },
+      child: Obx(
+        ()=> Container(
+          padding: REdgeInsetsDirectional.all(15),
+          height: 60.h,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              border: Border.all(color: controller.isDeliveryNotes.value ? AppColors.primary : AppColors.ultraLightPrimary)),
+          child: Row(
+            children: [
+              SvgPicture.asset(ImageConstants.deliveryNotes),
+              wBox(10),
+              Text(
+                controller.isDeliveryNotes.value ? "Delivery notes added" :  "Add Delivery Notes",
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              ),
+              const Spacer(),
+              Icon(Icons.add,color: AppColors.darkText,size: 23,)
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget deliveryAsSoonAsPossible() {
-    return InkWell(
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      onTap: () {
-        // Get.toNamed(AppRoutes.addCard);
-      },
-      child: Container(
-        padding: REdgeInsetsDirectional.all(15),
-        height: 60.h,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.r),
-            border: Border.all(color: AppColors.ultraLightPrimary)),
-        child: Row(
-          children: [
-            SvgPicture.asset(ImageConstants.clockIcon,height: 26,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),),
-            wBox(10),
-            Text(
-              "Delivery as soon as possible",
-              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-            ),
-            const Spacer(),
-            Icon(Icons.arrow_forward_ios_sharp,color: AppColors.darkText,size: 21,)
-          ],
+    return Obx(
+      ()=> InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: () {
+          controller.isDeliveryAsSoonAsPossible.value = !controller.isDeliveryAsSoonAsPossible.value;
+          // Get.toNamed(AppRoutes.addCard);
+        },
+        child: Container(
+          padding: REdgeInsetsDirectional.all(15),
+          height: 60.h,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.r),
+              border: Border.all(color: controller.isDeliveryAsSoonAsPossible.value ? AppColors.primary : AppColors.ultraLightPrimary)),
+          child: Row(
+            children: [
+              SvgPicture.asset(ImageConstants.clockIcon,height: 26,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),),
+              wBox(10),
+              Text(
+                "Delivery as soon as possible",
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              ),
+              const Spacer(),
+              Container(
+                margin: EdgeInsets.only(top: 5.r),
+                height: 20.h,
+                width: 20.h,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.primary)),
+                child: controller.isDeliveryAsSoonAsPossible.value
+                    ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+                    : null,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -774,7 +737,6 @@ class CheckoutScreen extends StatelessWidget {
     //   ),
     // );
   }
-
 
   Widget methodList({required String walletBalance, required String totalPrice}) {
     return GetBuilder(
@@ -931,107 +893,214 @@ class CheckoutScreen extends StatelessWidget {
     totalPrice,
     walletBalance,
   }) {
+    return Obx(
+      () {return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Payment Details",
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
+          hBox(20.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Regular Price",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              ),
+              Text(
+                regularPrice != ""
+                    ? "\$$regularPrice"
+                    : "\$${Random.secure().nextInt(100)}.00",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+          hBox(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Save Amount",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              ),
+              Text(
+                saveAmount != ""
+                    ? "\$$saveAmount"
+                    : "\$${Random.secure().nextInt(20)}.00",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+          hBox(couponDiscount != "0" ? 10.h : 0.h),
+          couponDiscount != "0"
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Coupon Discount",
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    ),
+                    Text(
+                      couponDiscount != ""
+                          ? "-\$$couponDiscount"
+                          : "-\$${Random.secure().nextInt(20)}.00",
+                      style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    ),
+                  ],
+                )
+              : SizedBox(
+                  height: 0.h,
+                ),
+          hBox(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Delivery Charge",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              ),
+              Text(
+                deliveryCharge != ""
+                    ? "\$$deliveryCharge"
+                    : "\$${Random.secure().nextInt(20)}.00",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+          hBox(20.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Total Price",
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+              Text(
+              formatPrice(controller.totalPriceIncludingTips.value.toString()),
+              // formatPrice(totalPrice.toString()),
+                style: AppFontStyle.text_20_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+        ],
+      );
+      },
+    );
+  }
+
+  Widget tips(total,walletBalance) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          "Payment Details",
+        Text("Tip for the courier",
           style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
-        hBox(20.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Regular Price",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            Text(
-              regularPrice != ""
-                  ? "\$$regularPrice"
-                  : "\$${Random.secure().nextInt(100)}.00",
-              style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-            ),
-          ],
+        Text(
+          "It’s optional but a tip can brighten courier’s day.",
+          maxLines: 2,
+          style: AppFontStyle.text_15_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular,),
         ),
-        hBox(10.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Save Amount",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            Text(
-              saveAmount != ""
-                  ? "\$$saveAmount"
-                  : "\$${Random.secure().nextInt(20)}.00",
-              style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-            ),
-          ],
-        ),
-        hBox(couponDiscount != "0" ? 10.h : 0.h),
-        couponDiscount != "0"
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Coupon Discount",
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+        hBox(8.h),
+        SizedBox(
+          height: 52.h,
+          child: Padding(
+            padding: REdgeInsets.symmetric(vertical: 5),
+            child: ListView.separated(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount:controller.priceList.length,
+              itemBuilder: (context, index) {
+                return  SizedBox(
+                  width: 89.w,
+                  height: 40.h,
+                  child: Obx(
+                        () {
+                          return CustomOutlinedButton(
+                      backgroundColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.white,
+                      borderColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.darkText,
+                      onPressed: (){
+                        pt("Tips valueee >>>> ${controller.tipsController.value.text}");
+                        pt("Tips valueee >>>> $index");
+                        if (controller.selectedTipsIndexValue.value == index) {
+                          controller.selectedTipsIndexValue.value = -1;
+                          controller.tipsController.value.clear();
+                          controller.enteredTips.value = "0";
+                        }
+                        else {
+                          controller.selectedTipsIndexValue.value = index;
+                          controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
+                        }
+                        if (index == 3 && controller.selectedTipsIndexValue.value == 3) {
+                            pt("Tips valueee 333>>>> ${controller.tipsController.value.text}");
+                            pt("Tips valueee 333>>>> $index");
+                            controller.tipsController.value.clear();
+                            controller.enteredTips.value = "0";
+                            showDialog(context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return PopScope(
+                                  canPop: false,
+                                  child: Stack(
+                                    children: [
+                                      AlertDialog(
+                                          insetPadding: const EdgeInsets.symmetric(
+                                              horizontal: 22),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                15),
+                                          ),
+                                          contentPadding: EdgeInsets.zero,
+                                          backgroundColor: AppColors.white,
+                                          content: Stack(children: [
+                                            addTips(context,total,walletBalance),
+                                            Positioned(
+                                              right: 0,
+                                              top: 0,
+                                              child: IconButton(onPressed: () {
+                                                Get.back();
+                                                controller.selectedTipsIndexValue.value = -1;
+                                                controller.tipsController.value.clear();
+                                              },
+                                                  icon: Icon(Icons.cancel,
+                                                    color: AppColors.primary,
+                                                    size: 26,)),
+                                            ),
+                                          ])
+                                      ),
+
+                                    ],
+                                  ),
+                                );
+                              },);
+                          }
+                      },
+                      child: Obx(
+                        ()=> Text(index == 3 ? controller.priceList[index] : "\$${controller.priceList[index]}",
+                          style: AppFontStyle.text_17_400( controller.selectedTipsIndexValue.value == index ? AppColors.white :AppColors.darkText,family: AppFontFamily.gilroyMedium,),
+                        ),
+                      ),
+                    );
+                        },
                   ),
-                  Text(
-                    couponDiscount != ""
-                        ? "-\$$couponDiscount"
-                        : "-\$${Random.secure().nextInt(20)}.00",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                  ),
-                ],
-              )
-            : SizedBox(
-                height: 0.h,
-              ),
-        hBox(10.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Delivery Charge",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-            ),
-            Text(
-              deliveryCharge != ""
-                  ? "\$$deliveryCharge"
-                  : "\$${Random.secure().nextInt(20)}.00",
-              style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-            ),
-          ],
-        ),
-        hBox(20.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Total Price",
-              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-            ),
-            Text(
-            formatPrice(totalPrice.toString()),
-              style: AppFontStyle.text_20_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-            ),
-          ],
-        ),
+                );
+              }, separatorBuilder: (context, index) => wBox(8.w),),
+          ),
+        )
       ],
     );
   }
 
-  addTips(BuildContext context) {
+  addTips(BuildContext context,total,walletBalance) {
     return PopScope(
       canPop: false,
       child: Stack(
         children: [
-          // Obx(() =>
+          Obx(() =>
               Form(
-                // key: restaurantAddOnController.addOnKey,
+                key: controller.tipsKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -1041,8 +1110,11 @@ class CheckoutScreen extends StatelessWidget {
                     Padding(
                       padding: REdgeInsets.symmetric(horizontal: 25.0),
                       child: CustomTextFormField(
-                        controller: TextEditingController(text: controller.tipsController.value.text),
-                        onChanged: (value){},
+                        controller: controller.tipsController.value,
+                        onChanged: (value){
+                          controller.enteredTips.value = value;
+                          controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
+                        },
                         hintText: 'Enter tips for the courier',
                         hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
                         // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
@@ -1069,7 +1141,12 @@ class CheckoutScreen extends StatelessWidget {
                         width: 145.w,
                         height: 50.h,
                         onPressed: () {
-                          Get.back();
+                          if(controller.tipsKey.currentState?.validate() ?? false){
+                            Get.back();
+                            pt("entered tips value  >>>> ${controller.tipsController.value.text}");
+                          }else{
+                            controller.tipsKey.currentState?.validate();
+                          }
                         },
                         text: "Submit" ,
                         color: AppColors.primary,
@@ -1079,7 +1156,76 @@ class CheckoutScreen extends StatelessWidget {
                   ],
                 ),
               ),
-          // ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  deliveryNotesTextFields(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      child: Stack(
+        children: [
+          Obx(() =>
+              Form(
+                key: controller.deliveryNotesKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    hBox(30.h),
+                    Center(child: Text( "Delivery Notes",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
+                    hBox(20.h),
+                    Padding(
+                      padding: REdgeInsets.symmetric(horizontal: 25.0),
+                      child: CustomTextFormField(
+                        controller: controller.deliveryNotesController.value,
+                        // controller: TextEditingController(text: controller.deliveryNotesController.value.text),
+                        onChanged: (value){},
+                        hintText: 'Enter delivery notes',
+                        hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
+                        // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
+                        onTapOutside: (value){
+                          // restaurantAddOnController.isRedClr.value =false;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        onTap: (){
+                          // restaurantAddOnController.isRedClr.value =false;
+                        },
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return "Please enter delivery notes";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    hBox(13.h),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
+                        width: 145.w,
+                        height: 50.h,
+                        onPressed: () {
+                          if(controller.deliveryNotesKey.currentState?.validate() ?? false) {
+                            controller.isDeliveryNotes.value = true;
+                            if (controller.isDeliveryNotes.value) {
+                              Get.back();
+                            }
+                          }else{
+                            controller.deliveryNotesKey.currentState?.validate();
+                          }
+                        },
+                        text: "Submit" ,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    hBox(30.h),
+                  ],
+                ),
+              ),
+          ),
         ],
       ),
     );

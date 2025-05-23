@@ -38,16 +38,16 @@ Future<void> main() async {
   PushNotificationService.firebaseNotification();
   Get.put(NetworkController());
   await GetStorage.init();
-  try {
-    /// FIREBADE CRASHLYTICS ///..................................................
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-  } catch (e) {
-    print(e);
-  }
+  // try {
+  //   /// FIREBADE CRASHLYTICS ///..................................................
+  //   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  //   PlatformDispatcher.instance.onError = (error, stack) {
+  //     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+  //     return true;
+  //   };
+  // } catch (e) {
+  //   print(e);
+  // }
 
   ///deepLinks
 

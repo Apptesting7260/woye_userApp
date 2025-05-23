@@ -11,17 +11,24 @@ import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
 
 class CreateOrderController extends GetxController {
 
   Rx<TextEditingController> tipsController = Rx(TextEditingController());
+  Rx<TextEditingController> deliveryNotesController = Rx(TextEditingController());
+  GlobalKey<FormState> deliveryNotesKey = GlobalKey<FormState>();
+  GlobalKey<FormState> tipsKey = GlobalKey<FormState>();
+  RxBool isDeliveryNotes = false.obs;
+  RxBool isDeliveryAsSoonAsPossible = false.obs;
+  RxString enteredTips = "".obs;
+  RxDouble totalPriceIncludingTips = 0.0.obs;
 
   @override
   void onInit() {
     selectedTipsIndexValue.value = -1;
-
     walletSelected.value = false;
     isSelectable.value = false;
     // TODO: implement onInit
@@ -43,6 +50,7 @@ class CreateOrderController extends GetxController {
   }
 
   RxInt selectedTipsIndexValue = 0.obs;
+  RxList<String> priceList = ["5","10","15","Others"].obs;
 
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
@@ -57,10 +65,12 @@ class CreateOrderController extends GetxController {
   var pref = UserPreference();
   var userToken = "";
 
+
+
   Future<void> initializeUser() async {
     userModel = await pref.getUser();
     userToken = userModel.token!;
-    print("initializeUser: Bearer ${userToken}");
+    print("initializeUser: Bearer $userToken");
   }
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
@@ -80,24 +90,29 @@ class CreateOrderController extends GetxController {
     await initializeUser();
     setRxRequestStatus(Status.LOADING);
     String url = AppUrls.createOrder;
-    var request = http.MultipartRequest('POST', Uri.parse(url));
+    var request = http.MultipartRequest('POST', Uri.parse("url"));
     request.headers['Authorization'] = 'Bearer $userToken';
-    print("Authorization Header: Bearer ${userToken}");
+    pt("Authorization Header: Bearer $userToken");
     request.fields['wallet_used'] = walletSelected.value.toString();
     request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
     request.fields['payment_method'] = paymentMethod;
-    request.fields['payment_amount'] = payAfterWallet.value.toStringAsFixed(2);
+    request.fields['payment_amount'] = walletSelected.value ? payAfterWallet.value.toStringAsFixed(2) : totalPriceIncludingTips.toStringAsFixed(2);
     request.fields['address_id'] = addressId;
     request.fields['coupon_id'] = couponId.isNotEmpty ? couponId : "";
     request.fields['vendor_id'] = vendorId;
     request.fields['total'] = total;
     request.fields['cart_id'] = cartId;
     request.fields['type'] = cartType;
+    request.fields['delivery_notes'] = deliveryNotesController.value.text ?? "";
+    request.fields['delivery_soon'] = isDeliveryAsSoonAsPossible.value == true ? "true" : "false";
+    request.fields['courier_tip'] = selectedTipsIndexValue.value == 0 ? "5" :
+                                    selectedTipsIndexValue.value == 1 ? "10" :
+                                    selectedTipsIndexValue.value == 2 ? "15" :
+                                    selectedTipsIndexValue.value == 3 ? tipsController.value.text : "";
 
     for (var imageFile in imageFiles) {
       if (imageFile?.path != null && imageFile?.path != "") {
-        var pic =
-            await http.MultipartFile.fromPath("drslip[]", imageFile!.path);
+        var pic = await http.MultipartFile.fromPath("drslip[]", imageFile!.path);
         print("Adding image with path: ${imageFile.path}");
         request.files.add(pic);
       }
@@ -126,7 +141,7 @@ class CreateOrderController extends GetxController {
 
         } else {
           Utils.showToast(createOrderData.value.message.toString());
-          print("Error: ${responseBody}");
+          print("Error: $responseBody");
           setRxRequestStatus(Status.COMPLETED);
         }
       } else {
@@ -150,7 +165,7 @@ class CreateOrderController extends GetxController {
 
     walletSelected.value = walletBalance > 0.0;
 
-    if (walletBalance >= totalPrice) {
+    if (walletBalance >= totalPrice ) {
       // Full payment via wallet
       walletDiscount.value = totalPrice;
       payAfterWallet.value = 0.0;
@@ -177,4 +192,38 @@ class CreateOrderController extends GetxController {
     }
   }
 
+  void updateBalanceAfterTips({required String totalPrice,required String walletBalance}){
+    totalPriceIncludingTips.value = double.parse(totalPrice) + double.parse(selectedTipsIndexValue.value == 0 ? "5" :
+    selectedTipsIndexValue.value == 1 ? "10" :
+    selectedTipsIndexValue.value == 2 ? "15" :
+    selectedTipsIndexValue.value == 3 ?
+    (enteredTips.value.isNotEmpty? enteredTips.value : "0") : "0");
+    if(walletSelected.value && double.parse(totalPrice.toString()) > double.parse(walletBalance.toString())){
+      payAfterWallet.value = totalPriceIncludingTips.value  - double.parse(walletSelected.value ? walletBalance.toString() : "0.00");;
+    }
+
+    final walletBalDouble = double.parse(walletBalance);
+
+    if (walletSelected.value) {
+      if (walletBalDouble >= totalPriceIncludingTips.value) {
+        // Wallet covers full amount
+        walletDiscount.value = totalPriceIncludingTips.value;
+        payAfterWallet.value = 0.0;
+        isSelectable.value = true;
+        selectedIndex.value = 0;
+      } else {
+        // Wallet partially covers
+        walletDiscount.value = walletBalDouble;
+        payAfterWallet.value = totalPriceIncludingTips.value - walletBalDouble;
+        isSelectable.value = false;
+      }
+    } else {
+      // Wallet not selected
+      walletDiscount.value = 0.0;
+      payAfterWallet.value = totalPriceIncludingTips.value;
+      isSelectable.value = false;
+    }
+
+    update();
+  }
 }

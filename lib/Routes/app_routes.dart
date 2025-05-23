@@ -144,7 +144,7 @@ class AppRoutes {
   static const String pharmacyVendorDetails = "/pharmacyVendorDetails";
   static const String pharmacyVendorReview = "/pharmacyVendorReview";
   static const String pharmacyRateVendor = "/pharmacyRateVendor";
-  static const String pharmacyCheckout = "/pharmacyCheckout";
+  // static const String pharmacyCheckout = "/pharmacyCheckout";
   static const String pharmacyVendorInformationScreen = "/pharmacyVendorInformationScreen";
 
   ///`grocery=====================================================>`
@@ -155,7 +155,7 @@ class AppRoutes {
   static const String groceryVendorDetails = "/groceryVendorDetails";
   static const String groceryCategoryDetails = "/groceryCategoryDetails";
   static const String groceryCategoryFilter = "/groceryCategoryFilter";
-  static const String groceryCheckoutScreen = "/groceryCheckoutScreen";
+  // static const String groceryCheckoutScreen = "/groceryCheckoutScreen";
   static const String groceryShopInformation = "/groceryShopInformation";
 
   static List<GetPage> pages = [
@@ -232,7 +232,7 @@ class AppRoutes {
     GetPage(name: groceryCategoryDetails, page: () => GroceryCategoryDetails()),
     // GetPage(name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
     GetPage(name: groceryCategoryFilter,page: () =>  GroceryCategoriesFilter()),
-    GetPage(name: groceryCheckoutScreen,page: () =>  GroceryCheckoutScreen()),
+    // GetPage(name: groceryCheckoutScreen,page: () =>  GroceryCheckoutScreen()),
     GetPage(name: groceryShopInformation,page: () =>  GroceryShopInformation()),
 
   ];

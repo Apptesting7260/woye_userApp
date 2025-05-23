@@ -232,78 +232,68 @@ class SignUpForm_editProfileController extends GetxController {
 
   Rx<File> image = File("assets/appLogo.png").obs;
 
+
   // Future<void> pickImage(ImageSource source) async {
-  //   final pickedImage = await ImagePicker().pickImage(source: source);
+  //   bool hasPermission = await _handlePermissions(source);
+  //   if (!hasPermission) return;
+  //
+  //   try{
+  //     final pickedImage = await ImagePicker().pickImage(source: source);
   //
   //   if (pickedImage != null) {
-  //     File originalImage = File(pickedImage.path);
+  //     // File originalImage = File(pickedImage.path);
+  //     File originalImage = await _copyToTempDirectory(pickedImage);
   //     int originalSize = await originalImage.length();
   //     print('Original image size: $originalSize bytes');
   //
   //     image.value = originalImage;
   //
-  //     // profileImageGetUrl.value = image.value.path;
   //     print("Path ---> ${image.value.path}");
-  //     // print("Path ---> ${profileImageGetUrl.value}");
-  //     _cropImage(image.value.path);
-  //     // imageUploadApi();
+  //
+  //     File? croppedImage = await _cropImage(image.value.path);
+  //
+  //     if (croppedImage != null) {
+  //       int croppedSize = await croppedImage.length();
+  //       debugPrint('Cropped image size: $croppedSize bytes');
+  //       image.value = croppedImage;
+  //       profileImageGetUrl.value = croppedImage.path;
+  //       debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
+  //       imageUploadApi();
+  //     } else {
+  //       debugPrint("Image cropping was canceled or failed.");
+  //     }
+  //   }}catch(e){
+  //     debugPrint("Error picking image: $e");
   //   }
   // }
-  //
-  // Future<File?> _cropImage(String filePath) async {
-  //   final croppedFile = await ImageCropper().cropImage(
-  //     sourcePath: filePath,
-  //     aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-  //     // For a square crop
-  //     uiSettings: [
-  //       AndroidUiSettings(
-  //         toolbarTitle: 'Crop Image',
-  //         toolbarColor: Colors.blue,
-  //         toolbarWidgetColor: Colors.white,
-  //         activeControlsWidgetColor: Colors.blue,
-  //         lockAspectRatio: true,
-  //       ),
-  //       IOSUiSettings(
-  //         title: 'Crop Image',
-  //       ),
-  //     ],
-  //   );
-  //
-  //   return croppedFile != null ? File(croppedFile.path) : null;
-  // }
+
   Future<void> pickImage(ImageSource source) async {
-    bool hasPermission = await _handlePermissions(source);
-    if (!hasPermission) return;
+    try {
+      bool hasPermission = await _handlePermissions(source);
+      if (!hasPermission) return;
 
-    try{
       final pickedImage = await ImagePicker().pickImage(source: source);
+      if (pickedImage == null) return;
 
-    if (pickedImage != null) {
-      // File originalImage = File(pickedImage.path);
       File originalImage = await _copyToTempDirectory(pickedImage);
-      int originalSize = await originalImage.length();
-      print('Original image size: $originalSize bytes');
-
       image.value = originalImage;
 
-      print("Path ---> ${image.value.path}");
-
-      File? croppedImage = await _cropImage(image.value.path);
+      File? croppedImage = await _cropImage(originalImage.path);
 
       if (croppedImage != null) {
-        int croppedSize = await croppedImage.length();
-        debugPrint('Cropped image size: $croppedSize bytes');
         image.value = croppedImage;
         profileImageGetUrl.value = croppedImage.path;
-        debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
         imageUploadApi();
       } else {
-        debugPrint("Image cropping was canceled or failed.");
+        debugPrint("Cropping cancelled or failed.");
       }
-    }}catch(e){
-      debugPrint("Error picking image: $e");
+
+    } catch (e, stackTrace) {
+      debugPrint("pickImage error: $e");
+      debugPrint("StackTrace: $stackTrace");
     }
   }
+
   Future<bool> _handlePermissions(ImageSource source) async {
     if (source == ImageSource.camera) {
       var status = await Permission.camera.status;
@@ -355,26 +345,55 @@ class SignUpForm_editProfileController extends GetxController {
     );
   }
 
-  Future<File?> _cropImage(String filePath) async {
-    final croppedFile = await ImageCropper().cropImage(
-      sourcePath: filePath,
-      aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Crop Image',
-          toolbarColor: AppColors.primary,
-          toolbarWidgetColor: Colors.black,
-          activeControlsWidgetColor: AppColors.primary,
-          lockAspectRatio: true,
-        ),
-        IOSUiSettings(
-          title: 'Crop Image',
-          aspectRatioLockEnabled: true ,
-        ),
-      ],
-    );
+  // Future<File?> _cropImage(String filePath) async {
+  //   final croppedFile = await ImageCropper().cropImage(
+  //     sourcePath: filePath,
+  //     aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+  //     uiSettings: [
+  //       AndroidUiSettings(
+  //         toolbarTitle: 'Crop Image',
+  //         toolbarColor: AppColors.primary,
+  //         toolbarWidgetColor: Colors.black,
+  //         activeControlsWidgetColor: AppColors.primary,
+  //         lockAspectRatio: true,
+  //       ),
+  //       IOSUiSettings(
+  //         title: 'Crop Image',
+  //         aspectRatioLockEnabled: true ,
+  //       ),
+  //     ],
+  //   );
+  //
+  //   return croppedFile != null ? File(croppedFile.path) : null;
+  // }
 
-    return croppedFile != null ? File(croppedFile.path) : null;
+
+  Future<File?> _cropImage(String filePath) async {
+    try {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: filePath,
+        aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Image',
+            toolbarColor: AppColors.primary,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: AppColors.primary,
+            lockAspectRatio: true,
+            initAspectRatio: CropAspectRatioPreset.square,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+            aspectRatioLockEnabled: true,
+          ),
+        ],
+      );
+      return croppedFile != null ? File(croppedFile.path) : File("");
+    } catch (e, stackTrace) {
+      debugPrint('Image cropping failed: $e');
+      debugPrint('Stack trace: $stackTrace');
+      return null;
+    }
   }
 
   Future<File> _copyToTempDirectory(XFile xFile) async {
@@ -382,6 +401,49 @@ class SignUpForm_editProfileController extends GetxController {
     final newFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}_${xFile.name}');
     return await File(xFile.path).copy(newFile.path);
   }
+
+
+
+  // Future<void> pickImage(ImageSource source) async {
+  //   final pickedImage = await ImagePicker().pickImage(source: source);
+  //
+  //   if (pickedImage != null) {
+  //     File originalImage = File(pickedImage.path);
+  //     int originalSize = await originalImage.length();
+  //     print('Original image size: $originalSize bytes');
+  //
+  //     image.value = originalImage;
+  //
+  //     // profileImageGetUrl.value = image.value.path;
+  //     print("Path ---> ${image.value.path}");
+  //     // print("Path ---> ${profileImageGetUrl.value}");
+  //     _cropImage(image.value.path);
+  //     // imageUploadApi();
+  //   }
+  // }
+  //
+  // Future<File?> _cropImage(String filePath) async {
+  //   final croppedFile = await ImageCropper().cropImage(
+  //     sourcePath: filePath,
+  //     aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+  //     // For a square crop
+  //     uiSettings: [
+  //       AndroidUiSettings(
+  //         toolbarTitle: 'Crop Image',
+  //         toolbarColor: Colors.blue,
+  //         toolbarWidgetColor: Colors.white,
+  //         activeControlsWidgetColor: Colors.blue,
+  //         lockAspectRatio: true,
+  //       ),
+  //       IOSUiSettings(
+  //         title: 'Crop Image',
+  //       ),
+  //     ],
+  //   );
+  //
+  //   return croppedFile != null ? File(croppedFile.path) : null;
+  // }
+
 
   // final RestaurantHomeController restaurantHomeController =
   //     Get.put(RestaurantHomeController());
