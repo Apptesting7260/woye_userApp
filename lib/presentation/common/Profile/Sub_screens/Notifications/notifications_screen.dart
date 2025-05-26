@@ -88,20 +88,25 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         return GestureDetector(
           onTap: () {
             if( controller.apiData.value.notification?[index].title == "Order Placed Successfully"){
-              Get.toNamed(AppRoutes.orders);
+              Get.toNamed(AppRoutes.orders,arguments: {
+                "screenType" : "notificationScreen"
+              });
             } else if( controller.apiData.value.notification?[index].title == "Order Delivered"){
               Get.toNamed(AppRoutes.orders,arguments: {
                 "pageIndex" : 2,
+                "screenType" : "notificationScreen"
               });
             }else if( controller.apiData.value.notification?[index].title == "Order Accepted"
                 ||  controller.apiData.value.notification?[index].title == "Order Accepted Notification"){
               Get.toNamed(AppRoutes.orders,arguments: {
                 "pageIndex" : 1,
+                "screenType" : "notificationScreen"
               });
             }else if( controller.apiData.value.notification?[index].title == "Order Rejected"
                 ||  controller.apiData.value.notification?[index].title == "Order Rejected Notification"){
               Get.toNamed(AppRoutes.orders,arguments: {
                 "pageIndex" : 3,
+                "screenType" : "notificationScreen"
               });
             }
           },

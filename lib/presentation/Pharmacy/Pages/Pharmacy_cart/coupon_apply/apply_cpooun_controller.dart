@@ -29,7 +29,7 @@ class ApplyCouponPharmaController extends GetxController {
     api.applyPharmaCouponsApi(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        pharmacyCartController.getPharmacyCartApi(cartId: cartId).then((value) async {
+        pharmacyCartController.getPharmacyCartApiAfterInc/*getPharmacyCartApi*/(cartId: cartId).then((value) async {
           await Future.delayed(const Duration(milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
           Utils.showToast(applyCouponData.value.message.toString());

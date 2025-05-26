@@ -69,20 +69,26 @@ class GroceryCartController extends GetxController {
     required String type,
     required List<String> cartIds,
     required List<Map<String,dynamic>> carts,
+    required String deliveryNotes,
+    required String deliverySoon,
+    required String courierTip,
   }) async {
-    var data = {
-       "wallet_used": walletUsed.toString(),
-       "wallet_amount": walletAmount,
-       "payment_method": paymentMethod,
-       "payment_amount": paymentAmount,
-       "address_id": addressId,
-       "coupon_id": couponId,
-       "total":total,
-       "type": "grocery",
-       "cart_ids": jsonEncode(cartIds),
-       "carts": jsonEncode(carts),
-     };
-    debugPrint("dataValue  >> $data");
+      var data = {
+         "wallet_used": walletUsed.toString(),
+         "wallet_amount": walletAmount,
+         "payment_method": paymentMethod,
+         "payment_amount": paymentAmount,
+         "address_id": addressId,
+         "coupon_id": couponId,
+         "total":total,
+         "type": "grocery",
+         "cart_ids": jsonEncode(cartIds),
+         "carts": jsonEncode(carts),
+        'delivery_notes' : deliveryNotes,
+        'delivery_soon' : deliverySoon,
+        'courier_tip' : courierTip,
+       };
+        debugPrint("dataValue  >> $data");
         setRxCreateOrderRequestStatus(Status.LOADING);
         api.groceryCreateOrderApi(data).then((value) {
           setOrderData(value);

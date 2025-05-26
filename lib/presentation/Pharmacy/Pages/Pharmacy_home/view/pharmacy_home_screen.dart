@@ -252,8 +252,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                         Text(
                                           pharmacyCartController.cartDataAll.value.carts?[0].pharmacy?.shopName.toString() ?? "",
                                           overflow: TextOverflow.ellipsis,
-                                          style: AppFontStyle.text_14_500(
-                                              AppColors.darkText),
+                                          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
                                         ),
                                         // Text(
                                         //   carts.vendorAddress.toString(),
@@ -284,16 +284,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                         children: [
                                           Text(
                                             "View Cart",
-                                            style: AppFontStyle.text_14_400(
-                                                AppColors.white),
+                                            style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
                                           Text(
                                             "items",
-                                            style: AppFontStyle.text_10_400(
-                                                AppColors.white
-                                                    .withOpacity(.5)),
+                                            style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
@@ -329,7 +326,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                     Text(
                                       "Carts",
                                       style: AppFontStyle.text_12_600(
-                                          AppColors.primary),
+                                          AppColors.primary,family:AppFontFamily.gilroyRegular),
                                     ),
                                     Icon(
                                       Icons.arrow_drop_up,
@@ -1106,7 +1103,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                   children: [
                     Text(
                       "Your Carts(${pharmacyCartController.cartDataAll.value.carts?.length})",
-                      style: AppFontStyle.text_20_600(AppColors.darkText),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                     ),
                     const Spacer(),
                     InkWell(
@@ -1120,7 +1117,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         children: [
                           Text(
                             "Checkout all",
-                            style: AppFontStyle.text_14_600(AppColors.primary),
+                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                           ),
                           wBox(4),
                           Icon(
@@ -1180,8 +1177,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                 Text(
                                   carts?.pharmacy?.shopName.toString() ?? "",
                                   overflow: TextOverflow.ellipsis,
-                                  style: AppFontStyle.text_14_500(
-                                      AppColors.darkText),
+                                  style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                 ),
                                 // Text(
                                 //   carts.vendorAddress.toString(),
@@ -1211,16 +1207,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                 children: [
                                   Text(
                                     "View Cart",
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.white),
+                                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
                                     "items",
-                                    style: AppFontStyle.text_10_400(
-                                        AppColors.white.withOpacity(.5)),
-                                    overflow: TextOverflow.ellipsis,
+                                    style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),                                    overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                 ],

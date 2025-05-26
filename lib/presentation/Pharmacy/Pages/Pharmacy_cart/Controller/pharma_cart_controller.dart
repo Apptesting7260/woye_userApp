@@ -170,6 +170,9 @@ class PharmacyCartController extends GetxController {
     required List<String> cartIds,
     required List<Map<String,dynamic>> carts,
     required List<dynamic> prescription,
+    required String deliveryNotes,
+    required String deliverySoon,
+    required String courierTip,
   }) async {
     var data = {
       "wallet_used": isWalletUsed.toString(),
@@ -182,6 +185,9 @@ class PharmacyCartController extends GetxController {
       "type": "pharmacy",
       "cart_ids": jsonEncode(cartIds),
       "carts": jsonEncode(carts),
+      'delivery_notes' : deliveryNotes,
+      'delivery_soon' : deliverySoon,
+      'courier_tip' : courierTip,
       if(prescription.isNotEmpty)
       'drslip' : jsonEncode(prescription),
     };

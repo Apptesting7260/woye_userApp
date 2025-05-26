@@ -17,6 +17,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../Shared/theme/font_family.dart';
+
 class PharmacySingleCartScreen extends StatefulWidget {
   final bool isBack;
   final String? cartId;
@@ -75,7 +77,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
           isActions: true,
           title: Text(
             "My Cart",
-            style: AppFontStyle.text_24_600(AppColors.darkText),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
         ),
         body: Obx(() {
@@ -115,13 +117,13 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                           hBox(10.h),
                           Text(
                             "Your cart is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                                AppFontStyle.text_16_400(AppColors.mediumText),
+                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
                           ),
                         ],
                       )
@@ -165,7 +167,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
           children: [
             Text(
               "Delivery Address",
-              style: AppFontStyle.text_20_600(AppColors.darkText),
+              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
             const Spacer(),
             InkWell(
@@ -183,7 +185,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                 children: [
                   Text(
                     "Change Address",
-                    style: AppFontStyle.text_14_600(AppColors.primary),
+                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                   ),
                   wBox(4),
                   Icon(
@@ -214,7 +216,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                     .toString()
                     .capitalizeFirst
                     .toString(),
-                style: AppFontStyle.text_15_600(AppColors.primary),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
               SizedBox(
@@ -223,7 +225,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                   controller.cartData.value.address!.address.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
               ),
             ],
@@ -255,7 +257,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
           Text(
             "Your\nLocation",
             textAlign: TextAlign.center,
-            style: AppFontStyle.text_15_600(AppColors.primary),
+            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
           ),
           VerticalDivider(thickness: 1.w, color: AppColors.hintText),
           SizedBox(
@@ -264,7 +266,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
               currentLocation.value,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_14_400(AppColors.darkText),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
           ),
         ],
@@ -450,8 +452,8 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                         .toString(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
-                                    style: AppFontStyle.text_14_500(
-                                        AppColors.darkText),
+                                    style: AppFontStyle.text_16_400(
+                                        AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                   ),
                                 ),
                           // Obx(() => deleteProductController.rxRequestStatus.value == Status.LOADING &&
@@ -513,7 +515,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                   "\$${controller.cartData.value.cart!.decodedAttribute![index].totalPrice.toString()}",
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_14_600(
-                                      AppColors.primary),
+                                      AppColors.primary,family: AppFontFamily.gilroyRegular),
                                 ),
                           isLoading
                               ? Shimmer.fromColors(
@@ -645,7 +647,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                                     .quantity
                                                     .toString(),
                                                 style: AppFontStyle.text_14_400(
-                                                    AppColors.darkText),
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                               ),
                                               InkWell(
                                                 splashColor: Colors.transparent,
@@ -761,21 +763,21 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                             Text(
                               '${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemName}',
                               style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
+                                  AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             Text(
                               ' - ',
                               style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
+                                  AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             Text(
                               '\$${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemPrice}',
                               style:
-                                  AppFontStyle.text_12_400(AppColors.primary),
+                                  AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -783,7 +785,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                               Text(
                                 ',',
                                 style:
-                                    AppFontStyle.text_12_400(AppColors.primary),
+                                    AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -830,19 +832,19 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         readOnly: controller.readOnly.value,
                         focusNode: focusNode,
                         onTap: () {
-                          if (controller.cartData.value.cart!.decodedAttribute!
-                              .where((item) => item.checked == "true")
-                              .isEmpty) {
-                            Utils.showToast("Please select a product");
-                          } else if (controller
-                              .cartData.value.coupons!.isNotEmpty) {
-                            if (controller.readOnly.value) {
-                              bottomBar(context);
-                            }
-                          } else {
-                            controller.readOnly.value = false;
-                            Utils.showToast("Coupon Not available");
-                          }
+                          // if (controller.cartData.value.cart!.decodedAttribute!
+                          //     .where((item) => item.checked == "true")
+                          //     .isEmpty) {
+                          //   Utils.showToast("Please select a product");
+                          // } else if (controller
+                          //     .cartData.value.coupons!.isNotEmpty) {
+                          //   if (controller.readOnly.value) {
+                          //     bottomBar(context);
+                          //   }
+                          // } else {
+                          //   controller.readOnly.value = false;
+                          //   Utils.showToast("Coupon Not available");
+                          // }
                         },
                         alignment: Alignment.center,
                         contentPadding: EdgeInsets.zero,
@@ -851,7 +853,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                             BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
                         hintText: "Enter coupon code",
                         hintStyle:
-                            AppFontStyle.text_16_400(AppColors.lightText),
+                            AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                         onTapOutside: (event) {
                           FocusScope.of(context).unfocus();
                         },
@@ -881,7 +883,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                           },
                           child: Text(
                             "Apply",
-                            style: AppFontStyle.text_16_600(AppColors.primary),
+                            style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                           ),
                         ),
                   wBox(20.h),
@@ -962,19 +964,19 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                               controller
                                   .cartData.value.cart!.couponApplied!.code
                                   .toString(),
-                              style: AppFontStyle.text_18_600(AppColors.black),
+                              style: AppFontStyle.text_18_600(AppColors.black,family: AppFontFamily.gilroyRegular),
                             ),
                             wBox(5.h),
                             Text(
                               "Applied",
                               style:
-                                  AppFontStyle.text_16_600(AppColors.primary),
+                                  AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                             ),
                           ],
                         ),
                         Text(
                           "-\$${controller.cartData.value.cart!.couponDiscount}",
-                          style: AppFontStyle.text_16_400(AppColors.lightText),
+                          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                         ),
                       ],
                     ),
@@ -996,7 +998,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
       children: [
         Text(
           "Payment Details",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10.h),
         if (isLoading) ...[
@@ -1013,11 +1015,11 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
             children: [
               Text(
                 "Regular Price",
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
                 "\$${controller.cartData.value.cart!.regularPrice.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
           ),
@@ -1027,11 +1029,11 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
             children: [
               Text(
                 "Save Amount",
-                style: AppFontStyle.text_14_400(AppColors.lightText),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
                 "\$${controller.cartData.value.cart!.saveAmount.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.darkText),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
           ),
@@ -1043,11 +1045,11 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                 children: [
                   Text(
                     "Coupon Discount",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
                     "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               ),
@@ -1060,11 +1062,11 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                 children: [
                   Text(
                     "Delivery Charge",
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
                     "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               ),
@@ -1088,7 +1090,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
           children: [
             Text(
               "Total Price",
-              style: AppFontStyle.text_14_500(AppColors.darkText),
+              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
             ),
             isLoading
                 ? shimmerItem('\$0.00',
@@ -1097,7 +1099,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                     width: 135,
                     child: Text(
                       "\$${controller.cartData.value.cart!.totalPrice.toString()}",
-                      style: AppFontStyle.text_26_600(AppColors.primary),
+                      style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                     ),
                   ),
           ],
@@ -1182,7 +1184,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         }
                       },
                       text: "Checkout",
-                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                      textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
                     ),
                   )
                 : SizedBox(
@@ -1196,7 +1198,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         });
                       },
                       text: "Complete Address",
-                      textStyle: AppFontStyle.text_16_600(AppColors.white),
+                      textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
                     ),
                   ),
       ],
@@ -1274,7 +1276,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                     children: [
                       Text(
                         "Your Promo Codes",
-                        style: AppFontStyle.text_20_400(AppColors.darkText),
+                        style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                       InkWell(
                         splashColor: Colors.transparent,
@@ -1336,8 +1338,8 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         children: [
                           Text(
                             "${controller.cartData.value.coupons![index].discountAmount}",
-                            style: AppFontStyle.text_30_600(Colors.white,
-                                height: 1.h),
+                            style: AppFontStyle.text_28_600(Colors.white,
+                                height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
                             controller.cartData.value.coupons![index]
@@ -1346,14 +1348,14 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                     "percent"
                                 ? "%"
                                 : "\$",
-                            style: AppFontStyle.text_14_400(Colors.white),
+                            style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
                           )
                         ],
                       ),
                     ),
                     Text(
                       "OFF",
-                      style: AppFontStyle.text_15_400(Colors.white),
+                      style: AppFontStyle.text_15_400(Colors.white,family: AppFontFamily.gilroyRegular),
                     )
                   ],
                 ),
@@ -1368,7 +1370,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                       controller.cartData.value.coupons![index].couponType
                           .toString(),
                       overflow: TextOverflow.ellipsis,
-                      style: AppFontStyle.text_13_400(AppColors.lightText),
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
                     hBox(10),
                     FittedBox(
@@ -1376,7 +1378,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         controller.cartData.value.coupons![index].code
                             .toString(),
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_15_400(AppColors.darkText,
+                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
                             height: 1.h),
                       ),
                     ),
@@ -1393,7 +1395,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                       child: Text(
                         daysRemaining,
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_12_400(AppColors.lightText),
+                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                       ),
                     ),
                     hBox(8),
@@ -1401,8 +1403,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                             .toString() !=
                         "Expired")
                       CustomElevatedButton(
-                        textStyle:
-                            AppFontStyle.text_13_400(Colors.white, height: 1.0),
+                        textStyle:AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),
                         width: 85.w,
                         height: 36.h,
                         text: "Select",
@@ -1444,6 +1445,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
+                  fontFamily: AppFontFamily.gilroyRegular,
                   color: Colors.black,
                 ),
               ),
@@ -1454,6 +1456,8 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
+                  fontFamily: AppFontFamily.gilroyMedium,
+
                   color: Colors.grey,
                 ),
               ),
@@ -1468,13 +1472,15 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         Get.back();
                       },
                       text: "Cancel",
-                      textStyle: AppFontStyle.text_14_400(AppColors.darkText),
-                    ),
+                      textStyle: AppFontStyle.text_16_400(AppColors.darkText ,family: AppFontFamily.gilroyMedium,)
+                    )
                   ),
                   wBox(15),
                   Obx(
                     () => Expanded(
                       child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
+
                         height: 40.h,
                         isLoading:
                             deleteProductController.rxRequestStatus.value ==

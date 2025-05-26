@@ -120,11 +120,13 @@ class PharmacyAddToCarController extends GetxController {
         // } else {
         //   pharmacyCartController.getPharmacyCartApi();
           setRxRequestStatus(Status.COMPLETED);
+          pharmacyCartController.getAllPharmacyCartData();
+          pharmacyCartController.getAllCartProductsForCheckout();
           cartId.value = addToCartData.value.cartId.toString();
           pharmaSpecificProductController.goToCart.value = true;
 
           Utils.showToast(addToCartData.value.message.toString());
-          pharmacyCartController.getAllPharmacyCartData();
+          // pharmacyCartController.getAllPharmacyCartData();
         // }
       } else {
         Utils.showToast(addToCartData.value.message.toString());

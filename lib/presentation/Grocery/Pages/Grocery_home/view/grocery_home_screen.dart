@@ -455,8 +455,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                 Text(
                                   carts.grocery!.shopName.toString(),
                                   overflow: TextOverflow.ellipsis,
-                                  style: AppFontStyle.text_14_500(
-                                      AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                 ),
                                 // Text(
                                 //   carts.vendorAddress.toString(),
@@ -486,15 +485,13 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                 children: [
                                   Text(
                                     "View Cart",
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.white,family: AppFontFamily.gilroyMedium),
+                                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
                                     "items",
-                                    style: AppFontStyle.text_10_400(
-                                        AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
+                                    style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
