@@ -60,6 +60,43 @@ class specific_Product_Controller extends GetxController {
     });
   }
 
+
+  refreshSpecificProductApi({
+    required String productId,
+    required String categoryId,
+  }) async {
+    // goToCart.value = false;
+    // selectedAddOn.clear();
+    // extrasTitlesIdsId.clear();
+    // extrasItemIdsId.clear();
+    // extrasItemIdsName.clear();
+    // extrasItemIdsPrice.clear();
+    // selectedImageUrl.value = "";
+    // cartCount.value = 1;
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {
+      "product_id": productId,
+      "category_id": categoryId,
+    };
+    api.specific_Product_Api(data).then((value) {
+      if(value.status == true){
+        // isSelected = (-1).obs;
+        productdata_Set(value);
+        setRxRequestStatus(Status.COMPLETED);
+      }else if(value.status == false){
+        Get.back();
+        Utils.showToast("Product is not active.");
+        setRxRequestStatus(Status.COMPLETED);
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
   String formatDate(String? dateString) {
     if (dateString == null) {
       return "";

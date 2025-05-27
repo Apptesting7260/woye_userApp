@@ -24,9 +24,9 @@ class CreateOrderController extends GetxController {
   RxBool isDeliveryNotes = false.obs;
   RxBool isDeliveryAsSoonAsPossible = false.obs;
   RxString enteredTips = "".obs;
-  RxDouble totalPriceIncludingTips = 0.0.obs;
+  RxDouble totalPriceIncludingTips = 0.00.obs;
   RxString totalPayAmount = "0".obs;
-  RxDouble newPayAfterWallet = 0.0.obs;
+  RxDouble newPayAfterWallet = 0.00.obs;
 
   @override
   void onInit() {
@@ -92,13 +92,14 @@ class CreateOrderController extends GetxController {
     await initializeUser();
     setRxRequestStatus(Status.LOADING);
     String url = AppUrls.createOrder;
-    var request = http.MultipartRequest('POST', Uri.parse("url"));
+    var request = http.MultipartRequest('POST', Uri.parse(url));
     request.headers['Authorization'] = 'Bearer $userToken';
     pt("Authorization Header: Bearer $userToken");
     request.fields['wallet_used'] = walletSelected.value.toString();
     request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
+    // request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
     request.fields['payment_method'] = paymentMethod;
-    request.fields['payment_amount'] = walletSelected.value ? newTotalWithoutIncludingTips.value.toString() : total;
+    request.fields['payment_amount'] = walletSelected.value ? newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total;
         // ? (payAfterWallet.value - (double.tryParse(enteredTips.value.replaceAll(",", "")) ?? 0.0)).toStringAsFixed(2)
         // : total.toString();
     // request.fields['payment_amount'] = walletSelected.value ? payAfterWallet.value.toStringAsFixed(2) : totalPriceIncludingTips.toStringAsFixed(2);
@@ -197,149 +198,63 @@ class CreateOrderController extends GetxController {
     }
   }
 
-  // void updateBalanceAfterTips({required String totalPrice,required String walletBalance}){
-  //   totalPriceIncludingTips.value = double.parse(totalPrice) + double.parse(selectedTipsIndexValue.value == 0 ? "5" :
-  //   selectedTipsIndexValue.value == 1 ? "10" :
-  //   selectedTipsIndexValue.value == 2 ? "15" :
-  //   selectedTipsIndexValue.value == 3 ?
-  //   (enteredTips.value.isNotEmpty? enteredTips.value : "0") : "0");
-  //   if(walletSelected.value && double.parse(totalPrice.toString()) > double.parse(walletBalance.toString())){
-  //     payAfterWallet.value = totalPriceIncludingTips.value  - double.parse(walletSelected.value ? walletBalance.toString() : "0.00");;
-  //   }
-  //
-  //   final walletBalDouble = double.parse(walletBalance);
-  //
-  //   if (walletSelected.value) {
-  //     if (walletBalDouble >= totalPriceIncludingTips.value) {
-  //       // Wallet covers full amount
-  //       walletDiscount.value = totalPriceIncludingTips.value;
-  //       payAfterWallet.value = 0.0;
-  //       isSelectable.value = true;
-  //       selectedIndex.value = 0;
-  //     } else {
-  //       // Wallet partially covers
-  //       walletDiscount.value = walletBalDouble;
-  //       // payAfterWallet.value = totalPriceIncludingTips.value - walletBalDouble;
-  //       isSelectable.value = false;
-  //     }
-  //   } else {
-  //     // Wallet not selected
-  //     walletDiscount.value = 0.0;
-  //     // payAfterWallet.value = totalPriceIncludingTips.value;
-  //     isSelectable.value = false;
-  //   }
-  //
-  //   update();
-  // }
-
-  // void updateBalanceAfterTips({
-  //   required String totalPrice,
-  //   required String walletBalance,
-  // }) {
-  //   // Step 1: Calculate tipsAmount based on selected tip
-  //   double tipsAmount = 0.0;
-  //
-  //   if (selectedTipsIndexValue.value == 0) {
-  //     tipsAmount = 5.0;
-  //   } else if (selectedTipsIndexValue.value == 1) {
-  //     tipsAmount = 10.0;
-  //   } else if (selectedTipsIndexValue.value == 2) {
-  //     tipsAmount = 15.0;
-  //   } else if (selectedTipsIndexValue.value == 3 && enteredTips.value.isNotEmpty) {
-  //     tipsAmount = double.tryParse(enteredTips.value) ?? 0.0;
-  //   }
-  //
-  //   // Step 2: Parse main inputs
-  //   final totalPriceDouble = double.parse(totalPrice);
-  //   final walletBalDouble = double.parse(walletBalance);
-  //
-  //   // Step 3: Compute new local values
-  //   final double newTotalIncludingTips = totalPriceDouble + tipsAmount;
-  //
-  //
-  //   if (walletSelected.value && totalPriceDouble > walletBalDouble) {
-  //     newPayAfterWallet.value = newTotalIncludingTips - walletBalDouble;
-  //   }
-  //
-  //   // Step 4: Wallet logic
-  //   if (walletSelected.value) {
-  //     if (walletBalDouble >= newTotalIncludingTips) {
-  //       // Wallet covers everything
-  //       walletDiscount.value = newTotalIncludingTips;
-  //       newPayAfterWallet.value = 0.0;
-  //       isSelectable.value = true;
-  //       selectedIndex.value = 0;
-  //     } else {
-  //       // Partial wallet use
-  //       walletDiscount.value = walletBalDouble;
-  //       newPayAfterWallet.value = newTotalIncludingTips - walletBalDouble;
-  //       isSelectable.value = false;
-  //     }
-  //   } else {
-  //     // Wallet not used
-  //     walletDiscount.value = 0.0;
-  //     newPayAfterWallet.value = newTotalIncludingTips;
-  //     isSelectable.value = false;
-  //   }
-  //
-  //   // Step 5: Print or assign for debugging or later use
-  //   print("Tips Amount: $tipsAmount");
-  //   print("Total with Tips: $newTotalIncludingTips");
-  //   print("Pay After Wallet: $newPayAfterWallet");
-  //
-  //   update();
-  // }
-
-  RxDouble newTotalIncludingTips = 0.0.obs;
-  RxDouble newTotalWithoutIncludingTips = 0.0.obs;
+  RxDouble newTotalIncludingTips = 0.00.obs;
+  RxDouble newTotalWithoutIncludingTips = 0.00.obs;
 
   void updateBalanceAfterTips({
     required String totalPrice,
     required String walletBalance,
   }) {
     // Step 1: Calculate tipsAmount based on selected tip
-    RxDouble tipsAmount = 0.0.obs;
+    double tipsAmount = 0.00;
 
     if (selectedTipsIndexValue.value == 0) {
-      tipsAmount.value = 5.0;
+      tipsAmount = 5.00;
     } else if (selectedTipsIndexValue.value == 1) {
-      tipsAmount.value = 10.0;
+      tipsAmount = 10.00;
     } else if (selectedTipsIndexValue.value == 2) {
-      tipsAmount.value = 15.0;
+      tipsAmount = 15.00;
     } else if (selectedTipsIndexValue.value == 3 && enteredTips.value.isNotEmpty) {
-      tipsAmount.value = double.tryParse(enteredTips.value) ?? 0.0;
+      tipsAmount = double.tryParse(enteredTips.value) ?? 0.00;
     }
 
-    // Step 2: Parse inputs
-    final totalPriceDouble = double.parse(totalPrice);
-    final walletBalDouble = double.parse(walletBalance);
+    // Step 2: Parse inputs after removing commas
+    final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(',', '')) ?? 0.00;
+    final double walletBalDouble = double.tryParse(walletBalance.replaceAll(',', '')) ?? 0.00;
 
-    // ✅ Step 3: Save base price before tips
-    // newTotalWithoutIncludingTips.value = totalPriceDouble;
-    newTotalWithoutIncludingTips.value = (totalPriceDouble - walletBalDouble).clamp(0.0, double.infinity);
+    // Step 3: Calculate total including tips
+    final double totalWithTips = totalPriceDouble + tipsAmount;
 
-    // ✅ Step 4: Compute total including tips
-    newTotalIncludingTips.value = totalPriceDouble + tipsAmount.value;
+    // Step 4: Store totalWithoutIncludingTips (for display logic)
+    newTotalWithoutIncludingTips.value =
+        (totalPriceDouble - walletBalDouble).clamp(0.00, double.infinity);
 
     // Step 5: Wallet logic
-    if (walletSelected.value) {
-      if (walletBalDouble >= newTotalIncludingTips.value) {
-        walletDiscount.value = newTotalIncludingTips.value;
-        newPayAfterWallet.value = 0.0;
+    if (walletSelected.value && walletBalDouble > 0) {
+      if (walletBalDouble >= totalPriceDouble) {
+        // Wallet can fully cover base price, user only pays tips
+        walletDiscount.value = totalPriceDouble;
+        newPayAfterWallet.value = tipsAmount;
         isSelectable.value = true;
         selectedIndex.value = 0;
       } else {
+        // Wallet partially covers base price, user pays the rest + full tips
         walletDiscount.value = walletBalDouble;
-        newPayAfterWallet.value = newTotalIncludingTips.value - walletBalDouble;
+        double remainingBase = totalPriceDouble - walletBalDouble;
+        newPayAfterWallet.value = remainingBase + tipsAmount;
         isSelectable.value = false;
       }
+
+      newTotalIncludingTips.value = totalWithTips;
     } else {
+      // Wallet not selected or balance is 0
       walletDiscount.value = 0.0;
-      newPayAfterWallet.value = totalPriceDouble;
+      newPayAfterWallet.value = totalWithTips;
+      newTotalIncludingTips.value = totalWithTips;
       isSelectable.value = false;
     }
 
-    print("Tips Amount: ${tipsAmount.value}");
+    print("Tips Amount: $tipsAmount");
     print("Total Without Tips: ${newTotalWithoutIncludingTips.value}");
     print("Total With Tips: ${newTotalIncludingTips.value}");
     print("Pay After Wallet: ${newPayAfterWallet.value}");
@@ -347,6 +262,211 @@ class CreateOrderController extends GetxController {
     update();
   }
 
+  // void updateBalanceAfterTips({required String totalPrice,required String walletBalance}){
+//   totalPriceIncludingTips.value = double.parse(totalPrice) + double.parse(selectedTipsIndexValue.value == 0 ? "5" :
+//   selectedTipsIndexValue.value == 1 ? "10" :
+//   selectedTipsIndexValue.value == 2 ? "15" :
+//   selectedTipsIndexValue.value == 3 ?
+//   (enteredTips.value.isNotEmpty? enteredTips.value : "0") : "0");
+//   if(walletSelected.value && double.parse(totalPrice.toString()) > double.parse(walletBalance.toString())){
+//     payAfterWallet.value = totalPriceIncludingTips.value  - double.parse(walletSelected.value ? walletBalance.toString() : "0.00");;
+//   }
+//
+//   final walletBalDouble = double.parse(walletBalance);
+//
+//   if (walletSelected.value) {
+//     if (walletBalDouble >= totalPriceIncludingTips.value) {
+//       // Wallet covers full amount
+//       walletDiscount.value = totalPriceIncludingTips.value;
+//       payAfterWallet.value = 0.0;
+//       isSelectable.value = true;
+//       selectedIndex.value = 0;
+//     } else {
+//       // Wallet partially covers
+//       walletDiscount.value = walletBalDouble;
+//       // payAfterWallet.value = totalPriceIncludingTips.value - walletBalDouble;
+//       isSelectable.value = false;
+//     }
+//   } else {
+//     // Wallet not selected
+//     walletDiscount.value = 0.0;
+//     // payAfterWallet.value = totalPriceIncludingTips.value;
+//     isSelectable.value = false;
+//   }
+//
+//   update();
+// }
+
+// void updateBalanceAfterTips({
+//   required String totalPrice,
+//   required String walletBalance,
+// }) {
+//   // Step 1: Calculate tipsAmount based on selected tip
+//   double tipsAmount = 0.0;
+//
+//   if (selectedTipsIndexValue.value == 0) {
+//     tipsAmount = 5.0;
+//   } else if (selectedTipsIndexValue.value == 1) {
+//     tipsAmount = 10.0;
+//   } else if (selectedTipsIndexValue.value == 2) {
+//     tipsAmount = 15.0;
+//   } else if (selectedTipsIndexValue.value == 3 && enteredTips.value.isNotEmpty) {
+//     tipsAmount = double.tryParse(enteredTips.value) ?? 0.0;
+//   }
+//
+//   // Step 2: Parse main inputs
+//   final totalPriceDouble = double.parse(totalPrice);
+//   final walletBalDouble = double.parse(walletBalance);
+//
+//   // Step 3: Compute new local values
+//   final double newTotalIncludingTips = totalPriceDouble + tipsAmount;
+//
+//
+//   if (walletSelected.value && totalPriceDouble > walletBalDouble) {
+//     newPayAfterWallet.value = newTotalIncludingTips - walletBalDouble;
+//   }
+//
+//   // Step 4: Wallet logic
+//   if (walletSelected.value) {
+//     if (walletBalDouble >= newTotalIncludingTips) {
+//       // Wallet covers everything
+//       walletDiscount.value = newTotalIncludingTips;
+//       newPayAfterWallet.value = 0.0;
+//       isSelectable.value = true;
+//       selectedIndex.value = 0;
+//     } else {
+//       // Partial wallet use
+//       walletDiscount.value = walletBalDouble;
+//       newPayAfterWallet.value = newTotalIncludingTips - walletBalDouble;
+//       isSelectable.value = false;
+//     }
+//   } else {
+//     // Wallet not used
+//     walletDiscount.value = 0.0;
+//     newPayAfterWallet.value = newTotalIncludingTips;
+//     isSelectable.value = false;
+//   }
+//
+//   // Step 5: Print or assign for debugging or later use
+//   print("Tips Amount: $tipsAmount");
+//   print("Total with Tips: $newTotalIncludingTips");
+//   print("Pay After Wallet: $newPayAfterWallet");
+//
+//   update();
+// }
+// void updateBalanceAfterTips({
+  //   required String totalPrice,
+  //   required String walletBalance,
+  // }) {
+  //   // Step 1: Calculate tipsAmount based on selected tip
+  //   double tipsAmount = 0.00;
+  //
+  //   if (selectedTipsIndexValue.value == 0) {
+  //     tipsAmount = 5.00;
+  //   } else if (selectedTipsIndexValue.value == 1) {
+  //     tipsAmount = 10.00;
+  //   } else if (selectedTipsIndexValue.value == 2) {
+  //     tipsAmount = 15.00;
+  //   } else if (selectedTipsIndexValue.value == 3 && enteredTips.value.isNotEmpty) {
+  //     tipsAmount = double.tryParse(enteredTips.value) ?? 0.00;
+  //   }
+  //
+  //   // Step 2: Parse inputs
+  //   final double totalPriceDouble = double.tryParse(totalPrice) ?? 0.00;
+  //   final double walletBalDouble = double.tryParse(walletBalance) ?? 0.00;
+  //
+  //   // Step 3: Calculate total including tips
+  //   final double totalWithTips = totalPriceDouble + tipsAmount;
+  //
+  //   // Step 4: Store totalWithoutIncludingTips (for display logic)
+  //   newTotalWithoutIncludingTips.value =
+  //       (totalPriceDouble - walletBalDouble).clamp(0.00, double.infinity);
+  //
+  //   // Step 5: Wallet logic
+  //   if (walletSelected.value && walletBalDouble > 0) {
+  //     if (walletBalDouble >= totalWithTips) {
+  //       walletDiscount.value = totalWithTips;
+  //       newPayAfterWallet.value = 0.00;
+  //       isSelectable.value = true;
+  //       selectedIndex.value = 0;
+  //     } else {
+  //       walletDiscount.value = walletBalDouble;
+  //       newPayAfterWallet.value = totalWithTips - walletBalDouble;
+  //       isSelectable.value = false;
+  //     }
+  //
+  //     newTotalIncludingTips.value = totalWithTips;
+  //   } else {
+  //     // Wallet not selected or balance is 0
+  //     walletDiscount.value = 0.0;
+  //     newPayAfterWallet.value = totalWithTips;
+  //     newTotalIncludingTips.value = totalWithTips;
+  //     isSelectable.value = false;
+  //   }
+  //
+  //   print("Tips Amount: $tipsAmount");
+  //   print("Total Without Tips: ${newTotalWithoutIncludingTips.value}");
+  //   print("Total With Tips: ${newTotalIncludingTips.value}");
+  //   print("Pay After Wallet: ${newPayAfterWallet.value}");
+  //
+  //   update();
+  // }
+
+//Working if wallet is not empty
+// void updateBalanceAfterTips({
+  //   required String totalPrice,
+  //   required String walletBalance,
+  // }) {
+  //   // Step 1: Calculate tipsAmount based on selected tip
+  //   RxDouble tipsAmount = 0.0.obs;
+  //
+  //   if (selectedTipsIndexValue.value == 0) {
+  //     tipsAmount.value = 5.0;
+  //   } else if (selectedTipsIndexValue.value == 1) {
+  //     tipsAmount.value = 10.0;
+  //   } else if (selectedTipsIndexValue.value == 2) {
+  //     tipsAmount.value = 15.0;
+  //   } else if (selectedTipsIndexValue.value == 3 && enteredTips.value.isNotEmpty) {
+  //     tipsAmount.value = double.tryParse(enteredTips.value) ?? 0.0;
+  //   }
+  //
+  //   // Step 2: Parse inputs
+  //   final totalPriceDouble = double.parse(totalPrice);
+  //   final walletBalDouble = double.parse(walletBalance);
+  //
+  //   // ✅ Step 3: Save base price before tips
+  //   // newTotalWithoutIncludingTips.value = totalPriceDouble;
+  //   newTotalWithoutIncludingTips.value = (totalPriceDouble - walletBalDouble).clamp(0.0, double.infinity);
+  //
+  //   // ✅ Step 4: Compute total including tips
+  //   newTotalIncludingTips.value = totalPriceDouble + tipsAmount.value;
+  //
+  //   // Step 5: Wallet logic
+  //   if (walletSelected.value) {
+  //     if (walletBalDouble >= newTotalIncludingTips.value) {
+  //       walletDiscount.value = newTotalIncludingTips.value;
+  //       newPayAfterWallet.value = 0.0;
+  //       isSelectable.value = true;
+  //       selectedIndex.value = 0;
+  //     } else {
+  //       walletDiscount.value = walletBalDouble;
+  //       newPayAfterWallet.value = newTotalIncludingTips.value - walletBalDouble;
+  //       isSelectable.value = false;
+  //     }
+  //   } else {
+  //     walletDiscount.value = 0.0;
+  //     newPayAfterWallet.value = totalPriceDouble;
+  //     newTotalIncludingTips.value = 0;
+  //     isSelectable.value = false;
+  //   }
+  //
+  //   print("Tips Amount: ${tipsAmount.value}");
+  //   print("Total Without Tips: ${newTotalWithoutIncludingTips.value}");
+  //   print("Total With Tips: ${newTotalIncludingTips.value}");
+  //   print("Pay After Wallet: ${newPayAfterWallet.value}");
+  //
+  //   update();
+  // }
   // void updateBalanceAfterTips({
   //   required String totalPrice,
   //   required String walletBalance,
@@ -399,39 +519,4 @@ class CreateOrderController extends GetxController {
   //
   //   update();
   // }
-
-  void updateBalanceAfterTipsWithoutChangingAfterPayBalance({required String totalPrice,required String walletBalance}){
-    totalPriceIncludingTips.value = double.parse(totalPrice) + double.parse(selectedTipsIndexValue.value == 0 ? "5" :
-    selectedTipsIndexValue.value == 1 ? "10" :
-    selectedTipsIndexValue.value == 2 ? "15" :
-    selectedTipsIndexValue.value == 3 ?
-    (enteredTips.value.isNotEmpty? enteredTips.value : "0") : "0");
-    if(walletSelected.value && double.parse(totalPrice.toString()) > double.parse(walletBalance.toString())){
-      payAfterWallet.value = totalPriceIncludingTips.value  - double.parse(walletSelected.value ? walletBalance.toString() : "0.00");;
-    }
-
-    final walletBalDouble = double.parse(walletBalance);
-
-    if (walletSelected.value) {
-      if (walletBalDouble >= totalPriceIncludingTips.value) {
-        // Wallet covers full amount
-        walletDiscount.value = totalPriceIncludingTips.value;
-        payAfterWallet.value = 0.0;
-        isSelectable.value = true;
-        selectedIndex.value = 0;
-      } else {
-        // Wallet partially covers
-        walletDiscount.value = walletBalDouble;
-        payAfterWallet.value = totalPriceIncludingTips.value - walletBalDouble;
-        isSelectable.value = false;
-      }
-    } else {
-      // Wallet not selected
-      walletDiscount.value = 0.0;
-      payAfterWallet.value = totalPriceIncludingTips.value;
-      isSelectable.value = false;
-    }
-
-    update();
-  }
 }

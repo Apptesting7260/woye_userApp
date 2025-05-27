@@ -199,7 +199,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     productId: controller.restaurant_Data.value.highlights![index].id.toString(),
                     categoryId: controller.restaurant_Data.value.highlights![index].categoryId.toString(),
                   );
-                  Get.to(PharmacyProductDetailsScreen(
+                  Get.to(ProductDetailsScreen(
                     productId: controller.restaurant_Data.value.highlights![index].id.toString(),
                     categoryId: controller.restaurant_Data.value.highlights![index].categoryId.toString(),
                     categoryName: controller.restaurant_Data.value.highlights![index].category?.name.toString() ?? "",

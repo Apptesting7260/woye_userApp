@@ -125,8 +125,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
         case Status.LOADING:
           return Center(child: circularProgressIndicator());
         case Status.ERROR:
-          if (restaurantHomeController.error.value == 'No internet') {
+          if (restaurantHomeController.error.value == 'No internet' || restaurantHomeController.error.value == 'InternetExceptionWidget') {
             return InternetExceptionWidget(
+              isAppbar: false,
               onPress: () {
                 restaurantHomeController.homeApiRefresh(1);
               },

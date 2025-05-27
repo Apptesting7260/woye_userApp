@@ -1,5 +1,6 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/restaurant_wishlist_controller.dart';
 
@@ -28,11 +29,14 @@ class AddProductWishlistController extends GetxController {
   void setError(String value) => error.value = value;
   final RestaurantDetailsController restaurantDetailsController = Get.put(RestaurantDetailsController());
   final seeAll_Product_Controller seeAllProductController =Get.put(seeAll_Product_Controller());
+  final specific_Product_Controller specificProductController = Get.put(specific_Product_Controller());
 
   Future<void> restaurant_add_product_wishlist({
     required String categoryId,
     required String product_id,
     String? restaurantId,
+    String? productIdAllProducts,
+    bool? isRefresh,
   }) async {
     setRxRequestStatus(Status.LOADING);
     Map data = {"product_id": product_id};
@@ -53,8 +57,13 @@ class AddProductWishlistController extends GetxController {
         restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId ?? "");
 
         if(restaurantId != null && categoryId != ''){
-          seeAllProductController.refresh_seeAll_Product_Api(
-              category_id: categoryId, restaurant_id: restaurantId);
+          seeAllProductController.refresh_seeAll_Product_Api(category_id: categoryId, restaurant_id: restaurantId);
+        }
+        if(categoryId != "" && productIdAllProducts != "" && isRefresh == true){
+          specificProductController.refreshSpecificProductApi(
+            productId: productIdAllProducts.toString(),
+            categoryId:categoryId.toString(),
+          );
         }
         restaurantWishlistController.restaurantProductWishlistRefreshApi();
 

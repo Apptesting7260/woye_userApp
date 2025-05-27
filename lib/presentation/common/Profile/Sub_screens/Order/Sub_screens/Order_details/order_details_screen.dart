@@ -30,8 +30,8 @@ class OrderDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     print("dafsfdafsf : ${controller.ordersData.value.orderDetails?.drslip}");
 
-    final arguments = Get.arguments;
-    final id = arguments['order_id'];
+    final arguments = Get.arguments ?? {};
+    final id = arguments['order_id'] ?? "";
     print('Order ID: $id');
     return Scaffold(
       appBar: CustomAppBar(

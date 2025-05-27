@@ -23,6 +23,8 @@ class CustomItemBanner extends StatelessWidget {
   final String? categoryId;
   final String? product_id;
   Rx<bool>? isLoading;
+  bool? isRefresh;
+  String? productIdAllProducts;
 
   CustomItemBanner(
       {super.key,
@@ -40,7 +42,10 @@ class CustomItemBanner extends StatelessWidget {
       // this.rating,
       this.categoryId,
       this.product_id,
-      this.isLoading});
+      this.isLoading,
+      this.isRefresh,
+      this.productIdAllProducts,
+      });
 
   final AddProductWishlistController add_Wishlist_Controller = Get.put(AddProductWishlistController());
 
@@ -94,6 +99,8 @@ class CustomItemBanner extends StatelessWidget {
                     is_in_wishlist = !is_in_wishlist!;
                     isLoading?.value = true;
                     await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                      productIdAllProducts: productIdAllProducts,
+                      isRefresh:isRefresh,
                       // restaurantId: restaurantId.toString(),
                       categoryId: categoryId.toString(),
                       product_id: product_id.toString(),

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/main.dart';
@@ -107,6 +108,9 @@ class CheckoutScreen extends StatelessWidget {
     controller.selectedIndex.value = -1;
     print("Updated payAfterWallet 1: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
     print("Updated payAfterWallet 1: ${controller.selectedIndex.value}");
+    controller.tipsController.value.clear();
+    controller.enteredTips.value = "0";
+    controller.selectedTipsIndexValue.value = -1;
     controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
     },);
 
@@ -152,7 +156,8 @@ class CheckoutScreen extends StatelessWidget {
                     print("controller.selectedIndex.value : ${controller.selectedIndex.value}");
                     if(!controller.isSelectable.value &&  controller.selectedIndex.value == 0 ||
                         !controller.isSelectable.value &&  controller.selectedIndex.value == -1 ||
-                        controller.isSelectable.value && controller.totalPriceIncludingTips.value > double.parse(walletBalance)
+                        controller.isSelectable.value && controller.totalPriceIncludingTips.value >   double.parse(walletBalance.toString().replaceAll(',', ''))
+                    // controller.totalPriceIncludingTips.value > double.parse(walletBalance.toString())
                     ) {
                       Utils.showToast("Payment method not available");
                     }
@@ -175,7 +180,7 @@ class CheckoutScreen extends StatelessWidget {
                             imageFiles: imageFiles,
                         );
                       }
-                      else if (cartType == 'grocery') {
+                      if (cartType == 'grocery') {
                         List<Map<String, dynamic>> carts = [];
 
                         print("vendorId type :: ${vendorId.runtimeType}");
@@ -212,24 +217,28 @@ class CheckoutScreen extends StatelessWidget {
 
                         groceryCartController.createOrderGrocery(
                             walletUsed: controller.walletSelected.value,
-                            walletAmount: controller.walletDiscount.value
-                                .toStringAsFixed(2),
+                            walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
                             paymentMethod: controller.isSelectable.value == true
-                                ? "wallet"
-                                : controller.selectedIndex.value == 1 ?
-                            "credit_card" : controller.selectedIndex.value == 2
-                                ? "cash_on_delivery"
-                                : "",
-                            paymentAmount: controller.payAfterWallet.value
-                                .toStringAsFixed(2),
+                                ? "wallet" : controller.selectedIndex.value == 1 ?
+                                "credit_card" : controller.selectedIndex.value == 2
+                                ? "cash_on_delivery" : "",
+                            // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+                            paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
                             addressId: addressId,
                             couponId: couponId,
                             total: total,
                             cartIds: cartIDs,
                             type: cartType,
-                            carts: carts, deliveryNotes: '', deliverySoon: '', courierTip: '');
+                            carts: carts,
+                            deliveryNotes: controller.deliveryNotesController.value.text,
+                            deliverySoon: controller.isDeliveryAsSoonAsPossible.value == true ? "true" : "false",
+                            courierTip: controller.selectedTipsIndexValue.value == 0 ? "5" :
+                            controller.selectedTipsIndexValue.value == 1 ? "10" :
+                            controller.selectedTipsIndexValue.value == 2 ? "15" :
+                            controller.selectedTipsIndexValue.value == 3 ? controller.tipsController.value.text : "",
+                        );
                       }
-                      else if (cartType == 'pharmacy') {
+                      if (cartType == 'pharmacy') {
                         List<String> cartIDs = [];
                         if (vendorId.runtimeType != String) {
                           for (int i = 0; i < cartId.length; i++) {
@@ -273,14 +282,20 @@ class CheckoutScreen extends StatelessWidget {
                           "credit_card" : controller.selectedIndex.value == 2
                               ? "cash_on_delivery"
                               : "",
-                          paymentAmount: controller.payAfterWallet.value
-                              .toStringAsFixed(2),
+                          paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+                          // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
                           addressId: addressId.toString(),
                           couponId: couponId.toString(),
                           totalAmount: total.toString(),
                           cartIds: cartIDs,
                           carts: carts,
-                          prescription: prescription, deliveryNotes: '', deliverySoon: '', courierTip: '',
+                          prescription: prescription,
+                          deliveryNotes: controller.deliveryNotesController.value.text,
+                          deliverySoon: controller.isDeliveryAsSoonAsPossible.value == true ? "true" : "false",
+                          courierTip: controller.selectedTipsIndexValue.value == 0 ? "5" :
+                          controller.selectedTipsIndexValue.value == 1 ? "10" :
+                          controller.selectedTipsIndexValue.value == 2 ? "15" :
+                          controller.selectedTipsIndexValue.value == 3 ? controller.tipsController.value.text : "",
                         );
                       }
                     }
@@ -289,15 +304,15 @@ class CheckoutScreen extends StatelessWidget {
                       ? "Place Order"
                       : controller.selectedIndex.value == 2
                           ? controller.walletSelected.value == false
-                              ? "\$${formatPrice(controller.newTotalIncludingTips.value.toString())} Order with COD"
+                              ? "\$${formatPrice(controller.newTotalIncludingTips.value.toStringAsFixed(2))} Order with COD"
                               // ? "\$${formatPrice(controller.totalPriceIncludingTips.value.toString())} Order with COD"
                               // ? "\$${formatPrice(total)} Order with COD"
-                              : "\$${controller.newTotalIncludingTips.value.toStringAsFixed(2)} Order with COD"
+                              : "\$${controller.newPayAfterWallet.value.toStringAsFixed(2)} Order with COD"
                           : controller.selectedIndex.value == 1
                               ? controller.walletSelected.value == false
-                                  ? "\$${formatPrice(controller.newTotalIncludingTips.value.toString())} Pay with Card"
+                                  ? "\$${formatPrice(controller.newTotalIncludingTips.value.toStringAsFixed(2))} Pay with Card"
                                   // ? "\$${formatPrice(total)} Pay with Card"
-                                  : "\$${controller.newTotalIncludingTips.value.toStringAsFixed(2)} Pay with Card"
+                                  : "\$${controller.newPayAfterWallet.value.toStringAsFixed(2)} Pay with Card"
                               : "Place Order",
                 ),
               ),
@@ -506,6 +521,7 @@ class CheckoutScreen extends StatelessWidget {
               if (controller.walletSelected.value) {
                 if (walletBalanceDouble >= totalPriceDouble) {
                   controller.payAfterWallet.value = 0.0;
+                  controller.newTotalIncludingTips.value = 0.0;
                   controller.walletDiscount.value = totalPriceDouble;
                   controller.isSelectable.value = true;
                   controller.selectedIndex.value = 0;
@@ -564,6 +580,7 @@ class CheckoutScreen extends StatelessWidget {
   Widget paymentMethod({required String walletBalance, required String totalPrice}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       controller.initializeWallet(walletBalance, totalPrice);
+      controller.updateBalanceAfterTips(totalPrice: totalPrice,walletBalance: walletBalance);
     });
 
     return Column(
@@ -1056,9 +1073,10 @@ class CheckoutScreen extends StatelessWidget {
                         pt("Tips valueee >>>> ${controller.tipsController.value.text}");
                         pt("Tips valueee >>>> $index");
                         if (controller.selectedTipsIndexValue.value == index) {
-                          controller.selectedTipsIndexValue.value = -1;
                           controller.tipsController.value.clear();
                           controller.enteredTips.value = "0";
+                          controller.selectedTipsIndexValue.value = -1;
+                          controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
                         }
                         else {
                           controller.selectedTipsIndexValue.value = index;
@@ -1091,9 +1109,11 @@ class CheckoutScreen extends StatelessWidget {
                                               right: 0,
                                               top: 0,
                                               child: IconButton(onPressed: () {
-                                                Get.back();
                                                 controller.selectedTipsIndexValue.value = -1;
+                                                controller.enteredTips.value = "0";
                                                 controller.tipsController.value.clear();
+                                                Get.back();
+                                                controller.update();
                                               },
                                                   icon: Icon(Icons.cancel,
                                                     color: AppColors.primary,
@@ -1144,8 +1164,9 @@ class CheckoutScreen extends StatelessWidget {
                         controller: controller.tipsController.value,
                         onChanged: (value){
                           controller.enteredTips.value = value;
-                          controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
                         },
+                        textInputType: TextInputType.number,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         hintText: 'Enter tips for the courier',
                         hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
                         // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
@@ -1173,6 +1194,7 @@ class CheckoutScreen extends StatelessWidget {
                         height: 50.h,
                         onPressed: () {
                           if(controller.tipsKey.currentState?.validate() ?? false){
+                            controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
                             Get.back();
                             pt("entered tips value  >>>> ${controller.tipsController.value.text}");
                           }else{

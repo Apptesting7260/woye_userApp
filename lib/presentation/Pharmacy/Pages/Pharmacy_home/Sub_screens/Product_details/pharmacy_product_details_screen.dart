@@ -133,14 +133,14 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                   isRefresh:fromCart != null && fromCart == true ? true : false,
                   categoryId: categoryId,
                   product_id:  controller.productData.value.product?.id.toString() ?? productId.toString(),
-                )
-                    .then(
-                  (value) {
-                    pharmacyDetailsController.refresh_restaurant_Details_Api(
-                        id: controller.productData.value.product!.userId
-                            .toString());
-                  },
                 );
+                  //   .then(
+                  // (value) {
+                  //   pharmacyDetailsController.refresh_restaurant_Details_Api(
+                  //       id: controller.productData.value.product!.userId
+                  //           .toString());
+                  // },
+                // );
                 controller.isLoading.value = false;
               },
               child: Container(
@@ -242,7 +242,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       // hBox(30),
                       // //
                       // reviews(),
-                      hBox(30),
+                      hBox(25.h),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
                         moreProducts(),
                       hBox(20),
@@ -1072,7 +1072,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             itemCount: moreProducts!.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.62.h,
+              childAspectRatio: 0.59.h,
               crossAxisSpacing: 16.w,
               mainAxisSpacing: 5.h,
             ),

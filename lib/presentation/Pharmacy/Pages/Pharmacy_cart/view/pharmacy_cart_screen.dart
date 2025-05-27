@@ -131,7 +131,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
-                            style:AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
+                            style:AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
                           ),
                         ],
                       )

@@ -2,6 +2,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Rate_and_review_product/post_review_controller.dart';
 
+import '../../../../../../../Shared/theme/font_family.dart';
+
 class RateAndReviewProductScreen extends StatelessWidget {
   RateAndReviewProductScreen({super.key});
 
@@ -34,7 +36,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Reviews",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -42,13 +44,14 @@ class RateAndReviewProductScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            hBox(40),
+            // hBox(25.h),
             giveRating(rating),
             hBox(30),
             giveReview(),
             hBox(20),
             Obx(
               () => CustomElevatedButton(
+                fontFamily: AppFontFamily.gilroyMedium,
                 isLoading: (controller.rxRequestStatus.value == Status.LOADING),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
@@ -95,7 +98,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
       children: [
         Text(
           "What is your rate?",
-          style: AppFontStyle.text_18_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(20),
         // RatingBar(
@@ -133,7 +136,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
           "What is your rate?",
-          style: AppFontStyle.text_18_600(AppColors.darkText),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(20),
         CustomTextFormField(
@@ -141,6 +144,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
           minLines: 7,
           controller: controller.reviewController.value,
           hintText: "Write your review...",
+          hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please write a review';
