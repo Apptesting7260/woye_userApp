@@ -221,13 +221,17 @@ class Repository {
 
   /* ------------------------------------------------ Restaurant ----------------------------------------------------*/
 
-  Future<dynamic> homeApi({required int page, required int perPage}) async {
+  Future<dynamic> homeApi(Map<String,dynamic> params) async {
     await initializeUser();
-    final String url = '${AppUrls.homeApi}?page=$page&per_page=$perPage';
-
-    dynamic response = await _apiService.getApi(url, token);
+    dynamic response = await _apiService.getWithParams(AppUrls.homeApi, token,params: params);
     return HomeModel.fromJson(response);
   }
+    // Future<dynamic> homeApi({required int page, required int perPage}) async {
+  //   await initializeUser();
+  //   final String url = '${AppUrls.homeApi}?page=$page&per_page=$perPage';
+  //   dynamic response = await _apiService.getApi(url, token);
+  //   return HomeModel.fromJson(response);
+  // }
 
   Future<dynamic> all_Restaurant_Api() async {
     await initializeUser();

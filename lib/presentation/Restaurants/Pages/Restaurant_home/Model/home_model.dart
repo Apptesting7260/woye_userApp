@@ -1,10 +1,14 @@
 class HomeModel {
   bool? status;
   List<Category>? category;
-  RestaurantsData? freedelResto;
-  RestaurantsData? nearbyResto;
-  RestaurantsData? popularResto;
-  RestaurantsData? restaurants;
+  // AllRestaurant? freedelResto;
+  // AllRestaurant? nearbyResto;
+  // AllRestaurant? popularResto;
+  // AllRestaurant? restaurants;
+  List<AllRestaurant>? freedelResto;
+  List<AllRestaurant>? nearbyResto;
+  List<AllRestaurant>? popularResto;
+  List<AllRestaurant>? restaurants;
   List<Banner>? banners;
   String? message;
 
@@ -25,18 +29,40 @@ class HomeModel {
             ? []
             : List<Category>.from(
                 json["category"]!.map((x) => Category.fromJson(x))),
+
         freedelResto: json["freedel_resto"] == null
-            ? null
-            :RestaurantsData.fromJson(json['freedel_resto']),
-      nearbyResto: json["nearby_resto"] == null
-            ? null
-            : RestaurantsData.fromJson(json["nearby_resto"]),
-    restaurants: json["restaurants"] == null
-            ? null
-            : RestaurantsData.fromJson(json["restaurants"]),
-    popularResto : json["popular_resto"] == null
-            ? null
-            : RestaurantsData.fromJson(json["popular_resto"]),
+                ? []
+                : List<AllRestaurant>.from(
+                    json["freedel_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+
+        nearbyResto: json["nearby_resto"] == null
+                ? []
+                : List<AllRestaurant>.from(
+                    json["nearby_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+
+        restaurants: json["restaurants"] == null
+                ? []
+                : List<AllRestaurant>.from(
+                    json["restaurants"]!.map((x) => AllRestaurant.fromJson(x))),
+
+        popularResto: json["popular_resto"] == null
+                ? []
+                : List<AllRestaurant>.from(
+                    json["popular_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+
+    //     freedelResto: json["freedel_resto"] == null
+    //         ? null
+    //         :AllRestaurant.fromJson(json['freedel_resto']),
+    //   nearbyResto: json["nearby_resto"] == null
+    //         ? null
+    //         : AllRestaurant.fromJson(json["nearby_resto"]),
+    // restaurants: json["restaurants"] == null
+    //         ? null
+    //         : AllRestaurant.fromJson(json["restaurants"]),
+    // popularResto : json["popular_resto"] == null
+    //         ? null
+    //         : AllRestaurant.fromJson(json["popular_resto"]),
+
         banners: json["banners"] == null
             ? []
             : List<Banner>.from(
@@ -50,10 +76,23 @@ class HomeModel {
         "category": category == null
             ? []
             : List<dynamic>.from(category!.map((x) => x.toJson())),
-        "freedel_resto": freedelResto?.toJson(),
-        "nearby_resto": nearbyResto?.toJson(),
-        "popular_resto": popularResto?.toJson(),
-        "restaurants": restaurants?.toJson(),
+    "freedel_resto": freedelResto == null
+            ? []
+            : List<AllRestaurant>.from(freedelResto!.map((x) => x.toJson())),
+
+    "nearby_resto": nearbyResto == null ? []
+                  : List<AllRestaurant>.from(nearbyResto!.map((x) => x.toJson())),
+
+    "popular_resto": popularResto == null ? []
+                  : List<AllRestaurant>.from(popularResto!.map((x) => x.toJson())),
+
+    "restaurants": restaurants == null ? []
+                  : List<AllRestaurant>.from(restaurants!.map((x) => x.toJson())),
+
+        // "freedel_resto": freedelResto?.toJson(),
+        // "nearby_resto": nearbyResto?.toJson(),
+        // "popular_resto": popularResto?.toJson(),
+        // "restaurants": restaurants?.toJson(),
         "banners": banners == null
             ? []
             : List<dynamic>.from(banners!.map((x) => x.toJson())),
@@ -177,78 +216,122 @@ class Restaurant {
       };
 }
 
-class RestaurantsData {
-  int? currentPage;
-  List<Restaurant>? data;
-  String? firstPageUrl;
-  int? from;
-  int? lastPage;
-  String? lastPageUrl;
+// class RestaurantsData {
+//   int? currentPage;
+//   List<Restaurant>? data;
+//   String? firstPageUrl;
+//   int? from;
+//   int? lastPage;
+//   String? lastPageUrl;
+//
+//   // List<Link>? links;
+//   String? nextPageUrl;
+//   String? path;
+//   int? perPage;
+//   String? prevPageUrl;
+//   int? to;
+//   int? total;
+//
+//   RestaurantsData({
+//     this.currentPage,
+//     this.data,
+//     this.firstPageUrl,
+//     this.from,
+//     this.lastPage,
+//     this.lastPageUrl,
+//     // this.links,
+//     this.nextPageUrl,
+//     this.path,
+//     this.perPage,
+//     this.prevPageUrl,
+//     this.to,
+//     this.total,
+//   });
+//
+//   factory RestaurantsData.fromJson(Map<String, dynamic> json) =>
+//       RestaurantsData(
+//         currentPage: json["current_page"],
+//         data: json["data"] == null
+//             ? []
+//             : List<Restaurant>.from(
+//                 json["data"]!.map((x) => Restaurant.fromJson(x))),
+//         firstPageUrl: json["first_page_url"],
+//         from: json["from"],
+//         lastPage: json["last_page"],
+//         lastPageUrl: json["last_page_url"],
+//         // links: json["links"] == null
+//         //     ? []
+//         //     : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
+//         nextPageUrl: json["next_page_url"],
+//         path: json["path"],
+//         perPage: json["per_page"],
+//         prevPageUrl: json["prev_page_url"],
+//         to: json["to"],
+//         total: json["total"],
+//       );
+//
+//   Map<String, dynamic> toJson() => {
+//         "current_page": currentPage,
+//         "data": data == null
+//             ? []
+//             : List<dynamic>.from(data!.map((x) => x.toJson())),
+//         "first_page_url": firstPageUrl,
+//         "from": from,
+//         "last_page": lastPage,
+//         "last_page_url": lastPageUrl,
+//         // "links": links == null
+//         //     ? []
+//         //     : List<dynamic>.from(links!.map((x) => x.toJson())),
+//         "next_page_url": nextPageUrl,
+//         "path": path,
+//         "per_page": perPage,
+//         "prev_page_url": prevPageUrl,
+//         "to": to,
+//         "total": total,
+//       };
+// }
 
-  // List<Link>? links;
-  String? nextPageUrl;
-  String? path;
-  int? perPage;
-  String? prevPageUrl;
-  int? to;
-  int? total;
+class AllRestaurant {
+  int? id;
+  String? rating;
+  String? avgPrice;
+  String? shopName;
+  String? shopDes;
+  int? status;
+  String? shopimage;
+  bool? isInWishlist;
 
-  RestaurantsData({
-    this.currentPage,
-    this.data,
-    this.firstPageUrl,
-    this.from,
-    this.lastPage,
-    this.lastPageUrl,
-    // this.links,
-    this.nextPageUrl,
-    this.path,
-    this.perPage,
-    this.prevPageUrl,
-    this.to,
-    this.total,
-  });
+  AllRestaurant(
+      {this.id,
+        this.rating,
+        this.avgPrice,
+        this.shopName,
+        this.shopDes,
+        this.status,
+        this.shopimage,
+        this.isInWishlist});
 
-  factory RestaurantsData.fromJson(Map<String, dynamic> json) =>
-      RestaurantsData(
-        currentPage: json["current_page"],
-        data: json["data"] == null
-            ? []
-            : List<Restaurant>.from(
-                json["data"]!.map((x) => Restaurant.fromJson(x))),
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        // links: json["links"] == null
-        //     ? []
-        //     : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
-      );
+  AllRestaurant.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    rating = json['rating'];
+    avgPrice = json['avg_price'];
+    shopName = json['shop_name'];
+    shopDes = json['shop_des'];
+    status = json['status'];
+    shopimage = json['shopimage'];
+    isInWishlist = json['is_in_wishlist'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "current_page": currentPage,
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
-        "first_page_url": firstPageUrl,
-        "from": from,
-        "last_page": lastPage,
-        "last_page_url": lastPageUrl,
-        // "links": links == null
-        //     ? []
-        //     : List<dynamic>.from(links!.map((x) => x.toJson())),
-        "next_page_url": nextPageUrl,
-        "path": path,
-        "per_page": perPage,
-        "prev_page_url": prevPageUrl,
-        "to": to,
-        "total": total,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['rating'] = rating;
+    data['avg_price'] = avgPrice;
+    data['shop_name'] = shopName;
+    data['shop_des'] = shopDes;
+    data['status'] = status;
+    data['shopimage'] = shopimage;
+    data['is_in_wishlist'] = isInWishlist;
+    return data;
+  }
 }
-

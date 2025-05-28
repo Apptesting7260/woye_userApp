@@ -44,7 +44,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               case Status.LOADING:
                 return Center(child: circularProgressIndicator());
               case Status.ERROR:
-                if (controller.error.value == 'No internet') {
+                if (controller.error.value == 'No internet' || controller.error.value == 'InternetExceptionWidget') {
                   return InternetExceptionWidget(
                     onPress: () {
                       controller.getNotifications();

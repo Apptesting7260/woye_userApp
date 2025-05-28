@@ -122,7 +122,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         case Status.LOADING:
           return Center(child: circularProgressIndicator());
         case Status.ERROR:
-          if (pharmacyHomeController.error.value == 'No internet' /*|| pharmacyHomeController.error.value == 'InternetExceptionWidget'*/) {
+          if (pharmacyHomeController.error.value == 'No internet'  || pharmacyHomeController.error.value == 'InternetExceptionWidget') {
             return InternetExceptionWidget(
               onPress: () {
                 pharmacyHomeController.homeApiRefresh(1);

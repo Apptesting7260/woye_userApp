@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../components/InternetException.dart';
 import '../app_exceptions.dart';
@@ -58,6 +59,38 @@ class NetworkApiServices extends BaseApiServices {
       );
     }
     print("${responseJson}");
+    return responseJson;
+  }
+
+
+  Future<dynamic> getWithParams(String baseUrl, String token, {Map<String, dynamic>? params}) async {
+    pt("token@calling : $token");
+    pt("Base URL@calling : $baseUrl");
+
+    final uri = Uri.parse(baseUrl).replace(queryParameters: params);
+    if (kDebugMode) {
+      print("Final URI: $uri");
+    }
+    final uriString = uri.toString().replaceAll('+', ' ');
+    final uriFixed = Uri.parse(uriString);
+    dynamic responseJson;
+    try {
+      final response = await http.get(uriFixed, headers: {
+        "Authorization": "Bearer $token"
+      }).timeout(const Duration(seconds: 50));
+
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw InternetExceptionWidget(
+        onPress: () {},
+      );
+    } on RequestTimeOut {
+      throw RequestTimeOut(
+        onPress: () {},
+      );
+    }
+
+    print("Response JSON: $responseJson");
     return responseJson;
   }
 

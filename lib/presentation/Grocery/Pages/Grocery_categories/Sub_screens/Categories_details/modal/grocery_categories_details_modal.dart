@@ -28,16 +28,16 @@ class GroceryCategoriesDetailsModal {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.categoryProduct != null) {
+    data['status'] = status;
+    if (categoryProduct != null) {
       data['categoryProduct'] =
-          this.categoryProduct!.map((v) => v.toJson()).toList();
+          categoryProduct!.map((v) => v.toJson()).toList();
     }
-    if (this.filterProduct != null) {
+    if (filterProduct != null) {
       data['filterProduct'] =
-          this.filterProduct!.map((v) => v.toJson()).toList();
+          filterProduct!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -53,6 +53,7 @@ class CategoryProduct {
   String? shopName;
   String? urlImage;
   String? categoryName;
+  String? groceryName;
   Rx<bool> isLoading = false.obs;
 
   CategoryProduct({
@@ -66,6 +67,7 @@ class CategoryProduct {
     this.shopName,
     this.urlImage,
     this.categoryName,
+    this.groceryName,
   });
 
   CategoryProduct.fromJson(Map<String, dynamic> json) {
@@ -79,20 +81,22 @@ class CategoryProduct {
     shopName = json['shop_name'];
     urlImage = json['url_image'];
     categoryName = json['category_name'];
+    groceryName = json['grocery_name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['regular_price'] = this.regularPrice;
-    data['sale_price'] = this.salePrice;
-    data['packaging_value'] = this.packagingValue;
-    data['category_id'] = this.categoryId;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['shop_name'] = this.shopName;
-    data['url_image'] = this.urlImage;
-    data['category_name'] = this.categoryName;
+    data['id'] = id;
+    data['title'] = title;
+    data['regular_price'] = regularPrice;
+    data['sale_price'] = salePrice;
+    data['packaging_value'] = packagingValue;
+    data['category_id'] = categoryId;
+    data['is_in_wishlist'] = isInWishlist;
+    data['shop_name'] = shopName;
+    data['url_image'] = urlImage;
+    data['category_name'] = categoryName;
+    data['grocery_name'] = groceryName;
     return data;
   }
 }

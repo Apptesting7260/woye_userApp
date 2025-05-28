@@ -119,7 +119,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
         case Status.LOADING:
           return Center(child: circularProgressIndicator());
         case Status.ERROR:
-          if (groceryHomeController.error.value == 'No internet') {
+          if (groceryHomeController.error.value == 'No internet' || groceryHomeController.error.value == "InternetExceptionWidget")  {
             return InternetExceptionWidget(
               onPress: () {
                 groceryHomeController.homeApiRefresh(1);

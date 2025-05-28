@@ -33,7 +33,7 @@ class GroceryCategoryDetails extends StatelessWidget {
           case Status.LOADING:
             return Center(child: circularProgressIndicator());
           case Status.ERROR:
-            if (controller.error.value == 'No internet') {
+            if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.groceryCategoriesDetailsApi(
@@ -53,6 +53,7 @@ class GroceryCategoryDetails extends StatelessWidget {
               onRefresh: () async {
                 controller.groceryCategoriesDetailsApi(
                     id: categoryId.toString());
+                categoriesFilterController.clearData();
               },
               child: Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24.h),
@@ -227,7 +228,7 @@ class GroceryCategoryDetails extends StatelessWidget {
                 quantity: product.packagingValue.toString(),
                 categoryId: product.categoryId.toString(),
                 product_id: product.id.toString(),
-                shop_name: product.shopName.toString(),
+                shop_name: product.groceryName.toString(),
                 is_in_wishlist: product.isInWishlist,
                 isLoading: product.isLoading,
                 categoryName: product.categoryName.toString(),
