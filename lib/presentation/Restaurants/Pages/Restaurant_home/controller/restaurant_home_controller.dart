@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/main.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/home_model.dart';
@@ -8,13 +9,19 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 class RestaurantHomeController extends GetxController {
 
   // RestaurantDetailsController restaurantDetailsController = Get.put(RestaurantDetailsController());
+  var storage = GetStorage();
 
   @override
   void onInit() {
+    getLatLong();
     homeApi();
-    // latitude = restaurantDetailsController.latitude.value.toString();
-    // longitude = restaurantDetailsController.longitude.value.toString();
     super.onInit();
+  }
+
+  getLatLong(){
+    latitude.value = storage.read('latitude').toString();
+    longitude.value =storage.read('longitude').toString();
+    pt("lat long >> ${latitude.value} ::: ${longitude.value}");
   }
 
 //   RxInt currentPage = 1.obs;
@@ -160,6 +167,10 @@ class RestaurantHomeController extends GetxController {
 
   homeApiRefresh() async {
     rating.value = "";
+    deliveryFee.value = "";
+    openNow.value = "";
+    latitude.value = storage.read('latitude').toString();
+    longitude.value =storage.read('longitude').toString();
     Map<String,dynamic> params = {
     // 'page':"1",
     // "per_page":"10",

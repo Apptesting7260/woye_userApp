@@ -381,13 +381,16 @@ class Repository {
 
 /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
 
-  Future<dynamic> pharmacyHomeApi(
-      {required int page, required int perPage}) async {
+  // Future<dynamic> pharmacyHomeApi({required int page, required int perPage}) async {
+  //   await initializeUser();
+  //   final String url ='${AppUrls.pharmacyHomeApi}?page=$page&per_page=$perPage';
+  //   dynamic response = await _apiService.getApi(url, token);
+  //   return PharamacyHomeModal.fromJson(response);
+  // }
+  Future<dynamic> pharmacyHomeApi(Map<String,dynamic> params) async {
     await initializeUser();
-    final String url =
-        '${AppUrls.pharmacyHomeApi}?page=$page&per_page=$perPage';
-
-    dynamic response = await _apiService.getApi(url, token);
+    String url = AppUrls.pharmacyHomeApi;
+    dynamic response = await _apiService.getWithParams(url, token,params: params);
     return PharamacyHomeModal.fromJson(response);
   }
 
@@ -540,14 +543,18 @@ class Repository {
 
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */
 
-  Future<dynamic> groceryHomeApi(
-      {required int page, required int perPage}) async {
+  Future<dynamic> groceryHomeApi(Map<String,dynamic> params) async {
     await initializeUser();
-    final String url = '${AppUrls.groceryHomeApi}?page=$page&per_page=$perPage';
-
-    dynamic response = await _apiService.getApi(url, token);
+    String url = AppUrls.groceryHomeApi;
+    dynamic response = await _apiService.getWithParams(url, token,params: params);
     return GroceryHomeModal.fromJson(response);
   }
+    // Future<dynamic> groceryHomeApi({required int page, required int perPage}) async {
+  //   await initializeUser();
+  //   final String url = '${AppUrls.groceryHomeApi}?page=$page&per_page=$perPage';
+  //   dynamic response = await _apiService.getApi(url, token);
+  //   return GroceryHomeModal.fromJson(response);
+  // }
 
   Future<dynamic> groceryCategoriesApi() async {
     await initializeUser();

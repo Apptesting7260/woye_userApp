@@ -52,8 +52,7 @@ class HomeScreen extends StatelessWidget {
                       color: AppColors.primary,
                       onPressed: () async {
                         Get.back();
-                        await currentLocationController.getCurrentPosition(
-                            back: true);
+                        await currentLocationController.getCurrentPosition(back: true);
                       },
                       text: "Allow Location Access",
                       textStyle: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroySemiBold),
@@ -114,9 +113,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Obx(() {
-                  return getUserDataController
-                              .userData.value.user?.imageUrl?.isEmpty ??
-                          true
+                  return getUserDataController.userData.value.user?.imageUrl?.isEmpty ?? true
                       ? Container(
                           width: 50.h,
                           height: 50.h,

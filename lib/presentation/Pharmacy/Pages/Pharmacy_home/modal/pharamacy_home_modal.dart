@@ -61,10 +61,15 @@ class PharamacyHomeModal {
   bool? status;
   List<Category>? category;
   // PharmaShopsData? pharmaShops;
-  FreedelPharma? freedelPharma;
-  NearbyPharma? nearbyPharma;
-  NearbyPharma? popularPharma;
-  NearbyPharma? pharmaShops;
+  // FreedelPharma? freedelPharma;
+  // NearbyPharma? nearbyPharma;
+  // NearbyPharma? popularPharma;
+  // NearbyPharma? pharmaShops;
+  List<AllPharmaShops>? freedelPharma;
+  List<AllPharmaShops>? nearbyPharma;
+  List<AllPharmaShops>? popularPharma;
+  List<AllPharmaShops>? pharmaShops;
+
   List<Banner>? banners;
   String? message;
   // Map<String, NearbyPharma>? pharmaCategories;
@@ -93,22 +98,23 @@ class PharamacyHomeModal {
 
     return PharamacyHomeModal(
         status: json["status"],
-        category: json["category"] == null
-            ? []
-            : List<Category>.from(
-                json["category"]!.map((x) => Category.fromJson(x))),
-        pharmaShops: json["pharma_shops"] == null
-            ? null
-            : NearbyPharma.fromJson(json["pharma_shops"]),
-        freedelPharma: json["freedel_pharma"] == null
-            ? null
-            : FreedelPharma.fromJson(json["freedel_pharma"]),
-        nearbyPharma: json["nearby_pharma"] == null
-            ? null
-            : NearbyPharma.fromJson(json["nearby_pharma"]),
-        popularPharma: json["popular_pharma"] == null
-            ? null
-            : NearbyPharma.fromJson(json["popular_pharma"]),
+        category: json["category"] == null ? [] : List<Category>.from(json["category"]!.map((x) => Category.fromJson(x))),
+        pharmaShops: json["pharma_shops"] == null ? [] : List<AllPharmaShops>.from(json["pharma_shops"]!.map((x) => AllPharmaShops.fromJson(x))),
+        freedelPharma: json["freedel_pharma"] == null ? [] : List<AllPharmaShops>.from(json["freedel_pharma"]!.map((x) => AllPharmaShops.fromJson(x))),
+        nearbyPharma: json["nearby_pharma"] == null ? [] : List<AllPharmaShops>.from(json["nearby_pharma"]!.map((x) => AllPharmaShops.fromJson(x))),
+        popularPharma: json["popular_pharma"] == null ? [] : List<AllPharmaShops>.from(json["popular_pharma"]!.map((x) => AllPharmaShops.fromJson(x))),
+        // pharmaShops: json["pharma_shops"] == null
+        //     ? null
+        //     : NearbyPharma.fromJson(json["pharma_shops"]),
+        // freedelPharma: json["freedel_pharma"] == null
+        //     ? null
+        //     : FreedelPharma.fromJson(json["freedel_pharma"]),
+        // nearbyPharma: json["nearby_pharma"] == null
+        //     ? null
+        //     : NearbyPharma.fromJson(json["nearby_pharma"]),
+        // popularPharma: json["popular_pharma"] == null
+        //     ? null
+        //     : NearbyPharma.fromJson(json["popular_pharma"]),
         banners: json["banner"] == null
             ? []
             : List<Banner>.from(json["banner"]!.map((x) => Banner.fromJson(x))),
@@ -124,13 +130,15 @@ class PharamacyHomeModal {
     return {
         "status": status,
         // "userdata": userdata?.toJson(),
-        "category": category == null
-            ? []
-            : List<dynamic>.from(category!.map((x) => x.toJson())),
-        "pharma_shops": pharmaShops?.toJson(),
-        "freedel_pharma": freedelPharma?.toJson(),
-        "nearby_pharma": nearbyPharma?.toJson(),
-        "popular_pharma": popularPharma?.toJson(),
+        "category": category == null ? [] : List<dynamic>.from(category!.map((x) => x.toJson())),
+        "pharma_shops": pharmaShops == null ? [] : List<AllPharmaShops>.from(pharmaShops!.map((x) => x.toJson())),
+        "freedel_pharma": freedelPharma == null ? [] : List<AllPharmaShops>.from(freedelPharma!.map((x) => x.toJson())),
+        "nearby_pharma": nearbyPharma == null ? [] : List<AllPharmaShops>.from(nearbyPharma!.map((x) => x.toJson())),
+        "popular_pharma": popularPharma == null ? [] : List<AllPharmaShops>.from(popularPharma!.map((x) => x.toJson())),
+        // "pharma_shops": pharmaShops?.toJson(),
+        // "freedel_pharma": freedelPharma?.toJson(),
+        // "nearby_pharma": nearbyPharma?.toJson(),
+        // "popular_pharma": popularPharma?.toJson(),
         "banner": banners == null
             ? []
             : List<dynamic>.from(banners!.map((x) => x.toJson())),
@@ -578,6 +586,83 @@ class NearbyPharma {
     data['prev_page_url'] = prevPageUrl;
     data['to'] = to;
     data['total'] = total;
+    return data;
+  }
+}
+/////////////////------------------------------------------------
+class AllPharmaShops {
+  int? id;
+  String? name;
+  String? email;
+  String? phone;
+  String? gender;
+  String? dob;
+  String? rating;
+  String? shopimage;
+  String? shopName;
+  String? avgPrice;
+  String? shopAddress;
+  String? opensAt;
+  String? closesAt;
+  String? latitude;
+  String? longitude;
+  String? avgRating;
+
+  AllPharmaShops(
+      {this.id,
+        this.name,
+        this.email,
+        this.phone,
+        this.gender,
+        this.dob,
+        this.rating,
+        this.shopimage,
+        this.shopName,
+        this.avgPrice,
+        this.shopAddress,
+        this.opensAt,
+        this.closesAt,
+        this.latitude,
+        this.longitude,
+        this.avgRating});
+
+  AllPharmaShops.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    gender = json['gender']?.toString();
+    dob = json['dob']?.toString();
+    rating = json['rating']?.toString();
+    shopimage = json['shopimage']?.toString();
+    shopName = json['shop_name']?.toString();
+    avgPrice = json['avg_price']?.toString();
+    shopAddress = json['shop_address']?.toString();
+    opensAt = json['opens_at']?.toString();
+    closesAt = json['closes_at']?.toString();
+    latitude = json['latitude']?.toString();
+    longitude = json['longitude']?.toString();
+    avgRating = json['avg_rating']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['rating'] = rating;
+    data['shopimage'] = shopimage;
+    data['shop_name'] = shopName;
+    data['avg_price'] = avgPrice;
+    data['shop_address'] = shopAddress;
+    data['opens_at'] = opensAt;
+    data['closes_at'] = closesAt;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['avg_rating'] = avgRating;
     return data;
   }
 }

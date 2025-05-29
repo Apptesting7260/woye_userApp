@@ -144,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         Text(
                           getUserDataController
-                                  .userData.value.user?.firstName!.characters
+                                  .userData.value.user?.firstName?.characters
                                   .toString() ??
                               "",
                           style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),

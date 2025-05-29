@@ -1,10 +1,14 @@
 class GroceryHomeModal {
   bool? status;
   List<Category>? category;
-  GroceryShopsData? groceryShops;
-  FreedelGrocery? freedelGrocery;
-  GroceryShopsData? nearbyGrocery;
-  GroceryShopsData? popularGrocery;
+  // GroceryShopsData? groceryShops;
+  // FreedelGrocery? freedelGrocery;
+  // GroceryShopsData? nearbyGrocery;
+  // GroceryShopsData? popularGrocery;
+  List<AllGroceryShops>? groceryShops;
+  List<AllGroceryShops>? freedelGrocery;
+  List<AllGroceryShops>? nearbyGrocery;
+  List<AllGroceryShops>? popularGrocery;
   List<Banner>? banners;
   String? message;
 
@@ -22,26 +26,27 @@ class GroceryHomeModal {
   factory GroceryHomeModal.fromJson(Map<String, dynamic> json) =>
       GroceryHomeModal(
         status: json["status"],
-        category: json["category"] == null
-            ? []
-            : List<Category>.from(
-                json["category"]!.map((x) => Category.fromJson(x))),
+        category: json["category"] == null ? [] : List<Category>.from(json["category"]!.map((x) => Category.fromJson(x))),
+        groceryShops: json["grocery_shops"] == null ? [] : List<AllGroceryShops>.from(json["grocery_shops"]!.map((x) => AllGroceryShops.fromJson(x))),
+        freedelGrocery: json["freedel_grocery"] == null ? [] : List<AllGroceryShops>.from(json["freedel_grocery"]!.map((x) => AllGroceryShops.fromJson(x))),
+        nearbyGrocery: json["nearby_grocery"] == null ? [] : List<AllGroceryShops>.from(json["nearby_grocery"]!.map((x) => AllGroceryShops.fromJson(x))),
+        popularGrocery: json["popular_grocery"] == null ? [] : List<AllGroceryShops>.from(json["popular_grocery"]!.map((x) => AllGroceryShops.fromJson(x))),
 
-        groceryShops: json["grocery_shops"] == null
-            ? null
-            : GroceryShopsData.fromJson(json["grocery_shops"]),
-
-        freedelGrocery: json["freedel_grocery"] == null
-            ? null
-            : FreedelGrocery.fromJson(json["freedel_grocery"]),
-
-        nearbyGrocery: json["nearby_grocery"] == null
-            ? null
-            : GroceryShopsData.fromJson(json["nearby_grocery"]),
-
-        popularGrocery: json["popular_grocery"] == null
-            ? null
-            : GroceryShopsData.fromJson(json["popular_grocery"]),
+        // groceryShops: json["grocery_shops"] == null
+        //     ? null
+        //     : GroceryShopsData.fromJson(json["grocery_shops"]),
+        //
+        // freedelGrocery: json["freedel_grocery"] == null
+        //     ? null
+        //     : FreedelGrocery.fromJson(json["freedel_grocery"]),
+        //
+        // nearbyGrocery: json["nearby_grocery"] == null
+        //     ? null
+        //     : GroceryShopsData.fromJson(json["nearby_grocery"]),
+        //
+        // popularGrocery: json["popular_grocery"] == null
+        //     ? null
+        //     : GroceryShopsData.fromJson(json["popular_grocery"]),
 
         banners: json["banner"] == null
             ? []
@@ -53,13 +58,13 @@ class GroceryHomeModal {
   Map<String, dynamic> toJson() => {
         "status": status,
         // "userdata": userdata?.toJson(),
-        "category": category == null
-            ? []
-            : List<dynamic>.from(category!.map((x) => x.toJson())),
-        "grocery_shops": groceryShops?.toJson(),
-        "banner": banners == null
-            ? []
-            : List<dynamic>.from(banners!.map((x) => x.toJson())),
+        "category": category == null ? [] : List<AllGroceryShops>.from(category!.map((x) => x.toJson())),
+        "grocery_shops": groceryShops == null ? [] : List<AllGroceryShops>.from(groceryShops!.map((x) => x.toJson())),
+        "freedel_grocery": freedelGrocery == null ? [] : List<AllGroceryShops>.from(freedelGrocery!.map((x) => x.toJson())),
+        "nearby_grocery": nearbyGrocery == null ? [] : List<AllGroceryShops>.from(nearbyGrocery!.map((x) => x.toJson())),
+        "popular_grocery": popularGrocery == null ? [] : List<AllGroceryShops>.from(popularGrocery!.map((x) => x.toJson())),
+        // "grocery_shops": groceryShops?.toJson(),
+        "banner": banners == null ? [] : List<dynamic>.from(banners!.map((x) => x.toJson())),
         "message": message,
       };
 }
@@ -419,3 +424,81 @@ class Data {
     return data;
   }
 }
+
+//---------------------------------------------------
+class AllGroceryShops {
+  int? id;
+  String? name;
+  String? email;
+  String? phone;
+  String? gender;
+  String? dob;
+  String? shopimage;
+  String? shopName;
+  String? rating;
+  String? avgPrice;
+  String? shopAddress;
+  String? opensAt;
+  String? closesAt;
+  String? latitude;
+  String? longitude;
+  String? avgRating;
+
+  AllGroceryShops({this.id,
+        this.name,
+        this.email,
+        this.phone,
+        this.gender,
+        this.dob,
+        this.shopimage,
+        this.shopName,
+        this.rating,
+        this.avgPrice,
+        this.shopAddress,
+        this.opensAt,
+        this.closesAt,
+        this.latitude,
+        this.longitude,
+        this.avgRating});
+
+  AllGroceryShops.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    gender = json['gender']?.toString();
+    dob = json['dob']?.toString();
+    shopimage = json['shopimage']?.toString();
+    shopName = json['shop_name']?.toString();
+    rating = json['rating']?.toString();
+    avgPrice = json['avg_price']?.toString();
+    shopAddress = json['shop_address']?.toString();
+    opensAt = json['opens_at']?.toString();
+    closesAt = json['closes_at']?.toString();
+    latitude = json['latitude']?.toString();
+    longitude = json['longitude']?.toString();
+    avgRating = json['avg_rating']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['gender'] = gender;
+    data['dob'] = dob;
+    data['shopimage'] = shopimage;
+    data['shop_name'] = shopName;
+    data['rating'] = rating;
+    data['avg_price'] = avgPrice;
+    data['shop_address'] = shopAddress;
+    data['opens_at'] = opensAt;
+    data['closes_at'] = closesAt;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['avg_rating'] = avgRating;
+    return data;
+  }
+}
+

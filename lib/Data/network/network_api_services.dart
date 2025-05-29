@@ -67,7 +67,13 @@ class NetworkApiServices extends BaseApiServices {
     pt("token@calling : $token");
     pt("Base URL@calling : $baseUrl");
 
-    final uri = Uri.parse(baseUrl).replace(queryParameters: params);
+    Uri uri;
+    if (params != null && params.isNotEmpty) {
+      uri = Uri.parse(baseUrl).replace(queryParameters: params);
+    } else {
+      uri = Uri.parse(baseUrl);
+    }
+
     if (kDebugMode) {
       print("Final URI: $uri");
     }

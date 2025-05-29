@@ -8,6 +8,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/controller/homeserchcontroller.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
 class RestaurantHomeFilter extends StatelessWidget {
   RestaurantHomeFilter({super.key});
@@ -55,27 +56,7 @@ class RestaurantHomeFilter extends StatelessWidget {
                   controller.searchData.value.restaurants!.isEmpty &&
                   controller.searchData.value.products!.isEmpty) {
                 return SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      // hBox(Get.height / 4),
-                      Center(
-                        child: SvgPicture.asset(
-                          ImageConstants.noData,
-                          height: 300.h,
-                          width: 200.h,
-                        ),
-                      ),
-                      Text(
-                        "We couldn't find any results",
-                        style: AppFontStyle.text_20_600(AppColors.darkText),
-                      ),
-                      hBox(5.h),
-                      Text(
-                        "Explore more and shortlist some items",
-                        style: AppFontStyle.text_16_400(AppColors.mediumText),
-                      ),
-                    ],
-                  ),
+                  child: CustomNoDataFound(heightBox: hBox(Get.height*.08.h),),
                 );
               } else {
                 return const SliverToBoxAdapter(child: SizedBox());

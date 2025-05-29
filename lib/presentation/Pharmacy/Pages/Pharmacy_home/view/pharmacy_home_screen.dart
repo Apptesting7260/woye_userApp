@@ -18,6 +18,8 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/banner_screens/pharma_banner_details_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/controller/pharmacy_home_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
+import 'package:woye_user/shared/widgets/custom_dropdown.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
 
 import '../../../../../Core/Utils/image_cache_height.dart';
@@ -39,73 +41,73 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
   final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController = Get.put(PharmacyCategoriesDetailsController());
 
   final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
-  final ScrollController _scrollControllerFreeDel = ScrollController();
-  final ScrollController _horScrollControllerPopularShop = ScrollController();
-  final ScrollController _horScrollControllerAllPharmacy = ScrollController();
-  final ScrollController _horScrollControllerNearBy = ScrollController();
+  // final ScrollController _scrollControllerFreeDel = ScrollController();
+  // final ScrollController _horScrollControllerPopularShop = ScrollController();
+  // final ScrollController _horScrollControllerAllPharmacy = ScrollController();
+  // final ScrollController _horScrollControllerNearBy = ScrollController();
 
   @override
   void initState() {
     super.initState();
     getApiData();
-    // pharmacyCartController.getPharmacyCartApi();
-    // pharmacyCartController.getAllPharmacyCartData();
-    // _scrollController.addListener(() {
-    //   if (_scrollController.position.pixels ==
-    //       _scrollController.position.maxScrollExtent) {
-    //     if (pharmacyHomeController.noLoading.value != true) {
-    //       if (!pharmacyHomeController.isLoading.value) {
-    //         pharmacyHomeController.isLoading.value = true;
-    //         pharmacyHomeController.currentPage++;
-    //         print(
-    //             "currentPage value ${pharmacyHomeController.currentPage.value}");
-    //         pharmacyHomeController
-    //             .homeApi(pharmacyHomeController.currentPage.value);
-    //       }
+    // // pharmacyCartController.getPharmacyCartApi();
+    // // pharmacyCartController.getAllPharmacyCartData();
+    // // _scrollController.addListener(() {
+    // //   if (_scrollController.position.pixels ==
+    // //       _scrollController.position.maxScrollExtent) {
+    // //     if (pharmacyHomeController.noLoading.value != true) {
+    // //       if (!pharmacyHomeController.isLoading.value) {
+    // //         pharmacyHomeController.isLoading.value = true;
+    // //         pharmacyHomeController.currentPage++;
+    // //         print(
+    // //             "currentPage value ${pharmacyHomeController.currentPage.value}");
+    // //         pharmacyHomeController
+    // //             .homeApi(pharmacyHomeController.currentPage.value);
+    // //       }
+    // //     }
+    // //   }
+    // // });
+    // _horScrollControllerPopularShop.addListener(() {
+    //   if (_horScrollControllerPopularShop.position.pixels >= _horScrollControllerPopularShop.position.maxScrollExtent - 100) {
+    //     if (!pharmacyHomeController.isLoadingPopular.value && !pharmacyHomeController.noMoreDataPopularLoading.value) {
+    //       pharmacyHomeController.isLoadingPopular.value = true;
+    //       pharmacyHomeController.currentPage.value++;
+    //       pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
     //     }
     //   }
     // });
-    _horScrollControllerPopularShop.addListener(() {
-      if (_horScrollControllerPopularShop.position.pixels >= _horScrollControllerPopularShop.position.maxScrollExtent - 100) {
-        if (!pharmacyHomeController.isLoadingPopular.value && !pharmacyHomeController.noMoreDataPopularLoading.value) {
-          pharmacyHomeController.isLoadingPopular.value = true;
-          pharmacyHomeController.currentPage.value++;
-          pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
-        }
-      }
-    });
-
-    _scrollControllerFreeDel.addListener(() {
-      if (_scrollControllerFreeDel.position.pixels >= _scrollControllerFreeDel.position.maxScrollExtent - 100) {
-        if (!pharmacyHomeController.isLoadingFree.value && !pharmacyHomeController.noMoreDataFreeLoading.value) {
-          pharmacyHomeController.isLoadingFree.value = true;
-          pharmacyHomeController.currentPage.value++;
-          pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
-        }
-      }
-    });
-
-
-    _horScrollControllerNearBy.addListener(() {
-      if (_horScrollControllerNearBy.position.pixels >= _horScrollControllerNearBy.position.maxScrollExtent - 100) {
-        if (!pharmacyHomeController.isLoadingNearby.value && !pharmacyHomeController.noMoreDataNearbyLoading.value) {
-          pharmacyHomeController.isLoadingNearby.value = true;
-          pharmacyHomeController.currentPage.value++;
-          pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
-        }
-      }
-    });
-
-
-    _horScrollControllerAllPharmacy.addListener(() {
-      if (_horScrollControllerAllPharmacy.position.pixels >= _horScrollControllerAllPharmacy.position.maxScrollExtent - 100) {
-        if (!pharmacyHomeController.isLoadingPharmacy.value && !pharmacyHomeController.noMoreDataPharmacyLoading.value) {
-          pharmacyHomeController.isLoadingPharmacy.value = true;
-          pharmacyHomeController.currentPage.value++;
-          pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
-        }
-      }
-    });
+    //
+    // _scrollControllerFreeDel.addListener(() {
+    //   if (_scrollControllerFreeDel.position.pixels >= _scrollControllerFreeDel.position.maxScrollExtent - 100) {
+    //     if (!pharmacyHomeController.isLoadingFree.value && !pharmacyHomeController.noMoreDataFreeLoading.value) {
+    //       pharmacyHomeController.isLoadingFree.value = true;
+    //       pharmacyHomeController.currentPage.value++;
+    //       pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
+    //     }
+    //   }
+    // });
+    //
+    //
+    // _horScrollControllerNearBy.addListener(() {
+    //   if (_horScrollControllerNearBy.position.pixels >= _horScrollControllerNearBy.position.maxScrollExtent - 100) {
+    //     if (!pharmacyHomeController.isLoadingNearby.value && !pharmacyHomeController.noMoreDataNearbyLoading.value) {
+    //       pharmacyHomeController.isLoadingNearby.value = true;
+    //       pharmacyHomeController.currentPage.value++;
+    //       pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
+    //     }
+    //   }
+    // });
+    //
+    //
+    // _horScrollControllerAllPharmacy.addListener(() {
+    //   if (_horScrollControllerAllPharmacy.position.pixels >= _horScrollControllerAllPharmacy.position.maxScrollExtent - 100) {
+    //     if (!pharmacyHomeController.isLoadingPharmacy.value && !pharmacyHomeController.noMoreDataPharmacyLoading.value) {
+    //       pharmacyHomeController.isLoadingPharmacy.value = true;
+    //       pharmacyHomeController.currentPage.value++;
+    //       pharmacyHomeController.homeApi(pharmacyHomeController.currentPage.value);
+    //     }
+    //   }
+    // });
 
   }
 
@@ -125,20 +127,20 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
           if (pharmacyHomeController.error.value == 'No internet'  || pharmacyHomeController.error.value == 'InternetExceptionWidget') {
             return InternetExceptionWidget(
               onPress: () {
-                pharmacyHomeController.homeApiRefresh(1);
+                pharmacyHomeController.homeApiRefresh();
               },
             );
           } else {
             return GeneralExceptionWidget(
               onPress: () {
-                pharmacyHomeController.homeApiRefresh(1);
+                pharmacyHomeController.homeApiRefresh();
               },
             );
           }
         case Status.COMPLETED:
           return RefreshIndicator(
             onRefresh: () async {
-              pharmacyHomeController.homeApiRefresh(1);
+              pharmacyHomeController.homeApiRefresh();
             },
             child: SafeArea(
               child: Scaffold(
@@ -155,26 +157,28 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                             ),
                             sliver: serchAndFilter(),
                           ),
+                          SliverToBoxAdapter(
+                            child: ratingDeliveryFilterBtn(),
+                          ),
                           SliverPadding(
                               padding: REdgeInsets.symmetric(horizontal: 0),
                               sliver: SliverToBoxAdapter(
                                 child: Column(
                                   children: [
-                                    if (pharmacyHomeController
-                                        .homeData.value.banners!.isNotEmpty)
+                                    if (pharmacyHomeController.homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
                                     if (pharmacyHomeController.homeData.value.category!.isNotEmpty)
                                       catergories(),
-                                    if (pharmacyHomeController.popularShopsList.isNotEmpty)...[
+                                    if (pharmacyHomeController.homeData.value.popularPharma?.isNotEmpty ?? false)...[
                                       popularShop(),
                                     ],
-                                    if (pharmacyHomeController.freeDeliveryShopsList.isNotEmpty)...[
+                                    if (pharmacyHomeController.homeData.value.freedelPharma?.isNotEmpty ?? false)...[
                                       freeDeliveryShops(),
                                     ],
-                                    if (pharmacyHomeController.nearByShopsList.isNotEmpty)...[
+                                    if (pharmacyHomeController.homeData.value.nearbyPharma?.isNotEmpty ?? false)...[
                                     nearByShops(),
                                     ],
-                                    if (pharmacyHomeController.allPharmaShopsList.isNotEmpty)...[
+                                    if (pharmacyHomeController.homeData.value.pharmaShops?.isNotEmpty ?? false)...[
                                       allPharmacyShops(),
                                     ],
                                     hBox(100.h)
@@ -598,38 +602,37 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             init: pharmacyHomeController,
             builder: (controller) {
               return Obx(() {
-                final shops = pharmacyHomeController.popularShopsList;
+                final shops = pharmacyHomeController.homeData.value.popularPharma;
                 return ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  controller: _horScrollControllerPopularShop,
+                  // controller: _horScrollControllerPopularShop,
                   padding: REdgeInsets.only(left:22,right: 20,top: 1),
                   // physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: shops.length +  (pharmacyHomeController.isLoadingPopular.value ? 1 : 0),
+                  itemCount: pharmacyHomeController.homeData.value.popularPharma?.length ?? 0,
                   itemBuilder: (context, index) {
-                    if (index ==  shops.length) {
-                      return Container(
-                        width: Get.width*0.78,
-                        margin: const EdgeInsets.only(bottom: 102),
-                        child: const ShimmerWidget(isRestaurantCard: true),);
-                    }
-                    final pharmashopsdata = shops[index];
+                    // if (index ==  shops.length) {
+                    //   return Container(
+                    //     width: Get.width*0.78,
+                    //     margin: const EdgeInsets.only(bottom: 102),
+                    //     child: const ShimmerWidget(isRestaurantCard: true),);
+                    // }
+                    final pharmashopsdata = shops?[index];
                     return GestureDetector(
                       onTap: () {
                         // pharmacyDetailsController.restaurant_Details_Api(
                         //   id: pharmashopsdata.id.toString(),
                         // );
-                        Get.to(()=>PharmacyVendorDetailsScreen(
-                            pharmacyId: pharmashopsdata.id.toString()));
+                        Get.to(()=>PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
                       child: SizedBox(
                         width: Get.width * 0.78,
                         child: pharmaShop(
                           index: index,
-                          image: pharmashopsdata.shopimage,
-                          title: pharmashopsdata.shopName,
-                          rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
-                          price: pharmashopsdata.rating,
+                          image: pharmashopsdata?.shopimage,
+                          title: pharmashopsdata?.shopName,
+                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                          price: pharmashopsdata?.rating,
                         ),
                       ),
                     );
@@ -686,38 +689,35 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             init: pharmacyHomeController,
             builder: (controller) {
               return Obx(() {
-                final shops = pharmacyHomeController.freeDeliveryShopsList;
+                final shops = pharmacyHomeController.homeData.value.freedelPharma;
                 return ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  controller: _scrollControllerFreeDel,
+                  // controller: _scrollControllerFreeDel,
                   padding: REdgeInsets.only(left:22,right: 20,top: 1),
                   // physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: shops.length +  (pharmacyHomeController.isLoadingFree.value ? 1 : 0),
+                  itemCount: shops?.length  ?? 0,
                   itemBuilder: (context, index) {
-                    if (index ==  shops.length) {
-                      return Container(
-                        width: Get.width*0.78,
-                        margin: const EdgeInsets.only(bottom: 102),
-                        child: const ShimmerWidget(isRestaurantCard: true),);
-                    }
-                    final pharmashopsdata = shops[index];
+                    // if (index ==  shops.length) {
+                    //   return Container(
+                    //     width: Get.width*0.78,
+                    //     margin: const EdgeInsets.only(bottom: 102),
+                    //     child: const ShimmerWidget(isRestaurantCard: true),);
+                    // }
+                    final pharmashopsdata = shops?[index];
                     return GestureDetector(
                       onTap: () {
-                        pharmacyDetailsController.restaurant_Details_Api(
-                          id: pharmashopsdata.id.toString(),
-                        );
-                        Get.to(PharmacyVendorDetailsScreen(
-                            pharmacyId: pharmashopsdata.id.toString()));
+                        pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
+                        Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
                       child: SizedBox(
                         width: Get.width * 0.78,
                         child: freeDeliveryPharmacyShopList(
                           index: index,
-                          image: pharmashopsdata.shopimage,
-                          title: pharmashopsdata.shopName,
-                          rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
-                          price: pharmashopsdata.rating,
+                          image: pharmashopsdata?.shopimage,
+                          title: pharmashopsdata?.shopName,
+                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                          price: pharmashopsdata?.rating,
                         ),
                       ),
                     );
@@ -774,38 +774,29 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             init: pharmacyHomeController,
             builder: (controller) {
               return Obx(() {
-                final shops = pharmacyHomeController.nearByShopsList;
+                final shops = pharmacyHomeController.homeData.value.nearbyPharma;
                 return ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  controller: _horScrollControllerNearBy,
+                  // controller: _horScrollControllerNearBy,
                   padding: REdgeInsets.only(left:22,right: 20,top: 1),
                   // physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: shops.length +  (pharmacyHomeController.isLoadingNearby.value ? 1 : 0),
+                  itemCount: shops?.length ?? 0,
                   itemBuilder: (context, index) {
-                    if (index ==  shops.length) {
-                      return Container(
-                        width: Get.width*0.78,
-                        margin: const EdgeInsets.only(bottom: 102),
-                        child: const ShimmerWidget(isRestaurantCard: true),);
-                    }
-                    final pharmashopsdata = shops[index];
+                    final pharmashopsdata = shops?[index];
                     return GestureDetector(
                       onTap: () {
-                        pharmacyDetailsController.restaurant_Details_Api(
-                          id: pharmashopsdata.id.toString(),
-                        );
-                        Get.to(PharmacyVendorDetailsScreen(
-                            pharmacyId: pharmashopsdata.id.toString()));
+                        pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
+                        Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
                       child: SizedBox(
                         width: Get.width * 0.78,
                         child: pharmaShop(
                           index: index,
-                          image: pharmashopsdata.shopimage,
-                          title: pharmashopsdata.shopName,
-                          rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
-                          price: pharmashopsdata.rating,
+                          image: pharmashopsdata?.shopimage,
+                          title: pharmashopsdata?.shopName,
+                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                          price: pharmashopsdata?.rating,
                         ),
                       ),
                     );
@@ -862,38 +853,29 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             init: pharmacyHomeController,
             builder: (controller) {
               return Obx(() {
-                final shops = pharmacyHomeController.allPharmaShopsList;
+                final shops = pharmacyHomeController.homeData.value.pharmaShops;
                 return ListView.separated(
                   scrollDirection: Axis.horizontal,
-                  controller: _horScrollControllerAllPharmacy,
+                  // controller: _horScrollControllerAllPharmacy,
                   padding: REdgeInsets.only(left:22,right: 20,top: 1),
                   // physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: shops.length +  (pharmacyHomeController.isLoadingPharmacy.value ? 1 : 0),
+                  itemCount: shops?.length ?? 0,
                   itemBuilder: (context, index) {
-                    if (index ==  shops.length) {
-                      return Container(
-                        width: Get.width*0.78,
-                        margin: const EdgeInsets.only(bottom: 102),
-                        child: const ShimmerWidget(isRestaurantCard: true),);
-                    }
-                    final pharmashopsdata = shops[index];
+                    final pharmashopsdata = shops?[index];
                     return GestureDetector(
                       onTap: () {
-                        pharmacyDetailsController.restaurant_Details_Api(
-                          id: pharmashopsdata.id.toString(),
-                        );
-                        Get.to(PharmacyVendorDetailsScreen(
-                            pharmacyId: pharmashopsdata.id.toString()));
+                        pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
+                        Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
                       child: SizedBox(
                         width: Get.width * 0.78,
                         child: pharmaShop(
                           index: index,
-                          image: pharmashopsdata.shopimage,
-                          title: pharmashopsdata.shopName,
-                          rating:cleanNumber(pharmashopsdata.avgRating ?? "0") ,
-                          price: pharmashopsdata.rating,
+                          image: pharmashopsdata?.shopimage,
+                          title: pharmashopsdata?.shopName,
+                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                          price: pharmashopsdata?.rating,
                         ),
                       ),
                     );
@@ -1331,6 +1313,108 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             ],
           ),),
       ],
+    );
+  }
+  
+  
+  Widget ratingDeliveryFilterBtn() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: REdgeInsets.only(left: 24, bottom: 20, top: 5, right: 24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Obx(
+                  () => CustomDropDown(
+                borderRadius: 100.r,
+                borderColor: AppColors.black.withOpacity(0.30),
+                btnHeight: 40,
+                // btnWidth: 150,
+                hintText: "Rating",
+                selectedValue: pharmacyHomeController.rating.value,
+                hintStyle: AppFontStyle.text_15_400(AppColors.black,
+                    family: AppFontFamily.gilroyMedium),
+                textStyle: AppFontStyle.text_15_400(AppColors.black,
+                    family: AppFontFamily.gilroyMedium),
+                items: const ["High to Low", "Low to high"],
+                onChanged: (val) {
+                  if (val != null && val.isNotEmpty) {
+                    pharmacyHomeController.rating.value = val;
+                    pharmacyHomeController.getLatLong();
+                    pharmacyHomeController.homeApi();
+                    pt(val);
+                  }
+                },
+                cancelTap: () {
+                  pharmacyHomeController.rating.value = "";
+                  pharmacyHomeController.getLatLong();
+                  pharmacyHomeController.homeApi();
+                },
+              ),
+            ),
+            wBox(5.w),
+            Obx(
+                  () => CustomDropDown(
+                borderRadius: 100.r,
+                borderColor: AppColors.black.withOpacity(0.30),
+                btnHeight: 40,
+                // btnWidth: 150,
+                hintText: "Delivery Fee",
+                selectedValue: pharmacyHomeController.deliveryFee.value,
+                hintStyle: AppFontStyle.text_15_400(AppColors.black,
+                    family: AppFontFamily.gilroyMedium),
+                textStyle: AppFontStyle.text_15_400(AppColors.black,
+                    family: AppFontFamily.gilroyMedium),
+                items: const ["Free"],
+                onChanged: (val) {
+                  if (val != null && val.isNotEmpty) {
+                    pharmacyHomeController.deliveryFee.value = val;
+                    pharmacyHomeController.getLatLong();
+                    pharmacyHomeController.homeApi();
+                    pt(val);
+                  }
+                },
+                cancelTap: () {
+                  pharmacyHomeController.deliveryFee.value = "";
+                  pharmacyHomeController.getLatLong();
+                  pharmacyHomeController.homeApi();
+                },
+              ),
+            ),
+            wBox(5.w),
+            // Obx(
+            //       () => CustomDropDown(
+            //     borderRadius: 100.r,
+            //     borderColor: AppColors.black.withOpacity(0.30),
+            //     btnHeight: 40,
+            //     // btnWidth: 150,
+            //     hintText: "Open Now",
+            //     selectedValue: pharmacyHomeController.openNow.value,
+            //     hintStyle: AppFontStyle.text_15_400(AppColors.black,
+            //         family: AppFontFamily.gilroyMedium),
+            //     textStyle: AppFontStyle.text_15_400(AppColors.black,
+            //         family: AppFontFamily.gilroyMedium),
+            //     items: const ["Open", "Closed"],
+            //     onChanged: (val) {
+            //       if (val != null && val.isNotEmpty) {
+            //         pharmacyHomeController.openNow.value = val;
+            //         pharmacyHomeController.getLatLong();
+            //         pharmacyHomeController.homeApi();
+            //         pt(val);
+            //       }
+            //     },
+            //     cancelTap: () {
+            //       pharmacyHomeController.openNow.value = "";
+            //       pharmacyHomeController.latitude.value = "";
+            //       pharmacyHomeController.longitude.value = "";
+            //       pharmacyHomeController.homeApi();
+            //     },
+            //   ),
+            // ),
+          ],
+        ),
+      ),
     );
   }
 

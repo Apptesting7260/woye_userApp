@@ -10,6 +10,7 @@ import 'package:woye_user/Presentation/Common/Otp/model/register_model.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Otp/model/login_model.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class OtpController extends GetxController {
   final Rx<TextEditingController> otpPin = TextEditingController().obs;
@@ -112,6 +113,7 @@ class OtpController extends GetxController {
       if (e.code == 'invalid-verification-code') {
         Utils.showToast('Invalid otp.');
       } else {
+        pt("ecode >> ${e.code}");
         Utils.showToast('Please check your otp and try again.');
       }
       return false;

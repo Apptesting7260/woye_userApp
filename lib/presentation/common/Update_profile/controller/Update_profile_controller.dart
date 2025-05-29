@@ -280,7 +280,7 @@ class SignUpForm_editProfileController extends GetxController {
 
       File? croppedImage = await _cropImage(originalImage.path);
 
-      if (croppedImage != null) {
+      if (croppedImage != null ) {
         image.value = croppedImage;
         profileImageGetUrl.value = croppedImage.path;
         imageUploadApi();
@@ -310,6 +310,7 @@ class SignUpForm_editProfileController extends GetxController {
 
       if (!status.isGranted) {
         status = await Permission.photos.request();
+        status = await Permission.storage.request();
         if (status.isPermanentlyDenied || !status.isGranted) {
           showPermissionDialog(Get.context!, "Gallery");
           return false;
@@ -388,7 +389,7 @@ class SignUpForm_editProfileController extends GetxController {
           ),
         ],
       );
-      return croppedFile != null ? File(croppedFile.path) : File("");
+      return croppedFile != null ? File(croppedFile.path) : null;
     } catch (e, stackTrace) {
       debugPrint('Image cropping failed: $e');
       debugPrint('Stack trace: $stackTrace');

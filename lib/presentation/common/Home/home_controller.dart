@@ -70,8 +70,8 @@ class HomeController extends GetxController {
     location.value = storage.read('location') ?? '';
     latitude.value = storage.read('latitude') ?? 0.0;
     longitude.value = storage.read('longitude') ?? 0.0;
-    print('Stored Location: ${location.value}');
-    print('Stored Latitude: ${latitude.value}');
-    print('Stored Longitude: ${longitude.value}');
+    print('Stored Location home controller: ${location.value}');
+    print('Stored Latitude home controller: ${latitude.value}');
+    print('Stored Longitude home controller: ${longitude.value}');
   }
 }

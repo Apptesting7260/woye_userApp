@@ -12,7 +12,7 @@ import 'package:woye_user/presentation/push_notification/push_notification.dart'
 import 'firebase_options.dart';
 
 var inSplash = true.obs;
-final PushNotificationService  _notificationService = PushNotificationService();
+// final PushNotificationService  _notificationService = PushNotificationService();
 final deepLinkController = Get.put(DeepLinkController());
 
 Future<void> main() async {
@@ -68,7 +68,6 @@ class MyApp extends StatelessWidget {
         print("deeplink error $e");
       }
     });
-
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

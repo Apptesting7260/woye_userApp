@@ -97,8 +97,15 @@ class CustomBanner extends StatelessWidget {
                     imageUrl: image.toString(),
                     fit: BoxFit.cover,
                     height: 160.h,
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
+                    errorWidget: (context, url, error) => Container(
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        border: Border.all(color: AppColors.textFieldBorder),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder,size: 25,),
+                    ),
                     placeholder: (context, url) => Shimmer.fromColors(
                       baseColor: AppColors.gray,
                       highlightColor: AppColors.lightText,

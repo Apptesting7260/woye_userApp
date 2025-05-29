@@ -1,6 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 
 class OrderConfirmScreen extends StatelessWidget {
   OrderConfirmScreen({super.key});
@@ -12,7 +13,7 @@ class OrderConfirmScreen extends StatelessWidget {
     var arguments = Get.arguments ??{};
     String cartType = arguments['type'].toString() ?? "";
     String orderNo = arguments['order_no'] ?? "";
-    print("object $orderNo");
+    print("orderNoorderNo $orderNo");
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -35,17 +36,18 @@ class OrderConfirmScreen extends StatelessWidget {
               hBox(30),
               Text(
                 "Your order has been Placed",
-                style: AppFontStyle.text_24_600(AppColors.darkText),
+                style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
               hBox(20),
               Text(
                 "Your items has been placcd and is on it's way to being processed",
                 textAlign: TextAlign.center,
                 maxLines: 3,
-                style: AppFontStyle.text_14_400(AppColors.darkText),
+                style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
               hBox(20),
               CustomElevatedButton(
+                fontFamily: AppFontFamily.gilroyMedium,
                   text: "Track Order",
                   onPressed: () {
                     Get.toNamed(AppRoutes.trackOrder,
@@ -68,7 +70,7 @@ class OrderConfirmScreen extends StatelessWidget {
                     homeController.navigate(2);
                   }
                 },
-                child: const Text("Continue Shopping"),
+                child: Text("Continue Shopping",style: AppFontStyle.text_16_500(AppColors.primary,family: AppFontFamily.gilroyMedium,),),
               ),
             ],
           ),

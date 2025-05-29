@@ -133,19 +133,15 @@ class SignUpScreen extends StatelessWidget {
         onPressed: () {
           FocusManager.instance.primaryFocus?.unfocus();
           if (signUpController.signUpFormKey.currentState!.validate()) {
-            checkUserController
-                .checkUserApi(
+            checkUserController.checkUserApi(
               isLoginType: false,
-                    country_code:
-                        signUpController.selectedCountryCode.value.toString(),
-                    mobile:
-                        signUpController.mobNoCon.value.text.trim().toString())
-                .then((value) {
+              country_code: signUpController.selectedCountryCode.value.toString(),
+              mobile: signUpController.mobNoCon.value.text.trim().toString())
+              .then((value) {
               print("object ${checkUserController.checkUser.value.status}");
               if (checkUserController.checkUser.value.status == false) {
                 signUpController.sendOtp();
-                print(
-                    "object123 ${checkUserController.checkUser.value.status}");
+                print("object123 ${checkUserController.checkUser.value.status}");
               } else {
                 Utils.showToast("Your account already exists. Please Sign in.");
               }
