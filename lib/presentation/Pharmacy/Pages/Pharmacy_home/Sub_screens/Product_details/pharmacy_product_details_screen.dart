@@ -242,9 +242,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       // hBox(30),
                       // //
                       // reviews(),
-                      hBox(25.h),
+                      // hBox(25.h),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
-                        moreProducts(),
+                      moreProducts(),
                       hBox(20),
                     ],
                   ),
@@ -666,9 +666,10 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
       // mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(5.h),
         Text(
           "Other Variant",
-          style: AppFontStyle.text_20_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10),
         GridView.builder(
@@ -711,16 +712,16 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                     children: [
                       Text(
                         item.name.toString(),
-                        style: AppFontStyle.text_16_400(AppColors.darkText),
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
-                      hBox(10),
+                      hBox(10.h),
                       Text(
                         "\$${item.price.toString()}",
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 18.sp,
+                          fontSize: 17.sp,
                           color: AppColors.primary,
-                          fontFamily: 'Gilroy-Regular',
+                          fontFamily: AppFontFamily.gilroyRegular,
                         ),
                       )
                     ],
@@ -958,6 +959,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 controller.productData.value.product!.otherDetails.toString(),
             index: 8,
           ),
+        hBox(25.h),
       ],
     );
   }

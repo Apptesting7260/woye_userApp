@@ -348,7 +348,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               children: [
                 Container(
                   padding: REdgeInsets.only(left: 10,right: 3),
-                  height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
+                  height: 50.h,width: 108.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

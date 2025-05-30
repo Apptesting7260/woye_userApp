@@ -312,17 +312,17 @@ class ProductDetailsScreen extends StatelessWidget {
                       hBox(30),
                       // productReviews(),
                       // hBox(8),
-                      const Divider(),
-                      if (controller
-                          .productData.value.product!.productreview!.isNotEmpty)
-                        hBox(30),
+                      // const Divider(),
+                      // if (controller
+                      //     .productData.value.product!.productreview!.isNotEmpty)
+                      //   hBox(30),
                       // if (controller
                       //     .productData.value.product!.productreview!.isNotEmpty)
                       //   reviews(),
-                      if (controller.productData.value.moreProducts!.isNotEmpty)
+                      if (controller.productData.value.moreProducts!.isNotEmpty)...[
                         hBox(20.h),
-                      if (controller.productData.value.moreProducts!.isNotEmpty)
                         moreProducts(),
+                      ],
                       hBox(20),
                     ],
                   ),

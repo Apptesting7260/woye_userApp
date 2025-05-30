@@ -40,7 +40,6 @@ class CheckoutScreen extends StatelessWidget {
     print("Total after removing commas: $formattedTotal");
     var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
     print("Total price: $total");
-
     var cartId = arguments['cart_id'] ?? "";
     var regularPrice = arguments['regular_price'] ?? "";
     var saveAmount = arguments['save_amount'] ?? "";
@@ -112,6 +111,10 @@ class CheckoutScreen extends StatelessWidget {
     controller.enteredTips.value = "0";
     controller.selectedTipsIndexValue.value = -1;
     controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
+    controller.tipsController.value.clear();
+    controller.deliveryNotesController.value.clear();
+    controller.isDeliveryAsSoonAsPossible.value = false;
+    controller.isDeliveryNotes.value = false;
     },);
 
     return SafeArea(

@@ -305,19 +305,21 @@ class SignUpForm_editProfileController extends GetxController {
         }
       }
       return true;
-    } else {
-      var status =  await Permission.photos.status;
-
-      if (!status.isGranted) {
-        status = await Permission.photos.request();
-        status = await Permission.storage.request();
-        if (status.isPermanentlyDenied || !status.isGranted) {
-          showPermissionDialog(Get.context!, "Gallery");
-          return false;
-        }
-      }
-      return true;
     }
+    // else {
+    //   var status =  await Permission.photos.status;
+    //
+    //   if (!status.isGranted) {
+    //     status = await Permission.photos.request();
+    //     status = await Permission.storage.request();
+    //     if (status.isPermanentlyDenied || !status.isGranted) {
+    //       showPermissionDialog(Get.context!, "Gallery");
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // }
+    return true;
   }
 
   void showPermissionDialog(BuildContext context, String permissionType) {

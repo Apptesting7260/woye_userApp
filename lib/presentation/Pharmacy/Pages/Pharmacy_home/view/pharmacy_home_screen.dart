@@ -1383,35 +1383,35 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               ),
             ),
             wBox(5.w),
-            // Obx(
-            //       () => CustomDropDown(
-            //     borderRadius: 100.r,
-            //     borderColor: AppColors.black.withOpacity(0.30),
-            //     btnHeight: 40,
-            //     // btnWidth: 150,
-            //     hintText: "Open Now",
-            //     selectedValue: pharmacyHomeController.openNow.value,
-            //     hintStyle: AppFontStyle.text_15_400(AppColors.black,
-            //         family: AppFontFamily.gilroyMedium),
-            //     textStyle: AppFontStyle.text_15_400(AppColors.black,
-            //         family: AppFontFamily.gilroyMedium),
-            //     items: const ["Open", "Closed"],
-            //     onChanged: (val) {
-            //       if (val != null && val.isNotEmpty) {
-            //         pharmacyHomeController.openNow.value = val;
-            //         pharmacyHomeController.getLatLong();
-            //         pharmacyHomeController.homeApi();
-            //         pt(val);
-            //       }
-            //     },
-            //     cancelTap: () {
-            //       pharmacyHomeController.openNow.value = "";
-            //       pharmacyHomeController.latitude.value = "";
-            //       pharmacyHomeController.longitude.value = "";
-            //       pharmacyHomeController.homeApi();
-            //     },
-            //   ),
-            // ),
+            Obx(
+                  () => CustomDropDown(
+                borderRadius: 100.r,
+                borderColor: AppColors.black.withOpacity(0.30),
+                btnHeight: 40,
+                // btnWidth: 150,
+                hintText: "Open Now",
+                selectedValue: pharmacyHomeController.openNow.value,
+                hintStyle: AppFontStyle.text_15_400(AppColors.black,
+                    family: AppFontFamily.gilroyMedium),
+                textStyle: AppFontStyle.text_15_400(AppColors.black,
+                    family: AppFontFamily.gilroyMedium),
+                items: const ["Open", "Closed"],
+                onChanged: (val) {
+                  if (val != null && val.isNotEmpty) {
+                    pharmacyHomeController.openNow.value = val;
+                    // pharmacyHomeController.getLatLong();
+                    // pharmacyHomeController.homeApi();
+                    pt(val);
+                  }
+                },
+                cancelTap: () {
+                  pharmacyHomeController.openNow.value = "";
+                  pharmacyHomeController.latitude.value = "";
+                  pharmacyHomeController.longitude.value = "";
+                  // pharmacyHomeController.homeApi();
+                },
+              ),
+            ),
           ],
         ),
       ),

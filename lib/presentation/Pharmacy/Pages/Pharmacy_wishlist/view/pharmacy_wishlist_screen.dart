@@ -306,14 +306,12 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                           ),
                                           Row(
                                             children: [
-                                              SvgPicture.asset(
-                                                  "assets/svg/star-yellow.svg"),
-                                              // wBox(4),
-                                              // Text(
-                                              //   "${product.rating.toString()}/5",
-                                              //   style: AppFontStyle.text_14_300(
-                                              //       AppColors.lightText),
-                                              // ),
+                                              SvgPicture.asset("assets/svg/star-yellow.svg"),
+                                              wBox(4),
+                                              Text(
+                                                "${product.rating ?? 0}/5",
+                                                style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                              ),
                                               wBox(4),
                                               // Text(
                                               //   controller
@@ -339,14 +337,9 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                   crossAxisSpacing: 16.w,
                                   mainAxisSpacing: 5.h,
                                 ))):
-                                SliverToBoxAdapter(
-                                  child:CustomNoDataFound(heightBox: hBox(15.h),),
-                                ),
-                            SliverToBoxAdapter(
-                              child: hBox(100),
-                            )
+                            SliverToBoxAdapter(child:CustomNoDataFound(heightBox: hBox(15.h),),),
+                            SliverToBoxAdapter(child: hBox(100)),
                           ],
-
                         ],
                       ),
               ),

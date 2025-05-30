@@ -234,7 +234,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                       // hBox(30),
                       // //
                       // reviews(),
-                      hBox(30),
+                      // hBox(30),
                       if (controller.productData.value.moreProducts!.isNotEmpty)
                         moreProducts(),
                       hBox(20),

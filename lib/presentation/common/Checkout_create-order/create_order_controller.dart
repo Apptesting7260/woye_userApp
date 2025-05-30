@@ -33,9 +33,9 @@ class CreateOrderController extends GetxController {
     selectedTipsIndexValue.value = -1;
     walletSelected.value = false;
     isSelectable.value = false;
-    // TODO: implement onInit
     super.onInit();
   }
+
   @override
   void onClose() {
     walletSelected.value = false;
@@ -43,6 +43,7 @@ class CreateOrderController extends GetxController {
     // TODO: implement onClose
     super.onClose();
   }
+
   @override
   void dispose() {
     walletSelected.value = false;
@@ -141,6 +142,10 @@ class CreateOrderController extends GetxController {
         if (createOrderData.value.status == true) {
           setRxRequestStatus(Status.COMPLETED);
           // selectedIndex.value = -1;
+          tipsController.value.clear();
+          deliveryNotesController.value.clear();
+          isDeliveryAsSoonAsPossible.value = false;
+          isDeliveryNotes.value = false;
           PrescriptionController prescriptionController = Get.put(PrescriptionController());
           prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
           Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': cartType,"order_no" :createOrderData.value.orderNo.toString()});

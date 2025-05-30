@@ -1,9 +1,11 @@
 import 'package:flutter/services.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_controller.dart';
 import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/AddressFromGoogleTextField.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class EditAddressScreen extends StatelessWidget {
   EditAddressScreen({super.key});
@@ -18,7 +20,7 @@ class EditAddressScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Edit Address",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -120,6 +122,7 @@ class EditAddressScreen extends StatelessWidget {
       ],
       prefix: CountryCodePicker(
         padding: const EdgeInsets.only(left: 10),
+        textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         onChanged: (CountryCode countryCode) {
           print("country code===========> ${countryCode.code}");
           controller.updateCountryCode(countryCode);
@@ -231,7 +234,7 @@ class EditAddressScreen extends StatelessWidget {
         ),
         Text(
           "Set default",
-          style: AppFontStyle.text_16_400(AppColors.darkText),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
       ],
     );
@@ -247,10 +250,11 @@ class EditAddressScreen extends StatelessWidget {
   Widget saveButton() {
     return Obx(
       () => CustomElevatedButton(
+        fontFamily: AppFontFamily.gilroyMedium,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             controller.editAddressApi();
-            print("object");
+            pt("object");
           }
         },
         isLoading: controller.rxRequestStatus.value == Status.LOADING,

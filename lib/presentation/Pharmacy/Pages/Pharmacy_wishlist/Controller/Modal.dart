@@ -20,11 +20,11 @@ class PharmacyProductWishlistModal {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = this.status;
-    if (this.allWishlist != null) {
-      data['allWishlist'] = this.allWishlist!.map((v) => v.toJson()).toList();
+    data['status'] = status;
+    if (allWishlist != null) {
+      data['allWishlist'] = allWishlist!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -40,6 +40,7 @@ class WishlistProduct {
   bool? isInWishlist = true;
   String? shopName;
   String? urlImage;
+  String? rating;
   Rx<bool> isLoading = false.obs;
 
   WishlistProduct({
@@ -53,6 +54,7 @@ class WishlistProduct {
     // this.isInWishlist = true,
     this.shopName,
     this.urlImage,
+    this.rating,
   });
 
   WishlistProduct.fromJson(Map<String, dynamic> json) {
@@ -66,20 +68,22 @@ class WishlistProduct {
     // isInWishlist = json['is_in_wishlist'];
     shopName = json['shop_name'];
     urlImage = json['url_image'];
+    rating = json['rating'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['regular_price'] = this.regularPrice;
-    data['sale_price'] = this.salePrice;
-    data['packaging_value'] = this.packagingValue;
-    data['category_id'] = this.categoryId;
-    data['category_name'] = this.categoryName;
+    data['id'] = id;
+    data['title'] = title;
+    data['regular_price'] = regularPrice;
+    data['sale_price'] = salePrice;
+    data['packaging_value'] = packagingValue;
+    data['category_id'] = categoryId;
+    data['category_name'] = categoryName;
     // data['is_in_wishlist'] = this.isInWishlist;
-    data['shop_name'] = this.shopName;
-    data['url_image'] = this.urlImage;
+    data['shop_name'] = shopName;
+    data['url_image'] = urlImage;
+    data['rating'] = rating;
     return data;
   }
 }
