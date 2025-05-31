@@ -310,6 +310,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
+                  fontFamily: AppFontFamily.gilroyRegular,
                 ),
               ),
               SizedBox(height: 15.h),
@@ -319,6 +320,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey,
+                  fontFamily: AppFontFamily.gilroyRegular,
                 ),
               ),
               SizedBox(height: 15.h),
@@ -326,6 +328,7 @@ class DeliveryAddressScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomElevatedButton(
+                      fontFamily: AppFontFamily.gilroyMedium,
                       height: 40.h,
                       color: AppColors.black,
                       onPressed: () {
@@ -339,13 +342,11 @@ class DeliveryAddressScreen extends StatelessWidget {
                   Obx(
                     () => Expanded(
                       child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
                         height: 40.h,
-                        isLoading:
-                            deleteAddressController.rxRequestStatus.value ==
-                                (Status.LOADING),
+                        isLoading: deleteAddressController.rxRequestStatus.value == (Status.LOADING),
                         onPressed: () {
-                          deleteAddressController.deleteAddressApi(
-                              addressId: addressId);
+                          deleteAddressController.deleteAddressApi(addressId: addressId);
                         },
                         text: "Yes",
                       ),
@@ -360,4 +361,5 @@ class DeliveryAddressScreen extends StatelessWidget {
       barrierDismissible: false,
     );
   }
+
 }

@@ -31,11 +31,13 @@ class GroceryHomeController extends GetxController {
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
+  final rxRequestStatusFilter = Status.COMPLETED.obs;
   final homeData = GroceryHomeModal().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void setRxRequestStatusFilter(Status value) => rxRequestStatusFilter.value = value;
 
   void homeSet(GroceryHomeModal value) => homeData.value = value;
 
@@ -85,6 +87,36 @@ class GroceryHomeController extends GetxController {
     };
     api.groceryHomeApi(params).then((value) {
       setRxRequestStatus(Status.COMPLETED);
+      setRxRequestStatusFilter(Status.COMPLETED);
+      homeSet(value);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('error home api grocery');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  homeApiFilter() async {
+    setRxRequestStatusFilter(Status.LOADING);
+    Map<String,dynamic> params = {
+      // 'page':"1",
+      // "per_page":"10",
+      if(rating.value.isNotEmpty)
+        "rating": rating.value.toLowerCase(),
+      if(deliveryFee.value.isNotEmpty)
+        "delivery_fee": deliveryFee.value.toLowerCase(),
+      if(openNow.value.isNotEmpty)
+        "open_now": openNow.value.toLowerCase(),
+      if(latitude.value.isNotEmpty)
+        "lat": latitude.value,
+      if(longitude.value.isNotEmpty)
+        "lng": longitude.value,
+    };
+    api.groceryHomeApi(params).then((value) {
+      setRxRequestStatus(Status.COMPLETED);
+      setRxRequestStatusFilter(Status.COMPLETED);
       homeSet(value);
     }).onError((error, stackError) {
       setError(error.toString());

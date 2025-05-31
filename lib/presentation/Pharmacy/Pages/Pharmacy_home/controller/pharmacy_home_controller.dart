@@ -36,11 +36,13 @@ class PharmacyHomeController extends GetxController {
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
+  final rxRequestStatusFilter = Status.COMPLETED.obs;
   final homeData = PharamacyHomeModal().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  void setRxRequestStatusFilter(Status value) => rxRequestStatusFilter.value = value;
 
   void homeSet(PharamacyHomeModal value) => homeData.value = value;
   void setError(String value) => error.value = value;
@@ -68,6 +70,7 @@ class PharmacyHomeController extends GetxController {
     };
     api.pharmacyHomeApi(params).then((value) {
       setRxRequestStatus(Status.COMPLETED);
+      setRxRequestStatusFilter(Status.COMPLETED);
       homeSet(value);
     }).onError((error, stackError) {
       setError(error.toString());

@@ -32,6 +32,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_review/pharmacy_vendor_review_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_single_cart_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/categoriesfilter_binding.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/view/restaurant_home_filter.dart';
@@ -112,6 +113,7 @@ class AppRoutes {
   static const String orderReveived = "/order_reveived";
   static const String reviewDriver = "/review_driver";
   static const String orderOtp = "/order_otp";
+  static const String restaurantSingleCartScreen = "/restaurantSingleCartScreen";
 
   // static const String editProfile = "/edit_profile";
   static const String orders = "/orders";
@@ -209,6 +211,7 @@ class AppRoutes {
     GetPage(name: rateAndReviewProductScreen, page: () => RateAndReviewProductScreen()),
     GetPage(name: prescriptionsScreen, page: () => PrescriptionsScreen()),
     GetPage(name: restaurantInformationScreen, page: () => RestaurantInformationScreen()),
+    GetPage(name: restaurantSingleCartScreen, page: () => RestaurantSingleCartScreen()),
 
     ///`pharmacy=====================================================>`
     GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),

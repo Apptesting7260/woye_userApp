@@ -5,6 +5,7 @@ import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
@@ -57,7 +58,7 @@ class RestaurantHomeBanner extends StatelessWidget {
                     controller.bannerDataApi(bannerId: bannerID);
                   },
                   child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     child: Padding(
                       padding: REdgeInsets.symmetric(horizontal: 24.h),
                       child: Column(
@@ -118,7 +119,7 @@ class RestaurantHomeBanner extends StatelessWidget {
       children: [
         Text(
           "Categories",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(20.h),
         GridView.builder(
@@ -171,7 +172,7 @@ class RestaurantHomeBanner extends StatelessWidget {
                   hBox(15),
                   Text(
                     banners[index].name.toString(),
-                    style: AppFontStyle.text_16_400(AppColors.darkText),
+                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium ),
                   ),
                 ],
               ),
@@ -189,7 +190,7 @@ class RestaurantHomeBanner extends StatelessWidget {
       children: [
         Text(
           "Products",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10.h),
         GridView.builder(
@@ -224,7 +225,7 @@ class RestaurantHomeBanner extends StatelessWidget {
                     // rating: products?[index].rating.toString(),
                     is_in_wishlist: products?[index].isInWishlist,
                     isLoading: products?[index].isLoading,
-                    sale_price: products?[index].salePrice.toString(),
+                    sale_price: products?[index].salePrice.toString() ?? products?[index].regularPrice.toString(),
                     regular_price: products?[index].regularPrice.toString(),
                     resto_name: products?[index].restoName.toString(),
                   ));
@@ -239,9 +240,10 @@ class RestaurantHomeBanner extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(3.h),
         Text(
           "Restaurant",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(5.h),
         GetBuilder<BannerDetailsController>(
@@ -251,7 +253,7 @@ class RestaurantHomeBanner extends StatelessWidget {
               final restaurants = controller.bannerData.value.restaurants;
               return ListView.separated(
                 scrollDirection: Axis.vertical,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: restaurants?.length ?? 0,
                 itemBuilder: (context, index) {
@@ -367,7 +369,7 @@ class RestaurantHomeBanner extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(
@@ -376,18 +378,18 @@ class RestaurantHomeBanner extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
           ],
         )

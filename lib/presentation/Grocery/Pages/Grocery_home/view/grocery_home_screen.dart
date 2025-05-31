@@ -194,7 +194,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 floatingActionButton: Padding(
                   padding: EdgeInsets.only(bottom: 60.h),
                   child: groceryShowAllCartController.cartData.value.buttonCheck == false
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -779,14 +779,17 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata?.id.toString() ?? ""));
                         // Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata.id.toString()));
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: pharmaShop(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
-                          price: pharmashopsdata?.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child: controller.rxRequestStatusFilter.value== Status.LOADING
+                          ? const ShimmerWidgetHomeScreen() : pharmaShop(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
+                            price: pharmashopsdata?.avgPrice,
+                          ),
                         ),
                       ),
                     );
@@ -863,14 +866,17 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         // groceryDetailsController.restaurant_Details_Api(id: pharmashopsdata.id.toString());
                         Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata?.id.toString() ?? ""));
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: pharmaShop(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
-                          price: pharmashopsdata?.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child:  controller.rxRequestStatusFilter.value== Status.LOADING
+                              ? const ShimmerWidgetHomeScreen() : pharmaShop(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
+                            price: pharmashopsdata?.avgPrice,
+                          ),
                         ),
                       ),
                     );
@@ -941,14 +947,17 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         // groceryDetailsController.restaurant_Details_Api(id: pharmashopsdata.id.toString());
                         Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata?.id.toString() ?? ""));
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: pharmaShop(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
-                          price: pharmashopsdata?.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child: controller.rxRequestStatusFilter.value== Status.LOADING
+                            ? const ShimmerWidgetHomeScreen() : pharmaShop(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
+                            price: pharmashopsdata?.avgPrice,
+                          ),
                         ),
                       ),
                     );
@@ -1021,14 +1030,17 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         // );
                         Get.to(()=>GroceryVendorDetailsScreen(groceryId: pharmashopsdata?.id.toString() ?? ""));
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: freeDeliveryPharmaShop(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
-                          price: pharmashopsdata?.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child:  controller.rxRequestStatusFilter.value== Status.LOADING
+                              ? const ShimmerWidgetHomeScreen() : freeDeliveryPharmaShop(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
+                            price: pharmashopsdata?.avgPrice,
+                          ),
                         ),
                       ),
                     );
@@ -1458,14 +1470,14 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     groceryHomeController.rating.value = val;
                     groceryHomeController.getLatLong();
-                    groceryHomeController.homeApi();
+                    groceryHomeController.homeApiFilter();
                     pt(val);
                   }
                 },
                 cancelTap: () {
                   groceryHomeController.rating.value = "";
                   groceryHomeController.getLatLong();
-                  groceryHomeController.homeApi();
+                  groceryHomeController.homeApiFilter();
                 },
               ),
             ),
@@ -1487,14 +1499,14 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     groceryHomeController.deliveryFee.value = val;
                     groceryHomeController.getLatLong();
-                    groceryHomeController.homeApi();
+                    groceryHomeController.homeApiFilter();
                     pt(val);
                   }
                 },
                 cancelTap: () {
                   groceryHomeController.deliveryFee.value = "";
                   groceryHomeController.getLatLong();
-                  groceryHomeController.homeApi();
+                  groceryHomeController.homeApiFilter();
                 },
               ),
             ),
@@ -1516,7 +1528,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     groceryHomeController.openNow.value = val;
                     // groceryHomeController.getLatLong();
-                    // groceryHomeController.homeApi();
+                    // groceryHomeController.homeApiFilter();
                     pt(val);
                   }
                 },
@@ -1524,7 +1536,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   groceryHomeController.openNow.value = "";
                   groceryHomeController.latitude.value = "";
                   groceryHomeController.longitude.value = "";
-                  // groceryHomeController.homeApi();
+                  // groceryHomeController.homeApiFilter();
                 },
               ),
             ),

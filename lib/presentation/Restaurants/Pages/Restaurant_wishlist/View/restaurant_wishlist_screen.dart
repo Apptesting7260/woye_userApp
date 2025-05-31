@@ -11,6 +11,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Con
 import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
+import 'package:woye_user/shared/widgets/error_widget.dart';
 
 class RestaurantWishlistScreen extends StatefulWidget {
   const RestaurantWishlistScreen({super.key});
@@ -173,8 +174,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
                                                     errorWidget: (context, url,
-                                                        error) =>
-                                                    const Icon(Icons.error),
+                                                        error) => const ImageErrorWidget(),
                                                     placeholder:
                                                         (context, url) =>
                                                         Shimmer.fromColors(

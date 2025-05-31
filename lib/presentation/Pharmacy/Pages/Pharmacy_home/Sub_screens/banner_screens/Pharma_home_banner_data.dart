@@ -9,6 +9,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_sc
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/banner_screens/pharma_banner_details_controller.dart';
+import 'package:woye_user/shared/widgets/error_widget.dart';
 
 class PharmacyHomeBanner extends StatelessWidget {
   final String bannerID;
@@ -318,6 +319,7 @@ class PharmacyHomeBanner extends StatelessWidget {
                     ),
                   ),
                 ),
+                errorWidget:  (context, url, error) => ImageErrorWidget(),
               ),
             ),
             // GestureDetector(

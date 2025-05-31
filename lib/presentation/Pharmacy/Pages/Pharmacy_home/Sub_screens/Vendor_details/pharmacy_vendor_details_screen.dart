@@ -172,23 +172,25 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-              borderRadius: BorderRadius.circular(20.r),
-              child: CachedNetworkImage(
-                memCacheHeight: memCacheHeight,
-                imageUrl: controller.pharma_Data.value.pharmaShop?.shopimage.toString() ?? "",
-                placeholder: (context, url) => const ShimmerWidget(),
-                errorWidget: (context, url, error) =>Container(
-                clipBehavior: Clip.antiAlias,
-                width: double.maxFinite,
-                height: 220.h,
-                decoration: BoxDecoration(
-                border: Border.all(color: AppColors.textFieldBorder),
+          Center(
+            child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.r),
-                ),
-                child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
-                fit: BoxFit.cover,
-              )),
+                child: CachedNetworkImage(
+                  memCacheHeight: memCacheHeight,
+                  imageUrl: controller.pharma_Data.value.pharmaShop?.shopimage.toString() ?? "",
+                  placeholder: (context, url) => const ShimmerWidget(),
+                  errorWidget: (context, url, error) => Container(
+                  clipBehavior: Clip.antiAlias,
+                  width: double.maxFinite,
+                  height: 220.h,
+                  decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.textFieldBorder),
+                  borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
+                  fit: BoxFit.cover,
+                )),
+          ),
           hBox(15),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,

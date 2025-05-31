@@ -51,6 +51,7 @@ class RestaurantHomeController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
   final homeData = HomeModel().obs;
+  RxBool isLoadingFilter = false.obs;
 
   RxString error = ''.obs;
   void setError(String value) => error.value = value;
@@ -160,6 +161,33 @@ class RestaurantHomeController extends GetxController {
         print(stackError);
         print('errrrrrrrrrrrr');
         // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+        print(error);
+        setRxRequestStatus(Status.ERROR);
+      });
+  }
+
+  homeApiForFilter() async {
+    isLoadingFilter.value = true;
+    Map<String,dynamic> params = {
+      if(rating.value.isNotEmpty)
+      "rating": rating.value.toLowerCase(),
+      if(deliveryFee.value.isNotEmpty)
+      "delivery_fee": deliveryFee.value.toLowerCase(),
+      if(openNow.value.isNotEmpty)
+      "open_now": openNow.value.toLowerCase(),
+      if(latitude.value.isNotEmpty)
+      "lat": latitude.value,
+      if(longitude.value.isNotEmpty)
+      "lng": longitude.value,
+    };
+      api.homeApi(params).then((value) {
+        setRxRequestStatus(Status.COMPLETED);
+        isLoadingFilter.value = false;
+        homeSet(value);
+      }).onError((error, stackError) {
+        setError(error.toString());
+        print(stackError);
+        print('errrrrrrrrrrrr');
         print(error);
         setRxRequestStatus(Status.ERROR);
       });

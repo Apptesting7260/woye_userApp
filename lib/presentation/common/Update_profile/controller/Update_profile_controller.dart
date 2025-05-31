@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,6 +15,7 @@ import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_mo
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:image_cropper/image_cropper.dart';
+import "package:path/path.dart" as p;
 
 class SignUpForm_editProfileController extends GetxController {
   String typeFrom = "";
@@ -274,15 +276,25 @@ class SignUpForm_editProfileController extends GetxController {
 
       final pickedImage = await ImagePicker().pickImage(source: source);
       if (pickedImage == null) return;
+      debugPrint("pickedImage  ???????>>> $pickedImage");
 
       File originalImage = await _copyToTempDirectory(pickedImage);
-      image.value = originalImage;
+      if(source == ImageSource.gallery){
+        image.value = originalImage;
+      }
+      debugPrint("originalImage ???????>>> $originalImage");
 
       File? croppedImage = await _cropImage(originalImage.path);
+      debugPrint("croppedImage ???????>>> $croppedImage");
 
       if (croppedImage != null ) {
-        image.value = croppedImage;
-        profileImageGetUrl.value = croppedImage.path;
+        image.value = originalImage;
+        final compressedXFile = await compressImage(imageFile: File(croppedImage.path));
+        image.value = File(compressedXFile.path);
+        profileImageGetUrl.value = compressedXFile.path;
+
+        // image.value = croppedImage;
+        // profileImageGetUrl.value = croppedImage.path;
         imageUploadApi();
       } else {
         debugPrint("Cropping cancelled or failed.");
@@ -299,13 +311,30 @@ class SignUpForm_editProfileController extends GetxController {
       var status = await Permission.camera.status;
       if (!status.isGranted) {
         status = await Permission.camera.request();
-        if (status.isPermanentlyDenied || !status.isGranted) {
+
+        if (status.isPermanentlyDenied || status.isDenied) {
           showPermissionDialog(Get.context!, "Camera");
           return false;
         }
+
       }
       return true;
     }
+    return true;
+  }
+
+  // Future<bool> _handlePermissions(ImageSource source) async {
+  //   if (source == ImageSource.camera) {
+  //     var status = await Permission.camera.status;
+  //     if (!status.isGranted) {
+  //       status = await Permission.camera.request();
+  //       if (status.isPermanentlyDenied || !status.isGranted) {
+  //         showPermissionDialog(Get.context!, "Camera");
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   }
     // else {
     //   var status =  await Permission.photos.status;
     //
@@ -319,34 +348,8 @@ class SignUpForm_editProfileController extends GetxController {
     //   }
     //   return true;
     // }
-    return true;
-  }
-
-  void showPermissionDialog(BuildContext context, String permissionType) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Center(child: Text("Permission Required")),
-        content: Text(
-          "$permissionType permission is denied. Please enable it in settings.",
-          textAlign: TextAlign.start,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(),
-            child: const Text("Cancel"),
-          ),
-          TextButton(
-            onPressed: () {
-              openAppSettings();
-              Get.back();
-            },
-            child: const Text("Open Settings"),
-          ),
-        ],
-      ),
-    );
-  }
+  //   return true;
+  // }
 
   // Future<File?> _cropImage(String filePath) async {
   //   final croppedFile = await ImageCropper().cropImage(
@@ -368,9 +371,8 @@ class SignUpForm_editProfileController extends GetxController {
   //   );
   //
   //   return croppedFile != null ? File(croppedFile.path) : null;
+
   // }
-
-
   Future<File?> _cropImage(String filePath) async {
     try {
       final croppedFile = await ImageCropper().cropImage(
@@ -399,13 +401,66 @@ class SignUpForm_editProfileController extends GetxController {
     }
   }
 
+  void showPermissionDialog(BuildContext context, String permissionType) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Center(child: Text("Permission Required")),
+        content: Text(
+          "$permissionType permission is denied. Please enable it in settings.",
+          textAlign: TextAlign.start,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              openAppSettings();
+              Get.back();
+            },
+            child: const Text("Open Settings"),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<File> _copyToTempDirectory(XFile xFile) async {
     final tempDir = await getTemporaryDirectory();
     final newFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}_${xFile.name}');
     return await File(xFile.path).copy(newFile.path);
   }
 
+  static Future<XFile> compressImage({
+    required File imageFile,
+    int quality = 20,
+    CompressFormat format = CompressFormat.jpeg,
+  }) async {
+    log(imageFile.lengthSync().toString(), name: "Original size");
+    try {
+      final String targetPath = p.join(Directory.systemTemp.path, 'temp.${format.name}');
+      final XFile? compressedImage = await FlutterImageCompress.compressAndGetFile(
+        imageFile.path,
+        targetPath,
+        quality: quality,
+        format: format,
+      );
 
+      if (compressedImage == null) {
+        throw ("Failed to compress the image");
+      }
+
+      print("Compressed Image: ${compressedImage.path}");
+      final compressedFile = File(compressedImage.path);
+      log(compressedFile.lengthSync().toString(), name: "Compressed size");
+      return compressedImage;
+    } catch (e) {
+      print("Error during image compression: $e");
+      rethrow;
+    }
+  }
 
   // Future<void> pickImage(ImageSource source) async {
   //   final pickedImage = await ImagePicker().pickImage(source: source);

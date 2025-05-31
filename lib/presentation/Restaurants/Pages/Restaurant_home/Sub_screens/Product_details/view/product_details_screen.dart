@@ -18,6 +18,7 @@ import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
+import 'package:woye_user/shared/widgets/error_widget.dart';
 
 import '../../../../../../../Core/Utils/image_cache_height.dart';
 import '../../../../../../../Shared/theme/font_family.dart';
@@ -346,8 +347,7 @@ class ProductDetailsScreen extends StatelessWidget {
               imageUrl: controller.selectedImageUrl.value,
               fit: BoxFit.cover,
               height: 340.h,
-              errorWidget: (context, url, error) =>
-                  const Center(child: Icon(Icons.error)),
+              errorWidget: (context, url, error) =>ImageErrorWidget(),
               placeholder: (context, url) => Shimmer.fromColors(
                 baseColor: AppColors.gray,
                 highlightColor: AppColors.lightText,

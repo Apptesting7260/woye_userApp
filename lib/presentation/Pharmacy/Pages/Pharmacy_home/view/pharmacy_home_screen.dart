@@ -625,14 +625,17 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         // );
                         Get.to(()=>PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
-                      child: SizedBox(
-                        width: Get.width * 0.78,
-                        child: pharmaShop(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
-                          price: pharmashopsdata?.rating,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width * 0.78,
+                          child: controller.rxRequestStatusFilter.value == Status.LOADING
+                            ? const ShimmerWidgetHomeScreen() : pharmaShop(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                            price: pharmashopsdata?.rating,
+                          ),
                         ),
                       ),
                     );
@@ -710,14 +713,17 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
                         Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
-                      child: SizedBox(
-                        width: Get.width * 0.78,
-                        child: freeDeliveryPharmacyShopList(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
-                          price: pharmashopsdata?.rating,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width * 0.78,
+                          child:controller.rxRequestStatusFilter.value == Status.LOADING
+                              ? const ShimmerWidgetHomeScreen() : freeDeliveryPharmacyShopList(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                            price: pharmashopsdata?.rating,
+                          ),
                         ),
                       ),
                     );
@@ -789,14 +795,17 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
                         Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
-                      child: SizedBox(
-                        width: Get.width * 0.78,
-                        child: pharmaShop(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
-                          price: pharmashopsdata?.rating,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width * 0.78,
+                          child: controller.rxRequestStatusFilter.value == Status.LOADING
+                              ? const ShimmerWidgetHomeScreen() : pharmaShop(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                            price: pharmashopsdata?.rating,
+                          ),
                         ),
                       ),
                     );
@@ -868,14 +877,17 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
                         Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
-                      child: SizedBox(
-                        width: Get.width * 0.78,
-                        child: pharmaShop(
-                          index: index,
-                          image: pharmashopsdata?.shopimage,
-                          title: pharmashopsdata?.shopName,
-                          rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
-                          price: pharmashopsdata?.rating,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width * 0.78,
+                          child: controller.rxRequestStatusFilter.value == Status.LOADING
+                              ? const ShimmerWidgetHomeScreen() : pharmaShop(
+                            index: index,
+                            image: pharmashopsdata?.shopimage,
+                            title: pharmashopsdata?.shopName,
+                            rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
+                            price: pharmashopsdata?.rating,
+                          ),
                         ),
                       ),
                     );
@@ -1342,6 +1354,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     pharmacyHomeController.rating.value = val;
                     pharmacyHomeController.getLatLong();
+                    pharmacyHomeController.setRxRequestStatusFilter(Status.LOADING);
                     pharmacyHomeController.homeApi();
                     pt(val);
                   }
@@ -1349,6 +1362,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 cancelTap: () {
                   pharmacyHomeController.rating.value = "";
                   pharmacyHomeController.getLatLong();
+                  pharmacyHomeController.setRxRequestStatusFilter(Status.LOADING);
                   pharmacyHomeController.homeApi();
                 },
               ),
@@ -1371,6 +1385,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     pharmacyHomeController.deliveryFee.value = val;
                     pharmacyHomeController.getLatLong();
+                    pharmacyHomeController.setRxRequestStatusFilter(Status.LOADING);
                     pharmacyHomeController.homeApi();
                     pt(val);
                   }
@@ -1378,6 +1393,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 cancelTap: () {
                   pharmacyHomeController.deliveryFee.value = "";
                   pharmacyHomeController.getLatLong();
+                  pharmacyHomeController.setRxRequestStatusFilter(Status.LOADING);
                   pharmacyHomeController.homeApi();
                 },
               ),
@@ -1399,6 +1415,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {
                     pharmacyHomeController.openNow.value = val;
+                    // pharmacyHomeController.setRxRequestStatusFilter(Status.LOADING);
                     // pharmacyHomeController.getLatLong();
                     // pharmacyHomeController.homeApi();
                     pt(val);
@@ -1408,6 +1425,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                   pharmacyHomeController.openNow.value = "";
                   pharmacyHomeController.latitude.value = "";
                   pharmacyHomeController.longitude.value = "";
+                  // pharmacyHomeController.setRxRequestStatusFilter(Status.LOADING);
                   // pharmacyHomeController.homeApi();
                 },
               ),

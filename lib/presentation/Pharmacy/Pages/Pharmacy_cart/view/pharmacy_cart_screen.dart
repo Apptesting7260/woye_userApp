@@ -257,7 +257,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   Widget locationAddress() {
     loadLocationData();
     return Container(
-      height: 60.h,
+      // height: 65.h,
       width: Get.width,
       padding: EdgeInsets.all(10.r),
       decoration: BoxDecoration(
@@ -270,7 +270,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
             textAlign: TextAlign.center,
             style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
           ),
-          VerticalDivider(thickness: 1.w, color: AppColors.hintText),
+          SizedBox(height: 60.h, child: VerticalDivider(thickness: 1.w, color: AppColors.hintText)),
           SizedBox(
             width: Get.width * 0.6,
             child: Text(

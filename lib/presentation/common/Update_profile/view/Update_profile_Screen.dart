@@ -342,116 +342,117 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         ));
   }
 
-  Widget imagePicker(BuildContext context,
-      SignUpForm_editProfileController signUpFormController) {
+  Widget imagePicker(BuildContext context, SignUpForm_editProfileController signUpFormController) {
     return GestureDetector(
       onTap: () {
         bottomSheet(context);
       },
-      child: SizedBox(
-        height: 140.h,
-        child: Stack(
-          children: [
-            signUpFormController.profileImageFromAPI.value.isNotEmpty
-                ? Container(
-                    width: 120.h,
-                    height: 120.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100.r),
-                      border: Border.all(color: Colors.transparent),
-                    ),
-                    child: signUpFormController.profileImageGetUrl.value.isEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(100.r),
-                            child: CachedNetworkImage(
-                              imageUrl: signUpFormController
-                                  .profileImageFromAPI.value
-                                  .toString(),
-                              placeholder: (context, url) =>
-                                  circularProgressIndicator(),
-                              errorWidget: (context, url, error) => Icon(
-                                Icons.person,
-                                size: 40.h,
-                                color: AppColors.lightText.withOpacity(0.5),
-                              ),
-                              fit: BoxFit.cover,
-                            ))
-                        : Container(
-                            width: 120.h,
-                            height: 120.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100.r),
-                              // Round container
-                              border: Border.all(color: Colors.transparent),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100.r),
-                              child: Image.file(
-                                signUpFormController.image.value,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ))
-                : Container(
-                    width: 120.h,
-                    height: 120.h,
-                    decoration: BoxDecoration(
+      child: Obx(
+        ()=> SizedBox(
+          height: 140.h,
+          child: Stack(
+            children: [
+              signUpFormController.profileImageFromAPI.value.isNotEmpty
+                  ? Container(
+                      width: 120.h,
+                      height: 120.h,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100.r),
-                        // shape: BoxShape.circle,
-                        border: Border.all(color: Colors.transparent)),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(100.r),
-                        child: signUpFormController
-                                .profileImageGetUrl.value.isEmpty
-                            ? CircleAvatar(
-                                backgroundColor:
-                                    AppColors.greyBackground.withOpacity(0.5),
-                                child: Icon(
+                        border: Border.all(color: Colors.transparent),
+                      ),
+                      child: signUpFormController.profileImageGetUrl.value.isEmpty
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(100.r),
+                              child: CachedNetworkImage(
+                                imageUrl: signUpFormController
+                                    .profileImageFromAPI.value
+                                    .toString(),
+                                placeholder: (context, url) =>
+                                    circularProgressIndicator(),
+                                errorWidget: (context, url, error) => Icon(
                                   Icons.person,
-                                  size: 60.h,
+                                  size: 40.h,
                                   color: AppColors.lightText.withOpacity(0.5),
-                                ))
-                            : Container(
-                                width: 120.h,
-                                height: 120.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100.r),
-                                  // Round container
-                                  border: Border.all(color: Colors.transparent),
                                 ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(100.r),
-                                  child: Image.file(
-                                    signUpFormController.image.value,
-                                    fit: BoxFit.cover,
+                                fit: BoxFit.cover,
+                              ))
+                          : Container(
+                              width: 120.h,
+                              height: 120.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100.r),
+                                // Round container
+                                border: Border.all(color: Colors.transparent),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100.r),
+                                child: Image.file(
+                                  signUpFormController.image.value,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ))
+                  : Container(
+                      width: 120.h,
+                      height: 120.h,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.r),
+                          // shape: BoxShape.circle,
+                          border: Border.all(color: Colors.transparent)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.r),
+                          child: signUpFormController
+                                  .profileImageGetUrl.value.isEmpty
+                              ? CircleAvatar(
+                                  backgroundColor:
+                                      AppColors.greyBackground.withOpacity(0.5),
+                                  child: Icon(
+                                    Icons.person,
+                                    size: 60.h,
+                                    color: AppColors.lightText.withOpacity(0.5),
+                                  ))
+                              : Container(
+                                  width: 120.h,
+                                  height: 120.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100.r),
+                                    // Round container
+                                    border: Border.all(color: Colors.transparent),
                                   ),
-                                ),
-                              ))),
-            Positioned(
-              bottom: 28.h,
-              right: 4.w,
-              child: Container(
-                width: 30.h,
-                height: 30.h,
-                decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(50.r),
-                    border: Border.all(color: AppColors.primary)),
-                child: Icon(
-                  Icons.photo_camera,
-                  color: Colors.white,
-                  size: 12.h,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100.r),
+                                    child: Image.file(
+                                      signUpFormController.image.value,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ))),
+              Positioned(
+                bottom: 28.h,
+                right: 4.w,
+                child: Container(
+                  width: 30.h,
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(50.r),
+                      border: Border.all(color: AppColors.primary)),
+                  child: Icon(
+                    Icons.photo_camera,
+                    color: Colors.white,
+                    size: 12.h,
+                  ),
                 ),
               ),
-            ),
-            // if (signUpFormController.image == null)
-            //   Positioned(
-            //       bottom: 0,
-            //       child: Text(
-            //         "      Please choose an image",
-            //         style: TextStyle(color: Colors.red, fontSize: 8.sp),
-            //       ))
-          ],
+              // if (signUpFormController.image == null)
+              //   Positioned(
+              //       bottom: 0,
+              //       child: Text(
+              //         "      Please choose an image",
+              //         style: TextStyle(color: Colors.red, fontSize: 8.sp),
+              //       ))
+            ],
+          ),
         ),
       ),
     );

@@ -1099,7 +1099,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       // rating: controller.restaurant_Data.value.moreProducts![index].rating.toString(),
                       is_in_wishlist:catValue[index].isInWishlist,
                       isLoading: catValue[index].isLoading,
-                      sale_price: catValue[index].salePrice,
+                      sale_price: catValue[index].salePrice ?? catValue[index].regularPrice,
                       regular_price: catValue[index].regularPrice,
                       resto_name: catValue[index].restoName,
                     ));

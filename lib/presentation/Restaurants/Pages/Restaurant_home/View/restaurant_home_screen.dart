@@ -240,14 +240,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     restaurantHomeController.rating.value = val;
                     restaurantHomeController.getLatLong();
-                    restaurantHomeController.homeApi();
+                    restaurantHomeController.homeApiForFilter();
                     pt(val);
                   }
                 },
                 cancelTap: () {
                   restaurantHomeController.rating.value = "";
                   restaurantHomeController.getLatLong();
-                  restaurantHomeController.homeApi();
+                  restaurantHomeController.homeApiForFilter();
                 },
               ),
             ),
@@ -269,14 +269,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     restaurantHomeController.deliveryFee.value = val;
                     restaurantHomeController.getLatLong();
-                    restaurantHomeController.homeApi();
+                    restaurantHomeController.homeApiForFilter();
                     pt(val);
                   }
                 },
                 cancelTap: () {
                   restaurantHomeController.deliveryFee.value = "";
                   restaurantHomeController.getLatLong();
-                  restaurantHomeController.homeApi();
+                  restaurantHomeController.homeApiForFilter();
                 },
               ),
             ),
@@ -298,14 +298,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   if (val != null && val.isNotEmpty) {
                     restaurantHomeController.openNow.value = val;
                     restaurantHomeController.getLatLong();
-                    restaurantHomeController.homeApi();
+                    restaurantHomeController.homeApiForFilter();
                     pt(val);
                   }
                 },
                 cancelTap: () {
                   restaurantHomeController.openNow.value = "";
                   restaurantHomeController.getLatLong();
-                  restaurantHomeController.homeApi();
+                  restaurantHomeController.homeApiForFilter();
                 },
               ),
             ),
@@ -695,18 +695,22 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                           id: restaurants?[index].id.toString() ?? "",
                         );
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: popularRestaurantList(
-                          index: index,
-                          image: restaurant?.shopimage,
-                          title: restaurant?.shopName?.capitalize!,
-                          rating: restaurant?.rating,
-                          price: restaurant?.avgPrice,
-                          // image: restaurant?.shopImageUrl,
-                          // title: restaurant.shopName?.capitalize!,
-                          // rating: restaurant.rating,
-                          // price: restaurant.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child: restaurantHomeController.isLoadingFilter.value == true ?
+                          const ShimmerWidgetHomeScreen() :
+                          popularRestaurantList(
+                            index: index,
+                            image: restaurant?.shopimage,
+                            title: restaurant?.shopName?.capitalize!,
+                            rating: restaurant?.rating,
+                            price: restaurant?.avgPrice,
+                            // image: restaurant?.shopImageUrl,
+                            // title: restaurant.shopName?.capitalize!,
+                            // rating: restaurant.rating,
+                            // price: restaurant.avgPrice,
+                          ),
                         ),
                       ),
                     );
@@ -941,14 +945,17 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                           id: restaurants?[index].id.toString() ?? "",
                         );
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: popularRestaurantList(
-                          index: index,
-                          image: restaurant?.shopimage,
-                          title: restaurant?.shopName?.capitalize!,
-                          rating: restaurant?.rating,
-                          price: restaurant?.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child: restaurantHomeController.isLoadingFilter.value == true ?
+                          const ShimmerWidgetHomeScreen() : popularRestaurantList(
+                            index: index,
+                            image: restaurant?.shopimage,
+                            title: restaurant?.shopName?.capitalize!,
+                            rating: restaurant?.rating,
+                            price: restaurant?.avgPrice,
+                          ),
                         ),
                       ),
                     );
@@ -1029,14 +1036,17 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                           id: restaurants?[index].id.toString() ?? "",
                         );
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: popularRestaurantList(
-                          index: index,
-                          image: restaurant?.shopimage ,
-                          title: restaurant?.shopName?.capitalize!,
-                          rating: restaurant?.rating,
-                          price: restaurant?.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child: restaurantHomeController.isLoadingFilter.value == true ?
+                          const ShimmerWidgetHomeScreen() : popularRestaurantList(
+                            index: index,
+                            image: restaurant?.shopimage ,
+                            title: restaurant?.shopName?.capitalize!,
+                            rating: restaurant?.rating,
+                            price: restaurant?.avgPrice,
+                          ),
                         ),
                       ),
                     );
@@ -1119,14 +1129,17 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                           id: restaurants?[index].id.toString() ?? "",
                         );
                       },
-                      child: SizedBox(
-                        width: Get.width*0.78,
-                        child: freeDeliveryRestaurantList(
-                          index: index,
-                          image: restaurant?.shopimage,
-                          title: restaurant?.shopName?.capitalize!,
-                          rating: restaurant?.rating,
-                          price: restaurant?.avgPrice,
+                      child: Obx(
+                        ()=> SizedBox(
+                          width: Get.width*0.78,
+                          child: restaurantHomeController.isLoadingFilter.value == true ?
+                          const ShimmerWidgetHomeScreen() : freeDeliveryRestaurantList(
+                            index: index,
+                            image: restaurant?.shopimage,
+                            title: restaurant?.shopName?.capitalize!,
+                            rating: restaurant?.rating,
+                            price: restaurant?.avgPrice,
+                          ),
                         ),
                       ),
                     );

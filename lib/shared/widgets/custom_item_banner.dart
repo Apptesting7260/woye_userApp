@@ -3,6 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/error_widget.dart';
 
 import '../../Core/Utils/image_cache_height.dart';
 import 'CircularProgressIndicator.dart';
@@ -71,7 +72,7 @@ class CustomItemBanner extends StatelessWidget {
                   imageUrl: image.toString(),
                   fit: BoxFit.cover,
                   height: 160.h,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  errorWidget: (context, url, error) => const ImageErrorWidget(),
                   placeholder: (context, url) => Shimmer.fromColors(
                     baseColor: AppColors.gray,
                     highlightColor: AppColors.lightText,

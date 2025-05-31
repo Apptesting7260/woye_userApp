@@ -5,6 +5,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 
 import '../../../../Data/userPrefrenceController.dart';
 import '../../../Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
@@ -100,8 +101,7 @@ class ProfileScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(100.r),
                             child: CachedNetworkImage(
                               imageUrl:getUserDataController.userData.value.user!.imageUrl.toString(),
-                              placeholder: (context, url) =>
-                                  circularProgressIndicator(),
+                              placeholder: (context, url) => const ShimmerWidget(),
                               errorWidget: (context, url, error) => Container(
                                 width: 80.h,
                                 height: 80.h,
