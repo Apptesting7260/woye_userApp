@@ -277,7 +277,7 @@ class EditAdressController extends GetxController {
             return;
           });
         }else if(vendorType =='RestaurantCart'){
-          restaurantCartController.getRestaurantCartApi().then((value) {
+          restaurantCartController.getRestaurantCartApi(cartId: cartId.toString()).then((value) {
             Utils.showToast(editAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);
             Get.back();

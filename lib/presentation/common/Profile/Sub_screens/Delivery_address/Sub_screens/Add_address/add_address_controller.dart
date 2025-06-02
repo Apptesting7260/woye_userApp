@@ -215,7 +215,7 @@ class AddAddressController extends GetxController {
           if (type == "RestaurantCart") {
             print("object22222222");
 
-            restaurantCartController.getRestaurantCartApi().then((value) {
+            restaurantCartController.getRestaurantCartApi(cartId: cartId.toString()).then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
               if(fromcart == true){

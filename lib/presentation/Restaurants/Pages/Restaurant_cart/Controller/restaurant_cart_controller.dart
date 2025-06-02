@@ -2,6 +2,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/main.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/restaurant_all_cart_data_model.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class RestaurantCartController extends GetxController {
   final api = Repository();
@@ -26,13 +28,44 @@ class RestaurantCartController extends GetxController {
     cartData.value = value;
   }
 
+  @override
+  void onInit() {
+    // getRestaurantCartApi(cartId: "");
+    super.onInit();
+  }
+
   void setError(String value) => error.value = value;
-  // final CartController cartController =
-  // Get.put(CartController());
-  getRestaurantCartApi() async {
+  // final CartController cartController = Get.put(CartController());
+
+  getRestaurantCartApi({required String cartId}) async {
+    var data = {
+      "cart_id" : cartId,
+    };
     readOnly.value = true;
     couponCodeController.value.clear();
-    api.restaurantCartGetDataApi().then((value) {
+    setRxRequestStatus(Status.LOADING);
+    api.restaurantCartGetDataApi(data).then((value) {
+      cartSet(value);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      pt(stackError);
+      pt(error);
+      pt('errrrrrrrrrrrr get single cart api');
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  
+
+  refreshApiSingleCart({required String cartId}) async {
+    var data = {
+      "cart_id" : cartId,
+    };
+    // setRxRequestStatus(Status.LOADING);
+    couponCodeController.value.clear();
+    readOnly.value = true;
+    api.restaurantCartGetDataApi(data).then((value) {
       cartSet(value);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
@@ -43,18 +76,32 @@ class RestaurantCartController extends GetxController {
     });
   }
 
-  refreshApi() async {
-    setRxRequestStatus(Status.LOADING);
-    couponCodeController.value.clear();
-    readOnly.value = true;
-    api.restaurantCartGetDataApi().then((value) {
-      cartSet(value);
-      setRxRequestStatus(Status.COMPLETED);
-    }).onError((error, stackError) {
+
+  //-----
+  final rxRequestStatusAllCartData = Status.LOADING.obs;
+  final allResCartData = RestaurantAllCartDataModel().obs;
+  void setRxRequestStatusAllCartData(Status value) => rxRequestStatusAllCartData.value = value;
+  void allCartSet(RestaurantAllCartDataModel value) => allResCartData.value = value;
+
+  getAllCartData()async{
+    setRxRequestStatusAllCartData(Status.LOADING);
+    api.rAllCartsRestaurant().then((value) {
+      allCartSet(value);
+      if(value.status == true){
+        setRxRequestStatusAllCartData(Status.COMPLETED);
+      }else if(value.status == false){
+        setRxRequestStatusAllCartData(Status.COMPLETED);
+      }else{
+        setRxRequestStatusAllCartData(Status.ERROR);
+      }
+    },).onError((error, stackError) {
       setError(error.toString());
-      print(stackError);
-      print('errrrrrrrrrrrr');
-      setRxRequestStatus(Status.ERROR);
+      pt('error all res cart api >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
+      pt(error);
+      pt(stackError);
+      setRxRequestStatusAllCartData(Status.ERROR);
     });
+
   }
+
 }

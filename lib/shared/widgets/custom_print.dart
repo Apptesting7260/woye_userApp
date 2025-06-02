@@ -2,7 +2,7 @@
 import 'package:flutter/foundation.dart';
 
 void pt(Object? object){
-  if(kDebugMode){
+  // if(kDebugMode){
     print(object);
-  }
+  // }
 }

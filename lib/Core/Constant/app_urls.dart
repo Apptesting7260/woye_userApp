@@ -72,6 +72,7 @@ class AppUrls {
   static const String checkedUnchecked = "$baseUrl/checked-unchecked";
   static const String createOrder = "$baseUrl/create-order";
   static const String trackOrderRestaurant = "$baseUrl/track-order";
+  static const String rAllCartsRestaurant = "$baseUrl/rall-carts";
 
   /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
 

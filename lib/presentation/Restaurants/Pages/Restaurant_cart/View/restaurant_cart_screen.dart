@@ -37,7 +37,7 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
 
   @override
   void initState() {
-    controller.getRestaurantCartApi();
+    // controller.getRestaurantCartApi();
     // controller.isCartScreen.value = false;
     super.initState();
     _scrollController.addListener(
@@ -75,20 +75,20 @@ class _RestaurantCartScreenState extends State<RestaurantCartScreen> {
               if (controller.error.value == 'No internet' || controller.error.value == 'InternetExceptionWidget') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
+                    // controller.refreshApi();
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
+                    // controller.refreshApi();
                   },
                 );
               }
             case Status.COMPLETED:
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.refreshApi();
+                  // controller.refreshApi();
                 },
                 child: controller.cartData.value.cartContent != "Notempty"
                     ? Column(

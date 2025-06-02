@@ -19,8 +19,9 @@ import 'package:woye_user/shared/theme/font_family.dart';
 
 class RestaurantSingleCartScreen extends StatefulWidget {
   final bool isBack;
+  final String? cartId;
 
-  const RestaurantSingleCartScreen({super.key, this.isBack = false});
+  const RestaurantSingleCartScreen({super.key, this.isBack = false,this.cartId,});
 
   @override
   State<RestaurantSingleCartScreen> createState() => _RestaurantSingleCartScreenState();
@@ -37,7 +38,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
 
   @override
   void initState() {
-    controller.getRestaurantCartApi();
+    controller.getRestaurantCartApi(cartId:widget.cartId.toString());
     // controller.isCartScreen.value = false;
     super.initState();
     _scrollController.addListener(
@@ -75,20 +76,20 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               if (controller.error.value == 'No internet' || controller.error.value == 'InternetExceptionWidget') {
                 return InternetExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
+                    controller.refreshApiSingleCart(cartId: widget.cartId.toString());
                   },
                 );
               } else {
                 return GeneralExceptionWidget(
                   onPress: () {
-                    controller.refreshApi();
+                    controller.refreshApiSingleCart(cartId: widget.cartId.toString());
                   },
                 );
               }
             case Status.COMPLETED:
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.refreshApi();
+                  controller.refreshApiSingleCart(cartId: widget.cartId.toString());
                 },
                 child: controller.cartData.value.cartContent != "Notempty"
                     ? Column(
@@ -392,8 +393,9 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               onTap: () {
                 Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
                   'type': "RestaurantCart",
+                  'cartScreenType': "singleCart",
                   "fromcart": true,
-                });
+              });
               },
               child: Row(
                 children: [

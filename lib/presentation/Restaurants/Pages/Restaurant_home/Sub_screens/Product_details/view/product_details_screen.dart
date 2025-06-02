@@ -9,6 +9,7 @@ import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_single_cart_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
@@ -255,7 +256,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   if (fromCart != null && fromCart == true) {
                                     Get.back();
                                   } else {
-                                    Get.to(() => const RestaurantCartScreen(
+                                    Get.to(() => RestaurantSingleCartScreen(
                                         isBack: true));
                                   }
 
@@ -266,49 +267,31 @@ class ProductDetailsScreen extends StatelessWidget {
                             fontFamily: AppFontFamily.gilroyMedium,
                             width: Get.width,
                                 color: AppColors.darkText,
-                                isLoading:
-                                    addToCartController.rxRequestStatus.value ==
-                                        (Status.LOADING),
+                                isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
                                 text: "Add to Cart",
                                 onPressed: () {
-                                  if (getUserDataController
-                                          .userData.value.user?.userType ==
-                                      "guestUser") {
+                                  if (getUserDataController.userData.value.user?.userType =="guestUser") {
                                     showLoginRequired(context);
                                   } else {
                                     // ---------- add to cart api -----------
                                     // controller.productPriceFun();
                                     addToCartController.addToCartApi(
-                                      productId: controller
-                                          .productData.value.product!.id
-                                          .toString(),
-                                      productPrice: controller.productData.value
-                                                  .product!.salePrice !=
-                                              null
-                                          ? controller.productData.value
-                                              .product!.salePrice
-                                              .toString()
-                                          : controller.productData.value
-                                              .product!.regularPrice
-                                              .toString(),
-                                      productQuantity:
-                                          controller.cartCount.toString(),
-                                      restaurantId: controller.productData.value
-                                          .product!.restaurantId
-                                          .toString(),
+                                      productId: controller.productData.value.product!.id.toString(),
+                                      productPrice: controller.productData.value.product!.salePrice != null
+                                          ? controller.productData.value.product!.salePrice.toString()
+                                          : controller.productData.value.product!.regularPrice.toString(),
+                                      productQuantity: controller.cartCount.toString(),
+                                      restaurantId: controller.productData.value.product!.restaurantId.toString(),
                                       addons: controller.selectedAddOn.toList(),
                                       extrasIds: controller.extrasTitlesIdsId,
-                                      extrasItemIds:
-                                          controller.extrasItemIdsId.toList(),
-                                      extrasItemNames:
-                                          controller.extrasItemIdsName.toList(),
-                                      extrasItemPrices: controller
-                                          .extrasItemIdsPrice
-                                          .toList(),
+                                      extrasItemIds: controller.extrasItemIdsId.toList(),
+                                      extrasItemNames: controller.extrasItemIdsName.toList(),
+                                      extrasItemPrices: controller.extrasItemIdsPrice.toList(),
                                     );
                                     pt("object ${controller.extrasItemIdsName}");
                                   }
-                                }),
+                                },
+                        ),
                       ),
                       hBox(30),
                       // productReviews(),

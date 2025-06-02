@@ -134,6 +134,7 @@ class CustomTextFormField extends StatelessWidget {
           AppColors.errorColor,
           family: AppFontFamily.gilroyMedium,
         ),
+        errorMaxLines: 2,
         prefixIcon: prefix,
         prefixIconConstraints:
             prefixConstraints ?? BoxConstraints(minWidth: 30.w),

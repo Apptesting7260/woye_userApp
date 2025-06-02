@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Core/Utils/snackbar.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
@@ -19,10 +20,12 @@ class CreateOrderController extends GetxController {
 
   Rx<TextEditingController> tipsController = Rx(TextEditingController());
   Rx<TextEditingController> deliveryNotesController = Rx(TextEditingController());
+  Rx<TextEditingController> scheduleDeliveryController = Rx(TextEditingController());
   GlobalKey<FormState> deliveryNotesKey = GlobalKey<FormState>();
   GlobalKey<FormState> tipsKey = GlobalKey<FormState>();
   RxBool isDeliveryNotes = false.obs;
   RxBool isDeliveryAsSoonAsPossible = false.obs;
+  RxBool isDeliveryAsSoonAsPossiblePopUp = false.obs;
   RxString enteredTips = "".obs;
   RxDouble totalPriceIncludingTips = 0.00.obs;
   RxString totalPayAmount = "0".obs;
@@ -111,7 +114,8 @@ class CreateOrderController extends GetxController {
     request.fields['cart_id'] = cartId;
     request.fields['type'] = cartType;
     request.fields['delivery_notes'] = deliveryNotesController.value.text ?? "";
-    request.fields['delivery_soon'] = isDeliveryAsSoonAsPossible.value == true ? "true" : "false";
+    request.fields['delivery_soon'] = isDeliveryAsSoonAsPossible.value == true && isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
+                                      : isDeliveryAsSoonAsPossible.value == true && pickedTimeVal.value != '' ? pickedTimeVal.value : "";
     request.fields['courier_tip'] = selectedTipsIndexValue.value == 0 ? "5" :
                                     selectedTipsIndexValue.value == 1 ? "10" :
                                     selectedTipsIndexValue.value == 2 ? "15" :
@@ -265,6 +269,43 @@ class CreateOrderController extends GetxController {
     print("Pay After Wallet: ${newPayAfterWallet.value}");
 
     update();
+  }
+
+
+  ////////-----------------------------------------------------------------------
+  DateTime parseTime1 = DateTime.now();
+  RxString pickedTimeVal = "".obs;
+
+  void selectTime(BuildContext context) async {
+
+    DateFormat dateFormat = DateFormat("hh:mm a");
+    DateTime parsedTime = dateFormat.parse(scheduleDeliveryController.value.text != '' ? scheduleDeliveryController.value.text : _formatTime(TimeOfDay.now(), context));
+    TimeOfDay initialTime = TimeOfDay(hour: parsedTime.hour, minute: parsedTime.minute);
+
+    TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+    );
+    if (pickedTime != null) {
+      String formattedTime = _formatTime(pickedTime, context);
+      scheduleDeliveryController.value.text = formattedTime;
+      pickedTimeVal.value =  formattedTime;
+      final now = DateTime.now();
+      pt("time ${scheduleDeliveryController.value.text}");
+      parseTime1 = DateTime(now.year,now.month,now.day,pickedTime.hour,pickedTime.minute,);
+    } else {
+      // String formattedTime = _formatTime(initialTime, context);
+      // timeController.text = formattedTime;
+      // log("Current time set: ${timeController.text}");
+    }
+    update();
+  }
+
+  String _formatTime(TimeOfDay time, BuildContext context) {
+    final hour12 = time.hourOfPeriod < 10 ? '0${time.hourOfPeriod}' : '${time.hourOfPeriod}';
+    final minutes = time.minute < 10 ? '0${time.minute}' : '${time.minute}';
+    final amPm = time.period == DayPeriod.am ? 'AM' : 'PM';
+    return '$hour12:$minutes $amPm';
   }
 
   // void updateBalanceAfterTips({required String totalPrice,required String walletBalance}){

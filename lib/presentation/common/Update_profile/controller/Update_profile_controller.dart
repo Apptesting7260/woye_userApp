@@ -235,76 +235,79 @@ class SignUpForm_editProfileController extends GetxController {
   Rx<File> image = File("assets/appLogo.png").obs;
 
 
-  // Future<void> pickImage(ImageSource source) async {
-  //   bool hasPermission = await _handlePermissions(source);
-  //   if (!hasPermission) return;
-  //
-  //   try{
-  //     final pickedImage = await ImagePicker().pickImage(source: source);
-  //
-  //   if (pickedImage != null) {
-  //     // File originalImage = File(pickedImage.path);
-  //     File originalImage = await _copyToTempDirectory(pickedImage);
-  //     int originalSize = await originalImage.length();
-  //     print('Original image size: $originalSize bytes');
-  //
-  //     image.value = originalImage;
-  //
-  //     print("Path ---> ${image.value.path}");
-  //
-  //     File? croppedImage = await _cropImage(image.value.path);
-  //
-  //     if (croppedImage != null) {
-  //       int croppedSize = await croppedImage.length();
-  //       debugPrint('Cropped image size: $croppedSize bytes');
-  //       image.value = croppedImage;
-  //       profileImageGetUrl.value = croppedImage.path;
-  //       debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
-  //       imageUploadApi();
-  //     } else {
-  //       debugPrint("Image cropping was canceled or failed.");
-  //     }
-  //   }}catch(e){
-  //     debugPrint("Error picking image: $e");
-  //   }
-  // }
-
   Future<void> pickImage(ImageSource source) async {
-    try {
-      bool hasPermission = await _handlePermissions(source);
-      if (!hasPermission) return;
+    bool hasPermission = await _handlePermissions(source);
+    if (!hasPermission) return;
 
+    try{
       final pickedImage = await ImagePicker().pickImage(source: source);
-      if (pickedImage == null) return;
-      debugPrint("pickedImage  ???????>>> $pickedImage");
 
+    if (pickedImage != null) {
+      // File originalImage = File(pickedImage.path);
       File originalImage = await _copyToTempDirectory(pickedImage);
-      if(source == ImageSource.gallery){
-        image.value = originalImage;
-      }
-      debugPrint("originalImage ???????>>> $originalImage");
+      int originalSize = await originalImage.length();
+      print('Original image size: $originalSize bytes');
 
-      File? croppedImage = await _cropImage(originalImage.path);
-      debugPrint("croppedImage ???????>>> $croppedImage");
+      image.value = originalImage;
 
-      if (croppedImage != null ) {
-        image.value = originalImage;
-        final compressedXFile = await compressImage(imageFile: File(croppedImage.path));
-        image.value = File(compressedXFile.path);
-        profileImageGetUrl.value = compressedXFile.path;
+      print("Path ---> ${image.value.path}");
 
-        // image.value = croppedImage;
-        // profileImageGetUrl.value = croppedImage.path;
+      File? croppedImage = await _cropImage(image.value.path);
+
+      if (croppedImage != null) {
+        int croppedSize = await croppedImage.length();
+        debugPrint('Cropped image size: $croppedSize bytes');
+        image.value = croppedImage;
+        profileImageGetUrl.value = croppedImage.path;
+        debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
         imageUploadApi();
       } else {
-        debugPrint("Cropping cancelled or failed.");
+        debugPrint("Image cropping was canceled or failed.");
       }
-
-    } catch (e, stackTrace) {
-      debugPrint("pickImage error: $e");
-      debugPrint("StackTrace: $stackTrace");
+    }}catch(e){
+      debugPrint("Error picking image: $e");
     }
   }
+
+  // Future<void> pickImage(ImageSource source) async {
+  //   try {
+  //     bool hasPermission = await _handlePermissions(source);
+  //     if (!hasPermission) return;
+  //
+  //     final pickedImage = await ImagePicker().pickImage(source: source);
+  //     if (pickedImage == null) return;
+  //     debugPrint("pickedImage  ???????>>> $pickedImage");
+  //
+  //     File originalImage = await _copyToTempDirectory(pickedImage);
+  //
+  //     // image.value = originalImage;
+  //
+  //     debugPrint("originalImage ???????>>> $originalImage");
+  //
+  //     File? croppedImage = await _cropImage(originalImage.path);
+  //     if(croppedImage !=  null){
+  //       image.value = File(croppedImage.path ?? "");
+  //     }
+  //     debugPrint("croppedImage ???????>>> $croppedImage");
+  //
+  //     if (croppedImage != null ) {
+  //       profileImageGetUrl.value = croppedImage.path;
+  //       final compressedXFile = await compressImage(imageFile: File(croppedImage.path));
+  //       image.value = File(compressedXFile.path);
+  //       profileImageGetUrl.value = compressedXFile.path;
+  //
+  //       // image.value = croppedImage;
+  //       // profileImageGetUrl.value = croppedImage.path;
+  //       imageUploadApi();
+  //     } else {
+  //       debugPrint("Cropping cancelled or failed.");
+  //     }
+  //
+  //   } catch (e, stackTrace) {
+  //     debugPrint("pickImage error: $e");
+  //     debugPrint("StackTrace: $stackTrace");
+  //   }
+  // }
 
   Future<bool> _handlePermissions(ImageSource source) async {
     if (source == ImageSource.camera) {
@@ -431,35 +434,6 @@ class SignUpForm_editProfileController extends GetxController {
     final tempDir = await getTemporaryDirectory();
     final newFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}_${xFile.name}');
     return await File(xFile.path).copy(newFile.path);
-  }
-
-  static Future<XFile> compressImage({
-    required File imageFile,
-    int quality = 20,
-    CompressFormat format = CompressFormat.jpeg,
-  }) async {
-    log(imageFile.lengthSync().toString(), name: "Original size");
-    try {
-      final String targetPath = p.join(Directory.systemTemp.path, 'temp.${format.name}');
-      final XFile? compressedImage = await FlutterImageCompress.compressAndGetFile(
-        imageFile.path,
-        targetPath,
-        quality: quality,
-        format: format,
-      );
-
-      if (compressedImage == null) {
-        throw ("Failed to compress the image");
-      }
-
-      print("Compressed Image: ${compressedImage.path}");
-      final compressedFile = File(compressedImage.path);
-      log(compressedFile.lengthSync().toString(), name: "Compressed size");
-      return compressedImage;
-    } catch (e) {
-      print("Error during image compression: $e");
-      rethrow;
-    }
   }
 
   // Future<void> pickImage(ImageSource source) async {

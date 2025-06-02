@@ -8,6 +8,7 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_single_cart_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/view/all_restaurant.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
@@ -43,6 +44,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   _getHeight(_) {
     final keyContext = homeWidgetKey.currentContext;
     if (keyContext != null) height = keyContext.size!.height;
+    print("object1111111111111");
   }
 
   final RestaurantCategoriesDetailsController  restaurantCategoriesDetailsController =    Get.put(RestaurantCategoriesDetailsController());
@@ -60,14 +62,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
 
   @override
   void initState() {
-    restaurantCartController.getRestaurantCartApi();
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(_getHeight);
+    restaurantCartController.getAllCartData();
+    // restaurantCartController.getRestaurantCartApi();
     // latitude.value = storage.read('latitude') ?? 0.0;
     // longitude.value = storage.read('longitude') ?? 0.0;
     // restaurantHomeController.latitude.value = storage.read('latitude').toString();
     // restaurantHomeController.longitude.value =storage.read('longitude').toString();
     // pt("lat long >> ${restaurantHomeController.latitude.value} ::: ${restaurantHomeController.longitude.value}");
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(_getHeight);
     // _scrollController.addListener(() {
     //   if (_scrollController.position.pixels ==
     //       _scrollController.position.maxScrollExtent) {
@@ -166,7 +169,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                             padding: REdgeInsets.symmetric(
                               horizontal: 24.h,
                             ),
-                            sliver: serchAndFilter(),
+                            sliver: searchAndFilter(),
                           ),
                           SliverToBoxAdapter(
                               child: ratingDeliveryFilterBtn(),
@@ -184,7 +187,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     if (restaurantHomeController.homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
                                     if (restaurantHomeController.homeData.value.category!.isNotEmpty)
-                                      catergories(),
+                                      categories(),
                                     // if (restaurantHomeController.popularRestaurantList.isNotEmpty)
                                     if (restaurantHomeController.homeData.value.popularResto?.isNotEmpty ?? false)
                                       mostPopularRestaurant(),
@@ -206,6 +209,161 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       ),
                     ),
                     // hBox(75.h)
+                  ],
+                ),
+              ),
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+              floatingActionButton: Padding(
+                padding: EdgeInsets.only(bottom: 60.h),
+                child: restaurantCartController.allResCartData.value.buttonCheck == false
+                    ? const SizedBox()
+                    : Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: 10.r,
+                              bottom: 10.r,
+                              left: 20.r,
+                              right: 20.r),
+                          width: Get.width,
+                          padding: EdgeInsets.only(
+                              top: 10.r,
+                              bottom: 10.r,
+                              left: 10.r,
+                              right: 10.r),
+                          decoration: BoxDecoration(
+                              color: AppColors.white,
+                              borderRadius: BorderRadius.circular(20.r),
+                              border: Border.all(
+                                  color: AppColors.hintText)),
+                          child: Row(
+                            children: [
+                              Container(
+                                  width: 50.h,
+                                  height: 50.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                    BorderRadius.circular(100.r),
+                                  ),
+                                  child: ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(100.r),
+                                      child: CachedNetworkImage(
+                                        imageUrl: restaurantCartController.allResCartData.value.carts?[0].resto?.shopimage.toString() ?? "",
+                                        placeholder: (context, url) =>
+                                            circularProgressIndicator(),
+                                        errorWidget:(context, url, error) =>
+                                            Icon(
+                                              Icons.person,
+                                              size: 40.h,
+                                              color: AppColors.lightText
+                                                  .withOpacity(0.5),
+                                            ),
+                                        fit: BoxFit.cover,
+                                      ))),
+                              wBox(10.h),
+                              Container(
+                                width: Get.width / 3,
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      restaurantCartController.allResCartData.value.carts?[0].resto?.shopName.toString() ?? "",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
+                                    ),
+                                    // Text(
+                                    //   carts.vendorAddress.toString(),
+                                    //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                                    //   overflow: TextOverflow.ellipsis,
+                                    //   maxLines: 1,
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColors.primary,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                      BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: () {
+                                    // Get.back();
+                                    Get.to(()=>RestaurantSingleCartScreen(
+                                      cartId:restaurantCartController.allResCartData.value.carts?[0].id.toString() ?? "",
+                                      isBack: true,
+                                    ));
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "View Cart",
+                                        style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      Text(
+                                        "items",
+                                        style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ],
+                                  ))
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          top: -15.h,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              print(restaurantCartController.allResCartData.value.carts?.length);
+                              showAllCart();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.all(8.r),
+                              backgroundColor: AppColors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.circular(30.r),
+                              ),
+                              elevation: 5,
+                            ),
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.center,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                wBox(2.w),
+                                Text(
+                                  "Carts",
+                                  style: AppFontStyle.text_12_600(
+                                      AppColors.primary,family:AppFontFamily.gilroyRegular),
+                                ),
+                                Icon(
+                                  Icons.arrow_drop_up,
+                                  color: AppColors.primary,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -260,10 +418,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 // btnWidth: 150,
                 hintText: "Delivery Fee",
                 selectedValue: restaurantHomeController.deliveryFee.value,
-                hintStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
-                textStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                hintStyle: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+                textStyle: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyMedium),
                 items: const ["Free"],
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {
@@ -315,8 +471,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     );
   }
 
-
-  Widget serchAndFilter() {
+  Widget searchAndFilter() {
     return SliverAppBar(
       automaticallyImplyLeading: false,
       pinned: false,
@@ -423,7 +578,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     );
   }
 
-  Widget catergories() {
+  Widget categories() {
     return Column(
       children: [
         Padding(
@@ -1236,6 +1391,152 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             ],
           ),),
       ],
+    );
+  }
+
+  showAllCart() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.all(24.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "Your Carts(${restaurantCartController.allResCartData.value.carts?.length})",
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    ),
+                    const Spacer(),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        Get.back();
+                        restaurantNavbarController.getIndex(3);
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            "Checkout all",
+                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                          ),
+                          wBox(4),
+                          Icon(
+                            Icons.arrow_forward_sharp,
+                            color: AppColors.primary,
+                            size: 18,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                hBox(20.h),
+                ListView.separated(
+                  itemCount:restaurantCartController.allResCartData.value.carts?.length ?? 0,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    var carts = restaurantCartController.allResCartData.value.carts?[index];
+                    return Container(
+                      width: Get.width,
+                      padding: EdgeInsets.only(
+                          top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(color: AppColors.hintText)),
+                      child: Row(
+                        children: [
+                          Container(
+                              width: 50.h,
+                              height: 50.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  child: CachedNetworkImage(
+                                    imageUrl: carts?.resto?.shopimage.toString() ?? "",
+                                    placeholder: (context, url) =>
+                                        circularProgressIndicator(),
+                                    errorWidget: (context, url, error) => Icon(
+                                      Icons.person,
+                                      size: 40.h,
+                                      color:
+                                      AppColors.lightText.withOpacity(0.5),
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ))),
+                          wBox(10.h),
+                          Container(
+                            width: Get.width / 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  carts?.resto?.shopName.toString() ?? "",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                ),
+                                // Text(
+                                //   carts.vendorAddress.toString(),
+                                //   style: AppFontStyle.text_12_400(AppColors.lightText),
+                                //   overflow: TextOverflow.ellipsis,
+                                //   maxLines: 1,
+                                // ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                Get.back();
+                                Get.to(()=>RestaurantSingleCartScreen(
+                                  cartId: carts?.id.toString() ?? "",
+                                  isBack: true,
+                                ));
+                              },
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "View Cart",
+                                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    "items",
+                                    style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ))
+                        ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return hBox(20.h);
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
