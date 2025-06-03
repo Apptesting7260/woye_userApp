@@ -73,6 +73,8 @@ class AppUrls {
   static const String createOrder = "$baseUrl/create-order";
   static const String trackOrderRestaurant = "$baseUrl/track-order";
   static const String rAllCartsRestaurant = "$baseUrl/rall-carts";
+  static const String checkoutAllRestaurant = "$baseUrl/checkout-all";
+  static const String deleteVendorRestaurant = "$baseUrl/delete-vendor";
 
   /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
 

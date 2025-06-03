@@ -276,7 +276,9 @@ class EditAdressController extends GetxController {
             locationController.clear();
             return;
           });
-        }else if(vendorType =='RestaurantCart'){
+        }
+        else if(vendorType =='RestaurantCart'){
+          cartScreenType == "singleCart" ?
           restaurantCartController.getRestaurantCartApi(cartId: cartId.toString()).then((value) {
             Utils.showToast(editAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);
@@ -287,8 +289,19 @@ class EditAdressController extends GetxController {
             deliveryInstructionController.value.clear();
             locationController.clear();
             return;
+          }):restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
           });
-        }else if(vendorType == "GroceryCart"){
+        }
+        else if(vendorType == "GroceryCart"){
           cartScreenType == "singleCart" ?
           singleGroceryCartController.getGrocerySingleVendorCartApi(cartId).then((value) {
             Utils.showToast(editAddress.value.message.toString());

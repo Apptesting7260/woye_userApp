@@ -56,8 +56,6 @@ class RestaurantCartController extends GetxController {
     });
   }
 
-  
-
   refreshApiSingleCart({required String cartId}) async {
     var data = {
       "cart_id" : cartId,
@@ -77,7 +75,8 @@ class RestaurantCartController extends GetxController {
   }
 
 
-  //-----
+
+  //----- home screen
   final rxRequestStatusAllCartData = Status.LOADING.obs;
   final allResCartData = RestaurantAllCartDataModel().obs;
   void setRxRequestStatusAllCartData(Status value) => rxRequestStatusAllCartData.value = value;
@@ -100,6 +99,54 @@ class RestaurantCartController extends GetxController {
       pt(error);
       pt(stackError);
       setRxRequestStatusAllCartData(Status.ERROR);
+    });
+
+  }
+
+  //----- Checkout all api
+  final rxGetCheckoutDataStatus = Status.LOADING.obs;
+  final cartCheckoutData = RestaurantCartModal().obs;
+  void setRxRequestStatusCheckout(Status value) => rxGetCheckoutDataStatus.value = value;
+  void allCheckoutDataSet(RestaurantCartModal value) => cartCheckoutData.value = value;
+
+  getAllCheckoutDataRes()async{
+    setRxRequestStatusCheckout(Status.LOADING);
+    api.getRestaurantCheckOutApi().then((value) {
+      allCheckoutDataSet(value);
+      if(value.status == true){
+        setRxRequestStatusCheckout(Status.COMPLETED);
+      }else if(value.status == false){
+        setRxRequestStatusCheckout(Status.COMPLETED);
+      }else{
+        setRxRequestStatusCheckout(Status.ERROR);
+      }
+    },).onError((error, stackError) {
+      setError(error.toString());
+      pt('error restaurant checkout api >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
+      pt(error);
+      pt(stackError);
+      setRxRequestStatusCheckout(Status.ERROR);
+    });
+
+  }
+
+  refreshGetAllCheckoutDataRes()async{
+    // setRxRequestStatusCheckout(Status.LOADING);
+    api.getRestaurantCheckOutApi().then((value) {
+      allCheckoutDataSet(value);
+      if(value.status == true){
+        setRxRequestStatusCheckout(Status.COMPLETED);
+      }else if(value.status == false){
+        setRxRequestStatusCheckout(Status.COMPLETED);
+      }else{
+        setRxRequestStatusCheckout(Status.ERROR);
+      }
+    },).onError((error, stackError) {
+      setError(error.toString());
+      pt('error restaurant checkout api >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
+      pt(error);
+      pt(stackError);
+      setRxRequestStatusCheckout(Status.ERROR);
     });
 
   }

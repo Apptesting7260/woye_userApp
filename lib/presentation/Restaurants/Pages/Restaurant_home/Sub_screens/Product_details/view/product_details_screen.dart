@@ -256,8 +256,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   if (fromCart != null && fromCart == true) {
                                     Get.back();
                                   } else {
-                                    Get.to(() => RestaurantSingleCartScreen(
-                                        isBack: true));
+                                    Get.to(() => const RestaurantCartScreen(isBack: true));
                                   }
 
                                   controller.goToCart.value = false;
@@ -322,22 +321,24 @@ class ProductDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Obx(
-          () => ClipRRect(
-            borderRadius: BorderRadius.circular(20.r),
-            child: CachedNetworkImage(
-              memCacheHeight: memCacheHeight,
-              imageUrl: controller.selectedImageUrl.value,
-              fit: BoxFit.cover,
-              height: 340.h,
-              errorWidget: (context, url, error) =>ImageErrorWidget(),
-              placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: AppColors.gray,
-                highlightColor: AppColors.lightText,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.gray,
-                    borderRadius: BorderRadius.circular(20.r),
+        Center(
+          child: Obx(
+            () => ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
+              child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
+                imageUrl: controller.selectedImageUrl.value,
+                fit: BoxFit.cover,
+                height: 340.h,
+                errorWidget: (context, url, error) =>const ImageErrorWidget(),
+                placeholder: (context, url) => Shimmer.fromColors(
+                  baseColor: AppColors.gray,
+                  highlightColor: AppColors.lightText,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.gray,
+                      borderRadius: BorderRadius.circular(20.r),
+                    ),
                   ),
                 ),
               ),
@@ -541,7 +542,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   height: 20.h,
                   width: 20.h,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
                 ),
               ),
               wBox(5),

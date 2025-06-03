@@ -20,23 +20,28 @@ class QuantityController extends GetxController {
     required String productId,
     required String productQuantity,
     required String countId,
-
+    required String cartId,
+    required bool isSingleCartScreen,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "product_id": productId,
       "quantity": productQuantity,
       "count_id": countId,
-
+      "cart_id": cartId,
     };
     api.updateQuantityApi(body).then((value) {
       setData(value);
       if (quantityData.value.status == true) {
-        restaurantCartController.getRestaurantCartApi(cartId: "").then((value) async {
-          await Future.delayed(const Duration(milliseconds: 500));
-          setRxRequestStatus(Status.COMPLETED);
+        if(isSingleCartScreen == true){
+          restaurantCartController.refreshApiSingleCart(cartId: cartId).then((value) async {
+            await Future.delayed(const Duration(milliseconds: 500));
+            setRxRequestStatus(Status.COMPLETED);
+            Utils.showToast(quantityData.value.message.toString());
+          });
+        }else if(isSingleCartScreen == false){
           Utils.showToast(quantityData.value.message.toString());
-        });
+        }
       } else {
         Utils.showToast(quantityData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);

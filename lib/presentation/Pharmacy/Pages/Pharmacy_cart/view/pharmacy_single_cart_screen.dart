@@ -1494,8 +1494,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                         .value ==
                                     true,
                         onPressed: () {
-                          controller.cartData.value.cart!
-                              .decodedAttribute![index].isDelete.value = true;
+                          controller.cartData.value.cart!.decodedAttribute![index].isDelete.value = true;
                           deleteProductController.deleteProductApi(
                             productId: productId,
                             countId: countId,

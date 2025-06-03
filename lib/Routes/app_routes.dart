@@ -211,7 +211,7 @@ class AppRoutes {
     GetPage(name: rateAndReviewProductScreen, page: () => RateAndReviewProductScreen()),
     GetPage(name: prescriptionsScreen, page: () => PrescriptionsScreen()),
     GetPage(name: restaurantInformationScreen, page: () => RestaurantInformationScreen()),
-    GetPage(name: restaurantSingleCartScreen, page: () => RestaurantSingleCartScreen()),
+    // GetPage(name: restaurantSingleCartScreen, page: () => RestaurantSingleCartScreen()),
 
     ///`pharmacy=====================================================>`
     GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),

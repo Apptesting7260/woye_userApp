@@ -379,6 +379,18 @@ class Repository {
     return RestaurantAllCartDataModel.fromJson(response);
   }
 
+  Future<dynamic> getRestaurantCheckOutApi()async{
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.checkoutAllRestaurant, token);
+    return RestaurantCartModal.fromJson(response);
+  }
+
+  Future<dynamic> deleteVendorRestaurantApi(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data,AppUrls.deleteVendorRestaurant, token);
+    return DeleteProductModal.fromJson(response);
+  }
+
   // Future<dynamic> createOrderApi(var data) async {
   //   await initializeUser();
   //   dynamic response =

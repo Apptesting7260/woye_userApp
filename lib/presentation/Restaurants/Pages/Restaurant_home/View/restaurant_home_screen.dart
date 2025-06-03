@@ -63,8 +63,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(_getHeight);
     restaurantCartController.getAllCartData();
+    WidgetsBinding.instance.addPostFrameCallback(_getHeight);
+
     // restaurantCartController.getRestaurantCartApi();
     // latitude.value = storage.read('latitude') ?? 0.0;
     // longitude.value = storage.read('longitude') ?? 0.0;
@@ -301,10 +302,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                   ),
                                   onPressed: () {
                                     // Get.back();
-                                    Get.to(()=>RestaurantSingleCartScreen(
-                                      cartId:restaurantCartController.allResCartData.value.carts?[0].id.toString() ?? "",
-                                      isBack: true,
-                                    ));
+                                    // Get.to(()=>RestaurantSingleCartScreen(
+                                    //   cartId:restaurantCartController.allResCartData.value.carts?[0].id.toString() ?? "",
+                                    //   isBack: true,
+                                    // ));
                                   },
                                   child: Column(
                                     children: [
@@ -1503,11 +1504,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                Get.back();
-                                Get.to(()=>RestaurantSingleCartScreen(
-                                  cartId: carts?.id.toString() ?? "",
-                                  isBack: true,
-                                ));
+                                // Get.back();
+                                // Get.to(()=>RestaurantSingleCartScreen(
+                                //   cartId: carts?.id.toString() ?? "",
+                                //   isBack: true,
+                                // ));
                               },
                               child: Column(
                                 children: [
