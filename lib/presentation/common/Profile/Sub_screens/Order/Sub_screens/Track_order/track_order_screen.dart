@@ -69,6 +69,7 @@ class TrackOrderScreen extends StatelessWidget {
                         // if(controller.apiData.value.orderDetails?.status == "completed")
                         onItsWay(),
                         hBox(20),
+                        if(controller.apiData.value.orderDetails?.addressDetails != null)
                         addressBar(),
                         hBox(20),
                         orderButton(cartType,screenType),

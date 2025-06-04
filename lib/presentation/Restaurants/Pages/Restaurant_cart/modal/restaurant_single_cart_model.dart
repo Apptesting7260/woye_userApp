@@ -1,6 +1,7 @@
-import 'package:get/get.dart';
 //
-// class RestaurantCartModal {
+// import 'package:get/get_rx/get_rx.dart';
+//
+// class RestaurantSingleCartModal {
 //   bool? status;
 //   String? message;
 //   Cart? cart;
@@ -10,7 +11,7 @@ import 'package:get/get.dart';
 //   bool? addressExists;
 //   List<Coupon>? coupons;
 //
-//   RestaurantCartModal({
+//   RestaurantSingleCartModal({
 //     this.status,
 //     this.message,
 //     this.cart,
@@ -21,12 +22,12 @@ import 'package:get/get.dart';
 //     this.coupons,
 //   });
 //
-//   factory RestaurantCartModal.fromJson(Map<String, dynamic> json) {
+//   factory RestaurantSingleCartModal.fromJson(Map<String, dynamic> json) {
 //     var cartData = json['cart'];
 //     var addressData = json['address'];
 //     var couponData = json['coupons'] as List?;
 //
-//     return RestaurantCartModal(
+//     return RestaurantSingleCartModal(
 //       status: json['status'],
 //       message: json['message'],
 //       cart: cartData != null ? Cart.fromJson(cartData) : null,
@@ -556,7 +557,7 @@ import 'package:get/get.dart';
 //     };
 //   }
 // }
-
+//
 // class Coupon {
 //   int? id;
 //   String? couponType;
@@ -605,39 +606,43 @@ import 'package:get/get.dart';
 //   }
 // }
 
-class RestaurantCartModal {
+import 'package:get/get.dart';
+
+class RestaurantSingleCartModel {
   bool? status;
   String? message;
   Cart? cart;
-  String? wallet;
   Address? address;
+  String? wallet;
+  String? cartContent;
   List<Coupons>? coupons;
   bool? addressExists;
-  String? cartContent;
 
-  RestaurantCartModal(
+  RestaurantSingleCartModel(
       {this.status,
         this.message,
         this.cart,
-        this.wallet,
         this.address,
+        this.wallet,
+        this.cartContent,
         this.coupons,
-        this.addressExists,
-        this.cartContent});
+        this.addressExists});
 
-  RestaurantCartModal.fromJson(Map<String, dynamic> json) {
+  RestaurantSingleCartModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message']?.toString();
     cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
-    wallet = json['wallet']?.toString();
-    address = json['address'] != null ? Address.fromJson(json['address']) : null;    if (json['coupons'] != null) {
+    address =
+    json['address'] != null ? Address.fromJson(json['address']) : null;
+    wallet = json['wallet'];
+    cartContent = json['cartContent'];
+    if (json['coupons'] != null) {
       coupons = <Coupons>[];
       json['coupons'].forEach((v) {
         coupons!.add(Coupons.fromJson(v));
       });
     }
     addressExists = json['address_exists'];
-    cartContent = json['cartContent']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -647,19 +652,32 @@ class RestaurantCartModal {
     if (cart != null) {
       data['cart'] = cart!.toJson();
     }
-    data['wallet'] = wallet;
     if (address != null) {
       data['address'] = address!.toJson();
-    }    if (coupons != null) {
+    }
+    data['wallet'] = wallet;
+    data['cartContent'] = cartContent;
+    if (coupons != null) {
       data['coupons'] = coupons!.map((v) => v.toJson()).toList();
     }
     data['address_exists'] = addressExists;
-    data['cartContent'] = cartContent;
     return data;
   }
 }
 
 class Cart {
+  String? id;
+  String? userId;
+  String? productId;
+  String? restoId;
+  String? pharmaId;
+  String? status;
+  String? orderId;
+  String? bucket;
+  String? couponId;
+  String? createdAt;
+  String? updatedAt;
+  DecodedAttribute? decodedAttribute;
   String? regularPrice;
   String? saveAmount;
   String? deliveryCharge;
@@ -667,19 +685,45 @@ class Cart {
   String? couponDiscount;
   String? grandTotalPrice;
   String? totalProductsInCart;
-  List<Buckets>? buckets;
+  String? couponApplied;
 
   Cart(
-      {this.regularPrice,
+      {this.id,
+        this.userId,
+        this.productId,
+        this.restoId,
+        this.pharmaId,
+        this.status,
+        this.orderId,
+        this.bucket,
+        this.couponId,
+        this.createdAt,
+        this.updatedAt,
+        this.decodedAttribute,
+        this.regularPrice,
         this.saveAmount,
         this.deliveryCharge,
         this.totalPrice,
         this.couponDiscount,
         this.grandTotalPrice,
         this.totalProductsInCart,
-        this.buckets});
+        this.couponApplied});
 
   Cart.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    userId = json['user_id']?.toString();
+    productId = json['product_id']?.toString();
+    restoId = json['resto_id']?.toString();
+    pharmaId = json['pharma_id']?.toString();
+    status = json['status']?.toString();
+    orderId = json['order_id']?.toString();
+    bucket = json['bucket']?.toString();
+    couponId = json['coupon_id']?.toString();
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
+    decodedAttribute = json['decoded_attribute'] != null
+        ? DecodedAttribute.fromJson(json['decoded_attribute'])
+        : null;
     regularPrice = json['regular_price']?.toString();
     saveAmount = json['save_amount']?.toString();
     deliveryCharge = json['delivery_charge']?.toString();
@@ -687,16 +731,25 @@ class Cart {
     couponDiscount = json['coupon_discount']?.toString();
     grandTotalPrice = json['grand_total_price']?.toString();
     totalProductsInCart = json['total_products_in_cart']?.toString();
-    if (json['buckets'] != null) {
-      buckets = <Buckets>[];
-      json['buckets'].forEach((v) {
-        buckets!.add(Buckets.fromJson(v));
-      });
-    }
+    couponApplied = json['coupon_applied']?.toString();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['product_id'] = productId;
+    data['resto_id'] = restoId;
+    data['pharma_id'] = pharmaId;
+    data['status'] = status;
+    data['order_id'] = orderId;
+    data['bucket'] = bucket;
+    data['coupon_id'] = couponId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (decodedAttribute != null) {
+      data['decoded_attribute'] = decodedAttribute!.toJson();
+    }
     data['regular_price'] = regularPrice;
     data['save_amount'] = saveAmount;
     data['delivery_charge'] = deliveryCharge;
@@ -704,39 +757,18 @@ class Cart {
     data['coupon_discount'] = couponDiscount;
     data['grand_total_price'] = grandTotalPrice;
     data['total_products_in_cart'] = totalProductsInCart;
-    if (buckets != null) {
-      data['buckets'] = buckets!.map((v) => v.toJson()).toList();
-    }
+    data['coupon_applied'] = couponApplied;
     return data;
   }
 }
 
-class Buckets {
+class DecodedAttribute {
   String? vendorId;
   List<Bucket>? bucket;
-  String? cartId;
-  String? vendorName;
-  String? vendorImage;
-  String? vendorAddress;
-  String? specificTotalPrice;
-  String? specificDeliveryCharge;
-  String? grandtotalPrice;
-  Rx<bool> isVendorDelete = false.obs;
 
-  Buckets(
-      {this.vendorId,
-        this.bucket,
-        this.cartId,
-        this.vendorName,
-        this.vendorImage,
-        this.vendorAddress,
-        this.specificTotalPrice,
-        this.specificDeliveryCharge,
-        this.grandtotalPrice,
+  DecodedAttribute({this.vendorId, this.bucket});
 
-      });
-
-  Buckets.fromJson(Map<String, dynamic> json) {
+  DecodedAttribute.fromJson(Map<String, dynamic> json) {
     vendorId = json['vendor_id']?.toString();
     if (json['bucket'] != null) {
       bucket = <Bucket>[];
@@ -744,13 +776,6 @@ class Buckets {
         bucket!.add(Bucket.fromJson(v));
       });
     }
-    cartId = json['cart_id']?.toString();
-    vendorName = json['vendor_name']?.toString();
-    vendorImage = json['vendor_image']?.toString();
-    vendorAddress = json['vendor_address']?.toString();
-    specificTotalPrice = json['specific_total_price']?.toString();
-    specificDeliveryCharge = json['specific_delivery_charge']?.toString();
-    grandtotalPrice = json['grandtotal_price']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -759,13 +784,6 @@ class Buckets {
     if (bucket != null) {
       data['bucket'] = bucket!.map((v) => v.toJson()).toList();
     }
-    data['cart_id'] = cartId;
-    data['vendor_name'] = vendorName;
-    data['vendor_image'] = vendorImage;
-    data['vendor_address'] = vendorAddress;
-    data['specific_total_price'] = specificTotalPrice;
-    data['specific_delivery_charge'] = specificDeliveryCharge;
-    data['grandtotal_price'] = grandtotalPrice;
     return data;
   }
 }
@@ -779,12 +797,14 @@ class Bucket {
   String? checked;
   String? count;
   String? productName;
-  String? newPrice;
   String? categoryId;
   String? categoryName;
   String? productImage;
+  String? status;
+  List<String>? addonName;
+  String? totalPrice;
+  Rx<bool> isSelectedLoading = false.obs;
   Rx<bool> isLoading = false.obs;
-  Rx<bool> isDelete = false.obs;
 
   Bucket(
       {this.productId,
@@ -795,15 +815,17 @@ class Bucket {
         this.checked,
         this.count,
         this.productName,
-        this.newPrice,
         this.categoryId,
         this.categoryName,
-        this.productImage});
+        this.productImage,
+        this.status,
+        this.addonName,
+        this.totalPrice});
 
   Bucket.fromJson(Map<String, dynamic> json) {
     productId = json['product_id']?.toString();
     quantity = json['quantity']?.toString();
-    price = json['price']?.toString();
+    price = json['price'];
     if (json['addons'] != null) {
       addons = <Addons>[];
       json['addons'].forEach((v) {
@@ -819,10 +841,16 @@ class Bucket {
     checked = json['checked']?.toString();
     count = json['count']?.toString();
     productName = json['product_name']?.toString();
-    newPrice = json['new_price']?.toString();
     categoryId = json['category_id']?.toString();
     categoryName = json['category_name']?.toString();
     productImage = json['product_image']?.toString();
+    status = json['status']?.toString();
+    if(json['addon_name'] != null){
+      addonName = json['addon_name'].cast<String>();
+    }else{
+      addonName = [];
+    }
+    totalPrice = json['total_price']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -839,10 +867,12 @@ class Bucket {
     data['checked'] = checked;
     data['count'] = count;
     data['product_name'] = productName;
-    data['new_price'] = newPrice;
     data['category_id'] = categoryId;
     data['category_name'] = categoryName;
     data['product_image'] = productImage;
+    data['status'] = status;
+    data['addon_name'] = addonName;
+    data['total_price'] = totalPrice;
     return data;
   }
 }
@@ -876,7 +906,7 @@ class Attribute {
   Attribute({this.titleId, this.itemDetails});
 
   Attribute.fromJson(Map<String, dynamic> json) {
-    titleId = json['title_id']?.toString();
+    titleId = json['title_id'];
     itemDetails = json['item_details'] != null
         ? ItemDetails.fromJson(json['item_details'])
         : null;
@@ -910,6 +940,75 @@ class ItemDetails {
     data['item_id'] = itemId;
     data['item_name'] = itemName;
     data['item_price'] = itemPrice;
+    return data;
+  }
+}
+
+class Address {
+  String? id;
+  String? userId;
+  String? fullName;
+  String? phoneNumber;
+  String? countryCode;
+  String? houseDetails;
+  String? address;
+  String? addressType;
+  String? isDefault;
+  String? latitude;
+  String? longitude;
+  String? deliveryInstruction;
+  String? createdAt;
+  String? updatedAt;
+
+  Address(
+      {this.id,
+        this.userId,
+        this.fullName,
+        this.phoneNumber,
+        this.countryCode,
+        this.houseDetails,
+        this.address,
+        this.addressType,
+        this.isDefault,
+        this.latitude,
+        this.longitude,
+        this.deliveryInstruction,
+        this.createdAt,
+        this.updatedAt});
+
+  Address.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    userId = json['user_id']?.toString();
+    fullName = json['full_name']?.toString();
+    phoneNumber = json['phone_number']?.toString();
+    countryCode = json['country_code']?.toString();
+    houseDetails = json['house_details']?.toString();
+    address = json['address']?.toString();
+    addressType = json['address_type']?.toString();
+    isDefault = json['is_default']?.toString();
+    latitude = json['latitude']?.toString();
+    longitude = json['longitude']?.toString();
+    deliveryInstruction = json['delivery_instruction']?.toString();
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['full_name'] = fullName;
+    data['phone_number'] = phoneNumber;
+    data['country_code'] = countryCode;
+    data['house_details'] = houseDetails;
+    data['address'] = address;
+    data['address_type'] = addressType;
+    data['is_default'] = isDefault;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['delivery_instruction'] = deliveryInstruction;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -956,78 +1055,5 @@ class Coupons {
     data['expire_date'] = expireDate;
     data['expiry_status'] = expiryStatus;
     return data;
-  }
-}
-
-
-class Address {
-  int? id;
-  int? userId;
-  String? fullName;
-  String? phoneNumber;
-  String? countryCode;
-  String? houseDetails;
-  String? address;
-  String? addressType;
-  bool? isDefault;
-  String? latitude;
-  String? longitude;
-  String? deliveryInstruction;
-  String? createdAt;
-  String? updatedAt;
-
-  Address({
-    this.id,
-    this.userId,
-    this.fullName,
-    this.phoneNumber,
-    this.countryCode,
-    this.houseDetails,
-    this.address,
-    this.addressType,
-    this.isDefault,
-    this.latitude,
-    this.longitude,
-    this.deliveryInstruction,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  factory Address.fromJson(Map<String, dynamic> json) {
-    return Address(
-      id: json['id'],
-      userId: json['user_id'],
-      fullName: json['full_name']?.toString(),
-      phoneNumber: json['phone_number']?.toString(),
-      countryCode: json['country_code']?.toString(),
-      houseDetails: json['house_details']?.toString(),
-      address: json['address']?.toString(),
-      addressType: json['address_type']?.toString(),
-      isDefault: json['is_default'] == 1,
-      latitude: json['latitude']?.toString(),
-      longitude: json['longitude']?.toString(),
-      deliveryInstruction: json['delivery_instruction']?.toString(),
-      createdAt: json['created_at']?.toString(),
-      updatedAt: json['updated_at']?.toString(),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'user_id': userId,
-      'full_name': fullName,
-      'phone_number': phoneNumber,
-      'country_code': countryCode,
-      'house_details': houseDetails,
-      'address': address,
-      'address_type': addressType,
-      'is_default': isDefault == true ? 1 : 0,
-      'latitude': latitude,
-      'longitude': longitude,
-      'delivery_instruction': deliveryInstruction,
-      'created_at': createdAt,
-      'updated_at': updatedAt,
-    };
   }
 }

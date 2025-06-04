@@ -3,12 +3,15 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/main.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/restaurant_all_cart_data_model.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/restaurant_single_cart_model.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class RestaurantCartController extends GetxController {
   final api = Repository();
+  final rxRequestStatusSingleCart = Status.LOADING.obs;
   final rxRequestStatus = Status.LOADING.obs;
   final cartData = RestaurantCartModal().obs;
+  final singleCartData = RestaurantSingleCartModel().obs;
 
   final storage = GetStorage();
 
@@ -24,9 +27,7 @@ class RestaurantCartController extends GetxController {
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void cartSet(RestaurantCartModal value) {
-    cartData.value = value;
-  }
+  void cartSet(RestaurantCartModal value) => cartData.value = value;
 
   @override
   void onInit() {
@@ -37,26 +38,30 @@ class RestaurantCartController extends GetxController {
   void setError(String value) => error.value = value;
   // final CartController cartController = Get.put(CartController());
 
-  getRestaurantCartApi({required String cartId}) async {
+  ////////-----------------Single cart api restaurant
+  void singleCartSet(RestaurantSingleCartModel value) => singleCartData.value = value;
+  void setRxRequestStatusSingleCart(Status value) => rxRequestStatusSingleCart.value = value;
+
+  getRestaurantSingleCartApi({required String cartId}) async {
     var data = {
       "cart_id" : cartId,
     };
     readOnly.value = true;
     couponCodeController.value.clear();
-    setRxRequestStatus(Status.LOADING);
+    setRxRequestStatusSingleCart(Status.LOADING);
     api.restaurantCartGetDataApi(data).then((value) {
-      cartSet(value);
-      setRxRequestStatus(Status.COMPLETED);
+      singleCartSet(value);
+      setRxRequestStatusSingleCart(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());
       pt(stackError);
       pt(error);
       pt('errrrrrrrrrrrr get single cart api');
-      setRxRequestStatus(Status.ERROR);
+      setRxRequestStatusSingleCart(Status.ERROR);
     });
   }
 
-  refreshApiSingleCart({required String cartId}) async {
+  refreshRestaurantSingleCartApi({required String cartId}) async {
     var data = {
       "cart_id" : cartId,
     };
@@ -64,16 +69,15 @@ class RestaurantCartController extends GetxController {
     couponCodeController.value.clear();
     readOnly.value = true;
     api.restaurantCartGetDataApi(data).then((value) {
-      cartSet(value);
-      setRxRequestStatus(Status.COMPLETED);
+      singleCartSet(value);
+      setRxRequestStatusSingleCart(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
       print('errrrrrrrrrrrr');
-      setRxRequestStatus(Status.ERROR);
+      setRxRequestStatusSingleCart(Status.ERROR);
     });
   }
-
 
 
   //----- home screen

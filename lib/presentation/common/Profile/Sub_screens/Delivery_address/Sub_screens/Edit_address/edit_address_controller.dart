@@ -279,7 +279,7 @@ class EditAdressController extends GetxController {
         }
         else if(vendorType =='RestaurantCart'){
           cartScreenType == "singleCart" ?
-          restaurantCartController.getRestaurantCartApi(cartId: cartId.toString()).then((value) {
+          restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
             Utils.showToast(editAddress.value.message.toString());
             setRxRequestStatus(Status.COMPLETED);
             Get.back();

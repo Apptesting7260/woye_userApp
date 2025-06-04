@@ -34,14 +34,17 @@ class QuantityController extends GetxController {
       setData(value);
       if (quantityData.value.status == true) {
         if(isSingleCartScreen == true){
-          restaurantCartController.refreshApiSingleCart(cartId: cartId).then((value) async {
+          restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId).then((value) async {
             await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
             Utils.showToast(quantityData.value.message.toString());
           });
         }else if(isSingleCartScreen == false){
-          Utils.showToast(quantityData.value.message.toString());
-        }
+          restaurantCartController.refreshGetAllCheckoutDataRes().then((value) async {
+            await Future.delayed(const Duration(milliseconds: 500));
+            setRxRequestStatus(Status.COMPLETED);
+            Utils.showToast(quantityData.value.message.toString());
+          });        }
       } else {
         Utils.showToast(quantityData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);

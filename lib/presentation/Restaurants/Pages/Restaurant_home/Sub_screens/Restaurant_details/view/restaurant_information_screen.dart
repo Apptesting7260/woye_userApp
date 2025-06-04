@@ -398,6 +398,26 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
           )
         ],
       ),
+        // hBox(12.h),
+        // Row(children: [
+        //   wBox(30.h),
+        //   Text(
+        //     "${controller.travelTime.toStringAsFixed(0)} Min",
+        //     // "32min",
+        //     style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+        //   ),
+        //   wBox(4),
+        //   Text(
+        //     "•",
+        //     style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+        //   ),
+        //   wBox(4),
+        //   Text(
+        //     // "2km",
+        //     "${controller.distance.toStringAsFixed(2)} KM",
+        //     style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+        //   ),
+        // ],)
     ],);
   }
 }

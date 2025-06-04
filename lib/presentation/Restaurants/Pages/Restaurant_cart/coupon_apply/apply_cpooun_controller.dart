@@ -29,7 +29,7 @@ class ApplyCouponController extends GetxController {
     api.applyCouponsApi(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        restaurantCartController.refreshApiSingleCart(cartId: cartId).then((value) async {
+        restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId).then((value) async {
           await Future.delayed(const Duration(milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
           Utils.showToast(applyCouponData.value.message.toString());

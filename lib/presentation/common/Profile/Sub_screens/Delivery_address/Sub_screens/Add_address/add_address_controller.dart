@@ -229,7 +229,7 @@ class AddAddressController extends GetxController {
               radioValue.value = 0;
               return;
             }):
-            restaurantCartController.refreshApiSingleCart(cartId: cartId.toString()).then((value) {
+            restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
               if(fromcart == true){

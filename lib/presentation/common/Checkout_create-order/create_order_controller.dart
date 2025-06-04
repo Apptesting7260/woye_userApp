@@ -23,6 +23,7 @@ class CreateOrderController extends GetxController {
   Rx<TextEditingController> scheduleDeliveryController = Rx(TextEditingController());
   GlobalKey<FormState> deliveryNotesKey = GlobalKey<FormState>();
   GlobalKey<FormState> tipsKey = GlobalKey<FormState>();
+  GlobalKey<FormState> deliveryTimeFormKey = GlobalKey<FormState>();
   RxBool isDeliveryNotes = false.obs;
   RxBool isDeliveryAsSoonAsPossible = false.obs;
   RxBool isDeliveryAsSoonAsPossiblePopUp = false.obs;
@@ -60,7 +61,7 @@ class CreateOrderController extends GetxController {
 
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
-  final createOrderData = CreateOrder().obs;
+  final createOrderData = RestaurantCreateOrderModel().obs;
   RxInt selectedIndex = 0.obs;
   RxString error = ''.obs;
   var payAfterWallet = (0.0).obs;
@@ -81,96 +82,151 @@ class CreateOrderController extends GetxController {
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void setCreateOrderData(CreateOrder value) => createOrderData.value = value;
+  void setCreateOrderData(RestaurantCreateOrderModel value) => createOrderData.value = value;
 
-  placeOrderApi({
+
+  createOrderRestaurant({
+    required bool walletUsed,
+    required String walletAmount,
     required String paymentMethod,
+    required String paymentAmount,
     required String addressId,
     required String couponId,
-    required String vendorId,
     required String total,
-    required String cartId,
-    required String cartType,
-    required List<File?> imageFiles,
+    required String type,
+    required List<String> cartIds,
+    required List<Map<String,dynamic>> carts,
+    required String deliveryNotes,
+    required String deliverySoon,
+    required String courierTip,
   }) async {
-    await initializeUser();
+    var data = {
+      "wallet_used": walletUsed.toString(),
+      "wallet_amount": walletAmount,
+      "payment_method": paymentMethod,
+      "payment_amount": paymentAmount,
+      "address_id": addressId,
+      "coupon_id": couponId,
+      "total":total,
+      "type": "restaurant",
+      "cart_ids": jsonEncode(cartIds),
+      "carts": jsonEncode(carts),
+      'delivery_notes' : deliveryNotes,
+      'delivery_soon' : deliverySoon,
+      'courier_tip' : courierTip,
+    };
+
+    debugPrint("dataValue  >> $data");
     setRxRequestStatus(Status.LOADING);
-    String url = AppUrls.createOrder;
-    var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.headers['Authorization'] = 'Bearer $userToken';
-    pt("Authorization Header: Bearer $userToken");
-    request.fields['wallet_used'] = walletSelected.value.toString();
-    request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
-    // request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
-    request.fields['payment_method'] = paymentMethod;
-    request.fields['payment_amount'] = walletSelected.value ? newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total;
-        // ? (payAfterWallet.value - (double.tryParse(enteredTips.value.replaceAll(",", "")) ?? 0.0)).toStringAsFixed(2)
-        // : total.toString();
-    // request.fields['payment_amount'] = walletSelected.value ? payAfterWallet.value.toStringAsFixed(2) : totalPriceIncludingTips.toStringAsFixed(2);
-    request.fields['address_id'] = addressId;
-    request.fields['coupon_id'] = couponId.isNotEmpty ? couponId : "";
-    request.fields['vendor_id'] = vendorId;
-    request.fields['total'] = total;
-    request.fields['cart_id'] = cartId;
-    request.fields['type'] = cartType;
-    request.fields['delivery_notes'] = deliveryNotesController.value.text ?? "";
-    request.fields['delivery_soon'] = isDeliveryAsSoonAsPossible.value == true && isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
-                                      : isDeliveryAsSoonAsPossible.value == true && pickedTimeVal.value != '' ? pickedTimeVal.value : "";
-    request.fields['courier_tip'] = selectedTipsIndexValue.value == 0 ? "5" :
-                                    selectedTipsIndexValue.value == 1 ? "10" :
-                                    selectedTipsIndexValue.value == 2 ? "15" :
-                                    selectedTipsIndexValue.value == 3 ? tipsController.value.text : "";
-
-    for (var imageFile in imageFiles) {
-      if (imageFile?.path != null && imageFile?.path != "") {
-        var pic = await http.MultipartFile.fromPath("drslip[]", imageFile!.path);
-        print("Adding image with path: ${imageFile.path}");
-        request.files.add(pic);
-      }
-    }
-
-    print(request.fields);
-    print(request.files);
-    try {
-      var response = await request.send();
-
-      final responseData = await http.Response.fromStream(response);
-      print("statusCode ${response.statusCode}");
-
-      if (response.statusCode == 200) {
-        var responseBody = responseData.body;
-        var decodedData = json.decode(responseBody);
-        CreateOrder data = CreateOrder.fromJson(decodedData);
-        setCreateOrderData(data);
-
-        if (createOrderData.value.status == true) {
-          setRxRequestStatus(Status.COMPLETED);
-          // selectedIndex.value = -1;
-          tipsController.value.clear();
-          deliveryNotesController.value.clear();
-          isDeliveryAsSoonAsPossible.value = false;
-          isDeliveryNotes.value = false;
-          PrescriptionController prescriptionController = Get.put(PrescriptionController());
-          prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
-          Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': cartType,"order_no" :createOrderData.value.orderNo.toString()});
-
-        } else {
-          Utils.showToast(createOrderData.value.message.toString());
-          print("Error: $responseBody");
-          setRxRequestStatus(Status.COMPLETED);
-        }
-      } else {
-        final responseMap = jsonDecode(responseData.body);
-        Utils.showToast("${responseMap['message']}");
-        print("Error: ${responseData.body}");
+    api.restaurantCreateOrderApi(data).then((value) {
+      setCreateOrderData(value);
+      if(createOrderData.value.status == true) {
         setRxRequestStatus(Status.COMPLETED);
+        Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "restaurant"});
+      }else if(value.status == false){
+        setRxRequestStatus(Status.ERROR);
+        Utils.showToast(value.message.toString());
       }
-    } catch (e) {
-      print("Error1: $e");
-      setError(e.toString());
+    },
+    ).onError((error, stackError) {
+      setError(error.toString());
+      pt(stackError);
+      pt('error create order restaurant : ${error.toString()}');
       setRxRequestStatus(Status.ERROR);
-    }
+    });
   }
+
+
+  // void setCreateOrderData(CreateOrder value) => createOrderData.value = value;
+
+  // placeOrderApi({
+  //   required String paymentMethod,
+  //   required String addressId,
+  //   required String couponId,
+  //   required String vendorId,
+  //   required String total,
+  //   required String cartId,
+  //   required String cartType,
+  //   required List<File?> imageFiles,
+  // }) async {
+  //   await initializeUser();
+  //   setRxRequestStatus(Status.LOADING);
+  //   String url = AppUrls.createOrder;
+  //   var request = http.MultipartRequest('POST', Uri.parse(url));
+  //   request.headers['Authorization'] = 'Bearer $userToken';
+  //   pt("Authorization Header: Bearer $userToken");
+  //   request.fields['wallet_used'] = walletSelected.value.toString();
+  //   request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
+  //   // request.fields['wallet_amount'] = walletDiscount.value.toStringAsFixed(2);
+  //   request.fields['payment_method'] = paymentMethod;
+  //   request.fields['payment_amount'] = walletSelected.value ? newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total;
+  //       // ? (payAfterWallet.value - (double.tryParse(enteredTips.value.replaceAll(",", "")) ?? 0.0)).toStringAsFixed(2)
+  //       // : total.toString();
+  //   // request.fields['payment_amount'] = walletSelected.value ? payAfterWallet.value.toStringAsFixed(2) : totalPriceIncludingTips.toStringAsFixed(2);
+  //   request.fields['address_id'] = addressId;
+  //   request.fields['coupon_id'] = couponId.isNotEmpty ? couponId : "";
+  //   request.fields['vendor_id'] = vendorId;
+  //   request.fields['total'] = total;
+  //   request.fields['cart_id'] = cartId;
+  //   request.fields['type'] = cartType;
+  //   request.fields['delivery_notes'] = deliveryNotesController.value.text ?? "";
+  //   request.fields['delivery_soon'] = isDeliveryAsSoonAsPossible.value == true && isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
+  //                                     : isDeliveryAsSoonAsPossible.value == true && pickedTimeVal.value != '' ? pickedTimeVal.value : "";
+  //   request.fields['courier_tip'] = selectedTipsIndexValue.value == 0 ? "5" :
+  //                                   selectedTipsIndexValue.value == 1 ? "10" :
+  //                                   selectedTipsIndexValue.value == 2 ? "15" :
+  //                                   selectedTipsIndexValue.value == 3 ? tipsController.value.text : "";
+  //
+  //   for (var imageFile in imageFiles) {
+  //     if (imageFile?.path != null && imageFile?.path != "") {
+  //       var pic = await http.MultipartFile.fromPath("drslip[]", imageFile!.path);
+  //       print("Adding image with path: ${imageFile.path}");
+  //       request.files.add(pic);
+  //     }
+  //   }
+  //
+  //   print(request.fields);
+  //   print(request.files);
+  //   try {
+  //     var response = await request.send();
+  //
+  //     final responseData = await http.Response.fromStream(response);
+  //     print("statusCode ${response.statusCode}");
+  //
+  //     if (response.statusCode == 200) {
+  //       var responseBody = responseData.body;
+  //       var decodedData = json.decode(responseBody);
+  //       CreateOrder data = CreateOrder.fromJson(decodedData);
+  //       setCreateOrderData(data);
+  //
+  //       if (createOrderData.value.status == true) {
+  //         setRxRequestStatus(Status.COMPLETED);
+  //         // selectedIndex.value = -1;
+  //         tipsController.value.clear();
+  //         deliveryNotesController.value.clear();
+  //         isDeliveryAsSoonAsPossible.value = false;
+  //         isDeliveryNotes.value = false;
+  //         PrescriptionController prescriptionController = Get.put(PrescriptionController());
+  //         prescriptionController.imageList = RxList<Rx<File?>>([Rx<File?>(null)]);
+  //         Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': cartType,"order_no" :createOrderData.value.orderNo.toString()});
+  //
+  //       } else {
+  //         Utils.showToast(createOrderData.value.message.toString());
+  //         print("Error: $responseBody");
+  //         setRxRequestStatus(Status.COMPLETED);
+  //       }
+  //     } else {
+  //       final responseMap = jsonDecode(responseData.body);
+  //       Utils.showToast("${responseMap['message']}");
+  //       print("Error: ${responseData.body}");
+  //       setRxRequestStatus(Status.COMPLETED);
+  //     }
+  //   } catch (e) {
+  //     print("Error1: $e");
+  //     setError(e.toString());
+  //     setRxRequestStatus(Status.ERROR);
+  //   }
+  // }
 
   void setError(String value) => error.value = value;
 
@@ -273,8 +329,9 @@ class CreateOrderController extends GetxController {
 
 
   ////////-----------------------------------------------------------------------
-  DateTime parseTime1 = DateTime.now();
+  Rx<DateTime> parseTime1 = DateTime.now().obs;
   RxString pickedTimeVal = "".obs;
+  RxString formattedTime = "".obs;
 
   void selectTime(BuildContext context) async {
 
@@ -287,12 +344,12 @@ class CreateOrderController extends GetxController {
       initialTime: initialTime,
     );
     if (pickedTime != null) {
-      String formattedTime = _formatTime(pickedTime, context);
-      scheduleDeliveryController.value.text = formattedTime;
-      pickedTimeVal.value =  formattedTime;
+       formattedTime.value = _formatTime(pickedTime, context);
+      scheduleDeliveryController.value.text = formattedTime.value;
+      pickedTimeVal.value =  formattedTime.value;
       final now = DateTime.now();
       pt("time ${scheduleDeliveryController.value.text}");
-      parseTime1 = DateTime(now.year,now.month,now.day,pickedTime.hour,pickedTime.minute,);
+      parseTime1.value = DateTime(now.year,now.month,now.day,pickedTime.hour,pickedTime.minute,);
     } else {
       // String formattedTime = _formatTime(initialTime, context);
       // timeController.text = formattedTime;

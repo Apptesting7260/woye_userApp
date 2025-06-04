@@ -32,7 +32,7 @@ class DeleteProductController extends GetxController {
       setData(value);
       if (deleteProductData.value.status == true) {
         if( isSingleCartScreen == true){
-        restaurantCartController.refreshApiSingleCart(cartId:cartId).then((value) async {
+        restaurantCartController.refreshRestaurantSingleCartApi(cartId:cartId).then((value) async {
           await Future.delayed(const Duration( milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
           Utils.showToast(deleteProductData.value.message.toString());

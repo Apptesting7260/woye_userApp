@@ -301,11 +301,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    // Get.back();
-                                    // Get.to(()=>RestaurantSingleCartScreen(
-                                    //   cartId:restaurantCartController.allResCartData.value.carts?[0].id.toString() ?? "",
-                                    //   isBack: true,
-                                    // ));
+                                    Get.back();
+                                    Get.to(()=>RestaurantSingleCartScreen(
+                                      cartId:restaurantCartController.allResCartData.value.carts?[0].id.toString() ?? "",
+                                      isBack: true,
+                                    ));
                                   },
                                   child: Column(
                                     children: [
@@ -1504,11 +1504,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                // Get.back();
-                                // Get.to(()=>RestaurantSingleCartScreen(
-                                //   cartId: carts?.id.toString() ?? "",
-                                //   isBack: true,
-                                // ));
+                                Get.back();
+                                Get.to(()=>RestaurantSingleCartScreen(
+                                  cartId: carts?.id.toString() ?? "",
+                                  isBack: true,
+                                ));
                               },
                               child: Column(
                                 children: [

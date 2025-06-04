@@ -2879,7 +2879,7 @@ class RestaurantCartScreen extends StatefulWidget {
             case Status.COMPLETED:
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.refreshGetAllCheckoutDataRes();
+                  controller.getAllCheckoutDataRes();
                 },
                 child: controller.cartCheckoutData.value.cartContent !=
                     "Notempty"
@@ -3971,16 +3971,11 @@ class RestaurantCartScreen extends StatefulWidget {
                                         width: 0.8.w, color: AppColors.primary),
                                   ),
                                   child: Obx(
-                                        () => quantityUpdateController
-                                        .rxRequestStatus.value ==
-                                        Status.LOADING
-                                        // &&
-                                        // items.isLoading.value == true
-                                        ? Center(
-                                        child: circularProgressIndicator2())
+                                        () => quantityUpdateController.rxRequestStatus.value == Status.LOADING
+                                        && items.isLoading.value == true
+                                        ? Center(child: circularProgressIndicator2())
                                         : Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         InkWell(
                                           splashColor: Colors.transparent,
@@ -3999,19 +3994,13 @@ class RestaurantCartScreen extends StatefulWidget {
                                               Utils.showToast(
                                                   "Qty can not less then 1");
                                             } else {
-                                              // items.isLoading.value =true;
-                                              quantityUpdateController
-                                                  .updateQuantityApi(
+                                              items.isLoading.value =true;
+                                              quantityUpdateController.updateQuantityApi(
                                                 isSingleCartScreen: false,
-                                                cartId: buckets.cartId
-                                                    .toString(),
-                                                productId: items.productId
-                                                    .toString(),
-                                                countId: items.count
-                                                    .toString(),
-                                                productQuantity:
-                                                (int.parse(items.quantity!) - 1)
-                                                    .toString(),
+                                                cartId: buckets.cartId.toString(),
+                                                productId: items.productId.toString(),
+                                                countId: items.count.toString(),
+                                                productQuantity: (int.parse(items.quantity!) - 1).toString(),
                                               );
                                             }
                                             // }
@@ -4047,18 +4036,13 @@ class RestaurantCartScreen extends StatefulWidget {
                                             //     "false") {
 
                                             // items.isLoading.value = true;
-                                            quantityUpdateController
-                                                .updateQuantityApi(
+                                            items.isLoading.value = true;
+                                            quantityUpdateController.updateQuantityApi(
                                               isSingleCartScreen: false,
-                                              cartId: buckets.cartId
-                                                  .toString(),
-                                              productId: items.productId
-                                                  .toString(),
-                                              countId:
-                                              items.count.toString(),
-                                              productQuantity:
-                                              (int.parse(items.quantity!) + 1)
-                                                  .toString(),
+                                              cartId: buckets.cartId.toString(),
+                                              productId: items.productId.toString(),
+                                              countId:items.count.toString(),
+                                              productQuantity:(int.parse(items.quantity!) + 1).toString(),
                                             );
                                             // } else {
                                             //   Utils.showToast(

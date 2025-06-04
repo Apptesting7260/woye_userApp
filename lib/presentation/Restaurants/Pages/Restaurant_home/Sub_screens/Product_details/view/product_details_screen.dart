@@ -103,12 +103,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 Obx(
                   () {
-                    return restaurantCartController
-                                    .cartData.value.cart?.totalProductsInCart ==
-                                null ||
-                            restaurantCartController
-                                    .cartData.value.cart?.totalProductsInCart ==
-                                0
+                    return restaurantCartController.allResCartData.value.carts?.length == null ||
+                            restaurantCartController.allResCartData.value.carts!.isEmpty
                         ? const SizedBox.shrink()
                         : Positioned(
                             right: -3,
@@ -126,10 +122,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: 1.5),
                                 child: Center(
                                   child: Text(
-                                    restaurantCartController.cartData.value.cart
-                                            ?.totalProductsInCart
-                                            .toString() ??
-                                        "",
+                                    restaurantCartController.allResCartData.value.carts?.length.toString() ?? "",
                                     style: TextStyle(fontSize: 9, color: AppColors.white),
                                   ),
                                 ),

@@ -43,6 +43,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/restaurant_all_cart_data_model.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/restaurant_single_cart_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantity_update/modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Modal/restaurant_categories_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/modal/CategoriesFilter_modal.dart';
@@ -336,7 +337,8 @@ class Repository {
   Future<dynamic> restaurantCartGetDataApi(var data) async {
     await initializeUser();
     dynamic response = await _apiService.postApi(data,AppUrls.getCartData, token);
-    return RestaurantCartModal.fromJson(response);
+    return RestaurantSingleCartModel.fromJson(response);
+    // return RestaurantCartModal.fromJson(response);
   }
 
   Future<dynamic> updateQuantityApi(var data) async {
@@ -391,6 +393,11 @@ class Repository {
     return DeleteProductModal.fromJson(response);
   }
 
+  Future<dynamic> restaurantCreateOrderApi(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.createOrder, token);
+    return RestaurantCreateOrderModel.fromJson(response);
+  }
   // Future<dynamic> createOrderApi(var data) async {
   //   await initializeUser();
   //   dynamic response =

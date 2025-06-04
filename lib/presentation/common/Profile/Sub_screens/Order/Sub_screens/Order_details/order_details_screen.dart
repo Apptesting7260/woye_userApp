@@ -642,7 +642,8 @@ class OrderDetailsScreen extends StatelessWidget {
             ),
             Text(
               controller.ordersData.value.orderDetails!.createdAt.toString(),
-              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              overflow: TextOverflow.ellipsis,
+              style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               // style: AppFontStyle.text_12_600(AppColors.darkText),
             ),
           ],

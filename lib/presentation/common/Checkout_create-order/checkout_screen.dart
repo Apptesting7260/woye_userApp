@@ -166,22 +166,80 @@ class CheckoutScreen extends StatelessWidget {
                       Utils.showToast("Payment method not available");
                     }
                     else{
+                      // if (cartType == 'restaurant') {
+                      //   controller.placeOrderApi(
+                      //       addressId: addressId,
+                      //       cartId: cartId,
+                      //       vendorId: vendorId,
+                      //       couponId: couponId,
+                      //       paymentMethod: controller.isSelectable.value == true
+                      //           ? "wallet"
+                      //           : controller.selectedIndex.value == 1
+                      //           ? "credit_card"
+                      //           :controller.selectedIndex.value == 2
+                      //           ? "cash_on_delivery"
+                      //           : "",
+                      //       total: total,
+                      //       cartType: cartType,
+                      //       imageFiles: imageFiles,
+                      //   );
+                      // }
                       if (cartType == 'restaurant') {
-                        controller.placeOrderApi(
-                            addressId: addressId,
-                            cartId: cartId,
-                            vendorId: vendorId,
-                            couponId: couponId,
-                            paymentMethod: controller.isSelectable.value == true
-                                ? "wallet"
-                                : controller.selectedIndex.value == 1
-                                ? "credit_card"
-                                :controller.selectedIndex.value == 2
-                                ? "cash_on_delivery"
-                                : "",
-                            total: total,
-                            cartType: cartType,
-                            imageFiles: imageFiles,
+                        List<Map<String, dynamic>> carts = [];
+
+                        print("vendorId type :: ${vendorId.runtimeType}");
+                        if (vendorId.runtimeType != String) {
+                          for (int i = 0; i < vendorId.length; i++) {
+                            carts.add({
+                              "vendor_id": arguments['vendor_id'][i],
+                              "cart_id": arguments['cart_id'][i],
+                              "cart_total": arguments['cart_total'][i],
+                              "cart_delivery": arguments['cart_delivery'][i],
+                            },
+                            );
+                          }
+                        } else {
+                          carts.add({
+                            "vendor_id": arguments['vendor_id'].toString(),
+                            "cart_id": arguments['cart_id'].toString(),
+                            "cart_total": arguments['cart_total'].toString(),
+                            "cart_delivery": arguments['cart_delivery']
+                                .toString(),
+                          },
+                          );
+                        }
+
+
+                        List<String> cartIDs = [];
+                        if (vendorId.runtimeType != String) {
+                          for (int i = 0; i < cartId.length; i++) {
+                            cartIDs.add(arguments['cart_id'][i].toString());
+                          }
+                        } else {
+                          cartIDs.add(arguments['cart_id'].toString());
+                        }
+
+                        controller.createOrderRestaurant(
+                          walletUsed: controller.walletSelected.value,
+                          walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
+                          paymentMethod: controller.isSelectable.value == true
+                              ? "wallet" : controller.selectedIndex.value == 1 ? "credit_card" : controller.selectedIndex.value == 2
+                              ? "cash_on_delivery" : "",
+                          // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+                          paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+                          addressId: addressId,
+                          couponId: couponId,
+                          total: total,
+                          cartIds: cartIDs,
+                          type: cartType,
+                          carts: carts,
+                          deliveryNotes: controller.deliveryNotesController.value.text,
+                          deliverySoon:  controller.isDeliveryAsSoonAsPossible.value == true && controller.isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
+                              : controller.isDeliveryAsSoonAsPossible.value == true && controller.pickedTimeVal.value != '' ? controller.pickedTimeVal.value : "",
+                          courierTip: controller.selectedTipsIndexValue.value == 0 ? "5" :
+                          controller.selectedTipsIndexValue.value == 1 ? "10" :
+                          controller.selectedTipsIndexValue.value == 2 ? "15" :
+                          controller.selectedTipsIndexValue.value == 3 ? controller.tipsController.value.text : "",
                         );
                       }
                       if (cartType == 'grocery') {
@@ -1335,132 +1393,141 @@ class CheckoutScreen extends StatelessWidget {
         child: Stack(
           children: [
             Obx(() =>
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    hBox(30.h),
-                    Center(child: Text( "Delivery time",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
-                    hBox(20.h),
-                    Padding(
-                      padding: REdgeInsets.symmetric(horizontal: 12.0),
-                      child: InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () {
-                          controller.isDeliveryAsSoonAsPossiblePopUp.value = !controller.isDeliveryAsSoonAsPossiblePopUp.value;
-                          if(controller.pickedTimeVal.value.isNotEmpty){
-                            controller.pickedTimeVal.value = '';
-                            controller.scheduleDeliveryController.value.text = '';
-                          }
-                        },
-                        child: Container(
-                          padding: REdgeInsetsDirectional.all(15),
-                          height: 60.h,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20.r),
-                              border: Border.all(color: controller.isDeliveryAsSoonAsPossiblePopUp.value ? AppColors.primary : AppColors.ultraLightPrimary)),
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(ImageConstants.clockIcon,height: 26,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),),
-                              wBox(10),
-                              Text(
-                                "Delivery as soon as possible",
-                                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                              ),
-                              const Spacer(),
-                              Container(
-                                margin: EdgeInsets.only(top: 5.r),
-                                height: 20.h,
-                                width: 20.h,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: AppColors.primary)),
-                                child: controller.isDeliveryAsSoonAsPossiblePopUp.value
-                                    ? SvgPicture.asset("assets/svg/green-check-circle.svg")
-                                    : null,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    hBox(20.h),
-                    Padding(
-                      padding: REdgeInsets.symmetric(horizontal: 12.0),
-                      child: SizedBox(
-                        child: Obx(
-                          ()=> CustomTextFormField(
-                            contentPadding: const EdgeInsets.symmetric(vertical: 17,horizontal: 12),
-                            // enabled: false,
-                            readOnly: true,
-                            controller: controller.scheduleDeliveryController.value,
-                            onTap: () {
-                              controller.selectTime(context);
-                              controller.isDeliveryAsSoonAsPossiblePopUp.value = false;
-                            },
-                            onChanged: (value){
-                              if(value.isEmpty){
-                                controller.pickedTimeVal.value = "";
-                              }
-                            },
-                            hintText: ' Schedule Delivery',
-                            hintStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                            textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                            // hintStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                            onTapOutside: (value){
-                              FocusManager.instance.primaryFocus?.unfocus();
-                            },
-                            prefix: Padding(
-                              padding: REdgeInsets.only(left: 16.0,right: 8),
-                              child: SvgPicture.asset(ImageConstants.clockIcon,height: 26,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),),
-                            ),
-                            borderDecoration: OutlineInputBorder(
+                Form(
+                  key: controller.deliveryTimeFormKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      hBox(30.h),
+                      Center(child: Text( "Delivery time",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
+                      hBox(20.h),
+                      Padding(
+                        padding: REdgeInsets.symmetric(horizontal: 12.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () {
+                            controller.isDeliveryAsSoonAsPossiblePopUp.value = !controller.isDeliveryAsSoonAsPossiblePopUp.value;
+                            if(controller.pickedTimeVal.value.isNotEmpty){
+                              controller.pickedTimeVal.value = '';
+                              controller.scheduleDeliveryController.value.text = '';
+                            }
+                          },
+                          child: Container(
+                            padding: REdgeInsetsDirectional.all(15),
+                            height: 60.h,
+                            decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20.r),
-                                borderSide: BorderSide(color:controller.pickedTimeVal.value.isNotEmpty ? AppColors.primary : AppColors.ultraLightPrimary),
+                                border: Border.all(color: controller.isDeliveryAsSoonAsPossiblePopUp.value ? AppColors.primary : AppColors.ultraLightPrimary)),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(ImageConstants.clockIcon,height: 26,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),),
+                                wBox(10),
+                                Text(
+                                  "Delivery as soon as possible",
+                                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                ),
+                                const Spacer(),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5.r),
+                                  height: 20.h,
+                                  width: 20.h,
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: AppColors.primary)),
+                                  child: controller.isDeliveryAsSoonAsPossiblePopUp.value
+                                      ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+                                      : null,
+                                ),
+                              ],
                             ),
-                            validator: (value) {
-                                // if (value == null || value.isEmpty) {
-                                //   return "Please enter delivery time";
-                                // }
-                               final now = DateTime.now();
-                                final minAllowedTime = now.add(const Duration(minutes: 30));
-                                if (controller.parseTime1.isBefore(minAllowedTime) && (value?.isNotEmpty ?? false)) {
-                                  return "Delivery time must be at least 30 minutes from now";
-                                }
-
-                                return null;
-                              },
-                            suffix: controller.pickedTimeVal.value.isEmpty ? const SizedBox.shrink() :
-                                    IconButton(onPressed: () {
-                                      // controller.isTextFieldClear.value = true;
-                                      controller.pickedTimeVal.value = '';
-                                      controller.scheduleDeliveryController.value.text = '';
-                                    }, icon: const Icon(Icons.cancel_outlined,size: 22,),),
                           ),
                         ),
                       ),
-                    ),
-                    hBox(13.h),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
-                        width: 145.w,
-                        height: 50.h,
-                        onPressed: () {
-                          if(controller.isDeliveryAsSoonAsPossiblePopUp.value == true || controller.pickedTimeVal.value != ""){
-                            controller.isDeliveryAsSoonAsPossible.value = true;
-                          }else{
-                            controller.isDeliveryAsSoonAsPossible.value = false;
-                          }
-                          Get.back();
-                        },
-                        text: "Submit" ,
-                        color: AppColors.primary,
+                      hBox(20.h),
+                      Padding(
+                        padding: REdgeInsets.symmetric(horizontal: 12.0),
+                        child: SizedBox(
+                          child: Obx(
+                            ()=> CustomTextFormField(
+                              contentPadding: const EdgeInsets.symmetric(vertical: 17,horizontal: 12),
+                              // enabled: false,
+                              readOnly: true,
+                              controller: controller.scheduleDeliveryController.value,
+                              onTap: () {
+                                controller.selectTime(context);
+                                controller.isDeliveryAsSoonAsPossiblePopUp.value = false;
+                              },
+                              onChanged: (value){
+                                if(value.isEmpty){
+                                  controller.pickedTimeVal.value = "";
+                                }
+                              },
+                              hintText: ' Schedule Delivery',
+                              hintStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                              textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                              // hintStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                              onTapOutside: (value){
+                                FocusManager.instance.primaryFocus?.unfocus();
+                              },
+                              prefix: Padding(
+                                padding: REdgeInsets.only(left: 16.0,right: 8),
+                                child: SvgPicture.asset(ImageConstants.clockIcon,height: 26,colorFilter: ColorFilter.mode(AppColors.primary, BlendMode.srcIn),),
+                              ),
+                              borderDecoration: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  borderSide: BorderSide(color:controller.pickedTimeVal.value.isNotEmpty ? AppColors.primary : AppColors.ultraLightPrimary),
+                              ),
+                              validator: (value) {
+                                  // if (value == null || value.isEmpty) {
+                                  //   return "Please enter delivery time";
+                                  // }
+                                 final now = DateTime.now();
+                                  final minAllowedTime = now.add(const Duration(minutes: 30));
+                                  if (controller.parseTime1.value.isBefore(minAllowedTime) && (value?.isNotEmpty ?? false)) {
+                                    return "Delivery time must be at least 30 minutes from now";
+                                  }
+
+                                  return null;
+                                },
+                              suffix: controller.pickedTimeVal.value.isEmpty ? const SizedBox.shrink() :
+                                      IconButton(onPressed: () {
+                                        // controller.isTextFieldClear.value = true;
+                                        controller.pickedTimeVal.value = '';
+                                        controller.scheduleDeliveryController.value.text = '';
+                                      }, icon: const Icon(Icons.cancel_outlined,size: 22,),),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                    hBox(30.h),
-                  ],
+                      hBox(13.h),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CustomElevatedButton(
+                          fontFamily: AppFontFamily.gilroyMedium,
+                          width: 145.w,
+                          height: 50.h,
+                          onPressed: () {
+                            final isAsap = controller.isDeliveryAsSoonAsPossiblePopUp.value;
+                            final isScheduled = controller.pickedTimeVal.value.isNotEmpty;
+
+                            if (isAsap || isScheduled) {
+                              if (controller.deliveryTimeFormKey.currentState!.validate()) {
+                                controller.isDeliveryAsSoonAsPossible.value = true;
+                                Get.back();
+                              }
+                            } else {
+                              controller.isDeliveryAsSoonAsPossible.value = false;
+                              Get.back();
+                            }
+                          },
+                          text: "Submit" ,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      hBox(30.h),
+                    ],
+                  ),
                 ),
             ),
           ],
