@@ -2822,8 +2822,7 @@ class RestaurantCartScreen extends StatefulWidget {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-          (_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.getAllCheckoutDataRes();
         // controller.getAllCartProductsForCheckout();
       },

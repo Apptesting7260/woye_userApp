@@ -59,7 +59,7 @@ class CustomBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     IconData favorite = Icons.favorite;
     IconData favoriteNot = Icons.favorite_border_outlined;
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         pharmaSpecificProductController.pharmaSpecificProductApi(
             productId: product_id.toString(),
@@ -74,7 +74,8 @@ class CustomBanner extends StatelessWidget {
         //   categoryName: categoryName.toString(),
         // ));
 
-        Get.to(() => PharmacyProductDetailsScreen(  productId: product_id.toString(),
+        Get.to(() => PharmacyProductDetailsScreen(
+          productId: product_id.toString(),
           categoryId: categoryId.toString(),
           categoryName: categoryName.toString(),));
 

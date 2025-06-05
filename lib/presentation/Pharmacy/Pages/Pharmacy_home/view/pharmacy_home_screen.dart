@@ -188,6 +188,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         ],
                       ),
                     ),
+                    if(pharmacyCartController.cartDataAll.value.buttonCheck == true)
+                      hBox(75.h),
                   ],
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

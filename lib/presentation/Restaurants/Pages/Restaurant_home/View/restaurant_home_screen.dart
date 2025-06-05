@@ -209,7 +209,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                         ],
                       ),
                     ),
-                    // hBox(75.h)
+                    if(restaurantCartController.allResCartData.value.buttonCheck == true)
+                    hBox(75.h)
                   ],
                 ),
               ),

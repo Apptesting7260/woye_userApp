@@ -84,6 +84,7 @@ class AddToCartController extends GetxController {
           specificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
           restaurantCartController.getAllCartData();
+          restaurantCartController.refreshGetAllCheckoutDataRes();
           // groceryShowAllCartController.getGroceryAllShowApi();
       } else {
         Utils.showToast(addToCartData.value.message.toString());

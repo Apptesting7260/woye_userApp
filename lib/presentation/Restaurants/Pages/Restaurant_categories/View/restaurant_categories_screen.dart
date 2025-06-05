@@ -81,7 +81,7 @@ class _RestaurantCategoriesScreenState
                       CustomNoDataFound(heightBox:hBox(15.h) ) :   ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: controller.filteredWishlistData.value.length,
+                        itemCount: controller.filteredWishlistData.length ,
                         // Use the filtered list
                         itemBuilder: (context, index) {
                           return GestureDetector(

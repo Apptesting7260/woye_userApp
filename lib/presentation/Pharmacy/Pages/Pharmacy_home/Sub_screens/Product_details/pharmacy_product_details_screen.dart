@@ -84,9 +84,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 ),
                 Obx(
                   () {
-                    return (pharmacyCartController
-                                .cartDataAll.value.carts?.isEmpty ??
-                            true)
+                    return (pharmacyCartController.cartDataAll.value.carts?.isEmpty ?? true)
                         ? const SizedBox.shrink()
                         : Positioned(
                             right: -3,
@@ -125,10 +123,8 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 controller.isLoading.value = true;
-                controller.productData.value.product?.isInWishlist =
-                    !controller.productData.value.product!.isInWishlist!;
-                await addPharmaProductWishlistController
-                    .pharmacy_add_product_wishlist(
+                controller.productData.value.product?.isInWishlist = !controller.productData.value.product!.isInWishlist!;
+                await addPharmaProductWishlistController.pharmacy_add_product_wishlist(
                   // pharmacyId: pharmacyId.toString(),
                   isRefresh:fromCart != null && fromCart == true ? true : false,
                   categoryId: categoryId,

@@ -1034,9 +1034,10 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                       // rating: controller.restaurant_Data.value.moreProducts![index].rating.toString(),
                       is_in_wishlist:catValue[index].isInWishlist,
                       isLoading: catValue[index].isLoading,
-                      sale_price: catValue[index].salePrice,
+                      sale_price: catValue[index].salePrice ?? catValue[index].regularPrice,
                       regular_price: catValue[index].regularPrice,
                       shop_name: catValue[index].restoName,
+                      categoryName:  catValue[index].categoryName,
                     ));
               }),
           hBox(20.h),

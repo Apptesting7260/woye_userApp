@@ -5,6 +5,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
 
 import '../../../../Data/userPrefrenceController.dart';
@@ -213,11 +214,14 @@ class ProfileScreen extends StatelessWidget {
             "guestUser") {
           showLoginRequired(context);
         } else {
+          pt("screen>>>>>>>>>>>>>>>>>>>>> $profileScreenType");
           Get.toNamed(AppRoutes.orders,
           arguments: {
             "screenType" : profileScreenType,
             }
           );
+          pt("screen>>>>>>>>>>>>>>>>>>>>>12 $profileScreenType");
+
         }
       },
     );

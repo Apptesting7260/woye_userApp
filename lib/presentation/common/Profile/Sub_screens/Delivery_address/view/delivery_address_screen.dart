@@ -7,18 +7,22 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/delete_address/delete_address_controller.dart';
 
 import '../../../../../../shared/theme/font_family.dart';
+import '../delivery_address_modal/delivery_address_modal.dart';
 
 class DeliveryAddressScreen extends StatelessWidget {
   DeliveryAddressScreen({super.key});
 
-  final DeliveryAddressController controller = Get.put(DeliveryAddressController());
+  final DeliveryAddressController controller =
+      Get.put(DeliveryAddressController());
 
-  final DeleteAddressController deleteAddressController = Get.put(DeleteAddressController());
+  final DeleteAddressController deleteAddressController =
+      Get.put(DeleteAddressController());
 
   final EditAdressController editController = Get.put(EditAdressController());
 
   @override
   Widget build(BuildContext context) {
+
     var arguments = Get.arguments;
     String? type = arguments['type'] ?? "";
     bool fromcart = arguments['fromcart'] ?? "";
@@ -27,12 +31,18 @@ class DeliveryAddressScreen extends StatelessWidget {
     debugPrint("type >>>>>>>>> $type");
     debugPrint("from cart >>>>>>>>> $fromcart");
     debugPrint("from cart >>>>>>>>> $cartId");
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   if(type == "Profile"){
+    //     controller.refreshDeliveryAddressApi();
+    //   }
+    // },);
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
         title: Text(
           "Delivery Address",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,
+              family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -40,7 +50,8 @@ class DeliveryAddressScreen extends StatelessWidget {
           case Status.LOADING:
             return Center(child: circularProgressIndicator());
           case Status.ERROR:
-            if (controller.error.value == 'No internet' || controller.error.value == 'InternetExceptionWidget') {
+            if (controller.error.value == 'No internet' ||
+                controller.error.value == 'InternetExceptionWidget') {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.refreshDeliveryAddressApi();
@@ -61,15 +72,17 @@ class DeliveryAddressScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: REdgeInsets.symmetric(horizontal: 24.h),
-                child: Column(
-                  children: [
-                    if (controller.deliveryAddressData.value.data!.isNotEmpty)
-                      addressList(type:type),
-                    hBox(30.h),
-                    addAddress(type, fromcart,cartId,cartScreenType),
-                    if (type != "Profile") changeAddressButton(),
-                    hBox(30.h),
-                  ],
+                child: Obx(
+                  () => Column(
+                    children: [
+                      if (controller.deliveryAddressData.value.data!.isNotEmpty)
+                        addressList(controller.deliveryAddressData.value.data ?? <Data>[],type: type),
+                      hBox(30.h),
+                      addAddress(type, fromcart, cartId, cartScreenType),
+                      if (type != "Profile") changeAddressButton(),
+                      hBox(30.h),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -78,34 +91,32 @@ class DeliveryAddressScreen extends StatelessWidget {
     );
   }
 
-  Widget addressList({String? type}) {
-    // if(type == "Profile"){
-    //   controller.refreshDeliveryAddressApi();
-    // }
+  Widget addressList(List<Data> dataList,{String? type}) {
     return Obx(
-          () => ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: controller.deliveryAddressData.value.data?.length ?? 0,
-        itemBuilder: (context, index) {
-          return InkWell(
+      () {
+        return ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: dataList.length ?? 0,
+          itemBuilder: (context, index) {
+            return InkWell(
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
-                if(type != "Profile"){
+                if (type != "Profile") {
                   controller.selectedAddressIndex.value = index;
                   print("object${controller.selectedAddressIndex.value}");
                 }
               },
               child: Obx(
-                ()=> Container(
+                () => Container(
                   padding: EdgeInsets.all(20.r),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      border: Border.all(
-                          color: (controller.selectedAddressIndex.value == index)
-                              ? AppColors.primary
-                              : AppColors.lightPrimary),
+                    borderRadius: BorderRadius.circular(15.r),
+                    border: Border.all(
+                        color: (controller.selectedAddressIndex.value == index)
+                            ? AppColors.primary
+                            : AppColors.lightPrimary),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -120,10 +131,11 @@ class DeliveryAddressScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(color: AppColors.primary)),
-                          child: (controller.selectedAddressIndex.value == index)
-                              ? SvgPicture.asset(
-                                  "assets/svg/green-check-circle.svg")
-                              : null,
+                          child:
+                              (controller.selectedAddressIndex.value == index)
+                                  ? SvgPicture.asset(
+                                      "assets/svg/green-check-circle.svg")
+                                  : null,
                         ),
                       ),
                       wBox(6),
@@ -138,25 +150,24 @@ class DeliveryAddressScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  controller.deliveryAddressData.value.data?[index]
-                                      .addressType?.capitalizeFirst.toString() ?? "" ,
-                                  style:
-                                      AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                  dataList[index].addressType?.capitalizeFirst.toString() ??"",
+                                  style: AppFontStyle.text_20_600(
+                                      AppColors.darkText,
+                                      family: AppFontFamily.gilroyRegular),
                                 ),
                                 wBox(10.h),
-                                if (controller.deliveryAddressData.value.data?[index].isDefault == 1)
+                                if (dataList[index].isDefault == 1)
                                   Text(
                                     "default",
-                                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                    style: AppFontStyle.text_14_400(
+                                        AppColors.lightText,
+                                        family: AppFontFamily.gilroyRegular),
                                   ),
                                 const Spacer(),
-                                if (controller.deliveryAddressData.value.data![index].isDefault != 1)
+                                if (dataList[index].isDefault != 1)
                                   GestureDetector(
                                     onTap: () {
-                                      showDeleteAddressDialog(
-                                          addressId: controller.deliveryAddressData
-                                              .value.data?[index].id
-                                              .toString() ?? "" );
+                                      showDeleteAddressDialog(addressId: dataList[index].id.toString() ?? "");
                                     },
                                     child: SvgPicture.asset(
                                       "assets/svg/delete-outlined.svg",
@@ -169,33 +180,45 @@ class DeliveryAddressScreen extends StatelessWidget {
                                       editController.setAddressData(index);
                                       Get.toNamed(AppRoutes.editAddressScreen);
                                     },
-                                    child: SvgPicture.asset("assets/svg/edit.svg")),
+                                    child: SvgPicture.asset(
+                                        "assets/svg/edit.svg")),
                               ],
                             ),
                             hBox(10.h),
                             Text(
-                              controller.deliveryAddressData.value.data?[index].fullName?.capitalizeFirst.toString() ?? "",
-                              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                              dataList[index]
+                                      .fullName?.capitalizeFirst
+                                      .toString() ??
+                                  "",
+                              style: AppFontStyle.text_14_400(
+                                  AppColors.darkText,
+                                  family: AppFontFamily.gilroyMedium),
                             ),
                             hBox(10.h),
                             Text(
-                              "${controller.deliveryAddressData.value.data?[index].houseDetails?.capitalizeFirst.toString()}\n${controller.deliveryAddressData.value.data?[index].address.toString()}",
-                              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                              "${dataList[index].houseDetails?.capitalizeFirst.toString()}\n${dataList[index].address.toString()}",
+                              style: AppFontStyle.text_14_400(
+                                  AppColors.lightText,
+                                  family: AppFontFamily.gilroyRegular),
                               maxLines: 4,
                             ),
                             hBox(10.h),
                             Text(
-                              "${controller.deliveryAddressData.value.data?[index].countryCode.toString()} ${controller.deliveryAddressData.value.data?[index].phoneNumber.toString()}",
-                              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                              "${dataList[index].countryCode.toString()} ${dataList[index].phoneNumber.toString()}",
+                              style: AppFontStyle.text_14_400(
+                                  AppColors.darkText,
+                                  family: AppFontFamily.gilroyMedium),
                             ),
-                            if (controller.deliveryAddressData.value.data?[index].deliveryInstruction != null)
+                            if (dataList[index].deliveryInstruction !=
+                                null)
                               Padding(
                                 padding: EdgeInsets.only(top: 10.h),
                                 child: Text(
-                                  "Delivery Instruction: ${controller.deliveryAddressData.value.data?[index].deliveryInstruction.toString()}",
+                                  "Delivery Instruction: ${dataList[index].deliveryInstruction.toString()}",
                                   maxLines: 2,
-                                  style:
-                                      AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  style: AppFontStyle.text_14_400(
+                                      AppColors.darkText,
+                                      family: AppFontFamily.gilroyMedium),
                                 ),
                               ),
                           ],
@@ -206,13 +229,178 @@ class DeliveryAddressScreen extends StatelessWidget {
                 ),
               ),
             );
-        },
-        separatorBuilder: (c, i) => hBox(15),
-      ),
+          },
+          separatorBuilder: (c, i) => hBox(15),
+        );
+      },
     );
   }
 
-  Widget addAddress(type, fromcart,cartId,cartScreenType) {
+  // Widget addressList(List<DeliveryAddressData> dataList,{String? type}) {
+  //   return Obx(
+  //     () {
+  //       return ListView.separated(
+  //         physics: const NeverScrollableScrollPhysics(),
+  //         shrinkWrap: true,
+  //         itemCount: controller.deliveryAddressData.value.data?.length ?? 0,
+  //         itemBuilder: (context, index) {
+  //           return InkWell(
+  //             splashColor: Colors.transparent,
+  //             highlightColor: Colors.transparent,
+  //             onTap: () {
+  //               if (type != "Profile") {
+  //                 controller.selectedAddressIndex.value = index;
+  //                 print("object${controller.selectedAddressIndex.value}");
+  //               }
+  //             },
+  //             child: Obx(
+  //               () => Container(
+  //                 padding: EdgeInsets.all(20.r),
+  //                 decoration: BoxDecoration(
+  //                   borderRadius: BorderRadius.circular(15.r),
+  //                   border: Border.all(
+  //                       color: (controller.selectedAddressIndex.value == index)
+  //                           ? AppColors.primary
+  //                           : AppColors.lightPrimary),
+  //                 ),
+  //                 child: Row(
+  //                   mainAxisAlignment: MainAxisAlignment.start,
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Expanded(
+  //                       flex: 1,
+  //                       child: Container(
+  //                         margin: EdgeInsets.only(top: 5.r),
+  //                         height: 20.h,
+  //                         width: 20.h,
+  //                         decoration: BoxDecoration(
+  //                             shape: BoxShape.circle,
+  //                             border: Border.all(color: AppColors.primary)),
+  //                         child:
+  //                             (controller.selectedAddressIndex.value == index)
+  //                                 ? SvgPicture.asset(
+  //                                     "assets/svg/green-check-circle.svg")
+  //                                 : null,
+  //                       ),
+  //                     ),
+  //                     wBox(6),
+  //                     Expanded(
+  //                       flex: 9,
+  //                       child: Column(
+  //                         mainAxisSize: MainAxisSize.min,
+  //                         mainAxisAlignment: MainAxisAlignment.start,
+  //                         crossAxisAlignment: CrossAxisAlignment.start,
+  //                         children: [
+  //                           Row(
+  //                             crossAxisAlignment: CrossAxisAlignment.end,
+  //                             children: [
+  //                               Text(
+  //                                 controller
+  //                                         .deliveryAddressData
+  //                                         .value
+  //                                         .data?[index]
+  //                                         .addressType
+  //                                         ?.capitalizeFirst
+  //                                         .toString() ??
+  //                                     "",
+  //                                 style: AppFontStyle.text_20_600(
+  //                                     AppColors.darkText,
+  //                                     family: AppFontFamily.gilroyRegular),
+  //                               ),
+  //                               wBox(10.h),
+  //                               if (controller.deliveryAddressData.value
+  //                                       .data?[index].isDefault ==
+  //                                   1)
+  //                                 Text(
+  //                                   "default",
+  //                                   style: AppFontStyle.text_14_400(
+  //                                       AppColors.lightText,
+  //                                       family: AppFontFamily.gilroyRegular),
+  //                                 ),
+  //                               const Spacer(),
+  //                               if (controller.deliveryAddressData.value
+  //                                       .data![index].isDefault !=
+  //                                   1)
+  //                                 GestureDetector(
+  //                                   onTap: () {
+  //                                     showDeleteAddressDialog(
+  //                                         addressId: controller
+  //                                                 .deliveryAddressData
+  //                                                 .value
+  //                                                 .data?[index]
+  //                                                 .id
+  //                                                 .toString() ??
+  //                                             "");
+  //                                   },
+  //                                   child: SvgPicture.asset(
+  //                                     "assets/svg/delete-outlined.svg",
+  //                                     height: 20,
+  //                                   ),
+  //                                 ),
+  //                               wBox(5.h),
+  //                               InkWell(
+  //                                   onTap: () {
+  //                                     editController.setAddressData(index);
+  //                                     Get.toNamed(AppRoutes.editAddressScreen);
+  //                                   },
+  //                                   child: SvgPicture.asset(
+  //                                       "assets/svg/edit.svg")),
+  //                             ],
+  //                           ),
+  //                           hBox(10.h),
+  //                           Text(
+  //                             controller.deliveryAddressData.value.data?[index]
+  //                                     .fullName?.capitalizeFirst
+  //                                     .toString() ??
+  //                                 "",
+  //                             style: AppFontStyle.text_14_400(
+  //                                 AppColors.darkText,
+  //                                 family: AppFontFamily.gilroyMedium),
+  //                           ),
+  //                           hBox(10.h),
+  //                           Text(
+  //                             "${controller.deliveryAddressData.value.data?[index].houseDetails?.capitalizeFirst.toString()}\n${controller.deliveryAddressData.value.data?[index].address.toString()}",
+  //                             style: AppFontStyle.text_14_400(
+  //                                 AppColors.lightText,
+  //                                 family: AppFontFamily.gilroyRegular),
+  //                             maxLines: 4,
+  //                           ),
+  //                           hBox(10.h),
+  //                           Text(
+  //                             "${controller.deliveryAddressData.value.data?[index].countryCode.toString()} ${controller.deliveryAddressData.value.data?[index].phoneNumber.toString()}",
+  //                             style: AppFontStyle.text_14_400(
+  //                                 AppColors.darkText,
+  //                                 family: AppFontFamily.gilroyMedium),
+  //                           ),
+  //                           if (controller.deliveryAddressData.value
+  //                                   .data?[index].deliveryInstruction !=
+  //                               null)
+  //                             Padding(
+  //                               padding: EdgeInsets.only(top: 10.h),
+  //                               child: Text(
+  //                                 "Delivery Instruction: ${controller.deliveryAddressData.value.data?[index].deliveryInstruction.toString()}",
+  //                                 maxLines: 2,
+  //                                 style: AppFontStyle.text_14_400(
+  //                                     AppColors.darkText,
+  //                                     family: AppFontFamily.gilroyMedium),
+  //                               ),
+  //                             ),
+  //                         ],
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //         separatorBuilder: (c, i) => hBox(15),
+  //       );
+  //     },
+  //   );
+  // }
+
+  Widget addAddress(type, fromcart, cartId, cartScreenType) {
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.r),
@@ -222,7 +410,7 @@ class DeliveryAddressScreen extends StatelessWidget {
           Get.toNamed(AppRoutes.addAddressScreen, arguments: {
             'type': type,
             "fromcart": fromcart,
-            'cartId' : cartId,
+            'cartId': cartId,
           });
           print("object>>>>>>>>>>>>>>>>>>  $fromcart");
           print("object >>>>>>>>>>>>>>>>>>  $type");
@@ -236,7 +424,8 @@ class DeliveryAddressScreen extends StatelessWidget {
         ),
         title: Text(
           "Add Address",
-          style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_16_400(AppColors.primary,
+              family: AppFontFamily.gilroyMedium),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios_sharp,
@@ -275,16 +464,39 @@ class DeliveryAddressScreen extends StatelessWidget {
         child: CustomElevatedButton(
           onPressed: () {
             editController.changeAddressApi(
-              addressId: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].id.toString(),
-              name: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].fullName.toString(),
-              houseNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].houseDetails.toString(),
-              addressTypeName: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].addressType.toString(),
-              selectedCountryCode: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].countryCode.toString(),
-              mobNo: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].phoneNumber.toString(),
-              location: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].address.toString(),
-              latitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].latitude.toString(),
-              longitude: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].longitude.toString(),
-              deliveryInstruction: controller.deliveryAddressData.value.data![controller.selectedAddressIndex.value].deliveryInstruction ?? "",
+              addressId: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].id
+                  .toString(),
+              name: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].fullName
+                  .toString(),
+              houseNo: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].houseDetails
+                  .toString(),
+              addressTypeName: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].addressType
+                  .toString(),
+              selectedCountryCode: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].countryCode
+                  .toString(),
+              mobNo: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].phoneNumber
+                  .toString(),
+              location: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].address
+                  .toString(),
+              latitude: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].latitude
+                  .toString(),
+              longitude: controller.deliveryAddressData.value
+                  .data![controller.selectedAddressIndex.value].longitude
+                  .toString(),
+              deliveryInstruction: controller
+                      .deliveryAddressData
+                      .value
+                      .data![controller.selectedAddressIndex.value]
+                      .deliveryInstruction ??
+                  "",
             );
           },
           isLoading: editController.rxRequestStatus.value == Status.LOADING,
@@ -344,9 +556,12 @@ class DeliveryAddressScreen extends StatelessWidget {
                       child: CustomElevatedButton(
                         fontFamily: AppFontFamily.gilroyMedium,
                         height: 40.h,
-                        isLoading: deleteAddressController.rxRequestStatus.value == (Status.LOADING),
+                        isLoading:
+                            deleteAddressController.rxRequestStatus.value ==
+                                (Status.LOADING),
                         onPressed: () {
-                          deleteAddressController.deleteAddressApi(addressId: addressId);
+                          deleteAddressController.deleteAddressApi(
+                              addressId: addressId);
                         },
                         text: "Yes",
                       ),
@@ -361,5 +576,4 @@ class DeliveryAddressScreen extends StatelessWidget {
       barrierDismissible: false,
     );
   }
-
 }

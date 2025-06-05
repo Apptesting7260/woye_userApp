@@ -10,6 +10,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_scre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class OrdersScreen extends StatefulWidget {
   OrdersScreen({super.key});
@@ -39,6 +40,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
     }else{
       controller.pageIndex = 0;
     }
+    controller.screenType = arguments['screenType'] ?? "";
+    pt("screenTypeOrder screen : ${controller.screenType}");
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -825,14 +828,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
             ),
           ),
         wBox(10.h),
-        if (orderStatus != "pending" &&
-            orderStatus != "completed" &&
-            orderStatus != "cancelled")
+        if (orderStatus != "pending" && orderStatus != "completed" && orderStatus != "cancelled")
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-                Get.toNamed(AppRoutes.trackOrder,
+              pt("orders c${controller.screenType}");
+              Get.toNamed(AppRoutes.trackOrder,
                   arguments: {
                     "id" : orderId,
                     "screenType" : controller.screenType,

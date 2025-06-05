@@ -187,6 +187,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         ],
                       ),
                     ),
+                    if(groceryShowAllCartController.cartData.value.buttonCheck == true)
+                    hBox(75.h),
                   ],
                 ),
                 floatingActionButtonLocation:

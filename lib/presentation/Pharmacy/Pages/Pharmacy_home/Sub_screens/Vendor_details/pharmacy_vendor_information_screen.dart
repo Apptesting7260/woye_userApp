@@ -101,9 +101,8 @@ class _PharmacyVendorInformationScreenState extends State<PharmacyVendorInformat
             wBox(8),
             Flexible(
               child: Text(
-                controller.pharma_Data.value.pharmaShop!.shopAddress
-                    .toString(),
-                maxLines: 2,
+                controller.pharma_Data.value.pharmaShop?.shopAddress.toString() ?? "",
+                maxLines: 5,
                 overflow: TextOverflow.ellipsis,
                 style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
               ),

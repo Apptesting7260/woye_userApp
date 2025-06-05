@@ -178,7 +178,7 @@ class All_Restaurant extends StatelessWidget {
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(

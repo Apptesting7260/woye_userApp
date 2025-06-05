@@ -214,36 +214,39 @@ class AddAddressController extends GetxController {
         } else {
           if (type == "RestaurantCart") {
             print("object22222222");
-            (cartId?.isEmpty ?? false) ? restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
-              Utils.showToast(addAddress.value.message.toString());
-              setRxRequestStatus(Status.COMPLETED);
-              if(fromcart == true){
+            if (cartId?.isEmpty ?? true) {
+              restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if (fromcart == true) {
+                  Get.back();
+                }
                 Get.back();
-              }
-              Get.back();
-              nameController.value.clear();
-              mobNoController.value.clear();
-              houseNoController.value.clear();
-              deliveryInstructionController.value.clear();
-              locationController.clear();
-              radioValue.value = 0;
-              return;
-            }):
-            restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
-              Utils.showToast(addAddress.value.message.toString());
-              setRxRequestStatus(Status.COMPLETED);
-              if(fromcart == true){
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            } else {
+              restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if (fromcart == true) {
+                  Get.back();
+                }
                 Get.back();
-              }
-              Get.back();
-              nameController.value.clear();
-              mobNoController.value.clear();
-              houseNoController.value.clear();
-              deliveryInstructionController.value.clear();
-              locationController.clear();
-              radioValue.value = 0;
-              return;
-            });
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }
           }
           else if (type == "PharmacyCart") {
             print("object333333");
@@ -586,3 +589,40 @@ class AddAddressController extends GetxController {
   };
 
 }
+// if (type == "RestaurantCart") {
+// print("object22222222");
+// if(cartId?.isEmpty ?? true) {
+// restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+// Utils.showToast(addAddress.value.message.toString());
+// setRxRequestStatus(Status.COMPLETED);
+// if (fromcart == true) {
+// Get.back();
+// }
+// Get.back();
+// nameController.value.clear();
+// mobNoController.value.clear();
+// houseNoController.value.clear();
+// deliveryInstructionController.value.clear();
+// locationController.clear();
+// radioValue.value = 0;
+// return;
+// });
+// }
+// if (cartId?.isNotEmpty ?? false) {
+// restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
+// Utils.showToast(addAddress.value.message.toString());
+// setRxRequestStatus(Status.COMPLETED);
+// if(fromcart == true){
+// Get.back();
+// }
+// Get.back();
+// nameController.value.clear();
+// mobNoController.value.clear();
+// houseNoController.value.clear();
+// deliveryInstructionController.value.clear();
+// locationController.clear();
+// radioValue.value = 0;
+// return;
+// });
+// }
+// }

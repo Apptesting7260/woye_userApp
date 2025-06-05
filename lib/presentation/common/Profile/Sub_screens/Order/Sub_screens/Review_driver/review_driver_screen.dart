@@ -164,7 +164,7 @@ class ReviewDriverScreen extends StatelessWidget {
             homeController.navigate(2);
             homeController.mainButtonIndex.value = 0;
           }
-          if(screenType == "notificationScreen") {
+          if(screenType == "notificationScreen"|| screenType == "") {
            Get.back();
           }
         });

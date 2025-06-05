@@ -10,8 +10,8 @@ class OrderScreenController extends GetxController {
     if (arguments['pageIndex'] != null && arguments['pageIndex'] is int) {
       pageIndex = arguments['pageIndex'] as int;
     }
-    screenType = arguments['screenType'] ?? "";
-    print("screenType : $screenType");
+    // screenType = arguments['screenType'] ?? "";
+    // print("screenType : $screenType");
 
     // TODO: implement onInit
     super.onInit();

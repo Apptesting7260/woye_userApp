@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharmahomeserchcontroller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
@@ -21,7 +22,7 @@ class PharmacyHomeFilter extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           "Filter",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Padding(
@@ -44,8 +45,7 @@ class PharmacyHomeFilter extends StatelessWidget {
             Obx(() {
               if (controller.showLottie.value == true) {
                 return SliverToBoxAdapter(
-                    child: Lottie.asset(
-                        'assets/lottieJson/Animation - 1734688929473.json'));
+                    child: Lottie.asset('assets/lottieJson/Animation - 1734688929473.json'));
               } else {
                 return const SliverToBoxAdapter(child: SizedBox());
               }
@@ -67,12 +67,12 @@ class PharmacyHomeFilter extends StatelessWidget {
                       ),
                       Text(
                         "We couldn't find any results",
-                        style: AppFontStyle.text_20_600(AppColors.darkText),
+                        style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                       ),
                       hBox(5.h),
                       Text(
                         "Explore more and shortlist some items",
-                        style: AppFontStyle.text_16_400(AppColors.mediumText),
+                        style: AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
                       ),
                     ],
                   ),
@@ -106,9 +106,10 @@ class PharmacyHomeFilter extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        hBox(10.h),
         Text(
           "Products",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(10.h),
         GridView.builder(
@@ -148,7 +149,7 @@ class PharmacyHomeFilter extends StatelessWidget {
       children: [
         Text(
           "Pharmacy Shops",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(5.h),
         SizedBox(
@@ -210,7 +211,7 @@ class PharmacyHomeFilter extends StatelessWidget {
                   imageUrl: image.toString(),
                   fit: BoxFit.cover,
                   height: 160.h,
-                  width: Get.width / 1.6,
+                  width: Get.width / 1.5,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                   placeholder: (context, url) => Shimmer.fromColors(
                     baseColor: AppColors.gray,
@@ -257,7 +258,7 @@ class PharmacyHomeFilter extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(
@@ -266,18 +267,18 @@ class PharmacyHomeFilter extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyMedium),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         )

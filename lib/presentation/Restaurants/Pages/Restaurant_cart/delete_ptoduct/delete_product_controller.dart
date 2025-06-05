@@ -75,11 +75,12 @@ class DeleteProductController extends GetxController {
       if(value.status == true){
         setRxRequestStatusDeleteVendor(Status.COMPLETED);
         if(isSingleCartScreen ==  true){
-
+          restaurantCartController.getAllCartData();
         }else{
           Get.back();
           Utils.showToast(value.message.toString());
           restaurantCartController.refreshGetAllCheckoutDataRes();
+          restaurantCartController.getAllCartData();
         }
       }else if(value.status == false){
         setRxRequestStatusDeleteVendor(Status.COMPLETED);

@@ -116,6 +116,11 @@ class CheckoutScreen extends StatelessWidget {
     controller.deliveryNotesController.value.clear();
     controller.isDeliveryAsSoonAsPossible.value = false;
     controller.isDeliveryNotes.value = false;
+    controller.isDeliveryAsSoonAsPossiblePopUp.value = false;
+    controller.isDeliveryAsSoonAsPossible.value = false;
+    controller.scheduleDeliveryController.value.clear();
+    controller.pickedTimeVal.value = "";
+    controller.formattedTime.value = "";
     },);
 
     return SafeArea(

@@ -484,7 +484,7 @@ class AllProducts {
     userId = json['user_id']?.toString();
     categoryId = json['category_id']?.toString();
     isInWishlist = json['is_in_wishlist'];
-    restoName = json['resto_name']?.toString();
+    restoName = json['pharma_name']?.toString();
     categoryName = json['category_name']?.toString();
     productreviewCount = json['productreview_count']?.toString();
     urlAddimg = (json['url_addimg'] as List?)?.cast<String>() ?? [];

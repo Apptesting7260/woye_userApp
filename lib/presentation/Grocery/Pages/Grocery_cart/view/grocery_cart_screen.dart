@@ -33,8 +33,8 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
 
   @override
   void initState() {
-    controller.getGroceryAllCartApi();
     super.initState();
+    controller.getGroceryAllCartApi();
     _scrollController.addListener(
       () {
         if (_scrollController.position.isScrollingNotifier.value) {
