@@ -20,14 +20,10 @@ class RestaurantHomeBanner extends StatelessWidget {
 
   final BannerDetailsController controller = Get.put(BannerDetailsController());
 
-  final specific_Product_Controller specificProductController =
-      Get.put(specific_Product_Controller());
-  final RestaurantDetailsController restaurantDeatilsController =
-      Get.put(RestaurantDetailsController());
+  final specific_Product_Controller specificProductController = Get.put(specific_Product_Controller());
+  final RestaurantDetailsController restaurantDeatilsController = Get.put(RestaurantDetailsController());
 
-  final RestaurantCategoriesDetailsController
-      restaurantCategoriesDeatilsController =
-      Get.put(RestaurantCategoriesDetailsController());
+  final RestaurantCategoriesDetailsController restaurantCategoriesDeatilsController = Get.put(RestaurantCategoriesDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -207,6 +203,7 @@ class RestaurantHomeBanner extends StatelessWidget {
               return GestureDetector(
                   onTap: () {
                     Get.to(ProductDetailsScreen(
+                      bannerId: bannerID.toString(),
                       productId: products![index].id.toString(),
                       categoryId: products[index].categoryId.toString(),
                       categoryName: products[index].categoryName.toString(),

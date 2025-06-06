@@ -103,8 +103,11 @@ class CheckoutScreen extends StatelessWidget {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
     controller.payAfterWallet.value = double.parse(total.toString());
+
+    if(walletBalance != '' && total != '' ){
     controller.walletSelected.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ?  false : true;
     controller.isSelectable.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ? false : true;
+    }
     controller.selectedIndex.value = -1;
     print("Updated payAfterWallet 1: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
     print("Updated payAfterWallet 1: ${controller.selectedIndex.value}");

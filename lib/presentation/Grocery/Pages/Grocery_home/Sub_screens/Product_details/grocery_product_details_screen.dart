@@ -88,8 +88,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                     return Positioned(
                       right: -3,
                       top: -8,
-                      child: groceryShowAllCartController
-                              .cartData.value.carts!.isEmpty
+                      child:(groceryShowAllCartController.cartData.value.carts?.isEmpty ?? true)
                           ? const SizedBox.shrink()
                           : Container(
                               padding: REdgeInsets.all(4),
@@ -104,12 +103,8 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(bottom: 1.5),
                                 child: Center(
                                   child: Text(
-                                    groceryShowAllCartController
-                                            .cartData.value.carts?.length
-                                            .toString() ??
-                                        "",
-                                    style: TextStyle(
-                                        fontSize: 9, color: AppColors.white),
+                                    groceryShowAllCartController.cartData.value.carts?.length.toString() ?? "",
+                                    style: TextStyle(fontSize: 9, color: AppColors.white),
                                   ),
                                 ),
                               ),

@@ -108,7 +108,6 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
     //     }
     //   }
     // });
-
   }
 
   getApiData()async{

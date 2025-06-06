@@ -9,11 +9,15 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_addre
 import '../../../../../../shared/theme/font_family.dart';
 import '../delivery_address_modal/delivery_address_modal.dart';
 
-class DeliveryAddressScreen extends StatelessWidget {
+class DeliveryAddressScreen extends StatefulWidget {
   DeliveryAddressScreen({super.key});
 
-  final DeliveryAddressController controller =
-      Get.put(DeliveryAddressController());
+  @override
+  State<DeliveryAddressScreen> createState() => _DeliveryAddressScreenState();
+}
+
+class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
+  final DeliveryAddressController controller = Get.put(DeliveryAddressController(), permanent: true);
 
   final DeleteAddressController deleteAddressController =
       Get.put(DeleteAddressController());
@@ -21,8 +25,13 @@ class DeliveryAddressScreen extends StatelessWidget {
   final EditAdressController editController = Get.put(EditAdressController());
 
   @override
-  Widget build(BuildContext context) {
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    controller.getDeliveryAddressApi();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     var arguments = Get.arguments;
     String? type = arguments['type'] ?? "";
     bool fromcart = arguments['fromcart'] ?? "";
@@ -237,169 +246,6 @@ class DeliveryAddressScreen extends StatelessWidget {
   }
 
   // Widget addressList(List<DeliveryAddressData> dataList,{String? type}) {
-  //   return Obx(
-  //     () {
-  //       return ListView.separated(
-  //         physics: const NeverScrollableScrollPhysics(),
-  //         shrinkWrap: true,
-  //         itemCount: controller.deliveryAddressData.value.data?.length ?? 0,
-  //         itemBuilder: (context, index) {
-  //           return InkWell(
-  //             splashColor: Colors.transparent,
-  //             highlightColor: Colors.transparent,
-  //             onTap: () {
-  //               if (type != "Profile") {
-  //                 controller.selectedAddressIndex.value = index;
-  //                 print("object${controller.selectedAddressIndex.value}");
-  //               }
-  //             },
-  //             child: Obx(
-  //               () => Container(
-  //                 padding: EdgeInsets.all(20.r),
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(15.r),
-  //                   border: Border.all(
-  //                       color: (controller.selectedAddressIndex.value == index)
-  //                           ? AppColors.primary
-  //                           : AppColors.lightPrimary),
-  //                 ),
-  //                 child: Row(
-  //                   mainAxisAlignment: MainAxisAlignment.start,
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Expanded(
-  //                       flex: 1,
-  //                       child: Container(
-  //                         margin: EdgeInsets.only(top: 5.r),
-  //                         height: 20.h,
-  //                         width: 20.h,
-  //                         decoration: BoxDecoration(
-  //                             shape: BoxShape.circle,
-  //                             border: Border.all(color: AppColors.primary)),
-  //                         child:
-  //                             (controller.selectedAddressIndex.value == index)
-  //                                 ? SvgPicture.asset(
-  //                                     "assets/svg/green-check-circle.svg")
-  //                                 : null,
-  //                       ),
-  //                     ),
-  //                     wBox(6),
-  //                     Expanded(
-  //                       flex: 9,
-  //                       child: Column(
-  //                         mainAxisSize: MainAxisSize.min,
-  //                         mainAxisAlignment: MainAxisAlignment.start,
-  //                         crossAxisAlignment: CrossAxisAlignment.start,
-  //                         children: [
-  //                           Row(
-  //                             crossAxisAlignment: CrossAxisAlignment.end,
-  //                             children: [
-  //                               Text(
-  //                                 controller
-  //                                         .deliveryAddressData
-  //                                         .value
-  //                                         .data?[index]
-  //                                         .addressType
-  //                                         ?.capitalizeFirst
-  //                                         .toString() ??
-  //                                     "",
-  //                                 style: AppFontStyle.text_20_600(
-  //                                     AppColors.darkText,
-  //                                     family: AppFontFamily.gilroyRegular),
-  //                               ),
-  //                               wBox(10.h),
-  //                               if (controller.deliveryAddressData.value
-  //                                       .data?[index].isDefault ==
-  //                                   1)
-  //                                 Text(
-  //                                   "default",
-  //                                   style: AppFontStyle.text_14_400(
-  //                                       AppColors.lightText,
-  //                                       family: AppFontFamily.gilroyRegular),
-  //                                 ),
-  //                               const Spacer(),
-  //                               if (controller.deliveryAddressData.value
-  //                                       .data![index].isDefault !=
-  //                                   1)
-  //                                 GestureDetector(
-  //                                   onTap: () {
-  //                                     showDeleteAddressDialog(
-  //                                         addressId: controller
-  //                                                 .deliveryAddressData
-  //                                                 .value
-  //                                                 .data?[index]
-  //                                                 .id
-  //                                                 .toString() ??
-  //                                             "");
-  //                                   },
-  //                                   child: SvgPicture.asset(
-  //                                     "assets/svg/delete-outlined.svg",
-  //                                     height: 20,
-  //                                   ),
-  //                                 ),
-  //                               wBox(5.h),
-  //                               InkWell(
-  //                                   onTap: () {
-  //                                     editController.setAddressData(index);
-  //                                     Get.toNamed(AppRoutes.editAddressScreen);
-  //                                   },
-  //                                   child: SvgPicture.asset(
-  //                                       "assets/svg/edit.svg")),
-  //                             ],
-  //                           ),
-  //                           hBox(10.h),
-  //                           Text(
-  //                             controller.deliveryAddressData.value.data?[index]
-  //                                     .fullName?.capitalizeFirst
-  //                                     .toString() ??
-  //                                 "",
-  //                             style: AppFontStyle.text_14_400(
-  //                                 AppColors.darkText,
-  //                                 family: AppFontFamily.gilroyMedium),
-  //                           ),
-  //                           hBox(10.h),
-  //                           Text(
-  //                             "${controller.deliveryAddressData.value.data?[index].houseDetails?.capitalizeFirst.toString()}\n${controller.deliveryAddressData.value.data?[index].address.toString()}",
-  //                             style: AppFontStyle.text_14_400(
-  //                                 AppColors.lightText,
-  //                                 family: AppFontFamily.gilroyRegular),
-  //                             maxLines: 4,
-  //                           ),
-  //                           hBox(10.h),
-  //                           Text(
-  //                             "${controller.deliveryAddressData.value.data?[index].countryCode.toString()} ${controller.deliveryAddressData.value.data?[index].phoneNumber.toString()}",
-  //                             style: AppFontStyle.text_14_400(
-  //                                 AppColors.darkText,
-  //                                 family: AppFontFamily.gilroyMedium),
-  //                           ),
-  //                           if (controller.deliveryAddressData.value
-  //                                   .data?[index].deliveryInstruction !=
-  //                               null)
-  //                             Padding(
-  //                               padding: EdgeInsets.only(top: 10.h),
-  //                               child: Text(
-  //                                 "Delivery Instruction: ${controller.deliveryAddressData.value.data?[index].deliveryInstruction.toString()}",
-  //                                 maxLines: 2,
-  //                                 style: AppFontStyle.text_14_400(
-  //                                     AppColors.darkText,
-  //                                     family: AppFontFamily.gilroyMedium),
-  //                               ),
-  //                             ),
-  //                         ],
-  //                       ),
-  //                     )
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //         separatorBuilder: (c, i) => hBox(15),
-  //       );
-  //     },
-  //   );
-  // }
-
   Widget addAddress(type, fromcart, cartId, cartScreenType) {
     return Container(
       decoration: BoxDecoration(

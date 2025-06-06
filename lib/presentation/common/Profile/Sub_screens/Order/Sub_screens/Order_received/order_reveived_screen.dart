@@ -66,7 +66,7 @@ class OrderReveivedScreen extends StatelessWidget {
                     }else if(cartType == "grocery" || screenType == "groceryProfileScreen"){
                       homeController.getIndex(2);
                       homeController.navigate(2);
-                    } if(screenType == "notificationScreen" || screenType == "") {
+                    }else if(screenType == "notificationScreen" || screenType == "") {
                       Get.back();
                     }
                     // await Get.offAllNamed(AppRoutes.restaurantNavbar);

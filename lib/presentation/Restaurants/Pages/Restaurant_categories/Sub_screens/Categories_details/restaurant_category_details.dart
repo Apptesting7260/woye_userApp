@@ -140,7 +140,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     product.id.toString(),
                                                 categoryId:
                                                     categoryId.toString());
-                                        Get.to(ProductDetailsScreen(
+                                        Get.to(()=>ProductDetailsScreen(
                                           productId: product.id.toString(),
                                           categoryId: categoryId.toString(),
                                           categoryName: categoryTitle,

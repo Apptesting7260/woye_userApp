@@ -289,7 +289,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         return Center(
           child: Text(
             "No orders available", // Custom message when there are no orders
-            style: AppFontStyle.text_14_600(AppColors.darkText),
+            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
         );
       }
@@ -456,7 +456,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         return Center(
           child: Text(
             "No orders available", // Custom message when there are no orders
-            style: AppFontStyle.text_14_600(AppColors.darkText),
+            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
         );
       }
@@ -593,7 +593,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         return Center(
           child: Text(
             "No orders available",
-            style: AppFontStyle.text_14_600(AppColors.darkText),
+            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
         );
       }

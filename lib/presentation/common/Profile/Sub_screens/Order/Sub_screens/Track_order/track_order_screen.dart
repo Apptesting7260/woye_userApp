@@ -6,10 +6,23 @@ import '../../../../../../../Shared/Widgets/CircularProgressIndicator.dart';
 import '../../../../../../../shared/theme/font_family.dart';
 import 'controller/track_order_controller.dart';
 
-class TrackOrderScreen extends StatelessWidget {
+class TrackOrderScreen extends StatefulWidget {
   TrackOrderScreen({super.key});
 
+  @override
+  State<TrackOrderScreen> createState() => _TrackOrderScreenState();
+}
+
+class _TrackOrderScreenState extends State<TrackOrderScreen> {
   final TrackOrderController  controller = Get.put(TrackOrderController());
+
+  @override
+  void initState() {
+    super.initState();
+    @override
+      final arguments = Get.arguments ?? {};
+      controller.trackOrder(orderNo: arguments['id'] ?? "");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +71,7 @@ class TrackOrderScreen extends StatelessWidget {
                         hBox(15),
                         map(),
                         hBox(20),
-                        orderDetails(),
+                        orderDetails(orderId),
                         hBox(20),
                         orderPlaced(),
                         hBox(20),
@@ -146,7 +159,7 @@ class TrackOrderScreen extends StatelessWidget {
     );
   }
 
-  Widget orderDetails() {
+  Widget orderDetails(orderId) {
     return IntrinsicHeight(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -174,7 +187,7 @@ class TrackOrderScreen extends StatelessWidget {
               hBox(8),
               Obx(
                 ()=> Text(
-                  controller.apiData.value.orderDetails?.orderId ?? "",
+                  controller.apiData.value.orderDetails?.orderId ?? orderId ?? "",
                   style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
                 ),
               ),

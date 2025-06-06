@@ -1,6 +1,7 @@
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Rate_and_review_product/post_review_controller.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../../../../../../Shared/theme/font_family.dart';
 
@@ -23,10 +24,11 @@ class RateAndReviewProductScreen extends StatelessWidget {
 
     double? rating = double.tryParse(raring ?? '');
 
-    print('Order ID: $orderId');
-    print('Vendor ID: $vendorId');
-    print('Type: $type');
-    print('reply: $reply');
+    pt('Order ID: $orderId');
+    pt('Vendor ID: $vendorId');
+    pt('Type: $type');
+    pt('reply: $reply');
+    pt('arguments: $arguments');
     if (reply != "null") {
       controller.reviewController.value.text = reply;
     }

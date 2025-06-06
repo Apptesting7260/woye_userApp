@@ -1869,7 +1869,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
   Widget locationAddress() {
     loadLocationData();
     return Container(
-      height: 60.h,
+      height: 65.h,
       width: Get.width,
       padding: EdgeInsets.all(10.r),
       decoration: BoxDecoration(
@@ -2237,74 +2237,126 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               ],
             ),
             hBox(5.h),
-            // hBox(10.h),
-            // if (controller.cartData.value.cart!.decodedAttribute![index]
-            //     .attribute!.isNotEmpty &&
-            //     controller.cartData.value.cart!.decodedAttribute![index]
-            //         .checked ==
-            //         "true")
-            //   Padding(
-            //     padding: EdgeInsets.only(bottom: 10.h),
-            //     child: SizedBox(
-            //       width: Get.width,
-            //       child: Wrap(
-            //         direction: Axis.horizontal,
-            //         spacing: 2.w,
-            //         runSpacing: 2.w,
-            //         children: List.generate(
-            //           controller.cartData.value.cart!.decodedAttribute![index]
-            //               .attribute!.length,
-            //               (addonIndex) {
-            //             bool isLast = addonIndex ==
-            //                 controller
-            //                     .cartData
-            //                     .value
-            //                     .cart!
-            //                     .decodedAttribute![index]
-            //                     .attribute!
-            //                     .length -
-            //                     1;
-            //             return Row(
-            //               mainAxisSize: MainAxisSize.min,
-            //               mainAxisAlignment: MainAxisAlignment.start,
-            //               crossAxisAlignment: CrossAxisAlignment.start,
-            //               children: [
-            //                 Text(
-            //                   '${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemName}',
-            //                   style:
-            //                   AppFontStyle.text_12_400(AppColors.primary),
-            //                   overflow: TextOverflow.ellipsis,
-            //                   maxLines: 1,
-            //                 ),
-            //                 Text(
-            //                   ' - ',
-            //                   style:
-            //                   AppFontStyle.text_12_400(AppColors.primary),
-            //                   overflow: TextOverflow.ellipsis,
-            //                   maxLines: 1,
-            //                 ),
-            //                 Text(
-            //                   '\$${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemPrice}',
-            //                   style:
-            //                   AppFontStyle.text_12_400(AppColors.primary),
-            //                   overflow: TextOverflow.ellipsis,
-            //                   maxLines: 1,
-            //                 ),
-            //                 if (!isLast)
-            //                   Text(
-            //                     ',',
-            //                     style:
-            //                     AppFontStyle.text_12_400(AppColors.primary),
-            //                     overflow: TextOverflow.ellipsis,
-            //                     maxLines: 1,
-            //                   ),
-            //               ],
-            //             );
-            //           },
-            //         ),
-            //       ),
-            //     ),
-            //   ),
+            hBox(10.h),
+            if (controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+                .attribute!.isNotEmpty &&
+                controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+                    .checked ==
+                    "true")
+              Padding(
+                padding: EdgeInsets.only(bottom: 10.h),
+                child: SizedBox(
+                  width: Get.width,
+                  child: Wrap(
+                    direction: Axis.horizontal,
+                    spacing: 2.w,
+                    runSpacing: 2.w,
+                    children: List.generate(
+                      controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+                          .attribute!.length,
+                          (addonIndex) {
+                        bool isLast = addonIndex ==
+                            controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute!.length - 1;
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemName}',
+                              style:
+                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            Text(
+                              ' - ',
+                              style:
+                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            Text(
+                              '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice}',
+                              style:
+                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            if (!isLast)
+                              Text(
+                                ',',
+                                style:
+                                AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            if (controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons!
+                .isNotEmpty &&
+                controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+                    .checked ==
+                    "true")
+              SizedBox(
+                width: Get.width,
+                child: Wrap(
+                  direction: Axis.horizontal,
+                  spacing: 2.w,
+                  runSpacing: 2.w,
+                  children: List.generate(
+                    controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+                        .addons!.length,
+                        (addonIndex) {
+                      bool isLast = addonIndex ==
+                          controller.singleCartData.value.cart!
+                              .decodedAttribute!.bucket![index].addons!.length -
+                              1;
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].name}',
+                            style:
+                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          Text(
+                            ' - ',
+                            style:
+                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          Text(
+                            '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].price}',
+                            style:
+                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                          if (!isLast)
+                            Text(
+                              ',',
+                              style:
+                              AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
           ],
         );
       },

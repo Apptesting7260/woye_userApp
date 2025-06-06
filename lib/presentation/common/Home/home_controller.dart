@@ -47,11 +47,13 @@ class HomeController extends GetxController {
     switch (index) {
       case 0:
         Get.toNamed(AppRoutes.restaurantNavbar);
+        break;
       case 1:
         Get.toNamed(AppRoutes.pharmacyNavbar);
+        break;
       case 2:
         Get.toNamed(AppRoutes.groceryNavbar);
-        update();
+        break;
     }
     update();
   }

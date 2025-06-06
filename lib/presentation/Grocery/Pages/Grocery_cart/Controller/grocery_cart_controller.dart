@@ -95,6 +95,7 @@ class GroceryCartController extends GetxController {
           if(value.status == true) {
             setRxCreateOrderRequestStatus(Status.COMPLETED);
             Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "grocery"});
+
           }else if(value.status == false){
             setRxCreateOrderRequestStatus(Status.ERROR);
             Utils.showToast(value.message.toString());

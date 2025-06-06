@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../../Core/Utils/app_export.dart';
@@ -50,6 +51,38 @@ class PrescriptionController extends GetxController {
   //     }
   //   }
   // }
+
+  //-------------------------------------------------------------------------------------------------------
+  // Future<void> pickImage(ImageSource source, int index) async {
+  //   bool hasPermission = await _handlePermissions(source);
+  //   if (!hasPermission) return;
+  //
+  //   try {
+  //     final pickedImage = await ImagePicker().pickImage(source: source);
+  //     if (pickedImage != null) {
+  //       File originalImage = File(pickedImage.path);
+  //       int originalSize = await originalImage.length();
+  //       debugPrint('Original image size: $originalSize bytes');
+  //       File? croppedImage = await _cropImage(originalImage.path);
+  //       if (croppedImage != null) {
+  //         int croppedSize = await croppedImage.length();
+  //         debugPrint('Cropped image size: $croppedSize bytes');
+  //         imageList[index].value = croppedImage;
+  //         final base64 = await convertImageToBase64(croppedImage);
+  //         if (index < base64ImageList.length) {
+  //           base64ImageList[index] = base64;
+  //         } else {
+  //           base64ImageList.add(base64);
+  //         }
+  //         debugPrint("List base 64 $base64ImageList");
+  //       } else {
+  //         debugPrint("Image cropping was canceled or failed.");
+  //       }
+  //     }
+  //   } catch (e) {
+  //     debugPrint("Error picking image: $e");
+  //   }
+  // }
   Future<void> pickImage(ImageSource source, int index) async {
     bool hasPermission = await _handlePermissions(source);
     if (!hasPermission) return;
@@ -60,17 +93,38 @@ class PrescriptionController extends GetxController {
         File originalImage = File(pickedImage.path);
         int originalSize = await originalImage.length();
         debugPrint('Original image size: $originalSize bytes');
-        File? croppedImage = await _cropImage(originalImage.path);
+
+        // 🔽 Compress before cropping
+        final compressedPath = '${originalImage.path}_compressed.jpg';
+        final compressedFile = await FlutterImageCompress.compressAndGetFile(
+          originalImage.path,
+          compressedPath,
+          quality: 70, // Adjust if needed
+        );
+
+        if (compressedFile == null) {
+          debugPrint("Image compression failed.");
+          return;
+        }
+
+        int compressedSize = await compressedFile.length();
+        debugPrint('Compressed image size: $compressedSize bytes');
+
+        // 🔄 Now crop
+        File? croppedImage = await _cropImage(compressedFile.path);
         if (croppedImage != null) {
           int croppedSize = await croppedImage.length();
           debugPrint('Cropped image size: $croppedSize bytes');
+
           imageList[index].value = croppedImage;
+
           final base64 = await convertImageToBase64(croppedImage);
           if (index < base64ImageList.length) {
             base64ImageList[index] = base64;
           } else {
             base64ImageList.add(base64);
           }
+
           debugPrint("List base 64 $base64ImageList");
         } else {
           debugPrint("Image cropping was canceled or failed.");

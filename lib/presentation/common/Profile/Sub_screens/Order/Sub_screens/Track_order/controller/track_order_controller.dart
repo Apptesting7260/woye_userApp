@@ -7,13 +7,6 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_scre
 
 class TrackOrderController extends GetxController{
   RxString orderId = "".obs;
-  @override
-  void onInit() {
-    final arguments = Get.arguments ?? {};
-    orderId.value  = arguments['id'] ?? "";
-    trackOrder(orderNo: orderId.value);
-    super.onInit();
-  }
 
   final api = Repository();
   Rx<TrackOrderRestaurantModel> apiData = TrackOrderRestaurantModel().obs;

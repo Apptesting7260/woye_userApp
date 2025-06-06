@@ -115,14 +115,14 @@ class CreateOrderController extends GetxController {
       'delivery_soon' : deliverySoon,
       'courier_tip' : courierTip,
     };
-
     debugPrint("dataValue  >> $data");
     setRxRequestStatus(Status.LOADING);
     api.restaurantCreateOrderApi(data).then((value) {
       setCreateOrderData(value);
       if(createOrderData.value.status == true) {
         setRxRequestStatus(Status.COMPLETED);
-        Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "restaurant"});
+        Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "restaurant","order_no" :createOrderData.value.orderIds?.first.toString()});
+
       }else if(value.status == false){
         setRxRequestStatus(Status.ERROR);
         Utils.showToast(value.message.toString());

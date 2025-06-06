@@ -2,6 +2,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class OrderConfirmScreen extends StatelessWidget {
   OrderConfirmScreen({super.key});
@@ -13,7 +14,7 @@ class OrderConfirmScreen extends StatelessWidget {
     var arguments = Get.arguments ??{};
     String cartType = arguments['type'].toString() ?? "";
     String orderNo = arguments['order_no'] ?? "";
-    print("orderNoorderNo $orderNo");
+    pt("Coder confirm Screen >>>>>>>>>> OrderId >>  $orderNo   cartType >>> $cartType");
     return PopScope(
       canPop: false,
       child: Scaffold(

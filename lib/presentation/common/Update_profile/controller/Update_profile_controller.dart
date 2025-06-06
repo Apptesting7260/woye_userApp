@@ -234,40 +234,83 @@ class SignUpForm_editProfileController extends GetxController {
 
   Rx<File> image = File("assets/appLogo.png").obs;
 
-
   Future<void> pickImage(ImageSource source) async {
     bool hasPermission = await _handlePermissions(source);
     if (!hasPermission) return;
-
-    try{
+    try {
       final pickedImage = await ImagePicker().pickImage(source: source);
-
-    if (pickedImage != null) {
-      // File originalImage = File(pickedImage.path);
-      File originalImage = await _copyToTempDirectory(pickedImage);
-      int originalSize = await originalImage.length();
-      print('Original image size: $originalSize bytes');
-
-      image.value = originalImage;
-
-      print("Path ---> ${image.value.path}");
-
-      File? croppedImage = await _cropImage(image.value.path);
-
-      if (croppedImage != null) {
-        int croppedSize = await croppedImage.length();
-        debugPrint('Cropped image size: $croppedSize bytes');
-        image.value = croppedImage;
-        profileImageGetUrl.value = croppedImage.path;
-        debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
-        imageUploadApi();
-      } else {
-        debugPrint("Image cropping was canceled or failed.");
+      if (pickedImage != null) {
+        File originalImage = await _copyToTempDirectory(pickedImage);
+        int originalSize = await originalImage.length();
+        print('Original image size: $originalSize bytes');
+        image.value = originalImage;
+        print("Path ---> ${image.value.path}");
+        File? croppedImage = await _cropImage(image.value.path);
+        if (croppedImage != null) {
+          int croppedSize = await croppedImage.length();
+          debugPrint('Cropped image size: $croppedSize bytes');
+          image.value = croppedImage;
+          profileImageGetUrl.value = croppedImage.path;
+          debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
+          imageUploadApi();
+          try {
+            if (await originalImage.exists()) {
+              await originalImage.delete();
+              debugPrint("Deleted original temp image: ${originalImage.path}");
+            }
+          } catch (e) {
+            debugPrint("Error deleting original image: $e");
+          }
+        } else {
+          debugPrint("Image cropping was canceled or failed.");
+          try {
+            if (await originalImage.exists()) {
+              await originalImage.delete();
+              debugPrint("Deleted original temp image after crop cancel: ${originalImage.path}");
+            }
+          } catch (e) {
+            debugPrint("Error deleting temp image: $e");
+          }
+        }
       }
-    }}catch(e){
+    } catch (e) {
       debugPrint("Error picking image: $e");
     }
   }
+
+  // Future<void> pickImage(ImageSource source) async {
+  //   bool hasPermission = await _handlePermissions(source);
+  //   if (!hasPermission) return;
+  //
+  //   try{
+  //     final pickedImage = await ImagePicker().pickImage(source: source);
+  //
+  //   if (pickedImage != null) {
+  //     // File originalImage = File(pickedImage.path);
+  //     File originalImage = await _copyToTempDirectory(pickedImage);
+  //     int originalSize = await originalImage.length();
+  //     print('Original image size: $originalSize bytes');
+  //
+  //     image.value = originalImage;
+  //
+  //     print("Path ---> ${image.value.path}");
+  //
+  //     File? croppedImage = await _cropImage(image.value.path);
+  //
+  //     if (croppedImage != null) {
+  //       int croppedSize = await croppedImage.length();
+  //       debugPrint('Cropped image size: $croppedSize bytes');
+  //       image.value = croppedImage;
+  //       profileImageGetUrl.value = croppedImage.path;
+  //       debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
+  //       imageUploadApi();
+  //     } else {
+  //       debugPrint("Image cropping was canceled or failed.");
+  //     }
+  //   }}catch(e){
+  //     debugPrint("Error picking image: $e");
+  //   }
+  // }
 
   // Future<void> pickImage(ImageSource source) async {
   //   try {

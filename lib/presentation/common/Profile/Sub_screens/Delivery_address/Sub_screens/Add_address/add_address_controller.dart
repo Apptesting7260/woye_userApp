@@ -169,7 +169,7 @@ class AddAddressController extends GetxController {
   final GroceryCartController groceryCartController =Get.put(GroceryCartController());
   final SingleGroceryCartController singleGroceryCartController =Get.put(SingleGroceryCartController());
 
-  addAddressApi() async {
+  Future addAddressApi() async {
     var arguments = Get.arguments;
     String? type = arguments['type'];
     String? cartId = arguments['cartId'];

@@ -162,9 +162,8 @@ class ReviewDriverScreen extends StatelessWidget {
           }else if(cartType == "grocery" || screenType == "groceryProfileScreen") {
             homeController.getIndex(2);
             homeController.navigate(2);
-            homeController.mainButtonIndex.value = 0;
-          }
-          if(screenType == "notificationScreen"|| screenType == "") {
+            // homeController.mainButtonIndex.value = 0;
+          }else if(screenType == "notificationScreen"|| screenType == "") {
            Get.back();
           }
         });

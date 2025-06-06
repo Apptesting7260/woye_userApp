@@ -773,7 +773,7 @@ class OrderDetailsScreen extends StatelessWidget {
                       hBox(10),
                       Text(
                         controller.ordersData.value.review!.review.toString(),
-                        style: AppFontStyle.text_16_400(AppColors.darkText),
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         maxLines: 2,
                       ),
                     ],
@@ -881,7 +881,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 wBox(10),
                 Text(
                   "Download Invoice",
-                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
                 const Spacer(),
                 Icon(
