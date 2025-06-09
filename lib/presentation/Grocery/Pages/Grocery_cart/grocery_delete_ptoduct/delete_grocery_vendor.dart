@@ -32,6 +32,7 @@ class DeleteGroceryVendorController extends GetxController {
           await Future.delayed(const Duration(milliseconds: 500));
           setRxRequestStatus(Status.COMPLETED);
           Get.back();
+          Utils.showToast(value.message.toString());
           groceryShowAllCartController.refreshApi();
         });
       } else {

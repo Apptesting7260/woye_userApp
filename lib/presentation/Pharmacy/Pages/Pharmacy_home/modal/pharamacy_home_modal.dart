@@ -607,6 +607,7 @@ class AllPharmaShops {
   String? latitude;
   String? longitude;
   String? avgRating;
+  List<String>? categoryNames;
 
   AllPharmaShops(
       {this.id,
@@ -624,7 +625,9 @@ class AllPharmaShops {
         this.closesAt,
         this.latitude,
         this.longitude,
-        this.avgRating});
+        this.avgRating,
+        this.categoryNames,
+      });
 
   AllPharmaShops.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -643,6 +646,11 @@ class AllPharmaShops {
     latitude = json['latitude']?.toString();
     longitude = json['longitude']?.toString();
     avgRating = json['avg_rating']?.toString();
+    if (json['category_names'] != null) {
+      categoryNames = json['category_names'].cast<String>();
+    }else{
+       categoryNames = [];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -663,6 +671,7 @@ class AllPharmaShops {
     data['latitude'] = latitude;
     data['longitude'] = longitude;
     data['avg_rating'] = avgRating;
+    data['category_names'] = categoryNames;
     return data;
   }
 }

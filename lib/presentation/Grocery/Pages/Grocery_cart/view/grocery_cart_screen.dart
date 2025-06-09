@@ -391,23 +391,24 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                     ),
                   ),
                   const Spacer(),
-                  Obx(
-                    () => deleteVendorController.rxRequestStatus.value ==
-                                Status.LOADING &&
-                            buckets.isVendorDelete.value == true
-                        ? Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10, right: 22),
-                              child: Row(
-                                children: [
-                                  circularProgressIndicator(size: 15.h),
-                                  wBox(2.h),
-                                ],
-                              ),
-                            ),
-                          )
-                        : Padding(
+                  // Obx(
+                  //   () => deleteVendorController.rxRequestStatus.value ==
+                  //               Status.LOADING &&
+                  //           buckets.isVendorDelete.value == true
+                  //       ? Center(
+                  //           child: Padding(
+                  //             padding:
+                  //                 const EdgeInsets.only(top: 10, right: 22),
+                  //             child: Row(
+                  //               children: [
+                  //                 circularProgressIndicator(size: 15.h),
+                  //                 wBox(2.h),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         )
+                  //       :
+                    Padding(
                             padding: const EdgeInsets.only(top: 10),
                             child: GestureDetector(
                               onTap: () {
@@ -424,7 +425,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 maxLines: 1,
                               ),
                             ),
-                          ),
+                          // ),
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 class HomeModel {
   bool? status;
   List<Category>? category;
+
   // AllRestaurant? freedelResto;
   // AllRestaurant? nearbyResto;
   // AllRestaurant? popularResto;
@@ -31,37 +32,37 @@ class HomeModel {
                 json["category"]!.map((x) => Category.fromJson(x))),
 
         freedelResto: json["freedel_resto"] == null
-                ? []
-                : List<AllRestaurant>.from(
-                    json["freedel_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+            ? []
+            : List<AllRestaurant>.from(
+                json["freedel_resto"]!.map((x) => AllRestaurant.fromJson(x))),
 
         nearbyResto: json["nearby_resto"] == null
-                ? []
-                : List<AllRestaurant>.from(
-                    json["nearby_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+            ? []
+            : List<AllRestaurant>.from(
+                json["nearby_resto"]!.map((x) => AllRestaurant.fromJson(x))),
 
         restaurants: json["restaurants"] == null
-                ? []
-                : List<AllRestaurant>.from(
-                    json["restaurants"]!.map((x) => AllRestaurant.fromJson(x))),
+            ? []
+            : List<AllRestaurant>.from(
+                json["restaurants"]!.map((x) => AllRestaurant.fromJson(x))),
 
         popularResto: json["popular_resto"] == null
-                ? []
-                : List<AllRestaurant>.from(
-                    json["popular_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+            ? []
+            : List<AllRestaurant>.from(
+                json["popular_resto"]!.map((x) => AllRestaurant.fromJson(x))),
 
-    //     freedelResto: json["freedel_resto"] == null
-    //         ? null
-    //         :AllRestaurant.fromJson(json['freedel_resto']),
-    //   nearbyResto: json["nearby_resto"] == null
-    //         ? null
-    //         : AllRestaurant.fromJson(json["nearby_resto"]),
-    // restaurants: json["restaurants"] == null
-    //         ? null
-    //         : AllRestaurant.fromJson(json["restaurants"]),
-    // popularResto : json["popular_resto"] == null
-    //         ? null
-    //         : AllRestaurant.fromJson(json["popular_resto"]),
+        //     freedelResto: json["freedel_resto"] == null
+        //         ? null
+        //         :AllRestaurant.fromJson(json['freedel_resto']),
+        //   nearbyResto: json["nearby_resto"] == null
+        //         ? null
+        //         : AllRestaurant.fromJson(json["nearby_resto"]),
+        // restaurants: json["restaurants"] == null
+        //         ? null
+        //         : AllRestaurant.fromJson(json["restaurants"]),
+        // popularResto : json["popular_resto"] == null
+        //         ? null
+        //         : AllRestaurant.fromJson(json["popular_resto"]),
 
         banners: json["banners"] == null
             ? []
@@ -76,18 +77,21 @@ class HomeModel {
         "category": category == null
             ? []
             : List<dynamic>.from(category!.map((x) => x.toJson())),
-    "freedel_resto": freedelResto == null
+        "freedel_resto": freedelResto == null
             ? []
             : List<AllRestaurant>.from(freedelResto!.map((x) => x.toJson())),
 
-    "nearby_resto": nearbyResto == null ? []
-                  : List<AllRestaurant>.from(nearbyResto!.map((x) => x.toJson())),
+        "nearby_resto": nearbyResto == null
+            ? []
+            : List<AllRestaurant>.from(nearbyResto!.map((x) => x.toJson())),
 
-    "popular_resto": popularResto == null ? []
-                  : List<AllRestaurant>.from(popularResto!.map((x) => x.toJson())),
+        "popular_resto": popularResto == null
+            ? []
+            : List<AllRestaurant>.from(popularResto!.map((x) => x.toJson())),
 
-    "restaurants": restaurants == null ? []
-                  : List<AllRestaurant>.from(restaurants!.map((x) => x.toJson())),
+        "restaurants": restaurants == null
+            ? []
+            : List<AllRestaurant>.from(restaurants!.map((x) => x.toJson())),
 
         // "freedel_resto": freedelResto?.toJson(),
         // "nearby_resto": nearbyResto?.toJson(),
@@ -299,17 +303,19 @@ class AllRestaurant {
   String? shopDes;
   int? status;
   String? shopimage;
+  List<String>? categoriesName;
   bool? isInWishlist;
 
   AllRestaurant(
       {this.id,
-        this.rating,
-        this.avgPrice,
-        this.shopName,
-        this.shopDes,
-        this.status,
-        this.shopimage,
-        this.isInWishlist});
+      this.rating,
+      this.avgPrice,
+      this.shopName,
+      this.shopDes,
+      this.status,
+      this.shopimage,
+      this.categoriesName,
+      this.isInWishlist});
 
   AllRestaurant.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -320,6 +326,11 @@ class AllRestaurant {
     status = json['status'];
     shopimage = json['shopimage'];
     isInWishlist = json['is_in_wishlist'];
+    if (json['category_names'] != null) {
+      categoriesName = json['category_names'].cast<String>();
+    } else {
+      categoriesName = [];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -332,6 +343,7 @@ class AllRestaurant {
     data['status'] = status;
     data['shopimage'] = shopimage;
     data['is_in_wishlist'] = isInWishlist;
+    data['category_names'] = categoriesName;
     return data;
   }
 }

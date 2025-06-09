@@ -38,7 +38,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   GlobalKey homeWidgetKey = GlobalKey();
   double? height;
   final RestaurantHomeController restaurantHomeController = Get.put(RestaurantHomeController());
-  final RestaurantNavbarController restaurantNavbarController = Get.put(RestaurantNavbarController())
+  final RestaurantNavbarController restaurantNavbarController = Get.put(RestaurantNavbarController());
 
   _getHeight(_) {
     final keyContext = homeWidgetKey.currentContext;
@@ -862,6 +862,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                             title: restaurant?.shopName?.capitalize!,
                             rating: restaurant?.rating,
                             price: restaurant?.avgPrice,
+                            catIndex: restaurant?.categoriesName?.length ?? 0,
+                            catName: restaurant?.categoriesName
+
+
                             // image: restaurant?.shopImageUrl,
                             // title: restaurant.shopName?.capitalize!,
                             // rating: restaurant.rating,
@@ -881,7 +885,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     );
   }
 
-  Widget popularRestaurantList({index, String? image, title, type, isFavourite, rating, price,bool? isFreeDelivery}) {
+  Widget popularRestaurantList({index, String? image, title, type, isFavourite, rating, price,bool? isFreeDelivery,catIndex,List<String>? catName}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -970,16 +974,20 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ),
-            Text(
-              " • ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-            ),
-            Text(
-              "Pizza, Burger, Cake",
+            if(catIndex != null)...[
+              catIndex != 0 ? Text(
+                " • ",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              ) : const SizedBox.shrink(),
+            Row(children: List.generate(catIndex > 3 ? 3 : catIndex, (index) => Text(
+              "${catName?[index]}${index < (catIndex > 3 ? 3 : catIndex) - 1 ? ', ' : ''}",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                ),
+              ),
             ),
+           ],
           ],
         ),
         hBox(2.h),
@@ -1111,6 +1119,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                             title: restaurant?.shopName?.capitalize!,
                             rating: restaurant?.rating,
                             price: restaurant?.avgPrice,
+                            catIndex: restaurant?.categoriesName?.length ?? 0,
+                            catName: restaurant?.categoriesName
                           ),
                         ),
                       ),
@@ -1196,12 +1206,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                         ()=> SizedBox(
                           width: Get.width*0.78,
                           child: restaurantHomeController.isLoadingFilter.value == true ?
-                          const ShimmerWidgetHomeScreen() : popularRestaurantList(
+                          const ShimmerWidgetHomeScreen() :
+                          popularRestaurantList(
                             index: index,
                             image: restaurant?.shopimage ,
                             title: restaurant?.shopName?.capitalize!,
                             rating: restaurant?.rating,
                             price: restaurant?.avgPrice,
+                            catIndex: restaurant?.categoriesName?.length ?? 0,
+                            catName: restaurant?.categoriesName
                           ),
                         ),
                       ),

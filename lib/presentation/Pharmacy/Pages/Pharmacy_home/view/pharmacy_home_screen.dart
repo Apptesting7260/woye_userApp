@@ -624,6 +624,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         // pharmacyDetailsController.restaurant_Details_Api(
                         //   id: pharmashopsdata.id.toString(),
                         // );
+                        // print("object ${pharmashopsdata?.categoryNames?.length}");
                         Get.to(()=>PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
                       },
                       child: Obx(
@@ -636,6 +637,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                             title: pharmashopsdata?.shopName,
                             rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
                             price: pharmashopsdata?.rating,
+                            catIndex: pharmashopsdata?.categoryNames?.length ?? 0,
+                            catName: pharmashopsdata?.categoryNames
                           ),
                         ),
                       ),
@@ -724,6 +727,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                             title: pharmashopsdata?.shopName,
                             rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
                             price: pharmashopsdata?.rating,
+
                           ),
                         ),
                       ),
@@ -806,6 +810,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                             title: pharmashopsdata?.shopName,
                             rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
                             price: pharmashopsdata?.rating,
+                            catIndex: pharmashopsdata?.categoryNames?.length ?? 0,
+                            catName: pharmashopsdata?.categoryNames
                           ),
                         ),
                       ),
@@ -888,6 +894,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                             title: pharmashopsdata?.shopName,
                             rating:cleanNumber(pharmashopsdata?.avgRating ?? "0") ,
                             price: pharmashopsdata?.rating,
+                            catIndex: pharmashopsdata?.categoryNames?.length ?? 0,
+                            catName: pharmashopsdata?.categoryNames
                           ),
                         ),
                       ),
@@ -905,8 +913,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
     );
   }
 
-  Widget pharmaShop(
-      {index, String? image, title, type, isFavourite, rating, price}) {
+  Widget pharmaShop({index, String? image, title, type, isFavourite, rating, price,catIndex,List<String>? catName}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1007,7 +1014,6 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             //   textAlign: TextAlign.left,
             //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
             // ),
-
             SvgPicture.asset("assets/svg/star-yellow.svg",height: 15,),
             wBox(4),
             Padding(
@@ -1017,16 +1023,20 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ),
-            Text(
-              " • ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-            ),
-            Text(
-              "Tablet, Medicine ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
-            ),
+            if(catIndex != null)...[
+              catIndex != 0 ? Text(
+                " • ",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              ) : const SizedBox.shrink(),
+              Row(children: List.generate(catIndex > 3 ? 3 : catIndex, (index) => Text(
+                "${catName?[index]}${index < (catIndex > 3 ? 3 : catIndex) - 1 ? ', ' : ''}",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              ),
+              ),
+              ),
+              ],
           ],
         ),
         hBox(2.h),

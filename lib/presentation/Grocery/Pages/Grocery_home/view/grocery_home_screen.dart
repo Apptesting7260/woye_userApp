@@ -785,12 +785,15 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                         ()=> SizedBox(
                           width: Get.width*0.78,
                           child: controller.rxRequestStatusFilter.value== Status.LOADING
-                          ? const ShimmerWidgetHomeScreen() : pharmaShop(
+                          ? const ShimmerWidgetHomeScreen() :
+                          pharmaShop(
                             index: index,
                             image: pharmashopsdata?.shopimage,
                             title: pharmashopsdata?.shopName,
                             rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
                             price: pharmashopsdata?.avgPrice,
+                            catIndex: pharmashopsdata?.categoryName?.length ?? 0,
+                            catName: pharmashopsdata?.categoryName,
                           ),
                         ),
                       ),
@@ -878,6 +881,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                             title: pharmashopsdata?.shopName,
                             rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
                             price: pharmashopsdata?.avgPrice,
+                            catIndex: pharmashopsdata?.categoryName?.length ?? 0,
+                            catName: pharmashopsdata?.categoryName,
                           ),
                         ),
                       ),
@@ -959,6 +964,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                             title: pharmashopsdata?.shopName,
                             rating: cleanNumber(pharmashopsdata?.avgRating ?? "0"),
                             price: pharmashopsdata?.avgPrice,
+                            catIndex: pharmashopsdata?.categoryName?.length ?? 0,
+                            catName: pharmashopsdata?.categoryName,
                           ),
                         ),
                       ),
@@ -1066,7 +1073,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
         : parsed.toString();
   }
 
-  Widget pharmaShop({index, String? image, title, type, isFavourite, rating, price}) {
+  Widget pharmaShop({index, String? image, title, type, isFavourite, rating, price,catIndex,List<String>? catName}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1169,16 +1176,20 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ),
-            Text(
-              " • ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-            ),
-            Text(
-              "Drink,Juices,Snacks",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
-            ),
+            if(catIndex != null)...[
+              catIndex == 0 ? const SizedBox.shrink() : Text(
+                " • ",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              ) ,
+              Row(children: List.generate(catIndex > 3 ? 3 : catIndex, (index) => Text(
+                "${catName?[index]}${index < (catIndex > 3 ? 3 : catIndex) - 1 ? ', ' : ''}",
+                textAlign: TextAlign.left,
+                style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              ),
+              ),
+              ),
+            ],
           ],
         ),
         hBox(2.h),
