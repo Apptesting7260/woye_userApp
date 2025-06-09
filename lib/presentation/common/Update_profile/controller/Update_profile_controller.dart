@@ -235,8 +235,10 @@ class SignUpForm_editProfileController extends GetxController {
   Rx<File> image = File("assets/appLogo.png").obs;
 
   Future<void> pickImage(ImageSource source) async {
-    bool hasPermission = await _handlePermissions(source);
-    if (!hasPermission) return;
+   if(Platform.isAndroid){
+     bool hasPermission = await _handlePermissions(source);
+     if (!hasPermission) return;
+   }
     try {
       final pickedImage = await ImagePicker().pickImage(source: source);
       if (pickedImage != null) {
