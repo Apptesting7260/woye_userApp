@@ -5,6 +5,7 @@ import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button_reverse.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
@@ -18,10 +19,8 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
-import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 import 'package:woye_user/shared/widgets/error_widget.dart';
-
 import '../../../../../../../Core/Utils/image_cache_height.dart';
 import '../../../../../../../Shared/theme/font_family.dart';
 
@@ -31,6 +30,10 @@ class ProductDetailsScreen extends StatelessWidget {
   final String categoryName;
   final String? restaurantId;
   final String? bannerId;
+  final String? cuisineType;
+  final String? priceSort;
+  var quickFilter;
+  final String? priceRange;
   bool? fromCart;
 
   ProductDetailsScreen({
@@ -41,33 +44,24 @@ class ProductDetailsScreen extends StatelessWidget {
     this.restaurantId,
     this.fromCart,
     this.bannerId,
+    this.cuisineType,
+    this.priceSort,
+    this.quickFilter,
+    this.priceRange,
+
   });
 
-  // final RestaurantHomeController restaurantHomeController =
-  // Get.put(RestaurantHomeController());
+  // final RestaurantHomeController restaurantHomeController = Get.put(RestaurantHomeController());
 
-  final AddProductWishlistController addWishlistController =
-      Get.put(AddProductWishlistController());
-
-  final specific_Product_Controller controller =
-      Get.put(specific_Product_Controller());
-
-  final AddToCartController addToCartController =
-      Get.put(AddToCartController());
-
-  final seeAll_Product_Controller seeAllProductController =
-      Get.put(seeAll_Product_Controller());
-
-  final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
-
-  final RestaurantDetailsController restaurantDetailsController =
-      Get.put(RestaurantDetailsController());
-  final RestaurantCartController restaurantCartController =
-      Get.put(RestaurantCartController());
-
+  final AddProductWishlistController addWishlistController = Get.put(AddProductWishlistController());
+  final specific_Product_Controller controller = Get.put(specific_Product_Controller());
+  final AddToCartController addToCartController = Get.put(AddToCartController());
+  final seeAll_Product_Controller seeAllProductController = Get.put(seeAll_Product_Controller());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
+  final RestaurantDetailsController restaurantDetailsController = Get.put(RestaurantDetailsController());
+  final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
   final BannerDetailsController bannerController = Get.put(BannerDetailsController());
-
+  final RestaurantCategoriesDetailsController restaurantCategoriesDetailsController = Get.put(RestaurantCategoriesDetailsController());
   // final SeeAllProductReviewController seeAllProductReviewController = Get.put(SeeAllProductReviewController());
 
   @override
@@ -149,11 +143,15 @@ class ProductDetailsScreen extends StatelessWidget {
                   restaurantId: restaurantId.toString(),
                   categoryId: categoryId,
                   product_id: controller.productData.value.product?.id.toString() ?? productId.toString(),
+                  cuisineType: cuisineType,
+                  priceRange: priceRange,
+                  priceSort: priceSort,
+                  quickFilter: quickFilter,
                 ).then((value) {
-                  if(bannerId != ""){
+                  if(bannerId != "" && bannerId != null){
                     bannerController.refreshBannerDataApi(bannerId: bannerId.toString());
-                  }
-                },
+                   }
+                  },
                 );
                 // Utils.showToast("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
 

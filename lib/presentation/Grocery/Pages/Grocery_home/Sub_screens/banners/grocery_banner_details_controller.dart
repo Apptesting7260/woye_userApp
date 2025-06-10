@@ -33,4 +33,23 @@ class GroceryBannerDetailsController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+  refreshBannerDataApi({
+    required String bannerId,
+  }) async {
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {
+      "banner_id": bannerId,
+    };
+    api.groceryBannerApi(data).then((value) {
+      bannerDataSet(value);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
 }

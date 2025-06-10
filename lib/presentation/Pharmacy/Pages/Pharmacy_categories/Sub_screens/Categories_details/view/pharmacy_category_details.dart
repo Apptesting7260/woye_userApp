@@ -51,8 +51,8 @@ class PharmacyCategoryDetails extends StatelessWidget {
           case Status.COMPLETED:
             return RefreshIndicator(
               onRefresh: () async {
-                controller.pharmacy_Categories_Details_Api(
-                    id: categoryId.toString());
+                categoriesFilterController.resetFilters();
+                controller.pharmacy_Categories_Details_Api(id: categoryId.toString());
               },
               child: Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24.h),

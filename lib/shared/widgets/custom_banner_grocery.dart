@@ -25,6 +25,7 @@ class CustomBannerGrocery extends StatelessWidget {
   final String? categoryId;
   final String? categoryName;
   final String? product_id;
+  final String? bannerId;
   final EdgeInsetsGeometry? padding;
   Rx<bool>? isLoading;
 
@@ -45,6 +46,7 @@ class CustomBannerGrocery extends StatelessWidget {
     this.categoryId,
     this.categoryName,
     this.product_id,
+    this.bannerId,
     this.isLoading,
   });
 
@@ -75,6 +77,7 @@ class CustomBannerGrocery extends StatelessWidget {
         // ));
 
         Get.to(() => GroceryProductDetailsScreen(
+              bannerId: bannerId,
               productId: product_id.toString(),
               categoryId: categoryId.toString(),
               categoryName: categoryName.toString(),

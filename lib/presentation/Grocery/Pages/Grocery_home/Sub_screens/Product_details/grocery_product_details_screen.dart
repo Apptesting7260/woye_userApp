@@ -14,6 +14,7 @@ import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/view/grocery_c
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_vendor_details_screen.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/banners/grocery_banner_details_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/add_grocery_product_wishlist.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
@@ -25,6 +26,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
+  final String? bannerId;
   bool? isWishList;
   bool? fromCart;
 
@@ -33,25 +35,23 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     required this.productId,
     required this.categoryId,
     required this.categoryName,
+    this.bannerId,
     this.isWishList,
     this.fromCart,
   });
 
   final GrocerySpecificProductController controller = Get.put(GrocerySpecificProductController());
 
-  final GroceryDetailsController groceryDetailsController =
-      Get.put(GroceryDetailsController());
+  final GroceryDetailsController groceryDetailsController =  Get.put(GroceryDetailsController());
 
-  final GroceryAddToCarController pharmacyAddToCarController =
-      Get.put(GroceryAddToCarController());
+  final GroceryAddToCarController pharmacyAddToCarController = Get.put(GroceryAddToCarController());
 
-  final AddGroceryProductWishlist addGroceryProductWishlist =
-      Get.put(AddGroceryProductWishlist());
+  final AddGroceryProductWishlist addGroceryProductWishlist = Get.put(AddGroceryProductWishlist());
 
-  final GetUserDataController getUserDataController =
-      Get.put(GetUserDataController());
-  final GroceryShowAllCartController groceryShowAllCartController =
-      Get.put(GroceryShowAllCartController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
+
+  final GroceryShowAllCartController groceryShowAllCartController =Get.put(GroceryShowAllCartController());
+  final GroceryBannerDetailsController bannerDetailsController = Get.put(GroceryBannerDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +127,11 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                   groceryId:controller.productData.value.product?.userId.toString() ?? "",
                   categoryId: categoryId ?? "",
                   product_id:  controller.productData.value.product?.id.toString() ?? productId.toString(),
-                );
+                ).then((value) {
+                  if(bannerId != null || bannerId != ""){
+                    bannerDetailsController.refreshBannerDataApi(bannerId: bannerId.toString());
+                  }
+                },);
                 controller.isLoading.value = false;
               },
               child: Container(

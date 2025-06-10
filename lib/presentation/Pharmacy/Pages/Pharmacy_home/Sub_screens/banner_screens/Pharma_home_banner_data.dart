@@ -208,33 +208,17 @@ class PharmacyHomeBanner extends StatelessWidget {
             ),
             itemBuilder: (context, index) {
               return CustomBanner(
-                image: controller.bannerData.value.products![index].urlImage
-                    .toString(),
-                sale_price: controller
-                    .bannerData.value.products![index].salePrice
-                    .toString(),
-                regular_price: controller
-                    .bannerData.value.products![index].regularPrice
-                    .toString(),
-                title: controller.bannerData.value.products![index].title
-                    .toString(),
-                quantity: controller
-                    .bannerData.value.products![index].packagingValue
-                    .toString(),
-                categoryId: controller
-                    .bannerData.value.products![index].categoryId
-                    .toString(),
-                product_id:
-                    controller.bannerData.value.products![index].id.toString(),
-                shop_name: controller.bannerData.value.products![index].shopName
-                    .toString(),
-                is_in_wishlist:
-                    controller.bannerData.value.products![index].isInWishlist,
-                isLoading:
-                    controller.bannerData.value.products![index].isLoading,
-                categoryName: controller
-                    .bannerData.value.products![index].categoryName
-                    .toString(),
+                image: controller.bannerData.value.products![index].urlImage.toString(),
+                sale_price: controller.bannerData.value.products![index].salePrice.toString(),
+                regular_price: controller.bannerData.value.products![index].regularPrice.toString(),
+                title: controller.bannerData.value.products![index].title.toString(),
+                quantity: controller.bannerData.value.products![index].packagingValue.toString(),
+                categoryId: controller.bannerData.value.products![index].categoryId.toString(),
+                product_id:controller.bannerData.value.products![index].id.toString(),
+                shop_name: controller.bannerData.value.products![index].shopName.toString(),
+                is_in_wishlist:controller.bannerData.value.products![index].isInWishlist,
+                isLoading:controller.bannerData.value.products![index].isLoading,
+                categoryName: controller.bannerData.value.products![index].categoryName.toString(),
               );
             }),
         hBox(20.h),

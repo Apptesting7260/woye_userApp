@@ -66,4 +66,23 @@ class PharmaCategoriesFilterController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+  void resetFilters() {
+    selectedCuisines.clear();
+    selectedCuisines.refresh();
+    selectedQuickFilters.clear();
+    selectedQuickFilters.refresh();
+    if(getFilterData.value.minPrice != null){
+      lowerValue.value = getFilterData.value.minPrice!.toDouble();
+    }
+    if(getFilterData.value.maxPrice != null){
+      upperValue.value = getFilterData.value.maxPrice!.toDouble();
+    }
+    for (var cuisine in (getFilterData.value.cuisineType ?? [])) {
+      cuisine.isSelected.value = false;
+    }
+    priceRadioValue.value = 0;
+    update();
+  }
+
 }

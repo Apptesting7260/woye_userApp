@@ -356,7 +356,7 @@ class PharmacyCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyRegular,
+            fontFamily: AppFontFamily.gilroyMedium,
           ),
         ),
         Obx(() {
@@ -397,7 +397,8 @@ class PharmacyCategoriesFilter extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              value: cuisine.isSelected.value,
+                              // value: cuisine.isSelected.value,
+                              value: controller.selectedCuisines.contains(cuisine.id.toString()),
                               onChanged: (value) {
                                 cuisine.isSelected.value = value!;
                                 if (value) {
@@ -519,7 +520,7 @@ class PharmacyCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyRegular)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
         hBox(10),
         Wrap(
           spacing: 10.w,

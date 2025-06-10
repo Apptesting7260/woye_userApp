@@ -18,18 +18,15 @@ import 'controller/RestaurantCategoriesDetailsController.dart';
 class RestaurantCategoryDetails extends StatelessWidget {
   RestaurantCategoryDetails({super.key});
 
-  final RestaurantCategoriesDetailsController controller =
-      Get.put(RestaurantCategoriesDetailsController());
+  final RestaurantCategoriesDetailsController controller = Get.put(RestaurantCategoriesDetailsController());
 
-  final AddProductWishlistController add_Wishlist_Controller =
-      Get.put(AddProductWishlistController());
+  final AddProductWishlistController add_Wishlist_Controller = Get.put(AddProductWishlistController());
 
-  final specific_Product_Controller specific_product_controllerontroller =
-      Get.put(specific_Product_Controller());
+  final specific_Product_Controller specific_product_controllerontroller = Get.put(specific_Product_Controller());
 
-  final Categories_FilterController categoriesFilterController =
-      Get.put(Categories_FilterController());
+  final Categories_FilterController categoriesFilterController = Get.put(Categories_FilterController());
   // RestaurantNavbarController navbarController = Get.put(RestaurantNavbarController());
+
   @override
   Widget build(BuildContext context) {
     final args = Get.arguments ?? {};
@@ -70,8 +67,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
               case Status.COMPLETED:
                 return RefreshIndicator(
                     onRefresh: () async {
-                      controller.restaurant_Categories_Details_Api(
-                          id: categoryId.toString());
+                      categoriesFilterController.resetFilters();
+                      controller.restaurant_Categories_Details_Api(id: categoryId.toString());
                     },
                     child: Padding(
                       padding: REdgeInsets.symmetric(horizontal: 24),
@@ -125,8 +122,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             SliverToBoxAdapter(
                               child:CustomNoDataFound(heightBox: hBox(50.h))
                             ),
-                          if (controller.categoriesDetailsData.value
-                              .filterProduct!.isEmpty)
+                          if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     childCount: controller.searchData.length,
@@ -329,8 +325,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   // crossAxisSpacing: 16.w,
                                   // mainAxisSpacing: 5.h,
                                 ))),
-                          if (controller.categoriesDetailsData.value
-                              .filterProduct!.isNotEmpty)
+                          if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     childCount: controller
@@ -347,6 +342,11 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 categoryId:
                                                     categoryId.toString());
                                         Get.to(ProductDetailsScreen(
+                                          cuisineType: categoriesFilterController.selectedCuisines.join(', '),
+                                          priceRange: "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                                          priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                                          : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                                          quickFilter: categoriesFilterController.selectedQuickFilters.toString(),
                                           productId: product.id.toString(),
                                           categoryId: categoryId.toString(),
                                           categoryName: categoryTitle,
@@ -368,27 +368,17 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
-                                                    imageUrl: product.urlImage
-                                                        .toString(),
+                                                    imageUrl: product.urlImage.toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
-                                                    errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
-                                                    placeholder:
-                                                        (context, url) =>
-                                                            Shimmer.fromColors(
+                                                    errorWidget: (context, url,error) =>const Icon(Icons.error),
+                                                    placeholder:(context, url) =>Shimmer.fromColors(
                                                       baseColor: AppColors.gray,
-                                                      highlightColor:
-                                                          AppColors.lightText,
+                                                      highlightColor:AppColors.lightText,
                                                       child: Container(
-                                                        decoration:
-                                                            BoxDecoration(
+                                                        decoration:BoxDecoration(
                                                           color: AppColors.gray,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      20.r),
+                                                          borderRadius:BorderRadius.circular(20.r),
                                                         ),
                                                       ),
                                                     ),
@@ -397,47 +387,30 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               ),
                                               Obx(
                                                 () => Container(
-                                                  margin: REdgeInsets.only(
-                                                      top: 10, right: 10),
+                                                  margin: REdgeInsets.only(top: 10, right: 10),
                                                   padding: REdgeInsets.all(6),
                                                   decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10.r),
-                                                    color: AppColors
-                                                        .greyBackground,
+                                                    borderRadius:BorderRadius.circular(10.r),
+                                                    color: AppColors.greyBackground,
                                                   ),
                                                   child: InkWell(
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    splashColor:
-                                                        Colors.transparent,
+                                                    highlightColor:Colors.transparent,
+                                                    splashColor:Colors.transparent,
                                                     onTap: () async {
-                                                      product.isInWishlist =
-                                                          !product
-                                                              .isInWishlist!;
-                                                      product.isLoading.value =
-                                                          true;
-                                                      await add_Wishlist_Controller
-                                                          .restaurant_add_product_wishlist(
-                                                        categoryId: categoryId
-                                                            .toString(),
-                                                        product_id: product.id
-                                                            .toString(),
+                                                      product.isInWishlist =!product.isInWishlist!;
+                                                      product.isLoading.value =true;
+                                                      await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                                                        categoryId: categoryId.toString(),
+                                                        product_id: product.id.toString(),
                                                       );
-                                                      product.isLoading.value =
-                                                          false;
+                                                      product.isLoading.value =false;
                                                     },
-                                                    child: product
-                                                            .isLoading.value
-                                                        ? circularProgressIndicator(
-                                                            size: 18)
+                                                    child: product.isLoading.value
+                                                        ? circularProgressIndicator(size: 18)
                                                         : Icon(
-                                                            product.isInWishlist ==
-                                                                    true
+                                                            product.isInWishlist == true
                                                                 ? Icons.favorite
-                                                                : Icons
-                                                                    .favorite_border_outlined,
+                                                                : Icons.favorite_border_outlined,
                                                             size: 22,
                                                           ),
                                                   ),

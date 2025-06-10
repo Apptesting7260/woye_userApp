@@ -37,6 +37,10 @@ class AddProductWishlistController extends GetxController {
     String? restaurantId,
     String? productIdAllProducts,
     bool? isRefresh,
+    String? cuisineType,
+     String? priceSort,
+    var quickFilter,
+    String? priceRange,
   }) async {
     setRxRequestStatus(Status.LOADING);
     Map data = {"product_id": product_id};
@@ -50,12 +54,23 @@ class AddProductWishlistController extends GetxController {
         if (categoryId == "") {
           restaurantWishlistController.restaurant_product_wishlist_api();
         }
-        restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId);
         // if (restaurantId != null && restaurantId.toString().trim().isNotEmpty) {
         //   restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId);
         // }
+        if(categoryId != "") {
+          if ((cuisineType != null && cuisineType != '') || priceSort != null || quickFilter != null || priceRange != null) {
+            restaurantCategoriesDetailsController.restaurant_Categories_Details_filter_Api(
+              id: categoryId.toString(),
+              cuisine_type: cuisineType,
+              price_sort: priceSort,
+              quick_filter: quickFilter,
+              price_range: priceRange,
+            );
+          }else{
+            restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId);
+          }
+        }
         restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId ?? "");
-
         if(restaurantId != null && categoryId != ''){
           seeAllProductController.refresh_seeAll_Product_Api(category_id: categoryId, restaurant_id: restaurantId);
         }

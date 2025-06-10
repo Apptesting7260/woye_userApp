@@ -391,7 +391,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
             child: Text(
               controller.restaurant_Data.value.restaurant!.shopAddress
                   .toString(),
-              maxLines: 2,
+              maxLines: 50,
               overflow: TextOverflow.ellipsis,
               style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
             ),

@@ -9,12 +9,9 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/S
 
 import '../../../../../../../Shared/theme/font_family.dart';
 
-final Categories_FilterController controller =
-    Get.put(Categories_FilterController());
+final Categories_FilterController controller =Get.put(Categories_FilterController());
 
-final RestaurantCategoriesDetailsController
-    restaurantCategoriesDetailsController =
-    Get.put(RestaurantCategoriesDetailsController());
+final RestaurantCategoriesDetailsController restaurantCategoriesDetailsController = Get.put(RestaurantCategoriesDetailsController());
 
 class RestaurantCategoriesFilter extends StatelessWidget {
   const RestaurantCategoriesFilter({super.key});
@@ -179,9 +176,9 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             hBox(15.h),
-            if (controller.getFilterData.value.cuisineType!.isNotEmpty)
+            if (controller.getFilterData.value.cuisineType?.isNotEmpty ?? false)
               Cuisines(),
-            if (controller.getFilterData.value.cuisineType!.isNotEmpty)
+            if (controller.getFilterData.value.cuisineType?.isNotEmpty ?? false)
               hBox(20.h),
             // price(),
             // hBox(30),
@@ -303,10 +300,10 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                           // cuisine_type:
                           // controller.selectedCuisines.join(', '),
                           price_sort: controller.priceRadioValue.value == 0
-                              ? ""
-                              : controller.priceRadioValue.value == 1
-                              ? "low to high"
-                              : "high to low",
+                            ? ""
+                            : controller.priceRadioValue.value == 1
+                            ? "low to high"
+                            : "high to low",
                           // quick_filter:
                           // controller.selectedQuickFilters.toString(),
                           // price_range:
@@ -359,14 +356,10 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           ),
         ),
         Obx(() {
-          List<CuisineType> cuisineTypes =
-              controller.getFilterData.value.cuisineType ?? [];
+          List<CuisineType> cuisineTypes =controller.getFilterData.value.cuisineType ?? [];
           List<List<CuisineType>> columns = [];
-          for (int i = 0;
-              i < visibleItemCount.value && i < cuisineTypes.length;
-              i += 2) {
-            columns.add(cuisineTypes.sublist(
-              i,
+          for (int i = 0;i < visibleItemCount.value && i < cuisineTypes.length;i += 2) {
+            columns.add(cuisineTypes.sublist(i,
               (i + 2) > cuisineTypes.length ? cuisineTypes.length : (i + 2),
             ));
           }
@@ -396,15 +389,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              value: cuisine.isSelected.value,
+                              value: controller.selectedCuisines.contains(cuisine.id.toString()),
+                              // value: cuisine.isSelected.value,
                               onChanged: (value) {
                                 cuisine.isSelected.value = value!;
                                 if (value) {
-                                  controller.selectedCuisines
-                                      .add(cuisine.id.toString());
+                                  controller.selectedCuisines.add(cuisine.id.toString());
                                 } else {
-                                  controller.selectedCuisines
-                                      .remove(cuisine.id.toString());
+                                  controller.selectedCuisines.remove(cuisine.id.toString());
                                 }
                               },
                               checkboxShape: RoundedRectangleBorder(
@@ -491,6 +483,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           groupValue: controller.priceRadioValue,
           onChanged: (value) {
             controller.priceRadioValue.value = value!;
+            controller.update();
           },
         ),
         CustomRadioButton(
@@ -529,8 +522,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 isSelect: isSelected[index],
                 onSelected: (isSelected) {
                   if (isSelected) {
-                    if (!controller.selectedQuickFilters
-                        .contains(labels[index])) {
+                    if (!controller.selectedQuickFilters.contains(labels[index])) {
                       controller.selectedQuickFilters.add(labels[index]);
                     }
                   } else {

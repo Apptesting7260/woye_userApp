@@ -674,47 +674,111 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
         padding: REdgeInsets.symmetric(horizontal: 5),
         child: Container(
           height: 54.h,
-          decoration: BoxDecoration(color: AppColors.ultraLightPrimary.withOpacity(0.06),borderRadius: BorderRadius.circular(100)),
+          decoration: BoxDecoration(
+            color: AppColors.ultraLightPrimary.withOpacity(0.06),
+            borderRadius: BorderRadius.circular(100),
+          ),
           child: Padding(
-            padding: REdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
+            padding: REdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: REdgeInsets.only(left: 10,right: 3),
-                  height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: REdgeInsets.only(bottom: 3.0),
-                        child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
-                      ),
-                      wBox(5.h),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Delivery",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyBold),),
-                          Text("30-50 mins",style: AppFontStyle.text_12_400(AppColors.white,family: AppFontFamily.gilroyRegular),),
-                        ],
-                      ),
-                    ],
+                Expanded(
+                  child: Container(
+                    padding: REdgeInsets.only(left: 10, right: 3),
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: REdgeInsets.only(bottom: 3.0),
+                          child: SvgPicture.asset(
+                            ImageConstants.scooterImage,
+                            height: 20,
+                            colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                          ),
+                        ),
+                        wBox(5.h),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "  Delivery",
+                                style: AppFontStyle.text_12_400(
+                                  AppColors.white,
+                                  family: AppFontFamily.gilroyBold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              Obx(() => Text(
+                                controller.rxRequestStatus.value == Status.LOADING
+                                    ? "0-0 mins"
+                                    : "${controller.travelTime.value.round()}-${(controller.travelTime.value.round() + 2)} mins",
+                                style: AppFontStyle.text_12_400(
+                                  AppColors.white,
+                                  family: AppFontFamily.gilroyRegular,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              )),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  padding: REdgeInsets.only(left: 10),
-                  height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
-                      wBox(5.h),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
-                          Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
-                        ],
-                      ),
-                    ],
+
+                wBox(5.w),
+                Expanded(
+                  child: Container(
+                    padding: REdgeInsets.only(left: 10),
+                    height: 50.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          ImageConstants.collections,
+                          height: 20,
+                          colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+                        ),
+                        wBox(5.h),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Collection",
+                                style: AppFontStyle.text_12_400(
+                                  AppColors.darkText,
+                                  family: AppFontFamily.gilroyBold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              Text(
+                                "15 mins",
+                                style: AppFontStyle.text_12_400(
+                                  AppColors.darkText,
+                                  family: AppFontFamily.gilroyRegular,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -724,6 +788,80 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
       ),
     );
   }
+
+  // Widget deliveryAndCollectionsCard() {
+  //   return Center(
+  //     child: Padding(
+  //       padding: REdgeInsets.symmetric(horizontal: 5),
+  //       child: Container(
+  //         height: 54.h,
+  //         decoration: BoxDecoration(color: AppColors.ultraLightPrimary.withOpacity(0.06),borderRadius: BorderRadius.circular(100)),
+  //         child: Padding(
+  //           padding: REdgeInsets.symmetric(horizontal: 5.0,vertical: 5),
+  //           child: Row(
+  //             children: [
+  //               Container(
+  //                 padding: REdgeInsets.only(left: 10,right: 3),
+  //                 height: 50.h,width: 112.w,decoration: BoxDecoration(color: AppColors.primary,borderRadius: BorderRadius.circular(100)),
+  //                 child: Row(
+  //                   crossAxisAlignment: CrossAxisAlignment.center,
+  //                   children: [
+  //                     Padding(
+  //                       padding: REdgeInsets.only(bottom: 3.0),
+  //                       child: SvgPicture.asset(ImageConstants.scooterImage,height: 20,colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),),
+  //                     ),
+  //                     wBox(5.h),
+  //                     Column(
+  //                       mainAxisAlignment: MainAxisAlignment.center,
+  //                       children: [
+  //                         Flexible(
+  //                           child: Text(
+  //                             "Delivery",
+  //                             style: AppFontStyle.text_12_400(AppColors.white, family: AppFontFamily.gilroyBold),
+  //                             overflow: TextOverflow.ellipsis,
+  //                             maxLines: 1,
+  //                           ),
+  //                         ),
+  //                         Flexible(
+  //                           child: Obx(() => Text(
+  //                             controller.rxRequestStatus.value == Status.LOADING
+  //                                 ? "0 - 0 mins"
+  //                                 : "${controller.travelTime.value.round()}-${(controller.travelTime.value.round() + 2)} mins",
+  //                             style: AppFontStyle.text_12_400(AppColors.white, family: AppFontFamily.gilroyRegular),
+  //                             overflow: TextOverflow.ellipsis,
+  //                             maxLines: 1,
+  //                           )),
+  //                         ),
+  //                       ],
+  //
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //               Container(
+  //                 padding: REdgeInsets.only(left: 10),
+  //                 height: 50.h,width: 110.w,decoration: BoxDecoration(borderRadius: BorderRadius.circular(100)),
+  //                 child: Row(
+  //                   children: [
+  //                     SvgPicture.asset(ImageConstants.collections,height: 20,colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),),
+  //                     wBox(5.h),
+  //                     Column(
+  //                       mainAxisAlignment: MainAxisAlignment.center,
+  //                       children: [
+  //                         Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
+  //                         Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
+  //                       ],
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget categoriesList() {
     // final categoryKeys = controller.restaurant_Data.value.categories?.data.keys.toList() ?? [];

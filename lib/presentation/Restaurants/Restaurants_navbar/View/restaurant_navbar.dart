@@ -14,8 +14,7 @@ class RestaurantNavbar extends StatelessWidget {
   //     Get.put(RestaurantWishlistController());
   RxInt cartCount = 0.obs;
 
-  final RestaurantCartController restaurantCartController =
-      Get.put(RestaurantCartController());
+  final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
 
   // final CartController cartController = Get.put(CartController());
 
@@ -39,13 +38,12 @@ class RestaurantNavbar extends StatelessWidget {
                   //   index: navbarController.navbarCurrentIndex,
                   //   children: navbarController.widgets,
                   // ),
-                  // if(MediaQuery.of(context).viewInsets.bottom == 0) ...[
+                  if(MediaQuery.of(context).viewInsets.bottom == 0.0) ...[
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: navbar(navbarController),
                     ),
-                  // ],
-
+                  ],
                 ],
               ),
             ),
@@ -68,7 +66,7 @@ class RestaurantNavbar extends StatelessWidget {
       ImageConstants.cartFilled,
       ImageConstants.profilefilled,
     ];
-    return Container(
+    return   Container(
         height: 70.h,
         width: Get.width,
         decoration: BoxDecoration(
@@ -86,6 +84,8 @@ class RestaurantNavbar extends StatelessWidget {
                 splashColor: Colors.transparent,
                 onTap: () {
                   navbarController.getIndex(index);
+                  // print("MediaQuery.of(context).viewInsets.bottom ${MediaQuery.of(Get.context!).viewInsets.bottom}");
+                  // print("MediaQuery.of(context).viewInsets.bottom ${MediaQuery.of(Get.context!).viewInsets.bottom.runtimeType}");
                 },
                 child: Padding(
                   padding: REdgeInsets.symmetric(horizontal: 12),
@@ -133,7 +133,7 @@ class RestaurantNavbar extends StatelessWidget {
                                                 .value
                                                 .cart
                                                 ?.totalProductsInCart !=
-                                            0
+                                            "0"
                                         ? Container(
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,

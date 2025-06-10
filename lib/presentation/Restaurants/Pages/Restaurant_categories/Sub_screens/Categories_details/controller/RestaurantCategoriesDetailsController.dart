@@ -66,7 +66,7 @@ class RestaurantCategoriesDetailsController extends GetxController {
           [];
     }
   }
-
+//------------------------------------------------------------restaurant_Categories_Details_filter_Api
   restaurant_Categories_Details_filter_Api({
     required String id,
      String? cuisine_type,
@@ -80,10 +80,14 @@ class RestaurantCategoriesDetailsController extends GetxController {
     setRxRequestStatus(Status.LOADING);
     Map data = {
       "category_id": id,
-      "cuisine_type": cuisine_type ?? "",
-      "price_sort": price_sort ?? "",
-      "quick_filter[]": quick_filter ?? "",
-      "price_range": price_range ?? "",
+      if(cuisine_type != null && cuisine_type != '')
+      "cuisine_type": cuisine_type,
+      if(price_sort != null)
+      "price_sort": price_sort,
+      if(quick_filter != null)
+      "quick_filter[]": quick_filter,
+      if(price_range != null)
+      "price_range": price_range,
     };
 
     print("Map data : $data");
@@ -101,6 +105,7 @@ class RestaurantCategoriesDetailsController extends GetxController {
     });
   }
 
+//-----------------------------------------------------------------------------------------------
 
 
   ///refresh

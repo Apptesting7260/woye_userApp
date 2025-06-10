@@ -107,12 +107,12 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           hBox(10.h),
                           Text(
                             "Your cart is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
-                            style:AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
+                            style:AppFontStyle.text_15_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
                           ),
                         ],
                       )
