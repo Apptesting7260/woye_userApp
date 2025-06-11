@@ -141,8 +141,7 @@ class GroceryDetailsController extends GetxController {
     double dLat = lat2Rad - lat1Rad;
     double dLon = lon2Rad - lon1Rad;
 
-    double a = sin(dLat / 2) * sin(dLat / 2) +
-        cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2) * sin(dLon / 2);
+    double a = sin(dLat / 2) * sin(dLat / 2) + cos(lat1Rad) * cos(lat2Rad) * sin(dLon / 2) * sin(dLon / 2);
     double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
     return earthRadius * c;

@@ -21,106 +21,116 @@ class PharmacyCategoryDetails extends StatelessWidget {
     var args = Get.arguments ?? {};
     String categoryTitle = args['name'] ?? "";
     int categoryId = args['id'] ?? 0;
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: Text(
-          categoryTitle,
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) {
+        categoriesFilterController.resetFilters();
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          leadingOnTap: () {
+            categoriesFilterController.resetFilters();
+            Get.back();
+          },
+          title: Text(
+            categoryTitle,
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
         ),
-      ),
-      body: Obx(() {
-        switch (controller.rxRequestStatus.value) {
-          case Status.LOADING:
-            return Center(child: circularProgressIndicator());
-          case Status.ERROR:
-            if (controller.error.value == 'No internet' || controller.error.value == 'InternetExceptionWidget') {
-              return InternetExceptionWidget(
-                onPress: () {
-                  controller.pharmacy_Categories_Details_Api(
-                      id: categoryId.toString());
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet' || controller.error.value == 'InternetExceptionWidget') {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    categoriesFilterController.resetFilters();
+                    controller.pharmacy_Categories_Details_Api(
+                        id: categoryId.toString());
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    categoriesFilterController.resetFilters();
+                    controller.pharmacy_Categories_Details_Api(
+                        id: categoryId.toString());
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return RefreshIndicator(
+                onRefresh: () async {
+                  categoriesFilterController.resetFilters();
+                  controller.pharmacy_Categories_Details_Api(id: categoryId.toString());
                 },
-              );
-            } else {
-              return GeneralExceptionWidget(
-                onPress: () {
-                  controller.pharmacy_Categories_Details_Api(
-                      id: categoryId.toString());
-                },
-              );
-            }
-          case Status.COMPLETED:
-            return RefreshIndicator(
-              onRefresh: () async {
-                categoriesFilterController.resetFilters();
-                controller.pharmacy_Categories_Details_Api(id: categoryId.toString());
-              },
-              child: Padding(
-                padding: REdgeInsets.symmetric(horizontal: 24.h),
-                child: CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      pinned: false,
-                      snap: false,
-                      floating: false,
-                      expandedHeight: 70.h,
-                      surfaceTintColor: Colors.transparent,
-                      backgroundColor: Colors.transparent,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      flexibleSpace: FlexibleSpaceBar(
-                        titlePadding: REdgeInsets.only(bottom: 15),
-                        title: SizedBox(
-                          height: 35.h,
-                          child: (CustomSearchFilter(
-                            controller: controller.searchController,
-                            onChanged: (value) {
-                              if (controller.categoriesDetailsData.value
-                                  .filterProduct!.isEmpty) {
-                                controller.searchDataFun(value);
-                              } else {
-                                controller.filterSearchDataFun(value);
-                              }
-                            },
-                            onFilterTap: () {
-                              Get.toNamed(
-                                AppRoutes.pharmacyCategoryFilter,
-                                arguments: {
-                                  'categoryId': categoryId.toString()
-                                },
-                              );
-                              categoriesFilterController
-                                  .pharmacy_get_CategoriesFilter_Api();
-                            },
-                          )),
+                child: Padding(
+                  padding: REdgeInsets.symmetric(horizontal: 24.h),
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        automaticallyImplyLeading: false,
+                        pinned: false,
+                        snap: false,
+                        floating: false,
+                        expandedHeight: 70.h,
+                        surfaceTintColor: Colors.transparent,
+                        backgroundColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15)),
+                        flexibleSpace: FlexibleSpaceBar(
+                          titlePadding: REdgeInsets.only(bottom: 15),
+                          title: SizedBox(
+                            height: 35.h,
+                            child: (CustomSearchFilter(
+                              controller: controller.searchController,
+                              onChanged: (value) {
+                                if (controller.categoriesDetailsData.value
+                                    .filterProduct!.isEmpty) {
+                                  controller.searchDataFun(value);
+                                } else {
+                                  controller.filterSearchDataFun(value);
+                                }
+                              },
+                              onFilterTap: () {
+                                Get.toNamed(
+                                  AppRoutes.pharmacyCategoryFilter,
+                                  arguments: {
+                                    'categoryId': categoryId.toString()
+                                  },
+                                );
+                                categoriesFilterController
+                                    .pharmacy_get_CategoriesFilter_Api();
+                              },
+                            )),
+                          ),
+                          centerTitle: true,
                         ),
-                        centerTitle: true,
                       ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: hBox(10.h),
-                    ),
-                    if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&controller.categoriesDetailsData.value.categoryProduct!.isEmpty
-                        // ||(controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
-                        // ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
-                    )
+                      SliverToBoxAdapter(
+                        child: hBox(10.h),
+                      ),
+                      if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&controller.categoriesDetailsData.value.categoryProduct!.isEmpty
+                          // ||(controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
+                          // ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
+                      )
                       SliverToBoxAdapter(child: CustomNoDataFound(heightBox: hBox(50.h)),
-                      ),
-                    if (controller
-                        .categoriesDetailsData.value.filterProduct!.isEmpty)
-                      productList(),
-                    if (controller
-                        .categoriesDetailsData.value.filterProduct!.isNotEmpty)
-                      filterProductList(),
-                    SliverToBoxAdapter( //{product_id: 5103, category_id: 87}{product_id: 5100, category_id: 87}
-                      child: hBox(50.h),
-                    )
-                  ],
+                        ),
+                      if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)
+                        productList(),
+                      if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)
+                        filterProductList(),
+                      SliverToBoxAdapter( //{product_id: 5103, category_id: 87}{product_id: 5100, category_id: 87}
+                        child: hBox(50.h),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            );
-        }
-      }),
+              );
+          }
+        }),
+      ),
     );
   }
 
@@ -219,7 +229,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
               var product = controller.filterProductSearchData[index];
               return CustomBanner(
                 image: product.urlImage ?? "",
-                sale_price: product.salePrice ?? "",
+                sale_price: product.salePrice ?? product.regularPrice ?? "",
                 regular_price: product.regularPrice ?? "",
                 title: product.title ?? "",
                 quantity: product.packagingValue ?? "",
@@ -229,7 +239,16 @@ class PharmacyCategoryDetails extends StatelessWidget {
                 is_in_wishlist: product.isInWishlist,
                 isLoading: product.isLoading,
                 categoryName: product.categoryName ?? "",
+                productType: categoriesFilterController.selectedCuisines.join(', '),
+                priceRange:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                    : "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                    : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                quickFilter:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                    : categoriesFilterController.selectedQuickFilters.toString(),
               );
-            }));
+            },
+        ),
+    );
   }
 }

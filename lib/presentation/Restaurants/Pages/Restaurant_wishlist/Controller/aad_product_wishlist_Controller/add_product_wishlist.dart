@@ -58,8 +58,9 @@ class AddProductWishlistController extends GetxController {
         //   restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId);
         // }
         if(categoryId != "") {
-          if ((cuisineType != null && cuisineType != '') || priceSort != null || quickFilter != null || priceRange != null) {
-            restaurantCategoriesDetailsController.restaurant_Categories_Details_filter_Api(
+          // if ((cuisineType != null && cuisineType != '') || priceSort != null || quickFilter != null || quickFilter != [].toString() || priceRange != null) {
+          if((cuisineType?.isNotEmpty ?? false) ||(priceSort?.isNotEmpty ?? false) ||(quickFilter?.isNotEmpty ?? false) ||(priceRange?.isNotEmpty ?? false))
+          {restaurantCategoriesDetailsController.refresh_restaurant_Categories_Details_filter_Api(
               id: categoryId.toString(),
               cuisine_type: cuisineType,
               price_sort: priceSort,
@@ -67,10 +68,14 @@ class AddProductWishlistController extends GetxController {
               price_range: priceRange,
             );
           }else{
-            restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId);
+            restaurantCategoriesDetailsController.refresh_Restaurant_Categories_Details_Api(id: categoryId,);
           }
         }
-        restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId ?? "");
+
+        if(restaurantDetailsController.restaurant_Data.value.restaurant?.id !=  null && restaurantId != ""){
+          restaurantDetailsController.refresh_restaurant_Details_Api(id: restaurantDetailsController.restaurant_Data.value.restaurant?.id.toString() ?? restaurantId ?? "");
+        }
+
         if(restaurantId != null && categoryId != ''){
           seeAllProductController.refresh_seeAll_Product_Api(category_id: categoryId, restaurant_id: restaurantId);
         }

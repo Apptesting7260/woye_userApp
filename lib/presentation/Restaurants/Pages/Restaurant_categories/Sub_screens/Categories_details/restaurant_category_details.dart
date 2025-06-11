@@ -400,6 +400,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                       product.isInWishlist =!product.isInWishlist!;
                                                       product.isLoading.value =true;
                                                       await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                                                        cuisineType: categoriesFilterController.selectedCuisines.join(', '),
+                                                        priceRange:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                            : "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                                                        priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                                                            : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                                                        quickFilter:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                                   : categoriesFilterController.selectedQuickFilters.toString(),
                                                         categoryId: categoryId.toString(),
                                                         product_id: product.id.toString(),
                                                       );

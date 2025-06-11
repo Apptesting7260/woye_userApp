@@ -13,8 +13,7 @@ import '../../../../../../Shared/theme/font_family.dart';
 final PharmaCategoriesFilterController controller =
     Get.put(PharmaCategoriesFilterController());
 
-final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController =
-    Get.put(PharmacyCategoriesDetailsController());
+final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController = Get.put(PharmacyCategoriesDetailsController());
 
 class PharmacyCategoriesFilter extends StatelessWidget {
   const PharmacyCategoriesFilter({super.key});
@@ -222,20 +221,16 @@ class PharmacyCategoriesFilter extends StatelessWidget {
                         onPressed: () {
                           Get.back();
                           controller.priceRadioValue.value = 0;
-                          pharmacyCategoriesDetailsController
-                              .pharmacy_Categories_Details_filter_Api(
+                          pharmacyCategoriesDetailsController.pharmacy_Categories_Details_filter_Api(
                             id: categoryId.toString(),
-                            product_type:
-                                controller.selectedCuisines.join(', '),
+                            product_type:controller.selectedCuisines.join(', '),
                             // price_sort: controller.priceRadioValue.value == 0
                             //     ? ""
                             //     : controller.priceRadioValue.value == 1
                             //         ? "low to high"
                             //         : "high to low",
-                            quick_filter:
-                                controller.selectedQuickFilters.toString(),
-                            price_range:
-                                "${controller.lowerValue.value},${controller.upperValue.value}",
+                            quick_filter:controller.selectedQuickFilters.toString(),
+                            price_range:"${controller.lowerValue.value},${controller.upperValue.value}",
                           );
                         }))
               ],
@@ -352,7 +347,7 @@ class PharmacyCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Cuisines",
+          "Brands",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
@@ -402,11 +397,9 @@ class PharmacyCategoriesFilter extends StatelessWidget {
                               onChanged: (value) {
                                 cuisine.isSelected.value = value!;
                                 if (value) {
-                                  controller.selectedCuisines
-                                      .add(cuisine.id.toString());
+                                  controller.selectedCuisines.add(cuisine.id.toString());
                                 } else {
-                                  controller.selectedCuisines
-                                      .remove(cuisine.id.toString());
+                                  controller.selectedCuisines.remove(cuisine.id.toString());
                                 }
                               },
                               checkboxShape: RoundedRectangleBorder(

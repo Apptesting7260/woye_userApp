@@ -1431,7 +1431,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
                       onTap: () {
-                        // Get.back();
+                        Get.back();
                         restaurantNavbarController.getIndex(3);
                       },
                       child: Row(
@@ -1517,7 +1517,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                // Get.back();
+                                Get.back();
                                 Get.to(()=>RestaurantSingleCartScreen(
                                   cartId: carts?.id.toString() ?? "",
                                   isBack: true,

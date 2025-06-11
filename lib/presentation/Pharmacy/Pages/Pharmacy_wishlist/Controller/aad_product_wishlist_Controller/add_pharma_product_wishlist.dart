@@ -29,6 +29,10 @@ class AddPharmaProductWishlistController extends GetxController {
     required String product_id,
     required String categoryId,
     String? pharmacyId,
+    String? priceSort,
+    var quickFilter,
+    String? priceRange,
+    String? productType,
   }) async {
     setRxRequestStatus(Status.LOADING);
     Map data = {"product_id": product_id};
@@ -45,10 +49,23 @@ class AddPharmaProductWishlistController extends GetxController {
           pharmacyWishlistController.pharmacy_product_wishlist_api();
         }
 
-        if(categoryId != ""){
-          pharmacyCategoriesDetailsController.refresh_pharmacy_Categories_Details_Api(id: categoryId.toString());
-      }
+        // if(categoryId != ""){
+        //   pharmacyCategoriesDetailsController.refresh_pharmacy_Categories_Details_Api(id: categoryId.toString());
+        // }
 
+        if(categoryId != "") {
+          if((productType?.isNotEmpty ?? false) ||(priceSort?.isNotEmpty ?? false) ||(quickFilter?.isNotEmpty ?? false) ||(priceRange?.isNotEmpty ?? false)) {
+            pharmacyCategoriesDetailsController.refresh_pharmacy_Categories_Details_filter_Api(
+              id: categoryId.toString(),
+              price_sort: priceSort,
+              quick_filter: quickFilter,
+              price_range: priceRange,
+              product_type: productType,
+            );
+          }else{
+            pharmacyCategoriesDetailsController.refresh_pharmacy_Categories_Details_Api(id: categoryId.toString());
+          }
+        }
         pharmacyWishlistController.pharmacy_product_wishlist_api();
 
         if((isRefresh == true && pharmacyId != null) || (pharmacyDetailsController.pharma_Data.value.pharmaShop?.id != null)) {

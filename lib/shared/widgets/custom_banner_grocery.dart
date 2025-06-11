@@ -28,6 +28,10 @@ class CustomBannerGrocery extends StatelessWidget {
   final String? bannerId;
   final EdgeInsetsGeometry? padding;
   Rx<bool>? isLoading;
+  final String? quickFilter;
+  final String? priceSort;
+  final String? priceRange;
+  final String? productType;
 
   CustomBannerGrocery({
     super.key,
@@ -48,6 +52,10 @@ class CustomBannerGrocery extends StatelessWidget {
     this.product_id,
     this.bannerId,
     this.isLoading,
+    this.quickFilter,
+    this.priceSort,
+    this.priceRange,
+    this.productType,
   });
 
   final AddGroceryProductWishlist addGroceryProductWishlist = Get.put(AddGroceryProductWishlist());
@@ -81,7 +89,11 @@ class CustomBannerGrocery extends StatelessWidget {
               productId: product_id.toString(),
               categoryId: categoryId.toString(),
               categoryName: categoryName.toString(),
-            ));
+              priceSort: priceSort,
+              priceRange: priceRange,
+              productType: productType,
+            ),
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,19 +140,18 @@ class CustomBannerGrocery extends StatelessWidget {
                     onTap: () async {
                       is_in_wishlist = !is_in_wishlist!;
                       isLoading?.value = true;
-                      await addGroceryProductWishlist
-                          .pharmacy_add_product_wishlist(
+                      await addGroceryProductWishlist.pharmacy_add_product_wishlist(
                         categoryId: categoryId.toString(),
                         product_id: product_id.toString(),
+                        quickFilter:quickFilter ,
+                        priceSort: priceSort,
+                        priceRange:priceRange ,
+                        productType: productType,
                       );
                       isLoading?.value = false;
                     },
-                    child: isLoading!.value
-                        ? circularProgressIndicator(size: 18)
-                        : Icon(
-                            is_in_wishlist! ? favorite : favoriteNot,
-                            size: 22,
-                          ),
+                    child: isLoading!.value ? circularProgressIndicator(size: 18)
+                         : Icon(is_in_wishlist! ? favorite : favoriteNot,size: 22),
                   ),
                 ),
               )

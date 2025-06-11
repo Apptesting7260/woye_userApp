@@ -314,19 +314,15 @@ class GroceryCategoriesFilter extends StatelessWidget {
                         onPressed: () {
                           Get.back();
                           controller.priceRadioValue.value = 0;
-                          grocerycategoriesdetailscontroller
-                              .groceryCategoriesDetailsFilterApi(
+                          grocerycategoriesdetailscontroller.groceryCategoriesDetailsFilterApi(
                             id: categoryId.toString(),
                             product_type: controller.selectedCuisines.join(', '),
-                            // price_sort: controller.priceRadioValue.value == 0
-                            //     ? ""
+                            // price_sort: controller.priceRadioValue.value == 0 ? ""
                             //     : controller.priceRadioValue.value == 1
                             //         ? "low to high"
                             //         : "high to low",
-                            quick_filter:
-                                controller.selectedQuickFilters.toString(),
-                            price_range:
-                                "${controller.lowerValue.value},${controller.upperValue.value}",
+                            quick_filter:controller.selectedQuickFilters.toString(),
+                            price_range:"${controller.lowerValue.value},${controller.upperValue.value}",
                           );
                         }))
               ],
@@ -344,7 +340,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Cuisines",
+          "Brand",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
@@ -384,15 +380,14 @@ class GroceryCategoriesFilter extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              value: cuisine.isSelected.value,
+                              value: controller.selectedCuisines.contains(cuisine.id.toString()),
+                              // value: cuisine.isSelected.value,
                               onChanged: (value) {
                                 cuisine.isSelected.value = value!;
                                 if (value) {
-                                  controller.selectedCuisines
-                                      .add(cuisine.id.toString());
+                                  controller.selectedCuisines.add(cuisine.id.toString());
                                 } else {
-                                  controller.selectedCuisines
-                                      .remove(cuisine.id.toString());
+                                  controller.selectedCuisines.remove(cuisine.id.toString());
                                 }
                               },
                               checkboxShape: RoundedRectangleBorder(

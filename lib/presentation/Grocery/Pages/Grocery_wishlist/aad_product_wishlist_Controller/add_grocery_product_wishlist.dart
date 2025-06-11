@@ -29,6 +29,10 @@ class AddGroceryProductWishlist extends GetxController {
     bool? isWishListScreen,
     required String product_id,
     required String categoryId,
+    String? priceSort,
+    var quickFilter,
+    String? priceRange,
+    String? productType,
   }) async {
     setRxRequestStatus(Status.LOADING);
     Map data = {"product_id": product_id};
@@ -40,8 +44,21 @@ class AddGroceryProductWishlist extends GetxController {
         if (categoryId == "") {
           groceryWishlistController.pharmacy_product_wishlist_api();
         }
-        if(categoryId != ""){
-          grocerycategoriesdetailscontroller.refreshGroceryCategoriesDetailsApi(id: categoryId.toString());
+        // if(categoryId != ""){
+        //   grocerycategoriesdetailscontroller.refreshGroceryCategoriesDetailsApi(id: categoryId.toString());
+        // }
+        if(categoryId != "") {
+          if((productType?.isNotEmpty ?? false) ||(priceSort?.isNotEmpty ?? false) ||(quickFilter?.isNotEmpty ?? false) ||(priceRange?.isNotEmpty ?? false)) {
+            grocerycategoriesdetailscontroller.refreshGroceryCategoriesDetailsFilterApi(
+              id: categoryId.toString(),
+              price_sort: priceSort,
+              quick_filter: quickFilter,
+              price_range: priceRange,
+              product_type: productType,
+            );
+          }else{
+            grocerycategoriesdetailscontroller.refreshGroceryCategoriesDetailsApi(id: categoryId.toString());
+          }
         }
         if((groceryId != null && groceryId != "") || (groceryDetailsController.pharma_Data.value.pharmaShop?.id != null)){
           groceryDetailsController.refresh_restaurant_Details_Api(id:groceryDetailsController.pharma_Data.value.pharmaShop?.id.toString() ?? groceryId.toString());

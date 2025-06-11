@@ -31,6 +31,7 @@ class RestaurantCategoriesDetailsController extends GetxController {
     }
   }
 
+  //-----------------------------------restaurant_Categories_Details_Api-----------------------------
   restaurant_Categories_Details_Api({
     required String id,
   }) async {
@@ -51,62 +52,6 @@ class RestaurantCategoriesDetailsController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
-
-  RxList<CategoryProduct> filterProductSearchData = RxList<CategoryProduct>();
-
-  void filterSearchDataFun(String query) {
-    if (query.isEmpty) {
-      filterProductSearchData.value =
-          categoriesDetailsData.value.filterProduct ?? [];
-    } else {
-      filterProductSearchData.value = categoriesDetailsData.value.filterProduct
-              ?.where((product) =>
-                  product.title!.toLowerCase().contains(query.toLowerCase()))
-              .toList() ??
-          [];
-    }
-  }
-//------------------------------------------------------------restaurant_Categories_Details_filter_Api
-  restaurant_Categories_Details_filter_Api({
-    required String id,
-     String? cuisine_type,
-     String? price_sort,
-     var quick_filter,
-     String? price_range,
-  }) async {
-    searchController.clear();
-    searchData.clear();
-    filterProductSearchData.clear();
-    setRxRequestStatus(Status.LOADING);
-    Map data = {
-      "category_id": id,
-      if(cuisine_type != null && cuisine_type != '')
-      "cuisine_type": cuisine_type,
-      if(price_sort != null)
-      "price_sort": price_sort,
-      if(quick_filter != null)
-      "quick_filter[]": quick_filter,
-      if(price_range != null)
-      "price_range": price_range,
-    };
-
-    print("Map data : $data");
-
-    api.Restaurant_Category_Details_Api(data).then((value) {
-      categories_Set(value);
-      filterSearchDataFun(searchController.text);
-      setRxRequestStatus(Status.COMPLETED);
-    }).onError((error, stackError) {
-      setError(error.toString());
-      print(stackError);
-      print('errrrrrrrrrrrr');
-      print(error);
-      setRxRequestStatus(Status.ERROR);
-    });
-  }
-
-//-----------------------------------------------------------------------------------------------
-
 
   ///refresh
   refresh_Restaurant_Categories_Details_Api({
@@ -129,5 +74,101 @@ class RestaurantCategoriesDetailsController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+  //------------------------------------------------------------------------------------------------------
+
+  RxList<CategoryProduct> filterProductSearchData = RxList<CategoryProduct>();
+
+  void filterSearchDataFun(String query) {
+    if (query.isEmpty) {
+      filterProductSearchData.value =
+          categoriesDetailsData.value.filterProduct ?? [];
+    } else {
+      filterProductSearchData.value = categoriesDetailsData.value.filterProduct
+              ?.where((product) =>
+                  product.title!.toLowerCase().contains(query.toLowerCase()))
+              .toList() ??
+          [];
+    }
+  }
+
+//------------------------------------------------------------restaurant_Categories_Details_filter_Api
+  restaurant_Categories_Details_filter_Api({
+    required String id,
+     String? cuisine_type,
+     String? price_sort,
+     var quick_filter,
+     String? price_range,
+  }) async {
+    searchController.clear();
+    searchData.clear();
+    filterProductSearchData.clear();
+    setRxRequestStatus(Status.LOADING);
+    Map data = {
+      "category_id": id,
+      if(cuisine_type != null && cuisine_type != '')
+      "cuisine_type": cuisine_type,
+      if(price_sort != null)
+      "price_sort": price_sort,
+      if(quick_filter != null && quick_filter != "")
+      "quick_filter[]": quick_filter,
+      if(price_range != null)
+      "price_range": price_range,
+    };
+
+    print("Map data : $data");
+
+    api.Restaurant_Category_Details_Api(data).then((value) {
+      categories_Set(value);
+      filterSearchDataFun(searchController.text);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  refresh_restaurant_Categories_Details_filter_Api({
+    required String id,
+     String? cuisine_type,
+     String? price_sort,
+     var quick_filter,
+     String? price_range,
+  }) async {
+    searchController.clear();
+    searchData.clear();
+    // filterProductSearchData.clear();
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {
+      "category_id": id,
+      if(cuisine_type != null && cuisine_type != '')
+      "cuisine_type": cuisine_type,
+      if(price_sort != null && price_sort != "")
+      "price_sort": price_sort,
+      if (quick_filter != null && quick_filter.isNotEmpty && (price_sort == null || price_sort.isEmpty))
+      "quick_filter[]": quick_filter,
+      if(price_range != null&& price_sort == "")
+      "price_range": price_range,
+    };
+
+    print("Map data : $data");
+
+    api.Restaurant_Category_Details_Api(data).then((value) {
+      categories_Set(value);
+      filterSearchDataFun(searchController.text);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+//-----------------------------------------------------------------------------------------------
 
 }

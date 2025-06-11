@@ -99,13 +99,64 @@ pharmacy_Categories_Details_filter_Api({
   searchData.clear();
   filterProductSearchData.clear();
   setRxRequestStatus(Status.LOADING);
+  // Map data = {
+  //   "category_id": id,
+  //   "brand_type": product_type ?? "",
+  //   "price_sort": price_sort ?? "",
+  //   "sort_by": quick_filter ?? "",
+  //   "price_range": price_range ?? "",
+  // };
   Map data = {
     "category_id": id,
-    "brand_type": product_type ?? "",
-    "price_sort": price_sort ?? "",
-    "sort_by": quick_filter ?? "",
-    "price_range": price_range ?? "",
+    if(product_type != null && product_type != '')
+      "cuisine_type": product_type,
+    if(price_sort != null)
+      "price_sort": price_sort,
+    if(quick_filter != null && quick_filter != "")
+      "sort_by": quick_filter,
+    if(price_range != null)
+      "price_range": price_range,
   };
+  print("Map data: $data");
+  api.pharmacyCategoriesDetailsApi(data).then((value) {
+    categories_Set(value);
+    filterSearchDataFun(searchController.text);
+    setRxRequestStatus(Status.COMPLETED);
+  }).onError((error, stackError) {
+    setError(error.toString());
+    print(stackError);
+    print('errrrrrrrrrrrr');
+    print(error);
+    setRxRequestStatus(Status.ERROR);
+  });
+}
+
+refresh_pharmacy_Categories_Details_filter_Api({
+   String? id,
+   String? product_type,
+   String? price_sort,
+   var quick_filter,
+   String? price_range,
+}) async {
+  searchController.clear();
+  searchData.clear();
+  // filterProductSearchData.clear();
+  // setRxRequestStatus(Status.LOADING);
+  Map data = {
+    "category_id": id,
+    if(product_type != null && product_type != '')
+    "brand_type": product_type,
+
+    if(price_sort != null && price_sort != "")
+    "price_sort": price_sort,
+
+    if (quick_filter != null && quick_filter.isNotEmpty && (price_sort == null || price_sort.isEmpty) && quick_filter != [])
+    "sort_by": quick_filter ?? "",
+
+    if(price_range != null&& price_sort == "")
+    "price_range": price_range,
+  };
+
   print("Map data: $data");
   api.pharmacyCategoriesDetailsApi(data).then((value) {
     categories_Set(value);

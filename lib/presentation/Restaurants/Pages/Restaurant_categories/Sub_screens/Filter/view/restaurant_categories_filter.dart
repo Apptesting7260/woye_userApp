@@ -219,6 +219,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                         onPressed: () {
                           Get.back();
                           controller.priceRadioValue.value = 0;
+                          final selectedQuickFilter = controller.selectedQuickFilters.toString();
                           restaurantCategoriesDetailsController.restaurant_Categories_Details_filter_Api(
                             id: categoryId.toString(),
                             cuisine_type: controller.selectedCuisines.join(', '),
@@ -227,7 +228,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                             //     : controller.priceRadioValue.value == 1
                             //         ? "low to high"
                             //         : "high to low",
-                            quick_filter: controller.selectedQuickFilters.toString(),
+                            quick_filter:selectedQuickFilter != [].toString() ? selectedQuickFilter : "" ,
                             price_range:"${controller.lowerValue.value},${controller.upperValue.value}",
                           );
                         }))

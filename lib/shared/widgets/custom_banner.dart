@@ -26,6 +26,10 @@ class CustomBanner extends StatelessWidget {
   final String? categoryId;
   final String? categoryName;
   final String? product_id;
+  final String? quickFilter;
+  final String? priceSort;
+  final String? priceRange;
+  final String? productType;
   final EdgeInsetsGeometry? padding;
   Rx<bool>? isLoading;
 
@@ -47,6 +51,10 @@ class CustomBanner extends StatelessWidget {
     this.categoryName,
     this.product_id,
     this.isLoading,
+    this.quickFilter,
+    this.priceSort,
+    this.priceRange,
+    this.productType,
   });
 
   final AddPharmaProductWishlistController addPharmaProductWishlistController =
@@ -77,9 +85,13 @@ class CustomBanner extends StatelessWidget {
         Get.to(() => PharmacyProductDetailsScreen(
           productId: product_id.toString(),
           categoryId: categoryId.toString(),
-          categoryName: categoryName.toString(),));
-
-
+          categoryName: categoryName.toString(),
+          productType: productType,
+          priceRange:priceRange,
+          priceSort:priceSort,
+          quickFilter:quickFilter,
+        ),
+        );
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -137,6 +149,10 @@ class CustomBanner extends StatelessWidget {
                         isRefresh: false,
                         categoryId: categoryId.toString(),
                         product_id: product_id.toString(),
+                        quickFilter:quickFilter ,
+                        priceSort: priceSort,
+                        priceRange:priceRange ,
+                        productType: productType,
                       );
                       isLoading?.value = false;
                     },

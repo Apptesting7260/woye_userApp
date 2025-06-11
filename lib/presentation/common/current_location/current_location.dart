@@ -99,8 +99,7 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> _getAddressFromLatLng(Position position, bool back) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       String houseNumber = place.subThoroughfare ?? '';
@@ -109,8 +108,7 @@ class CurrentLocationController extends GetxController {
       String locality = place.locality ?? '';
       String subAdministrativeArea = place.subAdministrativeArea ?? '';
       String postalCode = place.postalCode ?? '';
-      // currentAddress.value =
-      //     '$houseNumber $street, $subLocality, $locality, $subAdministrativeArea, $postalCode';
+      // currentAddress.value = '$houseNumber $street, $subLocality, $locality, $subAdministrativeArea, $postalCode';
       // Create a list of address components
       List<String> addressComponents = [];
 

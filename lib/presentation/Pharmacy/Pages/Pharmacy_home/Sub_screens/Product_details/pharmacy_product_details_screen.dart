@@ -24,6 +24,10 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   final String productId;
   final String categoryId;
   final String categoryName;
+  final String? productType;
+  final String? priceRange;
+  final String? priceSort;
+  var quickFilter;
   bool? fromCart;
   // final String pharmacyId;
 
@@ -33,6 +37,10 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     required this.categoryId,
     required this.categoryName,
     this.fromCart,
+    this.productType,
+    this.priceRange,
+    this.priceSort,
+    this.quickFilter,
     // required this.pharmacyId,
   });
 
@@ -129,6 +137,10 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                   isRefresh:fromCart != null && fromCart == true ? true : false,
                   categoryId: categoryId,
                   product_id:  controller.productData.value.product?.id.toString() ?? productId.toString(),
+                  productType: productType,
+                  priceRange:priceRange,
+                  priceSort: priceSort,
+                  quickFilter:quickFilter,
                 );
                   //   .then(
                   // (value) {

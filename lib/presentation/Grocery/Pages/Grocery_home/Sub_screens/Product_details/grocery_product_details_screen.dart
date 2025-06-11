@@ -29,6 +29,10 @@ class GroceryProductDetailsScreen extends StatelessWidget {
   final String? bannerId;
   bool? isWishList;
   bool? fromCart;
+  final String? productType;
+  final String? priceRange;
+  final String? priceSort;
+  var quickFilter;
 
   GroceryProductDetailsScreen({
     super.key,
@@ -38,6 +42,10 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     this.bannerId,
     this.isWishList,
     this.fromCart,
+    this.productType,
+    this.priceRange,
+    this.priceSort,
+
   });
 
   final GrocerySpecificProductController controller = Get.put(GrocerySpecificProductController());
@@ -127,6 +135,10 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                   groceryId:controller.productData.value.product?.userId.toString() ?? "",
                   categoryId: categoryId ?? "",
                   product_id:  controller.productData.value.product?.id.toString() ?? productId.toString(),
+                  productType: productType,
+                  priceRange: priceRange,
+                  priceSort: priceSort,
+                  quickFilter: quickFilter,
                 ).then((value) {
                   if(bannerId != null || bannerId != ""){
                     bannerDetailsController.refreshBannerDataApi(bannerId: bannerId.toString());

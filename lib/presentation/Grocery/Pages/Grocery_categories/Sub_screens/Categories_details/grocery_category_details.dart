@@ -204,7 +204,8 @@ class GroceryCategoryDetails extends StatelessWidget {
 
   SliverToBoxAdapter filterProductList() {
     return SliverToBoxAdapter(
-        child: GridView.builder(
+        child:controller.categoriesDetailsData.value.filterProduct!.isEmpty
+            ? const CustomNoDataFound() : GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: controller.filterProductSearchData.length,
@@ -232,6 +233,13 @@ class GroceryCategoryDetails extends StatelessWidget {
                 is_in_wishlist: product.isInWishlist,
                 isLoading: product.isLoading,
                 categoryName: product.categoryName.toString(),
+                productType: categoriesFilterController.selectedCuisines.join(', '),
+                priceRange:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                    : "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                    : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                quickFilter:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                    : categoriesFilterController.selectedQuickFilters.toString(),
               );
             }));
   }
