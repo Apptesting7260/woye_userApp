@@ -448,7 +448,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
     // RxInt cartCount = 1.obs;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        categoryName,
+        product?.category?.name ?? categoryName,
         style: AppFontStyle.text_16_400(AppColors.primary,
             family: AppFontFamily.gilroyMedium),
       ),

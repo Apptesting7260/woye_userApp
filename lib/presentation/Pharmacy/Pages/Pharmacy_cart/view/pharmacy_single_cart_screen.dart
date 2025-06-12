@@ -1195,6 +1195,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         Get.toNamed(AppRoutes.addAddressScreen, arguments: {
                           'type': "PharmacyCart",
                           "fromcart": false,
+                          'cartId': controller.cartData.value.cart?.id.toString(),
                         });
                       },
                       text: "Complete Address",

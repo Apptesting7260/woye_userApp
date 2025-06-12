@@ -390,13 +390,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           order.decodedAttribute![0].productName
                                               .toString(),
                                           style: AppFontStyle.text_14_600(
-                                              AppColors.darkText),
+                                              AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                         ),
                                         hBox(10),
                                         Text(
                                           "Qty:${order.decodedAttribute![0].quantity.toString()}",
                                           style: AppFontStyle.text_12_400(
-                                              AppColors.darkText),
+                                              AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                         ),
                                       ],
                                     ),
@@ -529,13 +529,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       order.decodedAttribute![0].productName
                                           .toString(),
                                       style: AppFontStyle.text_14_600(
-                                          AppColors.darkText),
+                                          AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                     ),
                                     hBox(10),
                                     Text(
                                       "Qty:${order.decodedAttribute![0].quantity.toString()}",
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.darkText),
+                                          AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                     ),
                                   ],
                                 ),
@@ -663,13 +663,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       order.decodedAttribute![0].productName
                                           .toString(),
                                       style: AppFontStyle.text_14_600(
-                                          AppColors.darkText),
+                                          AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                     ),
                                     hBox(10.h),
                                     Text(
                                       "Qty:${order.decodedAttribute![0].quantity.toString()}",
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.darkText),
+                                          AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                     ),
                                   ],
                                 ),

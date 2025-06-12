@@ -15,6 +15,14 @@ class EditAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments ?? {};
+    String type = arguments['type'] ?? "";
+    bool fromCart = arguments['fromcart'] ?? "";
+    String? cartId = arguments['cartId'] ?? "";
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $type");
+    print("fromCart >>>>>>>>>>>>>>>>>>>>>>>> $fromCart");
+    print("cartId >>>>>>>>>>>>>>>>>>>>>>>> $cartId");
+
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -254,7 +262,6 @@ class EditAddressScreen extends StatelessWidget {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             controller.editAddressApi();
-            pt("object");
           }
         },
         isLoading: controller.rxRequestStatus.value == Status.LOADING,

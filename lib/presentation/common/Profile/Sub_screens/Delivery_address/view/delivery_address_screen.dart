@@ -27,6 +27,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    controller.selectedAddressIndex.value = 0;
     controller.getDeliveryAddressApi();
   }
 
@@ -45,6 +46,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     //     controller.refreshDeliveryAddressApi();
     //   }
     // },);
+
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -76,6 +78,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           case Status.COMPLETED:
             return RefreshIndicator(
               onRefresh: () async {
+                controller.selectedAddressIndex.value = 0;
                 controller.refreshDeliveryAddressApi();
               },
               child: SingleChildScrollView(
@@ -85,7 +88,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                   () => Column(
                     children: [
                       if (controller.deliveryAddressData.value.data!.isNotEmpty)
-                        addressList(controller.deliveryAddressData.value.data ?? <Data>[],type: type),
+                        addressList(controller.deliveryAddressData.value.data ?? <Data>[],cartId,fromcart,type: type),
                       hBox(30.h),
                       addAddress(type, fromcart, cartId, cartScreenType),
                       if (type != "Profile") changeAddressButton(),
@@ -100,7 +103,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     );
   }
 
-  Widget addressList(List<Data> dataList,{String? type}) {
+  Widget addressList(List<Data> dataList,cartId,fromcart,{String? type}) {
     return Obx(
       () {
         return ListView.separated(
@@ -187,7 +190,15 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                                 InkWell(
                                     onTap: () {
                                       editController.setAddressData(index);
-                                      Get.toNamed(AppRoutes.editAddressScreen);
+                                      Get.toNamed(AppRoutes.editAddressScreen,
+                                      arguments: {
+                                        'type': type,
+                                        "fromcart": fromcart,
+                                        'cartId': cartId,
+                                      });
+                                      print("object111 fromcart>>>>>>>>>>>>>>>>>>  $fromcart");
+                                      print("object111type >>>>>>>>>>>>>>>>>>  $type");
+                                      print("object111cartId >>>>>>>>>>>>>>>>>>  $cartId");
                                     },
                                     child: SvgPicture.asset(
                                         "assets/svg/edit.svg")),
@@ -253,7 +264,8 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
           border: Border.all(color: AppColors.primary)),
       child: ListTile(
         onTap: () {
-          Get.toNamed(AppRoutes.addAddressScreen, arguments: {
+          Get.toNamed(AppRoutes.addAddressScreen,
+          arguments: {
             'type': type,
             "fromcart": fromcart,
             'cartId': cartId,

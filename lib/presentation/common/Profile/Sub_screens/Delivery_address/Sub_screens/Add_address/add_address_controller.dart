@@ -176,7 +176,7 @@ class AddAddressController extends GetxController {
     bool fromcart = arguments['fromcart'];
     print("cart--------------------------------$type");
     print("fromcart--------------------------------$fromcart");
-    print("fromcart--------------------------------$cartId");
+    print("cartId--------------------------------$cartId");
     setRxRequestStatus(Status.LOADING);
     var body = {
       'full_name': nameController.value.text,
@@ -195,23 +195,27 @@ class AddAddressController extends GetxController {
     api.addAddressApi(body).then((value) {
       setData(value);
       if (addAddress.value.status == true) {
-        if (location.value.isEmpty) {
-          print("object1111111");
-          deliveryAddressController.getDeliveryAddressApi().then((value) {
-            location.value = locationController.text;
-            storage.write('location', location.value);
-            Utils.showToast(addAddress.value.message.toString());
-            setRxRequestStatus(Status.COMPLETED);
-            Get.offAllNamed(AppRoutes.restaurantNavbar);
-            nameController.value.clear();
-            mobNoController.value.clear();
-            houseNoController.value.clear();
-            deliveryInstructionController.value.clear();
-            locationController.clear();
-            radioValue.value = 0;
-            return;
-          });
-        } else {
+        // if (location.value.isEmpty) {
+        //   print("object1111111");
+        //   deliveryAddressController.getDeliveryAddressApi().then((value) {
+        //     location.value = locationController.text;
+        //     storage.write('location', location.value);
+        //     Utils.showToast(addAddress.value.message.toString());
+        //     setRxRequestStatus(Status.COMPLETED);
+        //     if (fromcart == true) {
+        //       Get.back();
+        //     }
+        //     Get.back();
+        //     // Get.offAllNamed(AppRoutes.restaurantNavbar);
+        //     nameController.value.clear();
+        //     mobNoController.value.clear();
+        //     houseNoController.value.clear();
+        //     deliveryInstructionController.value.clear();
+        //     locationController.clear();
+        //     radioValue.value = 0;
+        //     return;
+        //   });
+        // } else {
           if (type == "RestaurantCart") {
             print("object22222222");
             if (cartId?.isEmpty ?? true) {
@@ -250,23 +254,8 @@ class AddAddressController extends GetxController {
           }
           else if (type == "PharmacyCart") {
             print("object333333");
-            pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
-              Utils.showToast(addAddress.value.message.toString());
-              setRxRequestStatus(Status.COMPLETED);
-              if(fromcart == true){
-                Get.back();
-              }
-              Get.back();
-              nameController.value.clear();
-              mobNoController.value.clear();
-              houseNoController.value.clear();
-              deliveryInstructionController.value.clear();
-              locationController.clear();
-              radioValue.value = 0;
-              return;
-            });
-            if(cartId?.isNotEmpty ?? true){
-              pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) {
+            if(cartId?.isEmpty ?? true){
+              pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
                 Utils.showToast(addAddress.value.message.toString());
                 setRxRequestStatus(Status.COMPLETED);
                 if(fromcart == true){
@@ -281,7 +270,23 @@ class AddAddressController extends GetxController {
                 radioValue.value = 0;
                 return;
               });
-            }
+            }else if(cartId?.isNotEmpty ?? true){
+                pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) {
+                  Utils.showToast(addAddress.value.message.toString());
+                  setRxRequestStatus(Status.COMPLETED);
+                  if(fromcart == true){
+                    Get.back();
+                  }
+                  Get.back();
+                  nameController.value.clear();
+                  mobNoController.value.clear();
+                  houseNoController.value.clear();
+                  deliveryInstructionController.value.clear();
+                  locationController.clear();
+                  radioValue.value = 0;
+                  return;
+                });
+              }
           }
           else if (type == "GroceryCart") {
             print("object333333");
@@ -337,7 +342,7 @@ class AddAddressController extends GetxController {
               return;
             });
           }
-        }
+        // }
       } else {
         Utils.showToast(addAddress.value.message.toString());
       }

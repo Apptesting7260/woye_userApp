@@ -541,4 +541,92 @@ class EditAdressController extends GetxController {
     'ZM': 9, // Zambia
     'ZW': 9,
   };
+
+
+  // editAddressApi({String? type,String? cartId,bool? fromCart}) async {
+  //   setRxRequestStatus(Status.LOADING);
+  //   var body = {
+  //     'address_id': addressId,
+  //     'full_name': nameController.value.text,
+  //     'country_code': selectedCountryCode.value.toString(),
+  //     'phone_number': mobNoController.value.text,
+  //     'house_details': houseNoController.value.text,
+  //     'address': locationController.text,
+  //     'address_type': addressType.value,
+  //     'latitude': latitude.value.toString(),
+  //     'longitude': longitude.value.toString(),
+  //     'delivery_instruction': deliveryInstructionController.value.text,
+  //     'is_default': defaultSet.value == true ? "1" : "0",
+  //   };
+  //   print("default Set value ${defaultSet.value}");
+  //   api.editAddressApi(body).then((value) {
+  //     setData(value);
+  //     deliveryAddressController.getDeliveryAddressApi();
+  //     if (editAddress.value.status == true) {
+  //       deliveryAddressController.getDeliveryAddressApi().then((value) {
+  //         Utils.showToast(editAddress.value.message.toString());
+  //
+  //         nameController.value.clear();
+  //         mobNoController.value.clear();
+  //         houseNoController.value.clear();
+  //         deliveryInstructionController.value.clear();
+  //         locationController.clear();
+  //         if(type =='PharmacyCart'){
+  //           (cartId?.isNotEmpty ?? true)?
+  //           pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) {
+  //             setRxRequestStatus(Status.COMPLETED);
+  //             if(fromCart == true && defaultSet.value) {
+  //               Get.back();
+  //             }
+  //             Get.back();
+  //           })
+  //               : pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
+  //             if(fromCart == true && defaultSet.value) {
+  //               Get.back();
+  //             }
+  //             Get.back();
+  //           });
+  //         }
+  //         else if(type =='RestaurantCart'){
+  //           (cartId?.isNotEmpty ?? true) ?
+  //           restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
+  //             if(fromCart == true && defaultSet.value) {
+  //               Get.back();
+  //             }
+  //             Get.back();
+  //           }): restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+  //             if(fromCart == true && defaultSet.value) {
+  //               Get.back();
+  //             }
+  //             Get.back();
+  //           });
+  //         }
+  //         else if(type == "GroceryCart"){
+  //           (cartId?.isNotEmpty ?? true) ?
+  //           singleGroceryCartController.getGrocerySingleVendorCartApi(cartId).then((value) {
+  //             if(fromCart == true && defaultSet.value) {
+  //               Get.back();
+  //             }
+  //             Get.back();
+  //           }):
+  //           groceryCartController.getGroceryAllCartApi().then((value) {
+  //             if(fromCart == true && defaultSet.value) {
+  //               Get.back();
+  //             }
+  //             Get.back();
+  //           });
+  //         }
+  //         return;
+  //       });
+  //     } else {
+  //       Utils.showToast(editAddress.value.message.toString());
+  //     }
+  //   }).onError((error, stackError) {
+  //     print("Error: $error");
+  //     setError(error.toString());
+  //     print(stackError);
+  //     setRxRequestStatus(Status.ERROR);
+  //   });
+  // }
+
 }

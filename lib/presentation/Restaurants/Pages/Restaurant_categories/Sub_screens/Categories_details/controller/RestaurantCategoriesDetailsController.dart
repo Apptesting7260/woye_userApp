@@ -138,19 +138,22 @@ class RestaurantCategoriesDetailsController extends GetxController {
      var quick_filter,
      String? price_range,
   }) async {
-    searchController.clear();
-    searchData.clear();
+    // searchController.clear();
+    // searchData.clear();
     // filterProductSearchData.clear();
     // setRxRequestStatus(Status.LOADING);
+
+    print("objectafdssssss ${quick_filter.runtimeType}");
+
     Map data = {
       "category_id": id,
       if(cuisine_type != null && cuisine_type != '')
       "cuisine_type": cuisine_type,
       if(price_sort != null && price_sort != "")
       "price_sort": price_sort,
-      if (quick_filter != null && quick_filter.isNotEmpty && (price_sort == null || price_sort.isEmpty))
+      if (quick_filter != null && quick_filter.isNotEmpty && quick_filter != [].toString() && (price_sort == null || price_sort.isEmpty))
       "quick_filter[]": quick_filter,
-      if(price_range != null&& price_sort == "")
+      if(price_range != null && price_sort == "")
       "price_range": price_range,
     };
 

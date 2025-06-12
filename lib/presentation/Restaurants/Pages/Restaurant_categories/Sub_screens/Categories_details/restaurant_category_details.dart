@@ -118,11 +118,18 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&controller.categoriesDetailsData.value.categoryProduct!.isEmpty
                               // ||(controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
                               // ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
-                          )
+                          )...[
                             SliverToBoxAdapter(
                               child:CustomNoDataFound(heightBox: hBox(50.h))
                             ),
-                          if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)
+                          ],
+                          if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)...[
+                            if (controller.searchController.text.isNotEmpty && controller.searchData.isEmpty)...[
+                            const SliverToBoxAdapter(
+                            child: CustomNoDataFound(),
+                            ),
+                            ]
+                            else...[
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     childCount: controller.searchData.length,
@@ -153,9 +160,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               Container(
                                                 clipBehavior: Clip.antiAlias,
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          20.r),
+                                                  borderRadius:BorderRadius.circular(20.r),
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
@@ -325,22 +330,23 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   // crossAxisSpacing: 16.w,
                                   // mainAxisSpacing: 5.h,
                                 ))),
-                          if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)
+                            ],
+                          ],
+                          if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)...[
+                          if (controller.searchController.text.isNotEmpty && controller.filterProductSearchData.isEmpty)...[
+                            const SliverToBoxAdapter(
+                              child: CustomNoDataFound(),
+                            ),
+                          ] else...[
                             SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
-                                    childCount: controller
-                                        .filterProductSearchData
-                                        .length, (context, index) {
-                                  var product =
-                                      controller.filterProductSearchData[index];
+                                 childCount: controller.filterProductSearchData.length, (context, index) {
+                                  var product =controller.filterProductSearchData[index];
                                   return GestureDetector(
                                       onTap: () {
-                                        specific_product_controllerontroller
-                                            .specific_Product_Api(
-                                                productId:
-                                                    product.id.toString(),
-                                                categoryId:
-                                                    categoryId.toString());
+                                        specific_product_controllerontroller.specific_Product_Api(
+                                                productId:product.id.toString(),
+                                                categoryId:categoryId.toString());
                                         Get.to(ProductDetailsScreen(
                                           cuisineType: categoriesFilterController.selectedCuisines.join(', '),
                                           priceRange: "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
@@ -490,8 +496,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                       ));
                                   //  categoryItem(index);
                                 }),
-                                gridDelegate:
-                                    (SliverGridDelegateWithFixedCrossAxisCount(
+                                gridDelegate:(SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   childAspectRatio: 0.6.w,
                                   crossAxisSpacing: 14.w,
@@ -501,12 +506,15 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   // crossAxisSpacing: 16.w,
                                   // mainAxisSpacing: 5.h,
                                 ))),
+                            ],
+                          ],
                           SliverToBoxAdapter(
-                            child: hBox(0.h),
-                          )
+                            child: hBox(10.h),
+                          ),
                         ],
                       ),
-                    ));
+                    ),
+                );
             }
           },
          ),

@@ -73,6 +73,7 @@ class Product {
   String? pharmaImage;
   List<String>? urlAddimg;
   String? urlImage;
+  Category? category;
 
   Product(
       {this.id,
@@ -109,7 +110,9 @@ class Product {
       this.pharmaName,
       this.pharmaImage,
       this.urlAddimg,
-      this.urlImage});
+      this.urlImage,
+      this.category,
+      });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -152,6 +155,9 @@ class Product {
     pharmaImage = json['pharma_image'];
     urlAddimg = json['url_addimg'].cast<String>();
     urlImage = json['url_image'];
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -193,6 +199,30 @@ class Product {
     data['pharma_image'] = this.pharmaImage;
     data['url_addimg'] = this.urlAddimg;
     data['url_image'] = this.urlImage;
+    if (category != null) {
+      data['category'] = category!.toJson();
+    }
+    return data;
+  }
+}
+class Category {
+  int? id;
+  String? name;
+  String? imageUrl;
+
+  Category({this.id, this.name, this.imageUrl});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    imageUrl = json['image_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image_url'] = imageUrl;
     return data;
   }
 }

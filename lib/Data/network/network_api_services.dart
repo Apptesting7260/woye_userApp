@@ -10,6 +10,8 @@ import '../components/RequestTimeOut.dart';
 import 'base_api_services.dart';
 
 class NetworkApiServices extends BaseApiServices {
+
+  @override
   Future<dynamic> getApiWithoutToken(String url) async {
     if (kDebugMode) {
       print(url);
@@ -62,7 +64,7 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
-
+  @override
   Future<dynamic> getWithParams(String baseUrl, String token, {Map<String, dynamic>? params}) async {
     pt("token@calling : $token");
     pt("Base URL@calling : $baseUrl");
@@ -132,6 +134,7 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+  @override
   Future<dynamic> postApi2(var data, String url, String token) async {
     if (kDebugMode) {
       print(url);

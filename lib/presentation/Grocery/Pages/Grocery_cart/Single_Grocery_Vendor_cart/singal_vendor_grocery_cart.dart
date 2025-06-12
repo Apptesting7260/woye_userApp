@@ -41,10 +41,9 @@ class SingleVendorGroceryCart extends StatefulWidget {
 }
 
 class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
-  final SingleGroceryCartController controller =
-      Get.put(SingleGroceryCartController());
-  final GrocerySpecificProductController grocerySpecificProductController =
-      Get.put(GrocerySpecificProductController());
+  final SingleGroceryCartController controller = Get.put(SingleGroceryCartController());
+  final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
+
   @override
   void initState() {
     controller.getGrocerySingleVendorCartApi(widget.cartId);
@@ -60,13 +59,10 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
 
   final ScrollController _scrollController = ScrollController();
 
-  final DeleteGroceryProductController deleteProductController =
-      Get.put(DeleteGroceryProductController());
+  final DeleteGroceryProductController deleteProductController = Get.put(DeleteGroceryProductController());
 
-  final GroceryQuantityController quantityUpdateController =
-      Get.put(GroceryQuantityController());
-  final GroceryCheckUnCheckController groceryCheckUnCheckController =
-      Get.put(GroceryCheckUnCheckController());
+  final GroceryQuantityController quantityUpdateController = Get.put(GroceryQuantityController());
+  final GroceryCheckUnCheckController groceryCheckUnCheckController = Get.put(GroceryCheckUnCheckController());
 
   @override
   Widget build(BuildContext context) {
@@ -1129,7 +1125,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                     child: CustomElevatedButton(
                       onPressed: () {
                         Get.toNamed(AppRoutes.addAddressScreen, arguments: {
-                          'type': "PharmacyCart",
+                          'type': "GroceryCart",
                           "fromcart": false,
                         });
                       },

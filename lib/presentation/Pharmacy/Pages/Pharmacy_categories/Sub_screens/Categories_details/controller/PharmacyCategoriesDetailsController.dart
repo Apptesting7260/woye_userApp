@@ -138,8 +138,8 @@ refresh_pharmacy_Categories_Details_filter_Api({
    var quick_filter,
    String? price_range,
 }) async {
-  searchController.clear();
-  searchData.clear();
+  // searchController.clear();
+  // searchData.clear();
   // filterProductSearchData.clear();
   // setRxRequestStatus(Status.LOADING);
   Map data = {

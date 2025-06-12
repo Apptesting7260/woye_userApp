@@ -23,15 +23,15 @@ class GrocerySpecificProductsModal {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.product != null) {
-      data['product'] = this.product!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    if (product != null) {
+      data['product'] = product!.toJson();
     }
-    if (this.moreProducts != null) {
-      data['moreProducts'] = this.moreProducts!.map((v) => v.toJson()).toList();
+    if (moreProducts != null) {
+      data['moreProducts'] = moreProducts!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -53,6 +53,7 @@ class Product {
   String? description;
   String? image;
   String? addimg;
+    Category? category;
 
   List<Variant>? variant;
   int? prescription;
@@ -117,7 +118,9 @@ class Product {
         this.urlImage,
         this.unit,
         this.shelfLifeType, // Add to constructor
-        this.shelfLifeValue}); // Add to constructor
+        this.shelfLifeValue,
+        this.category,
+      }); // Add to constructor
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -167,60 +170,87 @@ class Product {
     // Parse new fields
     shelfLifeType = json['shelf_life_type']; // Add parsing for shelf_life_type
     shelfLifeValue = json['shelf_life_value']; // Add parsing for shelf_life_value
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : null;
+    unit = json['unit'] != null ? new Unit.fromJson(json['unit']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['slug'] = this.slug;
-    data['user_id'] = this.userId;
-    data['category_id'] = this.categoryId;
-    data['consume_id'] = this.consumeId;
-    data['expire'] = this.expire;
-    data['regular_price'] = this.regularPrice;
-    data['sale_price'] = this.salePrice;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['quan_in_stock'] = this.quanInStock;
-    data['packaging_id'] = this.packagingId;
-    data['unit_value'] = this.packagingValue;
-    data['description'] = this.description;
-    data['image'] = this.image;
-    data['addimg'] = this.addimg;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['slug'] = slug;
+    data['user_id'] = userId;
+    data['category_id'] = categoryId;
+    data['consume_id'] = consumeId;
+    data['expire'] = expire;
+    data['regular_price'] = regularPrice;
+    data['sale_price'] = salePrice;
+    data['is_in_wishlist'] = isInWishlist;
+    data['quan_in_stock'] = quanInStock;
+    data['packaging_id'] = packagingId;
+    data['unit_value'] = packagingValue;
+    data['description'] = description;
+    data['image'] = image;
+    data['addimg'] = addimg;
     if (variant != null) {
       data['variant'] = variant!.map((v) => v.toJson()).toList();
     }
-    data['prescription'] = this.prescription;
-    data['use'] = this.use;
-    data['missed_dose'] = this.missedDose;
-    data['overdose'] = this.overdose;
-    data['interactions'] = this.interactions;
-    data['side_effect'] = this.sideEffect;
-    data['advice'] = this.advice;
-    data['not_use'] = this.notUse;
-    data['warnings'] = this.warnings;
-    data['other_details'] = this.otherDetails;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['grocery_name'] = this.pharmaName;
-    data['grocery_image'] = this.pharmaImage;
-    data['url_addimg'] = this.urlAddimg;
-    data['url_image'] = this.urlImage;
+    data['prescription'] = prescription;
+    data['use'] = use;
+    data['missed_dose'] = missedDose;
+    data['overdose'] = overdose;
+    data['interactions'] = interactions;
+    data['side_effect'] = sideEffect;
+    data['advice'] = advice;
+    data['not_use'] = notUse;
+    data['warnings'] = warnings;
+    data['other_details'] = otherDetails;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['grocery_name'] = pharmaName;
+    data['grocery_image'] = pharmaImage;
+    data['url_addimg'] = urlAddimg;
+    data['url_image'] = urlImage;
 
     if (unit != null) {
       data['unit'] = unit!.toJson();
     }
 
     // Add new fields to JSON
-    data['shelf_life_type'] = this.shelfLifeType; // Add shelf_life_type to JSON
-    data['shelf_life_value'] = this.shelfLifeValue; // Add shelf_life_value to JSON
-
+    data['shelf_life_type'] = shelfLifeType; // Add shelf_life_type to JSON
+    data['shelf_life_value'] = shelfLifeValue; // Add shelf_life_value to JSON
+    if (category != null) {
+      data['category'] = category!.toJson();
+    }
     return data;
   }
 }
 
+class Category {
+  int? id;
+  String? name;
+  String? imageUrl;
+
+  Category({this.id, this.name, this.imageUrl});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    imageUrl = json['image_url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image_url'] = imageUrl;
+    return data;
+  }
+}
 
 class Unit {
   int? id;
@@ -235,8 +265,8 @@ class Unit {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }
@@ -291,10 +321,10 @@ class Item {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['price'] = this.price;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['price'] = price;
     return data;
   }
 }
@@ -340,16 +370,16 @@ class MoreProducts {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['regular_price'] = this.regularPrice;
-    data['sale_price'] = this.salePrice;
-    data['packaging_value'] = this.packagingValue;
-    data['category_id'] = this.categoryId;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['shop_name'] = this.shopName;
-    data['url_image'] = this.urlImage;
-    data['category_name'] = this.categoryName;
+    data['id'] = id;
+    data['title'] = title;
+    data['regular_price'] = regularPrice;
+    data['sale_price'] = salePrice;
+    data['packaging_value'] = packagingValue;
+    data['category_id'] = categoryId;
+    data['is_in_wishlist'] = isInWishlist;
+    data['shop_name'] = shopName;
+    data['url_image'] = urlImage;
+    data['category_name'] = categoryName;
     return data;
   }
 }

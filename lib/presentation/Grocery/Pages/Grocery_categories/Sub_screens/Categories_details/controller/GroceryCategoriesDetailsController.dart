@@ -125,7 +125,7 @@ class Grocerycategoriesdetailscontroller extends GetxController {
   });
 }
 
- refreshGroceryCategoriesDetailsFilterApi({
+  refreshGroceryCategoriesDetailsFilterApi({
   // required String id,
   // required String product_type,
   // required String price_sort,
@@ -137,8 +137,8 @@ class Grocerycategoriesdetailscontroller extends GetxController {
    var quick_filter,
    String? price_range,
 }) async {
-  searchController.clear();
-  searchData.clear();
+  // searchController.clear();
+  // searchData.clear();
   // filterProductSearchData.clear();
   // setRxRequestStatus(Status.LOADING);
   Map data = {

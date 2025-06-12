@@ -117,10 +117,25 @@ class PharmacyCategoryDetails extends StatelessWidget {
                       )
                       SliverToBoxAdapter(child: CustomNoDataFound(heightBox: hBox(50.h)),
                         ),
-                      if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)
+                      if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)...[
+                        if (controller.searchController.text.isNotEmpty && controller.searchData.isEmpty)...[
+                          SliverToBoxAdapter(
+                            child: CustomNoDataFound(heightBox: hBox(Get.height* 0.08.h),),
+                          ),
+                        ]else...[
                         productList(),
-                      if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)
-                        filterProductList(),
+                        ],
+                      ],
+                      if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)...[
+                        if (controller.searchController.text.isNotEmpty && controller.filterProductSearchData.isEmpty)...[
+                          const SliverToBoxAdapter(
+                            child: CustomNoDataFound(),
+                          ),
+                        ]
+                        else...[
+                          filterProductList(),
+                        ],
+                      ],
                       SliverToBoxAdapter( //{product_id: 5103, category_id: 87}{product_id: 5100, category_id: 87}
                         child: hBox(50.h),
                       )

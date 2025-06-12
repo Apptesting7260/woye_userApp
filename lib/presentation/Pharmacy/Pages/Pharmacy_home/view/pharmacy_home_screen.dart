@@ -1202,11 +1202,12 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                 ),
                               ),
                               onPressed: () {
-                                // Get.back();
-                                Get.to(PharmacySingleCartScreen(
+                                Get.back();
+                                Get.to(()=>PharmacySingleCartScreen(
                                   cartId: carts?.id.toString() ?? "",
                                   isBack: true,
-                                ));
+                                  ),
+                                );
                               },
                               child: Column(
                                 children: [

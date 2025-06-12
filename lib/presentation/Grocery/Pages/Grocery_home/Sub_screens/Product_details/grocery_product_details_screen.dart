@@ -444,7 +444,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
     // RxInt cartCount = 1.obs;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
-        categoryName,
+        /*categoryName ?? */product?.category?.name.toString()  ?? categoryName,
         style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
       ),
       hBox(8.h),
