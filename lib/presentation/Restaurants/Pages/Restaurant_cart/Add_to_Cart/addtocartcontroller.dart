@@ -47,6 +47,7 @@ class AddToCartController extends GetxController {
     required List<dynamic> extrasItemIds,
     required List<dynamic> extrasItemNames,
     required List<dynamic> extrasItemPrices,
+    String? cartId,
   }) async {
     setRxRequestStatus(Status.LOADING);
     // initializeUser();
@@ -85,6 +86,10 @@ class AddToCartController extends GetxController {
           Utils.showToast(addToCartData.value.message.toString());
           restaurantCartController.getAllCartData();
           restaurantCartController.refreshGetAllCheckoutDataRes();
+
+          if(cartId?.isNotEmpty ?? true){
+            restaurantCartController.refreshRestaurantSingleCartApi(cartId:cartId.toString());
+          }
           // groceryShowAllCartController.getGroceryAllShowApi();
       } else {
         Utils.showToast(addToCartData.value.message.toString());

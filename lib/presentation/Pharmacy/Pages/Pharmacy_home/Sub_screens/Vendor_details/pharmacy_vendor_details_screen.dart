@@ -58,10 +58,12 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
           // wBox(5.w),
           GestureDetector(
             onTap: () {
-              Share.share(
-                  '${AppUrls.hostUrl}/pharmacy?id=${widget.pharmacyId}',
-                  subject: controller.pharma_Data.value.pharmaShop?.shopName ?? 'Share Pharmacy Shop',
+              final shop = controller.pharma_Data.value.pharmaShop;
+              Share.share('Check out your trusted pharmacy: ${shop?.shopName ?? "Our Pharmacy"}\n'
+                    '${AppUrls.hostUrl}/pharmacy?id=${widget.pharmacyId}',
+                subject: shop?.shopName ?? 'Share Pharmacy',
               );
+
             },
             child: Container(
               padding: REdgeInsets.all(9),

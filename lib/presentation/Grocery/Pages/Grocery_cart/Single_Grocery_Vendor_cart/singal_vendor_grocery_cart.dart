@@ -180,7 +180,8 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
-                Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
+                Get.toNamed(AppRoutes.deliveryAddressScreen,
+                arguments: {
                   'type': "GroceryCart",
                   "fromcart": true,
                   'cartId': widget.cartId.toString(),
@@ -218,7 +219,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.cartData.value.address!.addressType.toString().capitalizeFirst                    .toString(),
+                controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
                 style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),

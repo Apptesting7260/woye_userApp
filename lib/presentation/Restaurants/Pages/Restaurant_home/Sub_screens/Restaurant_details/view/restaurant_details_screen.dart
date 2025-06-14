@@ -61,10 +61,18 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             // const Spacer(),
             GestureDetector(
               onTap: () {
+                // Share.share(
+                //     '${AppUrls.hostUrl}/restaurants?id=${widget.Restaurantid}',
+                //     subject:
+                //         controller.restaurant_Data.value.restaurant?.shopName ?? 'Share Restaurant');
+                final restaurant = controller.restaurant_Data.value.restaurant;
+
                 Share.share(
-                    '${AppUrls.hostUrl}/restaurants?id=${widget.Restaurantid}',
-                    subject:
-                        controller.restaurant_Data.value.restaurant?.shopName ?? 'Share Restaurant');
+                  'Check out this amazing restaurant: ${restaurant?.shopName ?? "Our Restaurant"}\n'
+                      '${AppUrls.hostUrl}/restaurants?id=${widget.Restaurantid}',
+                  subject: restaurant?.shopName ?? 'Share Restaurant',
+                );
+ 
               },
               child: Container(
                 padding: REdgeInsets.all(9),

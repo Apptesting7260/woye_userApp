@@ -1984,6 +1984,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                           "product Id ${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].productId.toString()}");
 
                       Get.to(() => ProductDetailsScreen(
+                        cartId: widget.cartId,
                         fromCart: true,
                         productId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].productId.toString(),
                         categoryId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].categoryId.toString(),

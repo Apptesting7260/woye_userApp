@@ -43,7 +43,6 @@ class AddAddressController extends GetxController {
     print('Stored Latitude: ${latitude.value}');
     print('Stored Longitude: ${longitude.value}');
     locationController.text = location.value;
-
     printUserNameAndPhone();
   }
 

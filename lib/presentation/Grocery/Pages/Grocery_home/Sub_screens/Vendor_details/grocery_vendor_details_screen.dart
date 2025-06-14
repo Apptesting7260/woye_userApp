@@ -52,9 +52,14 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
           // wBox(5.w),
           GestureDetector(
             onTap: () {
+              // Share.share(
+              //     '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
+              //     subject:controller.pharma_Data.value.pharmaShop?.shopName ?? 'Share Grocery Shop',
+              // );
               Share.share(
-                  '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
-                  subject:controller.pharma_Data.value.pharmaShop?.shopName ?? 'Share Grocery Shop',
+                'Get fresh fruits, vegetables, and daily essentials from ${controller.pharma_Data.value.pharmaShop?.shopName ?? "your trusted grocery store"}.\nOrder online now!\n'
+                    '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
+                subject: controller.pharma_Data.value.pharmaShop?.shopName ?? 'Shop Groceries Online',
               );
             },
             child: Container(

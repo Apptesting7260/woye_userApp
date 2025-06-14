@@ -72,8 +72,7 @@ class EditAddressScreen extends StatelessWidget {
                   );
                 },
                 onSelected: (Predictions selectedAddress) {
-                  controller.locationController.text =
-                      selectedAddress.description ?? "";
+                  controller.locationController.text = selectedAddress.description ?? "";
                   controller.getLatLang(controller.locationController.text);
                   controller.selectedLocation =
                       controller.locationController.text;
@@ -81,6 +80,7 @@ class EditAddressScreen extends StatelessWidget {
                   controller.searchPlace.clear();
                   print("SelectedLocation ${controller.selectedLocation}");
                   print("SelectedLocation 2${controller.isValidAddress}");
+                  return null;
                 },
                 hintText: 'Address',
                 validator: (value) {
@@ -100,7 +100,7 @@ class EditAddressScreen extends StatelessWidget {
               hBox(20.h),
               defaultSet(),
               hBox(30.h),
-              saveButton(),
+              saveButton(type,cartId,fromCart),
               hBox(50.h)
             ],
           ),
@@ -121,7 +121,7 @@ class EditAddressScreen extends StatelessWidget {
       },
     );
   }
-
+  
   Widget phoneNumber() {
     return CustomTextFormField(
       controller: controller.mobNoController.value,
@@ -255,13 +255,13 @@ class EditAddressScreen extends StatelessWidget {
     );
   }
 
-  Widget saveButton() {
+  Widget saveButton(type,cartId,fromCart) {
     return Obx(
       () => CustomElevatedButton(
         fontFamily: AppFontFamily.gilroyMedium,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            controller.editAddressApi();
+            controller.editAddressApi(type: type,cartId:cartId ,fromCart: fromCart);
           }
         },
         isLoading: controller.rxRequestStatus.value == Status.LOADING,

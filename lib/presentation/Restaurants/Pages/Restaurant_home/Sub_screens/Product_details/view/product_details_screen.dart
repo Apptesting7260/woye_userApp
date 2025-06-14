@@ -35,6 +35,7 @@ class ProductDetailsScreen extends StatelessWidget {
   var quickFilter;
   final String? priceRange;
   bool? fromCart;
+  String? cartId;
 
   ProductDetailsScreen({
     super.key,
@@ -48,7 +49,7 @@ class ProductDetailsScreen extends StatelessWidget {
     this.priceSort,
     this.quickFilter,
     this.priceRange,
-
+    this.cartId,
   });
 
   // final RestaurantHomeController restaurantHomeController = Get.put(RestaurantHomeController());
@@ -276,6 +277,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                     // ---------- add to cart api -----------
                                     // controller.productPriceFun();
                                     addToCartController.addToCartApi(
+                                      cartId: cartId,
                                       productId: controller.productData.value.product!.id.toString(),
                                       productPrice: controller.productData.value.product!.salePrice != null
                                           ? controller.productData.value.product!.salePrice.toString()

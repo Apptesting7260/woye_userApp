@@ -214,6 +214,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   padding: REdgeInsets.symmetric(horizontal: 24),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       mainBanner(),
                       hBox(10),
@@ -339,7 +340,13 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                           fit: BoxFit.cover,
                           width: 75.h,
                           errorWidget: (context, url, error) =>
-                              const Center(child: Icon(Icons.error)),
+                              Container(
+                                  decoration: BoxDecoration(
+                                    border: controller.isSelected.value == index ? null :
+                                    Border.all(color: AppColors.textFieldBorder, width:controller.isSelected.value == index ? 2 : 0.5),
+                                borderRadius: BorderRadius.circular(18.r),), height: 75.h,width:75.w,child:
+                              Center(child: Icon(Icons.broken_image,color: AppColors.textFieldBorder,)),
+                              ),
                           placeholder: (context, url) => Shimmer.fromColors(
                             baseColor: AppColors.gray,
                             highlightColor: AppColors.lightText,
@@ -652,6 +659,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
   Widget description() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         hBox(5.h),
         Text(

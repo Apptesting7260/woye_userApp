@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'dart:io';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
@@ -105,7 +106,8 @@ class MyApp extends StatelessWidget {
                 surface: Colors.white,
               ),
               useMaterial3: true,
-              fontFamily: "Gilroy"),
+              fontFamily: AppFontFamily.gilroyRegular),
+              // fontFamily: "Gilroy"),
           getPages: AppRoutes.pages,
           initialRoute: AppRoutes.initalRoute,
           builder: (context, child) {
@@ -117,7 +119,8 @@ class MyApp extends StatelessWidget {
                         inSplash.value ? AppColors.darkText : Colors.white,
                     statusBarIconBrightness: Brightness.dark,
                     systemNavigationBarColor: Colors.transparent,
-                    statusBarBrightness: Brightness.light),
+                    statusBarBrightness: Brightness.light,
+                ),
                 child: inSplash.value
                     ? child!
                     : ColorfulSafeArea(
