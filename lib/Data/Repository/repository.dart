@@ -70,6 +70,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_scre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Track_order/model/track_order_model.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/ordes_list_modal/orders_list_modal.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/faq/model/faq_model.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
@@ -725,5 +726,13 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.postApi(data,AppUrls.inviteFriends , token);
     return InviteFriendsModel.fromJson(response);
+  }
+
+  //-----------------------FAQ
+
+  Future<dynamic> faqApi()async{
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.faq, "");
+    return FAQModel.fromJson(response);
   }
 }

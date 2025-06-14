@@ -196,7 +196,7 @@ class AppRoutes {
     GetPage(name: settings, page: () => const SettingsScreen()),
     GetPage(name: help, page: () => const HelpScreen()),
     GetPage(name: support, page: () => const SupportScreen()),
-    GetPage(name: faq, page: () => const FaqScreen()),
+    GetPage(name: faq, page: () => FaqScreen()),
     GetPage(name: privayPolicy, page: () => const PrivayPolicyScreen()),
     GetPage(name: termsAndConditions, page: () => const TermAndConditionsScreen()),
     GetPage(name: notificationsSettings, page: () =>  NotificationsSettingsScreen()),

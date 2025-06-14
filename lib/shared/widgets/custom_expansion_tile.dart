@@ -25,8 +25,9 @@ class CustomExpansionTile extends StatelessWidget {
         childrenPadding: EdgeInsets.symmetric(horizontal: 12.r),
         title: Text(
           title,
+          maxLines: 2,
           // style: titleTextStyle ?? AppFontStyle.text_18_600(AppColors.darkText),
-          style: titleTextStyle ?? AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: titleTextStyle ?? AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         onExpansionChanged: onExpansionChanged,
         children: children);

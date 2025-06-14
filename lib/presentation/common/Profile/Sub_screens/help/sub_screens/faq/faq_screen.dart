@@ -1,18 +1,19 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/faq/controller/faq_controller.dart';
 import 'package:woye_user/shared/widgets/custom_expansion_tile.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 
 class FaqScreen extends StatelessWidget {
-  const FaqScreen({super.key});
+  FaqScreen({super.key});
+
+  final FaqController controller = Get.put(FaqController());
 
   @override
   Widget build(BuildContext context) {
-    List headings = [
-      "What is App",
-      "How to use App",
-      "App is Free?",
-      "Why use App?",
-      "How I can delete all data?"
-    ];
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
@@ -21,38 +22,82 @@ class FaqScreen extends StatelessWidget {
           style: AppFontStyle.text_22_600(AppColors.darkText),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: REdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: [hBox(20), faqList(headings)],
-        ),
-      ),
+      // body: SingleChildScrollView(
+      //   padding: REdgeInsets.symmetric(horizontal: 24),
+      //   child: Column(
+      //     children: [hBox(20), faqList()],
+      //   ),
+      // ),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return const Center(child: CircularProgressIndicator());
+
+          case Status.ERROR:
+            if (controller.error.value == 'No internet' ||
+                controller.error.value == 'InternetExceptionWidget') {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.getFaq();
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.getFaq();
+                },
+              );
+            }
+
+          case Status.COMPLETED:
+            return SingleChildScrollView(
+              padding: REdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                children: [hBox(20), faqList()],
+              ),
+            );
+        }
+      }),
     );
   }
 
-  Widget faqList(List<dynamic> headings) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return Container(
-            padding: REdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AppColors.greyBackground.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(15.r),
-            ),
-            child: CustomExpansionTile(title: headings[index], children: [
-              const Divider(),
-              hBox(10),
-              Text(
-                "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-                overflow: TextOverflow.visible,
-                style: AppFontStyle.text_14_400(AppColors.mediumText),
-              ),
-            ]));
+  Widget faqList() {
+    return RefreshIndicator(
+      onRefresh: () {
+        return controller.getFaq();
       },
-      separatorBuilder: (c, i) => hBox(10),
+      child: ListView.separated(
+        // physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Obx(
+            () =>Container(
+                    padding: REdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: AppColors.greyBackground.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
+                    child: CustomExpansionTile(
+                        title: controller.apiData.value.data?.content?[index].que
+                                .toString() ??
+                            "",
+                        children: [
+                          const Divider(),
+                          hBox(10),
+                          Text(
+                            controller.apiData.value.data?.content?[index].ans
+                                    .toString() ??
+                                "",
+                            maxLines: 100,
+                            style: AppFontStyle.text_15_400(AppColors.mediumText,
+                                family: AppFontFamily.gilroyRegular),
+                          ),
+                        ])),
+          );
+        },
+        separatorBuilder: (c, i) => hBox(10),
+      ),
     );
   }
 }
