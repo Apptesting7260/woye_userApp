@@ -215,7 +215,6 @@ class EditAdressController extends GetxController {
   //   });
   // }
 
-
   editAddressApi({String? type,String? cartId,bool? fromCart}) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
@@ -244,6 +243,10 @@ class EditAdressController extends GetxController {
           houseNoController.value.clear();
           deliveryInstructionController.value.clear();
           locationController.clear();
+          if(type == "Profile" && fromCart ==false){
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+          }
           if(type =='PharmacyCart'){
             (cartId?.isNotEmpty ?? true)?
             pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) {

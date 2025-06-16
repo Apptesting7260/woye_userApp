@@ -102,8 +102,8 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                           SliverAppBar(
                             automaticallyImplyLeading: false,
                             pinned: false,
-                            snap: false,
-                            floating: false,
+                            // snap: false,
+                            // floating: false,
                             expandedHeight: 70.h,
                             surfaceTintColor: Colors.transparent,
                             backgroundColor: Colors.transparent,

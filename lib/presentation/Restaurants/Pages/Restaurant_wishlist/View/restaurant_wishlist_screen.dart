@@ -106,8 +106,8 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                           SliverAppBar(
                             automaticallyImplyLeading: false,
                             pinned: false,
-                            snap: true,
-                            floating: true,
+                            // snap: true,
+                            // floating: true,
                             expandedHeight: 70.h,
                             surfaceTintColor: Colors.transparent,
                             backgroundColor: Colors.transparent,

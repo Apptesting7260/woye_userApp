@@ -19,23 +19,15 @@ class FaqScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "FAQ",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
-      // body: SingleChildScrollView(
-      //   padding: REdgeInsets.symmetric(horizontal: 24),
-      //   child: Column(
-      //     children: [hBox(20), faqList()],
-      //   ),
-      // ),
       body: Obx(() {
         switch (controller.rxRequestStatus.value) {
           case Status.LOADING:
-            return const Center(child: CircularProgressIndicator());
-
+            return Center(child:circularProgressIndicator());
           case Status.ERROR:
-            if (controller.error.value == 'No internet' ||
-                controller.error.value == 'InternetExceptionWidget') {
+            if (controller.error.value == 'No internet' ||controller.error.value == 'InternetExceptionWidget') {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.getFaq();
@@ -48,16 +40,17 @@ class FaqScreen extends StatelessWidget {
                 },
               );
             }
-
           case Status.COMPLETED:
             return SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               padding: REdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [hBox(20), faqList()],
               ),
             );
-        }
-      }),
+          }
+        },
+      ),
     );
   }
 
@@ -67,7 +60,7 @@ class FaqScreen extends StatelessWidget {
         return controller.getFaq();
       },
       child: ListView.separated(
-        // physics: const NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: 5,
         itemBuilder: (context, index) {

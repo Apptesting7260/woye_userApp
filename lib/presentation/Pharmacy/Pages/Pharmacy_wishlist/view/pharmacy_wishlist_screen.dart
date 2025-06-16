@@ -106,8 +106,8 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                           SliverAppBar(
                             automaticallyImplyLeading: false,
                             pinned: false,
-                            snap: false,
-                            floating: false,
+                            // snap: false,
+                            // floating: false,
                             expandedHeight: 70.h,
                             surfaceTintColor: Colors.transparent,
                             backgroundColor: Colors.transparent,
