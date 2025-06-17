@@ -11,6 +11,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/p
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_cart_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_single_cart_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/Pharma_Categories_Filter_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/PharmacyDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/all_pharma_shops/all_pharma_shops.dart';
@@ -39,6 +40,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
   final PharmacyDetailsController pharmacyDetailsController = Get.put(PharmacyDetailsController());
 
   final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController = Get.put(PharmacyCategoriesDetailsController());
+  final PharmaCategoriesFilterController categoriesFilterController = Get.put(PharmaCategoriesFilterController());
 
   final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
   // final ScrollController _scrollControllerFreeDel = ScrollController();
@@ -505,6 +507,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          categoriesFilterController.resetFilters();
                           Get.toNamed(AppRoutes.pharmacyCategoryDetails,
                               arguments: {
                                 'name': pharmacyHomeController
@@ -514,11 +517,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                     .homeData.value.category![index].id
                                     .toString()),
                               });
-                          pharmacyCategoriesDetailsController
-                              .pharmacy_Categories_Details_Api(
-                            id: pharmacyHomeController
-                                .homeData.value.category![index].id
-                                .toString(),
+                          pharmacyCategoriesDetailsController.pharmacy_Categories_Details_Api(
+                            id: pharmacyHomeController.homeData.value.category![index].id.toString(),
                           );
                         },
                         child: ClipRRect(

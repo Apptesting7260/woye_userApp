@@ -51,9 +51,9 @@ class GroceryCategoryDetails extends StatelessWidget {
           case Status.COMPLETED:
             return RefreshIndicator(
               onRefresh: () async {
+                categoriesFilterController.clearData();
                 controller.groceryCategoriesDetailsApi(
                     id: categoryId.toString());
-                categoriesFilterController.clearData();
               },
               child: Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24.h),

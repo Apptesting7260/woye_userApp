@@ -140,7 +140,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                   priceSort: priceSort,
                   quickFilter: quickFilter,
                 ).then((value) {
-                  if(bannerId != null || bannerId != ""){
+                  if(bannerId != null && bannerId != ""){
                     bannerDetailsController.refreshBannerDataApi(bannerId: bannerId.toString());
                   }
                 },);
@@ -188,8 +188,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
             if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
               return InternetExceptionWidget(
                 onPress: () {
-                  controller.pharmaSpecificProductApi(
-                      productId: productId, categoryId: categoryId.toString());
+                  controller.pharmaSpecificProductApi(productId: productId, categoryId: categoryId.toString());
                 },
               );
             } else {

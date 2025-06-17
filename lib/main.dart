@@ -125,7 +125,6 @@ class MyApp extends StatelessWidget {
                     ? child!
                     : ColorfulSafeArea(
                         topColor: Colors.white,
-
                         // bottomColor: AppColor.whiteColor,
                         minimum: const EdgeInsets.only(
                           bottom: 0,

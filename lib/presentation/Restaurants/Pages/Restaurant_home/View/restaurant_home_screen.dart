@@ -9,6 +9,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/control
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_single_cart_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/view/all_restaurant.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
@@ -58,6 +59,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
 
   final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
   // var storage = GetStorage();
+  final Categories_FilterController categoriesFilterController = Get.put(Categories_FilterController());
 
   @override
   void initState() {
@@ -624,18 +626,16 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed(AppRoutes.restaurantCategoriesDetails,
-                              arguments: {
-                                'name': restaurantHomeController
-                                    .homeData.value.category![index].name
-                                    .toString(),
-                                'id': int.parse(restaurantHomeController
-                                    .homeData.value.category![index].id
-                                    .toString()),
-                              });
-                          restaurantCategoriesDetailsController.restaurant_Categories_Details_Api(
-                            id: restaurantHomeController.homeData.value.category![index].id.toString(),
-                          );
+                          categoriesFilterController.resetFilters();
+                          Get.toNamed(
+                            AppRoutes.restaurantCategoriesDetails,
+                            arguments: {
+                              'name': restaurantHomeController.homeData.value.category![index].name.toString(),
+                              'id': int.parse(restaurantHomeController.homeData.value.category![index].id.toString()),
+                            });
+                            restaurantCategoriesDetailsController.restaurant_Categories_Details_Api(
+                              id: restaurantHomeController.homeData.value.category![index].id.toString(),
+                            );
                         },
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.r),

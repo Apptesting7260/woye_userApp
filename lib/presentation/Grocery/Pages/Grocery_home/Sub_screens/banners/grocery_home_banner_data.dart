@@ -29,7 +29,7 @@ class GroceryHomeBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppBar(
+        appBar: const CustomAppBar(
             // title: Text(
             //   "Filter",
             //   style: AppFontStyle.text_22_600(AppColors.darkText),
@@ -246,8 +246,7 @@ class GroceryHomeBanner extends StatelessWidget {
                 shrinkWrap: true,
                 itemCount: controller.bannerData.value.groceryShops?.length ?? 0,
                 itemBuilder: (context, index) {
-                  final pharmaShopdata =
-                      controller.bannerData.value.groceryShops![index];
+                  final pharmaShopdata = controller.bannerData.value.groceryShops![index];
                   return GestureDetector(
                     onTap: () {
                       groceryDetailsController.restaurant_Details_Api(
@@ -255,8 +254,6 @@ class GroceryHomeBanner extends StatelessWidget {
                       );
                       Get.to(GroceryVendorDetailsScreen(
                           groceryId: pharmaShopdata.id.toString()));
-
-
                     },
                     child: pharmaShop(
                       index: index,

@@ -642,7 +642,6 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     highlightColor: Colors.transparent,
                     onTap: () {
                       navbarController.getIndex(1);
-                      groceryCategoriesFilterController.clearData();
                     },
                     child: Row(
                       children: [
@@ -669,6 +668,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          groceryCategoriesFilterController.clearData();
                           Get.toNamed(AppRoutes.groceryCategoryDetails,
                               arguments: {
                                 'name': groceryHomeController
@@ -678,13 +678,9 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                     .homeData.value.category![index].id
                                     .toString()),
                               });
-                          grocerycategoriesdetailscontroller
-                              .groceryCategoriesDetailsApi(
-                            id: groceryHomeController
-                                .homeData.value.category![index].id
-                                .toString(),
+                          grocerycategoriesdetailscontroller.groceryCategoriesDetailsApi(
+                            id: groceryHomeController.homeData.value.category![index].id.toString(),
                           );
-                          groceryCategoriesFilterController.clearData();
                         },
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.r),

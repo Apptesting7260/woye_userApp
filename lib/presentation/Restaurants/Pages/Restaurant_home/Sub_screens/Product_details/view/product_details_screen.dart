@@ -348,11 +348,8 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
-
-        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
+        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)...[
           hBox(10),
-
-        if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
           SizedBox(
             height: 75.h,
             child: ListView.separated(
@@ -417,7 +414,7 @@ class ProductDetailsScreen extends StatelessWidget {
               separatorBuilder: (context, itemIndex) => wBox(10.w),
             ),
           ),
-
+        ],
         // Obx(
         //   () => ClipRRect(
         //     borderRadius: BorderRadius.circular(20.r),
