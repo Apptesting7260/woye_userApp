@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/image_cache_height.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 import '../theme/font_family.dart';
 
@@ -62,6 +64,7 @@ class CustomBanner extends StatelessWidget {
 
   final PharmaSpecificProductController pharmaSpecificProductController =
       Get.put(PharmaSpecificProductController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +146,9 @@ class CustomBanner extends StatelessWidget {
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () async {
+                      if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                        showLoginRequired(context);
+                      }else{
                       is_in_wishlist = !is_in_wishlist!;
                       isLoading?.value = true;
                       await addPharmaProductWishlistController.pharmacy_add_product_wishlist(
@@ -155,7 +161,8 @@ class CustomBanner extends StatelessWidget {
                         productType: productType,
                       );
                       isLoading?.value = false;
-                    },
+                        }
+                      },
                     child: isLoading!.value
                         ? circularProgressIndicator(size: 18)
                         : Icon(

@@ -28,8 +28,7 @@ class GroceryCartScreen extends StatefulWidget {
 
 class _GroceryCartScreenState extends State<GroceryCartScreen> {
   final GroceryCartController controller = Get.put(GroceryCartController());
-  final GrocerySpecificProductController grocerySpecificProductController =
-      Get.put(GrocerySpecificProductController());
+  final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
 
   @override
   void initState() {
@@ -315,7 +314,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          buckets.vendorName.toString(),
+                          buckets.vendorName?.capitalize.toString() ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
@@ -602,7 +601,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 SizedBox(
                                   width: 110.w,
                                   child: Text(
-                                    items.productName.toString(),
+                                    items.productName?.capitalize.toString() ?? "",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: AppFontStyle.text_16_400(
@@ -2112,4 +2111,5 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
       barrierDismissible: false,
     );
   }
+
 }

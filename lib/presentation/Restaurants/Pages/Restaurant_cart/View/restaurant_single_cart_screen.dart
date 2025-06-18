@@ -1838,7 +1838,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.singleCartData.value.address!.addressType.toString().capitalizeFirst                    .toString(),
+                controller.singleCartData.value.address!.addressType.toString().capitalizeFirst.toString(),
                 style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
@@ -2035,7 +2035,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               : SizedBox(
                             width: 110.w,
                             child: Text(
-                              item.productName.toString(),
+                              item.productName?.capitalize.toString() ?? "",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: AppFontStyle.text_16_400(
@@ -2264,7 +2264,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemName}',
+                              '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemName?.capitalize}',
                               style:
                               AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
@@ -2278,7 +2278,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               maxLines: 1,
                             ),
                             Text(
-                              '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice}',
+                              '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice?.capitalize}',
                               style:
                               AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
@@ -2324,7 +2324,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].name}',
+                            '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].name?.capitalize}',
                             style:
                             AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             overflow: TextOverflow.ellipsis,
@@ -2338,7 +2338,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             maxLines: 1,
                           ),
                           Text(
-                            '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].price}',
+                            '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].price?.capitalize}',
                             style:
                             AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             overflow: TextOverflow.ellipsis,

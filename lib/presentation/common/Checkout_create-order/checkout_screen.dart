@@ -1366,6 +1366,10 @@ class CheckoutScreen extends StatelessWidget {
                     Padding(
                       padding: REdgeInsets.symmetric(horizontal: 25.0),
                       child: CustomTextFormField(
+                        minLines: 3,
+                        maxLines: 8,
+                        textInputAction: TextInputAction.newline,
+                        textInputType: TextInputType.multiline,
                         controller: controller.deliveryNotesController.value,
                         // controller: TextEditingController(text: controller.deliveryNotesController.value.text),
                         onChanged: (value){},

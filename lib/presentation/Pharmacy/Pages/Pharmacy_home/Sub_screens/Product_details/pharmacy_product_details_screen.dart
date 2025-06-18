@@ -130,6 +130,9 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           Obx(() {
             return GestureDetector(
               onTap: () async {
+                if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                  showLoginRequired(context);
+                }else{
                 controller.isLoading.value = true;
                 controller.productData.value.product?.isInWishlist = !controller.productData.value.product!.isInWishlist!;
                 await addPharmaProductWishlistController.pharmacy_add_product_wishlist(
@@ -150,6 +153,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                   // },
                 // );
                 controller.isLoading.value = false;
+                }
               },
               child: Container(
                 padding: REdgeInsets.all(9),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
@@ -138,6 +139,9 @@ class ProductDetailsScreen extends StatelessWidget {
           Obx(() {
             return GestureDetector(
               onTap: () async {
+                if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                  showLoginRequired(context);
+                }else{
                 controller.isLoading.value = true;
                 controller.productData.value.product?.isInWishlist = !controller.productData.value.product!.isInWishlist!;
                 await addWishlistController.restaurant_add_product_wishlist(
@@ -159,6 +163,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 pt("productId 1>> :: $productId");
                 pt("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
                 controller.isLoading.value = false;
+                }
               },
               child: Container(
                 padding: REdgeInsets.all(9),
@@ -1331,65 +1336,5 @@ class ProductDetailsScreen extends StatelessWidget {
             })
       ],
     );
-  }
-
-  Future showLoginRequired(context) {
-    return showCupertinoModalPopup(
-        // barrierDismissible: true,/
-        context: context,
-        builder: (context) {
-          return AlertDialog.adaptive(
-            content: Container(
-              height: 150.h,
-              width: 320.w,
-              padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30.r),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Login Required',
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
-                  ),
-                  // hBox(15),
-                  Text(
-                    'You need to log in first',
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
-                  ),
-                  // hBox(15),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          color: AppColors.black,
-                          onPressed: () {
-                            Get.back();
-                          },
-                          text: "Cancel",
-                          textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
-                        ),
-                      ),
-                      wBox(15),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          height: 40.h,
-                          onPressed: () {
-                            userPreference.removeUser();
-                            Get.offAllNamed(AppRoutes.signUp);
-                          },
-                          text: "Login",
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-          );
-        });
   }
 }

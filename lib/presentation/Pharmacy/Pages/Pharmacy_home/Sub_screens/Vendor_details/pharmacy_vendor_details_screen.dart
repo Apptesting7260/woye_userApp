@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
@@ -12,6 +13,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_details_modal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/Controller/aad_product_wishlist_Controller/add_pharma_product_wishlist.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
@@ -37,6 +39,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
   final PharmaSpecificProductController specificProductController = Get.put(PharmaSpecificProductController());
 
   final AddPharmaProductWishlistController addPharmaProductWishlistController = Get.put(AddPharmaProductWishlistController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   @override
   void initState() {
@@ -904,6 +907,9 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                   highlightColor: Colors.transparent,
                                   splashColor: Colors.transparent,
                                   onTap: () async {
+                                    if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                      showLoginRequired(context);
+                                    }else{
                                     controller.pharma_Data.value.highlights?[index].isInWishlist.value = !controller.pharma_Data.value.highlights![index].isInWishlist.value;
                                     controller.pharma_Data.value.highlights?[index].isLoading.value = true;
                                     await addPharmaProductWishlistController.pharmacy_add_product_wishlist(
@@ -912,6 +918,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                       categoryId: controller.pharma_Data.value.highlights![index].categoryId.toString(),
                                       product_id:controller.pharma_Data.value.highlights![index].id.toString(),
                                     );
+                                    }
                                   },
                                   child: controller.pharma_Data.value.highlights![index].isLoading.value
                                       ? circularProgressIndicator(size: 18)

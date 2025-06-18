@@ -36,7 +36,7 @@ class RestaurantHomeFilter extends StatelessWidget {
                 if (controller.stopLottie.value != true) {
                   controller.showLottie.value = true;
                 }
-                if (value.length >= 3) {
+                if (value.length >= 2) {
                   controller.restaurantHomeSearchApi(search: value.trim());
                 }
               },

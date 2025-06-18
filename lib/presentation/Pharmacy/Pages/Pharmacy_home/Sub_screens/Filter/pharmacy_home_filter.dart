@@ -35,7 +35,7 @@ class PharmacyHomeFilter extends StatelessWidget {
                 if (controller.stopLottie.value != true) {
                   controller.showLottie.value = true;
                 }
-                if (value.length >= 3) {
+                if (value.length >= 2) {
                   controller.restaurantHomeSearchApi(search: value.trim());
                 }
                 controller.update();
@@ -51,9 +51,7 @@ class PharmacyHomeFilter extends StatelessWidget {
               }
             }),
             Obx(() {
-              if (controller.stopLottie.value == true &&
-                  controller.searchData.value.pharmaShop!.isEmpty &&
-                  controller.searchData.value.products!.isEmpty) {
+              if (controller.stopLottie.value == true && controller.searchData.value.pharmaShop!.isEmpty && controller.searchData.value.products!.isEmpty) {
                 return SliverToBoxAdapter(
                   child: Column(
                     children: [

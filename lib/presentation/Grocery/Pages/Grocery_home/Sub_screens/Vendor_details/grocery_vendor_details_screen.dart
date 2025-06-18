@@ -3,6 +3,7 @@ import 'package:custom_rating_bar/custom_rating_bar.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/image_cache_height.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
@@ -10,6 +11,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/GroceryDetailsController.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_details_modal.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_banner_grocery.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
@@ -34,6 +36,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
   final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
   final SeeAllProductReviewController seeAllProductReviewController =   Get.put(SeeAllProductReviewController());
   final AddGroceryProductWishlist addGroceryProductWishlist = Get.put(AddGroceryProductWishlist());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   @override
   void initState() {
@@ -152,7 +155,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                         if((controller.pharma_Data.value.categories?.data.isNotEmpty ?? false) && controller.categoriesIndex.value != 0)...[
                           categoriesProducts(context,widget.groceryId),
                         ],
-                        if( /*(controller.restaurant_Data.value.moreProducts?.isNotEmpty ?? false) && */controller.categoriesIndex.value == 0)...[
+                        if(controller.categoriesIndex.value == 0)...[
                           allProducts(),
                         ],
                         hBox(30),
@@ -1103,6 +1106,9 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                                   highlightColor: Colors.transparent,
                                   splashColor: Colors.transparent,
                                   onTap: () async {
+                                    if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                      showLoginRequired(context);
+                                    }else{
                                     controller.pharma_Data.value.highlights?[index].isInWishlist.value = !controller.pharma_Data.value.highlights![index].isInWishlist.value;
                                     controller.pharma_Data.value.highlights?[index].isLoading.value = true;
                                     await addGroceryProductWishlist.pharmacy_add_product_wishlist(
@@ -1110,6 +1116,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                                       categoryId: controller.pharma_Data.value.highlights![index].categoryId.toString(),
                                       product_id:controller.pharma_Data.value.highlights![index].id.toString(),
                                     );
+                                    }
                                   },
                                   child: controller.pharma_Data.value.highlights![index].isLoading.value
                                       ? circularProgressIndicator(size: 18)

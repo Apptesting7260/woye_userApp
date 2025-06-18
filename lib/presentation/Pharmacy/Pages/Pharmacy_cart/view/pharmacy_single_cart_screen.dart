@@ -448,8 +448,8 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                   width: 110.w,
                                   child: Text(
                                     controller.cartData.value.cart!
-                                        .decodedAttribute![index].productName
-                                        .toString(),
+                                        .decodedAttribute![index].productName?.capitalize
+                                        .toString() ?? "",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: AppFontStyle.text_16_400(
@@ -478,14 +478,9 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                               // );
                               showDeleteProductDialog(
                                 index: index,
-                                cartId: controller.cartData.value.cart!.id
-                                    .toString(),
-                                productId: controller.cartData.value.cart!
-                                    .decodedAttribute![index].productId
-                                    .toString(),
-                                countId: controller.cartData.value.cart!
-                                    .decodedAttribute![index].count
-                                    .toString(),
+                                cartId: controller.cartData.value.cart!.id.toString(),
+                                productId: controller.cartData.value.cart!.decodedAttribute![index].productId.toString(),
+                                countId: controller.cartData.value.cart!.decodedAttribute![index].count.toString(),
                               );
                             },
                             child: SvgPicture.asset(

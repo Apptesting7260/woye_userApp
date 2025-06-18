@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
+import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
@@ -13,6 +16,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/modal/singal_restaurant_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/controller/more_products_controller.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
@@ -41,6 +45,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
 
   final SeeAllProductReviewController seeAllProductReviewController = Get.put(SeeAllProductReviewController());
   final AddProductWishlistController addWishlistController = Get.put(AddProductWishlistController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   @override
   void initState() {
@@ -274,12 +279,16 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                   highlightColor: Colors.transparent,
                                   splashColor: Colors.transparent,
                                   onTap: () async {
+                                    if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                      showLoginRequired(context);
+                                    }else{
                                     controller.restaurant_Data.value.highlights?[index].isInWishlist.value = !controller.restaurant_Data.value.highlights![index].isInWishlist.value;
                                     controller.restaurant_Data.value.highlights?[index].isLoading.value = true;
                                     await addWishlistController.restaurant_add_product_wishlist(
                                       categoryId: controller.restaurant_Data.value.highlights![index].categoryId.toString(),
                                       product_id:controller.restaurant_Data.value.highlights![index].id.toString(),
                                     );
+                                    }
                                   },
                                   child: controller.restaurant_Data.value.highlights![index].isLoading.value
                                   ? circularProgressIndicator(size: 18)
@@ -1180,4 +1189,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
       ),
     );
   }
+
+
 }

@@ -66,7 +66,6 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     super.initState();
     restaurantCartController.getAllCartData();
     WidgetsBinding.instance.addPostFrameCallback(_getHeight);
-
     // restaurantCartController.getRestaurantCartApi();
     // latitude.value = storage.read('latitude') ?? 0.0;
     // longitude.value = storage.read('longitude') ?? 0.0;

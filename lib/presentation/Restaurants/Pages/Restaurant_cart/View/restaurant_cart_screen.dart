@@ -3619,7 +3619,7 @@ class RestaurantCartScreen extends StatefulWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          buckets.vendorName.toString(),
+                          buckets.vendorName?.capitalize.toString() ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
@@ -4085,7 +4085,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${items.attribute![addonIndex].itemDetails!.itemName}',
+                                        '${items.attribute![addonIndex].itemDetails!.itemName?.capitalize}',
                                         style:
                                         AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                                         overflow: TextOverflow.ellipsis,
@@ -4139,7 +4139,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${items.addons![addonIndex].name}',
+                                    '${items.addons![addonIndex].name?.capitalize}',
                                     style:
                                     AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                     overflow: TextOverflow.ellipsis,

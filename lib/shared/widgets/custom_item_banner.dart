@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/error_widget.dart';
 
@@ -49,6 +51,7 @@ class CustomItemBanner extends StatelessWidget {
       });
 
   final AddProductWishlistController add_Wishlist_Controller = Get.put(AddProductWishlistController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -97,18 +100,23 @@ class CustomItemBanner extends StatelessWidget {
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   onTap: () async {
-                    is_in_wishlist = !is_in_wishlist!;
-                    isLoading?.value = true;
-                    await add_Wishlist_Controller.restaurant_add_product_wishlist(
-                      productIdAllProducts: productIdAllProducts,
-                      isRefresh:isRefresh,
-                      // restaurantId: restaurantId.toString(),
-                      categoryId: categoryId.toString(),
-                      product_id: product_id.toString(),
-                    );
-                    isLoading?.value = false;
+                    if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                      showLoginRequired(context);
+                    }else {
+                      is_in_wishlist = !is_in_wishlist!;
+                      isLoading?.value = true;
+                      await add_Wishlist_Controller
+                          .restaurant_add_product_wishlist(
+                        productIdAllProducts: productIdAllProducts,
+                        isRefresh: isRefresh,
+                        // restaurantId: restaurantId.toString(),
+                        categoryId: categoryId.toString(),
+                        product_id: product_id.toString(),
+                      );
+                      isLoading?.value = false;
 
-                    print("object$sale_price");
+                      print("object$sale_price");
+                    }
                   },
                   child: isLoading!.value
                       ? circularProgressIndicator(size: 18)

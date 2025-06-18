@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/image_cache_height.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_wishlist/aad_product_wishlist_Controller/add_grocery_product_wishlist.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 import '../theme/font_family.dart';
 
@@ -63,8 +65,9 @@ class CustomBannerGrocery extends StatelessWidget {
   // final PharmaSpecificProductController pharmaSpecificProductController =
   //     Get.put(PharmaSpecificProductController());
 
-  final GrocerySpecificProductController grocerySpecificProductController =
-      Get.put(GrocerySpecificProductController());
+  final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
+
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +141,9 @@ class CustomBannerGrocery extends StatelessWidget {
                     highlightColor: Colors.transparent,
                     splashColor: Colors.transparent,
                     onTap: () async {
+                      if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                        showLoginRequired(context);
+                      }else{
                       is_in_wishlist = !is_in_wishlist!;
                       isLoading?.value = true;
                       await addGroceryProductWishlist.pharmacy_add_product_wishlist(
@@ -149,7 +155,8 @@ class CustomBannerGrocery extends StatelessWidget {
                         productType: productType,
                       );
                       isLoading?.value = false;
-                    },
+                    }
+                      },
                     child: isLoading!.value ? circularProgressIndicator(size: 18)
                          : Icon(is_in_wishlist! ? favorite : favoriteNot,size: 22),
                   ),

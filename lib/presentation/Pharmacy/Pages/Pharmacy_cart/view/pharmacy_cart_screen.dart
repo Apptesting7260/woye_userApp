@@ -850,7 +850,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          buckets.vendorName.toString(),
+                          buckets.vendorName?.capitalize.toString() ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
@@ -2243,7 +2243,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 ? shimmerItem('\$0.00',
                     width: 70, height: 40, secondShimmer: false)
                 : Text(
-                    "\$${controller.cartCheckoutData.value.cart?.totalPrice.toString() ?? ""}",
+                    "\$${controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? ""}",
               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   ),
           ],
@@ -2291,7 +2291,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                               .cartCheckoutData.value.address!.id
                               .toString(),
                           'total': controller
-                              .cartCheckoutData.value.cart!.totalPrice
+                              .cartCheckoutData.value.cart!.grandTotalPrice
                               .toString(),
                           'coupon_id': "0",
                           'regular_price': controller

@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/add_product_wishlist.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 
@@ -23,6 +25,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
   final AddProductWishlistController add_Wishlist_Controller = Get.put(AddProductWishlistController());
 
   final specific_Product_Controller specific_product_controllerontroller = Get.put(specific_Product_Controller());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   final Categories_FilterController categoriesFilterController = Get.put(Categories_FilterController());
   // RestaurantNavbarController navbarController = Get.put(RestaurantNavbarController());
@@ -123,6 +126,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                               child:CustomNoDataFound(heightBox: hBox(50.h))
                             ),
                           ],
+                          //------------------------------------------------------------------
                           if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)...[
                             if (controller.searchController.text.isNotEmpty && controller.searchData.isEmpty)...[
                             const SliverToBoxAdapter(
@@ -205,11 +209,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         .greyBackground,
                                                   ),
                                                   child: InkWell(
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    splashColor:
-                                                        Colors.transparent,
+                                                    highlightColor:Colors.transparent,
+                                                    splashColor: Colors.transparent,
                                                     onTap: () async {
+                                                      if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                                        showLoginRequired(context);
+                                                      }else{
                                                       product.isInWishlist =
                                                           !product
                                                               .isInWishlist!;
@@ -224,17 +229,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                       );
                                                       product.isLoading.value =
                                                           false;
+                                                      }
                                                     },
-                                                    child: product
-                                                            .isLoading.value
-                                                        ? circularProgressIndicator(
-                                                            size: 18)
-                                                        : Icon(
-                                                            product.isInWishlist ==
-                                                                    true
+                                                    child: product.isLoading.value
+                                                        ? circularProgressIndicator(size: 18)
+                                                        : Icon(product.isInWishlist == true
                                                                 ? Icons.favorite
-                                                                : Icons
-                                                                    .favorite_border_outlined,
+                                                                : Icons.favorite_border_outlined,
                                                             size: 22,
                                                           ),
                                                   ),
@@ -332,6 +333,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 ))),
                             ],
                           ],
+                          //------------------------------------------------------------------
+
                           if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)...[
                           if (controller.searchController.text.isNotEmpty && controller.filterProductSearchData.isEmpty)...[
                             const SliverToBoxAdapter(
@@ -403,6 +406,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     highlightColor:Colors.transparent,
                                                     splashColor:Colors.transparent,
                                                     onTap: () async {
+                                                      if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                                        showLoginRequired(context);
+                                                      }else{
                                                       product.isInWishlist =!product.isInWishlist!;
                                                       product.isLoading.value =true;
                                                       await add_Wishlist_Controller.restaurant_add_product_wishlist(
@@ -417,6 +423,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         product_id: product.id.toString(),
                                                       );
                                                       product.isLoading.value =false;
+                                                      }
                                                     },
                                                     child: product.isLoading.value
                                                         ? circularProgressIndicator(size: 18)
@@ -508,6 +515,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 ))),
                             ],
                           ],
+                          //------------------------------------------------------------------
+
                           SliverToBoxAdapter(
                             child: hBox(10.h),
                           ),
