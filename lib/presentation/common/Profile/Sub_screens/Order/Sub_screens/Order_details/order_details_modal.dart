@@ -71,6 +71,9 @@ class  OrderDetails {
   String? updatedAt;
   List<DecodedAttribute>? decodedAttribute;
   String? vendorName;
+  String? deliveryNotes;
+  String? courierTip;
+  String? deliverySoon;
   AddressDetails? addressDetails;
 
   OrderDetails(
@@ -93,6 +96,9 @@ class  OrderDetails {
       this.updatedAt,
       this.decodedAttribute,
       this.vendorName,
+      this.courierTip,
+      this.deliveryNotes,
+      this.deliverySoon,
       this.addressDetails});
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
@@ -126,6 +132,9 @@ class  OrderDetails {
       });
     }
     vendorName = json['vendor_name'];
+    deliveryNotes = json['delivery_notes']?.toString();
+    courierTip = json['courier_tip']?.toString();
+    deliverySoon = json['delivery_soon']?.toString();
     addressDetails = json['address_details'] != null
         ? new AddressDetails.fromJson(json['address_details'])
         : null;
@@ -157,6 +166,9 @@ class  OrderDetails {
           decodedAttribute!.map((v) => v.toJson()).toList();
     }
     data['vendor_name'] = vendorName;
+    data['delivery_notes'] = deliveryNotes;
+    data['courier_tip'] = courierTip;
+    data['delivery_soon'] = deliverySoon;
     if (addressDetails != null) {
       data['address_details'] = addressDetails!.toJson();
     }

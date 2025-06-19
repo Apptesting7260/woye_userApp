@@ -404,7 +404,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${item.attribute![addonIndex].itemDetails!.itemName}',
+                                        '${item.attribute![addonIndex].itemDetails!.itemName?.capitalizeFirst}',
                                         style: AppFontStyle.text_12_400(
                                             AppColors.primary,family: AppFontFamily.gilroyMedium),
                                         overflow: TextOverflow.ellipsis,
@@ -459,7 +459,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${item.addons![addonIndex].name}',
+                                      '${item.addons![addonIndex].name?.capitalizeFirst}',
                                       style: AppFontStyle.text_12_400(
                                           AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                       overflow: TextOverflow.ellipsis,
@@ -569,6 +569,22 @@ class OrderDetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                if(controller.ordersData.value.orderDetails?.courierTip?.isNotEmpty ?? false)...[
+                hBox(5.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Delivery Tip",
+                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    ),
+                    Text(
+                      "\$${controller.ordersData.value.orderDetails?.courierTip.toString()}",
+                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    ),
+                  ],
+                ),
+               ],
               ],
             ),
             // hBox(15),
