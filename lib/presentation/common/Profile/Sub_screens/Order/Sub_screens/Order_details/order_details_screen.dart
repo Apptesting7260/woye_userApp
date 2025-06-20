@@ -605,7 +605,8 @@ class OrderDetailsScreen extends StatelessWidget {
             ),
             hBox(15),
           ],
-        ));
+        ),
+    );
   }
 
   Widget paymentDetails() {

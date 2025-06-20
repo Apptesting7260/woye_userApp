@@ -7,7 +7,7 @@ class Utils {
   static String? showToast(
     String msg, {
     Toast? toastLength,
-    ToastGravity gravity = ToastGravity.BOTTOM,
+    ToastGravity gravity = ToastGravity.TOP,
   }) {
     Fluttertoast.showToast(
         msg: msg,

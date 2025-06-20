@@ -87,6 +87,8 @@ dependencies:
   webview_flutter:
   firebase_crashlytics:
   url_launcher:
+  pay_with_paystack:
+  uuid:
 #  persistent_bottom_nav_bar:
   intl:
   dropdown_button2:

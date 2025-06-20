@@ -1304,6 +1304,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  pay_with_paystack:
+    dependency: "direct main"
+    description:
+      name: pay_with_paystack
+      sha256: bb9ab4034f46831ffdf3460e8e602ba5c77ba8622395d4b4726f102c90dbf81f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
   percent_indicator:
     dependency: "direct main"
     description:
@@ -1758,7 +1766,7 @@ packages:
     source: hosted
     version: "3.1.4"
   uuid:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: uuid
       sha256: a5be9ef6618a7ac1e964353ef476418026db906c4facdedaa299b7a2e71690ff
