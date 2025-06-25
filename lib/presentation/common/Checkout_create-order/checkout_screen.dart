@@ -8,6 +8,7 @@ import 'package:woye_user/pay_stack/pay_stack.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 import '../../../shared/widgets/format_price.dart';
 import '../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
@@ -23,6 +24,7 @@ class CheckoutScreen extends StatelessWidget {
   final GroceryCartController groceryCartController = Get.put(GroceryCartController());
   final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
   final PayStackController payStackController = Get.put(PayStackController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
 
   @override
   Widget build(BuildContext context) {
@@ -230,7 +232,7 @@ class CheckoutScreen extends StatelessWidget {
                         }
 
                         if(controller.selectedIndex.value == 1){
-                          payStackController.makePayment(context: context,email: "saurabh@mailinator.com", addressId: addressId,
+                          payStackController.makePayment(context: context,email: getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
                               couponId: couponId, total: total, cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
@@ -296,7 +298,7 @@ class CheckoutScreen extends StatelessWidget {
                         }
 
                         if(controller.selectedIndex.value == 1){
-                          payStackController.makePayment(context: context,email: "saurabh@mailinator.com", addressId: addressId,
+                          payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
                             couponId: couponId, total: total, cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
@@ -362,7 +364,7 @@ class CheckoutScreen extends StatelessWidget {
                           );
                         }
                         if(controller.selectedIndex.value == 1){
-                          payStackController.makePayment(context: context,email: "saurabh@mailinator.com", addressId: addressId,
+                          payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
                             couponId: couponId, total: total, cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }

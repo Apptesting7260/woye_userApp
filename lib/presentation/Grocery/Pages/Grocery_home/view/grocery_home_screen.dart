@@ -154,8 +154,9 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                             ),
                             sliver: serchAndFilter(),
                           ),
-                          SliverToBoxAdapter(
-                            child: ratingDeliveryFilterBtn(),
+                          if (groceryHomeController.homeData.value.category!.isNotEmpty)
+                            SliverToBoxAdapter(
+                            child: catergories(),
                           ),
                           SliverPadding(
                               padding: REdgeInsets.symmetric(horizontal: 0),
@@ -165,8 +166,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                     if (groceryHomeController.homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
 
-                                    if (groceryHomeController.homeData.value.category!.isNotEmpty)
-                                      catergories(),
+                                    ratingDeliveryFilterBtn(),
 
                                     if (groceryHomeController.homeData.value.popularGrocery?.isNotEmpty ?? false)
                                       popularShop(),
@@ -626,11 +626,11 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
   Widget catergories() {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.h),
-          child: Column(
-            children: [
-              Row(
+        Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.h),
+              child: Row(
                 children: [
                   Text(
                     "Categories" ,
@@ -660,62 +660,68 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                   ),
                 ],
               ),
-              hBox(15.h),
-              Row(
+            ),
+            hBox(15.h),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(4, (index) {
-                  return Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          groceryCategoriesFilterController.clearData();
-                          Get.toNamed(AppRoutes.groceryCategoryDetails,
-                              arguments: {
-                                'name': groceryHomeController
-                                    .homeData.value.category![index].name
+                children: List.generate( groceryHomeController.homeData.value.category?.length ?? 0, (index) {
+                  return Padding(
+                    padding: REdgeInsets.only(left: index == 0 ? 22 :18,right :index == groceryHomeController.homeData.value.category!.length - 1 ? 22 : 0  ),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            groceryCategoriesFilterController.clearData();
+                            Get.toNamed(AppRoutes.groceryCategoryDetails,
+                                arguments: {
+                                  'name': groceryHomeController
+                                      .homeData.value.category![index].name
+                                      .toString(),
+                                  'id': int.parse(groceryHomeController
+                                      .homeData.value.category![index].id
+                                      .toString()),
+                                });
+                            grocerycategoriesdetailscontroller.groceryCategoriesDetailsApi(
+                              id: groceryHomeController.homeData.value.category![index].id.toString(),
+                            );
+                          },
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50.r),
+                              child: CachedNetworkImage(
+                                imageUrl: groceryHomeController
+                                    .homeData.value.category![index].imageUrl
                                     .toString(),
-                                'id': int.parse(groceryHomeController
-                                    .homeData.value.category![index].id
-                                    .toString()),
-                              });
-                          grocerycategoriesdetailscontroller.groceryCategoriesDetailsApi(
-                            id: groceryHomeController.homeData.value.category![index].id.toString(),
-                          );
-                        },
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.r),
-                            child: CachedNetworkImage(
-                              imageUrl: groceryHomeController
-                                  .homeData.value.category![index].imageUrl
-                                  .toString(),
-                              fit: BoxFit.cover,
-                              height: 60.h,
-                              width: 60.h,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.gray,
-                                highlightColor: AppColors.lightText,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.gray,
-                                    borderRadius: BorderRadius.circular(100),
+                                fit: BoxFit.cover,
+                                height: 60.h,
+                                width: 60.h,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                placeholder: (context, url) => Shimmer.fromColors(
+                                  baseColor: AppColors.gray,
+                                  highlightColor: AppColors.lightText,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.gray,
+                                      borderRadius: BorderRadius.circular(100),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            )),
-                      ),
-                      hBox(15),
-                      Text(
-                        groceryHomeController.homeData.value.category![index].name.toString(),
-                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                      ),
-                    ],
+                              )),
+                        ),
+                        hBox(15),
+                        Text(
+                          groceryHomeController.homeData.value.category![index].name.toString(),
+                          style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        ),
+                      ],
+                    ),
                   );
                 }),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         hBox(20),
       ],

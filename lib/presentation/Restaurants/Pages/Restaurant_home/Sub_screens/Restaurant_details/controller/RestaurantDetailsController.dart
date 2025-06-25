@@ -12,6 +12,8 @@ class RestaurantDetailsController extends GetxController {
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
 
+  RxBool isDelivery = true.obs;
+
   RxInt categoriesIndex = 0.obs;
   RxString error = ''.obs;
 

@@ -77,8 +77,13 @@ class OrderDetailsScreen extends StatelessWidget {
                         orderIdDetails(),
                         hBox(20),
                         paymentDetails(),
-
-                        if(controller.ordersData.value.orderDetails?.type == 'pharmacy' && (controller.ordersData.value.orderDetails?.drslip?.isNotEmpty ?? false))...[
+                        if ((controller.ordersData.value.orderDetails?.deliverySoon?.isNotEmpty ?? false) ||
+                            (controller.ordersData.value.orderDetails?.deliveryNotes?.isNotEmpty ?? false)) ...[
+                          hBox(20),
+                          otherDetails(),
+                        ],
+                        if(controller.ordersData.value.orderDetails?.type == 'pharmacy' &&
+                         (controller.ordersData.value.orderDetails?.drslip?.isNotEmpty ?? false))...[
                         hBox(20),
                         prescriptions(),
                         ],
@@ -684,6 +689,58 @@ class OrderDetailsScreen extends StatelessWidget {
             ),
           ],
         ),
+        hBox(15)
+      ]),
+    );
+  }
+
+  Widget otherDetails() {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: AppColors.textFieldBorder)),
+      child: CustomExpansionTile(title: "Other Details", children: [
+        const Divider(),
+        hBox(15),
+        if((controller.ordersData.value.orderDetails?.deliveryNotes != null ) ||
+        (controller.ordersData.value.orderDetails?.deliveryNotes?.isNotEmpty ?? false))...[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                "Delivery Notes",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+            Expanded(
+              child: Text(
+                controller.ordersData.value.orderDetails!.deliveryNotes.toString().capitalize ?? "",
+                maxLines: 25,
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              ),
+            ),
+          ],
+        ),
+        ],
+        if((controller.ordersData.value.orderDetails?.deliverySoon != null ) ||
+            (controller.ordersData.value.orderDetails?.deliverySoon?.isNotEmpty ?? false))...[
+        hBox(12.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Delivery Soon",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              ),
+              Text(
+                controller.ordersData.value.orderDetails?.deliverySoon ?? "",
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              ),
+            ],
+          ),
+        ],
         hBox(15)
       ]),
     );

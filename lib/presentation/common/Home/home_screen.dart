@@ -156,6 +156,17 @@ class HomeScreen extends StatelessWidget {
                           ),
                         );
                 }),
+                wBox(7.w),
+                Obx(() => Expanded(
+                  child: Text(
+                      homeController.location.value,
+                      style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                      maxLines: 2,
+                      overflow: TextOverflow.clip,
+                    ),
+                ),
+                ),
+                wBox(7.w),
                 GestureDetector(
                   onTap: () {
                    // showLocationDialog();
@@ -178,44 +189,44 @@ class HomeScreen extends StatelessWidget {
           ),
           Column(
             children: [
-              Padding(
-                padding: REdgeInsets.symmetric(horizontal: 24.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: Get.width * 0.8,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Your Location",
-                            style:
-                                AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                          ),
-                          hBox(5.w),
-                          Obx(
-                            () => Text(
-                              homeController.location.value,
-                              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: 20,
-                      color: AppColors.darkText.withOpacity(0.8),
-                    )
-                  ],
-                ),
-              ),
-              hBox(20),
+              // Padding(
+              //   padding: REdgeInsets.symmetric(horizontal: 24.h),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //         width: Get.width * 0.8,
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               "Your Location",
+              //               style:
+              //                   AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              //             ),
+              //             hBox(5.w),
+              //             Obx(
+              //               () => Text(
+              //                 homeController.location.value,
+              //                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              //                 maxLines: 3,
+              //                 overflow: TextOverflow.ellipsis,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Icon(
+              //         Icons.arrow_forward_ios_sharp,
+              //         size: 20,
+              //         color: AppColors.darkText.withOpacity(0.8),
+              //       )
+              //     ],
+              //   ),
+              // ),
+              // hBox(20),
               Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24),
                 child: SizedBox(

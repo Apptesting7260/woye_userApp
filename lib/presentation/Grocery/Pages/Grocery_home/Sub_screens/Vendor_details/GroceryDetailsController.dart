@@ -9,6 +9,7 @@ class GroceryDetailsController extends GetxController {
   final rxRequestStatus = Status.COMPLETED.obs;
   final pharma_Data = SpecificGroceryModal().obs;
   RxInt categoriesIndex = 0.obs;
+  RxBool isDelivery = true.obs;
 
   var location = ''.obs;
   var latitude = 0.0.obs;

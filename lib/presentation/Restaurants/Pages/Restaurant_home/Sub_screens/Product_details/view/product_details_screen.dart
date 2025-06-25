@@ -220,104 +220,227 @@ class ProductDetailsScreen extends StatelessWidget {
               );
             }
           case Status.COMPLETED:
-            return RefreshIndicator(
-                onRefresh: () async {
-                  controller.specific_Product_Api(
-                      productId: productId, categoryId: categoryId.toString());
-                },
-                child: SingleChildScrollView(
-                  padding: REdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      mainContainer(),
-                      hBox(30),
-                      description(),
-                      hBox(30),
-                      if (controller.productData.value.product!.extra != null)
-                        extra(context: context),
-                      if (controller.productData.value.product!.extra != null)
-                        hBox(10.h),
-                      if (controller
-                          .productData.value.product!.addOn!.isNotEmpty)
-                        addOn(
-                          context: context,
-                          checkBoxGroupValues: true.obs,
-                        ),
-                      if (controller.productData.value.product!.addOn != null)
-                        hBox(30),
-                      Obx(
-                        () => controller.goToCart.value == true
-                            ? CustomElevatedButton(
-                            fontFamily: AppFontFamily.gilroyMedium,
-                            width: Get.width,
-                                color: AppColors.primary,
-                                isLoading:
-                                    addToCartController.rxRequestStatus.value ==
-                                        (Status.LOADING),
-                                text: "Go to Cart",
-                                onPressed: () {
-                                  // restaurantCartController.isCartScreen.value ?
-                                  // Get.toNamed(AppRoutes.restaurantNavbar) :
-                                  if (fromCart != null && fromCart == true) {
-                                    Get.back();
-                                  } else {
-                                    Get.to(() => const RestaurantCartScreen(isBack: true));
-                                  }
+            return Stack(
+              children: [
+                RefreshIndicator(
+                    onRefresh: () async {
+                      controller.specific_Product_Api(
+                          productId: productId, categoryId: categoryId.toString());
+                    },
+                    child: SingleChildScrollView(
+                      padding: REdgeInsets.symmetric(horizontal: 22),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          mainContainer(),
+                          hBox(30),
+                          description(),
+                          // hBox(30),
+                          // if (controller.productData.value.product!.extra != null)
+                          //   extra(context: context),
+                          // if (controller.productData.value.product!.extra != null)
+                          //   hBox(10.h),
+                          // if (controller
+                          //     .productData.value.product!.addOn!.isNotEmpty)
+                          //   addOn(
+                          //     context: context,
+                          //     checkBoxGroupValues: true.obs,
+                          //   ),
+                          if (controller.productData.value.product!.addOn != null)
+                            hBox(25.h),
+                          // Obx(
+                          //   () => controller.goToCart.value == true
+                          //       ? CustomElevatedButton(
+                          //       fontFamily: AppFontFamily.gilroyMedium,
+                          //       width: Get.width,
+                          //           color: AppColors.primary,
+                          //           isLoading:
+                          //               addToCartController.rxRequestStatus.value ==
+                          //                   (Status.LOADING),
+                          //           text: "Go to Cart",
+                          //           onPressed: () {
+                          //             // restaurantCartController.isCartScreen.value ?
+                          //             // Get.toNamed(AppRoutes.restaurantNavbar) :
+                          //             if (fromCart != null && fromCart == true) {
+                          //               Get.back();
+                          //             } else {
+                          //               Get.to(() => const RestaurantCartScreen(isBack: true));
+                          //             }
+                          //
+                          //             controller.goToCart.value = false;
+                          //             controller.cartCount.value = 1;
+                          //           })
+                          //       : CustomElevatedButton(
+                          //       fontFamily: AppFontFamily.gilroyMedium,
+                          //       width: Get.width,
+                          //           color: AppColors.darkText,
+                          //           isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
+                          //           text: "Add to Cart",
+                          //           onPressed: () {
+                          //             if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                          //               showLoginRequired(context);
+                          //             } else {
+                          //               // ---------- add to cart api -----------
+                          //               // controller.productPriceFun();
+                          //               addToCartController.addToCartApi(
+                          //                 cartId: cartId,
+                          //                 productId: controller.productData.value.product!.id.toString(),
+                          //                 productPrice: controller.productData.value.product!.salePrice != null
+                          //                     ? controller.productData.value.product!.salePrice.toString()
+                          //                     : controller.productData.value.product!.regularPrice.toString(),
+                          //                 productQuantity: controller.cartCount.toString(),
+                          //                 restaurantId: controller.productData.value.product!.restaurantId.toString(),
+                          //                 addons: controller.selectedAddOn.toList(),
+                          //                 extrasIds: controller.extrasTitlesIdsId,
+                          //                 extrasItemIds: controller.extrasItemIdsId.toList(),
+                          //                 extrasItemNames: controller.extrasItemIdsName.toList(),
+                          //                 extrasItemPrices: controller.extrasItemIdsPrice.toList(),
+                          //               );
+                          //               pt("object ${controller.extrasItemIdsName}");
+                          //             }
+                          //           },
+                          //   ),
+                          // ),
+                          // hBox(30),
 
-                                  controller.goToCart.value = false;
-                                  controller.cartCount.value = 1;
-                                })
-                            : CustomElevatedButton(
-                            fontFamily: AppFontFamily.gilroyMedium,
-                            width: Get.width,
-                                color: AppColors.darkText,
-                                isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
-                                text: "Add to Cart",
-                                onPressed: () {
-                                  if (getUserDataController.userData.value.user?.userType =="guestUser") {
-                                    showLoginRequired(context);
-                                  } else {
-                                    // ---------- add to cart api -----------
-                                    // controller.productPriceFun();
-                                    addToCartController.addToCartApi(
-                                      cartId: cartId,
-                                      productId: controller.productData.value.product!.id.toString(),
-                                      productPrice: controller.productData.value.product!.salePrice != null
-                                          ? controller.productData.value.product!.salePrice.toString()
-                                          : controller.productData.value.product!.regularPrice.toString(),
-                                      productQuantity: controller.cartCount.toString(),
-                                      restaurantId: controller.productData.value.product!.restaurantId.toString(),
-                                      addons: controller.selectedAddOn.toList(),
-                                      extrasIds: controller.extrasTitlesIdsId,
-                                      extrasItemIds: controller.extrasItemIdsId.toList(),
-                                      extrasItemNames: controller.extrasItemIdsName.toList(),
-                                      extrasItemPrices: controller.extrasItemIdsPrice.toList(),
-                                    );
-                                    pt("object ${controller.extrasItemIdsName}");
-                                  }
-                                },
-                        ),
+                          //------------------------
+                          // productReviews(),
+                          // hBox(8),
+                          // const Divider(),
+                          // if (controller
+                          //     .productData.value.product!.productreview!.isNotEmpty)
+                          //   hBox(30),
+                          // if (controller
+                          //     .productData.value.product!.productreview!.isNotEmpty)
+                          //   reviews(),
+                          if (controller.productData.value.moreProducts!.isNotEmpty)...[
+                            // hBox(20.h),
+                            moreProducts(),
+                          ],
+                          hBox(20),
+                        ],
                       ),
-                      hBox(30),
-                      // productReviews(),
-                      // hBox(8),
-                      // const Divider(),
-                      // if (controller
-                      //     .productData.value.product!.productreview!.isNotEmpty)
-                      //   hBox(30),
-                      // if (controller
-                      //     .productData.value.product!.productreview!.isNotEmpty)
-                      //   reviews(),
-                      if (controller.productData.value.moreProducts!.isNotEmpty)...[
-                        hBox(20.h),
-                        moreProducts(),
-                      ],
-                      hBox(20),
-                    ],
+                    )),
+                Positioned(
+                  bottom: 1,
+                  right: 0,
+                  left: 0,
+                  child: Padding(
+                    padding: REdgeInsets.symmetric(horizontal: 22.0),
+                    child: Obx(
+                          () => controller.goToCart.value == true
+                          ? CustomElevatedButton(
+                          fontFamily: AppFontFamily.gilroyMedium,
+                          width: Get.width,
+                          color: AppColors.primary,
+                          isLoading:
+                          addToCartController.rxRequestStatus.value ==
+                              (Status.LOADING),
+                          text: "Go to Cart",
+                          onPressed: () {
+                            // restaurantCartController.isCartScreen.value ?
+                            // Get.toNamed(AppRoutes.restaurantNavbar) :
+                            if (fromCart != null && fromCart == true) {
+                              Get.back();
+                            } else {
+                              Get.to(() => const RestaurantCartScreen(isBack: true));
+                            }
+
+                            controller.goToCart.value = false;
+                            controller.cartCount.value = 1;
+                          })
+                          : CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
+                        width: Get.width,
+                        color: AppColors.darkText,
+                        isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
+                        text: "Add to Cart",
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return PopScope(
+                                canPop:  true,
+                                child: AlertDialog(
+                                  insetPadding: const EdgeInsets.symmetric(horizontal: 22),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  contentPadding: EdgeInsets.zero,
+                                  backgroundColor: AppColors.white,
+                                  content: SizedBox(
+                                    width: Get.width * 0.9,
+                                    child: Stack(
+                                      children: [
+                                        SingleChildScrollView(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(top: 40.0, right: 16, left: 16, bottom: 16),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                if (controller.productData.value.product?.extra != null)
+                                                  extra(context: context),
+                                                if (controller.productData.value.product?.extra != null)
+                                                  hBox(10.h),
+                                                if (controller.productData.value.product?.addOn?.isNotEmpty ?? false)
+                                                  addOn(
+                                                    context: context,
+                                                    checkBoxGroupValues: true.obs,
+                                                  ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        // Close Icon
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: IconButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            icon: Icon(Icons.cancel, color: AppColors.primary, size: 26),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+
+                          // if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                          //   showLoginRequired(context);
+                          // }
+                          // else {
+                          //   // ---------- add to cart api -----------
+                          //   // controller.productPriceFun();
+                          //   addToCartController.addToCartApi(
+                          //     cartId: cartId,
+                          //     productId: controller.productData.value.product!.id.toString(),
+                          //     productPrice: controller.productData.value.product!.salePrice != null
+                          //         ? controller.productData.value.product!.salePrice.toString()
+                          //         : controller.productData.value.product!.regularPrice.toString(),
+                          //     productQuantity: controller.cartCount.toString(),
+                          //     restaurantId: controller.productData.value.product!.restaurantId.toString(),
+                          //     addons: controller.selectedAddOn.toList(),
+                          //     extrasIds: controller.extrasTitlesIdsId,
+                          //     extrasItemIds: controller.extrasItemIdsId.toList(),
+                          //     extrasItemNames: controller.extrasItemIdsName.toList(),
+                          //     extrasItemPrices: controller.extrasItemIdsPrice.toList(),
+                          //   );
+                          //   pt("object ${controller.extrasItemIdsName}");
+                          // }
+                        },
+                      ),
+                    ),
                   ),
-                ));
+                ),
+              ],
+            );
         }
       }),
     );

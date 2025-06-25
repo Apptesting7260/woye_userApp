@@ -172,8 +172,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                             ),
                             sliver: searchAndFilter(),
                           ),
-                          SliverToBoxAdapter(
-                              child: ratingDeliveryFilterBtn(),
+                          if (restaurantHomeController.homeData.value.category?.isNotEmpty ?? false)
+                            SliverToBoxAdapter(
+                            child: categories(),
                           ),
                           SliverPadding(
                               padding: REdgeInsets.symmetric(horizontal: 0),
@@ -187,8 +188,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     //     child: Text("Crash")),
                                     if (restaurantHomeController.homeData.value.banners!.isNotEmpty)
                                       mainBanner(),
-                                    if (restaurantHomeController.homeData.value.category!.isNotEmpty)
-                                      categories(),
+                                      ratingDeliveryFilterBtn(),
                                     // if (restaurantHomeController.popularRestaurantList.isNotEmpty)
                                     if (restaurantHomeController.homeData.value.popularResto?.isNotEmpty ?? false)
                                       mostPopularRestaurant(),
@@ -379,7 +379,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: REdgeInsets.only(left: 24, bottom: 20, top: 5, right: 24),
+        padding: REdgeInsets.only(left: 24, bottom: 15, top: 5, right: 24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -583,11 +583,11 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   Widget categories() {
     return Column(
       children: [
-        Padding(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              Row(
+        Column(
+          children: [
+            Padding(
+              padding: REdgeInsets.symmetric(horizontal: 24),
+              child: Row(
                 children: [
                   Text(
                     "Categories",
@@ -617,59 +617,67 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   ),
                 ],
               ),
-              hBox(20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(4, (index) {
-                  return Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          categoriesFilterController.resetFilters();
-                          Get.toNamed(
-                            AppRoutes.restaurantCategoriesDetails,
-                            arguments: {
-                              'name': restaurantHomeController.homeData.value.category![index].name.toString(),
-                              'id': int.parse(restaurantHomeController.homeData.value.category![index].id.toString()),
-                            });
-                            restaurantCategoriesDetailsController.restaurant_Categories_Details_Api(
-                              id: restaurantHomeController.homeData.value.category![index].id.toString(),
-                            );
-                        },
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50.r),
-                            child: CachedNetworkImage(
-                              imageUrl: restaurantHomeController
-                                  .homeData.value.category![index].imageUrl
-                                  .toString(),
-                              fit: BoxFit.cover,
-                              height: 60.h,
-                              width: 60.h,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.gray,
-                                highlightColor: AppColors.lightText,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.gray,
-                                    borderRadius: BorderRadius.circular(100),
+            ),
+            hBox(20),
+            Obx(
+              ()=> SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate( restaurantHomeController.homeData.value.category?.length ?? 0, (index) {
+                    return Padding(
+                      padding: REdgeInsets.only(left: index == 0 ? 22 :18,right :index == restaurantHomeController.homeData.value.category!.length - 1 ? 22 : 0  ),
+                      child: Column(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              categoriesFilterController.resetFilters();
+                              Get.toNamed(
+                                AppRoutes.restaurantCategoriesDetails,
+                                arguments: {
+                                  'name': restaurantHomeController.homeData.value.category![index].name.toString(),
+                                  'id': int.parse(restaurantHomeController.homeData.value.category![index].id.toString()),
+                                });
+                                restaurantCategoriesDetailsController.restaurant_Categories_Details_Api(
+                                  id: restaurantHomeController.homeData.value.category![index].id.toString(),
+                                );
+                            },
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50.r),
+                                child: CachedNetworkImage(
+                                  imageUrl: restaurantHomeController
+                                      .homeData.value.category![index].imageUrl
+                                      .toString(),
+                                  fit: BoxFit.cover,
+                                  height: 60.h,
+                                  width: 60.h,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                  placeholder: (context, url) => Shimmer.fromColors(
+                                    baseColor: AppColors.gray,
+                                    highlightColor: AppColors.lightText,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: AppColors.gray,
+                                        borderRadius: BorderRadius.circular(100),
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            )),
+                                )),
+                          ),
+                          hBox(15),
+                          Text(
+                            restaurantHomeController.homeData.value.category![index].name.toString(),
+                            style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          ),
+                        ],
                       ),
-                      hBox(15),
-                      Text(
-                        restaurantHomeController.homeData.value.category![index].name.toString(),
-                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                      ),
-                    ],
-                  );
-                }),
+                    );
+                  }),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
         hBox(20.h),
       ],

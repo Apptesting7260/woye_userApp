@@ -23,6 +23,7 @@ class GroceryCategoryDetails extends StatelessWidget {
     int categoryId = args['id'] ?? 0;
     return Scaffold(
       appBar: CustomAppBar(
+        centetTitle: true,
         title: Text(
           categoryTitle,
           style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),

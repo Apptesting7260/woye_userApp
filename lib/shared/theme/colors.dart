@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   static Color white = Colors.white;
   static Color black = Colors.black;
+  static Color transparent = Colors.transparent;
   static Color primary = const Color.fromRGBO(6, 132, 75, 1);
   static Color lightPrimary = const Color.fromRGBO(6, 132, 75, 0.2);
   static Color ultraLightPrimary = const Color.fromRGBO(6, 132, 75, 0.1);

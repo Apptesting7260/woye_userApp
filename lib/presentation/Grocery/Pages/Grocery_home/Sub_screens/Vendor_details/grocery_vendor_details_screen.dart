@@ -113,6 +113,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
         switch (controller.rxRequestStatus.value) {
           case Status.LOADING:
             return Center(child: circularProgressIndicator());
+
           case Status.ERROR:
             if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
               return InternetExceptionWidget(
@@ -127,41 +128,41 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                 },
               );
             }
+
           case Status.COMPLETED:
             return Scaffold(
               body: RefreshIndicator(
-                  onRefresh: () async {
-                    controller.restaurant_Details_Api(id: widget.groceryId);
-                  },
-                  child: SingleChildScrollView(
-                    // padding: REdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        mainBanner(),
-                        // hBox(30),
-                        // openHours(),
-                        // hBox(30),
-                        // description(),
-                        // reviews(),
-                        hBox(20.h),
-                        categoriesList(),
-                        if(controller.pharma_Data.value.highlights?.isNotEmpty ?? false)...[
-                          highlights(widget.groceryId),
-                        ],
-                        if(controller.pharma_Data.value.highlights?.isEmpty ?? true)...[
-                          hBox(20.h),
-                        ],
-                        if((controller.pharma_Data.value.categories?.data.isNotEmpty ?? false) && controller.categoriesIndex.value != 0)...[
-                          categoriesProducts(context,widget.groceryId),
-                        ],
-                        if(controller.categoriesIndex.value == 0)...[
-                          allProducts(),
-                        ],
-                        hBox(30),
-                      ],
+                onRefresh: () async {
+                  controller.restaurant_Details_Api(id: widget.groceryId);
+                },
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(child: mainBanner()),
+                    if (controller.pharma_Data.value.highlights?.isNotEmpty ?? false)
+                      SliverToBoxAdapter(child: highlights(widget.groceryId))
+                    else SliverToBoxAdapter(child: hBox(20.h)),
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _PinnedHeaderDelegate(
+                        height: 35,
+                        child: Container(
+                          color: Colors.white,
+                          child: Padding(
+                            padding:REdgeInsets.only(bottom: 3.0),
+                            child: categoriesList(),
+                          ),
+                        ),
+                      ),
                     ),
-                  )),
+                    if ((controller.pharma_Data.value.categories?.data.isNotEmpty ?? false) &&
+                        controller.categoriesIndex.value != 0)
+                      SliverToBoxAdapter(child: categoriesProducts(context, widget.groceryId))
+                    else if (controller.categoriesIndex.value == 0)
+                      SliverToBoxAdapter(child: allProducts()),
+                    SliverToBoxAdapter(child: hBox(30)),
+                  ],
+                ),
+              ),
             );
         }
       }),
@@ -199,8 +200,9 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
               Flexible(
                 child: Text(
                   controller.pharma_Data.value.pharmaShop?.shopName.toString().capitalize.toString() ?? "",
-                  style: AppFontStyle.text_22_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                  maxLines: 2,
+                  style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               wBox(5.w),
@@ -638,8 +640,8 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // hBox(2.h),
-          Text(
+          hBox(15.h),
+             Text(
             "All Products",
             style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
@@ -677,119 +679,134 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
   }
 
   Widget deliveryAndCollectionsCard() {
-    return Center(
-      child: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 5),
-        child: Container(
-          height: 54.h,
-          decoration: BoxDecoration(
-            color: AppColors.ultraLightPrimary.withOpacity(0.06),
-            borderRadius: BorderRadius.circular(100),
-          ),
-          child: Padding(
-            padding: REdgeInsets.symmetric(horizontal: 5.0, vertical: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: REdgeInsets.only(left: 10, right: 3),
-                    height: 50.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: REdgeInsets.only(bottom: 3.0),
-                          child: SvgPicture.asset(
-                            ImageConstants.scooterImage,
-                            height: 20,
-                            colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
-                          ),
+    return Obx(
+          ()=> Center(
+        child: Padding(
+          padding: REdgeInsets.symmetric(horizontal: 5),
+          child: Container(
+            height: 45.h,
+            decoration: BoxDecoration(
+              color: AppColors.ultraLightPrimary.withOpacity(0.06),
+              borderRadius: BorderRadius.circular(100),
+            ),
+            child: Padding(
+              padding: REdgeInsets.symmetric(horizontal: 5.0, vertical: 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap:() {
+                        controller.isDelivery.value = true;
+                      },
+                      child: Container(
+                        padding: REdgeInsets.only(left: 10, right: 3),
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          color: controller.isDelivery.value ?  AppColors.primary :AppColors.transparent,
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        wBox(5.h),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "  Delivery",
-                                style: AppFontStyle.text_12_400(
-                                  AppColors.white,
-                                  family: AppFontFamily.gilroyBold,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: REdgeInsets.only(bottom: 3.0),
+                              child: SvgPicture.asset(
+                                ImageConstants.scooterImage,
+                                height: 20,
+                                colorFilter: ColorFilter.mode(
+                                    controller.isDelivery.value ? AppColors.white : AppColors.black, BlendMode.srcIn),
                               ),
-                              Obx(() => Text(
-                                controller.rxRequestStatus.value == Status.LOADING
-                                    ? "0-0 mins"
-                                    : "${controller.travelTime.value.round()}-${(controller.travelTime.value.round() + 2)} mins",
-                                style: AppFontStyle.text_12_400(
-                                  AppColors.white,
-                                  family: AppFontFamily.gilroyRegular,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              )),
-                            ],
-                          ),
+                            ),
+                            wBox(5.h),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "  Delivery",
+                                    style: AppFontStyle.text_12_400(
+                                      controller.isDelivery.value ? AppColors.white : AppColors.darkText,
+                                      family: AppFontFamily.gilroyBold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Obx(() => Text(
+                                    controller.rxRequestStatus.value ==
+                                        Status.LOADING
+                                        ? "0-0 mins"
+                                        : "${controller.travelTime.value.round()}-${(controller.travelTime.value.round() + 2)} mins",
+                                    style: AppFontStyle.text_12_400(
+                                      controller.isDelivery.value ? AppColors.white : AppColors.darkText,
+                                      family: AppFontFamily.gilroyRegular,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  )),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-
-                wBox(5.w),
-                Expanded(
-                  child: Container(
-                    padding: REdgeInsets.only(left: 10),
-                    height: 50.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          ImageConstants.collections,
-                          height: 20,
-                          colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),
+                  wBox(5.w),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        controller.isDelivery.value = false;
+                      },
+                      child: Container(
+                        padding: REdgeInsets.only(left: 10),
+                        height: 50.h,
+                        decoration: BoxDecoration(
+                          color: controller.isDelivery.value ?  AppColors.transparent :AppColors.primary,
+                          borderRadius: BorderRadius.circular(100),
                         ),
-                        wBox(5.h),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Collection",
-                                style: AppFontStyle.text_12_400(
-                                  AppColors.darkText,
-                                  family: AppFontFamily.gilroyBold,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              ImageConstants.collections,
+                              height: 20,
+                              colorFilter: ColorFilter.mode(
+                                  controller.isDelivery.value ?  AppColors.black: AppColors.white, BlendMode.srcIn),
+                            ),
+                            wBox(5.h),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Collection",
+                                    style: AppFontStyle.text_12_400(
+                                      controller.isDelivery.value ? AppColors.darkText : AppColors.white,
+                                      family: AppFontFamily.gilroyBold,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  Text(
+                                    "15 mins",
+                                    style: AppFontStyle.text_12_400(
+                                      controller.isDelivery.value ? AppColors.darkText : AppColors.white,
+                                      family: AppFontFamily.gilroyRegular,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ],
                               ),
-                              Text(
-                                "15 mins",
-                                style: AppFontStyle.text_12_400(
-                                  AppColors.darkText,
-                                  family: AppFontFamily.gilroyRegular,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -923,7 +940,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // hBox(30.h),
+          hBox(15.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -1180,4 +1197,26 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
     );
   }
 
+}
+class _PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+  final double height;
+
+  _PinnedHeaderDelegate({required this.child, required this.height});
+
+  @override
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return SizedBox(height: height, child: child);
+  }
+
+  @override
+  bool shouldRebuild(covariant _PinnedHeaderDelegate oldDelegate) {
+    return oldDelegate.child != child || oldDelegate.height != height;
+  }
 }

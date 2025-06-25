@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:pay_with_paystack/model/payment_data.dart';
 import 'package:pay_with_paystack/pay_with_paystack.dart';
@@ -15,8 +16,18 @@ class PayStackController extends GetxController {
   final GroceryCartController groceryCartController = Get.put(GroceryCartController());
   final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
 
-  final String secretKeyTest = "sk_test_2cc5091860ba2648c79fc231ca7cd7d63651f691";
-  final String publicKeyTest = "pk_test_18f5761c50566720846b2baa1f9a1a785edc44ae";
+
+  String secretKey = "";
+  String publicKey = "";
+
+  @override
+  void onInit() {
+    secretKey = dotenv.env['secretKeyTest'] ?? "";
+    // secretKey = dotenv.env['secretKeyTest1'] ?? "";
+    publicKey = dotenv.env['publicKeyTest'] ?? "";
+    debugPrint("🔐 Loaded Paystack Key: $secretKey");
+    super.onInit();
+  }
 
   final _payStack = PayWithPayStack();
   var response;
@@ -34,11 +45,13 @@ class PayStackController extends GetxController {
     try {
       response = await _payStack.now(
         context: context,
-        secretKey: secretKeyTest,
+        secretKey: secretKey,
         customerEmail: email,
         reference: uniqueTransRef,
         currency: "GHS",
-        amount: double.parse(controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total),
+        amount: controller.walletSelected.value
+            ? controller.newTotalWithoutIncludingTips.value.ceilToDouble()
+            : double.parse(total.toString()).ceilToDouble(),
         callbackUrl: "https://google.com",
         transactionCompleted: (paymentData) {
           debugPrint("Transaction completed successfully.... ${paymentData.status} ${paymentData.amount} ${paymentData.message}");
