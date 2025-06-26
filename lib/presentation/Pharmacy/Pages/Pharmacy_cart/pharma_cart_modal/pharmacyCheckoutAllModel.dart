@@ -124,6 +124,7 @@ class Buckets {
   String? specificDeliveryCharge;
   String? grandtotalPrice;
   Rx<bool> isVendorDelete = false.obs;
+  Rx<bool> isChecked = false.obs;
 
   Buckets(
       {this.pharmaId,

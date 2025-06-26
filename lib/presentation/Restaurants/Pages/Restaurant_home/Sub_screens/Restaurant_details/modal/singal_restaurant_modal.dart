@@ -432,6 +432,7 @@ class Highlights {
   Category? category;
   RxBool isInWishlist =  false.obs;
   RxBool isLoading = false.obs;
+  RxBool isAddToCart = false.obs;
   // List<Productreview>? productreview;
 
   Highlights(

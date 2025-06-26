@@ -191,12 +191,12 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     hBox(75.h),
                   ],
                 ),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerDocked,
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
                   padding: EdgeInsets.only(bottom: 60.h),
-                  child: groceryShowAllCartController.cartData.value.buttonCheck == false
-                      ? const SizedBox()
+                  child:/* groceryShowAllCartController.cartData.value.buttonCheck == false*/
+                  (groceryShowAllCartController.cartData.value.carts?.isEmpty ?? true) ?
+                  const SizedBox()
                       : Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -263,16 +263,15 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              groceryShowAllCartController
-                                                  .cartData
-                                                  .value
-                                                  .carts![0]
-                                                  .grocery!
-                                                  .shopName
-                                                  .toString(),
+                                            groceryShowAllCartController.cartData.value.carts?.length == 1 ? Text(
+                                              groceryShowAllCartController.cartData.value.carts![0].grocery!.shopName.toString(),
                                               overflow: TextOverflow.ellipsis,
                                               style: AppFontStyle.text_14_500(
+                                                  AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            ): Text(
+                                              "Your Carts",
+                                              overflow: TextOverflow.ellipsis,
+                                              style: AppFontStyle.text_16_500(
                                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                             ),
                                             // Text(
@@ -295,69 +294,70 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                           ),
                                           onPressed: () {
                                             // Get.back();
-                                            Get.to(()=>SingleVendorGroceryCart(
-                                              cartId:groceryShowAllCartController.cartData.value.carts![0].id.toString(),
-                                              isBack: true,
-                                            ));
+                                            navbarController.getIndex(3);
+                                            // Get.to(()=>SingleVendorGroceryCart(
+                                            //   cartId:groceryShowAllCartController.cartData.value.carts![0].id.toString(),
+                                            //   isBack: true,
+                                            // ));
                                           },
                                           child: Column(
                                             children: [
                                               Text(
-                                                "View Cart",
+                                                groceryShowAllCartController.cartData.value.carts?.length == 1 ?  "View Cart" : "View Carts",
                                                 style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                               ),
-                                              Text(
-                                                "items",
-                                                style: AppFontStyle.text_10_400(
-                                                  family: AppFontFamily.gilroyMedium,
-                                                    AppColors.white
-                                                        .withOpacity(.5)),
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                              ),
+                                              // Text(
+                                              //   "items",
+                                              //   style: AppFontStyle.text_10_400(
+                                              //     family: AppFontFamily.gilroyMedium,
+                                              //       AppColors.white
+                                              //           .withOpacity(.5)),
+                                              //   overflow: TextOverflow.ellipsis,
+                                              //   maxLines: 1,
+                                              // ),
                                             ],
                                           ))
                                     ],
                                   ),
                                 ),
-                                Positioned(
-                                  top: -15.h,
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      showAllCart();
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      padding: EdgeInsets.all(8.r),
-                                      backgroundColor: AppColors.white,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.r),
-                                      ),
-                                      elevation: 5,
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        wBox(2.w),
-                                        Text(
-                                          "Carts",
-                                          style: AppFontStyle.text_12_600(
-                                              AppColors.primary,family:AppFontFamily.gilroyRegular),
-                                        ),
-                                        Icon(
-                                          Icons.arrow_drop_up,
-                                          color: AppColors.primary,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                // Positioned(
+                                //   top: -15.h,
+                                //   child: ElevatedButton(
+                                //     onPressed: () {
+                                //       showAllCart();
+                                //     },
+                                //     style: ElevatedButton.styleFrom(
+                                //       padding: EdgeInsets.all(8.r),
+                                //       backgroundColor: AppColors.white,
+                                //       shape: RoundedRectangleBorder(
+                                //         borderRadius:
+                                //             BorderRadius.circular(30.r),
+                                //       ),
+                                //       elevation: 5,
+                                //     ),
+                                //     child: Row(
+                                //       mainAxisAlignment:
+                                //           MainAxisAlignment.center,
+                                //       crossAxisAlignment:
+                                //           CrossAxisAlignment.center,
+                                //       mainAxisSize: MainAxisSize.min,
+                                //       children: [
+                                //         wBox(2.w),
+                                //         Text(
+                                //           "Carts",
+                                //           style: AppFontStyle.text_12_600(
+                                //               AppColors.primary,family:AppFontFamily.gilroyRegular),
+                                //         ),
+                                //         Icon(
+                                //           Icons.arrow_drop_up,
+                                //           color: AppColors.primary,
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             )
                           ],

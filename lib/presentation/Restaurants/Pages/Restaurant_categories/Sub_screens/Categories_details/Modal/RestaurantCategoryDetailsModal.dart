@@ -53,6 +53,7 @@ class CategoryProduct {
   String? userId;
   var rating;
   Rx<bool> isLoading = false.obs;
+  Rx<bool> isAddToCart = false.obs;
 
   CategoryProduct({
     this.id,

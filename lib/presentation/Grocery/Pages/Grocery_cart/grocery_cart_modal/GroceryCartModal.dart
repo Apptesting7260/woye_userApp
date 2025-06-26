@@ -114,6 +114,7 @@ class Buckets {
   String? specificTotalPrice;
   String? specificDeliveryCharge;
   Rx<bool> isVendorDelete = false.obs;
+  Rx<bool> isChecked = false.obs;
 
   Buckets({
     this.vendorId,

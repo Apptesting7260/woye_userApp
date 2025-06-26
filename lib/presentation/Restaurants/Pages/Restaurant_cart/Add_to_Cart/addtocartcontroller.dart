@@ -7,6 +7,7 @@ class AddToCartController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final rxRequestStatus2 = Status.COMPLETED.obs;
+  final rxRequestStatusPopUp = Status.COMPLETED.obs;
   final addToCartData = AddToCart().obs;
   final updateCartData = AddToCart().obs;
   RxString error = ''.obs;
@@ -31,6 +32,8 @@ class AddToCartController extends GetxController {
 
   void setRxRequestStatus2(Status value) => rxRequestStatus2.value = value;
 
+  void setRxRequestStatusPopUP(Status value) => rxRequestStatusPopUp.value = value;
+
   void setData(AddToCart value) => addToCartData.value = value;
 
   void setUpdateCartData(AddToCart value) => updateCartData.value = value;
@@ -48,8 +51,13 @@ class AddToCartController extends GetxController {
     required List<dynamic> extrasItemNames,
     required List<dynamic> extrasItemPrices,
     String? cartId,
+     required bool isPopUp,
   }) async {
-    setRxRequestStatus(Status.LOADING);
+    if(isPopUp == false) {
+      setRxRequestStatus(Status.LOADING);
+    }else {
+      setRxRequestStatusPopUP(Status.LOADING);
+    }
     // initializeUser();
     var body = jsonEncode({
       "product_id": productId,
@@ -81,7 +89,11 @@ class AddToCartController extends GetxController {
         //   );
         // }
         //   restaurantCartController.getRestaurantCartApi(cartId: );
+        if(isPopUp == false) {
           setRxRequestStatus(Status.COMPLETED);
+        }else {
+          setRxRequestStatusPopUP(Status.COMPLETED);
+        }
           specificProductController.goToCart.value = true;
           Utils.showToast(addToCartData.value.message.toString());
           restaurantCartController.getAllCartData();
@@ -93,15 +105,47 @@ class AddToCartController extends GetxController {
           // groceryShowAllCartController.getGroceryAllShowApi();
       } else {
         Utils.showToast(addToCartData.value.message.toString());
-        setRxRequestStatus(Status.COMPLETED);
+        if(isPopUp == false) {
+          setRxRequestStatus(Status.COMPLETED);
+        }else{
+          setRxRequestStatusPopUP(Status.COMPLETED);
+        }
       }
     }).onError((error, stackError) {
       print("Error: $error");
       setError(error.toString());
       print(stackError);
-      setRxRequestStatus(Status.ERROR);
+      if(isPopUp == false) {
+        setRxRequestStatus(Status.ERROR);
+      }else {
+        setRxRequestStatusPopUP(Status.ERROR);
+      }
     });
   }
+
+  void clearSelected(){
+    specificProductController.selectedAddOn.clear();
+    final addOns = specificProductController.productData.value.product?.addOn;
+    if (addOns != null) {
+      for (var addOn in addOns) {
+        addOn.isChecked.value = false;
+      }
+    }
+
+    final extras = specificProductController.productData.value.product?.extra;
+    if (extras != null) {
+      for (var extra in extras) {
+        extra.selectedIndex.value = -1;
+      }
+    }
+    specificProductController.extrasItemIdsId.clear();
+    specificProductController.extrasItemIdsName.clear();
+    specificProductController.extrasItemIdsPrice.clear();
+    specificProductController.extrasTitlesIdsId.clear();
+  }
+
+
+  //---------------
 
   updateCartApi({
     required String productId,

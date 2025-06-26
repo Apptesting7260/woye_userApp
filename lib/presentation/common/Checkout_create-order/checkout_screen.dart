@@ -1157,7 +1157,8 @@ class CheckoutScreen extends StatelessWidget {
                     ),
                     Text(
                       couponDiscount != ""
-                          ? "-\$$couponDiscount"
+                          ? " \$$couponDiscount"
+                          // ? "-\$$couponDiscount"
                           : "-\$${Random.secure().nextInt(20)}.00",
                       style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                     ),

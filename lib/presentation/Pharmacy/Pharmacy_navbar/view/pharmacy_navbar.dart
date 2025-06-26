@@ -60,7 +60,7 @@ class PharmacyNavbar extends StatelessWidget {
         height: 70.h,
         width: Get.width,
         decoration: BoxDecoration(
-          color: AppColors.navbar,
+        color: AppColors.navbar,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
         ),

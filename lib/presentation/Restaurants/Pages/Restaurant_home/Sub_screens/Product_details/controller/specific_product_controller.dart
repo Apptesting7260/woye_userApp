@@ -12,6 +12,7 @@ class specific_Product_Controller extends GetxController {
   var productPrice = 0;
 
   RxBool goToCart = false.obs;
+  RxBool isExtraPopUps = false.obs;
 
   final rxRequestStatus = Status.COMPLETED.obs;
   final productData = specificProduct().obs;

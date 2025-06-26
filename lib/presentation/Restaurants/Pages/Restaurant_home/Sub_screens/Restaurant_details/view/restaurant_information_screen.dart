@@ -348,7 +348,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      Row(
+     /* Row(
         children: [
            Icon(Icons.person_outline_rounded,color: AppColors.black.withOpacity(0.8),size: 25,),
           wBox(8),
@@ -381,7 +381,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
           )
         ],
       ),
-      hBox(12.h),
+      hBox(12.h),*/
       Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

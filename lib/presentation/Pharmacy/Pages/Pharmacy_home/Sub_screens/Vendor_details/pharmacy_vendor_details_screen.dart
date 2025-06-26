@@ -906,7 +906,8 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                   ),
                                 ),
                               ),
-                            ) : Container(
+                            ) :
+                            Container(
                               clipBehavior: Clip.antiAlias,
                               width: double.maxFinite,
                               height: 220.h,
@@ -949,6 +950,29 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                                   ),
                                 ),
                               ),
+                            ),
+                            Positioned(
+                              bottom: 10,right: 10,
+                              child:/* Obx(
+                      ()=>*/ InkWell(
+                                onTap: () {
+                                  // if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                                  //   showLoginRequired(context);
+                                  // } else {
+                                  //   controller.restaurant_Data.value.highlights![index].isAddToCart.value = true;
+                                  // }
+                                },
+                                child: Container(
+                                  height: 30.h,width: 30.w,
+                                  decoration: BoxDecoration(color: AppColors.primary,
+                                      // shape: BoxShape.circle,
+                                      borderRadius: BorderRadius.circular(10.r)
+                                  ),
+                                  child: Icon(/*controller.restaurant_Data.value.highlights![index].isAddToCart.value ? Icons.done :*/Icons.add,
+                                    color: AppColors.white,size: 20,),
+                                ),
+                              ),
+                              // ),
                             ),
                           ],
                         ),

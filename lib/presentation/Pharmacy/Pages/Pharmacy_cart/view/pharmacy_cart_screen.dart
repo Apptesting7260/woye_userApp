@@ -861,62 +861,102 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                         ),
-                        hBox(12.h),
+                        hBox(1.h),
+                        // Row(
+                        //   children: [
+                        //     Container(
+                        //       height: 30,
+                        //       width: 60,
+                        //       decoration: BoxDecoration(
+                        //         color: AppColors.primary.withOpacity(0.1),
+                        //         borderRadius: BorderRadius.circular(10.r),
+                        //       ),
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           SvgPicture.asset(
+                        //             ImageConstants.bikeLogo,
+                        //             colorFilter: ColorFilter.mode(
+                        //                 AppColors.primary, BlendMode.srcIn),
+                        //             height: 17,
+                        //             width: 17,
+                        //           ),
+                        //           wBox(5.w),
+                        //           Text(
+                        //             "\$2",
+                        //             style: AppFontStyle.text_16_400(
+                        //               AppColors.primary,family: AppFontFamily.gilroyMedium
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //     wBox(8.w),
+                        //     Container(
+                        //       height: 30,
+                        //       width: 91,
+                        //       decoration: BoxDecoration(
+                        //         color: AppColors.primary.withOpacity(0.1),
+                        //         borderRadius: BorderRadius.circular(10.r),
+                        //       ),
+                        //       child: Row(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         children: [
+                        //           SvgPicture.asset(
+                        //             ImageConstants.historyLogo,
+                        //             colorFilter: ColorFilter.mode(
+                        //                 AppColors.primary, BlendMode.srcIn),
+                        //             height: 17,
+                        //             width: 17,
+                        //           ),
+                        //           wBox(5.w),
+                        //           Text(
+                        //             "20min",
+                        //             style: AppFontStyle.text_16_400(
+                        //               AppColors.primary,family: AppFontFamily.gilroyMedium
+                        //             ),
+                        //           )
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                         Row(
+                          // crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              height: 30,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    ImageConstants.bikeLogo,
-                                    colorFilter: ColorFilter.mode(
-                                        AppColors.primary, BlendMode.srcIn),
-                                    height: 17,
-                                    width: 17,
-                                  ),
-                                  wBox(5.w),
-                                  Text(
-                                    "\$2",
-                                    style: AppFontStyle.text_16_400(
-                                      AppColors.primary,family: AppFontFamily.gilroyMedium
-                                    ),
-                                  ),
-                                ],
+                            // Text(
+                            //   price,
+                            //   textAlign: TextAlign.left,
+                            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+                            // ),
+
+                            SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+                            wBox(3.w),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3.0),
+                              child: Text(
+                                "30-50 mins",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                               ),
                             ),
-                            wBox(8.w),
-                            Container(
-                              height: 30,
-                              width: 91,
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    ImageConstants.historyLogo,
-                                    colorFilter: ColorFilter.mode(
-                                        AppColors.primary, BlendMode.srcIn),
-                                    height: 17,
-                                    width: 17,
-                                  ),
-                                  wBox(5.w),
-                                  Text(
-                                    "20min",
-                                    style: AppFontStyle.text_16_400(
-                                      AppColors.primary,family: AppFontFamily.gilroyMedium
-                                    ),
-                                  )
-                                ],
+                            Text(
+                              " • ",
+                              textAlign: TextAlign.left,
+                              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                            ),
+                            SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+                            wBox(3.w),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3.0),
+                              child: Text(
+                                "\$5 Delivery",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                               ),
                             ),
                           ],
@@ -941,20 +981,52 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                   //       )
                   //       :
                   Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        showRemoveVendorDialog(
-                            cartId: buckets.cartId.toString(), index: index);
-                      },
-                      child: Text(
-                        "Remove",
-                        style: AppFontStyle.text_14_400(AppColors.red,family: AppFontFamily.gilroyMedium),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
+                    padding: REdgeInsets.only(right:2,top:5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Obx(
+                              ()=>SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Checkbox(
+                              activeColor: AppColors.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              value: buckets.isChecked.value,
+                              side: BorderSide(
+                                color: AppColors.black,
+                              ),
+                              onChanged: (value) {
+                                buckets.isChecked.value = !buckets.isChecked.value;
+                              },
+                            ),
+                          ),
+                        ),
+                        hBox(10.h),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: GestureDetector(
+                            onTap: () {
+                              showRemoveVendorDialog(
+                                  index: index,
+                                  cartId: buckets.cartId.toString());
+                              // buckets.isVendorDelete.value = true;
+                              // deleteVendorController.deleteProductApi(cartId: buckets.cartId.toString());
+                            },
+                            child: Text(
+                              "Remove",
+                              style: AppFontStyle.text_14_400(AppColors.red,family: AppFontFamily.gilroyMedium),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          // ),
+                        ),
+                      ],
                     ),
-                    // ),
                   ),
                 ],
               ),

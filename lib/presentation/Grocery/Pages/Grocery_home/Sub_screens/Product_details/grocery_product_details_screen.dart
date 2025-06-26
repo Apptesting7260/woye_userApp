@@ -203,57 +203,71 @@ class GroceryProductDetailsScreen extends StatelessWidget {
               );
             }
           case Status.COMPLETED:
-            return RefreshIndicator(
-                onRefresh: () async {
-                  controller.pharmaSpecificProductApi(
-                      productId: productId, categoryId: categoryId.toString());
-                },
-                child: SingleChildScrollView(
-                  padding: REdgeInsets.symmetric(horizontal: 24),
-                  child: Column(
-                    children: [
-                      mainBanner(),
-                      hBox(10),
-                      //
-                      titleAndDetails(),
-                      hBox(10),
-                      //
+            return Stack(
+              children: [
+                RefreshIndicator(
+                    onRefresh: () async {
+                      controller.pharmaSpecificProductApi(
+                          productId: productId, categoryId: categoryId.toString());
+                    },
+                    child: SingleChildScrollView(
+                      padding: REdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        children: [
+                          mainBanner(),
+                          hBox(10),
+                          //
+                          titleAndDetails(),
+                          hBox(10),
+                          //
 
-                      //
-                      if (controller
-                          .productData.value.product!.variant!.isNotEmpty)
-                        variant(context: context),
-                      if (controller
-                          .productData.value.product!.variant!.isNotEmpty)
-                        hBox(20),
-                      description(),
-                      hBox(30),
-                      // shopCard(),
-                      // hBox(20),
-                      //
-                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
-                      buttons(context),
-                      // if(controller.productData.value.product!.quanInStock.toString() != "0")
-                      hBox(30),
-                      //
-                      // dropdownsSection(),
-                      // hBox(30),
-                      // productSummery(),
-                      // //
-                      // productReviews(),
-                      // hBox(8),
-                      // //
-                      // const Divider(),
-                      // hBox(30),
-                      // //
-                      // reviews(),
-                      // hBox(30),
-                      if (controller.productData.value.moreProducts!.isNotEmpty)
-                        moreProducts(),
-                      hBox(20),
-                    ],
+                          //
+                          if (controller
+                              .productData.value.product!.variant!.isNotEmpty)
+                            variant(context: context),
+                          if (controller
+                              .productData.value.product!.variant!.isNotEmpty)
+                            hBox(20),
+                          description(),
+                          hBox(30),
+                          // shopCard(),
+                          // hBox(20),
+                          //
+                          // if(controller.productData.value.product!.quanInStock.toString() != "0")
+                          // buttons(context),
+                          // if(controller.productData.value.product!.quanInStock.toString() != "0")
+                          // hBox(30),
+                          //
+                          // dropdownsSection(),
+                          // hBox(30),
+                          // productSummery(),
+                          // //
+                          // productReviews(),
+                          // hBox(8),
+                          // //
+                          // const Divider(),
+                          // hBox(30),
+                          // //
+                          // reviews(),
+                          // hBox(30),
+                          if (controller.productData.value.moreProducts!.isNotEmpty)
+                          moreProducts(),
+                          hBox(55),
+                        ],
+                      ),
+                    )),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Padding(
+                    padding: REdgeInsets.symmetric(horizontal: 22.0),
+                    child: buttons(context),
                   ),
-                ));
+                ),
+
+              ],
+            );
         }
       }),
     );
