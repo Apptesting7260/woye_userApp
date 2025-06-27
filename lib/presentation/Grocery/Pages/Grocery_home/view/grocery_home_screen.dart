@@ -193,7 +193,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
-                  padding: EdgeInsets.only(bottom: 60.h),
+                  padding: EdgeInsets.only(bottom: 28.h),
                   child:/* groceryShowAllCartController.cartData.value.buttonCheck == false*/
                   (groceryShowAllCartController.cartData.value.carts?.isEmpty ?? true) ?
                   const SizedBox()

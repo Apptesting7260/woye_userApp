@@ -326,69 +326,75 @@ class ProductDetailsScreen extends StatelessWidget {
                   bottom: 0,
                   right: 0,
                   left: 0,
-                  child: Padding(
-                    padding: REdgeInsets.symmetric(horizontal: 22.0),
-                    child: Obx(
-                          () => controller.goToCart.value == true
-                          ? CustomElevatedButton(
+                  child: Container(
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                    ),
+                    child: Padding(
+                      padding: REdgeInsets.fromLTRB(22,2,22,15),
+                      child: Obx(
+                            () => controller.goToCart.value == true
+                            ? CustomElevatedButton(
+                            fontFamily: AppFontFamily.gilroyMedium,
+                            width: Get.width,
+                            color: AppColors.primary,
+                            isLoading:
+                            addToCartController.rxRequestStatus.value ==
+                                (Status.LOADING),
+                            text: "Go to Cart",
+                            onPressed: () {
+                              // restaurantCartController.isCartScreen.value ?
+                              // Get.toNamed(AppRoutes.restaurantNavbar) :
+                              if (fromCart != null && fromCart == true) {
+                                Get.back();
+                              } else {
+                                addToCartController.clearSelected();
+                                Get.to(() => const RestaurantCartScreen(isBack: true));
+                              }
+                              controller.goToCart.value = false;
+                              controller.cartCount.value = 1;
+                            })
+                            : CustomElevatedButton(
                           fontFamily: AppFontFamily.gilroyMedium,
                           width: Get.width,
-                          color: AppColors.primary,
-                          isLoading:
-                          addToCartController.rxRequestStatus.value ==
-                              (Status.LOADING),
-                          text: "Go to Cart",
+                          color: AppColors.darkText,
+                          isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
+                          text: "Add to Cart",
                           onPressed: () {
-                            // restaurantCartController.isCartScreen.value ?
-                            // Get.toNamed(AppRoutes.restaurantNavbar) :
-                            if (fromCart != null && fromCart == true) {
-                              Get.back();
-                            } else {
-                              addToCartController.clearSelected();
-                              Get.to(() => const RestaurantCartScreen(isBack: true));
-                            }
-                            controller.goToCart.value = false;
-                            controller.cartCount.value = 1;
-                          })
-                          : CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
-                        width: Get.width,
-                        color: AppColors.darkText,
-                        isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
-                        text: "Add to Cart",
-                        onPressed: () {
 
-                          if (getUserDataController.userData.value.user?.userType =="guestUser") {
-                            showLoginRequired(context);
-                          }
-                          else {
-                            // ---------- add to cart api -----------
-                            // controller.productPriceFun();
-
-                            if (
-                            controller.productData.value.product?.extra != null ||
-                                (controller.productData.value.product?.addOn?.isNotEmpty ?? false)) {
-                              addToCartPopUp(context);
-                            }else{
-                            addToCartController.addToCartApi(
-                              isPopUp: false,
-                              cartId: cartId,
-                              productId: controller.productData.value.product!.id.toString(),
-                              productPrice: controller.productData.value.product!.salePrice != null
-                                  ? controller.productData.value.product!.salePrice.toString()
-                                  : controller.productData.value.product!.regularPrice.toString(),
-                              productQuantity: controller.cartCount.toString(),
-                              restaurantId: controller.productData.value.product!.restaurantId.toString(),
-                              addons: controller.selectedAddOn.toList(),
-                              extrasIds: controller.extrasTitlesIdsId,
-                              extrasItemIds: controller.extrasItemIdsId.toList(),
-                              extrasItemNames: controller.extrasItemIdsName.toList(),
-                              extrasItemPrices: controller.extrasItemIdsPrice.toList(),
-                            );
-                            pt("object ${controller.extrasItemIdsName}");
-                          }
+                            if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                              showLoginRequired(context);
                             }
-                        },
+                            else {
+                              // ---------- add to cart api -----------
+                              // controller.productPriceFun();
+
+                              if (
+                              controller.productData.value.product?.extra != null ||
+                                  (controller.productData.value.product?.addOn?.isNotEmpty ?? false)) {
+                                addToCartPopUp(context);
+                              }else{
+                              addToCartController.addToCartApi(
+                                isPopUp: false,
+                                cartId: cartId,
+                                productId: controller.productData.value.product!.id.toString(),
+                                productPrice: controller.productData.value.product!.salePrice != null
+                                    ? controller.productData.value.product!.salePrice.toString()
+                                    : controller.productData.value.product!.regularPrice.toString(),
+                                productQuantity: controller.cartCount.toString(),
+                                restaurantId: controller.productData.value.product!.restaurantId.toString(),
+                                addons: controller.selectedAddOn.toList(),
+                                extrasIds: controller.extrasTitlesIdsId,
+                                extrasItemIds: controller.extrasItemIdsId.toList(),
+                                extrasItemNames: controller.extrasItemIdsName.toList(),
+                                extrasItemPrices: controller.extrasItemIdsPrice.toList(),
+                              );
+                              pt("object ${controller.extrasItemIdsName}");
+                            }
+                              }
+                          },
+                        ),
                       ),
                     ),
                   ),

@@ -263,12 +263,11 @@ class PushNotificationService {
       duration: const Duration(seconds: 3),
       padding: const EdgeInsets.all(10),
       margin: EdgeInsets.only(
-          bottom: Get.height - (Get.height * 0.125),
+          bottom: Get.height - (Get.height * 0.180),
           left: 10,
           right: 10),
       dismissDirection: DismissDirection.up,
     );
-
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

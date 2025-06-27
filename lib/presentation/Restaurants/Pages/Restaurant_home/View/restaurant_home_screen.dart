@@ -216,7 +216,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               floatingActionButton: Padding(
-                padding: EdgeInsets.only(bottom: 60.h),
+                padding: EdgeInsets.only(bottom: 28.h),
                 child:/* restaurantCartController.allResCartData.value.buttonCheck == false
                     ? */
                      (restaurantCartController.allResCartData.value.carts?.isEmpty ?? true) ? const SizedBox()

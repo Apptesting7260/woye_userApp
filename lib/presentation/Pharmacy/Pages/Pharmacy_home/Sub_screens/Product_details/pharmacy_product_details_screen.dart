@@ -266,9 +266,15 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                   bottom: 0,
                   right: 0,
                   left: 0,
-                  child: Padding(
-                    padding: REdgeInsets.symmetric(horizontal: 22.0),
-                    child: buttons(context),
+                  child: Container(
+                    width: Get.width,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                    ),
+                    child: Padding(
+                      padding: REdgeInsets.fromLTRB(22,2,22,15),
+                      child: buttons(context),
+                    ),
                   ),
                 ),
               ],

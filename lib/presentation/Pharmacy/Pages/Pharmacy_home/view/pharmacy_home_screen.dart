@@ -196,7 +196,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
-                    padding: EdgeInsets.only(bottom: 60.h),
+                  padding: EdgeInsets.only(bottom: 28.h),
                     child: /*pharmacyCartController.cartDataAll.value.buttonCheck == false*/
                     (pharmacyCartController.cartDataAll.value.carts?.isEmpty ?? true)
                         ? const SizedBox()
