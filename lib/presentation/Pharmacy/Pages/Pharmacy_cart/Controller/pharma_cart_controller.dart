@@ -7,6 +7,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/grocery_order_type_model.dart';
 
 import '../pharma_cart_modal/pharmacyCheckoutAllModel.dart';
 import '../pharma_cart_modal/pharmacy_all_product_model.dart';
@@ -214,5 +215,50 @@ class PharmacyCartController extends GetxController {
     },);
   }
 
+//----------------------pharmacy OrderType Api--------------------------------
+  final rxRequestStatusOrderType = Status.COMPLETED.obs;
+  void setRxRequestStatusOrderType(Status value)=>rxRequestStatusOrderType.value = value;
+
+  final apiDataOrderType = OrderTypeModel().obs;
+  void setOrderDataOrderType(OrderTypeModel value){
+    apiDataOrderType.value = value;
+  }
+
+  Future<void> pharmacyOrderTypeApi({required int index,required String cartId,required String type})async{
+    var data = {
+      "cart_id": cartId,
+      "type": type,
+    };
+    if(type == "self"){
+      cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
+    }else if(type == 'delivery'){
+      cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
+    }
+    setRxRequestStatusOrderType(Status.LOADING);
+    api.orderTypePharmacyApi(data).then((value) {
+      setOrderDataOrderType(value);
+      if(apiDataOrderType.value.status == true){
+        if(type == "self"){
+          cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
+        }else if(type == 'delivery'){
+          cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
+        }
+        setRxRequestStatusOrderType(Status.COMPLETED);
+        Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
+      }else if(apiDataOrderType.value.status == false){
+        if(type == "self"){
+          cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
+        }else if(type == 'delivery'){
+          cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
+        }
+        setRxRequestStatusOrderType(Status.COMPLETED);
+        Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
+      }
+    },).onError((error, stackTrace) {
+      print("error order type pharma>>>>>>>>>$error");
+      print("error order type pharma>>>>>>>>>$stackTrace");
+      setRxRequestStatusOrderType(Status.ERROR);
+    },);
+  }
 
 }

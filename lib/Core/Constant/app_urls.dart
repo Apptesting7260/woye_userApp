@@ -78,6 +78,7 @@ class AppUrls {
   static const String rAllCartsRestaurant = "$baseUrl/rall-carts";
   static const String checkoutAllRestaurant = "$baseUrl/checkout-all";
   static const String deleteVendorRestaurant = "$baseUrl/delete-vendor";
+  static const String orderTypeResUrl = "$baseUrl/order-type";
 
   /* ------------------------------------------------ Pharmacy  ----------------------------------------------------  */
 
@@ -105,6 +106,7 @@ class AppUrls {
   static const String pharmacyCheckoutAll = "$baseUrl/pcheckout-all";
   static const String pharmacyDeleteVendor = "$baseUrl/pdelete-vendor";
   static const String pharmacyCreateOrder = "$baseUrl/pcreate-order";
+  static const String orderTypePharmacyUrls = "$baseUrl/porder-type";
 
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */
   static const String groceryHomeApi = "$baseUrl/grocery-home-api";
@@ -129,5 +131,6 @@ class AppUrls {
   static const String updateGroceryQuantity = "$baseUrl/gupdate-product-quantity";
   static const String groceryCreateOrder = "$baseUrl/gcreate-order";
   static const String groceryCheckUncheck = "$baseUrl/gchecked-unchecked";
+  static const String gOrderTypeUrl = "$baseUrl/gorder-type";
 
 }

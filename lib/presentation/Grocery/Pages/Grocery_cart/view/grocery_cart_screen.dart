@@ -265,15 +265,8 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         var buckets = controller.cartData.value.cart!.buckets![index];
-        // bool isLoading =
-        //     checkedUncheckedController.rxRequestStatus.value ==
-        //
-        //
-        //
-        //     Status.LOADING &&
-        //     controller.cartData.value.cart!.decodedAttribute?[index]
-        //         .isSelectedLoading.value ==
-        //         true;
+        // bool isLoading =checkedUncheckedController.rxRequestStatus.value ==Status.LOADING &&
+        // controller.cartData.value.cart!.decodedAttribute?[index].isSelectedLoading.value ==true;
 
         return Container(
           width: Get.width,
@@ -441,6 +434,56 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                     ),
                 ],
               ),
+              hBox(8.h),
+              Row(
+                children: [
+                  Text("Delivery Type", style: AppFontStyle.text_16_500(
+                      AppColors.darkText,family: AppFontFamily.gilroyMedium),),
+                  const Spacer(),
+                  Obx(
+                        ()=> InkWell(
+                      onTap: () {
+                        if(buckets.isDelivery.value  == true){
+                          buckets.isDelivery.value  == false;
+                          controller.groceryOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "self");
+                        }
+                      },
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 100),
+                        height: 30,width: 84,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(color:buckets.isDelivery.value ? AppColors.lightPrimary : AppColors.primary,width: 1),
+                        ),
+                        child: Center(child: Text("Self", style: AppFontStyle.text_14_400(
+                            buckets.isDelivery.value ? AppColors.darkText :AppColors.primary,family: AppFontFamily.gilroyMedium),)),
+                      ),
+                    ),
+                  ),
+                  wBox(8.w),
+                  Obx(
+                        ()=> InkWell(
+                      onTap: () {
+                        if(buckets.isDelivery.value  == false){
+                          buckets.isDelivery.value  == true;
+                          controller.groceryOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "delivery");
+                      }},
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 100),
+                        height: 30,width: 84,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(color:buckets.isDelivery.value ? AppColors.primary : AppColors.lightPrimary,width: 1),
+                        ),
+                        child: Center(child: Text("Delivery", style: AppFontStyle.text_14_400(
+                          buckets.isDelivery.value ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                        ),
+                        ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              hBox(8.h),
               Divider(thickness: .5.w, color: AppColors.hintText),
               hBox(6.h),
               ListView.separated(
@@ -1513,7 +1556,8 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
     bool isLoading =
         //  checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
         deleteProductController.rxRequestStatus.value == Status.LOADING ||
-            quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+        quantityUpdateController.rxRequestStatus.value == Status.LOADING ||
+        controller.rxRequestStatusOrderType.value == Status.LOADING;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1603,6 +1647,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
         //checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
         deleteProductController.rxRequestStatus.value == Status.LOADING ||
             quantityUpdateController.rxRequestStatus.value == Status.LOADING;
+            controller.rxRequestStatusOrderType.value == Status.LOADING;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

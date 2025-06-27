@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:get_storage/get_storage.dart';
@@ -216,7 +218,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               floatingActionButton: Padding(
-                padding: EdgeInsets.only(bottom: 28.h),
+                padding: EdgeInsets.only(bottom:Platform.isIOS ? 28.h : 60.h),
                 child:/* restaurantCartController.allResCartData.value.buttonCheck == false
                     ? */
                      (restaurantCartController.allResCartData.value.carts?.isEmpty ?? true) ? const SizedBox()

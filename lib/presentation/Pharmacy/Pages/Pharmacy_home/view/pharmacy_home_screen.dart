@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -196,7 +198,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 ),
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
-                  padding: EdgeInsets.only(bottom: 28.h),
+                  padding: EdgeInsets.only(bottom:Platform.isIOS ? 28.h : 60.h),
                     child: /*pharmacyCartController.cartDataAll.value.buttonCheck == false*/
                     (pharmacyCartController.cartDataAll.value.carts?.isEmpty ?? true)
                         ? const SizedBox()

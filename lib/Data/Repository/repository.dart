@@ -42,6 +42,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/checked
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_coupon_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/grocery_order_type_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/restaurant_all_cart_data_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/restaurant_single_cart_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantity_update/modal.dart';
@@ -399,6 +400,12 @@ class Repository {
     dynamic response = await _apiService.postApi(data, AppUrls.createOrder, token);
     return RestaurantCreateOrderModel.fromJson(response);
   }
+
+  Future<dynamic> restaurantOrderTypeApi(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.orderTypeResUrl , token);
+    return OrderTypeModel.fromJson(response);
+  }
   // Future<dynamic> createOrderApi(var data) async {
   //   await initializeUser();
   //   dynamic response =
@@ -568,6 +575,17 @@ class Repository {
     return PharmacyCreateOrderModel.fromJson(response);
   }
 
+  Future<dynamic> pharmacyOrderTypeApi(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.gOrderTypeUrl , token);
+    return OrderTypeModel.fromJson(response);
+  }
+
+  Future<dynamic> orderTypePharmacyApi(var data)async{
+    await initializeUser();
+    dynamic response = await _apiService.postApi(data, AppUrls.orderTypePharmacyUrls, token);
+    return OrderTypeModel.fromJson(response);
+  }
 /* ------------------------------------------------ Grocery  ----------------------------------------------------  */
 
   Future<dynamic> groceryHomeApi(Map<String,dynamic> params) async {
@@ -712,6 +730,12 @@ class Repository {
       await initializeUser();
       dynamic response = await _apiService.postApi(data, AppUrls.groceryCheckUncheck , token);
       return CheckedUncheckedModal.fromJson(response);
+   }
+
+   Future<dynamic> groceryOrderTypeApi(var data)async{
+      await initializeUser();
+      dynamic response = await _apiService.postApi(data, AppUrls.gOrderTypeUrl , token);
+      return OrderTypeModel.fromJson(response);
    }
 
 

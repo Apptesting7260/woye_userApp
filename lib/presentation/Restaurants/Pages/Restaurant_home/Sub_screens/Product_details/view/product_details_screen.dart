@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shimmer/shimmer.dart';
@@ -332,7 +334,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       color: AppColors.white,
                     ),
                     child: Padding(
-                      padding: REdgeInsets.fromLTRB(22,2,22,15),
+                      padding: REdgeInsets.fromLTRB(22,2,22,Platform.isIOS ? 15 : 0),
                       child: Obx(
                             () => controller.goToCart.value == true
                             ? CustomElevatedButton(
@@ -370,8 +372,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               // ---------- add to cart api -----------
                               // controller.productPriceFun();
 
-                              if (
-                              controller.productData.value.product?.extra != null ||
+                              if ((controller.productData.value.product?.extra?.isNotEmpty ?? false) ||
                                   (controller.productData.value.product?.addOn?.isNotEmpty ?? false)) {
                                 addToCartPopUp(context);
                               }else{

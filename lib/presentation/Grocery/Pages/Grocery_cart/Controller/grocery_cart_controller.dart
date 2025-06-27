@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/grocery_order_type_model.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../Single_Grocery_Vendor_cart/single_vendor_controller.dart';
@@ -27,7 +28,8 @@ class GroceryCartController extends GetxController {
 
   void setError(String value) => error.value = value;
 
-  final GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
+  final GroceryShowAllCartController groceryShowAllCartController =
+      Get.put(GroceryShowAllCartController());
 
   getGroceryAllCartApi() async {
     readOnly.value = true;
@@ -36,7 +38,7 @@ class GroceryCartController extends GetxController {
       groceryShowAllCartController.getGroceryAllShowApi();
       cartSet(value);
       setRxRequestStatus(Status.COMPLETED);
-      if(value.status == false){
+      if (value.status == false) {
         setRxRequestStatus(Status.COMPLETED);
         pt("cartData.value.message >>>>>>>>>>>>>> ${cartData.value.message}");
       }
@@ -48,13 +50,13 @@ class GroceryCartController extends GetxController {
     });
   }
 
-
   /// -------------------------------------------------------------------------------------------
   final rxCreateOrderRequestStatus = Status.COMPLETED.obs;
-  void setRxCreateOrderRequestStatus(Status value)=>rxCreateOrderRequestStatus.value = value;
+  void setRxCreateOrderRequestStatus(Status value) =>
+      rxCreateOrderRequestStatus.value = value;
   final createOrderGApiData = GroceryCreateOrderModel().obs;
 
-  void setOrderData(GroceryCreateOrderModel apiData){
+  void setOrderData(GroceryCreateOrderModel apiData) {
     createOrderGApiData.value = apiData;
   }
 
@@ -68,40 +70,40 @@ class GroceryCartController extends GetxController {
     required String total,
     required String type,
     required List<String> cartIds,
-    required List<Map<String,dynamic>> carts,
+    required List<Map<String, dynamic>> carts,
     required String deliveryNotes,
     required String deliverySoon,
     required String courierTip,
   }) async {
-      var data = {
-         "wallet_used": walletUsed.toString(),
-         "wallet_amount": walletAmount,
-         "payment_method": paymentMethod,
-         "payment_amount": paymentAmount,
-         "address_id": addressId,
-         "coupon_id": couponId,
-         "total":total,
-         "type": "grocery",
-         "cart_ids": jsonEncode(cartIds),
-         "carts": jsonEncode(carts),
-        'delivery_notes' : deliveryNotes,
-        'delivery_soon' : deliverySoon,
-        'courier_tip' : courierTip,
-       };
-        debugPrint("dataValue  >> $data");
-        setRxCreateOrderRequestStatus(Status.LOADING);
-        api.groceryCreateOrderApi(data).then((value) {
-          setOrderData(value);
-          if(value.status == true) {
-            setRxCreateOrderRequestStatus(Status.COMPLETED);
-            Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "grocery"});
-
-          }else if(value.status == false){
-            setRxCreateOrderRequestStatus(Status.ERROR);
-            Utils.showToast(value.message.toString());
-          }
-        },
-        ).onError((error, stackError) {
+    var data = {
+      "wallet_used": walletUsed.toString(),
+      "wallet_amount": walletAmount,
+      "payment_method": paymentMethod,
+      "payment_amount": paymentAmount,
+      "address_id": addressId,
+      "coupon_id": couponId,
+      "total": total,
+      "type": "grocery",
+      "cart_ids": jsonEncode(cartIds),
+      "carts": jsonEncode(carts),
+      'delivery_notes': deliveryNotes,
+      'delivery_soon': deliverySoon,
+      'courier_tip': courierTip,
+    };
+    debugPrint("dataValue  >> $data");
+    setRxCreateOrderRequestStatus(Status.LOADING);
+    api.groceryCreateOrderApi(data).then(
+      (value) {
+        setOrderData(value);
+        if (value.status == true) {
+          setRxCreateOrderRequestStatus(Status.COMPLETED);
+          Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "grocery"});
+        } else if (value.status == false) {
+          setRxCreateOrderRequestStatus(Status.ERROR);
+          Utils.showToast(value.message.toString());
+        }
+      },
+    ).onError((error, stackError) {
       setError(error.toString());
       // print(stackError);
       print('error create order grocery : ${error.toString()}');
@@ -109,9 +111,63 @@ class GroceryCartController extends GetxController {
     });
   }
 
+//----------------------groceryOrderTypeApi--------------------------------
+  final rxRequestStatusOrderType = Status.COMPLETED.obs;
+  void setRxRequestStatusOrderType(Status value) =>
+      rxRequestStatusOrderType.value = value;
+
+  final apiDataOrderType = OrderTypeModel().obs;
+  void setOrderDataOrderType(OrderTypeModel value) {
+    apiDataOrderType.value = value;
+  }
+
+  Future<void> groceryOrderTypeApi(
+      {required int index,
+      required String cartId,
+      required String type}) async {
+    var data = {
+      "cart_id": cartId,
+      "type": type,
+    };
+    if (type == "self") {
+      cartData.value.cart?.buckets?[index].isDelivery.value = false;
+    } else if (type == 'delivery') {
+      cartData.value.cart?.buckets?[index].isDelivery.value = true;
+    }
+    setRxRequestStatusOrderType(Status.LOADING);
+    api.groceryOrderTypeApi(data).then(
+      (value) {
+        setOrderDataOrderType(value);
+        if (apiDataOrderType.value.status == true) {
+          if (type == "self") {
+            cartData.value.cart?.buckets?[index].isDelivery.value = false;
+          } else if (type == 'delivery') {
+            cartData.value.cart?.buckets?[index].isDelivery.value = true;
+          }
+          setRxRequestStatusOrderType(Status.COMPLETED);
+          Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
+        } else if (apiDataOrderType.value.status == false) {
+          if (type == "self") {
+            cartData.value.cart?.buckets?[index].isDelivery.value = true;
+          } else if (type == 'delivery') {
+            cartData.value.cart?.buckets?[index].isDelivery.value = false;
+          }
+          setRxRequestStatusOrderType(Status.COMPLETED);
+          Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
+        }
+      },
+    ).onError(
+      (error, stackTrace) {
+        print("error order type G>>>>>>>>>$error");
+        print("error order type G>>>>>>>>>$stackTrace");
+        setRxRequestStatusOrderType(Status.ERROR);
+      },
+    );
+  }
+
 //------------------------------------------------------
 
-   refreshApi() async {
+  refreshApi() async {
     setRxRequestStatus(Status.LOADING);
     couponCodeController.value.clear();
     readOnly.value = true;
