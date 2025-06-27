@@ -72,16 +72,13 @@ class FaqScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15.r),
                     ),
                     child: CustomExpansionTile(
-                        title: controller.apiData.value.data?.content?[index].que
-                                .toString() ??
+                        title: controller.apiData.value.data?[index].que.toString() ??
                             "",
                         children: [
                           const Divider(),
                           hBox(10),
                           Text(
-                            controller.apiData.value.data?.content?[index].ans
-                                    .toString() ??
-                                "",
+                            controller.apiData.value.data?[index].ans.toString() ??  "",
                             maxLines: 100,
                             style: AppFontStyle.text_15_400(AppColors.mediumText,
                                 family: AppFontFamily.gilroyRegular),
