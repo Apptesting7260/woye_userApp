@@ -860,21 +860,21 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                       ? Center(child: circularProgressIndicator(size: 20.h))
                       : GestureDetector(
                           onTap: () {
-                            if (controller
-                                .couponCodeController.value.text.isNotEmpty) {
-                              applyCouponController.applyCouponApi(
-                                cartId: controller.cartData.value.cart!.id
-                                    .toString(),
-                                couponCode: controller
-                                    .couponCodeController.value.text
-                                    .toString(),
-                                grandTotal: controller
-                                    .cartData.value.cart!.grandTotalPrice
-                                    .toString(),
-                              );
-                            } else {
-                              Utils.showToast("Please Enter Coupon Code");
-                            }
+                            // if (controller
+                            //     .couponCodeController.value.text.isNotEmpty) {
+                            //   applyCouponController.applyCouponApi(
+                            //     cartId: controller.cartData.value.cart!.id
+                            //         .toString(),
+                            //     couponCode: controller
+                            //         .couponCodeController.value.text
+                            //         .toString(),
+                            //     grandTotal: controller
+                            //         .cartData.value.cart!.grandTotalPrice
+                            //         .toString(),
+                            //   );
+                            // } else {
+                            //   Utils.showToast("Please Enter Coupon Code");
+                            // }
                           },
                           child: Text(
                             "Apply",
@@ -908,16 +908,16 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         : Center(
                             child: GestureDetector(
                               onTap: () {
-                                applyCouponController.applyCouponApi(
-                                  cartId: controller.cartData.value.cart!.id
-                                      .toString(),
-                                  couponCode: controller
-                                      .cartData.value.cart!.couponApplied!.code
-                                      .toString(),
-                                  grandTotal: controller
-                                      .cartData.value.cart!.grandTotalPrice
-                                      .toString(),
-                                );
+                                // applyCouponController.applyCouponApi(
+                                //   cartId: controller.cartData.value.cart!.id
+                                //       .toString(),
+                                //   couponCode: controller
+                                //       .cartData.value.cart!.couponApplied!.code
+                                //       .toString(),
+                                //   grandTotal: controller
+                                //       .cartData.value.cart!.grandTotalPrice
+                                //       .toString(),
+                                // );
                               },
                               child: Icon(
                                 Icons.cancel,

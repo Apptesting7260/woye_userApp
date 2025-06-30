@@ -721,6 +721,7 @@ class Buckets {
   String? specificTotalPrice;
   String? specificDeliveryCharge;
   String? grandtotalPrice;
+  String? orderType;
   Rx<bool> isVendorDelete = false.obs;
   Rx<bool> isChecked = false.obs;
   Rx<bool> isDelivery = true.obs;
@@ -735,7 +736,7 @@ class Buckets {
         this.specificTotalPrice,
         this.specificDeliveryCharge,
         this.grandtotalPrice,
-
+        this.orderType,
       });
 
   Buckets.fromJson(Map<String, dynamic> json) {
@@ -753,6 +754,7 @@ class Buckets {
     specificTotalPrice = json['specific_total_price']?.toString();
     specificDeliveryCharge = json['specific_delivery_charge']?.toString();
     grandtotalPrice = json['grandtotal_price']?.toString();
+    orderType = json['order_type']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -768,6 +770,7 @@ class Buckets {
     data['specific_total_price'] = specificTotalPrice;
     data['specific_delivery_charge'] = specificDeliveryCharge;
     data['grandtotal_price'] = grandtotalPrice;
+    data['order_type'] = orderType;
     return data;
   }
 }
@@ -923,6 +926,7 @@ class Coupons {
   String? code;
   String? discountType;
   String? discountAmount;
+  String? value;
   String? expireDate;
   String? expiryStatus;
 
@@ -934,7 +938,9 @@ class Coupons {
         this.discountType,
         this.discountAmount,
         this.expireDate,
-        this.expiryStatus});
+        this.expiryStatus,
+        this.value,
+      });
 
   Coupons.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
@@ -945,6 +951,8 @@ class Coupons {
     discountAmount = json['discount_amount']?.toString();
     expireDate = json['expire_date']?.toString();
     expiryStatus = json['expiry_status']?.toString();
+    value = json['value']?.toString();
+
   }
 
   Map<String, dynamic> toJson() {
@@ -957,6 +965,7 @@ class Coupons {
     data['discount_amount'] = discountAmount;
     data['expire_date'] = expireDate;
     data['expiry_status'] = expiryStatus;
+    data['value'] = value;
     return data;
   }
 }

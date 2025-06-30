@@ -127,8 +127,8 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                   : locationAddress(),
                               hBox(20.h),
                               cartItems(),
-                              // hBox(20.h),
-                              // promoCode(context),
+                              hBox(20.h),
+                              promoCode(context),
                               hBox(30.h),
                               paymentDetails(),
                               hBox(30.h),
@@ -265,6 +265,9 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         var buckets = controller.cartData.value.cart!.buckets![index];
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          buckets.isDelivery.value = buckets.orderType == 'self' ? false : true;
+        },);
         // bool isLoading =checkedUncheckedController.rxRequestStatus.value ==Status.LOADING &&
         // controller.cartData.value.cart!.decodedAttribute?[index].isSelectedLoading.value ==true;
 
@@ -454,7 +457,9 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
                           border: Border.all(color:buckets.isDelivery.value ? AppColors.lightPrimary : AppColors.primary,width: 1),
                         ),
-                        child: Center(child: Text("Self", style: AppFontStyle.text_14_400(
+                        child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                            controller.loadingIndex.value == index && controller.loadingType.value == "self") ?
+                        circularProgressIndicator2() : Text("Self", style: AppFontStyle.text_14_400(
                             buckets.isDelivery.value ? AppColors.darkText :AppColors.primary,family: AppFontFamily.gilroyMedium),)),
                       ),
                     ),
@@ -473,7 +478,9 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
                           border: Border.all(color:buckets.isDelivery.value ? AppColors.primary : AppColors.lightPrimary,width: 1),
                         ),
-                        child: Center(child: Text("Delivery", style: AppFontStyle.text_14_400(
+                        child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                            controller.loadingIndex.value == index && controller.loadingType.value == "delivery") ?
+                        circularProgressIndicator2() :Text("Delivery", style: AppFontStyle.text_14_400(
                           buckets.isDelivery.value ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
                         ),
                         ),
@@ -1372,185 +1379,184 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
 
   FocusNode focusNode = FocusNode();
 
-  // Widget promoCode(context) {
-  //   return controller.cartData.value.cart!.couponApplied == null
-  //       ? DottedBorder(
-  //     strokeWidth: 2,
-  //     borderType: BorderType.RRect,
-  //     radius: Radius.circular(15.r),
-  //     color: AppColors.primary,
-  //     dashPattern: [6.w, 3.w],
-  //     child: SizedBox(
-  //       height: Get.height * 0.065,
-  //       width: Get.width * 0.9,
-  //       child: Row(
-  //         children: [
-  //           wBox(15.h),
-  //           SvgPicture.asset("assets/svg/coupon.svg"),
-  //           wBox(10.h),
-  //           SizedBox(
-  //             height: Get.height * 0.08,
-  //             width: Get.width * 0.5,
-  //             child: Center(
-  //               child: CustomTextFormField(
-  //                 controller: controller.couponCodeController.value,
-  //                 readOnly: controller.readOnly.value,
-  //                 focusNode: focusNode,
-  //                 onTap: () {
-  //                   if (controller.cartData.value.cart!.decodedAttribute!
-  //                       .where((item) => item.checked == "true")
-  //                       .isEmpty) {
-  //                     Utils.showToast("Please select a product");
-  //                   } else if (controller
-  //                       .cartData.value.coupons!.isNotEmpty) {
-  //                     if (controller.readOnly.value) {
-  //                       bottomBar(context);
-  //                     }
-  //                   } else {
-  //                     controller.readOnly.value = false;
-  //                     Utils.showToast("Coupon Not available");
-  //                   }
-  //                 },
-  //                 alignment: Alignment.center,
-  //                 contentPadding: EdgeInsets.zero,
-  //                 borderDecoration: InputBorder.none,
-  //                 prefixConstraints:
-  //                 BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-  //                 hintText: "Enter coupon code",
-  //                 hintStyle:
-  //                 AppFontStyle.text_16_400(AppColors.lightText),
-  //                 onTapOutside: (event) {
-  //                   FocusScope.of(context).unfocus();
-  //                 },
-  //               ),
-  //             ),
-  //           ),
-  //           const Spacer(),
-  //           applyCouponController.rxRequestStatus.value == Status.LOADING
-  //               ? Center(child: circularProgressIndicator(size: 20.h))
-  //               : GestureDetector(
-  //             onTap: () {
-  //               if (controller
-  //                   .couponCodeController.value.text.isNotEmpty) {
-  //                 applyCouponController.applyCouponApi(
-  //                   cartId: controller.cartData.value.cart!.id
-  //                       .toString(),
-  //                   couponCode: controller
-  //                       .couponCodeController.value.text
-  //                       .toString(),
-  //                   grandTotal: controller
-  //                       .cartData.value.cart!.grandTotalPrice
-  //                       .toString(),
-  //                 );
-  //               } else {
-  //                 Utils.showToast("Please Enter Coupon Code");
-  //               }
-  //             },
-  //             child: Text(
-  //               "Apply",
-  //               style: AppFontStyle.text_16_600(AppColors.primary),
-  //             ),
-  //           ),
-  //           wBox(20.h),
-  //         ],
-  //       ),
-  //     ),
-  //   )
-  //       : Container(
-  //     height: Get.height * 0.080,
-  //     width: Get.width,
-  //     decoration: BoxDecoration(
-  //       color: AppColors.primary.withOpacity(0.2),
-  //       borderRadius: BorderRadius.circular(15.r),
-  //     ),
-  //     child: Stack(
-  //       clipBehavior: Clip.none,
-  //       children: [
-  //         Positioned(
-  //           right: -5.h,
-  //           top: -5.h,
-  //           child: SizedBox(
-  //             height: 36.h,
-  //             width: 36.h,
-  //             child: applyCouponController.rxRequestStatus.value ==
-  //                 Status.LOADING
-  //                 ? circularProgressIndicator(size: 18.h)
-  //                 : Center(
-  //               child: GestureDetector(
-  //                 onTap: () {
-  //                   applyCouponController.applyCouponApi(
-  //                     cartId: controller.cartData.value.cart!.id
-  //                         .toString(),
-  //                     couponCode: controller
-  //                         .cartData.value.cart!.couponApplied!.code
-  //                         .toString(),
-  //                     grandTotal: controller
-  //                         .cartData.value.cart!.grandTotalPrice
-  //                         .toString(),
-  //                   );
-  //                 },
-  //                 child: Icon(
-  //                   Icons.cancel,
-  //                   size: 30.h,
-  //                   color: AppColors.primary,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             wBox(15.h),
-  //             Container(
-  //               height: 36.h,
-  //               width: 36.h,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.transparent,
-  //                 shape: BoxShape.circle,
-  //                 // borderRadius: BorderRadius.circular(100.r),
-  //                 border: Border.all(color: AppColors.black, width: 2),
-  //               ),
-  //               child: Icon(
-  //                 Icons.done,
-  //                 color: AppColors.primary,
-  //               ),
-  //             ),
-  //             wBox(15.h),
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Row(
-  //                   children: [
-  //                     Text(
-  //                       controller
-  //                           .cartData.value.cart!.couponApplied!.code
-  //                           .toString(),
-  //                       style: AppFontStyle.text_18_600(AppColors.black),
-  //                     ),
-  //                     wBox(5.h),
-  //                     Text(
-  //                       "Applied",
-  //                       style:
-  //                       AppFontStyle.text_16_600(AppColors.primary),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 Text(
-  //                   "-\$${controller.cartData.value.cart!.couponDiscount}",
-  //                   style: AppFontStyle.text_16_400(AppColors.lightText),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget promoCode(context) {
+    return /*controller.cartData.value.cart!.couponApplied == null
+        ?*/ DottedBorder(
+      strokeWidth: 2,
+      borderType: BorderType.RRect,
+      radius: Radius.circular(15.r),
+      color: AppColors.primary,
+      dashPattern: [6.w, 3.w],
+      child: SizedBox(
+        height: Get.height * 0.065,
+        width: Get.width * 0.9,
+        child: Row(
+          children: [
+            wBox(15.h),
+            SvgPicture.asset("assets/svg/coupon.svg"),
+            wBox(10.h),
+            SizedBox(
+              height: Get.height * 0.08,
+              width: Get.width * 0.5,
+              child: Center(
+                child: CustomTextFormField(
+                  controller: controller.couponCodeController.value,
+                  readOnly: controller.readOnly.value,
+                  focusNode: focusNode,
+                  onTap: () {
+                    // if (controller.cartData.value.cart!.decodedAttribute!
+                    //     .where((item) => item.checked == "true")
+                    //     .isEmpty) {
+                    //   Utils.showToast("Please select a product");
+                    // } else if (controller
+                    //     .cartData.value.coupons!.isNotEmpty) {
+                    //   if (controller.readOnly.value) {
+                    //     bottomBar(context);
+                    //   }
+                    // } else {
+                    //   controller.readOnly.value = false;
+                    //   Utils.showToast("Coupon Not available");
+                    // }
+                  },
+                  alignment: Alignment.center,
+                  contentPadding: EdgeInsets.zero,
+                  borderDecoration: InputBorder.none,
+                  prefixConstraints:
+                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                  hintText: "Enter coupon code",
+                  hintStyle:
+                  AppFontStyle.text_16_400(AppColors.lightText),
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+              ),
+            ),
+            const Spacer(),
+           /* applyCouponController.rxRequestStatus.value == Status.LOADING
+                ? Center(child: circularProgressIndicator(size: 20.h))
+                :*/ GestureDetector(
+              onTap: () {
+                if (controller
+                    .couponCodeController.value.text.isNotEmpty) {
+                  /*applyCouponController.applyCouponApi(
+                    cartId: controller.cartData.value.cart!.id
+                        .toString(),
+                    couponCode: controller
+                        .couponCodeController.value.text
+                        .toString(),
+                    grandTotal: controller
+                        .cartData.value.cart!.grandTotalPrice
+                        .toString(),
+                  );*/
+                } else {
+                  Utils.showToast("Please Enter Coupon Code");
+                }
+              },
+              child: Text(
+                "Apply",
+                style: AppFontStyle.text_16_600(AppColors.primary),
+              ),
+            ),
+            wBox(20.h),
+          ],
+        ),
+      ),
+    );
+        /*: Container(
+      height: Get.height * 0.080,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: AppColors.primary.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            right: -5.h,
+            top: -5.h,
+            child: SizedBox(
+              height: 36.h,
+              width: 36.h,
+              child: *//*applyCouponController.rxRequestStatus.value ==
+                  Status.LOADING
+                  ? circularProgressIndicator(size: 18.h)
+                  :*//* Center(
+                child: GestureDetector(
+                  onTap: () {
+                   *//* applyCouponController.applyCouponApi(
+                      cartId: controller.cartData.value.cart!.id
+                          .toString(),
+                      couponCode: controller
+                          .cartData.value.cart!.couponApplied!.code
+                          .toString(),
+                      grandTotal: controller
+                          .cartData.value.cart!.grandTotalPrice
+                          .toString(),
+                    );*//*
+                  },
+                  child: Icon(
+                    Icons.cancel,
+                    size: 30.h,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              wBox(15.h),
+              Container(
+                height: 36.h,
+                width: 36.h,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  // borderRadius: BorderRadius.circular(100.r),
+                  border: Border.all(color: AppColors.black, width: 2),
+                ),
+                child: Icon(
+                  Icons.done,
+                  color: AppColors.primary,
+                ),
+              ),
+              wBox(15.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "coupon applied code",
+                        // controller.cartData.value.cart!.couponApplied!.code.toString(),
+                        style: AppFontStyle.text_18_600(AppColors.black),
+                      ),
+                      wBox(5.h),
+                      Text(
+                        "Applied",
+                        style:
+                        AppFontStyle.text_16_600(AppColors.primary),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "-\$${controller.cartData.value.cart!.couponDiscount}",
+                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );*/
+  }
 
   Widget paymentDetails() {
     bool isLoading =

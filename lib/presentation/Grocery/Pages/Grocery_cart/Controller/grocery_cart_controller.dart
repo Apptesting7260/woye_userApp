@@ -49,6 +49,24 @@ class GroceryCartController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+  refreshGetGroceryAllCartApi() async {
+    readOnly.value = true;
+    couponCodeController.value.clear();
+    api.groceryAllCartGetDataApi().then((value) {
+      groceryShowAllCartController.getGroceryAllShowApi();
+      cartSet(value);
+      setRxRequestStatus(Status.COMPLETED);
+      if (value.status == false) {
+        setRxRequestStatus(Status.COMPLETED);
+        pt("cartData.value.message >>>>>>>>>>>>>> ${cartData.value.message}");
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      pt(stackError);
+      pt('error grocery cart screen >>>> ::: ${error.toString()}');
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
 
   /// -------------------------------------------------------------------------------------------
   final rxCreateOrderRequestStatus = Status.COMPLETED.obs;
@@ -120,6 +138,8 @@ class GroceryCartController extends GetxController {
   void setOrderDataOrderType(OrderTypeModel value) {
     apiDataOrderType.value = value;
   }
+  RxInt loadingIndex = (-1).obs;
+  RxString loadingType = ''.obs;
 
   Future<void> groceryOrderTypeApi(
       {required int index,
@@ -129,11 +149,14 @@ class GroceryCartController extends GetxController {
       "cart_id": cartId,
       "type": type,
     };
-    if (type == "self") {
+    if(type == "self"){
       cartData.value.cart?.buckets?[index].isDelivery.value = false;
-    } else if (type == 'delivery') {
+    }else if(type == 'delivery'){
       cartData.value.cart?.buckets?[index].isDelivery.value = true;
     }
+    loadingIndex.value = index;
+    loadingType.value = type;
+
     setRxRequestStatusOrderType(Status.LOADING);
     api.groceryOrderTypeApi(data).then(
       (value) {
@@ -144,8 +167,12 @@ class GroceryCartController extends GetxController {
           } else if (type == 'delivery') {
             cartData.value.cart?.buckets?[index].isDelivery.value = true;
           }
+          refreshGetGroceryAllCartApi();
           setRxRequestStatusOrderType(Status.COMPLETED);
           Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
+          loadingIndex.value = -1;
+          loadingType.value = '';
+
         } else if (apiDataOrderType.value.status == false) {
           if (type == "self") {
             cartData.value.cart?.buckets?[index].isDelivery.value = true;
@@ -154,6 +181,8 @@ class GroceryCartController extends GetxController {
           }
           setRxRequestStatusOrderType(Status.COMPLETED);
           Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
+          loadingIndex.value = -1;
+          loadingType.value = '';
         }
       },
     ).onError(
@@ -161,6 +190,8 @@ class GroceryCartController extends GetxController {
         print("error order type G>>>>>>>>>$error");
         print("error order type G>>>>>>>>>$stackTrace");
         setRxRequestStatusOrderType(Status.ERROR);
+        loadingIndex.value = -1;
+        loadingType.value = '';
       },
     );
   }

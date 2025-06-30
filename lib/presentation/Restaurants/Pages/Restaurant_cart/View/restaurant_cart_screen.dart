@@ -12,6 +12,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/checked
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/delete_ptoduct/delete_product_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/quantity_update/quantityupdatecontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
@@ -2918,8 +2919,8 @@ class RestaurantCartScreen extends StatefulWidget {
                         hBox(20.h),
                         cartItems(),
                         hBox(20.h),
-                        // promoCode(context),
-                        // hBox(30.h),
+                        promoCode(context),
+                        hBox(30.h),
                         paymentDetails(),
                         hBox(30.h),
                         Divider(
@@ -3577,9 +3578,11 @@ class RestaurantCartScreen extends StatefulWidget {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         var buckets = controller.cartCheckoutData.value.cart!.buckets![index];
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          buckets.isDelivery.value = buckets.orderType == 'self' ? false : true;
+        },);
         // bool isLoading = checkedUncheckedController.rxRequestStatus.value ==Status.LOADING &&
         //     controller.cartData.value.cart!.decodedAttribute?[index].isSelectedLoading.value == true;
-
         return Container(
           width: Get.width,
           padding:
@@ -3800,54 +3803,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 ],
               ),
               hBox(8.h),
-              Row(
-                children: [
-                  Text("Delivery Type", style: AppFontStyle.text_16_500(
-                      AppColors.darkText,family: AppFontFamily.gilroyMedium),),
-                  const Spacer(),
-                  Obx(
-                        ()=> InkWell(
-                      onTap: () {
-                        if(buckets.isDelivery.value  == true){
-                          buckets.isDelivery.value = false;
-                          controller.restaurantOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "self");
-                        }
-                      },
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 100),
-                        height: 30,width: 84,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
-                          border: Border.all(color:buckets.isDelivery.value ? AppColors.lightPrimary : AppColors.primary,width: 1),
-                        ),
-                        child: Center(child: Text("Self", style: AppFontStyle.text_14_400(
-                            buckets.isDelivery.value ? AppColors.darkText :AppColors.primary,family: AppFontFamily.gilroyMedium),)),
-                      ),
-                    ),
-                  ),
-                  wBox(8.w),
-                  Obx(
-                        ()=> InkWell(
-                      onTap: () {
-                        if(buckets.isDelivery.value  == false){
-                          buckets.isDelivery.value = true;
-                          controller.restaurantOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "delivery");
-                        }},
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 100),
-                        height: 30,width: 84,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
-                          border: Border.all(color:buckets.isDelivery.value ? AppColors.primary : AppColors.lightPrimary,width: 1),
-                        ),
-                        child: Center(child: Text("Delivery", style: AppFontStyle.text_14_400(
-                          buckets.isDelivery.value ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
-                        ),
-                        ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+              deliveryType(buckets, index),
               hBox(8.h),
               Divider(thickness: .5.w, color: AppColors.hintText),
               hBox(3.h),
@@ -4314,189 +4270,245 @@ class RestaurantCartScreen extends StatefulWidget {
     );
   }
 
+  Widget deliveryType(Buckets buckets, int index) {
+    return Row(
+              children: [
+                Text("Delivery Type", style: AppFontStyle.text_16_500(
+                    AppColors.darkText,family: AppFontFamily.gilroyMedium),),
+                const Spacer(),
+                Obx(
+                      ()=> InkWell(
+                    onTap: () {
+                        if (buckets.isDelivery.value == true) {
+                          buckets.isDelivery.value = false;
+                            controller.restaurantOrderTypeApi(index: index,cartId: buckets.cartId.toString(),type: "self", isDelivery:buckets.isDelivery);
+                          }
+                    },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 100),
+                      height: 30,width: 84,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color:buckets.isDelivery.value ? AppColors.lightPrimary : AppColors.primary,width: 1),
+                      ),
+                      child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                          controller.loadingIndex.value == index && controller.loadingType.value == "self") ?
+                          circularProgressIndicator2() :
+                          Text("Self", style: AppFontStyle.text_14_400(
+                          buckets.isDelivery.value ? AppColors.darkText :AppColors.primary,family: AppFontFamily.gilroyMedium),)),
+                    ),
+                  ),
+                ),
+                wBox(8.w),
+                Obx(
+                      ()=> InkWell(
+                    onTap: () {
+                      if(buckets.isDelivery.value  == false){
+                        buckets.isDelivery.value = true;
+                          controller.restaurantOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "delivery", isDelivery:buckets.isDelivery);
+                      }
+                      },
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 100),
+                      height: 30,width: 84,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color:buckets.isDelivery.value ? AppColors.primary : AppColors.lightPrimary,width: 1),
+                      ),
+                      child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                          controller.loadingIndex.value == index && controller.loadingType.value == "delivery") ?
+                      circularProgressIndicator2() : Text("Delivery", style: AppFontStyle.text_14_400(
+                        buckets.isDelivery.value == true ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                      ),
+                      ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            );
+  }
+
   FocusNode focusNode = FocusNode();
 
-  // Widget promoCode(context) {
-  //   return controller.cartData.value.cart?.couponApplied == null
-  //       ? DottedBorder(
-  //     strokeWidth: 2,
-  //     borderType: BorderType.RRect,
-  //     radius: Radius.circular(15.r),
-  //     color: AppColors.primary,
-  //     dashPattern: [6.w, 3.w],
-  //     child: SizedBox(
-  //       height: Get.height * 0.065,
-  //       width: Get.width * 0.9,
-  //       child: Row(
-  //         children: [
-  //           wBox(15.h),
-  //           SvgPicture.asset("assets/svg/coupon.svg"),
-  //           wBox(10.h),
-  //           SizedBox(
-  //             height: Get.height * 0.08,
-  //             width: Get.width * 0.5,
-  //             child: Center(
-  //               child: CustomTextFormField(
-  //                 controller: controller.couponCodeController.value,
-  //                 readOnly: controller.readOnly.value,
-  //                 focusNode: focusNode,
-  //                 onTap: () {
-  //                   if (controller.cartData.value.cart?.decodedAttribute
-  //                       ?.where((item) => item.checked == "true")
-  //                       .isEmpty ??
-  //                       true) {
-  //                     Utils.showToast("Please select a product");
-  //                   } else if (controller
-  //                       .cartData.value.coupons?.isNotEmpty ??
-  //                       true) {
-  //                     if (controller.readOnly.value) {
-  //                       bottomBar(context);
-  //                     }
-  //                   } else {
-  //                     controller.readOnly.value = false;
-  //                     Utils.showToast("Coupon Not available");
-  //                   }
-  //                 },
-  //                 alignment: Alignment.center,
-  //                 contentPadding: EdgeInsets.zero,
-  //                 borderDecoration: InputBorder.none,
-  //                 prefixConstraints:
-  //                 BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-  //                 hintText: "Enter coupon code",
-  //                 hintStyle:
-  //                 AppFontStyle.text_16_400(AppColors.lightText),
-  //                 onTapOutside: (event) {
-  //                   FocusScope.of(context).unfocus();
-  //                 },
-  //               ),
-  //             ),
-  //           ),
-  //           const Spacer(),
-  //           applyCouponController.rxRequestStatus.value == Status.LOADING
-  //               ? Center(child: circularProgressIndicator(size: 20.h))
-  //               : GestureDetector(
-  //             onTap: () {
-  //               if (controller
-  //                   .couponCodeController.value.text.isNotEmpty) {
-  //                 applyCouponController.applyCouponApi(
-  //                   cartId: controller.cartData.value.cart!.id
-  //                       .toString(),
-  //                   couponCode: controller
-  //                       .couponCodeController.value.text
-  //                       .toString(),
-  //                   grandTotal: controller
-  //                       .cartData.value.cart!.grandTotalPrice
-  //                       .toString(),
-  //                 );
-  //               } else {
-  //                 Utils.showToast("Please Enter Coupon Code");
-  //               }
-  //             },
-  //             child: Text(
-  //               "Apply",
-  //               style: AppFontStyle.text_16_600(AppColors.primary),
-  //             ),
-  //           ),
-  //           wBox(20.h),
-  //         ],
-  //       ),
-  //     ),
-  //   )
-  //       : Container(
-  //     height: Get.height * 0.080,
-  //     width: Get.width,
-  //     decoration: BoxDecoration(
-  //       color: AppColors.primary.withOpacity(0.2),
-  //       borderRadius: BorderRadius.circular(15.r),
-  //     ),
-  //     child: Stack(
-  //       clipBehavior: Clip.none,
-  //       children: [
-  //         Positioned(
-  //           right: -5.h,
-  //           top: -5.h,
-  //           child: SizedBox(
-  //             height: 36.h,
-  //             width: 36.h,
-  //             child: applyCouponController.rxRequestStatus.value ==
-  //                 Status.LOADING
-  //                 ? circularProgressIndicator(size: 18.h)
-  //                 : Center(
-  //               child: GestureDetector(
-  //                 onTap: () {
-  //                   applyCouponController.applyCouponApi(
-  //                     cartId: controller.cartData.value.cart!.id
-  //                         .toString(),
-  //                     couponCode: controller
-  //                         .cartData.value.cart!.couponApplied!.code
-  //                         .toString(),
-  //                     grandTotal: controller
-  //                         .cartData.value.cart!.grandTotalPrice
-  //                         .toString(),
-  //                   );
-  //                 },
-  //                 child: Icon(
-  //                   Icons.cancel,
-  //                   size: 30.h,
-  //                   color: AppColors.primary,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             wBox(15.h),
-  //             Container(
-  //               height: 36.h,
-  //               width: 36.h,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.transparent,
-  //                 shape: BoxShape.circle,
-  //                 // borderRadius: BorderRadius.circular(100.r),
-  //                 border: Border.all(color: AppColors.black, width: 2),
-  //               ),
-  //               child: Icon(
-  //                 Icons.done,
-  //                 color: AppColors.primary,
-  //               ),
-  //             ),
-  //             wBox(15.h),
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Row(
-  //                   children: [
-  //                     Text(
-  //                       controller
-  //                           .cartData.value.cart!.couponApplied!.code
-  //                           .toString(),
-  //                       style: AppFontStyle.text_18_600(AppColors.black),
-  //                     ),
-  //                     wBox(5.h),
-  //                     Text(
-  //                       "Applied",
-  //                       style:
-  //                       AppFontStyle.text_16_600(AppColors.primary),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 Text(
-  //                   "-\$${controller.cartData.value.cart!.couponDiscount}",
-  //                   style: AppFontStyle.text_16_400(AppColors.lightText),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget promoCode(context) {
+    return /*controller.cartData.value.cart?.couponApplied == null
+        ?*/ DottedBorder(
+      strokeWidth: 2,
+      borderType: BorderType.RRect,
+      radius: Radius.circular(15.r),
+      color: AppColors.primary,
+      dashPattern: [6.w, 3.w],
+      child: SizedBox(
+        height: Get.height * 0.065,
+        width: Get.width * 0.9,
+        child: Row(
+          children: [
+            wBox(15.h),
+            SvgPicture.asset("assets/svg/coupon.svg"),
+            wBox(10.h),
+            SizedBox(
+              height: Get.height * 0.08,
+              width: Get.width * 0.5,
+              child: Center(
+                child: CustomTextFormField(
+                  controller: controller.couponCodeController.value,
+                  readOnly: controller.readOnly.value,
+                  focusNode: focusNode,
+                  onTap: () {
+                    // if (controller.cartData.value.cart?.decodedAttribute
+                    //     ?.where((item) => item.checked == "true")
+                    //     .isEmpty ??
+                    //     true) {
+                    //   Utils.showToast("Please select a product");
+                    // } else
+                      if (controller.cartCheckoutData.value.coupons?.isNotEmpty ?? true) {
+                      if (controller.readOnly.value) {
+                        bottomBar(context);
+                      }
+                    } else {
+                      controller.readOnly.value = false;
+                      Utils.showToast("Coupon Not available");
+                    }
+                  },
+                  alignment: Alignment.center,
+                  contentPadding: EdgeInsets.zero,
+                  borderDecoration: InputBorder.none,
+                  prefixConstraints:
+                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                  hintText: "Enter coupon code",
+                  hintStyle:
+                  AppFontStyle.text_16_400(AppColors.lightText),
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+              ),
+            ),
+            const Spacer(),
+            applyCouponController.rxRequestStatus.value == Status.LOADING
+                ? Center(child: circularProgressIndicator(size: 20.h))
+                : GestureDetector(
+              onTap: () {
+                // if (controller
+                //     .couponCodeController.value.text.isNotEmpty) {
+                //   applyCouponController.applyCouponApi(
+                //     cartId: controller.cartData.value.cart!.id
+                //         .toString(),
+                //     couponCode: controller
+                //         .couponCodeController.value.text
+                //         .toString(),
+                //     grandTotal: controller
+                //         .cartData.value.cart!.grandTotalPrice
+                //         .toString(),
+                //   );
+                // } else {
+                //   Utils.showToast("Please Enter Coupon Code");
+                // }
+              },
+              child: Text(
+                "Apply",
+                style: AppFontStyle.text_16_600(AppColors.primary),
+              ),
+            ),
+            wBox(20.h),
+          ],
+        ),
+      ),
+    );
+        /*: Container(
+      height: Get.height * 0.080,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: AppColors.primary.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            right: -5.h,
+            top: -5.h,
+            child: SizedBox(
+              height: 36.h,
+              width: 36.h,
+              child: applyCouponController.rxRequestStatus.value ==
+                  Status.LOADING
+                  ? circularProgressIndicator(size: 18.h)
+                  : Center(
+                child: GestureDetector(
+                  onTap: () {
+                    applyCouponController.applyCouponApi(
+                      cartId: controller.cartData.value.cart!.id
+                          .toString(),
+                      couponCode: controller
+                          .cartData.value.cart!.couponApplied!.code
+                          .toString(),
+                      grandTotal: controller
+                          .cartData.value.cart!.grandTotalPrice
+                          .toString(),
+                    );
+                  },
+                  child: Icon(
+                    Icons.cancel,
+                    size: 30.h,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              wBox(15.h),
+              Container(
+                height: 36.h,
+                width: 36.h,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  // borderRadius: BorderRadius.circular(100.r),
+                  border: Border.all(color: AppColors.black, width: 2),
+                ),
+                child: Icon(
+                  Icons.done,
+                  color: AppColors.primary,
+                ),
+              ),
+              wBox(15.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        controller
+                            .cartData.value.cart!.couponApplied!.code
+                            .toString(),
+                        style: AppFontStyle.text_18_600(AppColors.black),
+                      ),
+                      wBox(5.h),
+                      Text(
+                        "Applied",
+                        style:
+                        AppFontStyle.text_16_600(AppColors.primary),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "-\$${controller.cartData.value.cart!.couponDiscount}",
+                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );*/
+  }
 
   // Widget paymentDetails() {
   //   bool isLoading =
@@ -4586,6 +4598,7 @@ class RestaurantCartScreen extends StatefulWidget {
   //     ],
   //   );
   // }
+
   Widget paymentDetails() {
     bool isLoading =
     //  checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
@@ -5005,17 +5018,26 @@ class RestaurantCartScreen extends StatefulWidget {
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: controller.cartData.value.coupons!.length,
+      itemCount: controller.cartCheckoutData.value.coupons?.length ?? 0,
       itemBuilder: (context, index) {
-        String expireDate =
-            controller.cartData.value.coupons![index].expireDate ?? "";
-        DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate);
-        DateTime currentDate = DateTime.now();
-        Duration difference = expiryDate.difference(currentDate);
+        String daysRemaining = "Expired";
+        String? expireDate = controller.cartCheckoutData.value.coupons?[index].expireDate;
 
-        String daysRemaining = difference.inDays > 0
-            ? "${difference.inDays} days remaining"
-            : "Expired";
+        if (expireDate != null && expireDate.trim().isNotEmpty) {
+          try {
+            DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate.trim());
+            DateTime currentDate = DateTime.now();
+            Duration difference = expiryDate.difference(currentDate);
+
+            daysRemaining = difference.inDays > 0
+                ? "${difference.inDays} days remaining"
+                : "Expired";
+          } catch (e) {
+            debugPrint("❌ Invalid date format: $expireDate");
+            daysRemaining = "Expired";
+          }
+        }
+
         return Container(
           padding: REdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -5036,12 +5058,12 @@ class RestaurantCartScreen extends StatefulWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "${controller.cartData.value.coupons![index].discountAmount}",
-                            style: AppFontStyle.text_28_600(Colors.white,
+                            "${controller.cartCheckoutData.value.coupons![index].value}",
+                            style: AppFontStyle.text_22_600(Colors.white,
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                            controller.cartData.value.coupons![index]
+                            controller.cartCheckoutData.value.coupons![index]
                                 .discountType
                                 .toString() ==
                                 "percent"
@@ -5066,7 +5088,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.cartData.value.coupons![index].couponType
+                      controller.cartCheckoutData.value.coupons![index].couponType
                           .toString(),
                       overflow: TextOverflow.ellipsis,
                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
@@ -5074,7 +5096,7 @@ class RestaurantCartScreen extends StatefulWidget {
                     hBox(10),
                     FittedBox(
                       child: Text(
-                        controller.cartData.value.coupons![index].code
+                        controller.cartCheckoutData.value.coupons![index].code
                             .toString(),
                         overflow: TextOverflow.ellipsis,
                         style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
@@ -5092,13 +5114,13 @@ class RestaurantCartScreen extends StatefulWidget {
                   children: [
                     FittedBox(
                       child: Text(
-                        daysRemaining,
+                        daysRemaining.toString(),
                         overflow: TextOverflow.ellipsis,
                         style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                       ),
                     ),
                     hBox(8),
-                    if (controller.cartData.value.coupons![index].expiryStatus
+                    if (controller.cartCheckoutData.value.coupons![index].expiryStatus
                         .toString() !=
                         "Expired")
                       CustomElevatedButton(
@@ -5109,7 +5131,7 @@ class RestaurantCartScreen extends StatefulWidget {
                         text: "Select",
                         onPressed: () {
                           controller.couponCodeController.value.text =
-                              controller.cartData.value.coupons![index].code
+                              controller.cartCheckoutData.value.coupons![index].code
                                   .toString();
                           Get.back();
                           FocusScope.of(context).unfocus();

@@ -120,6 +120,7 @@ class RestaurantCartController extends GetxController {
       allCheckoutDataSet(value);
       if(value.status == true){
         setRxRequestStatusCheckout(Status.COMPLETED);
+        // cartCheckoutData.value.cart!.buckets![index].isDelivery.value = cartCheckoutData.value.cart!.buckets![index].orderType == "self" ? false : true;
       }else if(value.status == false){
         setRxRequestStatusCheckout(Status.COMPLETED);
       }else{
@@ -164,41 +165,54 @@ class RestaurantCartController extends GetxController {
   void setOrderDataOrderType(OrderTypeModel value){
     apiDataOrderType.value = value;
   }
+  RxInt loadingIndex = (-1).obs;
+  RxString loadingType = ''.obs;
 
-  Future<void> restaurantOrderTypeApi({required int index,required String cartId,required String type})async{
+  Future<void> restaurantOrderTypeApi({required int index,required String cartId,required String type, Rx<bool>? isDelivery})async{
+    if(type == "self"){
+      isDelivery?.value = false;
+    }else if(type == 'delivery'){
+      isDelivery?.value = true;
+    }
+
     var data = {
       "cart_id": cartId,
       "type": type,
     };
-    if(type == "self"){
-      cartData.value.cart?.buckets?[index].isDelivery.value = false;
-    }else if(type == 'delivery'){
-      cartData.value.cart?.buckets?[index].isDelivery.value = true;
-    }
+    loadingIndex.value = index;
+    loadingType.value = type;
+
     setRxRequestStatusOrderType(Status.LOADING);
     api.restaurantOrderTypeApi(data).then((value) {
       setOrderDataOrderType(value);
       if(apiDataOrderType.value.status == true){
         if(type == "self"){
-          cartData.value.cart?.buckets?[index].isDelivery.value = false;
+          isDelivery?.value = false;
         }else if(type == 'delivery'){
-          cartData.value.cart?.buckets?[index].isDelivery.value = true;
+          isDelivery?.value = true;
         }
+        refreshGetAllCheckoutDataRes();
         setRxRequestStatusOrderType(Status.COMPLETED);
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
+        loadingIndex.value = -1;
+        loadingType.value = '';
       }else if(apiDataOrderType.value.status == false){
         if(type == "self"){
-          cartData.value.cart?.buckets?[index].isDelivery.value = true;
+          isDelivery?.value = true;
         }else if(type == 'delivery'){
-          cartData.value.cart?.buckets?[index].isDelivery.value = false;
+          isDelivery?.value = false;
         }
         setRxRequestStatusOrderType(Status.COMPLETED);
+        loadingIndex.value = -1;
+        loadingType.value = '';
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
       }
     },).onError((error, stackTrace) {
       print("error order type Res>>>>>>>>>$error");
       print("error order type Res>>>>>>>>>$stackTrace");
       setRxRequestStatusOrderType(Status.ERROR);
+      loadingIndex.value = -1;
+      loadingType.value = '';
     },);
   }
 

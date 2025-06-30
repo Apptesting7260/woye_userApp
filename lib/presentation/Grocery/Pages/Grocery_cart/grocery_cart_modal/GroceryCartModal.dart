@@ -113,6 +113,7 @@ class Buckets {
   int? cartId;
   String? specificTotalPrice;
   String? specificDeliveryCharge;
+  String? orderType;
   Rx<bool> isVendorDelete = false.obs;
   Rx<bool> isChecked = false.obs;
   Rx<bool> isDelivery = true.obs;
@@ -126,6 +127,7 @@ class Buckets {
     this.cartId,
     this.specificTotalPrice,
     this.specificDeliveryCharge,
+    this.orderType,
   });
 
   Buckets.fromJson(Map<String, dynamic> json) {
@@ -142,10 +144,11 @@ class Buckets {
     cartId = json['cart_id'];
     specificTotalPrice = json['specific_total_price'];
     specificDeliveryCharge = json['specific_delivery_charge'];
+    orderType = json['order_type'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['vendor_id'] = vendorId;
     if (bucket != null) {
       data['bucket'] = bucket!.map((v) => v.toJson()).toList();
@@ -156,6 +159,7 @@ class Buckets {
     data['cart_id'] = cartId; // Add cart_id to the output JSON
     data['specific_total_price'] = specificTotalPrice;
     data['specific_delivery_charge'] = specificDeliveryCharge;
+    data['order_type'] = orderType;
     return data;
   }
 }

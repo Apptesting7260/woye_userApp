@@ -49,15 +49,17 @@ class PayStackController extends GetxController {
         customerEmail: email,
         reference: uniqueTransRef,
         currency: "GHS",
+        paymentChannel: ['card'],
         amount: controller.walletSelected.value
             ? controller.newTotalWithoutIncludingTips.value.ceilToDouble()
-            : double.parse(total.toString()).ceilToDouble(),
+            : double.parse(total).ceilToDouble(),
         callbackUrl: "https://google.com",
         transactionCompleted: (paymentData) {
           debugPrint("Transaction completed successfully.... ${paymentData.status} ${paymentData.amount} ${paymentData.message}");
           final fullResponse = jsonEncode(paymentData);
           debugPrint("📦 Full Paystack Response:\n$fullResponse");
           debugPrint("Transaction completed successfully.... $response");
+          Utils.showToast("Transaction completed successfully");
           if(paymentData.status == 'success'){
             if(cartType == 'restaurant'){
           controller.createOrderRestaurant(
@@ -141,6 +143,7 @@ class PayStackController extends GetxController {
         },
         transactionNotCompleted: (reason) {
           debugPrint("Transaction not completed..... $reason");
+          Utils.showToast("Transaction not completed");
         },
       );
     }  on PlatformException catch (e) {

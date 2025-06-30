@@ -149,8 +149,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                               hBox(20.h),
                               cartItems(),
                               hBox(20.h),
-                              // promoCode(context),
-                              // hBox(30.h),
+                              promoCode(context),
+                              hBox(30.h),
                               paymentDetails(),
                               hBox(30.h),
                               Divider(
@@ -808,6 +808,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
       shrinkWrap: true,
       itemBuilder: (context, index) {
         var buckets = controller.cartCheckoutData.value.cart!.buckets![index];
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          buckets.isDelivery.value = buckets.orderType == 'self' ? false : true;
+        },);
         // bool isLoading = checkedUncheckedController.rxRequestStatus.value ==Status.LOADING &&
         //     controller.cartData.value.cart!.decodedAttribute?[index].isSelectedLoading.value == true;
 
@@ -1040,7 +1043,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         ()=> InkWell(
                       onTap: () {
                         if(buckets.isDelivery.value  == true){
-                          buckets.isDelivery.value = false;
+                          buckets.isDelivery.value  == false;
                           controller.pharmacyOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "self");
                         }
                       },
@@ -1050,7 +1053,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
                           border: Border.all(color:buckets.isDelivery.value ? AppColors.lightPrimary : AppColors.primary,width: 1),
                         ),
-                        child: Center(child: Text("Self", style: AppFontStyle.text_14_400(
+                        child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                            controller.loadingIndex.value == index && controller.loadingType.value == "self") ?
+                        circularProgressIndicator2() : Text("Self", style: AppFontStyle.text_14_400(
                             buckets.isDelivery.value ? AppColors.darkText :AppColors.primary,family: AppFontFamily.gilroyMedium),)),
                       ),
                     ),
@@ -1060,7 +1065,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         ()=> InkWell(
                       onTap: () {
                         if(buckets.isDelivery.value  == false){
-                          buckets.isDelivery.value = true;
+                          buckets.isDelivery.value  == true;
                           controller.pharmacyOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "delivery");
                         }},
                       child: AnimatedContainer(
@@ -1069,7 +1074,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
                           border: Border.all(color:buckets.isDelivery.value ? AppColors.primary : AppColors.lightPrimary,width: 1),
                         ),
-                        child: Center(child: Text("Delivery", style: AppFontStyle.text_14_400(
+                        child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                            controller.loadingIndex.value == index && controller.loadingType.value == "delivery") ?
+                        circularProgressIndicator2() :Text("Delivery", style: AppFontStyle.text_14_400(
                           buckets.isDelivery.value ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
                         ),
                         ),
@@ -1987,7 +1994,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   FocusNode focusNode = FocusNode();
 
   Widget promoCode(context) {
-    return controller.cartData.value.cart?.couponApplied == null
+    return controller.cartCheckoutData.value.couponApplied == false
         ? DottedBorder(
             strokeWidth: 2,
             borderType: BorderType.RRect,
@@ -2011,13 +2018,13 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         readOnly: controller.readOnly.value,
                         focusNode: focusNode,
                         onTap: () {
-                          if (controller.cartData.value.cart?.decodedAttribute
+                         /* if (controller.cartCheckoutData.value.cart?.decodedAttribute
                                   ?.where((item) => item.checked == "true")
                                   .isEmpty ??
                               true) {
                             Utils.showToast("Please select a product");
-                          } else if (controller
-                                  .cartData.value.coupons?.isNotEmpty ??
+                          } else */if (controller
+                                  .cartCheckoutData.value.coupons?.isNotEmpty ??
                               true) {
                             if (controller.readOnly.value) {
                               bottomBar(context);
@@ -2046,17 +2053,11 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                       ? Center(child: circularProgressIndicator(size: 20.h))
                       : GestureDetector(
                           onTap: () {
-                            if (controller
-                                .couponCodeController.value.text.isNotEmpty) {
+                            if (controller.couponCodeController.value.text.isNotEmpty) {
                               applyCouponController.applyCouponApi(
-                                cartId: controller.cartData.value.cart!.id
-                                    .toString(),
-                                couponCode: controller
-                                    .couponCodeController.value.text
-                                    .toString(),
-                                grandTotal: controller
-                                    .cartData.value.cart!.grandTotalPrice
-                                    .toString(),
+                                cartId: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId,).toList() ?? [],
+                                couponCode: controller.couponCodeController.value.text.toString(),
+                                grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice?? "",
                               );
                             } else {
                               Utils.showToast("Please Enter Coupon Code");
@@ -2095,14 +2096,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                             child: GestureDetector(
                               onTap: () {
                                 applyCouponController.applyCouponApi(
-                                  cartId: controller.cartData.value.cart!.id
-                                      .toString(),
-                                  couponCode: controller
-                                      .cartData.value.cart!.couponApplied!.code
-                                      .toString(),
-                                  grandTotal: controller
-                                      .cartData.value.cart!.grandTotalPrice
-                                      .toString(),
+                                  cartId: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId,).toList() ?? [],
+                                  couponCode: controller.couponCodeController.value.text.toString(),
+                                  grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice?? "",
                                 );
                               },
                               child: Icon(
@@ -2142,8 +2138,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         Row(
                           children: [
                             Text(
-                              controller
-                                  .cartData.value.cart!.couponApplied!.code
+                              controller.cartCheckoutData.value.cart!.couponDiscount
                                   .toString(),
                               style: AppFontStyle.text_18_600(AppColors.black),
                             ),
@@ -2156,7 +2151,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           ],
                         ),
                         Text(
-                          "-\$${controller.cartData.value.cart!.couponDiscount}",
+                          "-\$${controller.cartData.value.cart?.couponDiscount ?? ""}",
                           style: AppFontStyle.text_16_400(AppColors.lightText),
                         ),
                       ],
@@ -2256,6 +2251,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   //     ],
   //   );
   // }
+
   Widget paymentDetails() {
     bool isLoading =
         //  checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
@@ -2568,17 +2564,26 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: controller.cartData.value.coupons!.length,
+      itemCount: controller.cartCheckoutData.value.coupons?.length ?? 0,
       itemBuilder: (context, index) {
-        String expireDate =
-            controller.cartData.value.coupons![index].expireDate ?? "";
-        DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate);
-        DateTime currentDate = DateTime.now();
-        Duration difference = expiryDate.difference(currentDate);
+        String daysRemaining = "Expired";
+        String? expireDate = controller.cartCheckoutData.value.coupons?[index].expireDate;
 
-        String daysRemaining = difference.inDays > 0
-            ? "${difference.inDays} days remaining"
-            : "Expired";
+        if (expireDate != null && expireDate.trim().isNotEmpty) {
+          try {
+            DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate.trim());
+            DateTime currentDate = DateTime.now();
+            Duration difference = expiryDate.difference(currentDate);
+
+            daysRemaining = difference.inDays > 0
+                ? "${difference.inDays} days remaining"
+                : "Expired";
+          } catch (e) {
+            debugPrint("❌ Invalid date format: $expireDate");
+            daysRemaining = "Expired";
+          }
+        }
+
         return Container(
           padding: REdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -2599,12 +2604,12 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "${controller.cartData.value.coupons![index].discountAmount}",
+                            "${controller.cartCheckoutData.value.coupons![index].value}",
                             style: AppFontStyle.text_28_600(Colors.white,
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                            controller.cartData.value.coupons![index]
+                            controller.cartCheckoutData.value.coupons![index]
                                         .discountType
                                         .toString() ==
                                     "percent"
@@ -2629,7 +2634,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.cartData.value.coupons![index].couponType
+                      controller.cartCheckoutData.value.coupons![index].couponType
                           .toString(),
                       overflow: TextOverflow.ellipsis,
                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
@@ -2637,7 +2642,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     hBox(10),
                     FittedBox(
                       child: Text(
-                        controller.cartData.value.coupons![index].code
+                        controller.cartCheckoutData.value.coupons![index].code
                             .toString(),
                         overflow: TextOverflow.ellipsis,
                         style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
@@ -2661,7 +2666,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                       ),
                     ),
                     hBox(8),
-                    if (controller.cartData.value.coupons![index].expiryStatus
+                    if (controller.cartCheckoutData.value.coupons![index].expiryStatus
                             .toString() !=
                         "Expired")
                       CustomElevatedButton(
@@ -2672,7 +2677,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         text: "Select",
                         onPressed: () {
                           controller.couponCodeController.value.text =
-                              controller.cartData.value.coupons![index].code
+                              controller.cartCheckoutData.value.coupons![index].code
                                   .toString();
                           Get.back();
                           FocusScope.of(context).unfocus();

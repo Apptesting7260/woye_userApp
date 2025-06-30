@@ -92,7 +92,7 @@ analysis_benchmark.json
 .packages.generated
 
 #Dotenv
-#.env
+.env
 
 # Flutter/Dart/Pub related
 **/doc/api/

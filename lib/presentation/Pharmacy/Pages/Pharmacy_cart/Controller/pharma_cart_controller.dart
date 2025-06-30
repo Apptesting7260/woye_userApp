@@ -224,6 +224,9 @@ class PharmacyCartController extends GetxController {
     apiDataOrderType.value = value;
   }
 
+  RxInt loadingIndex = (-1).obs;
+  RxString loadingType = ''.obs;
+
   Future<void> pharmacyOrderTypeApi({required int index,required String cartId,required String type})async{
     var data = {
       "cart_id": cartId,
@@ -234,6 +237,10 @@ class PharmacyCartController extends GetxController {
     }else if(type == 'delivery'){
       cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
     }
+
+    loadingIndex.value = index;
+    loadingType.value = type;
+
     setRxRequestStatusOrderType(Status.LOADING);
     api.orderTypePharmacyApi(data).then((value) {
       setOrderDataOrderType(value);
@@ -243,7 +250,10 @@ class PharmacyCartController extends GetxController {
         }else if(type == 'delivery'){
           cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
         }
+        refreshGetAllCartProductsForCheckout();
         setRxRequestStatusOrderType(Status.COMPLETED);
+        loadingIndex.value = -1;
+        loadingType.value = '';
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
       }else if(apiDataOrderType.value.status == false){
         if(type == "self"){
@@ -252,12 +262,16 @@ class PharmacyCartController extends GetxController {
           cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
         }
         setRxRequestStatusOrderType(Status.COMPLETED);
+        loadingIndex.value = -1;
+        loadingType.value = '';
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
       }
     },).onError((error, stackTrace) {
       print("error order type pharma>>>>>>>>>$error");
       print("error order type pharma>>>>>>>>>$stackTrace");
       setRxRequestStatusOrderType(Status.ERROR);
+      loadingIndex.value = -1;
+      loadingType.value = '';
     },);
   }
 

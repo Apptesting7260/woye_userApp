@@ -4,6 +4,7 @@ class PharmacyCheckOutAllModel {
   bool? status;
   String? message;
   Cart? cart;
+  bool? couponApplied;
   String? wallet;
   Address? address;
   List<Coupons>? coupons;
@@ -15,6 +16,7 @@ class PharmacyCheckOutAllModel {
       {this.status,
         this.message,
         this.cart,
+        this.couponApplied,
         this.wallet,
         this.address,
         this.coupons,
@@ -26,6 +28,7 @@ class PharmacyCheckOutAllModel {
     status = json['status'];
     message = json['message'];
     cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
+    couponApplied = json['coupon_applied'];
     wallet = json['wallet'];
     address =
     json['address'] != null ? Address.fromJson(json['address']) : null;
@@ -48,6 +51,7 @@ class PharmacyCheckOutAllModel {
       data['cart'] = cart!.toJson();
     }
     data['wallet'] = wallet;
+    data['coupon_applied'] = couponApplied;
     if (address != null) {
       data['address'] = address!.toJson();
     }
@@ -123,6 +127,7 @@ class Buckets {
   String? specificTotalPrice;
   String? specificDeliveryCharge;
   String? grandtotalPrice;
+  String? orderType;
   Rx<bool> isVendorDelete = false.obs;
   Rx<bool> isChecked = false.obs;
   Rx<bool> isDelivery = true.obs;
@@ -136,7 +141,9 @@ class Buckets {
         this.vendorAddress,
         this.specificTotalPrice,
         this.specificDeliveryCharge,
-        this.grandtotalPrice});
+        this.grandtotalPrice,
+        this.orderType,
+      });
 
   Buckets.fromJson(Map<String, dynamic> json) {
     pharmaId = json['pharma_id'];
@@ -153,6 +160,7 @@ class Buckets {
     specificTotalPrice = json['specific_total_price'];
     specificDeliveryCharge = json['specific_delivery_charge'];
     grandtotalPrice = json['grandtotal_price'];
+    orderType = json['order_type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -168,6 +176,7 @@ class Buckets {
     data['specific_total_price'] = specificTotalPrice;
     data['specific_delivery_charge'] = specificDeliveryCharge;
     data['grandtotal_price'] = grandtotalPrice;
+    data['order_type'] = orderType;
     return data;
   }
 }
@@ -303,6 +312,7 @@ class Coupons {
   String? code;
   String? discountType;
   String? discountAmount;
+  String? value;
   String? expireDate;
   String? expiryStatus;
 
@@ -313,6 +323,7 @@ class Coupons {
         this.code,
         this.discountType,
         this.discountAmount,
+        this.value,
         this.expireDate,
         this.expiryStatus});
 
@@ -323,6 +334,7 @@ class Coupons {
     code = json['code'];
     discountType = json['discount_type'];
     discountAmount = json['discount_amount'];
+    value = json['value']?.toString();
     expireDate = json['expire_date'];
     expiryStatus = json['expiry_status'];
   }
@@ -335,6 +347,7 @@ class Coupons {
     data['code'] = code;
     data['discount_type'] = discountType;
     data['discount_amount'] = discountAmount;
+    data['value'] = value;
     data['expire_date'] = expireDate;
     data['expiry_status'] = expiryStatus;
     return data;
