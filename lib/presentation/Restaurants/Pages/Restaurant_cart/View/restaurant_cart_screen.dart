@@ -2805,6 +2805,7 @@ import 'package:woye_user/shared/theme/font_family.dart';
 //     );
 //   }
 // }
+
 class RestaurantCartScreen extends StatefulWidget {
   final bool isBack;
   const RestaurantCartScreen({super.key, this.isBack = false});
@@ -4330,8 +4331,8 @@ class RestaurantCartScreen extends StatefulWidget {
   FocusNode focusNode = FocusNode();
 
   Widget promoCode(context) {
-    return /*controller.cartData.value.cart?.couponApplied == null
-        ?*/ DottedBorder(
+    return controller.cartCheckoutData.value.couponApplied == false
+        ? DottedBorder(
       strokeWidth: 2,
       borderType: BorderType.RRect,
       radius: Radius.circular(15.r),
@@ -4388,21 +4389,15 @@ class RestaurantCartScreen extends StatefulWidget {
                 ? Center(child: circularProgressIndicator(size: 20.h))
                 : GestureDetector(
               onTap: () {
-                // if (controller
-                //     .couponCodeController.value.text.isNotEmpty) {
-                //   applyCouponController.applyCouponApi(
-                //     cartId: controller.cartData.value.cart!.id
-                //         .toString(),
-                //     couponCode: controller
-                //         .couponCodeController.value.text
-                //         .toString(),
-                //     grandTotal: controller
-                //         .cartData.value.cart!.grandTotalPrice
-                //         .toString(),
-                //   );
-                // } else {
-                //   Utils.showToast("Please Enter Coupon Code");
-                // }
+                if (controller.couponCodeController.value.text.isNotEmpty) {
+                  applyCouponController.applyCouponApi(
+                    cartIds: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
+                    couponCode: controller.couponCodeController.value.text.toString(),
+                    grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? "",
+                  );
+                } else {
+                  Utils.showToast("Please Enter Coupon Code");
+                }
               },
               child: Text(
                 "Apply",
@@ -4413,8 +4408,8 @@ class RestaurantCartScreen extends StatefulWidget {
           ],
         ),
       ),
-    );
-        /*: Container(
+    )
+        : Container(
       height: Get.height * 0.080,
       width: Get.width,
       decoration: BoxDecoration(
@@ -4425,8 +4420,8 @@ class RestaurantCartScreen extends StatefulWidget {
         clipBehavior: Clip.none,
         children: [
           Positioned(
-            right: -5.h,
-            top: -5.h,
+            right: 0.h,
+            top: 0.h,
             child: SizedBox(
               height: 36.h,
               width: 36.h,
@@ -4437,14 +4432,9 @@ class RestaurantCartScreen extends StatefulWidget {
                 child: GestureDetector(
                   onTap: () {
                     applyCouponController.applyCouponApi(
-                      cartId: controller.cartData.value.cart!.id
-                          .toString(),
-                      couponCode: controller
-                          .cartData.value.cart!.couponApplied!.code
-                          .toString(),
-                      grandTotal: controller
-                          .cartData.value.cart!.grandTotalPrice
-                          .toString(),
+                      cartIds: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
+                      couponCode: controller.cartCheckoutData.value.appliedCoupon?.code.toString() ?? "",
+                      grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? "",
                     );
                   },
                   child: Icon(
@@ -4485,21 +4475,21 @@ class RestaurantCartScreen extends StatefulWidget {
                     children: [
                       Text(
                         controller
-                            .cartData.value.cart!.couponApplied!.code
-                            .toString(),
-                        style: AppFontStyle.text_18_600(AppColors.black),
+                            .cartCheckoutData.value.appliedCoupon?.code
+                            .toString() ?? "",
+                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
                       ),
                       wBox(5.h),
                       Text(
                         "Applied",
                         style:
-                        AppFontStyle.text_16_600(AppColors.primary),
+                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                       ),
                     ],
                   ),
                   Text(
-                    "-\$${controller.cartData.value.cart!.couponDiscount}",
-                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                    "-\$${controller.cartCheckoutData.value.cart?.couponDiscount ?? ""}",
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                 ],
               ),
@@ -4507,7 +4497,7 @@ class RestaurantCartScreen extends StatefulWidget {
           ),
         ],
       ),
-    );*/
+    );
   }
 
   // Widget paymentDetails() {

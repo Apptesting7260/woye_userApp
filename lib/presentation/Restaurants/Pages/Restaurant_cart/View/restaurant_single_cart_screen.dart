@@ -133,8 +133,8 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             : locationAddress(),
                         hBox(20.h),
                         cartItems(),
-                        // hBox(20.h),
-                        // promoCode(context),
+                        hBox(20.h),
+                        promoCode(context),
                         hBox(30.h),
                         paymentDetails(),
                         hBox(30.h),
@@ -269,15 +269,14 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
     checkedUncheckedController.rxRequestStatus.value ==  Status.LOADING;
     return ListView.separated(
       itemCount:
-      controller.singleCartData.value.cart!.decodedAttribute!.bucket!.length,
+      controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?.length ?? 0,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        var item =
-        controller.singleCartData.value.cart!.decodedAttribute!.bucket![index];
+        var item = controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index];
         bool isLoading =
             checkedUncheckedController.rxRequestStatus.value == Status.LOADING &&
-                controller.singleCartData.value.cart!.decodedAttribute?.bucket?[index].isSelectedLoading.value ==
+                controller.singleCartData.value.cart!.raw?.decodedAttribute?.bucket?[index].isSelectedLoading.value ==
                     true;
         return Column(
           children: [
@@ -301,7 +300,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
-                      value: controller.singleCartData.value.cart?.decodedAttribute!.bucket?[index].checked == 'true',
+                      value: controller.singleCartData.value.cart?.raw?.decodedAttribute!.bucket?[index].checked == 'true',
                       side: BorderSide(
                         color: AppColors.black,
                       ),
@@ -309,13 +308,13 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         print(checkedUncheckedController.rxRequestStatus.value);
                         if (checkedUncheckedController.rxRequestStatus.value != Status.LOADING) {
                           // item.isSelectedLoading.value = true;
-                          controller.singleCartData.value.cart!.decodedAttribute?.bucket?[index].isSelectedLoading.value = true;
-                          bool newCheckedStatus = !(controller.singleCartData.value.cart!.decodedAttribute?.bucket?[index].checked == 'true');
+                          controller.singleCartData.value.cart!.raw?.decodedAttribute?.bucket?[index].isSelectedLoading.value = true;
+                          bool newCheckedStatus = !(controller.singleCartData.value.cart!.raw?.decodedAttribute?.bucket?[index].checked == 'true');
 
                           checkedUncheckedController.checkedUncheckedApi(
-                            cartId: controller.singleCartData.value.cart!.id.toString(),
-                            productId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].productId.toString(),
-                            countId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].count.toString(),
+                            cartId: controller.singleCartData.value.cart?.cartId.toString() ?? "",
+                            productId: controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].productId.toString() ?? "",
+                            countId: controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].count.toString() ?? "",
                             status: newCheckedStatus.toString(),
                             // item: item,
                           );
@@ -340,28 +339,27 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                       : GestureDetector(
                     onTap: () {
                       specificProductController.specific_Product_Api(
-                        productId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].productId.toString(),
-                        categoryId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].categoryId.toString(),
+                        productId: controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].productId.toString() ?? "",
+                        categoryId: controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].categoryId.toString() ?? "",
                       );
 
                       print(
-                          "category_id ${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].categoryId.toString()}");
+                          "category_id ${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].categoryId.toString()}");
                       print(
-                          "category Name ${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].categoryName.toString()}");
+                          "category Name ${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].categoryName.toString()}");
                       print(
-                          "product Id ${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].productId.toString()}");
+                          "product Id ${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].productId.toString()}");
 
                       Get.to(() => ProductDetailsScreen(
                         cartId: widget.cartId,
                         fromCart: true,
-                        productId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].productId.toString(),
-                        categoryId: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].categoryId.toString(),
-                        categoryName: controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].categoryName
-                            .toString(),
+                        productId: controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].productId.toString() ?? "",
+                        categoryId: controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].categoryId.toString() ?? "",
+                        categoryName: controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].categoryName.toString() ??"",
                       ));
                     },
                     child: CachedNetworkImage(
-                      imageUrl: item.productImage.toString(),
+                      imageUrl: item?.productImage.toString() ?? "",
                       height: 100.h,
                       width: 100.h,
                       fit: BoxFit.cover,
@@ -403,7 +401,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               : SizedBox(
                             width: 110.w,
                             child: Text(
-                              item.productName?.capitalize.toString() ?? "",
+                              item?.productName?.capitalize.toString() ?? "",
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: AppFontStyle.text_16_400(
@@ -435,9 +433,9 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               // );
                               showDeleteProductDialog(
                                 fromSingle: true,
-                                cartId: controller.singleCartData.value.cart!.id.toString(),
-                                productId: item.productId.toString(),
-                                countId: item.count.toString(),
+                                cartId: controller.singleCartData.value.cart?.cartId.toString() ?? "",
+                                productId: item?.productId.toString() ?? "",
+                                countId: item?.count.toString() ?? "",
                               );
                             },
                             child: SvgPicture.asset(
@@ -464,7 +462,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             ),
                           )
                               : Text(
-                            "\$${item.totalPrice.toString()}",
+                            "\$${item?.totalPrice.toString() ?? ""}",
                             overflow: TextOverflow.ellipsis,
                             style: AppFontStyle.text_14_600(
                                 AppColors.primary,family: AppFontFamily.gilroyRegular),
@@ -494,7 +492,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                   () => quantityUpdateController
                                   .rxRequestStatus.value ==
                                   Status.LOADING &&
-                                  item.isLoading.value == true
+                                  item?.isLoading.value == true
                                   ? Center(
                                   child: circularProgressIndicator2())
                                   : Row(
@@ -506,18 +504,12 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                     highlightColor:
                                     Colors.transparent,
                                     onTap: () {
-                                      if (controller.singleCartData
-                                         .value
-                                          .cart!
-                                          .decodedAttribute!
-                                          .bucket?[index]
-                                          .checked !=
-                                          "false") {
-                                        if (item.quantity == 1) {
+                                      if (controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket?[index].checked != "false") {
+                                        if (item?.quantity == "1") {
                                           Utils.showToast(
                                               "Qty can not less then 1");
                                         } else {
-                                          item.isLoading.value =
+                                          item?.isLoading.value =
                                           true;
                                           quantityUpdateController.updateQuantityApi(
                                             isSingleCartScreen: true,
@@ -525,15 +517,12 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                                 .singleCartData
                                                 .value
                                                 .cart!
-                                                .id
+                                                .cartId
                                                 .toString(),
-                                            productId: item
-                                                .productId
-                                                .toString(),
-                                            countId: item.count
-                                                .toString(),
+                                            productId: item?.productId.toString() ?? "",
+                                            countId: item?.count.toString() ?? "",
                                             productQuantity:
-                                            (int.parse(item.quantity.toString()) - 1).toString(),
+                                            (int.parse(item?.quantity.toString() ?? "") - 1).toString(),
                                           );
                                         }
                                       } else {
@@ -549,7 +538,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                     ),
                                   ),
                                   Text(
-                                    item.quantity.toString(),
+                                    item?.quantity.toString() ?? "",
                                     style: AppFontStyle.text_14_400(
                                         AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                   ),
@@ -561,27 +550,24 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                       if (controller
                                           .singleCartData
                                           .value
-                                          .cart!
-                                          .decodedAttribute!
+                                          .cart!.raw?.decodedAttribute!
                                           .bucket?[index]
                                           .checked !=
                                           "false") {
-                                        item.isLoading.value = true;
+                                        item?.isLoading.value = true;
                                         quantityUpdateController
                                             .updateQuantityApi(
                                           isSingleCartScreen: true,
                                           cartId: controller
                                               .singleCartData
                                               .value
-                                              .cart!
-                                              .id
-                                              .toString(),
-                                          productId: item.productId
-                                              .toString(),
+                                              .cart?.cartId
+                                              .toString() ?? "",
+                                          productId: item?.productId.toString() ?? "",
                                           countId:
-                                          item.count.toString(),
+                                          item?.count.toString() ?? "",
                                           productQuantity:
-                                          (int.parse(item.quantity.toString()) + 1)
+                                          (int.parse(item?.quantity.toString() ?? "") + 1)
                                               .toString(),
                                         );
                                       } else {
@@ -607,9 +593,9 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
             ),
             hBox(5.h),
             hBox(10.h),
-            if (controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+            if (controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index]
                 .attribute!.isNotEmpty &&
-                controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+                controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index]
                     .checked ==
                     "true")
               Padding(
@@ -621,18 +607,17 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     spacing: 2.w,
                     runSpacing: 2.w,
                     children: List.generate(
-                      controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
-                          .attribute!.length,
+                      controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].attribute?.length ?? 0,
                           (addonIndex) {
                         bool isLast = addonIndex ==
-                            controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute!.length - 1;
+                            controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].attribute!.length - 1;
                         return Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemName?.capitalize}',
+                              '${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemName?.capitalize}',
                               style:
                               AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
@@ -646,7 +631,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               maxLines: 1,
                             ),
                             Text(
-                              '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice?.capitalize}',
+                              '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice?.capitalize}',
                               style:
                               AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
@@ -667,9 +652,9 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   ),
                 ),
               ),
-            if (controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons!
+            if (controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].addons!
                 .isNotEmpty &&
-                controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
+                controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index]
                     .checked ==
                     "true")
               SizedBox(
@@ -679,12 +664,11 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   spacing: 2.w,
                   runSpacing: 2.w,
                   children: List.generate(
-                    controller.singleCartData.value.cart!.decodedAttribute!.bucket![index]
-                        .addons!.length,
+                    controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index]
+                        .addons?.length ?? 0,
                         (addonIndex) {
                       bool isLast = addonIndex ==
-                          controller.singleCartData.value.cart!
-                              .decodedAttribute!.bucket![index].addons!.length -
+                          controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].addons!.length -
                               1;
                       return Row(
                         mainAxisSize: MainAxisSize.min,
@@ -692,7 +676,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].name?.capitalize}',
+                            '${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].addons![addonIndex].name?.capitalize}',
                             style:
                             AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             overflow: TextOverflow.ellipsis,
@@ -706,7 +690,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             maxLines: 1,
                           ),
                           Text(
-                            '\$${controller.singleCartData.value.cart!.decodedAttribute!.bucket![index].addons![addonIndex].price?.capitalize}',
+                            '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].addons![addonIndex].price?.capitalize}',
                             style:
                             AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             overflow: TextOverflow.ellipsis,
@@ -737,185 +721,171 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
 
   FocusNode focusNode = FocusNode();
 
-  // Widget promoCode(context) {
-  //   return controller.cartData.value.cart!.couponApplied == null
-  //       ? DottedBorder(
-  //     strokeWidth: 2,
-  //     borderType: BorderType.RRect,
-  //     radius: Radius.circular(15.r),
-  //     color: AppColors.primary,
-  //     dashPattern: [6.w, 3.w],
-  //     child: SizedBox(
-  //       height: Get.height * 0.065,
-  //       width: Get.width * 0.9,
-  //       child: Row(
-  //         children: [
-  //           wBox(15.h),
-  //           SvgPicture.asset("assets/svg/coupon.svg"),
-  //           wBox(10.h),
-  //           SizedBox(
-  //             height: Get.height * 0.08,
-  //             width: Get.width * 0.5,
-  //             child: Center(
-  //               child: CustomTextFormField(
-  //                 controller: controller.couponCodeController.value,
-  //                 readOnly: controller.readOnly.value,
-  //                 focusNode: focusNode,
-  //                 onTap: () {
-  //                   if (controller.cartData.value.cart!.decodedAttribute!
-  //                       .where((item) => item.checked == "true")
-  //                       .isEmpty) {
-  //                     Utils.showToast("Please select a product");
-  //                   } else if (controller
-  //                       .cartData.value.coupons!.isNotEmpty) {
-  //                     if (controller.readOnly.value) {
-  //                       bottomBar(context);
-  //                     }
-  //                   } else {
-  //                     controller.readOnly.value = false;
-  //                     Utils.showToast("Coupon Not available");
-  //                   }
-  //                 },
-  //                 alignment: Alignment.center,
-  //                 contentPadding: EdgeInsets.zero,
-  //                 borderDecoration: InputBorder.none,
-  //                 prefixConstraints:
-  //                 BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-  //                 hintText: "Enter coupon code",
-  //                 hintStyle:
-  //                 AppFontStyle.text_16_400(AppColors.lightText),
-  //                 onTapOutside: (event) {
-  //                   FocusScope.of(context).unfocus();
-  //                 },
-  //               ),
-  //             ),
-  //           ),
-  //           const Spacer(),
-  //           applyCouponController.rxRequestStatus.value == Status.LOADING
-  //               ? Center(child: circularProgressIndicator(size: 20.h))
-  //               : GestureDetector(
-  //             onTap: () {
-  //               if (controller
-  //                   .couponCodeController.value.text.isNotEmpty) {
-  //                 applyCouponController.applyCouponApi(
-  //                   cartId: controller.cartData.value.cart!.id
-  //                       .toString(),
-  //                   couponCode: controller
-  //                       .couponCodeController.value.text
-  //                       .toString(),
-  //                   grandTotal: controller
-  //                       .cartData.value.cart!.grandTotalPrice
-  //                       .toString(),
-  //                 );
-  //               } else {
-  //                 Utils.showToast("Please Enter Coupon Code");
-  //               }
-  //             },
-  //             child: Text(
-  //               "Apply",
-  //               style: AppFontStyle.text_16_600(AppColors.primary),
-  //             ),
-  //           ),
-  //           wBox(20.h),
-  //         ],
-  //       ),
-  //     ),
-  //   )
-  //       : Container(
-  //     height: Get.height * 0.080,
-  //     width: Get.width,
-  //     decoration: BoxDecoration(
-  //       color: AppColors.primary.withOpacity(0.2),
-  //       borderRadius: BorderRadius.circular(15.r),
-  //     ),
-  //     child: Stack(
-  //       clipBehavior: Clip.none,
-  //       children: [
-  //         Positioned(
-  //           right: -5.h,
-  //           top: -5.h,
-  //           child: SizedBox(
-  //             height: 36.h,
-  //             width: 36.h,
-  //             child: applyCouponController.rxRequestStatus.value ==
-  //                 Status.LOADING
-  //                 ? circularProgressIndicator(size: 18.h)
-  //                 : Center(
-  //               child: GestureDetector(
-  //                 onTap: () {
-  //                   applyCouponController.applyCouponApi(
-  //                     cartId: controller.cartData.value.cart!.id
-  //                         .toString(),
-  //                     couponCode: controller
-  //                         .cartData.value.cart!.couponApplied!.code
-  //                         .toString(),
-  //                     grandTotal: controller
-  //                         .cartData.value.cart!.grandTotalPrice
-  //                         .toString(),
-  //                   );
-  //                 },
-  //                 child: Icon(
-  //                   Icons.cancel,
-  //                   size: 30.h,
-  //                   color: AppColors.primary,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             wBox(15.h),
-  //             Container(
-  //               height: 36.h,
-  //               width: 36.h,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.transparent,
-  //                 shape: BoxShape.circle,
-  //                 // borderRadius: BorderRadius.circular(100.r),
-  //                 border: Border.all(color: AppColors.black, width: 2),
-  //               ),
-  //               child: Icon(
-  //                 Icons.done,
-  //                 color: AppColors.primary,
-  //               ),
-  //             ),
-  //             wBox(15.h),
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Row(
-  //                   children: [
-  //                     Text(
-  //                       controller
-  //                           .cartData.value.cart!.couponApplied!.code
-  //                           .toString(),
-  //                       style: AppFontStyle.text_18_600(AppColors.black),
-  //                     ),
-  //                     wBox(5.h),
-  //                     Text(
-  //                       "Applied",
-  //                       style:
-  //                       AppFontStyle.text_16_600(AppColors.primary),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 Text(
-  //                   "-\$${controller.cartData.value.cart!.couponDiscount}",
-  //                   style: AppFontStyle.text_16_400(AppColors.lightText),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget promoCode(context) {
+    return controller.singleCartData.value.cart!.couponApplied == false
+        ? DottedBorder(
+      strokeWidth: 2,
+      borderType: BorderType.RRect,
+      radius: Radius.circular(15.r),
+      color: AppColors.primary,
+      dashPattern: [6.w, 3.w],
+      child: SizedBox(
+        height: Get.height * 0.065,
+        width: Get.width * 0.9,
+        child: Row(
+          children: [
+            wBox(15.h),
+            SvgPicture.asset("assets/svg/coupon.svg"),
+            wBox(10.h),
+            SizedBox(
+              height: Get.height * 0.08,
+              width: Get.width * 0.5,
+              child: Center(
+                child: CustomTextFormField(
+                  controller: controller.couponCodeController.value,
+                  readOnly: controller.readOnly.value,
+                  focusNode: focusNode,
+                  onTap: () {
+                    if (controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?.where((item) => item.checked == "true").isEmpty ?? true) {
+                      Utils.showToast("Please select a product");
+                    } else if (controller.singleCartData.value.coupons?.isNotEmpty ?? false) {
+                      if (controller.readOnly.value) {
+                        bottomBar(context);
+                      }
+                    } else {
+                      controller.readOnly.value = false;
+                      Utils.showToast("Coupon Not available");
+                    }
+                  },
+                  alignment: Alignment.center,
+                  contentPadding: EdgeInsets.zero,
+                  borderDecoration: InputBorder.none,
+                  prefixConstraints:
+                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                  hintText: "Enter coupon code",
+                  hintStyle:
+                  AppFontStyle.text_16_400(AppColors.lightText),
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+              ),
+            ),
+            const Spacer(),
+            applyCouponController.rxRequestStatus.value == Status.LOADING
+                ? Center(child: circularProgressIndicator(size: 20.h))
+                : GestureDetector(
+              onTap: () {
+                if (controller
+                    .couponCodeController.value.text.isNotEmpty) {
+                  applyCouponController.applyCouponApi(isSingleCartScreen: true,
+                    cartIds: [controller.singleCartData.value.cart?.cartId],
+                    couponCode: controller.couponCodeController.value.text.toString(),
+                    grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                  );
+                } else {
+                  Utils.showToast("Please Enter Coupon Code");
+                }
+              },
+              child: Text(
+                "Apply",
+                style: AppFontStyle.text_16_600(AppColors.primary),
+              ),
+            ),
+            wBox(20.h),
+          ],
+        ),
+      ),
+    )
+        : Container(
+      height: Get.height * 0.080,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: AppColors.primary.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            right: 0.h,
+            top: 0.h,
+            child: SizedBox(
+              height: 36.h,
+              width: 36.h,
+              child: applyCouponController.rxRequestStatus.value ==
+                  Status.LOADING
+                  ? circularProgressIndicator(size: 18.h)
+                  : Center(
+                child: GestureDetector(
+                  onTap: () {
+                    applyCouponController.applyCouponApi(
+                      isSingleCartScreen: true,
+                      cartIds: [controller.singleCartData.value.cart?.cartId],
+                      couponCode: controller.singleCartData.value.cart?.appliedCoupon?.code.toString() ?? "",
+                      grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                    );
+                  },
+                  child: Icon(
+                    Icons.cancel,
+                    size: 30.h,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              wBox(15.h),
+              Container(
+                height: 36.h,
+                width: 36.h,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  // borderRadius: BorderRadius.circular(100.r),
+                  border: Border.all(color: AppColors.black, width: 2),
+                ),
+                child: Icon(
+                  Icons.done,
+                  color: AppColors.primary,
+                ),
+              ),
+              wBox(15.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        controller.singleCartData.value.cart?.appliedCoupon?.code.toString() ?? "",
+                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
+                      ),
+                      wBox(5.h),
+                      Text(
+                        "Applied",
+                        style:
+                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                      ),
+                    ],
+                  ),
+                  Text(
+                     " ${controller.singleCartData.value.cart?.couponDiscount != null ? "-"  : ""}\$${controller.singleCartData.value.cart?.couponDiscount ?? "0"}",
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget paymentDetails() {
     bool isLoading = checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
@@ -947,7 +917,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
-                "\$${controller.singleCartData.value.cart!.regularPrice.toString()}",
+                "\$${controller.singleCartData.value.cart!.raw?.regularPrice.toString()}",
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
@@ -961,7 +931,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
-                "\$${controller.singleCartData.value.cart!.saveAmount.toString()}",
+                "\$${controller.singleCartData.value.cart!.raw?.saveAmount.toString()}",
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
@@ -1026,7 +996,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 ? shimmerItem('\$0.00',
                 width: 70, height: 40, secondShimmer: false)
                 : Text(
-              "\$${controller.singleCartData.value.cart!.totalPrice.toString()}",
+              "\$${controller.singleCartData.value.cart!.raw?.totalPrice.toString()}",
               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
           ],
@@ -1040,7 +1010,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
           child: CustomElevatedButton(
             onPressed: () {
               var selectedItems = controller
-                  .singleCartData.value.cart!.decodedAttribute!.bucket
+                  .singleCartData.value.cart!.raw?.decodedAttribute!.bucket
                   ?.where((item) => item.checked == "true")
                   .map((item) => {
                 'name': item.productName,
@@ -1057,28 +1027,27 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         .singleCartData.value.address?.id
                         .toString(),
                     'total': controller
-                        .singleCartData.value.cart?.totalPrice
+                        .singleCartData.value.cart?.raw?.totalPrice
                         .toString(),
                     'coupon_id':
-                    controller.singleCartData.value.cart?.couponId ??
+                    controller.singleCartData.value.cart?.raw?.couponId ??
                         "0",
                     'regular_price': controller
-                        .singleCartData.value.cart?.regularPrice
+                        .singleCartData.value.cart?.raw?.regularPrice
                         .toString(),
                     'coupon_discount': controller
                         .singleCartData.value.cart?.couponDiscount
                         .toString(),
                     'save_amount': controller
-                        .singleCartData.value.cart?.saveAmount
+                        .singleCartData.value.cart?.raw?.saveAmount
                         .toString(),
                     'delivery_charge': controller
                         .singleCartData.value.cart?.deliveryCharge
                         .toString(),
-                    'cart_id': controller.singleCartData.value.cart?.id,
-                    'vendor_id': controller.singleCartData.value.cart
-                        ?.decodedAttribute?.vendorId,
+                    'cart_id': controller.singleCartData.value.cart?.raw?.id,
+                    'vendor_id': controller.singleCartData.value.cart?.raw?.decodedAttribute?.vendorId,
                     'cart_total':
-                    controller.singleCartData.value.cart?.totalPrice,
+                    controller.singleCartData.value.cart?.raw?.totalPrice,
                     'cart_delivery': controller
                         .singleCartData.value.cart?.deliveryCharge,
                     'wallet':
@@ -1214,17 +1183,25 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: controller.singleCartData.value.coupons!.length,
+      itemCount: controller.singleCartData.value.coupons?.length ?? 0,
       itemBuilder: (context, index) {
-        String expireDate =
-            controller.singleCartData.value.coupons![index].expireDate ?? "";
-        DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate);
-        DateTime currentDate = DateTime.now();
-        Duration difference = expiryDate.difference(currentDate);
+        String daysRemaining = "Expired";
+        String? expireDate = controller.cartCheckoutData.value.coupons?[index].expireDate;
 
-        String daysRemaining = difference.inDays > 0
-            ? "${difference.inDays} days remaining"
-            : "Expired";
+        if (expireDate != null && expireDate.trim().isNotEmpty) {
+          try {
+            DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate.trim());
+            DateTime currentDate = DateTime.now();
+            Duration difference = expiryDate.difference(currentDate);
+
+            daysRemaining = difference.inDays > 0
+                ? "${difference.inDays} days remaining"
+                : "Expired";
+          } catch (e) {
+            debugPrint("❌ Invalid date format: $expireDate");
+            daysRemaining = "Expired";
+          }
+        }
         return Container(
           padding: REdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -1245,13 +1222,12 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "${controller.singleCartData.value.coupons![index].discountAmount}",
+                            controller.singleCartData.value.coupons?[index].value ?? "0",
                             style: AppFontStyle.text_30_600(Colors.white,
                                 height: 1.h),
                           ),
                           Text(
-                            controller.singleCartData.value.coupons![index]
-                                .discountType
+                            controller.singleCartData.value.coupons![index].title
                                 .toString() ==
                                 "percent"
                                 ? "%"
@@ -1307,7 +1283,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                       ),
                     ),
                     hBox(8),
-                    if (controller.singleCartData.value.coupons![index].expiryStatus
+                    if (controller.singleCartData.value.coupons![index].expireDate
                         .toString() !=
                         "Expired")
                       CustomElevatedButton(

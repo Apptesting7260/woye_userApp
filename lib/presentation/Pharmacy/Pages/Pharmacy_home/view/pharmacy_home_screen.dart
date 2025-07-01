@@ -53,7 +53,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
   @override
   void initState() {
     super.initState();
-    getApiData();
+    // getApiData();
     // // pharmacyCartController.getPharmacyCartApi();
     // // pharmacyCartController.getAllPharmacyCartData();
     // // _scrollController.addListener(() {
@@ -112,12 +112,15 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
     //     }
     //   }
     // });
+    WidgetsBinding.instance.addPostFrameCallback((_)async {
+      await pharmacyCartController.getAllPharmacyCartData();
+    },);
   }
 
-  getApiData()async{
-    await pharmacyCartController.getAllPharmacyCartData();
+  // getApiData()async{
+
     // await pharmacyCartController.getPharmacyCartApi(cartId:pharmacyCartController.cartDataAll.value.carts?.map((val)=>val.id.toString()).toList().toString() ?? "");
-  }
+  // }
 
 
   @override
@@ -144,6 +147,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
           return RefreshIndicator(
             onRefresh: () async {
               pharmacyHomeController.homeApiRefresh();
+              await pharmacyCartController.getAllPharmacyCartData();
             },
             child: SafeArea(
               child: Scaffold(
@@ -303,17 +307,18 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
-                                          // Text(
-                                          //   "items",
-                                          //   style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
-                                          //   overflow: TextOverflow.ellipsis,
-                                          //   maxLines: 1,
-                                          // ),
+                                          Text(
+                                            "items",
+                                            style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                          ),
                                         ],
                                       ))
                                 ],
                               ),
                             ),
+                            // if(pharmacyCartController.cartDataAll.value.carts!.length > 1)
                             // Positioned(
                             //   top: -15.h,
                             //   child: ElevatedButton(

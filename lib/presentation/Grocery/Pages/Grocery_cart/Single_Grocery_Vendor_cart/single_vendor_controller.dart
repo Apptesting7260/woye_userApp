@@ -28,6 +28,7 @@ class SingleGroceryCartController extends GetxController {
   final GroceryShowAllCartController groceryShowAllCartController =
   Get.put(GroceryShowAllCartController());
   getGrocerySingleVendorCartApi(var cartId) async {
+    setRxRequestStatus(Status.LOADING);
     readOnly.value = true;
     couponCodeController.value.clear();
     Map data = {"cart_id": cartId};

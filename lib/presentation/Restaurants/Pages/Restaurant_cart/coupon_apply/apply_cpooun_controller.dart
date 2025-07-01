@@ -16,25 +16,41 @@ class ApplyCouponController extends GetxController {
       Get.put(RestaurantCartController());
 
   applyCouponApi({
-    required String cartId,
+    required List<dynamic> cartIds,
     required String couponCode,
     required String grandTotal,
+    bool? isSingleCartScreen,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
-      "cart_id": cartId,
+      "cart_ids": jsonEncode(cartIds),
       "coupon_code": couponCode,
       "grand_total": grandTotal,
     };
     api.applyCouponsApi(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId).then((value) async {
-          await Future.delayed(const Duration(milliseconds: 500));
-          setRxRequestStatus(Status.COMPLETED);
-          Utils.showToast(applyCouponData.value.message.toString());
-        });
-
+        if(isSingleCartScreen == true){
+          restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartIds.join(',')).then((value) async {
+            await Future.delayed(const Duration(milliseconds: 500));
+            setRxRequestStatus(Status.COMPLETED);
+            if(restaurantCartController.couponCodeController.value.text.isNotEmpty) {
+              restaurantCartController.couponCodeController.value.clear();
+            }
+            Utils.showToast(applyCouponData.value.message.toString());
+          });
+        }else {
+          restaurantCartController.refreshGetAllCheckoutDataRes().then((
+              value) async {
+            await Future.delayed(const Duration(milliseconds: 500));
+            setRxRequestStatus(Status.COMPLETED);
+            if (restaurantCartController.couponCodeController.value.text
+                .isNotEmpty) {
+              restaurantCartController.couponCodeController.value.clear();
+            }
+            Utils.showToast(applyCouponData.value.message.toString());
+          });
+        }
       } else {
         Utils.showToast(applyCouponData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);
@@ -42,6 +58,9 @@ class ApplyCouponController extends GetxController {
     }).onError((error, stackError) {
       print("Error: $error");
       setError(error.toString());
+      if(error == 'InternetExceptionWidget'){
+      Utils.showToast("No internet");
+    };
       print(stackError);
       setRxRequestStatus(Status.ERROR);
     });

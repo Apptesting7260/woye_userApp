@@ -614,6 +614,8 @@ class RestaurantCartModal {
   List<Coupons>? coupons;
   bool? addressExists;
   String? cartContent;
+  bool? couponApplied;
+  AppliedCouponCode? appliedCoupon;
 
   RestaurantCartModal(
       {this.status,
@@ -623,7 +625,9 @@ class RestaurantCartModal {
         this.address,
         this.coupons,
         this.addressExists,
-        this.cartContent});
+        this.cartContent,
+        this.couponApplied,
+        this.appliedCoupon,});
 
   RestaurantCartModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -638,6 +642,12 @@ class RestaurantCartModal {
     }
     addressExists = json['address_exists'];
     cartContent = json['cartContent']?.toString();
+    couponApplied = json['coupon_applied'];
+    if(json['applied_coupon'] != null) {
+      appliedCoupon = json['applied_coupon'] != null
+          ? AppliedCouponCode.fromJson(json['applied_coupon'])
+          : null;
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -655,6 +665,13 @@ class RestaurantCartModal {
     }
     data['address_exists'] = addressExists;
     data['cartContent'] = cartContent;
+    if (coupons != null) {
+      data['coupons'] = coupons!.map((v) => v.toJson()).toList();
+    }
+    data['coupon_applied'] = couponApplied;
+    if (appliedCoupon != null) {
+      data['applied_coupon'] = appliedCoupon!.toJson();
+    }
     return data;
   }
 }
@@ -1040,5 +1057,93 @@ class Address {
       'created_at': createdAt,
       'updated_at': updatedAt,
     };
+  }
+}
+class AppliedCouponCode {
+  String? id;
+  String? couponType;
+  String? title;
+  String? code;
+  String? discountType;
+  String? value;
+  String? minSpend;
+  String? category;
+  List<String>? vendorId;
+  String? geoZone;
+  String? latitude;
+  String? longitude;
+  String? itemQuantity;
+  String? minOrders;
+  String? startDate;
+  String? expireDate;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
+
+  AppliedCouponCode(
+      {this.id,
+        this.couponType,
+        this.title,
+        this.code,
+        this.discountType,
+        this.value,
+        this.minSpend,
+        this.category,
+        this.vendorId,
+        this.geoZone,
+        this.latitude,
+        this.longitude,
+        this.itemQuantity,
+        this.minOrders,
+        this.startDate,
+        this.expireDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt});
+
+  AppliedCouponCode.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    couponType = json['coupon_type']?.toString();
+    title = json['title']?.toString();
+    code = json['code']?.toString();
+    discountType = json['discount_type']?.toString();
+    value = json['value']?.toString();
+    minSpend = json['min_spend']?.toString();
+    category = json['category']?.toString();
+    vendorId = json['vendor_id'].cast<String>();
+    geoZone = json['geo_zone']?.toString();
+    latitude = json['latitude']?.toString();
+    longitude = json['longitude']?.toString();
+    itemQuantity = json['item_quantity']?.toString();
+    minOrders = json['min_orders']?.toString();
+    startDate = json['start_date']?.toString();
+    expireDate = json['expire_date']?.toString();
+    status = json['status']?.toString();
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['coupon_type'] = couponType;
+    data['title'] = title;
+    data['code'] = code;
+    data['discount_type'] = discountType;
+    data['value'] = value;
+    data['min_spend'] = minSpend;
+    data['category'] = category;
+    data['vendor_id'] = vendorId;
+    data['geo_zone'] = geoZone;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['item_quantity'] = itemQuantity;
+    data['min_orders'] = minOrders;
+    data['start_date'] = startDate;
+    data['expire_date'] = expireDate;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
   }
 }

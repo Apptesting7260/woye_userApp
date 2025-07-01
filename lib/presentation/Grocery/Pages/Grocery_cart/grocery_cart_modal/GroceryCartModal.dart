@@ -1,5 +1,4 @@
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
 class GroceryCartModal {
   bool? status;
   Cart? cart;
@@ -7,8 +6,10 @@ class GroceryCartModal {
   String? cartContent;
   Address? address;
   bool? addressExists;
-  List<Coupon>? coupons;
-  var wallet;
+  List<Coupons>? coupons;
+  dynamic wallet;
+  bool? couponApplied;
+  AppliedCouponCode? appliedCoupon;
 
   GroceryCartModal({
     this.status,
@@ -19,7 +20,10 @@ class GroceryCartModal {
     this.addressExists,
     this.coupons,
     this.wallet,
+    this.couponApplied,
+    this.appliedCoupon,
   });
+
   factory GroceryCartModal.fromJson(Map<String, dynamic> json) {
     var cartData = json['cart'];
     var addressData = json['address'];
@@ -33,22 +37,34 @@ class GroceryCartModal {
       address: addressData != null ? Address.fromJson(addressData) : null,
       addressExists: json['address_exists'],
       coupons: couponData != null
-          ? couponData.map((coupon) => Coupon.fromJson(coupon)).toList()
+          ? couponData.map((coupon) => Coupons.fromJson(coupon)).toList()
           : [],
-      wallet: json['wallet'],
+      wallet: json['wallet']?.toString(),
+      couponApplied: json['coupon_applied'],
+      appliedCoupon: json['applied_coupon'] != null
+          ? AppliedCouponCode.fromJson(json['applied_coupon'])
+          : null,
     );
   }
+
   Map<String, dynamic> toJson() {
-    return {
+    final Map<String, dynamic> data = {
       'status': status,
       'message': message,
       'cart': cart?.toJson(),
       'cartContent': cartContent,
       'address': address?.toJson(),
       'address_exists': addressExists,
-      'coupons': coupons?.map((e) => e.toJson()).toList() ?? [],
       'wallet': wallet,
+      'coupon_applied': couponApplied,
     };
+    if (coupons != null) {
+      data['coupons'] = coupons!.map((v) => v.toJson()).toList();
+    }
+    if (appliedCoupon != null) {
+      data['applied_coupon'] = appliedCoupon!.toJson();
+    }
+    return data;
   }
 }
 
@@ -89,7 +105,7 @@ class Cart {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['regular_price'] = regularPrice;
     data['save_amount'] = saveAmount;
     data['delivery_charge'] = deliveryCharge;
@@ -206,7 +222,7 @@ class Bucket {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['product_id'] = productId;
     data['quantity'] = quantity;
     data['price'] = price;
@@ -292,50 +308,167 @@ class Address {
   }
 }
 
-class Coupon {
-  int? id;
+class Coupons {
+  String? id;
+  String? couponType;
+  String? title;
+  String? code;
+  String? value;
+  String? minSpend;
+  String? category;
+  List<String>? vendorId;
+  String? geoZone;
+  String? latitude;
+  String? longitude;
+  String? itemQuantity;
+  String? minOrders;
+  String? startDate;
+  String? expireDate;
+  String? status;
+
+  Coupons(
+      {this.id,
+        this.couponType,
+        this.title,
+        this.code,
+        this.value,
+        this.minSpend,
+        this.category,
+        this.vendorId,
+        this.geoZone,
+        this.latitude,
+        this.longitude,
+        this.itemQuantity,
+        this.minOrders,
+        this.startDate,
+        this.expireDate,
+        this.status});
+
+  Coupons.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    couponType = json['coupon_type']?.toString();
+    title = json['title']?.toString();
+    code = json['code']?.toString();
+    value = json['value']?.toString();
+    minSpend = json['min_spend']?.toString();
+    category = json['category']?.toString();
+    vendorId = json['vendor_id'].cast<String>();
+    geoZone = json['geo_zone']?.toString();
+    latitude = json['latitude']?.toString();
+    longitude = json['longitude']?.toString();
+    itemQuantity = json['item_quantity']?.toString();
+    minOrders = json['min_orders']?.toString();
+    startDate = json['start_date']?.toString();
+    expireDate = json['expire_date']?.toString();
+    status = json['status']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['coupon_type'] = couponType;
+    data['title'] = title;
+    data['code'] = code;
+    data['value'] = value;
+    data['min_spend'] = minSpend;
+    data['category'] = category;
+    data['vendor_id'] = vendorId;
+    data['geo_zone'] = geoZone;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['item_quantity'] = itemQuantity;
+    data['min_orders'] = minOrders;
+    data['start_date'] = startDate;
+    data['expire_date'] = expireDate;
+    data['status'] = status;
+    return data;
+  }
+}
+class AppliedCouponCode {
+  String? id;
   String? couponType;
   String? title;
   String? code;
   String? discountType;
-  var discountAmount;
+  String? value;
+  String? minSpend;
+  String? category;
+  List<String>? vendorId;
+  String? geoZone;
+  String? latitude;
+  String? longitude;
+  String? itemQuantity;
+  String? minOrders;
+  String? startDate;
   String? expireDate;
-  String? expiryStatus;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
 
-  Coupon({
-    this.id,
-    this.couponType,
-    this.title,
-    this.code,
-    this.discountType,
-    this.discountAmount,
-    this.expireDate,
-    this.expiryStatus,
-  });
+  AppliedCouponCode(
+      {this.id,
+        this.couponType,
+        this.title,
+        this.code,
+        this.discountType,
+        this.value,
+        this.minSpend,
+        this.category,
+        this.vendorId,
+        this.geoZone,
+        this.latitude,
+        this.longitude,
+        this.itemQuantity,
+        this.minOrders,
+        this.startDate,
+        this.expireDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt});
 
-  factory Coupon.fromJson(Map<String, dynamic> json) {
-    return Coupon(
-      id: json['id'],
-      couponType: json['coupon_type'],
-      title: json['title'],
-      code: json['code'],
-      discountType: json['discount_type'],
-      discountAmount: json['discount_amount'],
-      expireDate: json['expire_date'],
-      expiryStatus: json['expiry_status'],
-    );
+  AppliedCouponCode.fromJson(Map<String, dynamic> json) {
+    id = json['id']?.toString();
+    couponType = json['coupon_type']?.toString();
+    title = json['title']?.toString();
+    code = json['code']?.toString();
+    discountType = json['discount_type']?.toString();
+    value = json['value']?.toString();
+    minSpend = json['min_spend']?.toString();
+    category = json['category']?.toString();
+    vendorId = json['vendor_id'].cast<String>();
+    geoZone = json['geo_zone']?.toString();
+    latitude = json['latitude']?.toString();
+    longitude = json['longitude']?.toString();
+    itemQuantity = json['item_quantity']?.toString();
+    minOrders = json['min_orders']?.toString();
+    startDate = json['start_date']?.toString();
+    expireDate = json['expire_date']?.toString();
+    status = json['status']?.toString();
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'coupon_type': couponType,
-      'title': title,
-      'code': code,
-      'discount_type': discountType,
-      'discount_amount': discountAmount,
-      'expire_date': expireDate,
-      'expiry_status': expiryStatus,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['coupon_type'] = couponType;
+    data['title'] = title;
+    data['code'] = code;
+    data['discount_type'] = discountType;
+    data['value'] = value;
+    data['min_spend'] = minSpend;
+    data['category'] = category;
+    data['vendor_id'] = vendorId;
+    data['geo_zone'] = geoZone;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['item_quantity'] = itemQuantity;
+    data['min_orders'] = minOrders;
+    data['start_date'] = startDate;
+    data['expire_date'] = expireDate;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
   }
 }

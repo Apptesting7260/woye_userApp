@@ -989,28 +989,28 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Obx(
-                              ()=>SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: Checkbox(
-                              activeColor: AppColors.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              value: buckets.isChecked.value,
-                              side: BorderSide(
-                                color: AppColors.black,
-                              ),
-                              onChanged: (value) {
-                                buckets.isChecked.value = !buckets.isChecked.value;
-                              },
-                            ),
-                          ),
-                        ),
-                        hBox(10.h),
+                        // Obx(
+                        //       ()=>SizedBox(
+                        //     height: 20,
+                        //     width: 20,
+                        //     child: Checkbox(
+                        //       activeColor: AppColors.primary,
+                        //       shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(5),
+                        //       ),
+                        //       value: buckets.isChecked.value,
+                        //       side: BorderSide(
+                        //         color: AppColors.black,
+                        //       ),
+                        //       onChanged: (value) {
+                        //         buckets.isChecked.value = !buckets.isChecked.value;
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
+                        // hBox(10.h),
                         Padding(
-                          padding: const EdgeInsets.only(top: 5),
+                          padding: const EdgeInsets.only(top: 0),
                           child: GestureDetector(
                             onTap: () {
                               showRemoveVendorDialog(
@@ -1389,7 +1389,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                                   // index]
                                                   //     .checked !=
                                                   //     "false") {
-                                                  if (items.quantity == 1) {
+                                                  if (items.quantity == "1") {
                                                     Utils.showToast(
                                                         "Qty can not less then 1");
                                                   } else {
@@ -1405,7 +1405,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                                       countId: items.count
                                                           .toString(),
                                                       productQuantity:
-                                                          (items.quantity! - 1)
+                                                          (int.parse(items.quantity.toString()) - 1)
                                                               .toString(),
                                                     );
                                                   }
@@ -1452,7 +1452,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                                     countId:
                                                         items.count.toString(),
                                                     productQuantity:
-                                                        (items.quantity! + 1)
+                                                        (int.parse(items.quantity.toString()) + 1)
                                                             .toString(),
                                                   );
                                                   // } else {
@@ -2097,8 +2097,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                               onTap: () {
                                 applyCouponController.applyCouponApi(
                                   cartId: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId,).toList() ?? [],
-                                  couponCode: controller.couponCodeController.value.text.toString(),
-                                  grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice?? "",
+                                  couponCode: controller.cartCheckoutData.value.appliedCoupon?.code.toString() ?? "",
+                                  grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? "",
                                 );
                               },
                               child: Icon(
@@ -2138,21 +2138,18 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         Row(
                           children: [
                             Text(
-                              controller.cartCheckoutData.value.cart!.couponDiscount
-                                  .toString(),
-                              style: AppFontStyle.text_18_600(AppColors.black),
+                             controller.cartCheckoutData.value.appliedCoupon?.code.toString() ?? "",
+                              style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
                             ),
                             wBox(5.h),
                             Text(
-                              "Applied",
-                              style:
-                                  AppFontStyle.text_16_600(AppColors.primary),
+                              "Applied", style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                             ),
                           ],
                         ),
                         Text(
-                          "-\$${controller.cartData.value.cart?.couponDiscount ?? ""}",
-                          style: AppFontStyle.text_16_400(AppColors.lightText),
+                          "-\$${controller.cartCheckoutData.value.cart?.couponDiscount ?? ""}",
+                          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                         ),
                       ],
                     ),
@@ -2609,8 +2606,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                            controller.cartCheckoutData.value.coupons![index]
-                                        .discountType
+                            controller.cartCheckoutData.value.coupons![index].title
                                         .toString() ==
                                     "percent"
                                 ? "%"
@@ -2666,7 +2662,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                       ),
                     ),
                     hBox(8),
-                    if (controller.cartCheckoutData.value.coupons![index].expiryStatus
+                    if (controller.cartCheckoutData.value.coupons![index].expireDate
                             .toString() !=
                         "Expired")
                       CustomElevatedButton(

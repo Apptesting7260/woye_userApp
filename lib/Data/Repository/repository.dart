@@ -738,6 +738,12 @@ class Repository {
       return OrderTypeModel.fromJson(response);
    }
 
+  Future<dynamic> applyCouponsApiGrocery(var data) async {
+    await initializeUser();
+    dynamic response =
+    await _apiService.postApi(data, AppUrls.applyCouponsGrocery, token);
+    return ApplyCouponModal.fromJson(response);
+  }
 
    /////////////////////////Notifications
   Future<dynamic> notifications()async{

@@ -1,9 +1,12 @@
+
+import 'package:get/get.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
+import 'package:woye_user/Data/Repository/repository.dart';
+import 'package:woye_user/Data/response/status.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_coupon_modal.dart';
 
-class ApplyCouponPharmaController extends GetxController {
+class ApplyCouponGroceryController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.COMPLETED.obs;
   final applyCouponData = ApplyCouponModal().obs;
@@ -12,7 +15,7 @@ class ApplyCouponPharmaController extends GetxController {
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
   void setData(ApplyCouponModal value) => applyCouponData.value = value;
-  final PharmacyCartController pharmacyCartController = Get.put(PharmacyCartController());
+  final GroceryCartController groceryCartController = Get.put(GroceryCartController());
 
 
   applyCouponApi({
@@ -26,14 +29,14 @@ class ApplyCouponPharmaController extends GetxController {
       "coupon_code": couponCode,
       "grand_total": grandTotal,
     };
-    api.applyPharmaCouponsApi(body).then((value) {
+    api.applyCouponsApiGrocery(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        pharmacyCartController.refreshGetAllCartProductsForCheckout/*getPharmacyCartApi*/().then((value) async {
+        groceryCartController.refreshGetGroceryAllCartApi().then((value) async {
           setRxRequestStatus(Status.COMPLETED);
           await Future.delayed(const Duration(milliseconds: 500));
-          if(pharmacyCartController.couponCodeController.value.text.isNotEmpty) {
-            pharmacyCartController.couponCodeController.value.clear();
+          if(groceryCartController.couponCodeController.value.text.isNotEmpty) {
+            groceryCartController.couponCodeController.value.clear();
           }
           Utils.showToast(applyCouponData.value.message.toString());
         });

@@ -196,8 +196,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
                 floatingActionButton: Padding(
                   padding: EdgeInsets.only(bottom:Platform.isIOS ? 28.h : 60.h),
-                  child:/* groceryShowAllCartController.cartData.value.buttonCheck == false*/
-                  (groceryShowAllCartController.cartData.value.carts?.isEmpty ?? true) ?
+                  child: groceryShowAllCartController.cartData.value.buttonCheck == false
+                  /*(groceryShowAllCartController.cartData.value.carts?.isEmpty ?? true)*/ ?
                   const SizedBox()
                       : Column(
                           mainAxisSize: MainAxisSize.min,
@@ -265,17 +265,17 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: [
-                                            groceryShowAllCartController.cartData.value.carts?.length == 1 ? Text(
+                                          /*  groceryShowAllCartController.cartData.value.carts?.length == 1 ?*/ Text(
                                               groceryShowAllCartController.cartData.value.carts![0].grocery!.shopName.toString(),
                                               overflow: TextOverflow.ellipsis,
-                                              style: AppFontStyle.text_14_500(
+                                              style: AppFontStyle.text_15_500(
                                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                                            ): Text(
+                                            )/*: Text(
                                               "Your Carts",
                                               overflow: TextOverflow.ellipsis,
                                               style: AppFontStyle.text_16_500(
                                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                                            ),
+                                            ),*/
                                             // Text(
                                             //   carts.vendorAddress.toString(),
                                             //   style: AppFontStyle.text_12_400(AppColors.lightText),
@@ -296,16 +296,16 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                           ),
                                           onPressed: () {
                                             // Get.back();
-                                            navbarController.getIndex(3);
-                                            // Get.to(()=>SingleVendorGroceryCart(
-                                            //   cartId:groceryShowAllCartController.cartData.value.carts![0].id.toString(),
-                                            //   isBack: true,
-                                            // ));
+                                            // navbarController.getIndex(3);
+                                            Get.to(()=>SingleVendorGroceryCart(
+                                              cartId:groceryShowAllCartController.cartData.value.carts![0].id.toString(),
+                                              isBack: true,
+                                            ));
                                           },
                                           child: Column(
                                             children: [
                                               Text(
-                                                groceryShowAllCartController.cartData.value.carts?.length == 1 ?  "View Cart" : "View Carts",
+                                               /* groceryShowAllCartController.cartData.value.carts?.length == 1 ?  "View Cart" : */"View Cart",
                                                 style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
@@ -324,42 +324,42 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                                     ],
                                   ),
                                 ),
-                                // Positioned(
-                                //   top: -15.h,
-                                //   child: ElevatedButton(
-                                //     onPressed: () {
-                                //       showAllCart();
-                                //     },
-                                //     style: ElevatedButton.styleFrom(
-                                //       padding: EdgeInsets.all(8.r),
-                                //       backgroundColor: AppColors.white,
-                                //       shape: RoundedRectangleBorder(
-                                //         borderRadius:
-                                //             BorderRadius.circular(30.r),
-                                //       ),
-                                //       elevation: 5,
-                                //     ),
-                                //     child: Row(
-                                //       mainAxisAlignment:
-                                //           MainAxisAlignment.center,
-                                //       crossAxisAlignment:
-                                //           CrossAxisAlignment.center,
-                                //       mainAxisSize: MainAxisSize.min,
-                                //       children: [
-                                //         wBox(2.w),
-                                //         Text(
-                                //           "Carts",
-                                //           style: AppFontStyle.text_12_600(
-                                //               AppColors.primary,family:AppFontFamily.gilroyRegular),
-                                //         ),
-                                //         Icon(
-                                //           Icons.arrow_drop_up,
-                                //           color: AppColors.primary,
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
+                                Positioned(
+                                  top: -15.h,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      showAllCart();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      padding: EdgeInsets.all(8.r),
+                                      backgroundColor: AppColors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.r),
+                                      ),
+                                      elevation: 5,
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        wBox(2.w),
+                                        Text(
+                                          "Carts",
+                                          style: AppFontStyle.text_12_600(
+                                              AppColors.primary,family:AppFontFamily.gilroyRegular),
+                                        ),
+                                        Icon(
+                                          Icons.arrow_drop_up,
+                                          color: AppColors.primary,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             )
                           ],

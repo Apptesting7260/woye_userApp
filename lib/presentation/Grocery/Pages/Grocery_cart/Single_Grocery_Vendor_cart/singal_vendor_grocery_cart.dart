@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -15,9 +16,11 @@ import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/Widgets/custom_text_form_field.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/geocery_check_uncheck_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/coupon/grocery_apply_coupon_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_delete_ptoduct/delete_product_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_quantity_update/grocery_quantity_update_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/grocery_product_details_screen.dart';
@@ -42,11 +45,11 @@ class SingleVendorGroceryCart extends StatefulWidget {
 
 class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
   final SingleGroceryCartController controller = Get.put(SingleGroceryCartController());
+  final ApplyCouponGroceryController applyCouponController = Get.put(ApplyCouponGroceryController());
   final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
 
   @override
   void initState() {
-    controller.getGrocerySingleVendorCartApi(widget.cartId);
     super.initState();
     _scrollController.addListener(
       () {
@@ -55,6 +58,9 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
         }
       },
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getGrocerySingleVendorCartApi(widget.cartId);
+    },);
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -145,8 +151,8 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                   : locationAddress(),
                               hBox(20.h),
                               cartItems(),
-                              // hBox(20.h),
-                              // promoCode(context),
+                              hBox(20.h),
+                              promoCode(context),
                               hBox(30.h),
                               paymentDetails(),
                               hBox(30.h),
@@ -283,16 +289,16 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
         Status.LOADING;
     return ListView.separated(
       itemCount:
-          controller.cartData.value.cart!.decodedAttribute!.bucket!.length,
+          controller.cartData.value.cart?.raw?.decodedAttribute!.bucket!.length ??0 ,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
         var item =
-            controller.cartData.value.cart!.decodedAttribute!.bucket![index];
+            controller.cartData.value.cart?.raw?.decodedAttribute!.bucket![index];
         bool isLoading =
             groceryCheckUnCheckController.rxRequestStatusCheckUncheck.value ==
                     Status.LOADING &&
-                controller.cartData.value.cart!.decodedAttribute?.bucket?[index]
+                controller.cartData.value.cart?.raw?.decodedAttribute?.bucket?[index]
                         .isSelectedLoading.value ==
                     true;
         return Column(
@@ -317,8 +323,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            value: controller.cartData.value.cart!
-                                    .decodedAttribute!.bucket?[index].checked ==
+                            value: controller.cartData.value.cart?.raw?.decodedAttribute!.bucket?[index].checked ==
                                 'true',
                             side: BorderSide(
                               color: AppColors.black,
@@ -333,35 +338,31 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                 controller
                                     .cartData
                                     .value
-                                    .cart!
-                                    .decodedAttribute
+                                    .cart?.raw?.decodedAttribute
                                     ?.bucket?[index]
                                     .isSelectedLoading
                                     .value = true;
                                 bool newCheckedStatus = !(controller
                                         .cartData
                                         .value
-                                        .cart!
-                                        .decodedAttribute
+                                        .cart?.raw?.decodedAttribute
                                         ?.bucket?[index]
                                         .checked ==
                                     'true');
 
                                 groceryCheckUnCheckController
                                     .checkUncheckGrocery(
-                                  cartId: controller.cartData.value.cart!.id
-                                      .toString(),
+                                  cartId: controller.cartData.value.cart?.raw?.id
+                                      .toString() ??"",
                                   productId: controller
                                       .cartData
                                       .value
-                                      .cart!
-                                      .decodedAttribute!
+                                      .cart?.raw?.decodedAttribute!
                                       .bucket![index]
                                       .productId
-                                      .toString(),
-                                  countId: controller.cartData.value.cart!
-                                      .decodedAttribute!.bucket![index].count
-                                      .toString(),
+                                      .toString() ?? "",
+                                  countId: controller.cartData.value.cart?.raw?.decodedAttribute!.bucket![index].count
+                                      .toString() ?? "",
                                   status: newCheckedStatus.toString(),
                                   // item: item,
                                 );
@@ -387,51 +388,45 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                           onTap: () {
                             grocerySpecificProductController
                                 .pharmaSpecificProductApi(
-                              productId: controller.cartData.value.cart!
-                                  .decodedAttribute!.bucket![index].productId
-                                  .toString(),
-                              categoryId: controller.cartData.value.cart!
-                                  .decodedAttribute!.bucket![index].categoryId
-                                  .toString(),
+                              productId: controller.cartData.value.cart?.raw?.decodedAttribute!.bucket![index].productId.toString() ?? "",
+                              categoryId: controller.cartData.value.cart?.raw?.decodedAttribute!.bucket![index].categoryId
+                                  .toString() ?? "",
                             );
 
                             print(
-                                "category_id ${controller.cartData.value.cart!.decodedAttribute!.bucket![index].categoryId.toString()}");
+                                "category_id ${controller.cartData.value.cart?.raw?.decodedAttribute!.bucket![index].categoryId.toString()}");
                             print(
-                                "category Name ${controller.cartData.value.cart!.decodedAttribute!.bucket![index].categoryName.toString()}");
+                                "category Name ${controller.cartData.value.cart?.raw?.decodedAttribute!.bucket![index].categoryName.toString()}");
                             print(
-                                "product Id ${controller.cartData.value.cart!.decodedAttribute!.bucket![index].productId.toString()}");
+                                "product Id ${controller.cartData.value.cart?.raw?.decodedAttribute!.bucket![index].productId.toString()}");
 
                             Get.to(() => GroceryProductDetailsScreen(
                                   fromCart: true,
                                   productId: controller
                                       .cartData
                                       .value
-                                      .cart!
-                                      .decodedAttribute!
+                                      .cart?.raw?.decodedAttribute!
                                       .bucket![index]
                                       .productId
-                                      .toString(),
+                                      .toString() ?? "",
                                   categoryId: controller
                                       .cartData
                                       .value
-                                      .cart!
-                                      .decodedAttribute!
+                                      .cart?.raw?.decodedAttribute!
                                       .bucket![index]
                                       .categoryId
-                                      .toString(),
+                                      .toString() ?? "",
                                   categoryName: controller
                                       .cartData
                                       .value
-                                      .cart!
-                                      .decodedAttribute!
+                                      .cart?.raw?.decodedAttribute!
                                       .bucket![index]
                                       .categoryName
-                                      .toString(),
+                                      .toString() ?? "",
                                 ));
                           },
                           child: CachedNetworkImage(
-                            imageUrl: item.productImage.toString(),
+                            imageUrl: item?.productImage.toString() ?? "",
                             height: 100.h,
                             width: 100.h,
                             fit: BoxFit.cover,
@@ -473,7 +468,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                               : SizedBox(
                                   width: 110.w,
                                   child: Text(
-                                    item.productName.toString(),
+                                    item?.productName.toString() ?? "",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: AppFontStyle.text_16_400(
@@ -505,10 +500,9 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                               // );
                               showDeleteProductDialog(
                                 fromSingle: true,
-                                cartId: controller.cartData.value.cart!.id
-                                    .toString(),
-                                productId: item.productId.toString(),
-                                countId: item.count.toString(),
+                                cartId: controller.cartData.value.cart!.cartId.toString(),
+                                productId: item?.productId.toString() ?? "",
+                                countId: item?.count.toString() ?? "",
                               );
                             },
                             child: SvgPicture.asset(
@@ -535,7 +529,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                   ),
                                 )
                               : Text(
-                                  "\$${item.totalPrice.toString()}",
+                                  "\$${item?.totalPrice ?? ""}",
                                   overflow: TextOverflow.ellipsis,
                             style: AppFontStyle.text_14_600(
                                 AppColors.primary,family: AppFontFamily.gilroyRegular),
@@ -565,7 +559,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                     () => quantityUpdateController
                                                     .rxRequestStatus.value ==
                                                 Status.LOADING &&
-                                            item.isLoading.value == true
+                                            item?.isLoading.value == true
                                         ? Center(
                                             child: circularProgressIndicator2())
                                         : Row(
@@ -580,16 +574,15 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                                   if (controller
                                                           .cartData
                                                           .value
-                                                          .cart!
-                                                          .decodedAttribute!
+                                                          .cart!.raw?.decodedAttribute!
                                                           .bucket?[index]
                                                           .checked !=
                                                       "false") {
-                                                    if (item.quantity == 1) {
+                                                    if (item?.quantity == "1") {
                                                       Utils.showToast(
                                                           "Qty can not less then 1");
                                                     } else {
-                                                      item.isLoading.value =
+                                                      item?.isLoading.value =
                                                           true;
                                                       quantityUpdateController
                                                           .updateQuantityApi(
@@ -598,16 +591,13 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                                             .cartData
                                                             .value
                                                             .cart!
-                                                            .id
+                                                            .cartId
                                                             .toString(),
-                                                        productId: item
-                                                            .productId
-                                                            .toString(),
-                                                        countId: item.count
-                                                            .toString(),
-                                                        productQuantity:
-                                                            (item.quantity! - 1)
-                                                                .toString(),
+                                                        productId: item?.productId
+                                                            .toString() ?? "",
+                                                        countId: item?.count
+                                                            .toString() ?? "",
+                                                        productQuantity: (int.parse(item!.quantity.toString()) - 1).toString(),
                                                       );
                                                     }
                                                   } else {
@@ -623,7 +613,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                                 ),
                                               ),
                                               Text(
-                                                item.quantity.toString(),
+                                                item?.quantity.toString() ?? "",
                                                 style: AppFontStyle.text_14_400(
                                                     AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                               ),
@@ -635,12 +625,11 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                                   if (controller
                                                           .cartData
                                                           .value
-                                                          .cart!
-                                                          .decodedAttribute!
+                                                          .cart?.raw?.decodedAttribute!
                                                           .bucket?[index]
                                                           .checked !=
                                                       "false") {
-                                                    item.isLoading.value = true;
+                                                    item?.isLoading.value = true;
                                                     quantityUpdateController
                                                         .updateQuantityApi(
                                                       fromSingle: true,
@@ -648,14 +637,14 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                                           .cartData
                                                           .value
                                                           .cart!
-                                                          .id
+                                                          .cartId
                                                           .toString(),
-                                                      productId: item.productId
-                                                          .toString(),
+                                                      productId: item?.productId
+                                                          .toString() ?? "",
                                                       countId:
-                                                          item.count.toString(),
+                                                          item?.count.toString() ?? "",
                                                       productQuantity:
-                                                          (item.quantity! + 1)
+                                                          (int.parse(item!.quantity.toString()) + 1)
                                                               .toString(),
                                                     );
                                                   } else {
@@ -759,185 +748,172 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
 
   FocusNode focusNode = FocusNode();
 
-  // Widget promoCode(context) {
-  //   return controller.cartData.value.cart!.couponApplied == null
-  //       ? DottedBorder(
-  //     strokeWidth: 2,
-  //     borderType: BorderType.RRect,
-  //     radius: Radius.circular(15.r),
-  //     color: AppColors.primary,
-  //     dashPattern: [6.w, 3.w],
-  //     child: SizedBox(
-  //       height: Get.height * 0.065,
-  //       width: Get.width * 0.9,
-  //       child: Row(
-  //         children: [
-  //           wBox(15.h),
-  //           SvgPicture.asset("assets/svg/coupon.svg"),
-  //           wBox(10.h),
-  //           SizedBox(
-  //             height: Get.height * 0.08,
-  //             width: Get.width * 0.5,
-  //             child: Center(
-  //               child: CustomTextFormField(
-  //                 controller: controller.couponCodeController.value,
-  //                 readOnly: controller.readOnly.value,
-  //                 focusNode: focusNode,
-  //                 onTap: () {
-  //                   if (controller.cartData.value.cart!.decodedAttribute!
-  //                       .where((item) => item.checked == "true")
-  //                       .isEmpty) {
-  //                     Utils.showToast("Please select a product");
-  //                   } else if (controller
-  //                       .cartData.value.coupons!.isNotEmpty) {
-  //                     if (controller.readOnly.value) {
-  //                       bottomBar(context);
-  //                     }
-  //                   } else {
-  //                     controller.readOnly.value = false;
-  //                     Utils.showToast("Coupon Not available");
-  //                   }
-  //                 },
-  //                 alignment: Alignment.center,
-  //                 contentPadding: EdgeInsets.zero,
-  //                 borderDecoration: InputBorder.none,
-  //                 prefixConstraints:
-  //                 BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-  //                 hintText: "Enter coupon code",
-  //                 hintStyle:
-  //                 AppFontStyle.text_16_400(AppColors.lightText),
-  //                 onTapOutside: (event) {
-  //                   FocusScope.of(context).unfocus();
-  //                 },
-  //               ),
-  //             ),
-  //           ),
-  //           const Spacer(),
-  //           applyCouponController.rxRequestStatus.value == Status.LOADING
-  //               ? Center(child: circularProgressIndicator(size: 20.h))
-  //               : GestureDetector(
-  //             onTap: () {
-  //               if (controller
-  //                   .couponCodeController.value.text.isNotEmpty) {
-  //                 applyCouponController.applyCouponApi(
-  //                   cartId: controller.cartData.value.cart!.id
-  //                       .toString(),
-  //                   couponCode: controller
-  //                       .couponCodeController.value.text
-  //                       .toString(),
-  //                   grandTotal: controller
-  //                       .cartData.value.cart!.grandTotalPrice
-  //                       .toString(),
-  //                 );
-  //               } else {
-  //                 Utils.showToast("Please Enter Coupon Code");
-  //               }
-  //             },
-  //             child: Text(
-  //               "Apply",
-  //               style: AppFontStyle.text_16_600(AppColors.primary),
-  //             ),
-  //           ),
-  //           wBox(20.h),
-  //         ],
-  //       ),
-  //     ),
-  //   )
-  //       : Container(
-  //     height: Get.height * 0.080,
-  //     width: Get.width,
-  //     decoration: BoxDecoration(
-  //       color: AppColors.primary.withOpacity(0.2),
-  //       borderRadius: BorderRadius.circular(15.r),
-  //     ),
-  //     child: Stack(
-  //       clipBehavior: Clip.none,
-  //       children: [
-  //         Positioned(
-  //           right: -5.h,
-  //           top: -5.h,
-  //           child: SizedBox(
-  //             height: 36.h,
-  //             width: 36.h,
-  //             child: applyCouponController.rxRequestStatus.value ==
-  //                 Status.LOADING
-  //                 ? circularProgressIndicator(size: 18.h)
-  //                 : Center(
-  //               child: GestureDetector(
-  //                 onTap: () {
-  //                   applyCouponController.applyCouponApi(
-  //                     cartId: controller.cartData.value.cart!.id
-  //                         .toString(),
-  //                     couponCode: controller
-  //                         .cartData.value.cart!.couponApplied!.code
-  //                         .toString(),
-  //                     grandTotal: controller
-  //                         .cartData.value.cart!.grandTotalPrice
-  //                         .toString(),
-  //                   );
-  //                 },
-  //                 child: Icon(
-  //                   Icons.cancel,
-  //                   size: 30.h,
-  //                   color: AppColors.primary,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.min,
-  //           children: [
-  //             wBox(15.h),
-  //             Container(
-  //               height: 36.h,
-  //               width: 36.h,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.transparent,
-  //                 shape: BoxShape.circle,
-  //                 // borderRadius: BorderRadius.circular(100.r),
-  //                 border: Border.all(color: AppColors.black, width: 2),
-  //               ),
-  //               child: Icon(
-  //                 Icons.done,
-  //                 color: AppColors.primary,
-  //               ),
-  //             ),
-  //             wBox(15.h),
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Row(
-  //                   children: [
-  //                     Text(
-  //                       controller
-  //                           .cartData.value.cart!.couponApplied!.code
-  //                           .toString(),
-  //                       style: AppFontStyle.text_18_600(AppColors.black),
-  //                     ),
-  //                     wBox(5.h),
-  //                     Text(
-  //                       "Applied",
-  //                       style:
-  //                       AppFontStyle.text_16_600(AppColors.primary),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 Text(
-  //                   "-\$${controller.cartData.value.cart!.couponDiscount}",
-  //                   style: AppFontStyle.text_16_400(AppColors.lightText),
-  //                 ),
-  //               ],
-  //             ),
-  //           ],
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  Widget promoCode(context) {
+    return controller.cartData.value.cart!.couponApplied == false
+        ? DottedBorder(
+      strokeWidth: 2,
+      borderType: BorderType.RRect,
+      radius: Radius.circular(15.r),
+      color: AppColors.primary,
+      dashPattern: [6.w, 3.w],
+      child: SizedBox(
+        height: Get.height * 0.065,
+        width: Get.width * 0.9,
+        child: Row(
+          children: [
+            wBox(15.h),
+            SvgPicture.asset("assets/svg/coupon.svg"),
+            wBox(10.h),
+            SizedBox(
+              height: Get.height * 0.08,
+              width: Get.width * 0.5,
+              child: Center(
+                child: CustomTextFormField(
+                  controller: controller.couponCodeController.value,
+                  readOnly: controller.readOnly.value,
+                  focusNode: focusNode,
+                  onTap: () {
+                    if (controller.cartData.value.cart?.raw?.decodedAttribute?.bucket?.where((item) => item.checked == "true").isEmpty ?? true) {
+                      Utils.showToast("Please select a product");
+                    } else if (controller.cartData.value.coupons?.isNotEmpty ?? false) {
+                      if (controller.readOnly.value) {
+                        bottomBar(context);
+                      }
+                    } else {
+                      controller.readOnly.value = false;
+                      Utils.showToast("Coupon Not available");
+                    }
+                  },
+                  alignment: Alignment.center,
+                  contentPadding: EdgeInsets.zero,
+                  borderDecoration: InputBorder.none,
+                  prefixConstraints:
+                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                  hintText: "Enter coupon code",
+                  hintStyle:
+                  AppFontStyle.text_16_400(AppColors.lightText),
+                  onTapOutside: (event) {
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+              ),
+            ),
+            const Spacer(),
+            applyCouponController.rxRequestStatus.value == Status.LOADING
+                ? Center(child: circularProgressIndicator(size: 20.h))
+                : GestureDetector(
+              onTap: () {
+                if (controller
+                    .couponCodeController.value.text.isNotEmpty) {
+                  // applyCouponController.applyCouponApi(
+                  //   isSingleCartScreen: true,
+                  //   cartIds: [controller.singleCartData.value.cart?.cartId],
+                  //   couponCode: controller.couponCodeController.value.text.toString(),
+                  //   grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                  // );
+                } else {
+                  Utils.showToast("Please Enter Coupon Code");
+                }
+              },
+              child: Text(
+                "Apply",
+                style: AppFontStyle.text_16_600(AppColors.primary),
+              ),
+            ),
+            wBox(20.h),
+          ],
+        ),
+      ),
+    )
+        : Container(
+      height: Get.height * 0.080,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: AppColors.primary.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned(
+            right: 0.h,
+            top: 0.h,
+            child: SizedBox(
+              height: 36.h,
+              width: 36.h,
+              child: applyCouponController.rxRequestStatus.value ==
+                  Status.LOADING
+                  ? circularProgressIndicator(size: 18.h)
+                  : Center(
+                child: GestureDetector(
+                  onTap: () {
+                    // applyCouponController.applyCouponApi(
+                    //   isSingleCartScreen: true,
+                    //   cartIds: [controller.singleCartData.value.cart?.cartId],
+                    //   couponCode: controller.singleCartData.value.cart?.appliedCoupon?.code.toString() ?? "",
+                    //   grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                    // );
+                  },
+                  child: Icon(
+                    Icons.cancel,
+                    size: 30.h,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              wBox(15.h),
+              Container(
+                height: 36.h,
+                width: 36.h,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                  // borderRadius: BorderRadius.circular(100.r),
+                  border: Border.all(color: AppColors.black, width: 2),
+                ),
+                child: Icon(
+                  Icons.done,
+                  color: AppColors.primary,
+                ),
+              ),
+              wBox(15.h),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        controller.cartData.value.cart?.appliedCoupon?.code.toString() ?? "",
+                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
+                      ),
+                      wBox(5.h),
+                      Text(
+                        "Applied",
+                        style:
+                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    " ${controller.cartData.value.cart?.couponDiscount != null ? "-"  : ""}\$${controller.cartData.value.cart?.couponDiscount ?? "0"}",
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget paymentDetails() {
     bool isLoading =
@@ -971,7 +947,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
-                "\$${controller.cartData.value.cart!.regularPrice.toString()}",
+                "\$${controller.cartData.value.cart!.raw?.regularPrice.toString() ?? ""}",
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
@@ -985,7 +961,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
-                "\$${controller.cartData.value.cart!.saveAmount.toString()}",
+                "\$${controller.cartData.value.cart!.raw?.saveAmount.toString()}",
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
@@ -1050,7 +1026,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 ? shimmerItem('\$0.00',
                     width: 70, height: 40, secondShimmer: false)
                 : Text(
-                    "\$${controller.cartData.value.cart!.totalPrice.toString()}",
+                    "\$${controller.cartData.value.cart!.raw?.totalPrice.toString()}",
               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   ),
           ],
@@ -1064,7 +1040,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                     child: CustomElevatedButton(
                       onPressed: () {
                         var selectedItems = controller
-                            .cartData.value.cart!.decodedAttribute!.bucket
+                            .cartData.value.cart!.raw?.decodedAttribute!.bucket
                             ?.where((item) => item.checked == "true")
                             .map((item) => {
                                   'name': item.productName,
@@ -1081,28 +1057,27 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                   .cartData.value.address?.id
                                   .toString(),
                               'total': controller
-                                  .cartData.value.cart?.totalPrice
+                                  .cartData.value.cart?.raw?.totalPrice
                                   .toString(),
                               'coupon_id':
-                                  controller.cartData.value.cart?.couponId ??
+                                  controller.cartData.value.cart?.raw?.couponId ??
                                       "0",
                               'regular_price': controller
-                                  .cartData.value.cart?.regularPrice
+                                  .cartData.value.cart?.raw?.regularPrice
                                   .toString(),
                               'coupon_discount': controller
                                   .cartData.value.cart?.couponDiscount
                                   .toString(),
                               'save_amount': controller
-                                  .cartData.value.cart?.saveAmount
+                                  .cartData.value.cart?.raw?.saveAmount
                                   .toString(),
                               'delivery_charge': controller
                                   .cartData.value.cart?.deliveryCharge
                                   .toString(),
-                              'cart_id': controller.cartData.value.cart?.id,
-                              'vendor_id': controller.cartData.value.cart
-                                  ?.decodedAttribute?.vendorId,
+                              'cart_id': controller.cartData.value.cart?.cartId,
+                              'vendor_id': controller.cartData.value.cart?.raw?.decodedAttribute?.vendorId,
                               'cart_total':
-                                  controller.cartData.value.cart?.totalPrice,
+                                  controller.cartData.value.cart?.raw?.totalPrice,
                               'cart_delivery': controller
                                   .cartData.value.cart?.deliveryCharge,
                               'wallet':
@@ -1239,17 +1214,25 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
     return ListView.separated(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: controller.cartData.value.coupons!.length,
+      itemCount: controller.cartData.value.coupons?.length ?? 0,
       itemBuilder: (context, index) {
-        String expireDate =
-            controller.cartData.value.coupons![index].expireDate ?? "";
-        DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate);
-        DateTime currentDate = DateTime.now();
-        Duration difference = expiryDate.difference(currentDate);
+        String daysRemaining = "Expired";
+        String? expireDate = controller.cartData.value.coupons?[index].expireDate;
 
-        String daysRemaining = difference.inDays > 0
-            ? "${difference.inDays} days remaining"
-            : "Expired";
+        if (expireDate != null && expireDate.trim().isNotEmpty) {
+          try {
+            DateTime expiryDate = DateFormat("dd-MM-yyyy").parse(expireDate.trim());
+            DateTime currentDate = DateTime.now();
+            Duration difference = expiryDate.difference(currentDate);
+
+            daysRemaining = difference.inDays > 0
+                ? "${difference.inDays} days remaining"
+                : "Expired";
+          } catch (e) {
+            debugPrint("❌ Invalid date format: $expireDate");
+            daysRemaining = "Expired";
+          }
+        }
         return Container(
           padding: REdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -1270,15 +1253,14 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "${controller.cartData.value.coupons![index].discountAmount}",
+                            controller.cartData.value.coupons?[index].value ?? "0",
                             style: AppFontStyle.text_30_600(Colors.white,
                                 height: 1.h),
                           ),
                           Text(
-                            controller.cartData.value.coupons![index]
-                                        .discountType
-                                        .toString() ==
-                                    "percent"
+                            controller.cartData.value.coupons![index].title
+                                .toString() ==
+                                "percent"
                                 ? "%"
                                 : "\$",
                             style: AppFontStyle.text_14_400(Colors.white),
@@ -1332,12 +1314,12 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                       ),
                     ),
                     hBox(8),
-                    if (controller.cartData.value.coupons![index].expiryStatus
-                            .toString() !=
+                    if (controller.cartData.value.coupons![index].expireDate
+                        .toString() !=
                         "Expired")
                       CustomElevatedButton(
                         textStyle:
-                            AppFontStyle.text_13_400(Colors.white, height: 1.0),
+                        AppFontStyle.text_13_400(Colors.white, height: 1.0),
                         width: 85.w,
                         height: 36.h,
                         text: "Select",

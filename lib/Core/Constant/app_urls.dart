@@ -1,6 +1,9 @@
 class AppUrls {
-  static const String hostUrl = "https://nbttech.xyz";
-  static const String baseUrl = "https://nbttech.xyz/woy/api";
+  // static const String hostUrl = "https://nbttech.xyz";
+  // static const String baseUrl = "https://nbttech.xyz/woy/api";
+
+  static const String hostUrl = "https://nbturls.in";
+  static const String baseUrl = "https://nbturls.in/woy/api";
 
   // static const String baseUrl = "https://urlsdemo.online/woy/api";
   // static const String baseUrl = "https://urlsdemo.online/woy/api";
@@ -119,6 +122,7 @@ class AppUrls {
   static const String grocerySpecificProduct = "$baseUrl/gspecific-product";
   static const String groceryHomeSearch = "$baseUrl/ghome-search";
   static const String getGroceryCategoriesFilter = "$baseUrl/ginner-search-data";
+  static const String applyCouponsGrocery = "$baseUrl/gapply-coupons";
 
   static const String groceryBannersData = "$baseUrl/gbanners-data";
   static const String groceryAddToCart = "$baseUrl/gmake-cart";
