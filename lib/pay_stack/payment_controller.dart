@@ -63,7 +63,8 @@ class PayStackController extends GetxController {
           if(paymentData.status == 'success'){
             if(cartType == 'restaurant'){
           controller.createOrderRestaurant(
-            referenceNo: uniqueTransRef,
+            referenceId: paymentData.reference.toString(),
+            transactionId: paymentData.id.toString(),
             walletUsed: controller.walletSelected.value,
             walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
             paymentMethod: controller.isSelectable.value == true
@@ -88,6 +89,8 @@ class PayStackController extends GetxController {
           }
             else if(cartType == "grocery"){
               groceryCartController.createOrderGrocery(
+                referenceId: paymentData.reference.toString(),
+                transactionId: paymentData.id.toString(),
                 walletUsed: controller.walletSelected.value,
                 walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
                 paymentMethod: controller.isSelectable.value == true
@@ -113,6 +116,8 @@ class PayStackController extends GetxController {
             }
             else if(cartType == "pharmacy"){
               pharmacyCartController.pharmacyCreateOrder(
+                transactionId: paymentData.id.toString(),
+                referenceId: paymentData.reference.toString(),
                 isWalletUsed: controller.walletSelected.value,
                 walletAmount: controller.walletDiscount.value
                     .toStringAsFixed(2),

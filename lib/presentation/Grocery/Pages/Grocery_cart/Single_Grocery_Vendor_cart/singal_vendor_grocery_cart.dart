@@ -45,6 +45,7 @@ class SingleVendorGroceryCart extends StatefulWidget {
 
 class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
   final SingleGroceryCartController controller = Get.put(SingleGroceryCartController());
+  final GroceryCartController groceryCartControllerMultiVendor = Get.put(GroceryCartController());
   final ApplyCouponGroceryController applyCouponController = Get.put(ApplyCouponGroceryController());
   final GrocerySpecificProductController grocerySpecificProductController = Get.put(GrocerySpecificProductController());
 
@@ -107,7 +108,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
             case Status.COMPLETED:
               return RefreshIndicator(
                 onRefresh: () async {
-                  controller.refreshApi(widget.cartId);
+                  controller.getGrocerySingleVendorCartApi(widget.cartId);
                 },
                 child: controller.cartData.value.cartContent != "Notempty"
                     ? GestureDetector(
@@ -149,6 +150,77 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                               controller.cartData.value.addressExists == true
                                   ? address()
                                   : locationAddress(),
+                              hBox(20.h),
+                              Row(
+                                children: [
+                                  Text("Delivery Type", style: AppFontStyle.text_16_500(
+                                      AppColors.darkText,family: AppFontFamily.gilroyMedium),),
+                                  const Spacer(),
+                                  Obx(
+                                        ()=> InkWell(
+                                      onTap: () {
+                                        if (controller.cartData.value.cart?.raw?.orderType == "delivery") {
+                                          controller.cartData.value.cart?.isDelivery.value = false;
+                                          groceryCartControllerMultiVendor.groceryOrderTypeApi(
+                                            index: 0,
+                                            cartId: controller.cartData.value.cart?.cartId ?? "",
+                                            type: "self",
+                                            isSingleCartScreen: true,
+                                          );
+                                        }
+                                      },
+                                      child: AnimatedContainer(
+                                        duration: const Duration(milliseconds: 100),
+                                        height: 30,width: 84,
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                                          border: Border.all(
+                                            color:controller.cartData.value.cart?.raw?.orderType == "self"
+                                                ? AppColors.primary : AppColors.lightPrimary,width: 1,
+                                          ),
+                                        ),
+                                        child: Center(child: (groceryCartControllerMultiVendor.rxRequestStatusOrderType.value == Status.LOADING &&
+                                            groceryCartControllerMultiVendor.loadingType.value == "self") ?
+                                        circularProgressIndicator2() :
+                                        Text("Self", style: AppFontStyle.text_14_400(
+                                            controller.cartData.value.cart?.raw?.orderType == 'self'
+                                                ? AppColors.primary :AppColors.darkText,family: AppFontFamily.gilroyMedium),)),
+                                      ),
+                                    ),
+                                  ),
+                                  wBox(8.w),
+                                  Obx(
+                                        ()=> InkWell(
+                                      onTap: () {
+                                        if(controller.cartData.value.cart?.raw?.orderType != "delivery"){
+                                          controller.cartData.value.cart?.isDelivery.value = true;
+                                          groceryCartControllerMultiVendor.groceryOrderTypeApi(
+                                              index: 0,
+                                            cartId: controller.cartData.value.cart?.cartId.toString() ?? "",
+                                            type: "delivery",
+                                            isSingleCartScreen: true,
+                                          );
+                                        }
+                                      },
+                                      child: AnimatedContainer(
+                                        duration: const Duration(milliseconds: 100),
+                                        height: 30,width: 84,
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                                          border: Border.all(color: controller.cartData.value.cart?.raw?.orderType == "delivery" ? AppColors.primary : AppColors.lightPrimary,width: 1),
+                                        ),
+                                        child: Center(child: (groceryCartControllerMultiVendor.rxRequestStatusOrderType.value == Status.LOADING
+                                            && groceryCartControllerMultiVendor.loadingType.value == "delivery") ?
+                                        circularProgressIndicator2() :
+                                        Text("Delivery", style: AppFontStyle.text_14_400(
+                                          controller.cartData.value.cart?.raw?.orderType == "delivery"
+                                              ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                                        ),
+                                        ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                               hBox(20.h),
                               cartItems(),
                               hBox(20.h),
@@ -805,12 +877,12 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
               onTap: () {
                 if (controller
                     .couponCodeController.value.text.isNotEmpty) {
-                  // applyCouponController.applyCouponApi(
-                  //   isSingleCartScreen: true,
-                  //   cartIds: [controller.singleCartData.value.cart?.cartId],
-                  //   couponCode: controller.couponCodeController.value.text.toString(),
-                  //   grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
-                  // );
+                  applyCouponController.applyCouponApi(
+                    isSingleCartScreen: true,
+                    cartId: [controller.cartData.value.cart?.cartId],
+                    couponCode: controller.couponCodeController.value.text.toString(),
+                    grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                  );
                 } else {
                   Utils.showToast("Please Enter Coupon Code");
                 }
@@ -847,12 +919,12 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                   : Center(
                 child: GestureDetector(
                   onTap: () {
-                    // applyCouponController.applyCouponApi(
-                    //   isSingleCartScreen: true,
-                    //   cartIds: [controller.singleCartData.value.cart?.cartId],
-                    //   couponCode: controller.singleCartData.value.cart?.appliedCoupon?.code.toString() ?? "",
-                    //   grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
-                    // );
+                    applyCouponController.applyCouponApi(
+                      isSingleCartScreen: true,
+                      cartId: [controller.cartData.value.cart?.cartId],
+                      couponCode: controller.cartData.value.cart?.appliedCoupon?.code.toString() ?? "",
+                      grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                    );
                   },
                   child: Icon(
                     Icons.cancel,
@@ -1026,7 +1098,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 ? shimmerItem('\$0.00',
                     width: 70, height: 40, secondShimmer: false)
                 : Text(
-                    "\$${controller.cartData.value.cart!.raw?.totalPrice.toString()}",
+                    "\$${controller.cartData.value.cart!.finalTotal.toString()}",
               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
                   ),
           ],

@@ -16,6 +16,7 @@ class ApplyCouponPharmaController extends GetxController {
 
 
   applyCouponApi({
+    bool? isSingleCartScreen,
     required List cartId,
     required String couponCode,
     required String grandTotal,
@@ -29,12 +30,14 @@ class ApplyCouponPharmaController extends GetxController {
     api.applyPharmaCouponsApi(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        pharmacyCartController.refreshGetAllCartProductsForCheckout/*getPharmacyCartApi*/().then((value) async {
+        isSingleCartScreen == false ? 
+        pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) async {
           setRxRequestStatus(Status.COMPLETED);
           await Future.delayed(const Duration(milliseconds: 500));
-          if(pharmacyCartController.couponCodeController.value.text.isNotEmpty) {
-            pharmacyCartController.couponCodeController.value.clear();
-          }
+          Utils.showToast(applyCouponData.value.message.toString());
+        }) :pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.join(',')).then((value) async {
+          setRxRequestStatus(Status.COMPLETED);
+          await Future.delayed(const Duration(milliseconds: 500));
           Utils.showToast(applyCouponData.value.message.toString());
         });
 

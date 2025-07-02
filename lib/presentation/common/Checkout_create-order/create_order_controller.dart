@@ -99,7 +99,9 @@ class CreateOrderController extends GetxController {
     required String deliveryNotes,
     required String deliverySoon,
     required String courierTip,
-    String? referenceNo,
+     String? referenceId,
+     String? transactionId,
+
   }) async {
     var data = {
       "wallet_used": walletUsed.toString(),
@@ -115,8 +117,8 @@ class CreateOrderController extends GetxController {
       'delivery_notes' : deliveryNotes,
       'delivery_soon' : deliverySoon,
       'courier_tip' : courierTip,
-      if(referenceNo?.isNotEmpty ?? false)
-      'reference_no' : referenceNo,
+      'reference_id'  :  referenceId,
+      'transaction_id' : transactionId,
     };
     debugPrint("dataValue  >> $data");
     setRxRequestStatus(Status.LOADING);

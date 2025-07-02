@@ -34,9 +34,6 @@ class ApplyCouponController extends GetxController {
           restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartIds.join(',')).then((value) async {
             await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
-            if(restaurantCartController.couponCodeController.value.text.isNotEmpty) {
-              restaurantCartController.couponCodeController.value.clear();
-            }
             Utils.showToast(applyCouponData.value.message.toString());
           });
         }else {
@@ -44,10 +41,6 @@ class ApplyCouponController extends GetxController {
               value) async {
             await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
-            if (restaurantCartController.couponCodeController.value.text
-                .isNotEmpty) {
-              restaurantCartController.couponCodeController.value.clear();
-            }
             Utils.showToast(applyCouponData.value.message.toString());
           });
         }

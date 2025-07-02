@@ -37,13 +37,13 @@ class GroceryQuantityController extends GetxController {
       setData(value);
       if (quantityData.value.status == true) {
         if (fromSingle == true) {
-          singleGroceryCartController.getGrocerySingleVendorCartApi(cartId).then((value) async {
+          singleGroceryCartController.refreshApi(cartId).then((value) async {
             await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
             Utils.showToast(quantityData.value.message.toString());
           });
         } else {
-          groceryCartController.getGroceryAllCartApi().then((value) async {
+          groceryCartController.refreshGetGroceryAllCartApi().then((value) async {
             await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
             Utils.showToast(quantityData.value.message.toString());

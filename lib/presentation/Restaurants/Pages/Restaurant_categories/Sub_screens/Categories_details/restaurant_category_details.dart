@@ -241,25 +241,25 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Positioned(
-                                                bottom: 10,right: 10,
-                                                child: Obx(
-                                                  ()=> InkWell(
-                                                    onTap: () {
-                                                      controller.searchData[index].isAddToCart.value = true;
-                                                    },
-                                                    child: Container(
-                                                      height: 30.h,width: 30.w,
-                                                    decoration: BoxDecoration(color: AppColors.primary,
-                                                    // shape: BoxShape.circle,
-                                                    borderRadius: BorderRadius.circular(10.r)
-                                                    ),
-                                                    child: Icon( controller.searchData[index].isAddToCart.value ? Icons.done :Icons.add,
-                                                      color: AppColors.white,size: 20,),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
+                                              // Positioned(
+                                              //   bottom: 10,right: 10,
+                                              //   child: Obx(
+                                              //     ()=> InkWell(
+                                              //       onTap: () {
+                                              //         controller.searchData[index].isAddToCart.value = true;
+                                              //       },
+                                              //       child: Container(
+                                              //         height: 30.h,width: 30.w,
+                                              //       decoration: BoxDecoration(color: AppColors.primary,
+                                              //       // shape: BoxShape.circle,
+                                              //       borderRadius: BorderRadius.circular(10.r)
+                                              //       ),
+                                              //       child: Icon( controller.searchData[index].isAddToCart.value ? Icons.done :Icons.add,
+                                              //         color: AppColors.white,size: 20,),
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              // )
                                             ],
                                           ),
                                           hBox(10.h),
@@ -455,25 +455,25 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              Positioned(
-                                                bottom: 10,right: 10,
-                                                child: Obx(
-                                                      ()=> InkWell(
-                                                    onTap: () {
-                                                      controller.filterProductSearchData[index].isAddToCart.value = true;
-                                                    },
-                                                    child: Container(
-                                                      height: 30.h,width: 30.w,
-                                                      decoration: BoxDecoration(color: AppColors.primary,
-                                                          // shape: BoxShape.circle,
-                                                          borderRadius: BorderRadius.circular(10.r)
-                                                      ),
-                                                      child: Icon( controller.filterProductSearchData[index].isAddToCart.value ? Icons.done :Icons.add,
-                                                        color: AppColors.white,size: 20,),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
+                                              // Positioned(
+                                              //   bottom: 10,right: 10,
+                                              //   child: Obx(
+                                              //         ()=> InkWell(
+                                              //       onTap: () {
+                                              //         controller.filterProductSearchData[index].isAddToCart.value = true;
+                                              //       },
+                                              //       child: Container(
+                                              //         height: 30.h,width: 30.w,
+                                              //         decoration: BoxDecoration(color: AppColors.primary,
+                                              //             // shape: BoxShape.circle,
+                                              //             borderRadius: BorderRadius.circular(10.r)
+                                              //         ),
+                                              //         child: Icon( controller.filterProductSearchData[index].isAddToCart.value ? Icons.done :Icons.add,
+                                              //           color: AppColors.white,size: 20,),
+                                              //       ),
+                                              //     ),
+                                              //   ),
+                                              // ),
                                             ],
                                           ),
                                           hBox(10),

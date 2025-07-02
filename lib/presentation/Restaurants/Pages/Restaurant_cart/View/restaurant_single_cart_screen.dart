@@ -17,6 +17,8 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
 
+import '../modal/restaurant_single_cart_model.dart';
+
 class RestaurantSingleCartScreen extends StatefulWidget {
   final String cartId;
   final bool isBack;
@@ -132,6 +134,74 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             ? address()
                             : locationAddress(),
                         hBox(20.h),
+                        Row(
+                          children: [
+                            Text("Delivery Type", style: AppFontStyle.text_16_500(
+                                AppColors.darkText,family: AppFontFamily.gilroyMedium),),
+                            const Spacer(),
+                            Obx(
+                                  ()=> InkWell(
+                                onTap: () {
+                                  if (controller.singleCartData.value.cart?.raw?.orderType == "delivery") {
+                                    controller.singleCartData.value.cart?.isDelivery.value = false;
+                                    controller.restaurantOrderTypeApi(
+                                        index: 0,
+                                      cartId: controller.singleCartData.value.cart?.cartId ?? "",
+                                      type: "self",
+                                      isDelivery:controller.singleCartData.value.cart?.isDelivery,
+                                      isSingleCartScreen: true,
+                                    );
+                                  }
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 100),
+                                  height: 30,width: 84,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                                    border: Border.all(
+                                        color:controller.singleCartData.value.cart?.raw?.orderType == "self"
+                                            ? AppColors.primary : AppColors.lightPrimary,width: 1,
+                                    ),
+                                  ),
+                                  child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING && controller.loadingType.value == "self") ?
+                                  circularProgressIndicator2() :
+                                  Text("Self", style: AppFontStyle.text_14_400(
+                                     controller.singleCartData.value.cart?.raw?.orderType == 'self'
+                                          ? AppColors.primary :AppColors.darkText,family: AppFontFamily.gilroyMedium),)),
+                                ),
+                              ),
+                            ),
+                            wBox(8.w),
+                            Obx(
+                                  ()=> InkWell(
+                                onTap: () {
+                                  if(controller.singleCartData.value.cart?.raw?.orderType != "delivery"){
+                                    controller.singleCartData.value.cart?.isDelivery.value = true;
+                                    controller.restaurantOrderTypeApi(index: 0, cartId: controller.singleCartData.value.cart?.cartId.toString() ?? "",
+                                        type: "delivery", isDelivery:controller.singleCartData.value.cart?.isDelivery,
+                                    isSingleCartScreen: true,
+                                    );
+                                  }
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 100),
+                                  height: 30,width: 84,
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                                    border: Border.all(color: controller.singleCartData.value.cart?.raw?.orderType == "delivery" ? AppColors.primary : AppColors.lightPrimary,width: 1),
+                                  ),
+                                  child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING && controller.loadingType.value == "delivery") ?
+                                  circularProgressIndicator2() :
+                                  Text("Delivery", style: AppFontStyle.text_14_400(
+                                   controller.singleCartData.value.cart?.raw?.orderType == "delivery"
+                                    ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                                  ),
+                                  ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        hBox(15.h),
                         cartItems(),
                         hBox(20.h),
                         promoCode(context),
@@ -280,6 +350,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     true;
         return Column(
           children: [
+
             Row(
               children: [
                 Expanded(
@@ -593,11 +664,8 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
             ),
             hBox(5.h),
             hBox(10.h),
-            if (controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index]
-                .attribute!.isNotEmpty &&
-                controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index]
-                    .checked ==
-                    "true")
+            if (controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].attribute!.isNotEmpty &&
+                controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].checked == "true")
               Padding(
                 padding: EdgeInsets.only(bottom: 10.h),
                 child: SizedBox(
@@ -607,7 +675,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     spacing: 2.w,
                     runSpacing: 2.w,
                     children: List.generate(
-                      controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].attribute?.length ?? 0,
+                      controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].attribute!.length ,
                           (addonIndex) {
                         bool isLast = addonIndex ==
                             controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].attribute!.length - 1;
@@ -719,6 +787,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
     );
   }
 
+
   FocusNode focusNode = FocusNode();
 
   Widget promoCode(context) {
@@ -789,7 +858,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               },
               child: Text(
                 "Apply",
-                style: AppFontStyle.text_16_600(AppColors.primary),
+                style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
               ),
             ),
             wBox(20.h),
@@ -936,23 +1005,24 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               ),
             ],
           ),
-          // if (controller.cartData.value.cart!.couponApplied != null)
-          //   Padding(
-          //     padding: EdgeInsets.only(top: 10.h),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           "Coupon Discount",
-          //           style: AppFontStyle.text_14_400(AppColors.lightText),
-          //         ),
-          //         Text(
-          //           "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-          //           style: AppFontStyle.text_14_600(AppColors.darkText),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
+          if (controller.singleCartData.value.cart?.couponApplied != false)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                  ),
+                  Text(
+                        controller.singleCartData.value.cart?.couponDiscount == null? "\$0.0" :
+                    "- \$${controller.singleCartData.value.cart?.couponDiscount.toString()}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                ],
+              ),
+            ),
           if (controller.singleCartData.value.addressExists == true)
             Padding(
               padding: EdgeInsets.only(top: 10.h),
@@ -996,7 +1066,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 ? shimmerItem('\$0.00',
                 width: 70, height: 40, secondShimmer: false)
                 : Text(
-              "\$${controller.singleCartData.value.cart!.raw?.totalPrice.toString()}",
+              "\$${controller.singleCartData.value.cart!.finalTotal.toString()}",
               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
           ],
@@ -1153,7 +1223,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     children: [
                       Text(
                         "Your Promo Codes",
-                        style: AppFontStyle.text_20_400(AppColors.darkText),
+                        style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                       ),
                       InkWell(
                         splashColor: Colors.transparent,
@@ -1186,7 +1256,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
       itemCount: controller.singleCartData.value.coupons?.length ?? 0,
       itemBuilder: (context, index) {
         String daysRemaining = "Expired";
-        String? expireDate = controller.cartCheckoutData.value.coupons?[index].expireDate;
+        String? expireDate = controller.singleCartData.value.coupons?[index].expireDate;
 
         if (expireDate != null && expireDate.trim().isNotEmpty) {
           try {
@@ -1223,16 +1293,16 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         children: [
                           Text(
                             controller.singleCartData.value.coupons?[index].value ?? "0",
-                            style: AppFontStyle.text_30_600(Colors.white,
-                                height: 1.h),
+                            style: AppFontStyle.text_22_600(Colors.white,
+                                height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                            controller.singleCartData.value.coupons![index].title
+                            controller.singleCartData.value.coupons![index].couponType
                                 .toString() ==
-                                "percent"
+                                "percentage"
                                 ? "%"
                                 : "\$",
-                            style: AppFontStyle.text_14_400(Colors.white),
+                            style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
                           )
                         ],
                       ),
@@ -1251,10 +1321,10 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.singleCartData.value.coupons![index].couponType
+                      controller.singleCartData.value.coupons![index].title
                           .toString(),
                       overflow: TextOverflow.ellipsis,
-                      style: AppFontStyle.text_13_400(AppColors.lightText),
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
                     hBox(10),
                     FittedBox(
@@ -1262,7 +1332,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         controller.singleCartData.value.coupons![index].code
                             .toString(),
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_15_400(AppColors.darkText,
+                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
                             height: 1.h),
                       ),
                     ),
@@ -1275,20 +1345,22 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    if(controller.singleCartData.value.coupons![index].expireDate != null)...[
                     FittedBox(
                       child: Text(
                         daysRemaining,
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_12_400(AppColors.lightText),
+                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                       ),
                     ),
-                    hBox(8),
+                      hBox(8),
+                    ],
                     if (controller.singleCartData.value.coupons![index].expireDate
                         .toString() !=
                         "Expired")
                       CustomElevatedButton(
                         textStyle:
-                        AppFontStyle.text_13_400(Colors.white, height: 1.0),
+                        AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),
                         width: 85.w,
                         height: 36.h,
                         text: "Select",

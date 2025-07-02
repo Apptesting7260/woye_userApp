@@ -15,7 +15,7 @@ import '../pharma_cart_modal/pharmacy_all_product_model.dart';
 class PharmacyCartController extends GetxController {
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
-  final cartData = PharmaCartModal().obs;
+  final cartData = PharmacySingleCartModel().obs;
 
 
   PrescriptionController prescriptionController = Get.put(PrescriptionController());
@@ -25,10 +25,11 @@ class PharmacyCartController extends GetxController {
   var readOnly = true.obs;
 
   RxString error = ''.obs;
+  //-----------------Get Single pharmacy cart data api
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void cartSet(PharmaCartModal value) {
+  void cartSet(PharmacySingleCartModel value) {
     cartData.value = value;
   }
   // void cartSetAll(PharmacyAllCartProductModel value) {
@@ -174,6 +175,8 @@ class PharmacyCartController extends GetxController {
     required String deliveryNotes,
     required String deliverySoon,
     required String courierTip,
+    String? referenceId,
+    String? transactionId,
   }) async {
     var data = {
       "wallet_used": isWalletUsed.toString(),
@@ -191,6 +194,8 @@ class PharmacyCartController extends GetxController {
       'courier_tip' : courierTip,
       if(prescription.isNotEmpty)
       'drslip' : jsonEncode(prescription),
+      'reference_id'  :  referenceId,
+      'transaction_id' : transactionId,
     };
     if(kDebugMode) {
       log("data body >>>:: $data");
@@ -227,7 +232,7 @@ class PharmacyCartController extends GetxController {
   RxInt loadingIndex = (-1).obs;
   RxString loadingType = ''.obs;
 
-  Future<void> pharmacyOrderTypeApi({required int index,required String cartId,required String type})async{
+  Future<void> pharmacyOrderTypeApi({required int index,required String cartId,required String type,bool? isSingleCartScreen})async{
     var data = {
       "cart_id": cartId,
       "type": type,
@@ -250,7 +255,7 @@ class PharmacyCartController extends GetxController {
         }else if(type == 'delivery'){
           cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
         }
-        refreshGetAllCartProductsForCheckout();
+        isSingleCartScreen == true ? getPharmacyCartApiAfterInc(cartId: cartId) : refreshGetAllCartProductsForCheckout();
         setRxRequestStatusOrderType(Status.COMPLETED);
         loadingIndex.value = -1;
         loadingType.value = '';

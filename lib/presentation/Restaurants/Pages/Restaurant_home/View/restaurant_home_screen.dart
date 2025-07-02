@@ -45,7 +45,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
 
   _getHeight(_) {
     final keyContext = homeWidgetKey.currentContext;
-    if (keyContext != null) height = keyContext.size!.height;
+    if (keyContext != null) height = keyContext.size?.height;
     print("object1111111111111");
   }
 
@@ -157,6 +157,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             child: Scaffold(
               body: RefreshIndicator(
                 onRefresh: () async {
+                  restaurantCartController.getAllCartData();
                   restaurantHomeController.homeApiRefresh();
                 },
                 child: Column(
@@ -219,7 +220,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               floatingActionButton: Padding(
                 padding: EdgeInsets.only(bottom:Platform.isIOS ? 28.h : 60.h),
-                child: restaurantCartController.allResCartData.value.buttonCheck == false
+                child: restaurantCartController.allResCartData.value.buttonCheck == false &&
+                    (restaurantCartController.allResCartData.value.carts?.isEmpty ?? true)
                     ? const SizedBox()
                     : Column(
                   mainAxisSize: MainAxisSize.min,
@@ -934,12 +936,12 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 //   ),
                 // ),
                 errorWidget: (context, url, error) => Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.textFieldBorder),
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                    child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.textFieldBorder),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
             // GestureDetector(

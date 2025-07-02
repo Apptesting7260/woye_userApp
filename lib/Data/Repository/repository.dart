@@ -521,7 +521,7 @@ class Repository {
   Future<dynamic> pharmacyCartGetDataApi(var data) async {
     await initializeUser();
     dynamic response = await _apiService.postApi( data,AppUrls.getPharmaCartData, token);
-    return PharmaCartModal.fromJson(response);
+    return PharmacySingleCartModel.fromJson(response);
   }
 
   Future<dynamic> deletePharmaProductApi(var data) async {

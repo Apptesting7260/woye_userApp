@@ -168,13 +168,7 @@ class RestaurantCartController extends GetxController {
   RxInt loadingIndex = (-1).obs;
   RxString loadingType = ''.obs;
 
-  Future<void> restaurantOrderTypeApi({required int index,required String cartId,required String type, Rx<bool>? isDelivery})async{
-    if(type == "self"){
-      isDelivery?.value = false;
-    }else if(type == 'delivery'){
-      isDelivery?.value = true;
-    }
-
+  Future<void> restaurantOrderTypeApi({required int index,required String cartId,required String type, Rx<bool>? isDelivery,bool? isSingleCartScreen})async{
     var data = {
       "cart_id": cartId,
       "type": type,
@@ -191,7 +185,7 @@ class RestaurantCartController extends GetxController {
         }else if(type == 'delivery'){
           isDelivery?.value = true;
         }
-        refreshGetAllCheckoutDataRes();
+        isSingleCartScreen == true? refreshRestaurantSingleCartApi(cartId: cartId) : refreshGetAllCheckoutDataRes();
         setRxRequestStatusOrderType(Status.COMPLETED);
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
         loadingIndex.value = -1;

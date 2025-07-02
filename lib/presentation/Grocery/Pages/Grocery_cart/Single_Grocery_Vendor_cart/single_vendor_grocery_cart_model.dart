@@ -411,6 +411,7 @@ class Cart {
   bool? couponApplied;
   AppliedCouponCode? appliedCoupon;
   Raw? raw;
+  Rx<bool> isDelivery = true.obs;
 
   Cart(
       {this.cartId,

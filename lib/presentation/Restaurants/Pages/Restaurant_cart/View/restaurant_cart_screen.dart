@@ -3759,26 +3759,26 @@ class RestaurantCartScreen extends StatefulWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Obx(
-                              ()=>SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: Checkbox(
-                              activeColor: AppColors.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              value: buckets.isChecked.value,
-                              side: BorderSide(
-                                color: AppColors.black,
-                              ),
-                              onChanged: (value) {
-                                buckets.isChecked.value = !buckets.isChecked.value;
-                              },
-                            ),
-                          ),
-                        ),
-                        hBox(10.h),
+                        // Obx(
+                        //       ()=>SizedBox(
+                        //     height: 20,
+                        //     width: 20,
+                        //     child: Checkbox(
+                        //       activeColor: AppColors.primary,
+                        //       shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(5),
+                        //       ),
+                        //       value: buckets.isChecked.value,
+                        //       side: BorderSide(
+                        //         color: AppColors.black,
+                        //       ),
+                        //       onChanged: (value) {
+                        //         buckets.isChecked.value = !buckets.isChecked.value;
+                        //       },
+                        //     ),
+                        //   ),
+                        // ),
+                        // hBox(10.h),
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
                           child: GestureDetector(
@@ -4332,83 +4332,86 @@ class RestaurantCartScreen extends StatefulWidget {
 
   Widget promoCode(context) {
     return controller.cartCheckoutData.value.couponApplied == false
-        ? DottedBorder(
-      strokeWidth: 2,
-      borderType: BorderType.RRect,
-      radius: Radius.circular(15.r),
-      color: AppColors.primary,
-      dashPattern: [6.w, 3.w],
-      child: SizedBox(
-        height: Get.height * 0.065,
-        width: Get.width * 0.9,
-        child: Row(
-          children: [
-            wBox(15.h),
-            SvgPicture.asset("assets/svg/coupon.svg"),
-            wBox(10.h),
-            SizedBox(
-              height: Get.height * 0.08,
-              width: Get.width * 0.5,
-              child: Center(
-                child: CustomTextFormField(
-                  controller: controller.couponCodeController.value,
-                  readOnly: controller.readOnly.value,
-                  focusNode: focusNode,
-                  onTap: () {
-                    // if (controller.cartData.value.cart?.decodedAttribute
-                    //     ?.where((item) => item.checked == "true")
-                    //     .isEmpty ??
-                    //     true) {
-                    //   Utils.showToast("Please select a product");
-                    // } else
-                      if (controller.cartCheckoutData.value.coupons?.isNotEmpty ?? true) {
-                      if (controller.readOnly.value) {
-                        bottomBar(context);
+        ? Padding(
+      padding: REdgeInsets.symmetric(horizontal: 1.5),
+          child: DottedBorder(
+                strokeWidth: 2,
+                borderType: BorderType.RRect,
+                radius: Radius.circular(15.r),
+                color: AppColors.primary,
+                dashPattern: [6.w, 3.w],
+                child: SizedBox(
+          height: Get.height * 0.065,
+          width: Get.width,
+          child: Row(
+            children: [
+              wBox(15.h),
+              SvgPicture.asset("assets/svg/coupon.svg"),
+              wBox(10.h),
+              SizedBox(
+                height: Get.height * 0.08,
+                width: Get.width * 0.5,
+                child: Center(
+                  child: CustomTextFormField(
+                    controller: controller.couponCodeController.value,
+                    readOnly: controller.readOnly.value,
+                    focusNode: focusNode,
+                    onTap: () {
+                      // if (controller.cartData.value.cart?.decodedAttribute
+                      //     ?.where((item) => item.checked == "true")
+                      //     .isEmpty ??
+                      //     true) {
+                      //   Utils.showToast("Please select a product");
+                      // } else
+                        if (controller.cartCheckoutData.value.coupons?.isNotEmpty ?? true) {
+                        if (controller.readOnly.value) {
+                          bottomBar(context);
+                        }
+                      } else {
+                        controller.readOnly.value = false;
+                        Utils.showToast("Coupon Not available");
                       }
-                    } else {
-                      controller.readOnly.value = false;
-                      Utils.showToast("Coupon Not available");
-                    }
-                  },
-                  alignment: Alignment.center,
-                  contentPadding: EdgeInsets.zero,
-                  borderDecoration: InputBorder.none,
-                  prefixConstraints:
-                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-                  hintText: "Enter coupon code",
-                  hintStyle:
-                  AppFontStyle.text_16_400(AppColors.lightText),
-                  onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
-                  },
+                    },
+                    alignment: Alignment.center,
+                    contentPadding: EdgeInsets.zero,
+                    borderDecoration: InputBorder.none,
+                    prefixConstraints:
+                    BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                    hintText: "Enter coupon code",
+                    hintStyle:
+                    AppFontStyle.text_16_400(AppColors.lightText),
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            applyCouponController.rxRequestStatus.value == Status.LOADING
-                ? Center(child: circularProgressIndicator(size: 20.h))
-                : GestureDetector(
-              onTap: () {
-                if (controller.couponCodeController.value.text.isNotEmpty) {
-                  applyCouponController.applyCouponApi(
-                    cartIds: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
-                    couponCode: controller.couponCodeController.value.text.toString(),
-                    grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? "",
-                  );
-                } else {
-                  Utils.showToast("Please Enter Coupon Code");
-                }
-              },
-              child: Text(
-                "Apply",
-                style: AppFontStyle.text_16_600(AppColors.primary),
+              const Spacer(),
+              applyCouponController.rxRequestStatus.value == Status.LOADING
+                  ? Center(child: circularProgressIndicator(size: 20.h))
+                  : GestureDetector(
+                onTap: () {
+                  if (controller.couponCodeController.value.text.isNotEmpty) {
+                    applyCouponController.applyCouponApi(
+                      cartIds: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
+                      couponCode: controller.couponCodeController.value.text.toString(),
+                      grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? "",
+                    );
+                  } else {
+                    Utils.showToast("Please Enter Coupon Code");
+                  }
+                },
+                child: Text(
+                  "Apply",
+                  style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                ),
               ),
-            ),
-            wBox(20.h),
-          ],
-        ),
-      ),
-    )
+              wBox(20.h),
+            ],
+          ),
+                ),
+              ),
+        )
         : Container(
       height: Get.height * 0.080,
       width: Get.width,
@@ -4436,6 +4439,9 @@ class RestaurantCartScreen extends StatefulWidget {
                       couponCode: controller.cartCheckoutData.value.appliedCoupon?.code.toString() ?? "",
                       grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? "",
                     );
+                    if(controller.couponCodeController.value.text.isNotEmpty) {
+                      controller.couponCodeController.value.clear();
+                    }
                   },
                   child: Icon(
                     Icons.cancel,
@@ -4640,23 +4646,24 @@ class RestaurantCartScreen extends StatefulWidget {
               ),
             ],
           ),
-          // if (controller.cartData.value.cart!.couponApplied != null)
-          //   Padding(
-          //     padding: EdgeInsets.only(top: 10.h),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           "Coupon Discount",
-          //           style: AppFontStyle.text_14_400(AppColors.lightText),
-          //         ),
-          //         Text(
-          //           "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-          //           style: AppFontStyle.text_14_600(AppColors.darkText),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
+          if (controller.cartCheckoutData.value.couponApplied != false)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  ),
+                  Text(
+                    controller.cartCheckoutData.value.cart?.couponDiscount == null ? "\$0.0" :
+                    "- \$${controller.cartCheckoutData.value.cart?.couponDiscount ?? 0}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                ],
+              ),
+            ),
           if (controller.cartCheckoutData.value.addressExists == true)
             Padding(
               padding: EdgeInsets.only(top: 10.h),
@@ -4700,7 +4707,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 ? shimmerItem('\$0.00',
                 width: 70, height: 40, secondShimmer: false)
                 : Text(
-              "\$${controller.cartCheckoutData.value.cart?.totalPrice.toString() ?? ""}",
+              "\$${controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? ""}",
               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
           ],
@@ -5029,7 +5036,7 @@ class RestaurantCartScreen extends StatefulWidget {
         }
 
         return Container(
-          padding: REdgeInsets.all(10.0),
+          padding: REdgeInsets.fromLTRB(10, 10, 0, 10),
           decoration: BoxDecoration(
               color: AppColors.navbar.withOpacity(0.5),
               borderRadius: BorderRadius.circular(15.r)),
@@ -5048,15 +5055,14 @@ class RestaurantCartScreen extends StatefulWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "${controller.cartCheckoutData.value.coupons![index].value}",
+                            controller.cartCheckoutData.value.coupons![index].value ?? "0",
                             style: AppFontStyle.text_22_600(Colors.white,
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                            controller.cartCheckoutData.value.coupons![index]
-                                .discountType
+                            controller.cartCheckoutData.value.coupons![index].couponType
                                 .toString() ==
-                                "percent"
+                                "percentage"
                                 ? "%"
                                 : "\$",
                             style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
@@ -5066,7 +5072,7 @@ class RestaurantCartScreen extends StatefulWidget {
                     ),
                     Text(
                       "OFF",
-                      style: AppFontStyle.text_15_400(Colors.white,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_15_400(Colors.white),
                     )
                   ],
                 ),
@@ -5078,8 +5084,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.cartCheckoutData.value.coupons![index].couponType
-                          .toString(),
+                      controller.cartCheckoutData.value.coupons![index].title.toString(),
                       overflow: TextOverflow.ellipsis,
                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
@@ -5102,6 +5107,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    if(controller.cartCheckoutData.value.coupons![index].expiryStatus != null)...[
                     FittedBox(
                       child: Text(
                         daysRemaining.toString(),
@@ -5110,6 +5116,7 @@ class RestaurantCartScreen extends StatefulWidget {
                       ),
                     ),
                     hBox(8),
+                    ],
                     if (controller.cartCheckoutData.value.coupons![index].expiryStatus
                         .toString() !=
                         "Expired")

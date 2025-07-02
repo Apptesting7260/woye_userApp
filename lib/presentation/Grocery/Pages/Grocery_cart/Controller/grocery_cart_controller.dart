@@ -92,6 +92,8 @@ class GroceryCartController extends GetxController {
     required String deliveryNotes,
     required String deliverySoon,
     required String courierTip,
+    String? referenceId,
+    String? transactionId,
   }) async {
     var data = {
       "wallet_used": walletUsed.toString(),
@@ -107,6 +109,8 @@ class GroceryCartController extends GetxController {
       'delivery_notes': deliveryNotes,
       'delivery_soon': deliverySoon,
       'courier_tip': courierTip,
+      'reference_id'  :  referenceId,
+      'transaction_id' : transactionId,
     };
     debugPrint("dataValue  >> $data");
     setRxCreateOrderRequestStatus(Status.LOADING);
@@ -133,7 +137,7 @@ class GroceryCartController extends GetxController {
   final rxRequestStatusOrderType = Status.COMPLETED.obs;
   void setRxRequestStatusOrderType(Status value) =>
       rxRequestStatusOrderType.value = value;
-
+  SingleGroceryCartController singleGroceryCartController = Get.put(SingleGroceryCartController());
   final apiDataOrderType = OrderTypeModel().obs;
   void setOrderDataOrderType(OrderTypeModel value) {
     apiDataOrderType.value = value;
@@ -144,7 +148,7 @@ class GroceryCartController extends GetxController {
   Future<void> groceryOrderTypeApi(
       {required int index,
       required String cartId,
-      required String type}) async {
+      required String type,bool? isSingleCartScreen}) async {
     var data = {
       "cart_id": cartId,
       "type": type,
@@ -167,7 +171,7 @@ class GroceryCartController extends GetxController {
           } else if (type == 'delivery') {
             cartData.value.cart?.buckets?[index].isDelivery.value = true;
           }
-          refreshGetGroceryAllCartApi();
+          isSingleCartScreen == true ?singleGroceryCartController.refreshApi(cartId) : refreshGetGroceryAllCartApi();
           setRxRequestStatusOrderType(Status.COMPLETED);
           Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
           loadingIndex.value = -1;
