@@ -153,11 +153,11 @@ class GroceryCartController extends GetxController {
       "cart_id": cartId,
       "type": type,
     };
-    if(type == "self"){
-      cartData.value.cart?.buckets?[index].isDelivery.value = false;
-    }else if(type == 'delivery'){
-      cartData.value.cart?.buckets?[index].isDelivery.value = true;
-    }
+    // if(type == "self"){
+    //   cartData.value.cart?.buckets?[index].isDelivery.value = false;
+    // }else if(type == 'delivery'){
+    //   cartData.value.cart?.buckets?[index].isDelivery.value = true;
+    // }
     loadingIndex.value = index;
     loadingType.value = type;
 
@@ -166,11 +166,11 @@ class GroceryCartController extends GetxController {
       (value) {
         setOrderDataOrderType(value);
         if (apiDataOrderType.value.status == true) {
-          if (type == "self") {
-            cartData.value.cart?.buckets?[index].isDelivery.value = false;
-          } else if (type == 'delivery') {
-            cartData.value.cart?.buckets?[index].isDelivery.value = true;
-          }
+          // if (type == "self") {
+          //   cartData.value.cart?.buckets?[index].isDelivery.value = false;
+          // } else if (type == 'delivery') {
+          //   cartData.value.cart?.buckets?[index].isDelivery.value = true;
+          // }
           isSingleCartScreen == true ?singleGroceryCartController.refreshApi(cartId) : refreshGetGroceryAllCartApi();
           setRxRequestStatusOrderType(Status.COMPLETED);
           Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());

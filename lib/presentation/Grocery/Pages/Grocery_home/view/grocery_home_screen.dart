@@ -1095,6 +1095,16 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 fit: BoxFit.fill,
                 width: double.maxFinite,
                 height: 220.h,
+                errorWidget: (context, url, error) => Container(
+                  height: 220.h,
+                  decoration: BoxDecoration(
+                    color: AppColors.textFieldBorder.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20.r),
+                    border: Border.all(color: AppColors.textFieldBorder)
+                    border: Border.all(color: AppColors.textFieldBorder)
+                  ),
+                  child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor),
+                ),
                 placeholder: (context, url) => Shimmer.fromColors(
                   baseColor: AppColors.gray,
                   highlightColor: AppColors.lightText,
@@ -1267,16 +1277,14 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                 fit: BoxFit.fill,
                 width: double.maxFinite,
                 height: 220.h,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
+                placeholder: (context, url) => const ShimmerWidget(),
+                errorWidget: (context, url, error) => Container(
+                    clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: AppColors.gray,
+                      border: Border.all(color: AppColors.textFieldBorder),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
-                  ),
-                ),
+                    child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
             // GestureDetector(

@@ -174,8 +174,18 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     height: 160.h,
                                                     width: double.maxFinite,
                                                     errorWidget: (context, url,
-                                                            error) =>
-                                                        const Icon(Icons.error),
+                                                            error) => Container(
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        border: Border.all(color: AppColors.greyBackground),
+                                                        color: AppColors.transparent,
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            20.r),
+                                                      ),
+                                                      child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,),
+                                                    ),
                                                     placeholder:
                                                         (context, url) =>
                                                             Shimmer.fromColors(
@@ -399,7 +409,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     imageUrl: product.urlImage.toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
-                                                    errorWidget: (context, url,error) =>const Icon(Icons.error),
+                                                    errorWidget: (context, url,error) =>const Icon(Icons.broken_image_rounded),
                                                     placeholder:(context, url) =>Shimmer.fromColors(
                                                       baseColor: AppColors.gray,
                                                       highlightColor:AppColors.lightText,

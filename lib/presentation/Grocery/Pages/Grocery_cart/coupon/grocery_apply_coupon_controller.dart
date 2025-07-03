@@ -35,7 +35,7 @@ class ApplyCouponGroceryController extends GetxController {
     api.applyCouponsApiGrocery(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        if(isSingleCartScreen == false){
+        if(isSingleCartScreen != true){
         groceryCartController.refreshGetGroceryAllCartApi().then((value) async {
           setRxRequestStatus(Status.COMPLETED);
           await Future.delayed(const Duration(milliseconds: 500));

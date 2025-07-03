@@ -237,11 +237,11 @@ class PharmacyCartController extends GetxController {
       "cart_id": cartId,
       "type": type,
     };
-    if(type == "self"){
-      cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
-    }else if(type == 'delivery'){
-      cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
-    }
+    // if(type == "self"){
+    //   cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
+    // }else if(type == 'delivery'){
+    //   cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
+    // }
 
     loadingIndex.value = index;
     loadingType.value = type;
@@ -250,11 +250,11 @@ class PharmacyCartController extends GetxController {
     api.orderTypePharmacyApi(data).then((value) {
       setOrderDataOrderType(value);
       if(apiDataOrderType.value.status == true){
-        if(type == "self"){
-          cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
-        }else if(type == 'delivery'){
-          cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
-        }
+        // if(type == "self"){
+        //   cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = false;
+        // }else if(type == 'delivery'){
+        //   cartCheckoutData.value.cart?.buckets?[index].isDelivery.value = true;
+        // }
         isSingleCartScreen == true ? getPharmacyCartApiAfterInc(cartId: cartId) : refreshGetAllCartProductsForCheckout();
         setRxRequestStatusOrderType(Status.COMPLETED);
         loadingIndex.value = -1;

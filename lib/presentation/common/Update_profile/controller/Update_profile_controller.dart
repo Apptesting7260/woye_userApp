@@ -85,11 +85,28 @@ class SignUpForm_editProfileController extends GetxController {
         emailController.text = profileData.value.data?.email != 'null'
             ? profileData.value.data?.email ?? ""
             : '';
-        fisrtNameController.text = profileData.value.data?.firstName ?? "";
+        if(typeFrom != "back" && profileData.value.data?.firstName != null){
+          fisrtNameController.text = profileData.value.data?.firstName ?? "";
+        }else if(typeFrom == "back"){
+          fisrtNameController.text = profileData.value.data?.firstName ?? "";
+        }
+        if(typeFrom != "back" && profileData.value.data?.dob != null){
         formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        }else if(typeFrom == "back"){
+          formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        }
         // formattedCurrentDate.value = profileData.value.data?.dob ?? "";
-        genderController.text = profileData.value.data?.gender ?? "";
-        profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
+        if(typeFrom != "back" && profileData.value.data?.gender != null){
+          genderController.text  = profileData.value.data?.gender ?? "";
+        }else if(typeFrom == "back"){
+          genderController.text = profileData.value.data?.gender ?? "";
+        }
+        if(typeFrom != "back" && profileData.value.data?.imageUrl != null){
+          profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
+        }else if(typeFrom == "back"){
+          profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
+        }
+
         update();
         setRxRequestStatus(Status.COMPLETED);
       }
@@ -148,11 +165,43 @@ class SignUpForm_editProfileController extends GetxController {
   // RxString formattedCurrentDate = "".obs;
   Rx<TextEditingController> formattedCurrentDateController = TextEditingController().obs;
 
+  // Future<void> selectDate(BuildContext context) async {
+  //   final DateTime initialDate =
+  //       (selectedDate != null && selectedDate!.isBefore(DateTime(2025, 12, 31)))
+  //           ? selectedDate
+  //           : DateTime(2015, 12, 31);
+  //
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     builder: (context, child) => Theme(
+  //       data: ThemeData().copyWith(
+  //         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+  //       ),
+  //       child: child!,
+  //     ),
+  //     initialDate: initialDate,
+  //     firstDate: DateTime(1990, 1, 1),
+  //     // lastDate: DateTime.now(),
+  //     lastDate: DateTime(2015, 12, 31),
+  //   );
+  //
+  //   if (picked != null && picked != selectedDate) {
+  //     selectedDate = picked;
+  //     formattedCurrentDateController.value.text =
+  //         DateFormat('dd-MM-yyyy').format(selectedDate);
+  //     // formattedCurrentDate.value =
+  //     //     DateFormat('dd-MM-yyyy').format(selectedDate!);
+  //
+  //     print("Formatted Selected Date: ${formattedCurrentDateController.value.text }");
+  //   }
+  // }
   Future<void> selectDate(BuildContext context) async {
-    final DateTime initialDate =
-        (selectedDate != null && selectedDate!.isBefore(DateTime(2015, 12, 31)))
-            ? selectedDate
-            : DateTime(2015, 12, 31);
+    final DateTime now = DateTime.now();
+    final DateTime initialDate = (selectedDate != null &&
+        selectedDate!.isBefore(DateTime(2025, 12, 31)) &&
+        selectedDate!.isAfter(DateTime(1990, 1, 1)))
+        ? selectedDate!
+        : now;
 
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -164,18 +213,14 @@ class SignUpForm_editProfileController extends GetxController {
       ),
       initialDate: initialDate,
       firstDate: DateTime(1990, 1, 1),
-      // lastDate: DateTime.now(),
-      lastDate: DateTime(2015, 12, 31),
+      lastDate: DateTime(2025, 12, 31),
     );
 
-    if (picked != null && picked != selectedDate) {
+    if (picked != null) {
       selectedDate = picked;
       formattedCurrentDateController.value.text =
-          DateFormat('dd-MM-yyyy').format(selectedDate);
-      // formattedCurrentDate.value =
-      //     DateFormat('dd-MM-yyyy').format(selectedDate!);
-
-      print("Formatted Selected Date: ${formattedCurrentDateController.value.text }");
+          DateFormat('dd-MM-yyyy').format(selectedDate!);
+      print("Formatted Selected Date: ${formattedCurrentDateController.value.text}");
     }
   }
 

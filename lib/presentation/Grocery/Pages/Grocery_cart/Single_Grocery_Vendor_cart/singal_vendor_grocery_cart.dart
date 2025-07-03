@@ -1129,7 +1129,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                   .cartData.value.address?.id
                                   .toString(),
                               'total': controller
-                                  .cartData.value.cart?.raw?.totalPrice
+                                  .cartData.value.cart?.finalTotal
                                   .toString(),
                               'coupon_id':
                                   controller.cartData.value.cart?.raw?.couponId ??

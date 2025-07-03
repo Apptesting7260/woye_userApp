@@ -578,10 +578,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                         width: Get.width * 0.9,
                       ),
                     ),
-                    errorWidget: (context, url, error) => Icon(
-                      Icons.error,
-                      color: Colors.red,
-                      size: 40.w,
+                    errorWidget: (context, url, error) =>  Container(
+                      height: 150.h,
+                      width: Get.width * 0.9,
+                      decoration: BoxDecoration(
+                        color: AppColors.textFieldBorder.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor),
                     ),
                   ),
                 ),
@@ -666,7 +670,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                   height: 60.h,
                                   width: 60.h,
                                   errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
+                                      Container(
+                                        height: 60.h,
+                                        width: 60.h,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.textFieldBorder.withOpacity(0.2),
+                                          borderRadius: BorderRadius.circular(100),
+                                        ),
+                                        child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 17),
+                                      ),
                                   placeholder: (context, url) => Shimmer.fromColors(
                                     baseColor: AppColors.gray,
                                     highlightColor: AppColors.lightText,

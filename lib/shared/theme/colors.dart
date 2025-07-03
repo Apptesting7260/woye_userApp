@@ -14,6 +14,7 @@ class AppColors {
   static Color hintText = const Color.fromRGBO(158, 158, 158, 1);
   static Color textFieldBorder = const Color.fromRGBO(216, 216, 216, 1);
   static Color errorColor = const Color(0xFFC62828);
+  static Color greyImageColor = Colors.grey.shade400;
 
   static Color greyBackground = const Color.fromRGBO(232, 232, 233, 1);
   static Color navbar = const Color.fromRGBO(230, 243, 237, 1);

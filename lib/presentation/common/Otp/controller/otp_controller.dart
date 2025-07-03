@@ -114,7 +114,7 @@ class OtpController extends GetxController {
         Utils.showToast('Invalid otp.');
       } else {
         pt("ecode >> ${e.code}");
-        Utils.showToast('${e.stackTrace} >Please check your otp and try again.');
+        Utils.showToast('Please check your otp and try again.');
       }
       return false;
     }

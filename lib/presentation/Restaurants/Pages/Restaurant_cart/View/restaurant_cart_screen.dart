@@ -3932,8 +3932,15 @@ class RestaurantCartScreen extends StatefulWidget {
                                     width: 100.h,
                                   ),
                                 ),
-                                errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                                errorWidget: (context, url, error) => Container(
+                                  height: 100.h,
+                                  width: 100.h,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.textFieldBorder.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(20.r),
+                                  ),
+                                  child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 17),
+                                ),
                               ),
                             ),
                           ),
@@ -4202,7 +4209,9 @@ class RestaurantCartScreen extends StatefulWidget {
                         ),
                       ],
                       if (items.addons!.isNotEmpty)...[
-                      SizedBox(
+                        if(items.attribute!.isEmpty)
+                        hBox(12.h),
+                        SizedBox(
                         width: Get.width,
                         child: Wrap(
                           direction: Axis.horizontal,
@@ -4743,7 +4752,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 AppRoutes.checkoutScreen,
                   arguments: {
                     'address_id':controller.cartCheckoutData.value.address!.id.toString(),
-                    'total': controller.cartCheckoutData.value.cart!.totalPrice.toString(),
+                    'total': controller.cartCheckoutData.value.cart!.grandTotalPrice.toString(),
                     'coupon_id': "0",
                     'regular_price': controller.cartCheckoutData.value.cart!.regularPrice.toString(),
                     'coupon_discount': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),

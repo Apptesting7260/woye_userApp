@@ -1995,84 +1995,86 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
 
   Widget promoCode(context) {
     return controller.cartCheckoutData.value.couponApplied == false
-        ? DottedBorder(
-            strokeWidth: 2,
-            borderType: BorderType.RRect,
-            radius: Radius.circular(15.r),
-            color: AppColors.primary,
-            dashPattern: [6.w, 3.w],
-            child: SizedBox(
-              height: Get.height * 0.065,
-              width: Get.width * 0.9,
-              child: Row(
-                children: [
-                  wBox(15.h),
-                  SvgPicture.asset("assets/svg/coupon.svg"),
-                  wBox(10.h),
-                  SizedBox(
-                    height: Get.height * 0.08,
-                    width: Get.width * 0.5,
-                    child: Center(
-                      child: CustomTextFormField(
-                        controller: controller.couponCodeController.value,
-                        readOnly: controller.readOnly.value,
-                        focusNode: focusNode,
-                        onTap: () {
-                         /* if (controller.cartCheckoutData.value.cart?.decodedAttribute
-                                  ?.where((item) => item.checked == "true")
-                                  .isEmpty ??
-                              true) {
-                            Utils.showToast("Please select a product");
-                          } else */if (controller
-                                  .cartCheckoutData.value.coupons?.isNotEmpty ??
-                              true) {
-                            if (controller.readOnly.value) {
-                              bottomBar(context);
-                            }
-                          } else {
-                            controller.readOnly.value = false;
-                            Utils.showToast("Coupon Not available");
-                          }
-                        },
-                        alignment: Alignment.center,
-                        contentPadding: EdgeInsets.zero,
-                        borderDecoration: InputBorder.none,
-                        prefixConstraints:
-                            BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-                        hintText: "Enter coupon code",
-                        hintStyle:
-                            AppFontStyle.text_16_400(AppColors.lightText),
-                        onTapOutside: (event) {
-                          FocusScope.of(context).unfocus();
-                        },
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  applyCouponController.rxRequestStatus.value == Status.LOADING
-                      ? Center(child: circularProgressIndicator(size: 20.h))
-                      : GestureDetector(
+        ? Padding(
+          padding: REdgeInsets.symmetric(horizontal: 1.5),
+          child: DottedBorder(
+              strokeWidth: 2,
+              borderType: BorderType.RRect,
+              radius: Radius.circular(15.r),
+              color: AppColors.primary,
+              dashPattern: [6.w, 3.w],
+              child: SizedBox(
+                height: Get.height * 0.065,
+                width: Get.width * 0.9,
+                child: Row(
+                  children: [
+                    wBox(15.h),
+                    SvgPicture.asset("assets/svg/coupon.svg"),
+                    wBox(10.h),
+                    SizedBox(
+                      height: Get.height * 0.08,
+                      width: Get.width * 0.5,
+                      child: Center(
+                        child: CustomTextFormField(
+                          controller: controller.couponCodeController.value,
+                          readOnly: controller.readOnly.value,
+                          focusNode: focusNode,
                           onTap: () {
-                            if (controller.couponCodeController.value.text.isNotEmpty) {
-                              applyCouponController.applyCouponApi(
-                                cartId: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId,).toList() ?? [],
-                                couponCode: controller.couponCodeController.value.text.toString(),
-                                grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice?? "",
-                              );
+                           /* if (controller.cartCheckoutData.value.cart?.decodedAttribute
+                                    ?.where((item) => item.checked == "true")
+                                    .isEmpty ??
+                                true) {
+                              Utils.showToast("Please select a product");
+                            } else */if (controller
+                                    .cartCheckoutData.value.coupons?.isNotEmpty ??
+                                true) {
+                              if (controller.readOnly.value) {
+                                bottomBar(context);
+                              }
                             } else {
-                              Utils.showToast("Please Enter Coupon Code");
+                              controller.readOnly.value = false;
+                              Utils.showToast("Coupon Not available");
                             }
                           },
-                          child: Text(
-                            "Apply",
-                            style: AppFontStyle.text_16_600(AppColors.primary),
-                          ),
+                          alignment: Alignment.center,
+                          contentPadding: EdgeInsets.zero,
+                          borderDecoration: InputBorder.none,
+                          prefixConstraints:
+                              BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                          hintText: "Enter coupon code",
+                          hintStyle: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
                         ),
-                  wBox(20.h),
-                ],
+                      ),
+                    ),
+                    const Spacer(),
+                    applyCouponController.rxRequestStatus.value == Status.LOADING
+                        ? Center(child: circularProgressIndicator(size: 20.h))
+                        : GestureDetector(
+                            onTap: () {
+                              if (controller.couponCodeController.value.text.isNotEmpty) {
+                                applyCouponController.applyCouponApi(
+                                  cartId: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId,).toList() ?? [],
+                                  couponCode: controller.couponCodeController.value.text.toString(),
+                                  grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice?? "",
+                                );
+                              } else {
+                                Utils.showToast("Please Enter Coupon Code");
+                              }
+                            },
+                            child: Text(
+                              "Apply",
+                              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                            ),
+                          ),
+                    wBox(20.h),
+                  ],
+                ),
               ),
             ),
-          )
+        )
         : Container(
             height: Get.height * 0.080,
             width: Get.width,
@@ -2084,8 +2086,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
               clipBehavior: Clip.none,
               children: [
                 Positioned(
-                  right: -5.h,
-                  top: -5.h,
+                  right: 0.h,
+                  top: 0.h,
                   child: SizedBox(
                     height: 36.h,
                     width: 36.h,
@@ -2606,9 +2608,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                            controller.cartCheckoutData.value.coupons![index].title
+                            controller.cartCheckoutData.value.coupons![index].couponType
                                         .toString() ==
-                                    "percent"
+                                    "percentage"
                                 ? "%"
                                 : "\$",
                             style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
@@ -2630,8 +2632,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.cartCheckoutData.value.coupons![index].couponType
-                          .toString(),
+                      controller.cartCheckoutData.value.coupons![index].title.toString(),
                       overflow: TextOverflow.ellipsis,
                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
@@ -2654,17 +2655,17 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    FittedBox(
-                      child: Text(
-                        daysRemaining,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                      ),
-                    ),
-                    hBox(8),
-                    if (controller.cartCheckoutData.value.coupons![index].expireDate
-                            .toString() !=
-                        "Expired")
+                    // FittedBox(
+                    //   child: Text(
+                    //     daysRemaining,
+                    //     overflow: TextOverflow.ellipsis,
+                    //     style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    //   ),
+                    // ),
+                    // hBox(8),
+                    // if (controller.cartCheckoutData.value.coupons![index].expireDate
+                    //         .toString() !=
+                    //     "Expired")
                       CustomElevatedButton(
                         textStyle:
                         AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),

@@ -443,8 +443,15 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                           width: 100.h,
                         ),
                       ),
-                      errorWidget: (context, url, error) =>
-                      const Icon(Icons.error),
+                      errorWidget: (context, url, error)=> Container(
+                      height: 100.h,
+                      width: 100.h,
+                      decoration: BoxDecoration(
+                      color: AppColors.textFieldBorder.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20.r),
+                      ),
+                      child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor),
+                      ),
                     ),
                   ),
                 ),
@@ -792,80 +799,83 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
 
   Widget promoCode(context) {
     return controller.singleCartData.value.cart!.couponApplied == false
-        ? DottedBorder(
-      strokeWidth: 2,
-      borderType: BorderType.RRect,
-      radius: Radius.circular(15.r),
-      color: AppColors.primary,
-      dashPattern: [6.w, 3.w],
-      child: SizedBox(
-        height: Get.height * 0.065,
-        width: Get.width * 0.9,
-        child: Row(
-          children: [
-            wBox(15.h),
-            SvgPicture.asset("assets/svg/coupon.svg"),
-            wBox(10.h),
-            SizedBox(
-              height: Get.height * 0.08,
-              width: Get.width * 0.5,
-              child: Center(
-                child: CustomTextFormField(
-                  controller: controller.couponCodeController.value,
-                  readOnly: controller.readOnly.value,
-                  focusNode: focusNode,
-                  onTap: () {
-                    if (controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?.where((item) => item.checked == "true").isEmpty ?? true) {
-                      Utils.showToast("Please select a product");
-                    } else if (controller.singleCartData.value.coupons?.isNotEmpty ?? false) {
-                      if (controller.readOnly.value) {
-                        bottomBar(context);
+        ? Padding(
+          padding: REdgeInsets.symmetric(horizontal: 1.5),
+          child: DottedBorder(
+                strokeWidth: 2,
+                borderType: BorderType.RRect,
+                radius: Radius.circular(15.r),
+                color: AppColors.primary,
+                dashPattern: [6.w, 3.w],
+                child: SizedBox(
+          height: Get.height * 0.065,
+          width: Get.width * 0.9,
+          child: Row(
+            children: [
+              wBox(15.h),
+              SvgPicture.asset("assets/svg/coupon.svg"),
+              wBox(10.h),
+              SizedBox(
+                height: Get.height * 0.08,
+                width: Get.width * 0.5,
+                child: Center(
+                  child: CustomTextFormField(
+                    controller: controller.couponCodeController.value,
+                    readOnly: controller.readOnly.value,
+                    focusNode: focusNode,
+                    onTap: () {
+                      if (controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?.where((item) => item.checked == "true").isEmpty ?? true) {
+                        Utils.showToast("Please select a product");
+                      } else if (controller.singleCartData.value.coupons?.isNotEmpty ?? false) {
+                        if (controller.readOnly.value) {
+                          bottomBar(context);
+                        }
+                      } else {
+                        controller.readOnly.value = false;
+                        Utils.showToast("Coupon Not available");
                       }
-                    } else {
-                      controller.readOnly.value = false;
-                      Utils.showToast("Coupon Not available");
-                    }
-                  },
-                  alignment: Alignment.center,
-                  contentPadding: EdgeInsets.zero,
-                  borderDecoration: InputBorder.none,
-                  prefixConstraints:
-                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-                  hintText: "Enter coupon code",
-                  hintStyle:
-                  AppFontStyle.text_16_400(AppColors.lightText),
-                  onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
-                  },
+                    },
+                    alignment: Alignment.center,
+                    contentPadding: EdgeInsets.zero,
+                    borderDecoration: InputBorder.none,
+                    prefixConstraints:
+                    BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                    hintText: "Enter coupon code",
+                    hintStyle:
+                    AppFontStyle.text_16_400(AppColors.lightText),
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            applyCouponController.rxRequestStatus.value == Status.LOADING
-                ? Center(child: circularProgressIndicator(size: 20.h))
-                : GestureDetector(
-              onTap: () {
-                if (controller
-                    .couponCodeController.value.text.isNotEmpty) {
-                  applyCouponController.applyCouponApi(isSingleCartScreen: true,
-                    cartIds: [controller.singleCartData.value.cart?.cartId],
-                    couponCode: controller.couponCodeController.value.text.toString(),
-                    grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
-                  );
-                } else {
-                  Utils.showToast("Please Enter Coupon Code");
-                }
-              },
-              child: Text(
-                "Apply",
-                style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              const Spacer(),
+              applyCouponController.rxRequestStatus.value == Status.LOADING
+                  ? Center(child: circularProgressIndicator(size: 20.h))
+                  : GestureDetector(
+                onTap: () {
+                  if (controller
+                      .couponCodeController.value.text.isNotEmpty) {
+                    applyCouponController.applyCouponApi(isSingleCartScreen: true,
+                      cartIds: [controller.singleCartData.value.cart?.cartId],
+                      couponCode: controller.couponCodeController.value.text.toString(),
+                      grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                    );
+                  } else {
+                    Utils.showToast("Please Enter Coupon Code");
+                  }
+                },
+                child: Text(
+                  "Apply",
+                  style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                ),
               ),
-            ),
-            wBox(20.h),
-          ],
-        ),
-      ),
-    )
+              wBox(20.h),
+            ],
+          ),
+                ),
+              ),
+        )
         : Container(
       height: Get.height * 0.080,
       width: Get.width,
@@ -1097,7 +1107,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         .singleCartData.value.address?.id
                         .toString(),
                     'total': controller
-                        .singleCartData.value.cart?.raw?.totalPrice
+                        .singleCartData.value.cart?.finalTotal
                         .toString(),
                     'coupon_id':
                     controller.singleCartData.value.cart?.raw?.couponId ??

@@ -732,84 +732,87 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
 
   Widget promoCode(context) {
     return controller.cartData.value.cart!.couponApplied == false
-        ? DottedBorder(
-            strokeWidth: 2,
-            borderType: BorderType.RRect,
-            radius: Radius.circular(15.r),
-            color: AppColors.primary,
-            dashPattern: [6.w, 3.w],
-            child: SizedBox(
-              height: Get.height * 0.065,
-              width: Get.width * 0.9,
-              child: Row(
-                children: [
-                  wBox(15.h),
-                  SvgPicture.asset("assets/svg/coupon.svg"),
-                  wBox(10.h),
-                  SizedBox(
-                    height: Get.height * 0.08,
-                    width: Get.width * 0.5,
-                    child: Center(
-                      child: CustomTextFormField(
-                        controller: controller.couponCodeController.value,
-                        readOnly: controller.readOnly.value,
-                        focusNode: focusNode,
-                        onTap: () {
-                          if (controller.cartData.value.cart!.raw!.decodedAttribute!.where((item) => item.checked == "true")
-                              .isEmpty) {
-                            Utils.showToast("Please select a product");
-                          } else if (controller
-                              .cartData.value.coupons!.isNotEmpty) {
-                            if (controller.readOnly.value) {
-                              bottomBar(context);
-                            }
-                          } else {
-                            controller.readOnly.value = false;
-                            Utils.showToast("Coupon Not available");
-                          }
-                        },
-                        alignment: Alignment.center,
-                        contentPadding: EdgeInsets.zero,
-                        borderDecoration: InputBorder.none,
-                        prefixConstraints:
-                            BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-                        hintText: "Enter coupon code",
-                        hintStyle:
-                            AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                        onTapOutside: (event) {
-                          FocusScope.of(context).unfocus();
-                        },
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  applyCouponController.rxRequestStatus.value == Status.LOADING
-                      ? Center(child: circularProgressIndicator(size: 20.h))
-                      : GestureDetector(
+        ? Padding(
+          padding: REdgeInsets.symmetric(horizontal: 1.5),
+          child: DottedBorder(
+              strokeWidth: 2,
+              borderType: BorderType.RRect,
+              radius: Radius.circular(15.r),
+              color: AppColors.primary,
+              dashPattern: [6.w, 3.w],
+              child: SizedBox(
+                height: Get.height * 0.065,
+                width: Get.width * 0.9,
+                child: Row(
+                  children: [
+                    wBox(15.h),
+                    SvgPicture.asset("assets/svg/coupon.svg"),
+                    wBox(10.h),
+                    SizedBox(
+                      height: Get.height * 0.08,
+                      width: Get.width * 0.5,
+                      child: Center(
+                        child: CustomTextFormField(
+                          controller: controller.couponCodeController.value,
+                          readOnly: controller.readOnly.value,
+                          focusNode: focusNode,
                           onTap: () {
-                            if (controller.couponCodeController.value.text.isNotEmpty) {
-                              applyCouponController.applyCouponApi(
-                                isSingleCartScreen: true,
-                                cartId: [controller.cartData.value.cart!.cartId.toString()],
-                                couponCode: controller
-                                    .couponCodeController.value.text
-                                    .toString(),
-                                grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
-                              );
+                            if (controller.cartData.value.cart!.raw!.decodedAttribute!.where((item) => item.checked == "true")
+                                .isEmpty) {
+                              Utils.showToast("Please select a product");
+                            } else if (controller
+                                .cartData.value.coupons!.isNotEmpty) {
+                              if (controller.readOnly.value) {
+                                bottomBar(context);
+                              }
                             } else {
-                              Utils.showToast("Please Enter Coupon Code");
+                              controller.readOnly.value = false;
+                              Utils.showToast("Coupon Not available");
                             }
                           },
-                          child: Text(
-                            "Apply",
-                            style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-                          ),
+                          alignment: Alignment.center,
+                          contentPadding: EdgeInsets.zero,
+                          borderDecoration: InputBorder.none,
+                          prefixConstraints:
+                              BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                          hintText: "Enter coupon code",
+                          hintStyle:
+                              AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                          onTapOutside: (event) {
+                            FocusScope.of(context).unfocus();
+                          },
                         ),
-                  wBox(20.h),
-                ],
+                      ),
+                    ),
+                    const Spacer(),
+                    applyCouponController.rxRequestStatus.value == Status.LOADING
+                        ? Center(child: circularProgressIndicator(size: 20.h))
+                        : GestureDetector(
+                            onTap: () {
+                              if (controller.couponCodeController.value.text.isNotEmpty) {
+                                applyCouponController.applyCouponApi(
+                                  isSingleCartScreen: true,
+                                  cartId: [controller.cartData.value.cart!.cartId.toString()],
+                                  couponCode: controller
+                                      .couponCodeController.value.text
+                                      .toString(),
+                                  grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                                );
+                              } else {
+                                Utils.showToast("Please Enter Coupon Code");
+                              }
+                            },
+                            child: Text(
+                              "Apply",
+                              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                            ),
+                          ),
+                    wBox(20.h),
+                  ],
+                ),
               ),
             ),
-          )
+        )
         : Container(
             height: Get.height * 0.080,
             width: Get.width,
@@ -1049,7 +1052,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                     .cartData.value.address?.id
                                     .toString(),
                                 'total': controller
-                                    .cartData.value.cart?.raw?.totalPrice
+                                    .cartData.value.cart?.finalTotal
                                     .toString(),
                                 'coupon_id':
                                     controller.cartData.value.cart?.raw?.couponId ??
@@ -1262,7 +1265,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            controller.cartData.value.coupons![index].value ?? controller.cartData.value.cart?.deliveryCharge?.split(".").first ?? "",
+                            controller.cartData.value.coupons![index].value ?? "0",
                             style: AppFontStyle.text_28_600(Colors.white,
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
@@ -1289,16 +1292,14 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.cartData.value.coupons![index].couponType
-                          .toString(),
+                      controller.cartData.value.coupons![index].title.toString(),
                       overflow: TextOverflow.ellipsis,
                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
                     hBox(10),
                     FittedBox(
                       child: Text(
-                        controller.cartData.value.coupons![index].code
-                            .toString(),
+                        controller.cartData.value.coupons![index].code.toString(),
                         overflow: TextOverflow.ellipsis,
                         style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
                             height: 1.h),

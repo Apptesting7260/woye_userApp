@@ -395,26 +395,26 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Obx(
-                            ()=>SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: Checkbox(
-                                activeColor: AppColors.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                value: buckets.isChecked.value,
-                                side: BorderSide(
-                                  color: AppColors.black,
-                                ),
-                                onChanged: (value) {
-                                  buckets.isChecked.value = !buckets.isChecked.value;
-                                },
-                              ),
-                            ),
-                          ),
-                          hBox(10.h),
+                          // Obx(
+                          //   ()=>SizedBox(
+                          //     height: 20,
+                          //     width: 20,
+                          //     child: Checkbox(
+                          //       activeColor: AppColors.primary,
+                          //       shape: RoundedRectangleBorder(
+                          //         borderRadius: BorderRadius.circular(5),
+                          //       ),
+                          //       value: buckets.isChecked.value,
+                          //       side: BorderSide(
+                          //         color: AppColors.black,
+                          //       ),
+                          //       onChanged: (value) {
+                          //         buckets.isChecked.value = !buckets.isChecked.value;
+                          //       },
+                          //     ),
+                          //   ),
+                          // ),
+                          // hBox(10.h),
                           Padding(
                                   padding: const EdgeInsets.only(top: 5),
                                   child: GestureDetector(
@@ -1383,82 +1383,85 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
 
   Widget promoCode(context) {
     return controller.cartData .value.couponApplied == false
-        ? DottedBorder(
-      strokeWidth: 2,
-      borderType: BorderType.RRect,
-      radius: Radius.circular(15.r),
-      color: AppColors.primary,
-      dashPattern: [6.w, 3.w],
-      child: SizedBox(
-        height: Get.height * 0.065,
-        width: Get.width * 0.9,
-        child: Row(
-          children: [
-            wBox(15.h),
-            SvgPicture.asset("assets/svg/coupon.svg"),
-            wBox(10.h),
-            SizedBox(
-              height: Get.height * 0.08,
-              width: Get.width * 0.5,
-              child: Center(
-                child: CustomTextFormField(
-                  controller: controller.couponCodeController.value,
-                  readOnly: controller.readOnly.value,
-                  focusNode: focusNode,
-                  onTap: () {
-                  /*  if (controller.cartData.value.cart!.decodedAttribute!
-                        .where((item) => item.checked == "true")
-                        .isEmpty) {
-                      Utils.showToast("Please select a product");
-                    } else*/ if (controller
-                        .cartData.value.coupons!.isNotEmpty) {
-                      if (controller.readOnly.value) {
-                        bottomBar(context);
+        ? Padding(
+          padding: REdgeInsets.symmetric(horizontal: 1.5),
+          child: DottedBorder(
+                strokeWidth: 2,
+                borderType: BorderType.RRect,
+                radius: Radius.circular(15.r),
+                color: AppColors.primary,
+                dashPattern: [6.w, 3.w],
+                child: SizedBox(
+          height: Get.height * 0.065,
+          width: Get.width * 0.9,
+          child: Row(
+            children: [
+              wBox(15.h),
+              SvgPicture.asset("assets/svg/coupon.svg"),
+              wBox(10.h),
+              SizedBox(
+                height: Get.height * 0.08,
+                width: Get.width * 0.5,
+                child: Center(
+                  child: CustomTextFormField(
+                    controller: controller.couponCodeController.value,
+                    readOnly: controller.readOnly.value,
+                    focusNode: focusNode,
+                    onTap: () {
+                    /*  if (controller.cartData.value.cart!.decodedAttribute!
+                          .where((item) => item.checked == "true")
+                          .isEmpty) {
+                        Utils.showToast("Please select a product");
+                      } else*/ if (controller
+                          .cartData.value.coupons!.isNotEmpty) {
+                        if (controller.readOnly.value) {
+                          bottomBar(context);
+                        }
+                      } else {
+                        controller.readOnly.value = false;
+                        Utils.showToast("Coupon Not available");
                       }
-                    } else {
-                      controller.readOnly.value = false;
-                      Utils.showToast("Coupon Not available");
-                    }
-                  },
-                  alignment: Alignment.center,
-                  contentPadding: EdgeInsets.zero,
-                  borderDecoration: InputBorder.none,
-                  prefixConstraints:
-                  BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-                  hintText: "Enter coupon code",
-                  hintStyle:
-                  AppFontStyle.text_16_400(AppColors.lightText),
-                  onTapOutside: (event) {
-                    FocusScope.of(context).unfocus();
-                  },
+                    },
+                    alignment: Alignment.center,
+                    contentPadding: EdgeInsets.zero,
+                    borderDecoration: InputBorder.none,
+                    prefixConstraints:
+                    BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+                    hintText: "Enter coupon code",
+                    hintStyle:
+                    AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            applyCouponController.rxRequestStatus.value == Status.LOADING
-                ? Center(child: circularProgressIndicator(size: 20.h))
-                : GestureDetector(
-              onTap: () {
-                if (controller.couponCodeController.value.text.isNotEmpty) {
-                  applyCouponController.applyCouponApi(
-                    cartId: controller.cartData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
-                    couponCode: controller.couponCodeController.value.text.toString(),
-                    grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
-                  );
-                } else {
-                  Utils.showToast("Please Enter Coupon Code");
-                }
-              },
-              child: Text(
-                "Apply",
-                style: AppFontStyle.text_16_600(AppColors.primary),
+              const Spacer(),
+              applyCouponController.rxRequestStatus.value == Status.LOADING
+                  ? Center(child: circularProgressIndicator(size: 20.h))
+                  : GestureDetector(
+                onTap: () {
+                  if (controller.couponCodeController.value.text.isNotEmpty) {
+                    applyCouponController.applyCouponApi(
+                      cartId: controller.cartData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
+                      couponCode: controller.couponCodeController.value.text.toString(),
+                      grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                    );
+                  } else {
+                    Utils.showToast("Please Enter Coupon Code");
+                  }
+                },
+                child: Text(
+                  "Apply",
+                  style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                ),
               ),
-            ),
-            wBox(20.h),
-          ],
-        ),
-      ),
-    )
+              wBox(20.h),
+            ],
+          ),
+                ),
+              ),
+        )
         : Container(
       height: Get.height * 0.080,
       width: Get.width,
@@ -1690,7 +1693,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                         Get.toNamed(AppRoutes.checkoutScreen, arguments: {
                           'address_id':
                               controller.cartData.value.address!.id.toString(),
-                          'total': controller.cartData.value.cart!.totalPrice
+                          'total': controller.cartData.value.cart!.grandTotalPrice
                               .toString(),
                           'coupon_id': "0",
                           'regular_price': controller
@@ -1937,12 +1940,11 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                           /* controller.cartData.value.coupons![index]
-                                .discountType
+                    controller.cartData.value.coupons![index].couponType
                                 .toString() ==
-                                "percent"
+                                "percentage"
                                 ? "%"
-                                :*/ "\$",
+                                : "\$",
                             style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
                           )
                         ],
@@ -1962,8 +1964,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      controller.cartData.value.coupons![index].couponType
-                          .toString(),
+                      controller.cartData.value.coupons![index].title.toString(),
                       overflow: TextOverflow.ellipsis,
                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
@@ -1986,17 +1987,17 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    FittedBox(
-                      child: Text(
-                        daysRemaining.toString(),
-                        overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                      ),
-                    ),
-                    hBox(8),
-                    /*if (controller.cartData.value.coupons![index].expiryStatus
-                        .toString() !=
-                        "Expired")*/
+                    // FittedBox(
+                    //   child: Text(
+                    //     daysRemaining.toString(),
+                    //     overflow: TextOverflow.ellipsis,
+                    //     style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    //   ),
+                    // ),
+                    // hBox(8),
+                    // if (controller.cartData.value.coupons![index]
+                    //     .toString() !=
+                    //     "Expired")
                       CustomElevatedButton(
                         textStyle:
                         AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),

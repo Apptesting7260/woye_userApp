@@ -600,8 +600,17 @@ class ProductDetailsScreen extends StatelessWidget {
                           imageUrl: imageUrl,
                           fit: BoxFit.cover,
                           width: 75.h,
-                          errorWidget: (context, url, error) =>
-                              const Center(child: Icon(Icons.error)),
+                          errorWidget: (context, url, error) =>Container(
+                            width: 75.h,
+                            decoration: BoxDecoration(
+                              border: controller.isSelected.value != index
+                                  ? Border.all(color: AppColors.textFieldBorder)
+                                  : null,
+                              color: AppColors.textFieldBorder.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(18.r),
+                            ),
+                            child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 17),
+                          ),
                           placeholder: (context, url) => Shimmer.fromColors(
                             baseColor: AppColors.gray,
                             highlightColor: AppColors.lightText,
@@ -749,7 +758,15 @@ class ProductDetailsScreen extends StatelessWidget {
                   height: 20.h,
                   width: 20.h,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 22.h,
+                    width: 22.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.textFieldBorder.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(50.r),
+                    ),
+                    child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 15,),
+                  ),
                 ),
               ),
               wBox(5),

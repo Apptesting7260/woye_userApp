@@ -30,7 +30,7 @@ class ApplyCouponPharmaController extends GetxController {
     api.applyPharmaCouponsApi(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
-        isSingleCartScreen == false ? 
+        isSingleCartScreen != true ?
         pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) async {
           setRxRequestStatus(Status.COMPLETED);
           await Future.delayed(const Duration(milliseconds: 500));

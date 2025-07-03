@@ -137,7 +137,15 @@ class _RestaurantCategoriesScreenState
                                                 width: 70.w,
                                                 fit: BoxFit.fill,
                                                 placeholder: (context, url) =>circularProgressIndicator(),
-                                                errorWidget:(context, url, error) =>const Icon(Icons.error),
+                                                errorWidget:(context, url, error) => Container(
+                                                  height: 80.h,
+                                                  width: 70.w,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.textFieldBorder.withOpacity(0.2),
+                                                    borderRadius: BorderRadius.circular(10.r),
+                                                  ),
+                                                  child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 17),
+                                                ),
                                               ),
                                             ),
                                           ),
