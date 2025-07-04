@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -150,7 +151,7 @@ class NetworkApiServices extends BaseApiServices {
           headers: {"Authorization": "Bearer $token",'Content-Type': 'application/json',}, body: data)
           .timeout(const Duration(seconds: 50));
       responseJson = returnResponse(response);
-      print("data: $response");
+      log("data>>>>>>>>>: ${response.body}");
     } on SocketException {
       throw InternetExceptionWidget(
         onPress: () {},
@@ -161,7 +162,7 @@ class NetworkApiServices extends BaseApiServices {
       );
     }
     if (kDebugMode) {
-      print("$responseJson");
+      log("$responseJson");
     }
     return responseJson;
   }

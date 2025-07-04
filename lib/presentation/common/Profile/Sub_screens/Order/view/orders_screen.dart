@@ -257,6 +257,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         ),
                         hBox(15),
                         buildTotalAmountRow(order.total.toString()),
+                        // buildTotalAmountRow(order.total.toString()),
                         hBox(20),
                         buildDeliveryTimeRow(),
                         hBox(10),

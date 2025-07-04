@@ -1110,7 +1110,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         .singleCartData.value.cart?.finalTotal.toString(),
                     'coupon_id':
                     controller.singleCartData.value.cart?.raw?.couponId ??
-                        "0",
+                        "",
                     'regular_price': controller
                         .singleCartData.value.cart?.raw?.regularPrice
                         .toString(),

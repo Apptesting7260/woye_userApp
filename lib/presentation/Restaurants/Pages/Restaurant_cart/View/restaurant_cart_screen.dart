@@ -4755,7 +4755,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   arguments: {
                     'address_id':controller.cartCheckoutData.value.address!.id.toString(),
                     'total': controller.cartCheckoutData.value.cart!.grandTotalPrice.toString(),
-                    'coupon_id': "0",
+                    'coupon_id': controller.cartCheckoutData.value.appliedCoupon?.id.toString(),
                     'regular_price': controller.cartCheckoutData.value.cart!.regularPrice.toString(),
                     'coupon_discount': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),
                     'save_amount': controller.cartCheckoutData.value.cart!.saveAmount.toString(),

@@ -228,7 +228,8 @@ class OrderDetailsScreen extends StatelessWidget {
                 style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
               ),
               Text(
-                "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+                "\$${controller.ordersData.value.subtotal.toString()}",
+                // "\$${controller.ordersData.value.orderDetails!.total.toString()}",
                 style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
               ),
             ],
@@ -386,8 +387,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (controller.ordersData.value.orderDetails?.type !=
-                        "pharmacy")
+                    if (controller.ordersData.value.orderDetails?.type !="pharmacy")
                       if (item.attribute?.isNotEmpty ?? true)
                         Padding(
                           padding: EdgeInsets.only(top: 10.h),
@@ -447,54 +447,57 @@ class OrderDetailsScreen extends StatelessWidget {
                     if (controller.ordersData.value.orderDetails?.type !=
                         "pharmacy")
                       if (item.addons?.isNotEmpty ?? true)
-                        SizedBox(
-                          width: Get.width,
-                          child: Wrap(
-                            direction: Axis.horizontal,
-                            spacing: 2.w,
-                            runSpacing: 2.w,
-                            children: List.generate(
-                              item.addons?.length ?? 0,
-                              (addonIndex) {
-                                bool isLast =
-                                    addonIndex == item.addons!.length - 1;
-                                return Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${item.addons![addonIndex].name?.capitalizeFirst}',
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    Text(
-                                      ' - ',
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    Text(
-                                      '\$${item.addons![addonIndex].price}',
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                    if (!isLast)
+                        Padding(
+                          padding: REdgeInsets.only(top: 10.0),
+                          child: SizedBox(
+                            width: Get.width,
+                            child: Wrap(
+                              direction: Axis.horizontal,
+                              spacing: 2.w,
+                              runSpacing: 2.w,
+                              children: List.generate(
+                                item.addons?.length ?? 0,
+                                (addonIndex) {
+                                  bool isLast =
+                                      addonIndex == item.addons!.length - 1;
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
                                       Text(
-                                        ',',
+                                        '${item.addons![addonIndex].name?.capitalizeFirst}',
                                         style: AppFontStyle.text_12_400(
                                             AppColors.lightText,family: AppFontFamily.gilroyMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
-                                  ],
-                                );
-                              },
+                                      Text(
+                                        ' - ',
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      Text(
+                                        '\$${item.addons![addonIndex].price}',
+                                        style: AppFontStyle.text_12_400(
+                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      if (!isLast)
+                                        Text(
+                                          ',',
+                                          style: AppFontStyle.text_12_400(
+                                              AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                    ],
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -522,26 +525,7 @@ class OrderDetailsScreen extends StatelessWidget {
             // ),
             // hBox(10),
             if (controller.ordersData.value.orderDetails!.coupon != null)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Coupon Discount",
-                    style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                  ),
-                  Text(
-                    controller.ordersData.value.orderDetails!.coupon!
-                                .discountType
-                                .toString() ==
-                            "percent"
-                        ? "${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}%"
-                        : "\$${controller.ordersData.value.orderDetails!.coupon!.discountAmount.toString()}",
-                    style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                  ),
-                ],
-              ),
-            if (controller.ordersData.value.orderDetails!.coupon != null)
-              hBox(10),
+              hBox(5),
             Column(
               children: [
                 Row(
@@ -553,7 +537,8 @@ class OrderDetailsScreen extends StatelessWidget {
                       style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                     ),
                     Text(
-                      "\$${controller.ordersData.value.subtotal.toString()}",
+                      "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+                      // "\$${controller.ordersData.value.subtotal.toString()}",
                       style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                       // style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
 
@@ -574,6 +559,25 @@ class OrderDetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                hBox(5),
+                if (controller.ordersData.value.orderDetails!.coupon?.value != null)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                  ),
+                  Text(
+                    controller.ordersData.value.orderDetails!.coupon!.couponType.toString() == "percentage"
+                        ? "-${controller.ordersData.value.orderDetails!.coupon!.value.toString()}%"
+                        : "-\$${controller.ordersData.value.orderDetails!.coupon!.value.toString()}",
+                    style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                ],
+              ),
+
+
                 if(controller.ordersData.value.orderDetails?.courierTip?.isNotEmpty ?? false)...[
                 hBox(5.h),
                 Row(
@@ -603,7 +607,8 @@ class OrderDetailsScreen extends StatelessWidget {
                   style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
                 Text(
-                  "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+                  "\$${controller.ordersData.value.subtotal.toString()}",
+                  // "\$${controller.ordersData.value.orderDetails!.total.toString()}",
                   style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
                 ),
               ],
@@ -682,7 +687,8 @@ class OrderDetailsScreen extends StatelessWidget {
               style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             Text(
-              "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+              "\$${controller.ordersData.value.subtotal.toString()}",
+              // "\$${controller.ordersData.value.orderDetails!.total.toString()}",
               style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
 
               // style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),

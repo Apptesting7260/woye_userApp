@@ -10,6 +10,7 @@ import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:woye_user/Data/userPrefrenceController.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
@@ -90,11 +91,32 @@ class SignUpForm_editProfileController extends GetxController {
         }else if(typeFrom == "back"){
           fisrtNameController.text = profileData.value.data?.firstName ?? "";
         }
-        if(typeFrom != "back" && profileData.value.data?.dob != null){
-        formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
-        }else if(typeFrom == "back"){
-          formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        // if(typeFrom != "back" && profileData.value.data?.dob != null){
+        // formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        // }else if(typeFrom == "back"){
+        //   formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        // }
+
+        if (typeFrom != "back" && profileData.value.data?.dob != null) {
+          String dobStr = profileData.value.data?.dob ?? "";
+          formattedCurrentDateController.value.text = dobStr;
+
+          try {
+            selectedDate = DateFormat('dd-MM-yyyy').parse(dobStr);
+          } catch (e) {
+            selectedDate = DateTime.now();
+          }
+        } else if (typeFrom == "back") {
+          String dobStr = profileData.value.data?.dob ?? "";
+          formattedCurrentDateController.value.text = dobStr;
+
+          try {
+            selectedDate = DateFormat('dd-MM-yyyy').parse(dobStr);
+          } catch (e) {
+            selectedDate = DateTime.now();
+          }
         }
+
         // formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         if(typeFrom != "back" && profileData.value.data?.gender != null){
           genderController.text  = profileData.value.data?.gender ?? "";
@@ -197,17 +219,33 @@ class SignUpForm_editProfileController extends GetxController {
   // }
   Future<void> selectDate(BuildContext context) async {
     final DateTime now = DateTime.now();
-    final DateTime initialDate = (selectedDate != null &&
-        selectedDate!.isBefore(DateTime(2025, 12, 31)) &&
-        selectedDate!.isAfter(DateTime(1990, 1, 1)))
-        ? selectedDate!
+    final DateTime initialDate = (selectedDate.isBefore(DateTime(2025, 12, 31)) &&
+        selectedDate.isAfter(DateTime(1990, 1, 1)))
+        ? selectedDate
         : now;
 
     final DateTime? picked = await showDatePicker(
       context: context,
       builder: (context, child) => Theme(
         data: ThemeData().copyWith(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          textTheme: TextTheme(
+            headlineLarge: TextStyle(
+              fontFamily: AppFontFamily.gilroyMedium,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.black,
+            ),
+            titleLarge: TextStyle(
+              fontFamily: AppFontFamily.gilroyMedium,
+              fontSize: 16,
+              color: Colors.blue,
+            ),
+            bodyLarge: TextStyle(
+              fontFamily: AppFontFamily.gilroyMedium,
+              fontSize: 14,
+            ),
+          ),
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         ),
         child: child!,
       ),
@@ -219,7 +257,7 @@ class SignUpForm_editProfileController extends GetxController {
     if (picked != null) {
       selectedDate = picked;
       formattedCurrentDateController.value.text =
-          DateFormat('dd-MM-yyyy').format(selectedDate!);
+          DateFormat('dd-MM-yyyy').format(selectedDate);
       print("Formatted Selected Date: ${formattedCurrentDateController.value.text}");
     }
   }
@@ -650,7 +688,7 @@ class SignUpForm_editProfileController extends GetxController {
           pref.saveStep(userModel.step!);
           Get.offAllNamed(AppRoutes.restaurantNavbar);
           setRxRequestStatus2(Status.COMPLETED);
-          Future.delayed(Duration(seconds: 5));
+          Future.delayed(const Duration(seconds: 5));
           getprofileApi();
         }
       } else {

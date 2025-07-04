@@ -2410,7 +2410,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           'total': controller
                               .cartCheckoutData.value.cart!.grandTotalPrice
                               .toString(),
-                          'coupon_id': "0",
+                          'coupon_id': controller.cartCheckoutData.value.appliedCoupon?.id.toString(),
                           'regular_price': controller
                               .cartCheckoutData.value.cart!.regularPrice
                               .toString(),

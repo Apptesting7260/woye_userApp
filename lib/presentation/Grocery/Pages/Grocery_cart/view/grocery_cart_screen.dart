@@ -1695,7 +1695,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                               controller.cartData.value.address!.id.toString(),
                           'total': controller.cartData.value.cart!.grandTotalPrice
                               .toString(),
-                          'coupon_id': "0",
+                          'coupon_id': controller.cartData.value.appliedCoupon?.id.toString(),
                           'regular_price': controller
                               .cartData.value.cart!.regularPrice
                               .toString(),

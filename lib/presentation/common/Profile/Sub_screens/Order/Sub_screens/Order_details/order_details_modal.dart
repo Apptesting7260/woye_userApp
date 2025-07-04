@@ -384,97 +384,187 @@ class AddressDetails {
 }
 
 class Coupon {
-  int? id;
+  String? id;
   String? couponType;
   String? title;
   String? code;
-
-  // int? limitForUser;
   String? discountType;
-  String? discountAmount;
+  String? value;
+  String? minSpend;
+  String? category;
+  List<String>? vendorId;
+  String? geoZone;
+  String? latitude;
+  String? longitude;
+  String? itemQuantity;
+  String? minOrders;
+  String? startDate;
+  String? expireDate;
+  String? status;
+  String? createdAt;
+  String? updatedAt;
 
-  // String? minPurchase;
-  // String? maxDiscount;
-  // String? startDate;
-  // String? expireDate;
-  // String? category;
-  // List<int>? subCategoryId;
-  // List<int>? productId;
-  // List<int>? customerId;
-  int? status;
-
-  // String? createdAt;
-  // String? updatedAt;
-  // String? expiryStatus;
-
-  Coupon({
-    this.id,
-    this.couponType,
-    this.title,
-    this.code,
-    // this.limitForUser,
-    this.discountType,
-    this.discountAmount,
-    // this.minPurchase,
-    // this.maxDiscount,
-    // this.startDate,
-    // this.expireDate,
-    // this.category,
-    // this.subCategoryId,
-    // this.productId,
-    // this.customerId,
-    this.status,
-    // this.createdAt,
-    // this.updatedAt,
-    // this.expiryStatus,
-  });
+  Coupon(
+      {this.id,
+        this.couponType,
+        this.title,
+        this.code,
+        this.discountType,
+        this.value,
+        this.minSpend,
+        this.category,
+        this.vendorId,
+        this.geoZone,
+        this.latitude,
+        this.longitude,
+        this.itemQuantity,
+        this.minOrders,
+        this.startDate,
+        this.expireDate,
+        this.status,
+        this.createdAt,
+        this.updatedAt});
 
   Coupon.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    couponType = json['coupon_type'];
-    title = json['title'];
-    code = json['code'];
-    // limitForUser = json['limit_for_user'];
-    discountType = json['discount_type'];
-    discountAmount = json['discount_amount'];
-    // minPurchase = json['min_purchase'];
-    // maxDiscount = json['max_discount'];
-    // startDate = json['start_date'];
-    // expireDate = json['expire_date'];
-    // category = json['category'];
-    // subCategoryId = List<int>.from(json['sub_category_id'] ?? []);
-    // productId = List<int>.from(json['product_id'] ?? []);
-    // customerId = List<int>.from(json['customer_id'] ?? []);
-    status = json['status'];
-    // createdAt = json['created_at'];
-    // updatedAt = json['updated_at'];
-    // expiryStatus = json['expiry_status'];
+    id = json['id']?.toString();
+    couponType = json['coupon_type']?.toString();
+    title = json['title']?.toString();
+    code = json['code']?.toString();
+    discountType = json['discount_type']?.toString();
+    value = json['value']?.toString();
+    minSpend = json['min_spend']?.toString();
+    category = json['category']?.toString();
+    vendorId = json['vendor_id'].cast<String>();
+    geoZone = json['geo_zone']?.toString();
+    latitude = json['latitude']?.toString();
+    longitude = json['longitude']?.toString();
+    itemQuantity = json['item_quantity']?.toString();
+    minOrders = json['min_orders']?.toString();
+    startDate = json['start_date']?.toString();
+    expireDate = json['expire_date']?.toString();
+    status = json['status']?.toString();
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = id;
     data['coupon_type'] = couponType;
     data['title'] = title;
     data['code'] = code;
-    // data['limit_for_user'] = this.limitForUser;
     data['discount_type'] = discountType;
-    data['discount_amount'] = discountAmount;
-    // data['min_purchase'] = this.minPurchase;
-    // data['max_discount'] = this.maxDiscount;
-    // data['start_date'] = this.startDate;
-    // data['expire_date'] = this.expireDate;
-    // data['category'] = this.category;
-    // data['sub_category_id'] = this.subCategoryId;
-    // data['product_id'] = this.productId;
-    // data['customer_id'] = this.customerId;
+    data['value'] = value;
+    data['min_spend'] = minSpend;
+    data['category'] = category;
+    data['vendor_id'] = vendorId;
+    data['geo_zone'] = geoZone;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['item_quantity'] = itemQuantity;
+    data['min_orders'] = minOrders;
+    data['start_date'] = startDate;
+    data['expire_date'] = expireDate;
     data['status'] = status;
-    // data['created_at'] = this.createdAt;
-    // data['updated_at'] = this.updatedAt;
-    // data['expiry_status'] = this.expiryStatus;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
+
+
+// class Coupon {
+//   int? id;
+//   String? couponType;
+//   String? title;
+//   String? code;
+//
+//   // int? limitForUser;
+//   String? discountType;
+//   String? discountAmount;
+//
+//   // String? minPurchase;
+//   // String? maxDiscount;
+//   // String? startDate;
+//   // String? expireDate;
+//   // String? category;
+//   // List<int>? subCategoryId;
+//   // List<int>? productId;
+//   // List<int>? customerId;
+//   int? status;
+//
+//   // String? createdAt;
+//   // String? updatedAt;
+//   // String? expiryStatus;
+//
+//   Coupon({
+//     this.id,
+//     this.couponType,
+//     this.title,
+//     this.code,
+//     // this.limitForUser,
+//     this.discountType,
+//     this.discountAmount,
+//     // this.minPurchase,
+//     // this.maxDiscount,
+//     // this.startDate,
+//     // this.expireDate,
+//     // this.category,
+//     // this.subCategoryId,
+//     // this.productId,
+//     // this.customerId,
+//     this.status,
+//     // this.createdAt,
+//     // this.updatedAt,
+//     // this.expiryStatus,
+//   });
+//
+//   Coupon.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     couponType = json['coupon_type'];
+//     title = json['title'];
+//     code = json['code'];
+//     // limitForUser = json['limit_for_user'];
+//     discountType = json['discount_type'];
+//     discountAmount = json['discount_amount'];
+//     // minPurchase = json['min_purchase'];
+//     // maxDiscount = json['max_discount'];
+//     // startDate = json['start_date'];
+//     // expireDate = json['expire_date'];
+//     // category = json['category'];
+//     // subCategoryId = List<int>.from(json['sub_category_id'] ?? []);
+//     // productId = List<int>.from(json['product_id'] ?? []);
+//     // customerId = List<int>.from(json['customer_id'] ?? []);
+//     status = json['status'];
+//     // createdAt = json['created_at'];
+//     // updatedAt = json['updated_at'];
+//     // expiryStatus = json['expiry_status'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = {};
+//     data['id'] = id;
+//     data['coupon_type'] = couponType;
+//     data['title'] = title;
+//     data['code'] = code;
+//     // data['limit_for_user'] = this.limitForUser;
+//     data['discount_type'] = discountType;
+//     data['discount_amount'] = discountAmount;
+//     // data['min_purchase'] = this.minPurchase;
+//     // data['max_discount'] = this.maxDiscount;
+//     // data['start_date'] = this.startDate;
+//     // data['expire_date'] = this.expireDate;
+//     // data['category'] = this.category;
+//     // data['sub_category_id'] = this.subCategoryId;
+//     // data['product_id'] = this.productId;
+//     // data['customer_id'] = this.customerId;
+//     data['status'] = status;
+//     // data['created_at'] = this.createdAt;
+//     // data['updated_at'] = this.updatedAt;
+//     // data['expiry_status'] = this.expiryStatus;
+//     return data;
+//   }
+// }
 
 class Review {
   int? id;

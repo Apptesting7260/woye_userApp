@@ -1054,9 +1054,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                 'total': controller
                                     .cartData.value.cart?.finalTotal
                                     .toString(),
-                                'coupon_id':
-                                    controller.cartData.value.cart?.raw?.couponId ??
-                                        "0",
+                                'coupon_id': controller.cartData.value.cart?.raw?.couponId ?? "",
                                 'regular_price': controller
                                     .cartData.value.cart?.raw?.regularPrice
                                     .toString(),
