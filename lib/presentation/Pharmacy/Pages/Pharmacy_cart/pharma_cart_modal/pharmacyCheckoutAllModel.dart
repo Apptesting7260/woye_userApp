@@ -666,6 +666,7 @@ class Bucket {
   String? categoryId;
   String? categoryName;
   String? productImage;
+  String? productTotalPrice;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
 
@@ -679,7 +680,9 @@ class Bucket {
         this.productName,
         this.categoryId,
         this.categoryName,
-        this.productImage});
+        this.productImage,
+        this.productTotalPrice,
+      });
 
   Bucket.fromJson(Map<String, dynamic> json) {
     productId = json['product_id']?.toString();
@@ -692,6 +695,7 @@ class Bucket {
     categoryId = json['category_id']?.toString();
     categoryName = json['category_name']?.toString();
     productImage = json['product_image']?.toString();
+    productTotalPrice = json['product_total_price']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -706,6 +710,7 @@ class Bucket {
     data['category_id'] = categoryId;
     data['category_name'] = categoryName;
     data['product_image'] = productImage;
+    data['product_total_price'] = productTotalPrice;
     return data;
   }
 }

@@ -213,15 +213,15 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       ),
                     ),
                     if(restaurantCartController.allResCartData.value.buttonCheck == true)
-                    hBox(75.h)
+                    hBox(100.h)
                   ],
                 ),
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               floatingActionButton: Padding(
                 padding: EdgeInsets.only(bottom:Platform.isIOS ? 28.h : 60.h),
-                child: restaurantCartController.allResCartData.value.buttonCheck == false &&
-                    (restaurantCartController.allResCartData.value.carts?.isEmpty ?? true)
+                child: restaurantCartController.allResCartData.value.buttonCheck == false/* &&
+                    ((restaurantCartController.allResCartData.value.carts?.length  ?? 0) > 1)*/
                     ? const SizedBox()
                     : Column(
                   mainAxisSize: MainAxisSize.min,
@@ -341,6 +341,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                             ],
                           ),
                         ),
+                        if (restaurantCartController.allResCartData.value.carts != null &&
+                          (restaurantCartController.allResCartData.value.carts?.length ?? 0) > 1)
                         Positioned(
                           top: -15.h,
                           child: ElevatedButton(

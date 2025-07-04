@@ -7,6 +7,7 @@ import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_single_cart_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/restaurant_home_screen.dart';
 import 'package:woye_user/presentation/common/Profile/View/profile_screen.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class RestaurantNavbarController extends GetxController {
   int navbarCurrentIndex;
@@ -43,6 +44,7 @@ class RestaurantNavbarController extends GetxController {
 
   void getIndex(int index) {
     navbarCurrentIndex = index;
+    pt("Navigation to screen>>>>>>>>>>>>>>>>>>>>>>>>> $index  >>>>>>>>>$navbarCurrentIndex");
     update();
   }
 

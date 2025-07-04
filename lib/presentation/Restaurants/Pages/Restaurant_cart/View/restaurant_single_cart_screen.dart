@@ -1044,7 +1044,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
-                    "\$${controller.singleCartData.value.cart!.deliveryCharge.toString()}",
+                    "\$${controller.singleCartData.value.cart?.raw?.deliveryCharge.toString()}",
                     style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
@@ -1076,7 +1076,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 ? shimmerItem('\$0.00',
                 width: 70, height: 40, secondShimmer: false)
                 : Text(
-              "\$${controller.singleCartData.value.cart!.finalTotal.toString()}",
+              "\$${controller.singleCartData.value.cart?.finalTotal.toString()}",
               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
           ],
@@ -1107,8 +1107,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         .singleCartData.value.address?.id
                         .toString(),
                     'total': controller
-                        .singleCartData.value.cart?.finalTotal
-                        .toString(),
+                        .singleCartData.value.cart?.finalTotal.toString(),
                     'coupon_id':
                     controller.singleCartData.value.cart?.raw?.couponId ??
                         "0",
@@ -1152,6 +1151,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               Get.toNamed(AppRoutes.addAddressScreen, arguments: {
                 'type': "RestaurantCart",
                 "fromcart": true,
+                'cartId' : controller.singleCartData.value.cart?.cartId?.toString()
               });
             },
             text: "Complete Address",

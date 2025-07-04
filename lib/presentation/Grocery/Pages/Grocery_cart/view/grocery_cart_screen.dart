@@ -727,7 +727,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 // )
                                 //     :
                                 Text(
-                                  "\$${items.newPrice.toString()}",
+                                  "\$${items.productTotalPrice.toString()}",
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_14_600(
                                       AppColors.primary,family: AppFontFamily.gilroyRegular),

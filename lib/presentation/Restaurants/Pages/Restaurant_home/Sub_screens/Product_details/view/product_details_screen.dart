@@ -460,14 +460,14 @@ class ProductDetailsScreen extends StatelessWidget {
                             width: Get.width,
                             color: AppColors.primary,
                             isLoading:
-                            addToCartController.rxRequestStatusPopUp.value ==
-                                (Status.LOADING),
+                            addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
                             text: "Go to Cart",
                             onPressed: () {
                               // restaurantCartController.isCartScreen.value ?
                               // Get.toNamed(AppRoutes.restaurantNavbar) :
                               addToCartController.clearSelected();
                               if (fromCart != null && fromCart == true) {
+                                Get.back();
                                 Get.back();
                               } else {
                                 Get.back();

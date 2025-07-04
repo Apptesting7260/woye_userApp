@@ -1101,7 +1101,6 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     color: AppColors.textFieldBorder.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(20.r),
                     border: Border.all(color: AppColors.textFieldBorder)
-                    border: Border.all(color: AppColors.textFieldBorder)
                   ),
                   child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor),
                 ),

@@ -1175,6 +1175,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                         Get.toNamed(AppRoutes.addAddressScreen, arguments: {
                           'type': "GroceryCart",
                           "fromcart": false,
+                          'cartId' : controller.cartData.value.cart?.cartId.toString(),
                         });
                       },
                       text: "Complete Address",

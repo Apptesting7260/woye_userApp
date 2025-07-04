@@ -1337,7 +1337,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 //     :
 
                                 Text(
-                                  "\$${items.newPrice.toString()}",
+                                  "\$${items.productTotalPrice.toString()}",
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_14_600(
                                       AppColors.primary,family: AppFontFamily.gilroyRegular),
@@ -2268,8 +2268,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
         if (isLoading) ...[
           shimmerItem("Regular Price"),
           shimmerItem("Save Amount"),
-          // if (controller.cartData.value.cart!.couponApplied != null)
-          //   shimmerItem("Coupon Discount"),
+          if (controller.cartCheckoutData.value.couponApplied == true)
+            shimmerItem("Coupon Discount"),
           if (controller.cartCheckoutData.value.addressExists == true)
             shimmerItem("Delivery Charge"),
         ],
@@ -2301,23 +2301,23 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
               ),
             ],
           ),
-          // if (controller.cartData.value.cart!.couponApplied != null)
-          //   Padding(
-          //     padding: EdgeInsets.only(top: 10.h),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           "Coupon Discount",
-          //           style: AppFontStyle.text_14_400(AppColors.lightText),
-          //         ),
-          //         Text(
-          //           "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-          //           style: AppFontStyle.text_14_600(AppColors.darkText),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
+          if (controller.cartCheckoutData.value.couponApplied == true)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  ),
+                  Text(controller.cartCheckoutData.value.cart!.couponDiscount == "0.00" ? "0.00":
+                    "- \$${controller.cartCheckoutData.value.cart!.couponDiscount.toString()}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                ],
+              ),
+            ),
           if (controller.cartCheckoutData.value.addressExists == true)
             Padding(
               padding: EdgeInsets.only(top: 10.h),

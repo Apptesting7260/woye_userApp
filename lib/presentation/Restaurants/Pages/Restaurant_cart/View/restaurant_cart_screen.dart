@@ -4029,11 +4029,13 @@ class RestaurantCartScreen extends StatefulWidget {
                                     //     :
 
                                     Text(
-                                      "\$${items.newPrice.toString()}",
+                                      "\$${buckets.bucket?[index1].productTotalPrice}",
+                                      // "\$${items.newPrice.toString()}",
                                       overflow: TextOverflow.ellipsis,
                                       style: AppFontStyle.text_14_600(
                                           AppColors.primary,family: AppFontFamily.gilroyRegular),
                                     ),
+
                                     // isLoading
                                     //     ?
                                     // Shimmer.fromColors(
@@ -4673,7 +4675,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 ],
               ),
             ),
-          if (controller.cartCheckoutData.value.addressExists == true)
+          if ((controller.cartCheckoutData.value.addressExists == true) && (controller.cartCheckoutData.value.cart?.deliveryCharge?.isNotEmpty ?? false))
             Padding(
               padding: EdgeInsets.only(top: 10.h),
               child: Row(

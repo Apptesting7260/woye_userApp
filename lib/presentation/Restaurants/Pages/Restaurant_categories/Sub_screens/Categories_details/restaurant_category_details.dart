@@ -189,8 +189,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     placeholder:
                                                         (context, url) =>
                                                             Shimmer.fromColors(
-                                                      baseColor: AppColors.gray,
-                                                      highlightColor:
+                                                              baseColor: AppColors.greyBackground,
+                                                        highlightColor:
                                                           AppColors.lightText,
                                                       child: Container(
                                                         decoration:
@@ -409,9 +409,22 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     imageUrl: product.urlImage.toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
-                                                    errorWidget: (context, url,error) =>const Icon(Icons.broken_image_rounded),
+                                                    errorWidget: (context, url,
+                                                        error) => Container(
+                                                      width: Get.width,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        border: Border.all(color: AppColors.greyBackground),
+                                                        color: AppColors.transparent,
+                                                        borderRadius:
+                                                        BorderRadius
+                                                            .circular(
+                                                            20.r),
+                                                      ),
+                                                      child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,),
+                                                    ),
                                                     placeholder:(context, url) =>Shimmer.fromColors(
-                                                      baseColor: AppColors.gray,
+                                                      baseColor: AppColors.greyBackground,
                                                       highlightColor:AppColors.lightText,
                                                       child: Container(
                                                         decoration:BoxDecoration(

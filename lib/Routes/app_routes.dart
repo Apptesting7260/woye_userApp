@@ -2,6 +2,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
@@ -114,6 +115,7 @@ class AppRoutes {
   static const String reviewDriver = "/review_driver";
   static const String orderOtp = "/order_otp";
   static const String restaurantSingleCartScreen = "/restaurantSingleCartScreen";
+  static const String restaurantCartScreen = "/restaurantCartScreen";
 
   // static const String editProfile = "/edit_profile";
   static const String orders = "/orders";
@@ -162,6 +164,7 @@ class AppRoutes {
 
   static List<GetPage> pages = [
     GetPage(name: initalRoute, page: () => const SplashScreen(),),
+    GetPage(name: restaurantCartScreen, page: () => const RestaurantCartScreen(),),
     GetPage(name: welcomeScreen, page: () => WelcomeScreen(), binding: WelcomeBinding()),
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: login, page: () => LoginScreen(), binding: GuestBinding()),
