@@ -879,9 +879,12 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                     .couponCodeController.value.text.isNotEmpty) {
                   applyCouponController.applyCouponApi(
                     isSingleCartScreen: true,
-                    cartId: [controller.cartData.value.cart?.cartId],
+                    cartId: controller.cartData.value.cart?.cartId.toString(),
+                    carts: [{
+                      "cart_id": controller.cartData.value.cart?.cartId.toString() ?? "",
+                      "grand_total" :controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                    }],
                     couponCode: controller.couponCodeController.value.text.toString(),
-                    grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
                   );
                 } else {
                   Utils.showToast("Please Enter Coupon Code");
@@ -921,9 +924,12 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                   onTap: () {
                     applyCouponController.applyCouponApi(
                       isSingleCartScreen: true,
-                      cartId: [controller.cartData.value.cart?.cartId],
-                      couponCode: controller.cartData.value.cart?.appliedCoupon?.code.toString() ?? "",
-                      grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                      cartId: controller.cartData.value.cart?.cartId.toString(),
+                      carts: [{
+                        "cart_id": controller.cartData.value.cart?.cartId.toString() ?? "",
+                        "grand_total" :controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                      }],
+                      couponCode:  controller.cartData.value.cart?.appliedCoupon?.code.toString() ?? "",
                     );
                   },
                   child: Icon(

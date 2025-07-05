@@ -788,20 +788,21 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                     applyCouponController.rxRequestStatus.value == Status.LOADING
                         ? Center(child: circularProgressIndicator(size: 20.h))
                         : GestureDetector(
-                            onTap: () {
-                              if (controller.couponCodeController.value.text.isNotEmpty) {
-                                applyCouponController.applyCouponApi(
-                                  isSingleCartScreen: true,
-                                  cartId: [controller.cartData.value.cart!.cartId.toString()],
-                                  couponCode: controller
-                                      .couponCodeController.value.text
-                                      .toString(),
-                                  grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
-                                );
-                              } else {
-                                Utils.showToast("Please Enter Coupon Code");
-                              }
-                            },
+                      onTap: () {
+                        if (controller.couponCodeController.value.text.isNotEmpty) {
+                          applyCouponController.applyCouponApi(
+                            isSingleCartScreen: true,
+                            cartId: controller.cartData.value.cart?.cartId.toString(),
+                            carts: [{
+                                "cart_id": controller.cartData.value.cart?.cartId.toString() ?? "",
+                                "grand_total" :controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                                }],
+                                couponCode: controller.couponCodeController.value.text.toString(),
+                              );
+                            } else {
+                              Utils.showToast("Please Enter Coupon Code");
+                            }
+                          },
                             child: Text(
                               "Apply",
                               style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
@@ -837,9 +838,12 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                               onTap: () {
                                 applyCouponController.applyCouponApi(
                                   isSingleCartScreen: true,
-                                  cartId: [controller.cartData.value.cart!.cartId.toString()],
-                                  couponCode: controller.cartData.value.cart?.appliedCoupon?.code.toString() ?? "",
-                                  grandTotal: controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                                  cartId: controller.cartData.value.cart?.cartId.toString(),
+                                  carts: [{
+                                    "cart_id": controller.cartData.value.cart?.cartId.toString() ?? "",
+                                    "grand_total" :controller.cartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                                  }],
+                                  couponCode:  controller.cartData.value.cart?.appliedCoupon?.code.toString() ?? "",
                                 );
                                 if(controller.couponCodeController.value.text.isNotEmpty) {
                                   controller.couponCodeController.value.clear();

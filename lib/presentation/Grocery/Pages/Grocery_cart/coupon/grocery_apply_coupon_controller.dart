@@ -22,15 +22,14 @@ class ApplyCouponGroceryController extends GetxController {
 
   applyCouponApi({
     bool? isSingleCartScreen,
-    required List cartId,
+    required List<Map<String,String>> carts,
     required String couponCode,
-    required String grandTotal,
+    String? cartId,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
-      "cart_ids": jsonEncode(cartId),
+      "carts": jsonEncode(carts),
       "coupon_code": couponCode,
-      "grand_total": grandTotal,
     };
     api.applyCouponsApiGrocery(body).then((value) {
       setData(value);
@@ -45,7 +44,7 @@ class ApplyCouponGroceryController extends GetxController {
           Utils.showToast(applyCouponData.value.message.toString());
         });
         }else{
-          singleGroceryCartController.refreshApi(cartId.join(',')).then((value) async {
+          singleGroceryCartController.refreshApi(cartId).then((value) async {
             setRxRequestStatus(Status.COMPLETED);
             await Future.delayed(const Duration(milliseconds: 500));
             if(groceryCartController.couponCodeController.value.text.isNotEmpty) {

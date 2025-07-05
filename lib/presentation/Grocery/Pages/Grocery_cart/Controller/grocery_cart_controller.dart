@@ -103,14 +103,20 @@ class GroceryCartController extends GetxController {
       "address_id": addressId,
       "coupon_id": couponId,
       "total": total,
+      'sub_total' : total,
       "type": "grocery",
       "cart_ids": jsonEncode(cartIds),
       "carts": jsonEncode(carts),
+      if(deliveryNotes.isNotEmpty)
       'delivery_notes': deliveryNotes,
+      if(deliverySoon.isNotEmpty)
       'delivery_soon': deliverySoon,
+      if(courierTip.isNotEmpty)
       'courier_tip': courierTip,
+      if(referenceId != null && referenceId.isNotEmpty)
       'reference_id'  :  referenceId,
-      'transaction_id' : transactionId,
+      if(transactionId != null && transactionId.isNotEmpty)
+        'transaction_id' : transactionId,
     };
     debugPrint("dataValue  >> $data");
     setRxCreateOrderRequestStatus(Status.LOADING);

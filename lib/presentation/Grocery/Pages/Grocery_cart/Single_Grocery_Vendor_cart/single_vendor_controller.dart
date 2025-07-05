@@ -37,6 +37,9 @@ class SingleGroceryCartController extends GetxController {
       if(cartData.value.cart == null){
         Get.back();
       }
+      if(cartData.value.status == false){
+        Utils.showToast(cartData.value.message.toString());
+      }
       groceryShowAllCartController.getGroceryAllShowApi();
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {

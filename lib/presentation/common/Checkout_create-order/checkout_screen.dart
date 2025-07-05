@@ -196,6 +196,8 @@ class CheckoutScreen extends StatelessWidget {
                       //       imageFiles: imageFiles,
                       //   );
                       // }
+
+//-------------------------------------------restaurant------------------------------------------
                       if (cartType == 'restaurant') {
                         List<Map<String, dynamic>> carts = [];
 
@@ -233,7 +235,7 @@ class CheckoutScreen extends StatelessWidget {
 
                         if(controller.selectedIndex.value == 1){
                           payStackController.makePayment(context: context,email: getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                              couponId: couponId, total: total, cartIds: cartIDs, cartType: cartType, carts: carts,);
+                              couponId: couponId, total:  formatPrice(controller.newTotalIncludingTips.value.toString()), cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
@@ -262,6 +264,8 @@ class CheckoutScreen extends StatelessWidget {
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                       }
+
+//-------------------------------------------grocery------------------------------------------
                       if (cartType == 'grocery') {
                         List<Map<String, dynamic>> carts = [];
 
@@ -299,7 +303,7 @@ class CheckoutScreen extends StatelessWidget {
 
                         if(controller.selectedIndex.value == 1){
                           payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                            couponId: couponId, total: total, cartIds: cartIDs, cartType: cartType, carts: carts,);
+                            couponId: couponId, total:  formatPrice(controller.newTotalIncludingTips.value.toString()), cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
@@ -330,6 +334,8 @@ class CheckoutScreen extends StatelessWidget {
                         }
 
                       }
+
+//-------------------------------------------pharmacy------------------------------------------
                       if (cartType == 'pharmacy') {
                         List<String> cartIDs = [];
                         if (vendorId.runtimeType != String) {
@@ -365,7 +371,7 @@ class CheckoutScreen extends StatelessWidget {
                         }
                         if(controller.selectedIndex.value == 1){
                           payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                            couponId: couponId, total: total, cartIds: cartIDs, cartType: cartType, carts: carts,);
+                            couponId: couponId, total: formatPrice(controller.newTotalIncludingTips.value.toString()), cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{

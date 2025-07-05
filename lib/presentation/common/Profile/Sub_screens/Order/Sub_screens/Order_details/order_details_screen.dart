@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
@@ -193,7 +194,8 @@ class OrderDetailsScreen extends StatelessWidget {
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               Text(
-                controller.ordersData.value.orderDetails!.createdAt.toString(),
+                  DateFormat('dd MMMM yyyy').format(DateTime.parse( controller.ordersData.value.orderDetails!.createdAt.toString(),)),
+
                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
             ],
@@ -228,8 +230,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
               ),
               Text(
-                "\$${controller.ordersData.value.subtotal.toString()}",
-                // "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+                "\$${controller.ordersData.value.orderDetails!.total.toString()}",
                 style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
               ),
             ],
@@ -537,7 +538,7 @@ class OrderDetailsScreen extends StatelessWidget {
                       style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                     ),
                     Text(
-                      "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+                      "\$${controller.ordersData.value.orderDetails?.subtotal.toString() ?? ""}",
                       // "\$${controller.ordersData.value.subtotal.toString()}",
                       style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                       // style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
@@ -560,7 +561,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 hBox(5),
-                if (controller.ordersData.value.orderDetails!.coupon?.value != null)
+                if (controller.ordersData.value.orderDetails!.coupon?.value != null)...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -576,10 +577,10 @@ class OrderDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
+                  hBox(5),
 
-
+                ],
                 if(controller.ordersData.value.orderDetails?.courierTip?.isNotEmpty ?? false)...[
-                hBox(5.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -607,8 +608,8 @@ class OrderDetailsScreen extends StatelessWidget {
                   style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                 ),
                 Text(
-                  "\$${controller.ordersData.value.subtotal.toString()}",
-                  // "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+                  // "\$${controller.ordersData.value.subtotal.toString()}",
+                  "\$${controller.ordersData.value.orderDetails!.total.toString()}",
                   style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
                 ),
               ],
@@ -671,7 +672,7 @@ class OrderDetailsScreen extends StatelessWidget {
               style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             Text(
-              controller.ordersData.value.orderDetails!.createdAt.toString(),
+              DateFormat('dd MMMM yyyy').format(DateTime.parse( controller.ordersData.value.orderDetails!.createdAt.toString())),
               overflow: TextOverflow.ellipsis,
               style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               // style: AppFontStyle.text_12_600(AppColors.darkText),
@@ -687,8 +688,8 @@ class OrderDetailsScreen extends StatelessWidget {
               style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             Text(
-              "\$${controller.ordersData.value.subtotal.toString()}",
-              // "\$${controller.ordersData.value.orderDetails!.total.toString()}",
+              // "\$${controller.ordersData.value.subtotal.toString()}",
+              "\$${controller.ordersData.value.orderDetails!.total.toString()}",
               style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
 
               // style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),

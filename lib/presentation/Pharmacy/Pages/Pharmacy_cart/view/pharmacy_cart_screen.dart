@@ -2054,11 +2054,14 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         ? Center(child: circularProgressIndicator(size: 20.h))
                         : GestureDetector(
                             onTap: () {
+                              final carts = controller.cartCheckoutData.value.cart?.buckets?.map((e) => {
+                                "cart_id": e.cartId.toString(),
+                                "grand_total": e.grandtotalPrice.toString(),
+                              }).toList() ?? [];
                               if (controller.couponCodeController.value.text.isNotEmpty) {
                                 applyCouponController.applyCouponApi(
-                                  cartId: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId,).toList() ?? [],
-                                  couponCode: controller.couponCodeController.value.text.toString(),
-                                  grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice?? "",
+                                  carts: carts,
+                                  couponCode: controller.couponCodeController.value.text.trim(),
                                 );
                               } else {
                                 Utils.showToast("Please Enter Coupon Code");
@@ -2097,10 +2100,13 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         : Center(
                             child: GestureDetector(
                               onTap: () {
+                                final carts = controller.cartCheckoutData.value.cart?.buckets?.map((e) => {
+                                  "cart_id": e.cartId.toString(),
+                                  "grand_total": e.grandtotalPrice.toString(),
+                                }).toList() ?? [];
                                 applyCouponController.applyCouponApi(
-                                  cartId: controller.cartCheckoutData.value.cart?.buckets?.map((e) => e.cartId,).toList() ?? [],
-                                  couponCode: controller.cartCheckoutData.value.appliedCoupon?.code.toString() ?? "",
-                                  grandTotal: controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? "",
+                                  carts: carts,
+                                  couponCode:controller.cartCheckoutData.value.appliedCoupon?.code.toString() ?? "",
                                 );
                               },
                               child: Icon(

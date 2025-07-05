@@ -1,6 +1,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
@@ -247,7 +248,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         buildOrderDetailRow(order.type.toString().capitalize!,
                             order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Date & Time", order.createdAt.toString()),
+                            "Date & Time", DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
                         buildOrderDetailRow(
                           "Status",
                           order.status
@@ -256,8 +257,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               .capitalize!,
                         ),
                         hBox(15),
-                        buildTotalAmountRow(order.total.toString()),
-                        // buildTotalAmountRow(order.total.toString()),
+                        // buildTotalAmountRow(order.ordersSubtotal.toString()),
+                        buildTotalAmountRow(order.discountedTotal.toString()),
+                        hBox(20),
                         hBox(20),
                         buildDeliveryTimeRow(),
                         hBox(10),
@@ -415,7 +417,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         buildOrderDetailRow(order.type.toString().capitalize!,
                             order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Date & Time", order.createdAt.toString()),
+                            "Date & Time",DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
                         buildOrderDetailRow(
                           "Status",
                           order.status
@@ -424,7 +426,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               .capitalize!,
                         ),
                         hBox(15),
-                        buildTotalAmountRow(order.total.toString()),
+                        buildTotalAmountRow(order.discountedTotal.toString()),
                         hBox(20),
                         buildDeliveryTimeRow(),
                         hBox(10),
@@ -552,7 +554,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         buildOrderDetailRow(order.type.toString().capitalize!,
                             order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Date & Time", order.createdAt.toString()),
+                            "Date & Time", DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
                         buildOrderDetailRow(
                           "Status",
                           order.status
@@ -561,7 +563,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               .capitalize!,
                         ),
                         hBox(15),
-                        buildTotalAmountRow(order.total.toString()),
+                        buildTotalAmountRow(order.discountedTotal.toString()),
                         hBox(20),
                         buildDeliveryTimeRow(),
                         hBox(10),
@@ -686,7 +688,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         buildOrderDetailRow(order.type.toString().capitalize!,
                             order.vendorName.toString()),
                         buildOrderDetailRow(
-                            "Date & Time", order.createdAt.toString()),
+                            "Date & Time",DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
                         buildOrderDetailRow(
                             "Status",
                             order.status
@@ -694,7 +696,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                 .replaceAll("_", " ")
                                 .capitalize!),
                         hBox(15),
-                        buildTotalAmountRow(order.total.toString()),
+                        buildTotalAmountRow(order.discountedTotal.toString()),
                         hBox(20),
                         buildDeliveryTimeRow(),
                         hBox(10),

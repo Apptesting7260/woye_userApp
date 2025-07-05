@@ -854,12 +854,15 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   ? Center(child: circularProgressIndicator(size: 20.h))
                   : GestureDetector(
                 onTap: () {
-                  if (controller
-                      .couponCodeController.value.text.isNotEmpty) {
-                    applyCouponController.applyCouponApi(isSingleCartScreen: true,
-                      cartIds: [controller.singleCartData.value.cart?.cartId],
+                   if (controller.couponCodeController.value.text.isNotEmpty) {
+                    applyCouponController.applyCouponApi(
+                      isSingleCartScreen: true,
+                      cartId: controller.singleCartData.value.cart?.cartId.toString(),
+                      carts: [{
+                        "cart_id": controller.singleCartData.value.cart?.cartId.toString() ?? "",
+                        "grand_total" :controller.singleCartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                      }],
                       couponCode: controller.couponCodeController.value.text.toString(),
-                      grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
                     );
                   } else {
                     Utils.showToast("Please Enter Coupon Code");
@@ -900,9 +903,12 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   onTap: () {
                     applyCouponController.applyCouponApi(
                       isSingleCartScreen: true,
-                      cartIds: [controller.singleCartData.value.cart?.cartId],
-                      couponCode: controller.singleCartData.value.cart?.appliedCoupon?.code.toString() ?? "",
-                      grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                      cartId: controller.singleCartData.value.cart?.cartId.toString(),
+                      carts: [{
+                        "cart_id": controller.singleCartData.value.cart?.cartId.toString() ?? "",
+                        "grand_total" :controller.singleCartData.value.cart?.raw?.grandTotalPrice.toString() ?? "",
+                      }],
+                      couponCode:  controller.singleCartData.value.cart?.appliedCoupon?.code.toString() ?? "",
                     );
                   },
                   child: Icon(

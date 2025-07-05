@@ -1441,11 +1441,20 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                   ? Center(child: circularProgressIndicator(size: 20.h))
                   : GestureDetector(
                 onTap: () {
+                  // if (controller.couponCodeController.value.text.isNotEmpty) {
+                  //   applyCouponController.applyCouponApi(
+                  //     cartId: controller.cartData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
+                  //     couponCode: controller.couponCodeController.value.text.toString(),
+                  //     grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                  //   );
+                  final carts = controller.cartData.value.cart?.buckets?.map((e) => {
+                    "cart_id": e.cartId.toString(),
+                    "grand_total": e.grandTotalPrice.toString(),
+                  }).toList() ?? [];
                   if (controller.couponCodeController.value.text.isNotEmpty) {
                     applyCouponController.applyCouponApi(
-                      cartId: controller.cartData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
-                      couponCode: controller.couponCodeController.value.text.toString(),
-                      grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                      carts: carts,
+                      couponCode: controller.couponCodeController.value.text.trim(),
                     );
                   } else {
                     Utils.showToast("Please Enter Coupon Code");
@@ -1484,10 +1493,18 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                   :Center(
                 child: GestureDetector(
                   onTap: () {
+                    // applyCouponController.applyCouponApi(
+                    //   cartId: controller.cartData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
+                    //   couponCode: controller.cartData.value.appliedCoupon?.code.toString() ?? "",
+                    //   grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
+                    // );
+                    final carts = controller.cartData.value.cart?.buckets?.map((e) => {
+                      "cart_id": e.cartId.toString(),
+                      "grand_total": e.grandTotalPrice.toString(),
+                    }).toList() ?? [];
                     applyCouponController.applyCouponApi(
-                      cartId: controller.cartData.value.cart?.buckets?.map((e) => e.cartId).toList() ?? [],
+                      carts: carts,
                       couponCode: controller.cartData.value.appliedCoupon?.code.toString() ?? "",
-                      grandTotal: controller.cartData.value.cart?.grandTotalPrice.toString() ?? "",
                     );
                   },
                   child: Icon(

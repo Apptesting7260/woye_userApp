@@ -186,16 +186,22 @@ class PharmacyCartController extends GetxController {
       "address_id": addressId.toString(),
       "coupon_id": couponId.toString(),
       "total": totalAmount.toString(),
+      'sub_total' : totalAmount.toString(),
       "type": "pharmacy",
       "cart_ids": jsonEncode(cartIds),
       "carts": jsonEncode(carts),
+      if(deliveryNotes.isNotEmpty)
       'delivery_notes' : deliveryNotes,
-      'delivery_soon' : deliverySoon,
-      'courier_tip' : courierTip,
+      if(deliverySoon.isNotEmpty)
+        'delivery_soon' : deliverySoon,
+      if(courierTip.isNotEmpty)
+        'courier_tip' : courierTip,
       if(prescription.isNotEmpty)
       'drslip' : jsonEncode(prescription),
-      'reference_id'  :  referenceId,
-      'transaction_id' : transactionId,
+      if (referenceId != null && referenceId.isNotEmpty)
+        'reference_id'  :  referenceId,
+      if (transactionId != null && transactionId.isNotEmpty)
+        'transaction_id' : transactionId,
     };
     if(kDebugMode) {
       log("data body >>>:: $data");

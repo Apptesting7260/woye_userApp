@@ -65,6 +65,7 @@ class  OrderDetails {
   String? walletUsed;
   String? remainingPayment;
   var total;
+  String? subtotal;
   String? status;
   List<String>? drslip;
   String? createdAt;
@@ -90,6 +91,7 @@ class  OrderDetails {
       this.walletUsed,
       this.remainingPayment,
       this.total,
+      this.subtotal,
       this.status,
       this.drslip,
       this.createdAt,
@@ -117,6 +119,7 @@ class  OrderDetails {
     walletUsed = json['wallet_used'];
     remainingPayment = json['remaining_payment'];
     total = json['total'];
+    subtotal = json['subtotal'];
     status = json['status'];
     if(json['drslip'] != null){
       drslip = json['drslip'].cast<String>();
@@ -157,6 +160,7 @@ class  OrderDetails {
     data['wallet_used'] = walletUsed;
     data['remaining_payment'] = remainingPayment;
     data['total'] = total;
+    data['subtotal'] = subtotal;
     data['status'] = status;
     data['drslip'] = this.drslip;
     data['created_at'] = createdAt;

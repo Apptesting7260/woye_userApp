@@ -17,15 +17,14 @@ class ApplyCouponPharmaController extends GetxController {
 
   applyCouponApi({
     bool? isSingleCartScreen,
-    required List cartId,
+    required List<Map<String,String>> carts,
     required String couponCode,
-    required String grandTotal,
+    String? cartId,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
-      "cart_ids": jsonEncode(cartId),
+      "carts": jsonEncode(carts),
       "coupon_code": couponCode,
-      "grand_total": grandTotal,
     };
     api.applyPharmaCouponsApi(body).then((value) {
       setData(value);
@@ -35,10 +34,18 @@ class ApplyCouponPharmaController extends GetxController {
           setRxRequestStatus(Status.COMPLETED);
           await Future.delayed(const Duration(milliseconds: 500));
           Utils.showToast(applyCouponData.value.message.toString());
-        }) :pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.join(',')).then((value) async {
+          await Future.delayed(const Duration(milliseconds: 1000));
+          if(pharmacyCartController.couponCodeController.value.text.isNotEmpty) {
+            pharmacyCartController.couponCodeController.value.clear();
+          }
+        }) :pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) async {
           setRxRequestStatus(Status.COMPLETED);
           await Future.delayed(const Duration(milliseconds: 500));
           Utils.showToast(applyCouponData.value.message.toString());
+          await Future.delayed(const Duration(milliseconds: 1000));
+          if(pharmacyCartController.couponCodeController.value.text.isNotEmpty) {
+            pharmacyCartController.couponCodeController.value.clear();
+          }
         });
 
       } else {

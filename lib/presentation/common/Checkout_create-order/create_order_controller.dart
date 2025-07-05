@@ -111,14 +111,20 @@ class CreateOrderController extends GetxController {
       "address_id": addressId,
       "coupon_id": couponId,
       "total":total,
+      'sub_total' : total,
       "type": "restaurant",
       "cart_ids": jsonEncode(cartIds),
       "carts": jsonEncode(carts),
+      if(deliveryNotes.isNotEmpty)
       'delivery_notes' : deliveryNotes,
+      if(deliverySoon.isNotEmpty)
       'delivery_soon' : deliverySoon,
+      if(courierTip.isNotEmpty)
       'courier_tip' : courierTip,
+      if(referenceId != null)
       'reference_id'  :  referenceId,
-      'transaction_id' : transactionId,
+      if(transactionId != null)
+        'transaction_id' : transactionId,
     };
     debugPrint("dataValue  >> $data");
     setRxRequestStatus(Status.LOADING);

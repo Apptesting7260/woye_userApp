@@ -16,25 +16,29 @@ class ApplyCouponController extends GetxController {
       Get.put(RestaurantCartController());
 
   applyCouponApi({
-    required List<dynamic> cartIds,
+    required List<Map<String,String>> carts,
     required String couponCode,
-    required String grandTotal,
+    String? cartId,
     bool? isSingleCartScreen,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
-      "cart_ids": jsonEncode(cartIds),
+      "carts": jsonEncode(carts),
       "coupon_code": couponCode,
-      "grand_total": grandTotal,
     };
+
     api.applyCouponsApi(body).then((value) {
       setData(value);
       if (applyCouponData.value.status == true) {
         if(isSingleCartScreen == true){
-          restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartIds.join(',')).then((value) async {
+          restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString() ?? "").then((value) async {
             await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
             Utils.showToast(applyCouponData.value.message.toString());
+            await Future.delayed(const Duration(milliseconds: 1000));
+            if(restaurantCartController.couponCodeController.value.text.isNotEmpty) {
+              restaurantCartController.couponCodeController.value.clear();
+            }
           });
         }else {
           restaurantCartController.refreshGetAllCheckoutDataRes().then((
@@ -42,6 +46,10 @@ class ApplyCouponController extends GetxController {
             await Future.delayed(const Duration(milliseconds: 500));
             setRxRequestStatus(Status.COMPLETED);
             Utils.showToast(applyCouponData.value.message.toString());
+            await Future.delayed(const Duration(milliseconds: 1000));
+            if(restaurantCartController.couponCodeController.value.text.isNotEmpty) {
+              restaurantCartController.couponCodeController.value.clear();
+            }
           });
         }
       } else {
