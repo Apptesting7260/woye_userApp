@@ -92,6 +92,7 @@ dependencies:
 #  persistent_bottom_nav_bar:
   intl:
   dropdown_button2:
+  another_flushbar:
 #  sms_autofill: ^2.0.0
 
 

@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
@@ -220,56 +221,176 @@ class PushNotificationService {
     }
   }
 
-  static showCustomSnackBar(
-      String title, String message, BuildContext context) {
-    final snackBar = SnackBar(
-      content: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Image.asset(
-            'assets/images/launcher.webp',
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-          ),
-          const SizedBox(width: 10),
-          Flexible(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: AppColors.black),
-                  maxLines: 1,
-                ),
-                Flexible(
-                  child: Text(
-                    message,
-                    style: TextStyle(color: AppColors.black),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+  // static showCustomSnackBar(
+  //     String title, String message, BuildContext context) {
+  //   final snackBar = SnackBar(
+  //     content: InkWell(
+  //       onTap: () {
+  //         if (title == "Order Placed Successfully") {
+  //           Get.toNamed(AppRoutes.orders);
+  //         }
+  //         else if (title == "Order Delivered") {
+  //           Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 2});
+  //         }
+  //         else if (title == "Order Accepted" || title == "Order Accepted Notification") {
+  //           Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 1});
+  //         }
+  //         else if (title == "Order Rejected" ||
+  //             title == "Order Cancelled" ||
+  //             title == "Order Rejected Notification" ||
+  //             title == "Order has been cancelled") {
+  //           Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 3});
+  //         }
+  //       },
+  //       child: Row(
+  //         mainAxisSize: MainAxisSize.max,
+  //         children: [
+  //           Image.asset(
+  //             'assets/images/launcher.webp',
+  //             width: 50,
+  //             height: 50,
+  //             fit: BoxFit.cover,
+  //           ),
+  //           const SizedBox(width: 10),
+  //           Flexible(
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Text(
+  //                   title,
+  //                   style: TextStyle(
+  //                       fontWeight: FontWeight.bold, color: AppColors.black),
+  //                   maxLines: 1,
+  //                 ),
+  //                 Flexible(
+  //                   child: Text(
+  //                     message,
+  //                     style: TextStyle(color: AppColors.black),
+  //                     maxLines: 1,
+  //                     overflow: TextOverflow.ellipsis,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //     backgroundColor: AppColors.greyBackground,
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+  //     behavior: SnackBarBehavior.floating,
+  //     duration: const Duration(seconds: 3),
+  //     padding: const EdgeInsets.all(10),
+  //     margin: EdgeInsets.only(
+  //         bottom: Get.height - (Get.height * 0.170),
+  //         left: 10,
+  //         right: 10),
+  //     dismissDirection: DismissDirection.up,
+  //   );
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
+
+  static showCustomSnackBar(String title, String message, BuildContext context) {
+    Flushbar(
+      margin: const EdgeInsets.all(10),
+      borderRadius: BorderRadius.circular(12),
       backgroundColor: AppColors.greyBackground,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      behavior: SnackBarBehavior.floating,
+      flushbarPosition: FlushbarPosition.TOP,
+      icon: Padding(
+        padding: REdgeInsets.only(left: 8.0),
+        child: Image.asset(
+          'assets/images/launcher.webp',
+          width: 40,
+          height: 40,
+          fit: BoxFit.cover,
+        ),
+      ),
+      titleText: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.black,
+        ),
+      ),
+      messageText: Text(
+        message,
+        style: TextStyle(
+          color: AppColors.black,
+        ),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
       duration: const Duration(seconds: 3),
-      padding: const EdgeInsets.all(10),
-      margin: EdgeInsets.only(
-          bottom: Get.height - (Get.height * 0.180),
-          left: 10,
-          right: 10),
-      dismissDirection: DismissDirection.up,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      onTap: (_) {
+        if (title == "Order Placed Successfully") {
+          Get.toNamed(AppRoutes.orders);
+        } else if (title == "Order Delivered") {
+          Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 2});
+        } else if (title == "Order Accepted" || title == "Order Accepted Notification") {
+          Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 1});
+        } else if (title == "Order Rejected" ||
+            title == "Order Cancelled" ||
+            title == "Order Rejected Notification" ||
+            title == "Order has been cancelled") {
+          Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 3});
+        }
+      },
+    ).show(context);
   }
+
+
+// static showCustomSnackBar(
+  //     String title, String message, BuildContext context) {
+  //   final snackBar = SnackBar(
+  //     content: Row(
+  //       mainAxisSize: MainAxisSize.max,
+  //       children: [
+  //         Image.asset(
+  //           'assets/images/launcher.webp',
+  //           width: 50,
+  //           height: 50,
+  //           fit: BoxFit.cover,
+  //         ),
+  //         const SizedBox(width: 10),
+  //         Flexible(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               Text(
+  //                 title,
+  //                 style: TextStyle(
+  //                     fontWeight: FontWeight.bold, color: AppColors.black),
+  //                 maxLines: 1,
+  //               ),
+  //               Flexible(
+  //                 child: Text(
+  //                   message,
+  //                   style: TextStyle(color: AppColors.black),
+  //                   maxLines: 1,
+  //                   overflow: TextOverflow.ellipsis,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //     backgroundColor: AppColors.greyBackground,
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+  //     behavior: SnackBarBehavior.floating,
+  //     duration: const Duration(seconds: 3),
+  //     padding: const EdgeInsets.all(10),
+  //     margin: EdgeInsets.only(
+  //         bottom: Get.height - (Get.height * 0.180),
+  //         left: 10,
+  //         right: 10),
+  //     dismissDirection: DismissDirection.up,
+  //   );
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
 }
 
 // class PushNotificationService {

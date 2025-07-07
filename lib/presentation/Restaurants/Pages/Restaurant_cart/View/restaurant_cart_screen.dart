@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_storage/get_storage.dart';
@@ -2828,13 +2830,15 @@ class RestaurantCartScreen extends StatefulWidget {
   void initState() {
     super.initState();
     // controller.getAllCheckoutDataRes();
-    _scrollController.addListener(
-          () {
-        if (_scrollController.position.isScrollingNotifier.value) {
-          controller.readOnly.value = true;
-        }
-      },
-    );
+   WidgetsBinding.instance.addPostFrameCallback((_) {
+     _scrollController.addListener(
+           () {
+         if (_scrollController.position.isScrollingNotifier.value) {
+           controller.readOnly.value = true;
+         }
+       },
+     );
+   },);
   }
 
   
