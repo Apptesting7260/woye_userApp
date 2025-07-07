@@ -1,4 +1,5 @@
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 
@@ -27,7 +28,7 @@ class _TermAndConditionsScreenState extends State<TermAndConditionsScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://nbttech.xyz/woy/terms-conditions'));
+      ..loadRequest(Uri.parse(AppUrls.termsConditions));
   }
 
   @override

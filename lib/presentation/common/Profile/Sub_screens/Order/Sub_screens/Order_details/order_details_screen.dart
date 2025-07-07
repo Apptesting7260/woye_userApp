@@ -721,11 +721,14 @@ class OrderDetailsScreen extends StatelessWidget {
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
             ),
-            Expanded(
-              child: Text(
-                controller.ordersData.value.orderDetails!.deliveryNotes.toString().capitalize ?? "",
-                maxLines: 25,
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Expanded(
+                child: Text(
+                  controller.ordersData.value.orderDetails!.deliveryNotes.toString().capitalize ?? "",
+                  maxLines: 25,
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                ),
               ),
             ),
           ],

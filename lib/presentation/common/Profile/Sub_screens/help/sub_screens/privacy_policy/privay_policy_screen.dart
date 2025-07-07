@@ -1,4 +1,5 @@
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/grocery_categories_filter.dart';
@@ -28,7 +29,7 @@ class _PrivayPolicyScreenState extends State<PrivayPolicyScreen> {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://nbttech.xyz/woy/privacy-policy'));
+      ..loadRequest(Uri.parse(AppUrls.privacyPolicy));
   }
 
   @override
