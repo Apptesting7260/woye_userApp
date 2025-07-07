@@ -235,7 +235,7 @@ class CheckoutScreen extends StatelessWidget {
 
                         if(controller.selectedIndex.value == 1){
                           payStackController.makePayment(context: context,email: getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                              couponId: couponId, total:  formatPrice(controller.newTotalIncludingTips.value.toString()), cartIds: cartIDs, cartType: cartType, carts: carts,);
+                              couponId: couponId, total:  controller.newTotalIncludingTips.value.toString(), cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
@@ -303,7 +303,7 @@ class CheckoutScreen extends StatelessWidget {
 
                         if(controller.selectedIndex.value == 1){
                           payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                            couponId: couponId, total:  formatPrice(controller.newTotalIncludingTips.value.toString()), cartIds: cartIDs, cartType: cartType, carts: carts,);
+                            couponId: couponId, total:  controller.newTotalIncludingTips.value.toString(), cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
@@ -371,7 +371,7 @@ class CheckoutScreen extends StatelessWidget {
                         }
                         if(controller.selectedIndex.value == 1){
                           payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                            couponId: couponId, total: formatPrice(controller.newTotalIncludingTips.value.toString()), cartIds: cartIDs, cartType: cartType, carts: carts,);
+                            couponId: couponId, total: controller.newTotalIncludingTips.value.toString(), cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{

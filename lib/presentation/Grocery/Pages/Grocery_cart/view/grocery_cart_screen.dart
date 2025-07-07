@@ -1449,7 +1449,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                   //   );
                   final carts = controller.cartData.value.cart?.buckets?.map((e) => {
                     "cart_id": e.cartId.toString(),
-                    "grand_total": e.grandTotalPrice.toString(),
+                    "grand_total": e.specificTotalPrice.toString(),
                   }).toList() ?? [];
                   if (controller.couponCodeController.value.text.isNotEmpty) {
                     applyCouponController.applyCouponApi(
@@ -1500,7 +1500,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                     // );
                     final carts = controller.cartData.value.cart?.buckets?.map((e) => {
                       "cart_id": e.cartId.toString(),
-                      "grand_total": e.grandTotalPrice.toString(),
+                      "grand_total": e.specificTotalPrice.toString(),
                     }).toList() ?? [];
                     applyCouponController.applyCouponApi(
                       carts: carts,

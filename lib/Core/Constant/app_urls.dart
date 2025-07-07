@@ -4,6 +4,7 @@ class AppUrls {
 
   static const String hostUrl = "https://nbturls.in";
   static const String baseUrl = "https://nbturls.in/woy/api";
+  static const String baseUrlPrivacyPolicy = "https://nbturls.in/woy";
 
   // static const String baseUrl = "https://urlsdemo.online/woy/api";
   // static const String baseUrl = "https://urlsdemo.online/woy/api";
@@ -18,6 +19,9 @@ class AppUrls {
 
   /* ------------------------------ Profile ---------------------------------  */
 
+
+
+
   static const String getProfile = "$baseUrl/get-profile";
   static const String updateProfile = "$baseUrl/update-profile";
   static const String getUserData = "$baseUrl/user-profile";
@@ -26,6 +30,10 @@ class AppUrls {
 
   // static const String updateStatus = "$baseUrl/update-status";
 
+  /* ------------------------------ privacy-policy----------------------------  */
+
+  static const String privacyPolicy = '$baseUrlPrivacyPolicy/privacy-policy';
+  static const String termsConditions = '$baseUrlPrivacyPolicy/terms-conditions';
   /* ------------------------------ Notification----------------------------  */
   static const String userNotification = "$baseUrl/user-notification";
 
