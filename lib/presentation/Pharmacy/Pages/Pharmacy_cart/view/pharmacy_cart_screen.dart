@@ -2056,7 +2056,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                             onTap: () {
                               final carts = controller.cartCheckoutData.value.cart?.buckets?.map((e) => {
                                 "cart_id": e.cartId.toString(),
-                                "grand_total": e.grandtotalPrice.toString(),
+                                "grand_total": e.specificTotalPrice.toString(),
                               }).toList() ?? [];
                               if (controller.couponCodeController.value.text.isNotEmpty) {
                                 applyCouponController.applyCouponApi(
@@ -2102,7 +2102,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                               onTap: () {
                                 final carts = controller.cartCheckoutData.value.cart?.buckets?.map((e) => {
                                   "cart_id": e.cartId.toString(),
-                                  "grand_total": e.grandtotalPrice.toString(),
+                                  "grand_total": e.specificTotalPrice.toString(),
                                 }).toList() ?? [];
                                 applyCouponController.applyCouponApi(
                                   carts: carts,

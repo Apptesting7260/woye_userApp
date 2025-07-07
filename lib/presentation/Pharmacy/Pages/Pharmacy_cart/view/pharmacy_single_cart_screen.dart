@@ -343,7 +343,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
 
   Widget cartItems() {
     return ListView.separated(
-      itemCount: 1 ,
+      itemCount: controller.cartData.value.cart!.raw?.decodedAttribute?.length ?? 0 ,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {

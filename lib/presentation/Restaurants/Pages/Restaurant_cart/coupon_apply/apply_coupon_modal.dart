@@ -6,7 +6,7 @@ class ApplyCouponModal {
 
   ApplyCouponModal.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    message = json['message'];
+    message = json['message']?.toString();
   }
 
   Map<String, dynamic> toJson() {

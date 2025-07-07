@@ -17,8 +17,13 @@ var inSplash = true.obs;
 final deepLinkController = Get.put(DeepLinkController());
 
 Future<void> main() async {
-  await dotenv.load(fileName: "assets/.env");
   WidgetsFlutterBinding.ensureInitialized();
+  // await dotenv.load(fileName: "assets/.env");
+  try {
+    await dotenv.load(fileName: "assets/.env");
+  } catch (e) {
+    print("Failed to load .env file: $e");
+  }
   try {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
