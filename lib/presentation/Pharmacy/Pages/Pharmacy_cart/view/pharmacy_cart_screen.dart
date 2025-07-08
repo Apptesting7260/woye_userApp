@@ -2409,6 +2409,10 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                             .cartCheckoutData.value.cart?.buckets
                             ?.map((data) => data.specificDeliveryCharge)
                             .toList();
+
+                        final grandTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.grandtotalPrice).toList();
+                        final couponDiscount = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
+
                         Get.toNamed(AppRoutes.prescriptionScreen, arguments: {
                           'address_id': controller
                               .cartCheckoutData.value.address!.id
@@ -2420,9 +2424,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           'regular_price': controller
                               .cartCheckoutData.value.cart!.regularPrice
                               .toString(),
-                          'coupon_discount': controller
-                              .cartCheckoutData.value.cart!.couponDiscount
-                              .toString(),
+                          'coupon_discount_payment_details': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),
                           'save_amount': controller
                               .cartCheckoutData.value.cart!.saveAmount
                               .toString(),
@@ -2436,9 +2438,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           'wallet': controller.cartCheckoutData.value.wallet
                               .toString(),
                           'cartType': "pharmacy",
-                          'prescription': controller
-                              .cartCheckoutData.value.prescription
-                              .toString(),
+                          'prescription': controller.cartCheckoutData.value.prescription.toString(),
+                          'grandtotal_price' : grandTotalPrice,
+                          'coupon_discount': couponDiscount,
                         });
                         //   });
                         // } else {

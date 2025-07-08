@@ -1143,9 +1143,9 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                               'regular_price': controller
                                   .cartData.value.cart?.raw?.regularPrice
                                   .toString(),
-                              'coupon_discount': controller
-                                  .cartData.value.cart?.couponDiscount
-                                  .toString(),
+                              // 'coupon_discount': controller
+                              //     .cartData.value.cart?.couponDiscount
+                              //     .toString(),
                               'save_amount': controller
                                   .cartData.value.cart?.raw?.saveAmount
                                   .toString(),
@@ -1161,6 +1161,8 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                               'wallet':
                                   controller.cartData.value.wallet.toString(),
                               'cartType': "grocery",
+                              'grandtotal_price' : controller.cartData.value.cart?.finalTotal.toString(),
+                              'coupon_discount': controller.cartData.value.cart?.couponDiscount.toString(),
                               // 'cartType': "grocerySingleOrder",
                             });
                           }

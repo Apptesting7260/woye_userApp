@@ -1062,9 +1062,9 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                 'regular_price': controller
                                     .cartData.value.cart?.raw?.regularPrice
                                     .toString(),
-                                'coupon_discount': controller
-                                    .cartData.value.cart?.couponDiscount
-                                    .toString(),
+                                // 'coupon_discount': controller
+                                //     .cartData.value.cart?.couponDiscount
+                                //     .toString(),
                                 'save_amount': controller
                                     .cartData.value.cart?.raw?.saveAmount
                                     .toString(),
@@ -1082,6 +1082,8 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                 'wallet':
                                     controller.cartData.value.wallet.toString(),
                                 'cartType': "pharmacy",
+                                'grandtotal_price' : controller.cartData.value.cart?.finalTotal.toString(),
+                                'coupon_discount': controller.cartData.value.cart?.couponDiscount.toString(),
                                 // 'address_id': controller.cartData.value.address!.id.toString(),
                                 // 'coupon_id': controller.cartData.value.cart!.couponApplied?.id.toString(),
                                 // 'vendor_id': controller.cartData.value.cart!.pharmaId.toString(),

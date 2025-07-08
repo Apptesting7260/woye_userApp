@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:pay_with_paystack/model/payment_data.dart';
 import 'package:pay_with_paystack/pay_with_paystack.dart';
 import 'package:uuid/uuid.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
-import 'package:woye_user/shared/theme/font_family.dart';
 
 import '../Core/Utils/app_export.dart';
 
@@ -43,6 +43,10 @@ class PayStackController extends GetxController {
     List<dynamic>? prescription,
   }) async {
 
+    debugPrint(
+        "userType>>>>> $cartType \n Amount>>>>>>>>> ${controller
+            .walletSelected.value ? controller.newTotalWithoutIncludingTips
+            .value.toStringAsFixed(2) : total} \n Email >>>>>>>>> $email");
 
     final amount = controller.walletSelected.value
         ? controller.newTotalWithoutIncludingTips.value
@@ -61,7 +65,34 @@ class PayStackController extends GetxController {
               ),
             ),
             content: Text("The payment amount exceeds the maximum ($maxAmount) allowed limit.",
-            style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyRegular),
+              maxLines: 5,
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("OK",
+                  style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+      return;
+    }
+    if (amount <= 0) {
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Center(
+              child: Text("Payment Error",
+                style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+              ),
+            ),
+            content: Text("The payment amount must be greater then 0",
+              style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyRegular),
               maxLines: 5,
             ),
             actions: [
@@ -78,10 +109,10 @@ class PayStackController extends GetxController {
       return;
     }
 
+
     final uniqueTransRef = const Uuid().v4();
 
-    debugPrint(
-        "userType>>>>> $cartType\n uniqueTransRef>>> $uniqueTransRef\n Amount>>>>>>>>> ${controller
+    debugPrint("userType>>>>> $cartType\n uniqueTransRef>>> $uniqueTransRef\n Amount>>>>>>>>> ${controller
             .walletSelected.value ? controller.newTotalWithoutIncludingTips
             .value.toStringAsFixed(2) : total} \n Email >>>>>>>>> $email");
 
@@ -117,11 +148,11 @@ class PayStackController extends GetxController {
                     ? "credit_card"
                     : controller.selectedIndex.value == 2
                     ? "cash_on_delivery" : "",
-                // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
-                paymentAmount: controller.walletSelected.value
-                    ? controller.newTotalWithoutIncludingTips.value
-                    .toStringAsFixed(2)
-                    : total,
+                // paymentAmount: controller.walletSelected.value
+                //     ? controller.newTotalWithoutIncludingTips.value
+                //     .toStringAsFixed(2)
+                //     : total,
+                paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
                 addressId: addressId,
                 couponId: couponId,
                 total: total,

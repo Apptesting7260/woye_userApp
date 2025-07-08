@@ -1707,6 +1707,10 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                             .cartData.value.cart?.buckets
                             ?.map((data) => data.specificDeliveryCharge)
                             .toList();
+
+                        final grandTotalPrice = controller.cartData.value.cart?.buckets?.map((data) => data.grandTotalPrice).toList();
+                        final couponDiscount = controller.cartData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
+
                         Get.toNamed(AppRoutes.checkoutScreen, arguments: {
                           'address_id':
                               controller.cartData.value.address!.id.toString(),
@@ -1716,9 +1720,9 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           'regular_price': controller
                               .cartData.value.cart!.regularPrice
                               .toString(),
-                          'coupon_discount': controller
-                              .cartData.value.cart!.couponDiscount
-                              .toString(),
+                          // 'coupon_discount': controller
+                          //     .cartData.value.cart!.couponDiscount
+                          //     .toString(),
                           'save_amount': controller
                               .cartData.value.cart!.saveAmount
                               .toString(),
@@ -1731,6 +1735,9 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           'cart_delivery': specificDeliveryCharge,
                           'wallet': controller.cartData.value.wallet.toString(),
                           'cartType': "grocery",
+                          'grandtotal_price' : grandTotalPrice,
+                          'coupon_discount': couponDiscount,
+
                         });
                       },
                       // onPressed: () {

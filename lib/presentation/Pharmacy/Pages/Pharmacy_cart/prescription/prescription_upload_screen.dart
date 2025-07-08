@@ -32,6 +32,9 @@ class PrescriptionUploadScreen extends StatelessWidget {
     var prescription = arguments['prescription'] ?? "";
     var cartTotal = arguments['cart_total'] ?? "";
     var cartDelivery = arguments['cart_delivery'] ?? "";
+    var couponDiscountPaymentDetails = arguments['coupon_discount_payment_details'] ?? '';
+    var grandTotalPrice = arguments['grandtotal_price'] ?? '';
+
     // var isPrescriptionRequired = arguments['prescription'];
     print("prescription: $prescription");
     print("Address ID: $addressId");
@@ -153,6 +156,8 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                   'cart_total' : cartTotal,
                                   'cart_delivery':cartDelivery,
                                   'prescription': controller.base64ImageList,
+                                  'grandtotal_price' : grandTotalPrice,
+                                  'coupon_discount_payment_details': couponDiscountPaymentDetails,
                                 },
                               );
                             } else {

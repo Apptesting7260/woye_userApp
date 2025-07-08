@@ -4769,6 +4769,8 @@ class RestaurantCartScreen extends StatefulWidget {
               final cartId = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.cartId).toList();
               final specificTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.specificTotalPrice).toList();
               final specificDeliveryCharge = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.specificDeliveryCharge).toList();
+              final grandTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.grandtotalPrice).toList();
+              final couponDiscount = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
 
               Get.toNamed(
                 AppRoutes.checkoutScreen,
@@ -4777,7 +4779,8 @@ class RestaurantCartScreen extends StatefulWidget {
                     'total': controller.cartCheckoutData.value.cart!.grandTotalPrice.toString(),
                     'coupon_id': controller.cartCheckoutData.value.appliedCoupon?.id.toString(),
                     'regular_price': controller.cartCheckoutData.value.cart!.regularPrice.toString(),
-                    'coupon_discount': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),
+                    'coupon_discount': couponDiscount,
+                    // 'coupon_discount': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),
                     'save_amount': controller.cartCheckoutData.value.cart!.saveAmount.toString(),
                     'delivery_charge': controller.cartCheckoutData.value.cart!.deliveryCharge.toString(),
                     'cart_id': cartId,
@@ -4785,6 +4788,7 @@ class RestaurantCartScreen extends StatefulWidget {
                     'cart_total': specificTotalPrice,
                     'cart_delivery': specificDeliveryCharge,
                     'wallet': controller.cartCheckoutData.value.wallet.toString(),
+                    'grandtotal_price' : grandTotalPrice,
                     'cartType': "restaurant",
                   },
               );

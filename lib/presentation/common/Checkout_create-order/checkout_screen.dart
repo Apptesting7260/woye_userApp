@@ -33,6 +33,8 @@ class CheckoutScreen extends StatelessWidget {
     var addressId = arguments['address_id'] ?? '';
     var couponId = arguments['coupon_id'] ?? '';
     var vendorId = arguments['vendor_id'] ?? '';
+    var couponDiscountPaymentDetails = arguments['coupon_discount_payment_details'] ?? '';
+    var grandTotalPrice = arguments['grandtotal_price'] ?? '';
     // var totalPrice = arguments['total'] ?? '';
     // print("Total price : ${arguments['total']}");
     // var formattedTotal = arguments['total'] ?? "0.00";
@@ -91,12 +93,14 @@ class CheckoutScreen extends StatelessWidget {
     print("Save Amount: $saveAmount");
     print("Delivery Charge: $deliveryCharge");
     print("Coupon Discount: $couponDiscount");
+    print("Coupon Discount Payment Details: $couponDiscountPaymentDetails");
     print("wallet: $walletBalance");
     print("Image Paths: $imagePaths");
     print("cartTotal: $cartTotal");
     print("cartDelivery: $cartDelivery");
     print("cartType: $cartType");
     print("prescription: $prescription");
+    print("grandTotalPrice: $grandTotalPrice");
 
 // Optionally, print the list of image files (paths converted to File objects)
     for (var imageFile in imageFiles) {
@@ -156,7 +160,7 @@ class CheckoutScreen extends StatelessWidget {
                 deliveryCharge: deliveryCharge,
                 regularPrice: regularPrice,
                 saveAmount: saveAmount,
-                couponDiscount: couponDiscount,
+                couponDiscount: couponDiscountPaymentDetails,
                 totalPrice: total,
                 walletBalance: walletBalance,
               ),
@@ -198,6 +202,7 @@ class CheckoutScreen extends StatelessWidget {
                       // }
 
 //-------------------------------------------restaurant------------------------------------------
+
                       if (cartType == 'restaurant') {
                         List<Map<String, dynamic>> carts = [];
 
@@ -209,6 +214,8 @@ class CheckoutScreen extends StatelessWidget {
                               "cart_id": arguments['cart_id'][i],
                               "cart_total": arguments['cart_total'][i],
                               "cart_delivery": arguments['cart_delivery'][i],
+                              "coupon_discount": arguments['coupon_discount'][i],
+                              "grandtotal_price": arguments['grandtotal_price'][i],
                             },
                             );
                           }
@@ -217,8 +224,9 @@ class CheckoutScreen extends StatelessWidget {
                             "vendor_id": arguments['vendor_id'].toString(),
                             "cart_id": arguments['cart_id'].toString(),
                             "cart_total": arguments['cart_total'].toString(),
-                            "cart_delivery": arguments['cart_delivery']
-                                .toString(),
+                            "cart_delivery": arguments['cart_delivery'].toString(),
+                            "coupon_discount": arguments['coupon_discount'].toString(),
+                            "grandtotal_price": arguments['grandtotal_price'].toString(),
                           },
                           );
                         }
@@ -277,6 +285,8 @@ class CheckoutScreen extends StatelessWidget {
                               "cart_id": arguments['cart_id'][i],
                               "cart_total": arguments['cart_total'][i],
                               "cart_delivery": arguments['cart_delivery'][i],
+                              "coupon_discount": arguments['coupon_discount'][i],
+                              "grandtotal_price": arguments['grandtotal_price'][i],
                             },
                             );
                           }
@@ -285,8 +295,9 @@ class CheckoutScreen extends StatelessWidget {
                             "vendor_id": arguments['vendor_id'].toString(),
                             "cart_id": arguments['cart_id'].toString(),
                             "cart_total": arguments['cart_total'].toString(),
-                            "cart_delivery": arguments['cart_delivery']
-                                .toString(),
+                            "cart_delivery": arguments['cart_delivery'].toString(),
+                            "coupon_discount": arguments['coupon_discount'].toString(),
+                            "grandtotal_price": arguments['grandtotal_price'].toString(),
                           },
                           );
                         }
@@ -356,6 +367,8 @@ class CheckoutScreen extends StatelessWidget {
                               "cart_id": arguments['cart_id'][i],
                               "cart_total": arguments['cart_total'][i],
                               "cart_delivery": arguments['cart_delivery'][i],
+                              "coupon_discount": arguments['coupon_discount'][i],
+                              "grandtotal_price": arguments['grandtotal_price'][i],
                             },
                             );
                           }
@@ -364,17 +377,23 @@ class CheckoutScreen extends StatelessWidget {
                             "vendor_id": arguments['vendor_id'].toString(),
                             "cart_id": arguments['cart_id'].toString(),
                             "cart_total": arguments['cart_total'].toString(),
-                            "cart_delivery": arguments['cart_delivery']
-                                .toString(),
+                            "cart_delivery": arguments['cart_delivery'].toString(),
+                            "coupon_discount": arguments['coupon_discount'].toString(),
+                            "grandtotal_price": arguments['grandtotal_price'].toString(),
                           },
                           );
                         }
+
+
                         if(controller.selectedIndex.value == 1){
+                          pt("object>>>>>>>>>>> ${controller.newTotalIncludingTips.value}");
                           payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
                             couponId: couponId, total: controller.newTotalIncludingTips.value.toString(), cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
+                          pt("object>>>>>>>>>>> ${controller.newTotalIncludingTips.value}");
+
                           pharmacyCartController.pharmacyCreateOrder(
                             isWalletUsed: controller.walletSelected.value,
                             walletAmount: controller.walletDiscount.value
@@ -556,126 +575,40 @@ class CheckoutScreen extends StatelessWidget {
   //     },
   //   );
   // }
+
+
   Widget wallet({required String walletBalance, required String totalPrice}) {
     return Obx(() {
       final double walletBalanceDouble = double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
       final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
+      final double totalWithTips = controller.totalPriceIncludingTips.value;
 
       return IgnorePointer(
         ignoring: walletBalanceDouble <= 0.0,
         child: InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          // onTap: () {
-          //   if (walletBalanceDouble > 0.0) {
-          //     controller.walletSelected.value = !controller.walletSelected.value;
-          //
-          //     if (controller.walletSelected.value) {
-          //       if (walletBalanceDouble >= totalPriceDouble && walletBalanceDouble < controller.totalPriceIncludingTips.value) {
-          //         controller.payAfterWallet.value = 0.0;
-          //         controller.walletDiscount.value = totalPriceDouble;
-          //         controller.isSelectable.value = true;
-          //         controller.selectedIndex.value = 0;
-          //       }  else {
-          //         controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
-          //         controller.walletDiscount.value = walletBalanceDouble;
-          //         controller.isSelectable.value = false;
-          //       }
-          //       if (walletBalanceDouble < controller.totalPriceIncludingTips.value) {
-          //         controller.payAfterWallet.value = controller.totalPriceIncludingTips.value;
-          //         controller.walletDiscount.value = 0.0;
-          //         controller.isSelectable.value = false;
-          //         // controller.payAfterWallet.value = 0.0;
-          //         // controller.walletDiscount.value = totalPriceDouble;
-          //         // controller.isSelectable.value = true;
-          //         // controller.selectedIndex.value = 0;
-          //       }
-          //     } else {
-          //       controller.payAfterWallet.value = totalPriceDouble;
-          //       controller.walletDiscount.value = 0.0;
-          //       controller.isSelectable.value = false;
-          //       // controller.selectedIndex.value = 1;
-          //     }
-          //     controller.update();
-          //   }
-          // },
-          //   onTap: () {
-          //     if (walletBalanceDouble > 0.0) {
-          //       controller.walletSelected.value = !controller.walletSelected.value;
-          //
-          //       if (controller.walletSelected.value) {
-          //         if (walletBalanceDouble >= controller.totalPriceIncludingTips.value) {
-          //           controller.walletDiscount.value = controller.totalPriceIncludingTips.value;
-          //           controller.payAfterWallet.value = 0.0;
-          //           controller.isSelectable.value = true;
-          //           controller.selectedIndex.value = 0;
-          //           // controller.updateBalanceAfterTips(totalPrice: totalPrice.toString(),walletBalance: walletBalance.toString());
-          //         } else {
-          //           controller.walletDiscount.value = walletBalanceDouble;
-          //           controller.payAfterWallet.value = controller.totalPriceIncludingTips.value - walletBalanceDouble;
-          //           controller.isSelectable.value = false;
-                    // controller.updateBalanceAfterTips(totalPrice: totalPrice.toString(),walletBalance: walletBalance.toString());
-          //         }
-          //       } else {
-          //         controller.walletDiscount.value = 0.0;
-          //         controller.payAfterWallet.value = controller.totalPriceIncludingTips.value;
-          //         controller.isSelectable.value = false;
-          //         // controller.updateBalanceAfterTips(totalPrice: totalPrice.toString(),walletBalance: walletBalance.toString());
-          //       }
-          //       controller.update();
-          //     }
-          //   },
           onTap: () {
             if (walletBalanceDouble > 0.0) {
               controller.walletSelected.value = !controller.walletSelected.value;
-              controller.updateBalanceAfterTips(totalPrice: totalPrice,walletBalance: walletBalance,);
-              if (controller.walletSelected.value) {
-                if (walletBalanceDouble >= totalPriceDouble) {
-                  controller.payAfterWallet.value = 0.0;
-                  controller.walletDiscount.value = totalPriceDouble;
-                  controller.isSelectable.value = true;
-                  controller.selectedIndex.value = 0;
-                } else {
-                  controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
-                  controller.walletDiscount.value = walletBalanceDouble;
-                  controller.isSelectable.value = false;
-                }
-              } else {
-                controller.payAfterWallet.value = totalPriceDouble;
-                controller.walletDiscount.value = 0.0;
+
+              // If wallet can cover full amount, use wallet only
+              if (controller.walletSelected.value && walletBalanceDouble >= totalWithTips) {
+                controller.isSelectable.value = true;
+                controller.selectedIndex.value = 0; // Wallet only
+              }
+              // If wallet can't cover full amount, allow other payment methods
+              else if (controller.walletSelected.value) {
                 controller.isSelectable.value = false;
               }
-              controller.update();
+
+              controller.updateBalanceAfterTips(
+                totalPrice: totalPrice,
+                walletBalance: walletBalance,
+              );
             }
-            // if (walletBalanceDouble > 0.0) {
-            //   controller.walletSelected.value = !controller.walletSelected.value;
-            //   controller.updateBalanceAfterTips(totalPrice: totalPrice, walletBalance: walletBalance);
-            //   if (controller.walletSelected.value) {
-            //     if (walletBalanceDouble >= totalPriceDouble) {
-            //       controller.updateBalanceAfterTips(totalPrice: totalPrice, walletBalance: walletBalance);
-            //
-            //       controller.payAfterWallet.value = 0.0;
-            //       controller.newTotalIncludingTips.value = 0.0;
-            //       controller.walletDiscount.value = totalPriceDouble;
-            //       controller.isSelectable.value = true;
-            //       controller.selectedIndex.value = 0;
-            //     } else {
-            //
-            //       controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
-            //       controller.walletDiscount.value = walletBalanceDouble;
-            //       controller.isSelectable.value = false;
-            //     }
-            //   } else {
-            //     controller.updateBalanceAfterTips(totalPrice: totalPrice, walletBalance: walletBalance);
-            //     controller.payAfterWallet.value = totalPriceDouble;
-            //     controller.walletDiscount.value = 0.0;
-            //     controller.isSelectable.value = false;
-            //     // controller.selectedIndex.value = 1;
-            //   }
-            //   controller.update();
-            // }
           },
-            child: Container(
+          child: Container(
             padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r),
@@ -691,7 +624,7 @@ class CheckoutScreen extends StatelessWidget {
                 wBox(10),
                 Text(
                   "My Wallet (\$$walletBalance)",
-                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_16_400(AppColors.darkText, family: AppFontFamily.gilroyMedium),
                 ),
                 const Spacer(),
                 Container(
@@ -699,8 +632,9 @@ class CheckoutScreen extends StatelessWidget {
                   height: 20.h,
                   width: 20.h,
                   decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.primary)),
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.primary),
+                  ),
                   child: controller.walletSelected.value
                       ? SvgPicture.asset("assets/svg/green-check-circle.svg")
                       : null,
@@ -712,6 +646,165 @@ class CheckoutScreen extends StatelessWidget {
       );
     });
   }
+
+  // Widget wallet({required String walletBalance, required String totalPrice}) {
+  //   return Obx(() {
+  //     final double walletBalanceDouble = double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
+  //     final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
+  //
+  //     return IgnorePointer(
+  //       ignoring: walletBalanceDouble <= 0.0,
+  //       child: InkWell(
+  //         splashColor: Colors.transparent,
+  //         highlightColor: Colors.transparent,
+  //         // onTap: () {
+  //         //   if (walletBalanceDouble > 0.0) {
+  //         //     controller.walletSelected.value = !controller.walletSelected.value;
+  //         //
+  //         //     if (controller.walletSelected.value) {
+  //         //       if (walletBalanceDouble >= totalPriceDouble && walletBalanceDouble < controller.totalPriceIncludingTips.value) {
+  //         //         controller.payAfterWallet.value = 0.0;
+  //         //         controller.walletDiscount.value = totalPriceDouble;
+  //         //         controller.isSelectable.value = true;
+  //         //         controller.selectedIndex.value = 0;
+  //         //       }  else {
+  //         //         controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
+  //         //         controller.walletDiscount.value = walletBalanceDouble;
+  //         //         controller.isSelectable.value = false;
+  //         //       }
+  //         //       if (walletBalanceDouble < controller.totalPriceIncludingTips.value) {
+  //         //         controller.payAfterWallet.value = controller.totalPriceIncludingTips.value;
+  //         //         controller.walletDiscount.value = 0.0;
+  //         //         controller.isSelectable.value = false;
+  //         //         // controller.payAfterWallet.value = 0.0;
+  //         //         // controller.walletDiscount.value = totalPriceDouble;
+  //         //         // controller.isSelectable.value = true;
+  //         //         // controller.selectedIndex.value = 0;
+  //         //       }
+  //         //     } else {
+  //         //       controller.payAfterWallet.value = totalPriceDouble;
+  //         //       controller.walletDiscount.value = 0.0;
+  //         //       controller.isSelectable.value = false;
+  //         //       // controller.selectedIndex.value = 1;
+  //         //     }
+  //         //     controller.update();
+  //         //   }
+  //         // },
+  //         //   onTap: () {
+  //         //     if (walletBalanceDouble > 0.0) {
+  //         //       controller.walletSelected.value = !controller.walletSelected.value;
+  //         //
+  //         //       if (controller.walletSelected.value) {
+  //         //         if (walletBalanceDouble >= controller.totalPriceIncludingTips.value) {
+  //         //           controller.walletDiscount.value = controller.totalPriceIncludingTips.value;
+  //         //           controller.payAfterWallet.value = 0.0;
+  //         //           controller.isSelectable.value = true;
+  //         //           controller.selectedIndex.value = 0;
+  //         //           // controller.updateBalanceAfterTips(totalPrice: totalPrice.toString(),walletBalance: walletBalance.toString());
+  //         //         } else {
+  //         //           controller.walletDiscount.value = walletBalanceDouble;
+  //         //           controller.payAfterWallet.value = controller.totalPriceIncludingTips.value - walletBalanceDouble;
+  //         //           controller.isSelectable.value = false;
+  //                   // controller.updateBalanceAfterTips(totalPrice: totalPrice.toString(),walletBalance: walletBalance.toString());
+  //         //         }
+  //         //       } else {
+  //         //         controller.walletDiscount.value = 0.0;
+  //         //         controller.payAfterWallet.value = controller.totalPriceIncludingTips.value;
+  //         //         controller.isSelectable.value = false;
+  //         //         // controller.updateBalanceAfterTips(totalPrice: totalPrice.toString(),walletBalance: walletBalance.toString());
+  //         //       }
+  //         //       controller.update();
+  //         //     }
+  //         //   },
+  //         onTap: () {
+  //           if (walletBalanceDouble > 0.0) {
+  //             controller.walletSelected.value = !controller.walletSelected.value;
+  //             controller.updateBalanceAfterTips(totalPrice: totalPrice,walletBalance: walletBalance,);
+  //             if (controller.walletSelected.value) {
+  //               if (walletBalanceDouble >= totalPriceDouble) {
+  //                 controller.payAfterWallet.value = 0.0;
+  //                 controller.walletDiscount.value = totalPriceDouble;
+  //                 controller.isSelectable.value = true;
+  //                 controller.selectedIndex.value = 0;
+  //               } else {
+  //                 controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
+  //                 controller.walletDiscount.value = walletBalanceDouble;
+  //                 controller.isSelectable.value = false;
+  //               }
+  //             } else {
+  //               controller.payAfterWallet.value = totalPriceDouble;
+  //               controller.walletDiscount.value = 0.0;
+  //               controller.isSelectable.value = false;
+  //             }
+  //             controller.update();
+  //           }
+  //           // if (walletBalanceDouble > 0.0) {
+  //           //   controller.walletSelected.value = !controller.walletSelected.value;
+  //           //   controller.updateBalanceAfterTips(totalPrice: totalPrice, walletBalance: walletBalance);
+  //           //   if (controller.walletSelected.value) {
+  //           //     if (walletBalanceDouble >= totalPriceDouble) {
+  //           //       controller.updateBalanceAfterTips(totalPrice: totalPrice, walletBalance: walletBalance);
+  //           //
+  //           //       controller.payAfterWallet.value = 0.0;
+  //           //       controller.newTotalIncludingTips.value = 0.0;
+  //           //       controller.walletDiscount.value = totalPriceDouble;
+  //           //       controller.isSelectable.value = true;
+  //           //       controller.selectedIndex.value = 0;
+  //           //     } else {
+  //           //
+  //           //       controller.payAfterWallet.value = totalPriceDouble - walletBalanceDouble;
+  //           //       controller.walletDiscount.value = walletBalanceDouble;
+  //           //       controller.isSelectable.value = false;
+  //           //     }
+  //           //   } else {
+  //           //     controller.updateBalanceAfterTips(totalPrice: totalPrice, walletBalance: walletBalance);
+  //           //     controller.payAfterWallet.value = totalPriceDouble;
+  //           //     controller.walletDiscount.value = 0.0;
+  //           //     controller.isSelectable.value = false;
+  //           //     // controller.selectedIndex.value = 1;
+  //           //   }
+  //           //   controller.update();
+  //           // }
+  //         },
+  //           child: Container(
+  //           padding: EdgeInsets.all(16.r),
+  //           decoration: BoxDecoration(
+  //             borderRadius: BorderRadius.circular(15.r),
+  //             border: Border.all(
+  //               color: controller.walletSelected.value
+  //                   ? AppColors.primary
+  //                   : AppColors.lightPrimary,
+  //             ),
+  //           ),
+  //           child: Row(
+  //             children: [
+  //               SvgPicture.asset("assets/svg/wallet.svg"),
+  //               wBox(10),
+  //               Text(
+  //                 "My Wallet (\$$walletBalance)",
+  //                 style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+  //               ),
+  //               const Spacer(),
+  //               Container(
+  //                 margin: EdgeInsets.only(top: 5.r),
+  //                 height: 20.h,
+  //                 width: 20.h,
+  //                 decoration: BoxDecoration(
+  //                     shape: BoxShape.circle,
+  //                     border: Border.all(color: AppColors.primary)),
+  //                 child: controller.walletSelected.value
+  //                     ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+  //                     : null,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   });
+  // }
+
+
 
   Widget paymentMethod({required String walletBalance, required String totalPrice}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1338,6 +1431,7 @@ class CheckoutScreen extends StatelessWidget {
                         controller: controller.tipsController.value,
                         onChanged: (value){
                           controller.enteredTips.value = value;
+                          controller.updateBalanceAfterTips(totalPrice: total, walletBalance: walletBalance);
                         },
                         textInputType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
@@ -1368,6 +1462,7 @@ class CheckoutScreen extends StatelessWidget {
                         height: 50.h,
                         onPressed: () {
                           if(controller.tipsKey.currentState?.validate() ?? false){
+                            controller.initializeWallet(walletBalance, total);
                             controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
                             Get.back();
                             pt("entered tips value  >>>> ${controller.tipsController.value.text}");

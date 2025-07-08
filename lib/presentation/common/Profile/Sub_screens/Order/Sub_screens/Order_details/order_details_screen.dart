@@ -561,7 +561,9 @@ class OrderDetailsScreen extends StatelessWidget {
                   ],
                 ),
                 hBox(5),
-                if (controller.ordersData.value.orderDetails!.coupon?.value != null)...[
+                if (controller.ordersData.value.orderDetails!.couponDiscount?.isNotEmpty ?? false
+                || controller.ordersData.value.orderDetails!.couponDiscount.toString() != '0.00'
+                )...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -570,11 +572,14 @@ class OrderDetailsScreen extends StatelessWidget {
                     style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                   ),
                   Text(
+                   "\$${controller.ordersData.value.orderDetails!.couponDiscount.toString()}",
+                    style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),/*Text(
                     controller.ordersData.value.orderDetails!.coupon!.couponType.toString() == "percentage"
                         ? "-${controller.ordersData.value.orderDetails!.coupon!.value.toString()}%"
                         : "-\$${controller.ordersData.value.orderDetails!.coupon!.value.toString()}",
                     style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                  ),
+                  ),*/
                 ],
               ),
                   hBox(5),

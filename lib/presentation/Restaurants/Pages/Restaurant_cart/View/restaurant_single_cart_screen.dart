@@ -41,15 +41,18 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
 
   @override
   void initState() {
-    controller.getRestaurantSingleCartApi(cartId: widget.cartId);
     super.initState();
-    _scrollController.addListener(
-          () {
-        if (_scrollController.position.isScrollingNotifier.value) {
-          controller.readOnly.value = true;
-        }
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollController.addListener(
+            () {
+          if (_scrollController.position.isScrollingNotifier.value) {
+            controller.readOnly.value = true;
+          }
+        },
+      );
+      controller.getRestaurantSingleCartApi(cartId: widget.cartId);
+    },
+   );
   }
 
   final ScrollController _scrollController = ScrollController();
@@ -1137,6 +1140,8 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         .singleCartData.value.cart?.deliveryCharge,
                     'wallet':
                     controller.singleCartData.value.wallet.toString(),
+                    'grandtotal_price' : controller.singleCartData.value.cart?.finalTotal.toString(),
+                    'coupon_discount': controller.singleCartData.value.cart?.couponDiscount.toString(),
                     'cartType': "restaurant",
                   });
                 }

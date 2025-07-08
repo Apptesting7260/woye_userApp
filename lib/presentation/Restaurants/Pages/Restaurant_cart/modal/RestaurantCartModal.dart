@@ -739,6 +739,7 @@ class Buckets {
   String? specificDeliveryCharge;
   String? grandtotalPrice;
   String? orderType;
+  String? couponDiscount;
   Rx<bool> isVendorDelete = false.obs;
   Rx<bool> isChecked = false.obs;
   Rx<bool> isDelivery = true.obs;
@@ -754,6 +755,7 @@ class Buckets {
         this.specificDeliveryCharge,
         this.grandtotalPrice,
         this.orderType,
+        this.couponDiscount,
       });
 
   Buckets.fromJson(Map<String, dynamic> json) {
@@ -772,6 +774,7 @@ class Buckets {
     specificDeliveryCharge = json['specific_delivery_charge']?.toString();
     grandtotalPrice = json['grandtotal_price']?.toString();
     orderType = json['order_type']?.toString();
+    couponDiscount = json['coupon_discount']?.toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -788,6 +791,7 @@ class Buckets {
     data['specific_delivery_charge'] = specificDeliveryCharge;
     data['grandtotal_price'] = grandtotalPrice;
     data['order_type'] = orderType;
+    data['coupon_discount'] = couponDiscount;
     return data;
   }
 }

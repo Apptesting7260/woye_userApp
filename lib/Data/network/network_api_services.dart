@@ -106,8 +106,8 @@ class NetworkApiServices extends BaseApiServices {
   @override
   Future<dynamic> postApi(var data, String url, String token) async {
     if (kDebugMode) {
-      print(url);
-      print(data);
+      // print(url);
+      log(data.toString());
     }
 
     dynamic responseJson;
