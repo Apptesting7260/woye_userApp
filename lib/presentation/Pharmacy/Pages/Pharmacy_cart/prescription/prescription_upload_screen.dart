@@ -37,6 +37,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
 
     // var isPrescriptionRequired = arguments['prescription'];
     print("prescription: $prescription");
+    print("grandTotalPrice>>>: $grandTotalPrice");
     print("Address ID: $addressId");
     print("Coupon ID: $couponId");
     print("Vendor Id: $vendorId");
@@ -193,6 +194,8 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                 'cart_total' : cartTotal,
                                 'cart_delivery':cartDelivery,
                                 'prescription': controller.base64ImageList,
+                                'grandtotal_price' : grandTotalPrice,
+                                'coupon_discount_payment_details': couponDiscountPaymentDetails,
                               },
                             );
                           },

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -343,7 +344,7 @@ class CreateOrderController extends GetxController {
     required String totalPrice,
     required String walletBalance,
   }) {
-    // Calculate tips amount
+    // Calculate tips
     double tipsAmount = 0.00;
     if (selectedTipsIndexValue.value == 0) {
       tipsAmount = 5.00;
@@ -355,41 +356,38 @@ class CreateOrderController extends GetxController {
       tipsAmount = double.tryParse(enteredTips.value) ?? 0.00;
     }
 
-    // Parse input values
+    // Parse total and wallet balance
     final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(',', '')) ?? 0.00;
     final double walletBalDouble = double.tryParse(walletBalance.replaceAll(',', '')) ?? 0.00;
     final double totalWithTips = totalPriceDouble + tipsAmount;
 
+    // Wallet logic
     if (walletSelected.value && walletBalDouble > 0) {
-      if (walletBalDouble >= totalWithTips) {
-        // Wallet can cover entire order + tips
-        walletDiscount.value = totalWithTips;
-        newPayAfterWallet.value = 0.00;
-        newTotalWithoutIncludingTips.value = 0.00;
-        isSelectable.value = true;
-        selectedIndex.value = 0;
-      }
-      else {
-        // Wallet can't cover full amount - use partial wallet
-        walletDiscount.value = walletBalDouble;
-        newPayAfterWallet.value = totalWithTips - walletBalDouble;
-        newTotalWithoutIncludingTips.value = totalPriceDouble - walletBalDouble;
-        isSelectable.value = false;
-      }
+      double walletCoverage = min(walletBalDouble, totalWithTips);
 
-      newTotalIncludingTips.value = totalWithTips;
-    }
-    else {
-      // Wallet not selected or empty
+      walletDiscount.value = walletCoverage;
+      newPayAfterWallet.value = totalWithTips - walletCoverage; // 💰 amount to pay after wallet
+      newTotalWithoutIncludingTips.value = max(0, totalPriceDouble - walletCoverage);
+
+      isSelectable.value = walletBalDouble >= totalWithTips;
+
+      // If wallet covers everything, auto select wallet
+      if (isSelectable.value) {
+        selectedIndex.value = 0; // wallet
+      }
+    } else {
+      // No wallet used
       walletDiscount.value = 0.0;
       newPayAfterWallet.value = totalWithTips;
       newTotalWithoutIncludingTips.value = totalPriceDouble;
-      newTotalIncludingTips.value = totalWithTips;
       isSelectable.value = false;
     }
 
+    newTotalIncludingTips.value = totalWithTips;
     update();
   }
+
+
     // void updateBalanceAfterTips({
     //   required String totalPrice,
     //   required String walletBalance,

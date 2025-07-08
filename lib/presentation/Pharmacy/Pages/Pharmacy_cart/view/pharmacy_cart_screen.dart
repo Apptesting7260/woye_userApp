@@ -2413,6 +2413,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         final grandTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.grandtotalPrice).toList();
                         final couponDiscount = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
 
+                        print("grandTotalPrice>>> $grandTotalPrice");
                         Get.toNamed(AppRoutes.prescriptionScreen, arguments: {
                           'address_id': controller
                               .cartCheckoutData.value.address!.id

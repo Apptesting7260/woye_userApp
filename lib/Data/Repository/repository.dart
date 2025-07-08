@@ -577,7 +577,7 @@ class Repository {
 
   Future<dynamic> pharmacyOrderTypeApi(var data)async{
     await initializeUser();
-    dynamic response = await _apiService.postApi(data, AppUrls.gOrderTypeUrl , token);
+    dynamic response = await _apiService.postApi(data, "AppUrls.gOrderTypeUrl", token);
     return OrderTypeModel.fromJson(response);
   }
 

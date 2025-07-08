@@ -247,6 +247,10 @@ class CheckoutScreen extends StatelessWidget {
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
+                          final String paymentAmount = controller.walletSelected.value
+                              ? controller.newPayAfterWallet.value.toStringAsFixed(2)
+                              : controller.newTotalIncludingTips.value.toStringAsFixed(2);
+
                           controller.createOrderRestaurant(
                             walletUsed: controller.walletSelected.value,
                             walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
@@ -254,7 +258,8 @@ class CheckoutScreen extends StatelessWidget {
                                 ? "wallet" : controller.selectedIndex.value == 1 ? "credit_card" : controller.selectedIndex.value == 2
                                 ? "cash_on_delivery" : "",
                             // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
-                            paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+                            paymentAmount:controller.walletSelected.value? paymentAmount : total,
+                            // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
                             addressId: addressId,
                             couponId: couponId,
                             total: total,
@@ -313,11 +318,17 @@ class CheckoutScreen extends StatelessWidget {
                         }
 
                         if(controller.selectedIndex.value == 1){
+                          final String paymentAmount = controller.walletSelected.value
+                              ? controller.newPayAfterWallet.value.toStringAsFixed(2) // 💵 after wallet
+                              : controller.newTotalIncludingTips.value.toStringAsFixed(2);
                           payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                            couponId: couponId, total:  controller.newTotalIncludingTips.value.toString(), cartIds: cartIDs, cartType: cartType, carts: carts,);
+                            couponId: couponId, total: paymentAmount/* controller.newTotalIncludingTips.value.toString()*/, cartIds: cartIDs, cartType: cartType, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
+                          final String paymentAmount = controller.walletSelected.value
+                              ? controller.newPayAfterWallet.value.toStringAsFixed(2)
+                              : controller.newTotalIncludingTips.value.toStringAsFixed(2);
                           groceryCartController.createOrderGrocery(
                             walletUsed: controller.walletSelected.value,
                             walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
@@ -326,7 +337,8 @@ class CheckoutScreen extends StatelessWidget {
                             "credit_card" : controller.selectedIndex.value == 2
                                 ? "cash_on_delivery" : "",
                             // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
-                            paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+                            paymentAmount: controller.walletSelected.value ?paymentAmount : total,
+                            // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
                             addressId: addressId,
                             couponId: couponId,
                             total: total,
@@ -347,65 +359,173 @@ class CheckoutScreen extends StatelessWidget {
                       }
 
 //-------------------------------------------pharmacy------------------------------------------
+//                       if (cartType == 'pharmacy') {
+//                         List<String> cartIDs = [];
+//                         if (vendorId.runtimeType != String) {
+//                           for (int i = 0; i < cartId.length; i++) {
+//                             cartIDs.add(arguments['cart_id'][i].toString());
+//                           }
+//                         } else {
+//                           cartIDs.add(arguments['cart_id'].toString());
+//                         }
+//
+//                         List<Map<String, dynamic>> carts = [];
+//
+//                         print("vendorId type :: ${vendorId.runtimeType}");
+//                         if (vendorId.runtimeType != String) {
+//                           for (int i = 0; i < vendorId.length; i++) {
+//                             carts.add({
+//                               "vendor_id": arguments['vendor_id'][i],
+//                               "cart_id": arguments['cart_id'][i],
+//                               "cart_total": arguments['cart_total'][i],
+//                               "cart_delivery": arguments['cart_delivery'][i],
+//                               "coupon_discount": arguments['coupon_discount'][i],
+//                               "grandtotal_price": arguments['grandtotal_price'][i],
+//                             },
+//                             );
+//                           }
+//                         } else {
+//                           carts.add({
+//                             "vendor_id": arguments['vendor_id'].toString(),
+//                             "cart_id": arguments['cart_id'].toString(),
+//                             "cart_total": arguments['cart_total'].toString(),
+//                             "cart_delivery": arguments['cart_delivery'].toString(),
+//                             "coupon_discount": arguments['coupon_discount'].toString(),
+//                             "grandtotal_price": arguments['grandtotal_price'].toString(),
+//                           },
+//                           );
+//                         }
+//
+//                         if(controller.selectedIndex.value == 1){
+//                           final String paymentAmount = controller.walletSelected.value
+//                               ? controller.newPayAfterWallet.value.toStringAsFixed(2) // 💵 after wallet
+//                               : controller.newTotalIncludingTips.value.toStringAsFixed(2);
+//                           pt("object>>>>>>>>>>> ${controller.newTotalIncludingTips.value}");
+//                           payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
+//                             couponId: couponId, total: paymentAmount, cartIds: cartIDs, cartType: cartType, carts: carts,);
+//                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
+//                         }
+//                         else{
+//                           pt("object>>>>>>>>>>> ${controller.newTotalIncludingTips.value}");
+//                           final String paymentAmount = controller.walletSelected.value
+//                               ? controller.newPayAfterWallet.value.toStringAsFixed(2) // 💵 after wallet
+//                               : controller.newTotalIncludingTips.value.toStringAsFixed(2); // 💵 full amount
+//
+//                           pharmacyCartController.pharmacyCreateOrder(
+//                             isWalletUsed: controller.walletSelected.value,
+//                             walletAmount: controller.walletDiscount.value
+//                                 .toStringAsFixed(2),
+//                             paymentMethod: controller.isSelectable.value == true
+//                                 ? "wallet"
+//                                 : controller.selectedIndex.value == 1 ?
+//                             "credit_card" : controller.selectedIndex.value == 2
+//                                 ? "cash_on_delivery"
+//                                 : "",
+//                             paymentAmount: controller.walletSelected.value ?paymentAmount : total,
+//                             // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+//                             // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+//                             addressId: addressId.toString(),
+//                             couponId: couponId.toString(),
+//                             totalAmount: total.toString(),
+//                             cartIds: cartIDs,
+//                             carts: carts,
+//                             prescription: prescription,
+//                             deliveryNotes: controller.deliveryNotesController.value.text,
+//                             deliverySoon:  controller.isDeliveryAsSoonAsPossible.value == true && controller.isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
+//                                 : controller.isDeliveryAsSoonAsPossible.value == true && controller.pickedTimeVal.value != '' ? controller.pickedTimeVal.value : "",
+//                             courierTip: controller.selectedTipsIndexValue.value == 0 ? "5" :
+//                             controller.selectedTipsIndexValue.value == 1 ? "10" :
+//                             controller.selectedTipsIndexValue.value == 2 ? "15" :
+//                             controller.selectedTipsIndexValue.value == 3 ? controller.tipsController.value.text : "",
+//                           );
+//                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
+//                         }
+//
+//
+//                       }
+
                       if (cartType == 'pharmacy') {
                         List<String> cartIDs = [];
-                        if (vendorId.runtimeType != String) {
-                          for (int i = 0; i < cartId.length; i++) {
-                            cartIDs.add(arguments['cart_id'][i].toString());
+
+                        final cartIdList = arguments['cart_id'];
+                        final vendorIdList = arguments['vendor_id'];
+                        final cartTotalList = arguments['cart_total'];
+                        final cartDeliveryList = arguments['cart_delivery'];
+                        final couponDiscountList = arguments['coupon_discount'];
+                        final grandTotalList = arguments['grandtotal_price'];
+
+                        // Prepare cart IDs
+                        if (cartIdList != null && cartIdList is List) {
+                          for (int i = 0; i < cartIdList.length; i++) {
+                            cartIDs.add(cartIdList[i]?.toString() ?? '');
                           }
-                        } else {
+                        } else if (arguments['cart_id'] != null) {
                           cartIDs.add(arguments['cart_id'].toString());
                         }
 
                         List<Map<String, dynamic>> carts = [];
 
                         print("vendorId type :: ${vendorId.runtimeType}");
-                        if (vendorId.runtimeType != String) {
-                          for (int i = 0; i < vendorId.length; i++) {
+
+                        if (vendorIdList != null &&
+                            vendorIdList is List &&
+                            cartIdList is List &&
+                            cartTotalList is List &&
+                            cartDeliveryList is List &&
+                            couponDiscountList is List &&
+                            grandTotalList is List) {
+                          for (int i = 0; i < vendorIdList.length; i++) {
                             carts.add({
-                              "vendor_id": arguments['vendor_id'][i],
-                              "cart_id": arguments['cart_id'][i],
-                              "cart_total": arguments['cart_total'][i],
-                              "cart_delivery": arguments['cart_delivery'][i],
-                              "coupon_discount": arguments['coupon_discount'][i],
-                              "grandtotal_price": arguments['grandtotal_price'][i],
-                            },
-                            );
+                              "vendor_id": vendorIdList[i]?.toString() ?? "",
+                              "cart_id": cartIdList.length > i ? cartIdList[i]?.toString() ?? "" : "",
+                              "cart_total": cartTotalList.length > i ? cartTotalList[i]?.toString() ?? "" : "",
+                              "cart_delivery": cartDeliveryList.length > i ? cartDeliveryList[i]?.toString() ?? "" : "",
+                              "coupon_discount": couponDiscountList.length > i ? couponDiscountList[i]?.toString() ?? "" : "",
+                              "grandtotal_price": grandTotalList.length > i ? grandTotalList[i]?.toString() ?? "" : "",
+                            });
                           }
                         } else {
                           carts.add({
-                            "vendor_id": arguments['vendor_id'].toString(),
-                            "cart_id": arguments['cart_id'].toString(),
-                            "cart_total": arguments['cart_total'].toString(),
-                            "cart_delivery": arguments['cart_delivery'].toString(),
-                            "coupon_discount": arguments['coupon_discount'].toString(),
-                            "grandtotal_price": arguments['grandtotal_price'].toString(),
-                          },
+                            "vendor_id": arguments['vendor_id']?.toString() ?? "",
+                            "cart_id": arguments['cart_id']?.toString() ?? "",
+                            "cart_total": arguments['cart_total']?.toString() ?? "",
+                            "cart_delivery": arguments['cart_delivery']?.toString() ?? "",
+                            "coupon_discount": arguments['coupon_discount']?.toString() ?? "",
+                            "grandtotal_price": arguments['grandtotal_price']?.toString() ?? "",
+                          });
+                        }
+
+                        // Choose payment method
+                        final String paymentAmount = controller.walletSelected.value
+                            ? controller.newPayAfterWallet.value.toStringAsFixed(2)
+                            : controller.newTotalIncludingTips.value.toStringAsFixed(2);
+
+                        if (controller.selectedIndex.value == 1) {
+                          payStackController.makePayment(
+                            context: context,
+                            email: getUserDataController.userData.value.user?.email ?? "",
+                            addressId: addressId,
+                            couponId: couponId,
+                            total: paymentAmount,
+                            cartIds: cartIDs,
+                            cartType: cartType,
+                            carts: carts,
                           );
-                        }
-
-
-                        if(controller.selectedIndex.value == 1){
-                          pt("object>>>>>>>>>>> ${controller.newTotalIncludingTips.value}");
-                          payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                            couponId: couponId, total: controller.newTotalIncludingTips.value.toString(), cartIds: cartIDs, cartType: cartType, carts: carts,);
-                          debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
-                        }
-                        else{
-                          pt("object>>>>>>>>>>> ${controller.newTotalIncludingTips.value}");
-
+                          debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value}");
+                        } else {
                           pharmacyCartController.pharmacyCreateOrder(
                             isWalletUsed: controller.walletSelected.value,
-                            walletAmount: controller.walletDiscount.value
-                                .toStringAsFixed(2),
+                            walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
                             paymentMethod: controller.isSelectable.value == true
                                 ? "wallet"
-                                : controller.selectedIndex.value == 1 ?
-                            "credit_card" : controller.selectedIndex.value == 2
+                                : controller.selectedIndex.value == 1
+                                ? "credit_card"
+                                : controller.selectedIndex.value == 2
                                 ? "cash_on_delivery"
                                 : "",
-                            paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
-                            // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+                            paymentAmount: controller.walletSelected.value
+                                ? paymentAmount
+                                : total,
                             addressId: addressId.toString(),
                             couponId: couponId.toString(),
                             totalAmount: total.toString(),
@@ -413,17 +533,23 @@ class CheckoutScreen extends StatelessWidget {
                             carts: carts,
                             prescription: prescription,
                             deliveryNotes: controller.deliveryNotesController.value.text,
-                            deliverySoon:  controller.isDeliveryAsSoonAsPossible.value == true && controller.isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
-                                : controller.isDeliveryAsSoonAsPossible.value == true && controller.pickedTimeVal.value != '' ? controller.pickedTimeVal.value : "",
-                            courierTip: controller.selectedTipsIndexValue.value == 0 ? "5" :
-                            controller.selectedTipsIndexValue.value == 1 ? "10" :
-                            controller.selectedTipsIndexValue.value == 2 ? "15" :
-                            controller.selectedTipsIndexValue.value == 3 ? controller.tipsController.value.text : "",
+                            deliverySoon: controller.isDeliveryAsSoonAsPossible.value == true &&
+                                controller.isDeliveryAsSoonAsPossiblePopUp.value == true
+                                ? "as soon as possible"
+                                : controller.isDeliveryAsSoonAsPossible.value == true &&
+                                controller.pickedTimeVal.value != ''
+                                ? controller.pickedTimeVal.value
+                                : "",
+                            courierTip: controller.selectedTipsIndexValue.value == 0
+                                ? "5"
+                                : controller.selectedTipsIndexValue.value == 1
+                                ? "10"
+                                : controller.selectedTipsIndexValue.value == 2
+                                ? "15"
+                                : controller.tipsController.value.text,
                           );
-                          debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
+                          debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value}");
                         }
-
-
                       }
                     }
                   },

@@ -48,13 +48,16 @@ class PayStackController extends GetxController {
             .walletSelected.value ? controller.newTotalWithoutIncludingTips
             .value.toStringAsFixed(2) : total} \n Email >>>>>>>>> $email");
 
+    // final amount = controller.walletSelected.value
+    //     ? controller.newTotalWithoutIncludingTips.value
+    //     : double.tryParse(total) ?? 0;
     final amount = controller.walletSelected.value
-        ? controller.newTotalWithoutIncludingTips.value
-        : double.tryParse(total) ?? 0;
+        ? controller.newPayAfterWallet.value.toStringAsFixed(2)
+        : controller.newTotalIncludingTips.value.toStringAsFixed(2);
 
     const maxAmount = 100000000; // in kobo (100000000 kobo = 1,000,000 GHS)
 
-    if (amount > maxAmount) {
+    if (double.parse(amount) > maxAmount) {
       if (context.mounted) {
         showDialog(
           context: context,
@@ -81,7 +84,7 @@ class PayStackController extends GetxController {
       }
       return;
     }
-    if (amount <= 0) {
+    if (double.parse(amount) <= 0) {
       if (context.mounted) {
         showDialog(
           context: context,
@@ -115,6 +118,9 @@ class PayStackController extends GetxController {
     debugPrint("userType>>>>> $cartType\n uniqueTransRef>>> $uniqueTransRef\n Amount>>>>>>>>> ${controller
             .walletSelected.value ? controller.newTotalWithoutIncludingTips
             .value.toStringAsFixed(2) : total} \n Email >>>>>>>>> $email");
+    final String paymentAmount = controller.walletSelected.value
+        ? controller.newPayAfterWallet.value.toStringAsFixed(2)
+        : controller.newTotalIncludingTips.value.toStringAsFixed(2);
 
     try {
       response = await _payStack.now(
@@ -124,9 +130,9 @@ class PayStackController extends GetxController {
         reference: uniqueTransRef,
         currency: "GHS",
         paymentChannel: ['card'],
-        amount: controller.walletSelected.value
+        amount:double.parse(paymentAmount).ceilToDouble(),/* controller.walletSelected.value
             ? controller.newTotalWithoutIncludingTips.value.ceilToDouble()
-            : double.parse(total).ceilToDouble(),
+            : double.parse(total).ceilToDouble(),*/
         callbackUrl: "https://google.com",
         transactionCompleted: (paymentData) {
           debugPrint("Transaction completed successfully.... ${paymentData
@@ -152,7 +158,8 @@ class PayStackController extends GetxController {
                 //     ? controller.newTotalWithoutIncludingTips.value
                 //     .toStringAsFixed(2)
                 //     : total,
-                paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+                paymentAmount: paymentAmount,
+                // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
                 addressId: addressId,
                 couponId: couponId,
                 total: total,
