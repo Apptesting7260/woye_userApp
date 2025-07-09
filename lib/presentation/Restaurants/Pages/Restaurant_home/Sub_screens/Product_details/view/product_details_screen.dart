@@ -325,13 +325,13 @@ class ProductDetailsScreen extends StatelessWidget {
                       ),
                     )),
                 Positioned(
-                  bottom: 0,
+                  bottom: 2,
                   right: 0,
                   left: 0,
                   child: Container(
                     width: Get.width,
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: AppColors.transparent,
                     ),
                     child: Padding(
                       padding: REdgeInsets.fromLTRB(22,2,22,Platform.isIOS ? 15 : 0),
@@ -429,10 +429,11 @@ class ProductDetailsScreen extends StatelessWidget {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    hBox(40.h),
                     Flexible(
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.only(top: 40.0, right: 16, left: 16, bottom: 16),
+                          padding: const EdgeInsets.only(top: 10.0, right: 16, left: 16, bottom: 16),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -500,8 +501,8 @@ class ProductDetailsScreen extends StatelessWidget {
                               extrasItemPrices: controller.extrasItemIdsPrice.toList(),
                             );
                             pt("object ${controller.extrasItemIdsName}");
-                                                    },
-                                                  ),
+                            },
+                        ),
                       ),
                     ),
                   ],
@@ -513,6 +514,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   child: IconButton(
                     onPressed: () {
                       Get.back();
+                      addToCartController.clearSelected();
                     },
                     icon: Icon(Icons.cancel, color: AppColors.primary, size: 26),
                   ),
@@ -809,7 +811,7 @@ class ProductDetailsScreen extends StatelessWidget {
             const Spacer(),
             Container(
               height: 40.h,
-              width: 100.w,
+              width: 115.w,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50.r),
                 border: Border.all(width: 0.8.w, color: AppColors.primary),
@@ -818,30 +820,65 @@ class ProductDetailsScreen extends StatelessWidget {
                 () => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (controller.cartCount.value > 1) {
-                          controller.cartCount.value--;
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     if (controller.cartCount.value > 1) {
+                    //       controller.cartCount.value--;
+                    //       if(controller.goToCart.value == true){
+                    //         controller.goToCart.value = false;
+                    //       }
+                    //     }
+                    //   },
+                    //   child: Icon(
+                    //     Icons.remove,
+                    //     size: 20.w,
+                    //   ),
+                    // ),
+                    IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                      if (controller.cartCount.value > 1) {
+                        controller.cartCount.value--;
+                        if(controller.goToCart.value == true){
+                          controller.goToCart.value = false;
                         }
-                      },
-                      child: Icon(
-                        Icons.remove,
-                        size: 20.w,
+                      }
+                    }, icon: Icon(
+                      Icons.remove,
+                      size: 20.w,
                       ),
                     ),
                     Text(
                       "${controller.cartCount.value}",
                       style: AppFontStyle.text_14_400(AppColors.darkText),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.cartCount.value++;
-                      },
-                      child: Icon(
-                        Icons.add,
-                        size: 20.w,
-                      ),
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     controller.cartCount.value++;
+                    //     if(controller.goToCart.value == true){
+                    //       controller.goToCart.value = false;
+                    //     }
+                    //   },
+                    //   child: Icon(
+                    //     Icons.add,
+                    //     size: 20.w,
+                    //   ),
+                    // ),
+                    IconButton(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                      controller.cartCount.value++;
+                      if(controller.goToCart.value == true){
+                        controller.goToCart.value = false;
+                      }
+                    }, icon:  Icon(
+                      Icons.add,
+                      size: 20.w,
+                    ),)
                   ],
                 ),
               ),

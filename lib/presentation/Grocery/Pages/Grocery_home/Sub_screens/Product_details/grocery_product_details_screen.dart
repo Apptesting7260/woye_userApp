@@ -259,13 +259,13 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                       ),
                     )),
                 Positioned(
-                  bottom: 0,
+                  bottom: 3,
                   right: 0,
                   left: 0,
                   child: Container(
                     width: Get.width,
                     decoration: BoxDecoration(
-                      color: AppColors.white,
+                      color: AppColors.transparent,
                     ),
                     child: Padding(
                       padding: REdgeInsets.fromLTRB(22,2,22,Platform.isIOS ? 15 : 0),
@@ -561,7 +561,7 @@ class GroceryProductDetailsScreen extends StatelessWidget {
           product.quanInStock.toString() != "0"
               ? Container(
                   height: 40.h,
-                  width: 100.w,
+                  width: 115.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50.r),
                     border: Border.all(width: 0.8.w, color: AppColors.primary),
@@ -570,23 +570,57 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                     () => Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        GestureDetector(
-                          onTap: () {
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     if (controller.cartCount.value > 1) {
+                        //       controller.cartCount.value--;
+                        //     }
+                        //   },
+                        //   child: Icon(
+                        //     Icons.remove,
+                        //     size: 20.w,
+                        //   ),
+                        // ),
+                        IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
                             if (controller.cartCount.value > 1) {
                               controller.cartCount.value--;
                             }
-                          },
-                          child: Icon(
-                            Icons.remove,
-                            size: 20.w,
-                          ),
-                        ),
+                            if(controller.goToCart.value == true){
+                              controller.goToCart.value = false;
+                            }
+                          }, icon:  Icon(
+                          Icons.remove,
+                          size: 20.w,
+                        ),),
                         Text(
                           "${controller.cartCount.value}",
                           style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
-                        GestureDetector(
-                          onTap: () {
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     int stockQuantity = product.quanInStock;
+                        //
+                        //     if (controller.cartCount.value < stockQuantity) {
+                        //       controller.cartCount.value++;
+                        //     } else {
+                        //       Utils.showToast(
+                        //           "Quantity is limited. Only $stockQuantity items available.");
+                        //     }
+                        //   },
+                        //   child: Icon(
+                        //     Icons.add,
+                        //     size: 20.w,
+                        //   ),
+                        // ),
+                        IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
                             int stockQuantity = product.quanInStock;
 
                             if (controller.cartCount.value < stockQuantity) {
@@ -595,12 +629,14 @@ class GroceryProductDetailsScreen extends StatelessWidget {
                               Utils.showToast(
                                   "Quantity is limited. Only $stockQuantity items available.");
                             }
-                          },
-                          child: Icon(
-                            Icons.add,
-                            size: 20.w,
-                          ),
-                        ),
+                            if(controller.goToCart.value == true){
+                              controller.goToCart.value = false;
+                            }
+                          }, icon:  Icon(
+                          Icons.add,
+                          size: 20.w,
+                        ),)
+
                       ],
                     ),
                   ),

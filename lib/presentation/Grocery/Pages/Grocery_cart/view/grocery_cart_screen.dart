@@ -749,7 +749,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                 //     :
                                 Container(
                                   height: 35.h,
-                                  width: 90.w,
+                                  width: 112.w,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50.r),
                                     border: Border.all(
@@ -766,11 +766,11 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              InkWell(
+                                              IconButton(
                                                 splashColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () {
+                                                highlightColor: Colors.transparent,
+                                                padding: EdgeInsets.zero,
+                                                onPressed:() {
                                                   // if (controller
                                                   //     .cartData
                                                   //     .value
@@ -780,22 +780,14 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                                   //     .checked !=
                                                   //     "false") {
                                                   if (items.quantity == 1) {
-                                                    Utils.showToast(
-                                                        "Qty can not less then 1");
+                                                    Utils.showToast("Qty can not less then 1");
                                                   } else {
-                                                    items.isLoading.value =
-                                                        true;
-                                                    quantityUpdateController
-                                                        .updateQuantityApi(
-                                                      cartId: buckets.cartId
-                                                          .toString(),
-                                                      productId: items.productId
-                                                          .toString(),
-                                                      countId: items.count
-                                                          .toString(),
-                                                      productQuantity:
-                                                          (items.quantity! - 1)
-                                                              .toString(),
+                                                    items.isLoading.value = true;
+                                                    quantityUpdateController.updateQuantityApi(
+                                                      cartId: buckets.cartId.toString(),
+                                                      productId: items.productId.toString(),
+                                                      countId: items.count.toString(),
+                                                      productQuantity:(items.quantity! - 1).toString(),
                                                     );
                                                   }
                                                   // }
@@ -806,21 +798,68 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                                   //           .CENTER);
                                                   // }
                                                 },
-                                                child: Icon(
-                                                  Icons.remove,
-                                                  size: 16.w,
-                                                ),
+                                                icon: Icon(
+                                                Icons.remove,
+                                                size: 16.w,
                                               ),
+                                              ),
+
+                                              // InkWell(
+                                              //   splashColor: Colors.transparent,
+                                              //   highlightColor:
+                                              //       Colors.transparent,
+                                              //   onTap: () {
+                                              //     // if (controller
+                                              //     //     .cartData
+                                              //     //     .value
+                                              //     //     .cart!
+                                              //     //     .decodedAttribute![
+                                              //     // index]
+                                              //     //     .checked !=
+                                              //     //     "false") {
+                                              //     if (items.quantity == 1) {
+                                              //       Utils.showToast(
+                                              //           "Qty can not less then 1");
+                                              //     } else {
+                                              //       items.isLoading.value =
+                                              //           true;
+                                              //       quantityUpdateController
+                                              //           .updateQuantityApi(
+                                              //         cartId: buckets.cartId
+                                              //             .toString(),
+                                              //         productId: items.productId
+                                              //             .toString(),
+                                              //         countId: items.count
+                                              //             .toString(),
+                                              //         productQuantity:
+                                              //             (items.quantity! - 1)
+                                              //                 .toString(),
+                                              //       );
+                                              //     }
+                                              //     // }
+                                              //     // else {
+                                              //     //   Utils.showToast(
+                                              //     //       "First select product",
+                                              //     //       gravity: ToastGravity
+                                              //     //           .CENTER);
+                                              //     // }
+                                              //   },
+                                              //   child: Icon(
+                                              //     Icons.remove,
+                                              //     size: 16.w,
+                                              //   ),
+                                              // ),
+
                                               Text(
                                                 items.quantity.toString(),
                                                 style: AppFontStyle.text_14_400(
                                                     AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                               ),
-                                              InkWell(
+                                              IconButton(
                                                 splashColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () {
+                                                highlightColor: Colors.transparent,
+                                                padding: EdgeInsets.zero,
+                                                onPressed: () {
                                                   // if (controller
                                                   //     .cartData
                                                   //     .value
@@ -838,19 +877,19 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                                                     productId: items.productId
                                                         .toString(),
                                                     countId:
-                                                        items.count.toString(),
+                                                    items.count.toString(),
                                                     productQuantity:
-                                                        (items.quantity! + 1)
-                                                            .toString(),
+                                                    (items.quantity! + 1)
+                                                        .toString(),
                                                   );
                                                   // } else {
                                                   //   Utils.showToast(
                                                   //       "First select product");
                                                   // }
                                                 },
-                                                child: Icon(
-                                                  Icons.add,
-                                                  size: 16.w,
+                                                icon:  Icon(
+                                                Icons.add,
+                                                size: 20.w,
                                                 ),
                                               ),
                                             ],
