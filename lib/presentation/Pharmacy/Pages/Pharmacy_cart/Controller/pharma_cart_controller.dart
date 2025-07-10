@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
@@ -136,6 +137,115 @@ class PharmacyCartController extends GetxController {
       print(stackTrace);
       print('errrrrrrrrrrrr getPharmacyCheckOutAllApi : ${error.toString()}');
       rxSetGetCheckoutData(Status.ERROR);
+    },);
+  }
+
+  //checkout btn api call
+  final cartCheckoutBtnData = PharmacyCheckOutAllModel().obs;
+  void setCartCheckoutBtnData(PharmacyCheckOutAllModel value){
+    cartCheckoutBtnData.value = value;
+  }
+
+  final rxGetCheckoutBtnDataStatus = Status.COMPLETED.obs;
+  void rxSetGetCheckoutBtnData(Status value) => rxGetCheckoutBtnDataStatus.value = value;
+
+  checkoutBtnApiCall(context) async {
+    rxSetGetCheckoutBtnData(Status.LOADING);
+    var params = {
+      "key" : "checkout",
+    };
+    api.getPharmacyCheckOutAllApi(params: params).then((value) {
+      setCartCheckoutBtnData(value);
+      if (value.status == true) {
+        rxSetGetCheckoutBtnData(Status.COMPLETED);
+        final vendorId = cartCheckoutBtnData.value.cart?.buckets
+            ?.map((data) => data.pharmaId)
+            .toList();
+        final cartId = cartCheckoutBtnData.value.cart?.buckets
+            ?.map((data) => data.cartId)
+            .toList();
+        final specificTotalPrice = cartCheckoutBtnData.value.cart?.buckets
+            ?.map((data) => data.specificTotalPrice)
+            .toList();
+        final specificDeliveryCharge = cartCheckoutBtnData.value.cart?.buckets
+            ?.map((data) => data.specificDeliveryCharge)
+            .toList();
+
+        final grandTotalPrice = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.grandtotalPrice).toList();
+        final couponDiscount = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
+
+        print("grandTotalPrice>>> $grandTotalPrice");
+        Get.toNamed(AppRoutes.prescriptionScreen, arguments: {
+          'address_id': cartCheckoutBtnData.value.address?.id.toString(),
+          'total': cartCheckoutBtnData.value.cart?.grandTotalPrice.toString(),
+          'coupon_id': cartCheckoutBtnData.value.appliedCoupon?.id.toString(),
+          'regular_price': cartCheckoutBtnData.value.cart!.regularPrice.toString(),
+          'coupon_discount_payment_details': cartCheckoutBtnData.value.cart!.couponDiscount.toString(),
+          'save_amount': cartCheckoutBtnData.value.cart!.saveAmount.toString(),
+          'delivery_charge': cartCheckoutBtnData.value.cart!.deliveryCharge.toString(),
+          'cart_id': cartId,
+          'vendor_id': vendorId,
+          'cart_total': specificTotalPrice,
+          'cart_delivery': specificDeliveryCharge,
+          'wallet': cartCheckoutBtnData.value.wallet.toString(),
+          'cartType': "pharmacy",
+          'prescription': cartCheckoutBtnData.value.prescription.toString(),
+          // 'prescription': cartCheckoutData.value.prescription.toString(),
+          'grandtotal_price' : grandTotalPrice,
+          'coupon_discount': couponDiscount,
+        });
+      }
+      else if(value.status == false){
+        rxSetGetCheckoutBtnData(Status.COMPLETED);
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              backgroundColor: Colors.white,
+              titlePadding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 8.h),
+              contentPadding: REdgeInsets.symmetric(horizontal: 22,vertical: 15),
+              actionsPadding: REdgeInsets.symmetric(horizontal: 25),
+              insetPadding:REdgeInsets.symmetric(horizontal: 22),
+              title:Icon(Icons.error_outline, color: AppColors.red, size: 24.r),
+              content: Text(
+                cartCheckoutBtnData.value.message?.toString() ?? "Something went wrong.",
+                maxLines: 5,
+                textAlign: TextAlign.center,
+                style: AppFontStyle.text_16_500(
+                  AppColors.darkText,
+                  family: AppFontFamily.gilroyMedium,
+                ),
+              ),
+              actions: <Widget>[
+                CustomElevatedButton(
+                  onPressed: () {
+                    Get.back(); // Close dialog
+                  },
+                  child: Text(
+                    'OK',
+                    style: AppFontStyle.text_15_600(
+                      AppColors.white,
+                      family: AppFontFamily.gilroyMedium,
+                    ),
+                  ),
+                ),
+                hBox(20.h),
+              ],
+            );
+          },
+        );
+      }else{
+        rxSetGetCheckoutBtnData(Status.COMPLETED);
+      }
+    },).onError((error, stackTrace) {
+      setError(error.toString());
+      print(stackTrace);
+      print('errrrrrrrrrrrr getPharmacyCheckOutAllApi : ${error.toString()}');
+      rxSetGetCheckoutBtnData(Status.ERROR);
     },);
   }
 

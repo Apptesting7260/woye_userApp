@@ -91,7 +91,8 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                         addressList(controller.deliveryAddressData.value.data ?? <Data>[],cartId,fromcart,type: type),
                       hBox(30.h),
                       addAddress(type, fromcart, cartId, cartScreenType),
-                      if (type != "Profile") changeAddressButton(),
+                      // if (type != "Profile")
+                        changeAddressButton(type),
                       hBox(30.h),
                     ],
                   ),
@@ -115,10 +116,10 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               onTap: () {
-                if (type != "Profile") {
+                // if (type != "Profile") {
                   controller.selectedAddressIndex.value = index;
                   print("object${controller.selectedAddressIndex.value}");
-                }
+                // }
               },
               child: Obx(
                 () => Container(
@@ -134,23 +135,23 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          margin: EdgeInsets.only(top: 5.r),
-                          height: 20.h,
-                          width: 20.h,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(color: AppColors.primary)),
-                          child:
-                              (controller.selectedAddressIndex.value == index)
-                                  ? SvgPicture.asset(
-                                      "assets/svg/green-check-circle.svg")
-                                  : null,
-                        ),
-                      ),
-                      wBox(6),
+                      // Expanded(
+                      //   flex: 1,
+                      //   child: Container(
+                      //     margin: EdgeInsets.only(top: 5.r),
+                      //     height: 20.h,
+                      //     width: 20.h,
+                      //     decoration: BoxDecoration(
+                      //         shape: BoxShape.circle,
+                      //         border: Border.all(color: AppColors.primary)),
+                      //     child:
+                      //         (controller.selectedAddressIndex.value == index)
+                      //             ? SvgPicture.asset(
+                      //                 "assets/svg/green-check-circle.svg")
+                      //             : null,
+                      //   ),
+                      // ),
+                      // wBox(6),
                       Expanded(
                         flex: 9,
                         child: Column(
@@ -315,13 +316,14 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
     // );
   }
 
-  Widget changeAddressButton() {
+  Widget changeAddressButton(type) {
     return Obx(
       () => Padding(
         padding: EdgeInsets.only(top: 30.h),
         child: CustomElevatedButton(
           onPressed: () {
             editController.changeAddressApi(
+              isProfileScreen: type == "Profile",
               addressId: controller.deliveryAddressData.value
                   .data![controller.selectedAddressIndex.value].id
                   .toString(),
@@ -358,6 +360,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
             );
           },
           isLoading: editController.rxRequestStatus.value == Status.LOADING,
+          fontFamily: AppFontFamily.gilroyMedium,
           text: "Change Address",
         ),
       ),

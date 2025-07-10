@@ -2,23 +2,31 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
+import 'package:woye_user/Core/Utils/sized_box.dart';
 import 'package:woye_user/Core/Utils/snackbar.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Data/Repository/repository.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Routes/app_routes.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
+import 'package:woye_user/pay_stack/payment_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
+import 'package:woye_user/shared/theme/colors.dart';
+import 'package:woye_user/shared/theme/font_style.dart';
+import 'package:woye_user/shared/widgets/custom_elevated_button.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
 
 class CreateOrderController extends GetxController {
-
   Rx<TextEditingController> tipsController = Rx(TextEditingController());
   Rx<TextEditingController> deliveryNotesController = Rx(TextEditingController());
   Rx<TextEditingController> scheduleDeliveryController = Rx(TextEditingController());
@@ -33,6 +41,27 @@ class CreateOrderController extends GetxController {
   RxString totalPayAmount = "0".obs;
   RxDouble newPayAfterWallet = 0.00.obs;
 
+
+  //------
+  RxString addressId = "".obs;
+  RxString couponDiscountPaymentDetails = "".obs;
+  RxString formattedTotal = "".obs;
+  RxString total = "".obs;
+  RxString regularPrice = "".obs;
+  RxString saveAmount = "".obs;
+  RxString deliveryCharge = "".obs;
+  RxString cartType = "".obs;
+  RxString walletBalance = "".obs;
+  dynamic couponDiscount;
+  dynamic cartTotal;
+  dynamic cartDelivery;
+  dynamic couponId;
+  dynamic vendorId;
+  dynamic grandTotalPrice;
+  dynamic cartId;
+  dynamic prescription;
+
+  //------
   @override
   void onInit() {
     selectedTipsIndexValue.value = -1;
@@ -148,6 +177,203 @@ class CreateOrderController extends GetxController {
     });
   }
 
+  // // placeOrder btn api
+  // final rxGetCheckoutBtnDataStatus = Status.COMPLETED.obs;
+  // void setRxRequestStatusCheckoutBtn(Status value) => rxGetCheckoutBtnDataStatus.value = value;
+  //
+  // final cartCheckoutBtnData = RestaurantCartModal().obs;
+  // void allCheckoutBtnDataSet(RestaurantCartModal value) => cartCheckoutBtnData.value = value;
+  //
+  // Future checkoutBtnApiWithParams(context)async{
+  //   var params = {
+  //     "key" : "checkout",
+  //   };
+  //   setRxRequestStatusCheckoutBtn(Status.LOADING);
+  //   api.getRestaurantCheckOutApi(params:params).then((value) {
+  //     allCheckoutBtnDataSet(value);
+  //     if(value.status == true){
+  //       setRxRequestStatusCheckoutBtn(Status.COMPLETED);
+  //         List<Map<String, dynamic>> carts = [];
+  //
+  //         print("vendorId type :: ${vendorId.runtimeType}");
+  //         if (vendorId.runtimeType != String) {
+  //           for (int i = 0; i < vendorId.length; i++) {
+  //             carts.add({
+  //               "vendor_id": vendorId[i],
+  //               "cart_id": cartId[i],
+  //               "cart_total": cartTotal[i],
+  //               "cart_delivery": cartDelivery[i],
+  //               "coupon_discount": couponDiscount[i],
+  //               "grandtotal_price": grandTotalPrice[i],
+  //             },
+  //             );
+  //           }
+  //         } else {
+  //           carts.add({
+  //             "vendor_id": vendorId.toString(),
+  //             "cart_id":cartId.toString(),
+  //             "cart_total": cartTotal.toString(),
+  //             "cart_delivery": cartDelivery.toString(),
+  //             "coupon_discount": couponDiscount.toString(),
+  //             "grandtotal_price":grandTotalPrice.toString(),
+  //           },
+  //           );
+  //         }
+  //
+  //
+  //         List<String> cartIDs = [];
+  //         if (vendorId.runtimeType != String) {
+  //           for (int i = 0; i < cartId.length; i++) {
+  //             cartIDs.add(cartId[i].toString());
+  //           }
+  //         } else {
+  //           cartIDs.add(cartId.toString());
+  //         }
+  //         showDialog(
+  //           context: context,
+  //           barrierDismissible: true,
+  //           builder: (BuildContext context) {
+  //             return AlertDialog(
+  //               shape: RoundedRectangleBorder(
+  //                 borderRadius: BorderRadius.circular(16.r),
+  //               ),
+  //               backgroundColor: Colors.white,
+  //               titlePadding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 8.h),
+  //               contentPadding: REdgeInsets.symmetric(horizontal: 22,vertical: 15),
+  //               actionsPadding: REdgeInsets.symmetric(horizontal: 25),
+  //               insetPadding:REdgeInsets.symmetric(horizontal: 22),
+  //               title:Icon(Icons.error_outline, color: AppColors.red, size: 24.r),
+  //               content: Text(
+  //                 " cartCheckoutBtnData.value.message?.toString() ?? Something went wrong",
+  //                 maxLines: 5,
+  //                 textAlign: TextAlign.center,
+  //                 style: AppFontStyle.text_16_500(
+  //                   AppColors.darkText,
+  //                   family: AppFontFamily.gilroyMedium,
+  //                 ),
+  //               ),
+  //               actions: <Widget>[
+  //                 CustomElevatedButton(
+  //                   onPressed: () {
+  //                     Get.back();
+  //                     // Get.back();
+  //                   },
+  //                   child: Text(
+  //                     'OK',
+  //                     style: AppFontStyle.text_15_600(
+  //                       AppColors.white,
+  //                       family: AppFontFamily.gilroyMedium,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 hBox(20.h),
+  //               ],
+  //             );
+  //           },
+  //         );
+  //         if (selectedIndex.value == 1) {
+  //           // payStackController.makePayment(context: context,
+  //           //   email: getUserDataController.userData.value.user?.email ?? "",
+  //           //   addressId: addressId.value,
+  //           //   couponId: couponId,
+  //           //   total: newTotalIncludingTips.value.toString(),
+  //           //   cartIds: cartIDs,
+  //           //   cartType: cartType.value,
+  //           //   carts: carts,);
+  //           // debugPrint("controller.selectedIndex.value  ${selectedIndex.value }");
+  //         }
+  //         else {
+  //           final String paymentAmount = walletSelected.value
+  //               ? newPayAfterWallet.value
+  //               .toStringAsFixed(2)
+  //               : newTotalIncludingTips.value
+  //               .toStringAsFixed(2);
+  //
+  //           createOrderRestaurant(
+  //             walletUsed: walletSelected.value,
+  //             walletAmount: walletDiscount.value
+  //                 .toStringAsFixed(2),
+  //             paymentMethod: isSelectable.value == true
+  //                 ? "wallet" : selectedIndex.value == 1 ? "credit_card" : selectedIndex.value == 2
+  //                 ? "cash_on_delivery" : "",
+  //             // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+  //             paymentAmount: walletSelected.value ? paymentAmount : total.value,
+  //             // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+  //             addressId: addressId.value,
+  //             couponId: couponId,
+  //             total: total.value,
+  //             cartIds: cartIDs,
+  //             type: cartType.value,
+  //             carts: carts,
+  //             deliveryNotes: deliveryNotesController.value.text,
+  //             deliverySoon: isDeliveryAsSoonAsPossible.value == true && isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
+  //                 : isDeliveryAsSoonAsPossible.value == true && pickedTimeVal.value != ''
+  //                 ? pickedTimeVal.value : "",
+  //             courierTip: selectedTipsIndexValue.value == 0 ? "5" : selectedTipsIndexValue.value == 1 ? "10":
+  //             selectedTipsIndexValue.value == 2? "15":selectedTipsIndexValue.value == 3
+  //                 ? tipsController.value.text: "",
+  //           );
+  //           debugPrint(
+  //               "controller.selectedIndex.value  ${selectedIndex.value }");
+  //         }
+  //
+  //     }else if(value.status == false){
+  //       setRxRequestStatusCheckoutBtn(Status.COMPLETED);
+  //       showDialog(
+  //         context: context,
+  //         barrierDismissible: true,
+  //         builder: (BuildContext context) {
+  //           return AlertDialog(
+  //             shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(16.r),
+  //             ),
+  //             backgroundColor: Colors.white,
+  //             titlePadding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 8.h),
+  //             contentPadding: REdgeInsets.symmetric(horizontal: 22,vertical: 15),
+  //             actionsPadding: REdgeInsets.symmetric(horizontal: 25),
+  //             insetPadding:REdgeInsets.symmetric(horizontal: 22),
+  //             title:Icon(Icons.error_outline, color: AppColors.red, size: 24.r),
+  //             content: Text(
+  //               cartCheckoutBtnData.value.message?.toString() ?? "Something went wrong.",
+  //               maxLines: 5,
+  //               textAlign: TextAlign.center,
+  //               style: AppFontStyle.text_16_500(
+  //                 AppColors.darkText,
+  //                 family: AppFontFamily.gilroyMedium,
+  //               ),
+  //             ),
+  //             actions: <Widget>[
+  //               CustomElevatedButton(
+  //                 onPressed: () {
+  //                   Get.back();
+  //                   // Get.back();
+  //                 },
+  //                 child: Text(
+  //                   'OK',
+  //                   style: AppFontStyle.text_15_600(
+  //                     AppColors.white,
+  //                     family: AppFontFamily.gilroyMedium,
+  //                   ),
+  //                 ),
+  //               ),
+  //               hBox(20.h),
+  //             ],
+  //           );
+  //         },
+  //       );
+  //     }else{
+  //       setRxRequestStatusCheckoutBtn(Status.ERROR);
+  //     }
+  //   },).onError((error, stackError) {
+  //     setError(error.toString());
+  //     pt('error restaurant checkout api >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
+  //     pt(error);
+  //     pt(stackError);
+  //     setRxRequestStatusCheckoutBtn(Status.ERROR);
+  //   });
+  //
+  // }
+
 
   // void setCreateOrderData(CreateOrder value) => createOrderData.value = value;
 
@@ -242,6 +468,7 @@ class CreateOrderController extends GetxController {
 
   void setError(String value) => error.value = value;
 
+/*10-07
   void initializeWallet(String walletBalanceStr, String totalPriceStr) {
     final walletBalance = double.tryParse(walletBalanceStr.replaceAll(",", "")) ?? 0.0;
     final totalPrice = double.tryParse(totalPriceStr.replaceAll(",", "")) ?? 0.0;
@@ -274,9 +501,93 @@ class CreateOrderController extends GetxController {
 
     }
   }
+*/
 
   RxDouble newTotalIncludingTips = 0.00.obs;
   RxDouble newTotalWithoutIncludingTips = 0.00.obs;
+
+  // void initializeWallet(String walletBalanceStr, String totalPriceStr, {bool preserveSelectedIndex = false}) {
+  //   final walletBalance = double.tryParse(walletBalanceStr.replaceAll(",", "")) ?? 0.0;
+  //   final totalPrice = double.tryParse(totalPriceStr.replaceAll(",", "")) ?? 0.0;
+  //
+  //   walletSelected.value = walletBalance > 0.0;
+  //
+  //   if (walletBalance >= totalPrice) {
+  //     // Full payment via wallet
+  //     walletDiscount.value = totalPrice;
+  //     payAfterWallet.value = 0.0;
+  //     isSelectable.value = true;
+  //     if (!preserveSelectedIndex || selectedIndex.value == -1) {
+  //       selectedIndex.value = 0; // ✅ Only select if not preserving previous selection
+  //     }
+  //     update();
+  //   } else if (walletBalance > 0.0) {
+  //     // Partial wallet, remaining with another method
+  //     walletDiscount.value = walletBalance;
+  //     payAfterWallet.value = totalPrice - walletBalance;
+  //     isSelectable.value = false;
+  //     if (!preserveSelectedIndex || selectedIndex.value == -1) {
+  //       selectedIndex.value = -1; // Don't select anything
+  //     }
+  //     update();
+  //   } else {
+  //     // No wallet used
+  //     walletSelected.value = false;
+  //     walletDiscount.value = 0.0;
+  //     payAfterWallet.value = totalPrice;
+  //     isSelectable.value = false;
+  //     if (!preserveSelectedIndex || selectedIndex.value == -1) {
+  //       selectedIndex.value = -1;
+  //     }
+  //     update();
+  //   }
+  // }
+
+  // void updateBalanceAfterTips({
+  //   required String totalPrice,
+  //   required String walletBalance,
+  //   bool preserveSelectedIndex = false, // ✅ new param
+  // }) {
+  //   // Calculate tips
+  //   double tipsAmount = 0.00;
+  //   if (selectedTipsIndexValue.value == 0) {
+  //     tipsAmount = 5.00;
+  //   } else if (selectedTipsIndexValue.value == 1) {
+  //     tipsAmount = 10.00;
+  //   } else if (selectedTipsIndexValue.value == 2) {
+  //     tipsAmount = 15.00;
+  //   } else if (selectedTipsIndexValue.value == 3 && enteredTips.value.isNotEmpty) {
+  //     tipsAmount = double.tryParse(enteredTips.value) ?? 0.00;
+  //   }
+  //
+  //   final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(',', '')) ?? 0.00;
+  //   final double walletBalDouble = double.tryParse(walletBalance.replaceAll(',', '')) ?? 0.00;
+  //   final double totalWithTips = totalPriceDouble + tipsAmount;
+  //
+  //   if (walletSelected.value && walletBalDouble > 0) {
+  //     double walletCoverage = min(walletBalDouble, totalWithTips);
+  //
+  //     walletDiscount.value = walletCoverage;
+  //     newPayAfterWallet.value = totalWithTips - walletCoverage;
+  //     newTotalWithoutIncludingTips.value = max(0, totalPriceDouble - walletCoverage);
+  //
+  //     isSelectable.value = walletBalDouble >= totalWithTips;
+  //
+  //     // ✅ Only auto-select wallet if preserveSelectedIndex is false and nothing selected
+  //     if (!preserveSelectedIndex && isSelectable.value && selectedIndex.value == -1) {
+  //       selectedIndex.value = 0;
+  //     }
+  //   } else {
+  //     walletDiscount.value = 0.0;
+  //     newPayAfterWallet.value = totalWithTips;
+  //     newTotalWithoutIncludingTips.value = totalPriceDouble;
+  //     isSelectable.value = false;
+  //   }
+  //
+  //   newTotalIncludingTips.value = totalWithTips;
+  //   update();
+  // }
+
 
   // void updateBalanceAfterTips({
   //   required String totalPrice,
@@ -338,8 +649,154 @@ class CreateOrderController extends GetxController {
   //
   //   update();
   // }
+    void initializeWallet(String walletBalanceStr, String totalPriceStr) {
+      final walletBalance = double.tryParse(walletBalanceStr.replaceAll(",", "")) ?? 0.0;
+      final totalPrice = double.tryParse(totalPriceStr.replaceAll(",", "")) ?? 0.0;
+
+      walletSelected.value = walletBalance > 0.0;
+
+      if (walletBalance >= totalPrice) {
+        // Full wallet payment is possible
+        walletDiscount.value = totalPrice;
+        payAfterWallet.value = 0.0;
+        isSelectable.value = true;
+
+        // ❌ Don't auto-select wallet
+        // selectedIndex.value = 0;
+
+        update();
+      } else if (walletBalance > 0.0) {
+        // Partial wallet + another method
+        walletDiscount.value = walletBalance;
+        payAfterWallet.value = totalPrice - walletBalance;
+        isSelectable.value = false;
+
+        // ❌ No pre-selection
+        // selectedIndex.value = -1;
+
+        update();
+      } else {
+        // No wallet usage
+        walletSelected.value = false;
+        walletDiscount.value = 0.0;
+        payAfterWallet.value = totalPrice;
+        isSelectable.value = false;
+
+        // ❌ No pre-selection
+        // selectedIndex.value = -1;
+
+        update();
+      }
+    }
 
 
+/*
+  void updateBalanceAfterTips({
+    required String totalPrice,
+    required String walletBalance,
+  }) {
+    // 1. Calculate tips amount
+    double tipsAmount = 0.0;
+    if (selectedTipsIndexValue.value == 0) tipsAmount = 5.0;
+    else if (selectedTipsIndexValue.value == 1) tipsAmount = 10.0;
+    else if (selectedTipsIndexValue.value == 2) tipsAmount = 15.0;
+    else if (selectedTipsIndexValue.value == 3) tipsAmount = double.tryParse(enteredTips.value) ?? 0.0;
+
+    // 2. Parse amounts
+    final double total = double.tryParse(totalPrice.replaceAll(',', '')) ?? 0.0;
+    final double walletBal = double.tryParse(walletBalance.replaceAll(',', '')) ?? 0.0;
+    final double totalWithTips = total + tipsAmount;
+
+    // 3. Update totals
+    totalPriceIncludingTips.value = totalWithTips;
+
+    // 4. Handle wallet logic
+    if (walletSelected.value) {
+      if (walletBal >= totalWithTips) {
+        // Case 1: Wallet covers full amount
+        walletDiscount.value = totalWithTips;
+        payAfterWallet.value = 0.0;
+        isSelectable.value = true;
+
+        // Keep wallet selected but allow manual unselect
+      } else {
+        // Case 2: Wallet covers partial amount
+        walletDiscount.value = walletBal;
+        payAfterWallet.value = totalWithTips - walletBal;
+        isSelectable.value = false;
+
+        // Auto-unselect wallet if balance becomes 0
+        if (walletBal <= 0) {
+          walletSelected.value = false;
+        }
+      }
+    } else {
+      // Case 3: Wallet not selected
+      walletDiscount.value = 0.0;
+      payAfterWallet.value = totalWithTips;
+      isSelectable.value = false;
+
+      // Auto-select wallet if it can cover full amount (optional)
+      // if (walletBal >= totalWithTips) {
+      //   walletSelected.value = true;
+      // }
+    }
+
+    // 5. Update UI
+    newPayAfterWallet.value = payAfterWallet.value;
+    newTotalIncludingTips.value = totalPriceIncludingTips.value;
+    update();
+  }
+*/
+
+  void updateBalanceAfterTips({
+    required String totalPrice,
+    required String walletBalance,
+  }) {
+    // Calculate tips amount
+    double tipsAmount = 0.0;
+    if (selectedTipsIndexValue.value == 0) {
+      tipsAmount = 5.0;
+    } else if (selectedTipsIndexValue.value == 1) {
+      tipsAmount = 10.0;
+    } else if (selectedTipsIndexValue.value == 2) {
+      tipsAmount = 15.0;
+    } else if (selectedTipsIndexValue.value == 3) {
+      tipsAmount = double.tryParse(enteredTips.value) ?? 0.0;
+    }
+
+    final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(',', '')) ?? 0.0;
+    final double walletBalDouble = double.tryParse(walletBalance.replaceAll(',', '')) ?? 0.0;
+    final double totalWithTips = totalPriceDouble + tipsAmount;
+
+    // Update totals
+    totalPriceIncludingTips.value = totalWithTips;
+
+    if (walletSelected.value) {
+      // Only calculate wallet impact if wallet is manually selected
+      if (walletBalDouble >= totalWithTips) {
+        walletDiscount.value = totalWithTips;
+        payAfterWallet.value = 0.0;
+        isSelectable.value = true;
+      } else {
+        walletDiscount.value = walletBalDouble;
+        payAfterWallet.value = totalWithTips - walletBalDouble;
+        isSelectable.value = false;
+      }
+    } else {
+      // Wallet not selected - just show full amount
+      walletDiscount.value = 0.0;
+      payAfterWallet.value = totalWithTips;
+      isSelectable.value = false;
+    }
+
+    newPayAfterWallet.value = payAfterWallet.value;
+    newTotalIncludingTips.value = totalPriceIncludingTips.value;
+
+    update();
+  }
+
+/*10/017
   void updateBalanceAfterTips({
     required String totalPrice,
     required String walletBalance,
@@ -386,6 +843,7 @@ class CreateOrderController extends GetxController {
     newTotalIncludingTips.value = totalWithTips;
     update();
   }
+*/
 
 
     // void updateBalanceAfterTips({
@@ -438,6 +896,7 @@ class CreateOrderController extends GetxController {
     // }
 
   ////////-----------------------------------------------------------------------
+
   Rx<DateTime> parseTime1 = DateTime.now().obs;
   RxString pickedTimeVal = "".obs;
   RxString formattedTime = "".obs;

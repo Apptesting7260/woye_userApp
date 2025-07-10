@@ -4058,7 +4058,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                     //     :
                                     Container(
                                       height: 35.h,
-                                      width: 90.w,
+                                      width: 105.w,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50.r),
                                         border: Border.all(
@@ -4071,19 +4071,49 @@ class RestaurantCartScreen extends StatefulWidget {
                                             : Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            InkWell(
+                                            // InkWell(
+                                            //   splashColor: Colors.transparent,
+                                            //   highlightColor:
+                                            //   Colors.transparent,
+                                            //   onTap: () {
+                                            //     // if (controller
+                                            //     //     .cartData
+                                            //     //     .value
+                                            //     //     .cart!
+                                            //     //     .decodedAttribute![
+                                            //     // index]
+                                            //     //     .checked !=
+                                            //     //     "false") {
+                                            //     if (items.quantity == "1") {
+                                            //       Utils.showToast(
+                                            //           "Qty can not less then 1");
+                                            //     } else {
+                                            //       items.isLoading.value =true;
+                                            //       quantityUpdateController.updateQuantityApi(
+                                            //         isSingleCartScreen: false,
+                                            //         cartId: buckets.cartId.toString(),
+                                            //         productId: items.productId.toString(),
+                                            //         countId: items.count.toString(),
+                                            //         productQuantity: (int.parse(items.quantity!) - 1).toString(),
+                                            //       );
+                                            //     }
+                                            //     // }
+                                            //     // else {
+                                            //     //   Utils.showToast(
+                                            //     //       "First select product",
+                                            //     //       gravity: ToastGravity
+                                            //     //           .CENTER);
+                                            //     // }
+                                            //   },
+                                            //   child: Icon(
+                                            //     Icons.remove,
+                                            //     size: 16.w,
+                                            //   ),
+                                            // ),
+                                            IconButton(
                                               splashColor: Colors.transparent,
-                                              highlightColor:
-                                              Colors.transparent,
-                                              onTap: () {
-                                                // if (controller
-                                                //     .cartData
-                                                //     .value
-                                                //     .cart!
-                                                //     .decodedAttribute![
-                                                // index]
-                                                //     .checked !=
-                                                //     "false") {
+                                              highlightColor:Colors.transparent,
+                                              onPressed: () {
                                                 if (items.quantity == "1") {
                                                   Utils.showToast(
                                                       "Qty can not less then 1");
@@ -4097,15 +4127,8 @@ class RestaurantCartScreen extends StatefulWidget {
                                                     productQuantity: (int.parse(items.quantity!) - 1).toString(),
                                                   );
                                                 }
-                                                // }
-                                                // else {
-                                                //   Utils.showToast(
-                                                //       "First select product",
-                                                //       gravity: ToastGravity
-                                                //           .CENTER);
-                                                // }
                                               },
-                                              child: Icon(
+                                              icon: Icon(
                                                 Icons.remove,
                                                 size: 16.w,
                                               ),
@@ -4115,38 +4138,56 @@ class RestaurantCartScreen extends StatefulWidget {
                                               style: AppFontStyle.text_14_400(
                                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                             ),
-                                            InkWell(
-                                              splashColor: Colors.transparent,
-                                              highlightColor:
-                                              Colors.transparent,
-                                              onTap: () {
-                                                // if (controller
-                                                //     .cartData
-                                                //     .value
-                                                //     .cart!
-                                                //     .decodedAttribute![
-                                                // index]
-                                                //     .checked !=
-                                                //     "false") {
+                                            // InkWell(
+                                            //   splashColor: Colors.transparent,
+                                            //   highlightColor:Colors.transparent,
+                                            //   onTap: () {
+                                            //     // if (controller
+                                            //     //     .cartData
+                                            //     //     .value
+                                            //     //     .cart!
+                                            //     //     .decodedAttribute![
+                                            //     // index]
+                                            //     //     .checked !=
+                                            //     //     "false") {
+                                            //
+                                            //     // items.isLoading.value = true;
+                                            //     items.isLoading.value = true;
+                                            //     quantityUpdateController.updateQuantityApi(
+                                            //       isSingleCartScreen: false,
+                                            //       cartId: buckets.cartId.toString(),
+                                            //       productId: items.productId.toString(),
+                                            //       countId:items.count.toString(),
+                                            //       productQuantity:(int.parse(items.quantity!) + 1).toString(),
+                                            //     );
+                                            //     // } else {
+                                            //     //   Utils.showToast(
+                                            //     //       "First select product");
+                                            //     // }
+                                            //   },
+                                            //   child: Icon(
+                                            //     Icons.add,
+                                            //     size: 16.w,
+                                            //   ),
+                                            // ),
 
-                                                // items.isLoading.value = true;
-                                                items.isLoading.value = true;
-                                                quantityUpdateController.updateQuantityApi(
-                                                  isSingleCartScreen: false,
-                                                  cartId: buckets.cartId.toString(),
-                                                  productId: items.productId.toString(),
-                                                  countId:items.count.toString(),
-                                                  productQuantity:(int.parse(items.quantity!) + 1).toString(),
-                                                );
-                                                // } else {
-                                                //   Utils.showToast(
-                                                //       "First select product");
-                                                // }
-                                              },
-                                              child: Icon(
-                                                Icons.add,
-                                                size: 16.w,
-                                              ),
+                                            IconButton(
+                                              splashColor: Colors.transparent,
+                                              highlightColor:Colors.transparent,
+                                              onPressed: () {
+                                              items.isLoading.value = true;
+                                              quantityUpdateController.updateQuantityApi(
+                                                isSingleCartScreen: false,
+                                                cartId: buckets.cartId.toString(),
+                                                productId: items.productId.toString(),
+                                                countId:items.count.toString(),
+                                                productQuantity:(int.parse(items.quantity!) + 1).toString(),
+                                              );
+                                            },
+                                            icon: Icon(
+                                              Icons.add,
+                                              size: 16.w,
+                                            ),
                                             ),
                                           ],
                                         ),
@@ -4749,52 +4790,62 @@ class RestaurantCartScreen extends StatefulWidget {
             ? SizedBox(
           width: 200.w,
           height: 55.h,
-          child: CustomElevatedButton(
-            onPressed: () {
-              // var selectedItems = controller
-              //     .cartData.value.cart!.decodedAttribute!
-              //     .where((item) => item.checked == "true")
-              //     .map((item) => {
-              //           'name': item.productName,
-              //           'price': "\$${item.totalPrice.toString()}"
-              //         })
-              //     .toList();
-              //
-              // if (selectedItems.isNotEmpty) {
-              //   selectedItems.forEach((item) {
-              //     print(
-              //         "Selected Product: ${item['name']}, Price: ${item['price']}");
-              //
-              final vendorId = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.vendorId).toList();
-              final cartId = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.cartId).toList();
-              final specificTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.specificTotalPrice).toList();
-              final specificDeliveryCharge = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.specificDeliveryCharge).toList();
-              final grandTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.grandtotalPrice).toList();
-              final couponDiscount = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
+          child: Obx(
+            ()=> CustomElevatedButton(
+              isLoading: controller.rxGetCheckoutBtnDataStatus.value == Status.LOADING,
+              onPressed: ()async {
+                // var selectedItems = controller
+                //     .cartData.value.cart!.decodedAttribute!
+                //     .where((item) => item.checked == "true")
+                //     .map((item) => {
+                //           'name': item.productName,
+                //           'price': "\$${item.totalPrice.toString()}"
+                //         })
+                //     .toList();
+                //
+                // if (selectedItems.isNotEmpty) {
+                //   selectedItems.forEach((item) {
+                //     print(
+                //         "Selected Product: ${item['name']}, Price: ${item['price']}");
+                //
 
-              Get.toNamed(
-                AppRoutes.checkoutScreen,
-                  arguments: {
-                    'address_id':controller.cartCheckoutData.value.address!.id.toString(),
-                    'total': controller.cartCheckoutData.value.cart!.grandTotalPrice.toString(),
-                    'coupon_id': controller.cartCheckoutData.value.appliedCoupon?.id.toString(),
-                    'regular_price': controller.cartCheckoutData.value.cart!.regularPrice.toString(),
-                    'coupon_discount': couponDiscount,
-                    // 'coupon_discount': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),
-                    'save_amount': controller.cartCheckoutData.value.cart!.saveAmount.toString(),
-                    'delivery_charge': controller.cartCheckoutData.value.cart!.deliveryCharge.toString(),
-                    'cart_id': cartId,
-                    'vendor_id': vendorId,
-                    'cart_total': specificTotalPrice,
-                    'cart_delivery': specificDeliveryCharge,
-                    'wallet': controller.cartCheckoutData.value.wallet.toString(),
-                    'grandtotal_price' : grandTotalPrice,
-                    'cartType': "restaurant",
-                  },
-              );
-            },
-            text: "Checkout",
-            textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+              await  controller.checkoutBtnApiWithParams(context);
+                /*.then((value) {
+                  if( controller.cartCheckoutBtnData.value.status == true){
+                    final vendorId = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.vendorId).toList();
+                    final cartId = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.cartId).toList();
+                    final specificTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.specificTotalPrice).toList();
+                    final specificDeliveryCharge = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.specificDeliveryCharge).toList();
+                    final grandTotalPrice = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.grandtotalPrice).toList();
+                    final couponDiscount = controller.cartCheckoutData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
+
+                    Get.toNamed(
+                      AppRoutes.checkoutScreen,
+                      arguments: {
+                        'address_id':controller.cartCheckoutData.value.address!.id.toString(),
+                        'total': controller.cartCheckoutData.value.cart!.grandTotalPrice.toString(),
+                        'coupon_id': controller.cartCheckoutData.value.appliedCoupon?.id.toString(),
+                        'regular_price': controller.cartCheckoutData.value.cart!.regularPrice.toString(),
+                        'coupon_discount': couponDiscount,
+                        'coupon_discount_payment_details': controller.cartCheckoutData.value.cart!.couponDiscount.toString(),
+                        'save_amount': controller.cartCheckoutData.value.cart!.saveAmount.toString(),
+                        'delivery_charge': controller.cartCheckoutData.value.cart!.deliveryCharge.toString(),
+                        'cart_id': cartId,
+                        'vendor_id': vendorId,
+                        'cart_total': specificTotalPrice,
+                        'cart_delivery': specificDeliveryCharge,
+                        'wallet': controller.cartCheckoutData.value.wallet.toString(),
+                        'grandtotal_price' : grandTotalPrice,
+                        'cartType': "restaurant",
+                      },
+                    );
+                  }
+                },
+              );*/
+              },
+              text: "Checkout",
+              textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+            ),
           ),
         )
             : SizedBox(

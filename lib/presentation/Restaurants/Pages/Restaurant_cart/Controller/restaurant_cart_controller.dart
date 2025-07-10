@@ -1,5 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/main.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/grocery_order_type_model.dart';
@@ -132,6 +133,104 @@ class RestaurantCartController extends GetxController {
       pt(error);
       pt(stackError);
       setRxRequestStatusCheckout(Status.ERROR);
+    });
+
+  }
+  //checkout btn api call
+  final rxGetCheckoutBtnDataStatus = Status.COMPLETED.obs;
+  void setRxRequestStatusCheckoutBtn(Status value) => rxGetCheckoutBtnDataStatus.value = value;
+
+  final cartCheckoutBtnData = RestaurantCartModal().obs;
+  void allCheckoutBtnDataSet(RestaurantCartModal value) => cartCheckoutBtnData.value = value;
+
+  Future checkoutBtnApiWithParams(context)async{
+    setRxRequestStatusCheckoutBtn(Status.LOADING);
+    var params = {
+      "key" : "checkout",
+    };
+    api.getRestaurantCheckOutApi(params:params).then((value) {
+      allCheckoutBtnDataSet(value);
+      if(value.status == true){
+        setRxRequestStatusCheckoutBtn(Status.COMPLETED);
+          final vendorId = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.vendorId).toList();
+          final cartId = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.cartId).toList();
+          final specificTotalPrice = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.specificTotalPrice).toList();
+          final specificDeliveryCharge = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.specificDeliveryCharge).toList();
+          final grandTotalPrice = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.grandtotalPrice).toList();
+          final couponDiscount = cartCheckoutBtnData.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
+
+          Get.toNamed(
+            AppRoutes.checkoutScreen,
+            arguments: {
+              'address_id':cartCheckoutBtnData.value.address!.id.toString(),
+              'total': cartCheckoutBtnData.value.cart!.grandTotalPrice.toString(),
+              'coupon_id': cartCheckoutBtnData.value.appliedCoupon?.id.toString(),
+              'regular_price': cartCheckoutBtnData.value.cart!.regularPrice.toString(),
+              'coupon_discount': couponDiscount,
+              'coupon_discount_payment_details': cartCheckoutBtnData.value.cart!.couponDiscount.toString(),
+              'save_amount': cartCheckoutBtnData.value.cart!.saveAmount.toString(),
+              'delivery_charge': cartCheckoutBtnData.value.cart!.deliveryCharge.toString(),
+              'cart_id': cartId,
+              'vendor_id': vendorId,
+              'cart_total': specificTotalPrice,
+              'cart_delivery': specificDeliveryCharge,
+              'wallet': cartCheckoutBtnData.value.wallet.toString(),
+              'grandtotal_price' : grandTotalPrice,
+              'cartType': "restaurant",
+            },
+          );
+      }else if(value.status == false){
+        setRxRequestStatusCheckoutBtn(Status.COMPLETED);
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              backgroundColor: Colors.white,
+              titlePadding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 8.h),
+              contentPadding: REdgeInsets.symmetric(horizontal: 22,vertical: 15),
+              actionsPadding: REdgeInsets.symmetric(horizontal: 25),
+              insetPadding:REdgeInsets.symmetric(horizontal: 22),
+              title:Icon(Icons.error_outline, color: AppColors.red, size: 24.r),
+              content: Text(
+                cartCheckoutBtnData.value.message?.toString() ?? "Something went wrong.",
+                maxLines: 5,
+                textAlign: TextAlign.center,
+                style: AppFontStyle.text_16_500(
+                  AppColors.darkText,
+                  family: AppFontFamily.gilroyMedium,
+                ),
+              ),
+              actions: <Widget>[
+                CustomElevatedButton(
+                  onPressed: () {
+                    Get.back(); // Close dialog
+                  },
+                  child: Text(
+                    'OK',
+                    style: AppFontStyle.text_15_600(
+                      AppColors.white,
+                      family: AppFontFamily.gilroyMedium,
+                    ),
+                  ),
+                ),
+                hBox(20.h),
+              ],
+            );
+          },
+        );
+      }else{
+        setRxRequestStatusCheckoutBtn(Status.ERROR);
+      }
+    },).onError((error, stackError) {
+      setError(error.toString());
+      pt('error restaurant checkout api >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
+      pt(error);
+      pt(stackError);
+      setRxRequestStatusCheckoutBtn(Status.ERROR);
     });
 
   }

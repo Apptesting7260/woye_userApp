@@ -204,6 +204,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                 .homeData.value.restaurants?.isNotEmpty ??
                             false)
                           allRestaurant(),
+                        hBox(  restaurantCartController.allResCartData.value.buttonCheck != false ? 150.h : 70.h),
                       ]),
                     ),
                   ],

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/show_all_grocery_carts/grocery_allCart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/grocery_order_type_model.dart';
@@ -49,6 +50,113 @@ class GroceryCartController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+  //--------------
+  final rxRequestStatusCheckoutBtn = Status.COMPLETED.obs;
+  final cartDataCheckoutBtn = GroceryCartModal().obs;
+  void setRxRequestStatusCheckoutBtn(Status value) => rxRequestStatusCheckoutBtn.value = value;
+
+  void cartSetCheckoutBtn(GroceryCartModal value) {
+    cartDataCheckoutBtn.value = value;
+  }
+
+   checkoutBtnApi(context) async {
+     setRxRequestStatusCheckoutBtn(Status.LOADING);
+     var params = {
+       "key" : "checkout",
+     };
+     api.groceryAllCartGetDataApi(params: params).then((value) {
+      cartSetCheckoutBtn(value);
+      if(value.status == true){
+        setRxRequestStatusCheckoutBtn(Status.COMPLETED);
+        final vendorId = cartDataCheckoutBtn.value.cart?.buckets
+            ?.map((data) => data.vendorId)
+            .toList();
+        final cartId = cartDataCheckoutBtn.value.cart?.buckets
+            ?.map((data) => data.cartId)
+            .toList();
+        final specificTotalPrice = cartDataCheckoutBtn.value.cart?.buckets?.map((data) => data.specificTotalPrice).toList();
+        final specificDeliveryCharge = cartDataCheckoutBtn.value.cart?.buckets?.map((data) => data.specificDeliveryCharge).toList();
+
+        final grandTotalPrice = cartDataCheckoutBtn.value.cart?.buckets?.map((data) => data.grandTotalPrice).toList();
+        final couponDiscount = cartDataCheckoutBtn.value.cart?.buckets?.map((data) => data.couponDiscount).toList();
+
+        Get.toNamed(AppRoutes.checkoutScreen, arguments: {
+          'address_id': cartDataCheckoutBtn.value.address!.id.toString(),
+          'total': cartDataCheckoutBtn.value.cart!.grandTotalPrice.toString(),
+          'coupon_id': cartDataCheckoutBtn.value.appliedCoupon?.id.toString(),
+          'regular_price': cartDataCheckoutBtn.value.cart!.regularPrice.toString(),
+          // 'coupon_discount': controller
+          //     .cartData.value.cart!.couponDiscount
+          //     .toString(),
+          'save_amount': cartDataCheckoutBtn.value.cart!.saveAmount.toString(),
+          'delivery_charge': cartDataCheckoutBtn.value.cart!.deliveryCharge.toString(),
+          'cart_id': cartId,
+          'vendor_id': vendorId,
+          'cart_total': specificTotalPrice,
+          'cart_delivery': specificDeliveryCharge,
+          'wallet': cartDataCheckoutBtn.value.wallet.toString(),
+          'cartType': "grocery",
+          'grandtotal_price' : grandTotalPrice,
+          'coupon_discount': couponDiscount,
+          'coupon_discount_payment_details': cartDataCheckoutBtn.value.cart!.couponDiscount.toString(),
+        });
+      }
+      else if (value.status == false) {
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              backgroundColor: Colors.white,
+              titlePadding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 8.h),
+              contentPadding: REdgeInsets.symmetric(horizontal: 22,vertical: 15),
+              actionsPadding: REdgeInsets.symmetric(horizontal: 25),
+              insetPadding:REdgeInsets.symmetric(horizontal: 22),
+              title:Icon(Icons.error_outline, color: AppColors.red, size: 24.r),
+              content: Text(
+                cartDataCheckoutBtn.value.message?.toString() ?? "Something went wrong.",
+                maxLines: 5,
+                textAlign: TextAlign.center,
+                style: AppFontStyle.text_16_500(
+                  AppColors.darkText,
+                  family: AppFontFamily.gilroyMedium,
+                ),
+              ),
+              actions: <Widget>[
+                CustomElevatedButton(
+                  onPressed: () {
+                    Get.back(); // Close dialog
+                  },
+                  child: Text(
+                    'OK',
+                    style: AppFontStyle.text_15_600(
+                      AppColors.white,
+                      family: AppFontFamily.gilroyMedium,
+                    ),
+                  ),
+                ),
+                hBox(20.h),
+              ],
+            );
+          },
+        );
+        setRxRequestStatusCheckoutBtn(Status.COMPLETED);
+        pt("cartData.value.message >>>>>>>>>>>>>> ${cartData.value.message}");
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      pt(stackError);
+      pt('error grocery cart screen >>>> ::: ${error.toString()}');
+      setRxRequestStatusCheckoutBtn(Status.ERROR);
+    });
+  }
+
+
+
   refreshGetGroceryAllCartApi() async {
     readOnly.value = true;
     couponCodeController.value.clear();

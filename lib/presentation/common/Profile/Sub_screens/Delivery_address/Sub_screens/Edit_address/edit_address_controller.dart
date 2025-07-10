@@ -327,6 +327,7 @@ class EditAdressController extends GetxController {
     required String latitude,
     required String longitude,
     required String deliveryInstruction,
+    bool? isProfileScreen,
 }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
@@ -421,7 +422,13 @@ class EditAdressController extends GetxController {
             return;
           });
         }
+        else if(isProfileScreen == true){
+          Utils.showToast(editAddress.value.message.toString());
+          setRxRequestStatus(Status.COMPLETED);
+          deliveryAddressController.selectedAddressIndex.value = 0;
+        }
       } else {
+        setRxRequestStatus(Status.COMPLETED);
         Utils.showToast(editAddress.value.message.toString());
       }
     }).onError((error, stackError) {

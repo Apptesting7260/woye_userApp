@@ -1658,23 +1658,23 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
               ),
             ],
           ),
-          // if (controller.cartData.value.cart!.couponApplied != null)
-          //   Padding(
-          //     padding: EdgeInsets.only(top: 10.h),
-          //     child: Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           "Coupon Discount",
-          //           style: AppFontStyle.text_14_400(AppColors.lightText),
-          //         ),
-          //         Text(
-          //           "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-          //           style: AppFontStyle.text_14_600(AppColors.darkText),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
+          if (controller.cartData.value.couponApplied != false)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  ),
+                  Text(
+                    "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                ],
+              ),
+            ),
           if (controller.cartData.value.addressExists == true)
             Padding(
               padding: EdgeInsets.only(top: 10.h),
@@ -1730,9 +1730,10 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                     width: 200.w,
                     height: 55.h,
                     child: CustomElevatedButton(
-                      // isLoading: controller.rxCreateOrderRequestStatus.value == Status.LOADING,
+                      isLoading: controller.rxRequestStatusCheckoutBtn.value == Status.LOADING,
                       onPressed: () {
-                        final vendorId = controller.cartData.value.cart?.buckets
+                        controller.checkoutBtnApi(context);
+                       /* final vendorId = controller.cartData.value.cart?.buckets
                             ?.map((data) => data.vendorId)
                             .toList();
                         final cartId = controller.cartData.value.cart?.buckets
@@ -1776,9 +1777,9 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                           'cartType': "grocery",
                           'grandtotal_price' : grandTotalPrice,
                           'coupon_discount': couponDiscount,
-
+                          'coupon_discount_payment_details': controller.cartData.value.cart!.couponDiscount.toString(),
                         });
-                      },
+                      },*/
                       // onPressed: () {
                       //   var selectedItems = controller
                       //       .cartData.value.cart!.decodedAttribute!
@@ -1834,7 +1835,7 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
                       //     Utils.showToast(
                       //         "Please select product to proceed to checkout");
                       //   }
-                      // },
+                      },
                       text: "Checkout",
                       textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
                     ),

@@ -1359,7 +1359,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                 //     :
                                 Container(
                                   height: 35.h,
-                                  width: 90.w,
+                                  width: 112.w,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(50.r),
                                     border: Border.all(
@@ -1376,72 +1376,62 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              InkWell(
+                                              // InkWell(
+                                              //   splashColor: Colors.transparent,
+                                              //   highlightColor:
+                                              //       Colors.transparent,
+                                              //   onTap: () {
+                                              //     // if (controller
+                                              //     //     .cartData
+                                              //     //     .value
+                                              //     //     .cart!
+                                              //     //     .decodedAttribute![
+                                              //     // index]
+                                              //     //     .checked !=
+                                              //     //     "false") {
+                                              //     if (items.quantity == "1") {
+                                              //       Utils.showToast(
+                                              //           "Qty can not less then 1");
+                                              //     } else {
+                                              //       items.isLoading.value =
+                                              //           true;
+                                              //       quantityUpdateController
+                                              //           .updateQuantityApi(
+                                              //         isSingleCartScreen: false,
+                                              //         cartId: buckets.cartId
+                                              //             .toString(),
+                                              //         productId: items.productId
+                                              //             .toString(),
+                                              //         countId: items.count
+                                              //             .toString(),
+                                              //         productQuantity:
+                                              //             (int.parse(items.quantity.toString()) - 1)
+                                              //                 .toString(),
+                                              //       );
+                                              //     }
+                                              //     // }
+                                              //     // else {
+                                              //     //   Utils.showToast(
+                                              //     //       "First select product",
+                                              //     //       gravity: ToastGravity
+                                              //     //           .CENTER);
+                                              //     // }
+                                              //   },
+                                              //   child: Icon(
+                                              //     Icons.remove,
+                                              //     size: 16.w,
+                                              //   ),
+                                              // ),
+                                              IconButton(
                                                 splashColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () {
-                                                  // if (controller
-                                                  //     .cartData
-                                                  //     .value
-                                                  //     .cart!
-                                                  //     .decodedAttribute![
-                                                  // index]
-                                                  //     .checked !=
-                                                  //     "false") {
-                                                  if (items.quantity == "1") {
-                                                    Utils.showToast(
-                                                        "Qty can not less then 1");
-                                                  } else {
-                                                    items.isLoading.value =
-                                                        true;
-                                                    quantityUpdateController
-                                                        .updateQuantityApi(
-                                                      isSingleCartScreen: false,
-                                                      cartId: buckets.cartId
-                                                          .toString(),
-                                                      productId: items.productId
-                                                          .toString(),
-                                                      countId: items.count
-                                                          .toString(),
-                                                      productQuantity:
-                                                          (int.parse(items.quantity.toString()) - 1)
-                                                              .toString(),
-                                                    );
-                                                  }
-                                                  // }
-                                                  // else {
-                                                  //   Utils.showToast(
-                                                  //       "First select product",
-                                                  //       gravity: ToastGravity
-                                                  //           .CENTER);
-                                                  // }
-                                                },
-                                                child: Icon(
-                                                  Icons.remove,
-                                                  size: 16.w,
-                                                ),
-                                              ),
-                                              Text(
-                                                items.quantity.toString(),
-                                                style: AppFontStyle.text_14_400(
-                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                                              ),
-                                              InkWell(
-                                                splashColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () {
-                                                  // if (controller
-                                                  //     .cartData
-                                                  //     .value
-                                                  //     .cart!
-                                                  //     .decodedAttribute![
-                                                  // index]
-                                                  //     .checked !=
-                                                  //     "false") {
-
-                                                  items.isLoading.value = true;
+                                                highlightColor:Colors.transparent,
+                                                onPressed: () {
+                                                if (items.quantity == "1") {
+                                                  Utils.showToast(
+                                                      "Qty can not less then 1");
+                                                } else {
+                                                  items.isLoading.value =
+                                                  true;
                                                   quantityUpdateController
                                                       .updateQuantityApi(
                                                     isSingleCartScreen: false,
@@ -1449,22 +1439,74 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                                         .toString(),
                                                     productId: items.productId
                                                         .toString(),
-                                                    countId:
-                                                        items.count.toString(),
+                                                    countId: items.count
+                                                        .toString(),
                                                     productQuantity:
-                                                        (int.parse(items.quantity.toString()) + 1)
-                                                            .toString(),
+                                                    (int.parse(items.quantity.toString()) - 1)
+                                                        .toString(),
                                                   );
-                                                  // } else {
-                                                  //   Utils.showToast(
-                                                  //       "First select product");
-                                                  // }
-                                                },
-                                                child: Icon(
-                                                  Icons.add,
-                                                  size: 16.w,
-                                                ),
+                                                }
+                                              }, icon: Icon(
+                                                Icons.remove,
+                                                size: 16.w,
+                                              ),),
+
+                                              Text(
+                                                items.quantity.toString(),
+                                                style: AppFontStyle.text_14_400(
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                               ),
+                                              // InkWell(
+                                              //   splashColor: Colors.transparent,
+                                              //   highlightColor:
+                                              //       Colors.transparent,
+                                              //   onTap: () {
+                                              //     // if (controller
+                                              //     //     .cartData
+                                              //     //     .value
+                                              //     //     .cart!
+                                              //     //     .decodedAttribute![
+                                              //     // index]
+                                              //     //     .checked !=
+                                              //     //     "false") {
+                                              //
+                                              //     items.isLoading.value = true;
+                                              //     quantityUpdateController
+                                              //         .updateQuantityApi(
+                                              //       isSingleCartScreen: false,
+                                              //       cartId: buckets.cartId
+                                              //           .toString(),
+                                              //       productId: items.productId
+                                              //           .toString(),
+                                              //       countId:
+                                              //           items.count.toString(),
+                                              //       productQuantity:
+                                              //           (int.parse(items.quantity.toString()) + 1)
+                                              //               .toString(),
+                                              //     );
+                                              //     // } else {
+                                              //     //   Utils.showToast(
+                                              //     //       "First select product");
+                                              //     // }
+                                              //   },
+                                              //   child: Icon(
+                                              //     Icons.add,
+                                              //     size: 16.w,
+                                              //   ),
+                                              // ),
+                                              IconButton(
+                                                splashColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
+                                                onPressed: () {
+                                                items.isLoading.value = true;
+                                                quantityUpdateController.updateQuantityApi(
+                                                  isSingleCartScreen: false,
+                                                  cartId: buckets.cartId.toString(),
+                                                  productId: items.productId.toString(),
+                                                  countId:items.count.toString(),
+                                                  productQuantity:(int.parse(items.quantity.toString()) + 1).toString(),
+                                                );
+                                              }, icon:  Icon(Icons.add,size: 16.w,),)
                                             ],
                                           ),
                                   ),
@@ -2378,7 +2420,10 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                     width: 200.w,
                     height: 55.h,
                     child: CustomElevatedButton(
+                      isLoading: controller.rxGetCheckoutBtnDataStatus.value == Status.LOADING,
                       onPressed: () {
+                        controller.checkoutBtnApiCall(context);
+
                         // var selectedItems = controller
                         //     .cartData.value.cart!.decodedAttribute!
                         //     .where((item) => item.checked == "true")
@@ -2393,7 +2438,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                         //     print(
                         //         "Selected Product: ${item['name']}, Price: ${item['price']}");
                         //
-                        final vendorId = controller
+                       /* final vendorId = controller
                             .cartCheckoutData.value.cart?.buckets
                             ?.map((data) => data.pharmaId)
                             .toList();
@@ -2442,7 +2487,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                           'prescription': controller.cartCheckoutData.value.prescription.toString(),
                           'grandtotal_price' : grandTotalPrice,
                           'coupon_discount': couponDiscount,
-                        });
+                        });*/
                         //   });
                         // } else {
                         //   Utils.showToast(

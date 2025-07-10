@@ -30,32 +30,32 @@ class CheckoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var arguments = Get.arguments ?? {};
     print("arguments:: $arguments");
-    var addressId = arguments['address_id'] ?? '';
-    var couponId = arguments['coupon_id'] ?? '';
-    var vendorId = arguments['vendor_id'] ?? '';
-    var couponDiscountPaymentDetails = arguments['coupon_discount_payment_details'] ?? '';
-    var grandTotalPrice = arguments['grandtotal_price'] ?? '';
+    controller.addressId.value = arguments['address_id'] ?? '';
+    controller.couponId = arguments['coupon_id'] ?? '';
+    controller.vendorId = arguments['vendor_id'] ?? '';
+    controller.couponDiscountPaymentDetails.value = arguments['coupon_discount_payment_details'] ?? ''; // for ui
+    controller.grandTotalPrice = arguments['grandtotal_price'] ?? '';
     // var totalPrice = arguments['total'] ?? '';
     // print("Total price : ${arguments['total']}");
     // var formattedTotal = arguments['total'] ?? "0.00";
     // print("tota; procellknb $formattedTotal");
     // var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
     // print("tota; procellknb $total");
-    var formattedTotal = arguments['total'] ?? "0.00";
-   formattedTotal = formattedTotal.replaceAll(',', '');
-    print("Total after removing commas: $formattedTotal");
-    var total = double.tryParse(formattedTotal)?.toStringAsFixed(2) ?? "0.00";
-    print("Total price: $total");
-    var cartId = arguments['cart_id'] ?? "";
-    var regularPrice = arguments['regular_price'] ?? "";
-    var saveAmount = arguments['save_amount'] ?? "";
-    var deliveryCharge = arguments['delivery_charge'] ?? "";
-    var couponDiscount = arguments['coupon_discount'] ?? "";
-    var cartType = arguments['cartType'] ?? "";
-    var walletBalance = arguments['wallet'] ?? "";
-    var prescription = arguments['prescription'] ?? [];
-    var cartTotal = arguments['cart_total'] ?? [];
-    var cartDelivery = arguments['cart_delivery'] ?? [];
+    controller.formattedTotal.value = arguments['total'] ?? "0.00";
+   controller.formattedTotal.value = controller.formattedTotal.value.replaceAll(',', '');
+    print("Total after removing commas: ${controller.formattedTotal}");
+    controller.total.value = double.tryParse(controller.formattedTotal.value)?.toStringAsFixed(2) ?? "0.00";
+    print("Total price: ${controller.total.value}");
+    controller.cartId = arguments['cart_id'] ?? "";
+    controller.regularPrice.value = arguments['regular_price'] ?? "";
+    controller.saveAmount.value = arguments['save_amount'] ?? "";
+    controller.deliveryCharge.value = arguments['delivery_charge'] ?? "";
+    controller.couponDiscount = arguments['coupon_discount'] ?? "";
+    controller.cartType.value = arguments['cartType'] ?? "";
+    controller.walletBalance.value = arguments['wallet'] ?? "";
+    controller.prescription = arguments['prescription'] ?? [];
+    controller.cartTotal = arguments['cart_total'] ?? [];
+    controller.cartDelivery = arguments['cart_delivery'] ?? [];
     // var imagePath = arguments['imagePath'] ?? "";
     // File? imageFile;
     List<String> imagePaths = List<String>.from(arguments['imagePath'] ?? []);
@@ -84,23 +84,23 @@ class CheckoutScreen extends StatelessWidget {
     // grocery arguments
 
 
-    print("Address ID: $addressId");
-    print("Coupon ID: $couponId");
-    print("Vendor Id: $vendorId");
-    print("Total: $total");
-    print("Cart ID: $cartId");
-    print("Regular Price: $regularPrice");
-    print("Save Amount: $saveAmount");
-    print("Delivery Charge: $deliveryCharge");
-    print("Coupon Discount: $couponDiscount");
-    print("Coupon Discount Payment Details: $couponDiscountPaymentDetails");
-    print("wallet: $walletBalance");
+    print("Address ID: ${controller.addressId.value}");
+    print("Coupon ID: ${controller.couponId}");
+    print("Vendor Id: ${controller.vendorId}");
+    print("Total: ${controller.total.value}");
+    print("Cart ID: ${controller.cartId}");
+    print("Regular Price: ${controller.regularPrice.value}");
+    print("Save Amount: ${controller.saveAmount.value}");
+    print("Delivery Charge: ${controller.deliveryCharge.value}");
+    print("Coupon Discount: ${controller.couponDiscount}");
+    print("Coupon Discount Payment Details: ${controller.couponDiscountPaymentDetails.value}");
+    print("wallet: ${controller.walletBalance.value}");
     print("Image Paths: $imagePaths");
-    print("cartTotal: $cartTotal");
-    print("cartDelivery: $cartDelivery");
-    print("cartType: $cartType");
-    print("prescription: $prescription");
-    print("grandTotalPrice: $grandTotalPrice");
+    print("cartTotal: ${controller.cartTotal}");
+    print("cartDelivery: ${controller.cartDelivery}");
+    print("cartType: ${controller.cartType.value}");
+    print("prescription: ${controller.prescription}");
+    print("grandTotalPrice: ${controller.grandTotalPrice}");
 
 // Optionally, print the list of image files (paths converted to File objects)
     for (var imageFile in imageFiles) {
@@ -110,11 +110,11 @@ class CheckoutScreen extends StatelessWidget {
     print("Reactive Image Files: $reactiveImageFiles");
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    controller.payAfterWallet.value = double.parse(total.toString());
+    controller.payAfterWallet.value = double.parse(controller.total.value.toString());
 
-    if(walletBalance != '' && total != '' ){
-    controller.walletSelected.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ?  false : true;
-    controller.isSelectable.value = double.parse(walletBalance.replaceAll(",","")) < double.parse(total.replaceAll(",","")) ? false : true;
+    if(controller.walletBalance.value != '' && controller.total.value != '' ){
+    controller.walletSelected.value = double.parse(controller.walletBalance.value.replaceAll(",","")) < double.parse(controller.total.value.replaceAll(",","")) ?  false : true;
+    controller.isSelectable.value = double.parse(controller.walletBalance.value.replaceAll(",","")) < double.parse(controller.total.value.replaceAll(",","")) ? false : true;
     }
     controller.selectedIndex.value = -1;
     print("Updated payAfterWallet 1: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
@@ -122,7 +122,7 @@ class CheckoutScreen extends StatelessWidget {
     controller.tipsController.value.clear();
     controller.enteredTips.value = "0";
     controller.selectedTipsIndexValue.value = -1;
-    controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
+    controller.updateBalanceAfterTips(totalPrice: controller.total.value,walletBalance: controller.walletBalance.value);
     controller.tipsController.value.clear();
     controller.deliveryNotesController.value.clear();
     controller.isDeliveryAsSoonAsPossible.value = false;
@@ -148,21 +148,21 @@ class CheckoutScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              paymentMethod(walletBalance: walletBalance, totalPrice: total),
+              paymentMethod(walletBalance: controller.walletBalance.value, totalPrice: controller.total.value),
               hBox(15.h),
               deliveryNotes(context),
               hBox(15.h),
               deliveryAsSoonAsPossible(context),
               hBox(33.h),
-              tips(total,walletBalance),
+              tips(controller.total.value,controller.walletBalance.value),
               hBox(30.h),
               paymentDetails(
-                deliveryCharge: deliveryCharge,
-                regularPrice: regularPrice,
-                saveAmount: saveAmount,
-                couponDiscount: couponDiscountPaymentDetails,
-                totalPrice: total,
-                walletBalance: walletBalance,
+                deliveryCharge: controller.deliveryCharge.value,
+                regularPrice: controller.regularPrice.value,
+                saveAmount: controller.saveAmount.value,
+                couponDiscount: controller.couponDiscountPaymentDetails.value,
+                totalPrice: controller.total.value,
+                walletBalance: controller.walletBalance.value,
               ),
               hBox(30.h),
               Obx(
@@ -171,12 +171,14 @@ class CheckoutScreen extends StatelessWidget {
                   isLoading: (
                         controller.rxRequestStatus.value == Status.LOADING)
                     || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING
-                    || pharmacyCartController.rxRequestStatusCreateOrder.value == Status.LOADING,
+                    || pharmacyCartController.rxRequestStatusCreateOrder.value == Status.LOADING
+                   /* || controller.rxGetCheckoutBtnDataStatus.value == Status.LOADING*/,
                   onPressed: () {
                     print("controller.selectedIndex.value : ${controller.selectedIndex.value}");
                     if(!controller.isSelectable.value &&  controller.selectedIndex.value == 0 ||
                         !controller.isSelectable.value &&  controller.selectedIndex.value == -1 ||
-                        controller.isSelectable.value && controller.totalPriceIncludingTips.value >   double.parse(walletBalance.toString().replaceAll(',', ''))
+                        controller.isSelectable.value && controller.totalPriceIncludingTips.value >
+                            double.parse(controller.walletBalance.value.toString().replaceAll(',', ''))
                     // controller.totalPriceIncludingTips.value > double.parse(walletBalance.toString())
                     ) {
                       Utils.showToast("Payment method not available");
@@ -203,88 +205,117 @@ class CheckoutScreen extends StatelessWidget {
 
 //-------------------------------------------restaurant------------------------------------------
 
-                      if (cartType == 'restaurant') {
-                        List<Map<String, dynamic>> carts = [];
+                      if (controller.cartType.value == 'restaurant') {
 
-                        print("vendorId type :: ${vendorId.runtimeType}");
-                        if (vendorId.runtimeType != String) {
-                          for (int i = 0; i < vendorId.length; i++) {
-                            carts.add({
-                              "vendor_id": arguments['vendor_id'][i],
-                              "cart_id": arguments['cart_id'][i],
-                              "cart_total": arguments['cart_total'][i],
-                              "cart_delivery": arguments['cart_delivery'][i],
-                              "coupon_discount": arguments['coupon_discount'][i],
-                              "grandtotal_price": arguments['grandtotal_price'][i],
-                            },
-                            );
-                          }
-                        } else {
-                          carts.add({
-                            "vendor_id": arguments['vendor_id'].toString(),
-                            "cart_id": arguments['cart_id'].toString(),
-                            "cart_total": arguments['cart_total'].toString(),
-                            "cart_delivery": arguments['cart_delivery'].toString(),
-                            "coupon_discount": arguments['coupon_discount'].toString(),
-                            "grandtotal_price": arguments['grandtotal_price'].toString(),
-                          },
-                          );
-                        }
+                            List<Map<String, dynamic>> carts = [];
+
+                            print("vendorId type :: ${controller.vendorId.runtimeType}");
+                            if (controller.vendorId.runtimeType != String) {
+                              for (int i = 0; i < controller.vendorId.length; i++) {
+                                carts.add({
+                                  "vendor_id": arguments['vendor_id'][i],
+                                  "cart_id": arguments['cart_id'][i],
+                                  "cart_total": arguments['cart_total'][i],
+                                  "cart_delivery": arguments['cart_delivery'][i],
+                                  "coupon_discount": arguments['coupon_discount'][i],
+                                  "grandtotal_price": arguments['grandtotal_price'][i],
+                                },
+                                );
+                              }
+                            } else {
+                              carts.add({
+                                "vendor_id": arguments['vendor_id'].toString(),
+                                "cart_id": arguments['cart_id'].toString(),
+                                "cart_total": arguments['cart_total']
+                                    .toString(),
+                                "cart_delivery": arguments['cart_delivery']
+                                    .toString(),
+                                "coupon_discount": arguments['coupon_discount']
+                                    .toString(),
+                                "grandtotal_price": arguments['grandtotal_price']
+                                    .toString(),
+                              },
+                              );
+                            }
 
 
-                        List<String> cartIDs = [];
-                        if (vendorId.runtimeType != String) {
-                          for (int i = 0; i < cartId.length; i++) {
-                            cartIDs.add(arguments['cart_id'][i].toString());
-                          }
-                        } else {
-                          cartIDs.add(arguments['cart_id'].toString());
-                        }
+                            List<String> cartIDs = [];
+                            if (controller.vendorId.runtimeType != String) {
+                              for (int i = 0; i < controller.cartId.length; i++) {
+                                cartIDs.add(arguments['cart_id'][i].toString());
+                              }
+                            } else {
+                              cartIDs.add(arguments['cart_id'].toString());
+                            }
+                            if (controller.selectedIndex.value == 1) {
+                              payStackController.makePayment(context: context,
+                                email: getUserDataController.userData.value.user
+                                    ?.email ?? "",
+                                addressId: controller.addressId.value,
+                                couponId: controller.couponId,
+                                total: controller.newTotalIncludingTips.value
+                                    .toString(),
+                                cartIds: cartIDs,
+                                cartType: controller.cartType.value,
+                                carts: carts,);
+                              debugPrint(
+                                  "controller.selectedIndex.value  ${controller
+                                      .selectedIndex.value }");
+                            }
+                            else {
+                              final String paymentAmount = controller
+                                  .walletSelected.value
+                                  ? controller.newPayAfterWallet.value
+                                  .toStringAsFixed(2)
+                                  : controller.newTotalIncludingTips.value
+                                  .toStringAsFixed(2);
 
-                        if(controller.selectedIndex.value == 1){
-                          payStackController.makePayment(context: context,email: getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                              couponId: couponId, total:  controller.newTotalIncludingTips.value.toString(), cartIds: cartIDs, cartType: cartType, carts: carts,);
-                          debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
-                        }
-                        else{
-                          final String paymentAmount = controller.walletSelected.value
-                              ? controller.newPayAfterWallet.value.toStringAsFixed(2)
-                              : controller.newTotalIncludingTips.value.toStringAsFixed(2);
+                              controller.createOrderRestaurant(
+                                walletUsed: controller.walletSelected.value,
+                                walletAmount: controller.walletDiscount.value
+                                    .toStringAsFixed(2),
+                                paymentMethod: controller.isSelectable.value ==
+                                    true
+                                    ? "wallet" : controller.selectedIndex
+                                    .value == 1 ? "credit_card" : controller
+                                    .selectedIndex.value == 2
+                                    ? "cash_on_delivery" : "",
+                                // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
+                                paymentAmount: controller.walletSelected.value
+                                    ? paymentAmount
+                                    : controller.total.value,
+                                // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
+                                addressId: controller.addressId.value,
+                                couponId: controller.couponId,
+                                total: controller.total.value,
+                                cartIds: cartIDs,
+                                type: controller.cartType.value,
+                                carts: carts,
+                                deliveryNotes: controller
+                                    .deliveryNotesController.value.text,
+                                deliverySoon: controller.isDeliveryAsSoonAsPossible.value == true &&
+                                    controller.isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
+                                    : controller.isDeliveryAsSoonAsPossible.value == true &&controller.pickedTimeVal.value != ''
+                                    ? controller.pickedTimeVal.value: "",
+                                courierTip: controller.selectedTipsIndexValue.value == 0 ? "5" :
+                                controller.selectedTipsIndexValue.value == 1 ? "10":
+                                controller.selectedTipsIndexValue.value == 2 ? "15":
+                                controller.selectedTipsIndexValue.value == 3? controller.tipsController.value.text: "",
+                              );
+                              debugPrint(
+                                  "controller.selectedIndex.value  ${controller
+                                      .selectedIndex.value }");
+                            }
 
-                          controller.createOrderRestaurant(
-                            walletUsed: controller.walletSelected.value,
-                            walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
-                            paymentMethod: controller.isSelectable.value == true
-                                ? "wallet" : controller.selectedIndex.value == 1 ? "credit_card" : controller.selectedIndex.value == 2
-                                ? "cash_on_delivery" : "",
-                            // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
-                            paymentAmount:controller.walletSelected.value? paymentAmount : total,
-                            // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
-                            addressId: addressId,
-                            couponId: couponId,
-                            total: total,
-                            cartIds: cartIDs,
-                            type: cartType,
-                            carts: carts,
-                            deliveryNotes: controller.deliveryNotesController.value.text,
-                            deliverySoon:  controller.isDeliveryAsSoonAsPossible.value == true && controller.isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
-                                : controller.isDeliveryAsSoonAsPossible.value == true && controller.pickedTimeVal.value != '' ? controller.pickedTimeVal.value : "",
-                            courierTip: controller.selectedTipsIndexValue.value == 0 ? "5" :
-                            controller.selectedTipsIndexValue.value == 1 ? "10" :
-                            controller.selectedTipsIndexValue.value == 2 ? "15" :
-                            controller.selectedTipsIndexValue.value == 3 ? controller.tipsController.value.text : "",
-                          );
-                          debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
-                        }
                       }
 
 //-------------------------------------------grocery------------------------------------------
-                      if (cartType == 'grocery') {
+                      if (controller.cartType.value == 'grocery') {
                         List<Map<String, dynamic>> carts = [];
 
-                        print("vendorId type :: ${vendorId.runtimeType}");
-                        if (vendorId.runtimeType != String) {
-                          for (int i = 0; i < vendorId.length; i++) {
+                        print("vendorId type :: ${controller.vendorId.runtimeType}");
+                        if (controller.vendorId.runtimeType != String) {
+                          for (int i = 0; i < controller.vendorId.length; i++) {
                             carts.add({
                               "vendor_id": arguments['vendor_id'][i],
                               "cart_id": arguments['cart_id'][i],
@@ -309,8 +340,8 @@ class CheckoutScreen extends StatelessWidget {
 
 
                         List<String> cartIDs = [];
-                        if (vendorId.runtimeType != String) {
-                          for (int i = 0; i < cartId.length; i++) {
+                        if (controller.vendorId.runtimeType != String) {
+                          for (int i = 0; i < controller.cartId.length; i++) {
                             cartIDs.add(arguments['cart_id'][i].toString());
                           }
                         } else {
@@ -321,8 +352,8 @@ class CheckoutScreen extends StatelessWidget {
                           final String paymentAmount = controller.walletSelected.value
                               ? controller.newPayAfterWallet.value.toStringAsFixed(2) // 💵 after wallet
                               : controller.newTotalIncludingTips.value.toStringAsFixed(2);
-                          payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: addressId,
-                            couponId: couponId, total: paymentAmount/* controller.newTotalIncludingTips.value.toString()*/, cartIds: cartIDs, cartType: cartType, carts: carts,);
+                         payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: controller.addressId.value,
+                            couponId: controller.couponId, total: paymentAmount/* controller.newTotalIncludingTips.value.toString()*/, cartIds: cartIDs, cartType: controller.cartType.value, carts: carts,);
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value }");
                         }
                         else{
@@ -337,13 +368,13 @@ class CheckoutScreen extends StatelessWidget {
                             "credit_card" : controller.selectedIndex.value == 2
                                 ? "cash_on_delivery" : "",
                             // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
-                            paymentAmount: controller.walletSelected.value ?paymentAmount : total,
+                            paymentAmount: controller.walletSelected.value ?paymentAmount : controller.total.value,
                             // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
-                            addressId: addressId,
-                            couponId: couponId,
-                            total: total,
+                            addressId: controller.addressId.value,
+                            couponId: controller.couponId,
+                            total: controller.total.value,
                             cartIds: cartIDs,
-                            type: cartType,
+                            type: controller.cartType.value,
                             carts: carts,
                             deliveryNotes: controller.deliveryNotesController.value.text,
                             deliverySoon:  controller.isDeliveryAsSoonAsPossible.value == true && controller.isDeliveryAsSoonAsPossiblePopUp.value == true ? "as soon as possible"
@@ -444,7 +475,7 @@ class CheckoutScreen extends StatelessWidget {
 //
 //                       }
 
-                      if (cartType == 'pharmacy') {
+                      if (controller.cartType.value == 'pharmacy') {
                         List<String> cartIDs = [];
 
                         final cartIdList = arguments['cart_id'];
@@ -465,7 +496,7 @@ class CheckoutScreen extends StatelessWidget {
 
                         List<Map<String, dynamic>> carts = [];
 
-                        print("vendorId type :: ${vendorId.runtimeType}");
+                        print("vendorId type :: ${controller.vendorId.runtimeType}");
 
                         if (vendorIdList != null &&
                             vendorIdList is List &&
@@ -495,7 +526,6 @@ class CheckoutScreen extends StatelessWidget {
                           });
                         }
 
-                        // Choose payment method
                         final String paymentAmount = controller.walletSelected.value
                             ? controller.newPayAfterWallet.value.toStringAsFixed(2)
                             : controller.newTotalIncludingTips.value.toStringAsFixed(2);
@@ -504,11 +534,11 @@ class CheckoutScreen extends StatelessWidget {
                           payStackController.makePayment(
                             context: context,
                             email: getUserDataController.userData.value.user?.email ?? "",
-                            addressId: addressId,
-                            couponId: couponId,
+                            addressId: controller.addressId.value,
+                            couponId: controller.couponId,
                             total: paymentAmount,
                             cartIds: cartIDs,
-                            cartType: cartType,
+                            cartType: controller.cartType.value,
                             carts: carts,
                           );
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value}");
@@ -525,13 +555,13 @@ class CheckoutScreen extends StatelessWidget {
                                 : "",
                             paymentAmount: controller.walletSelected.value
                                 ? paymentAmount
-                                : total,
-                            addressId: addressId.toString(),
-                            couponId: couponId.toString(),
-                            totalAmount: total.toString(),
+                                : controller.total.value,
+                            addressId: controller.addressId.value.toString(),
+                            couponId: controller.couponId.toString(),
+                            totalAmount: controller.total.value.toString(),
                             cartIds: cartIDs,
                             carts: carts,
-                            prescription: prescription,
+                            prescription: controller.prescription,
                             deliveryNotes: controller.deliveryNotesController.value.text,
                             deliverySoon: controller.isDeliveryAsSoonAsPossible.value == true &&
                                 controller.isDeliveryAsSoonAsPossiblePopUp.value == true
@@ -553,9 +583,6 @@ class CheckoutScreen extends StatelessWidget {
                       }
                     }
                   },
-                  // onPressed: () {
-                  //   payStackController.makePayment(context: context, amount: "10", email: "saurabh@mailinator.com");
-                  // },
                   text: controller.isSelectable.value == true
                       ? "Place Order"
                       : controller.selectedIndex.value == 2
@@ -703,6 +730,170 @@ class CheckoutScreen extends StatelessWidget {
   // }
 
 
+/*
+  Widget wallet({required String walletBalance, required String totalPrice}) {
+    return Obx(() {
+      final double walletBalanceDouble =
+          double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
+      final double totalPriceDouble =
+          double.tryParse(totalPrice.replaceAll(",", "")) ?? 0.0;
+      final double totalWithTips = controller.totalPriceIncludingTips.value;
+
+      return IgnorePointer(
+        ignoring: walletBalanceDouble <= 0.0,
+        child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            if (walletBalanceDouble > 0.0) {
+              // Toggle wallet without affecting other payment methods
+              controller.walletSelected.value = !controller.walletSelected.value;
+              controller.updateBalanceAfterTips(
+                  totalPrice: totalPrice,
+                  walletBalance: walletBalance
+              );
+
+              if (controller.walletSelected.value) {
+                if (walletBalanceDouble >= totalWithTips) {
+                  controller.isSelectable.value = true;
+                } else {
+                  controller.isSelectable.value = false;
+                }
+              } else {
+                controller.isSelectable.value = false;
+              }
+
+              controller.updateBalanceAfterTips(
+                totalPrice: totalPrice,
+                walletBalance: walletBalance,
+              );
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.all(16.r),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(
+                color: controller.walletSelected.value
+                    ? AppColors.primary
+                    : AppColors.lightPrimary,
+              ),
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset("assets/svg/wallet.svg"),
+                wBox(10),
+                Text(
+                  "My Wallet (\$$walletBalance)",
+                  style: AppFontStyle.text_16_400(AppColors.darkText,
+                      family: AppFontFamily.gilroyMedium),
+                ),
+                const Spacer(),
+                Container(
+                  margin: EdgeInsets.only(top: 5.r),
+                  height: 20.h,
+                  width: 20.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.primary),
+                  ),
+                  child: controller.walletSelected.value
+                      ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+                      : null,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+*/
+  Widget wallet({required String walletBalance, required String totalPrice}) {
+    return Obx(() {
+      final double walletBalanceDouble = double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
+      final double totalWithTips = controller.totalPriceIncludingTips.value;
+
+      final bool isWalletSelected = controller.walletSelected.value;
+
+      return IgnorePointer(
+        ignoring: walletBalanceDouble <= 0.0,
+        child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            if (walletBalanceDouble > 0.0) {
+              // Toggle wallet selection
+              controller.walletSelected.value = !isWalletSelected;
+
+              final bool nowSelected = controller.walletSelected.value;
+
+              if (nowSelected) {
+                if (walletBalanceDouble >= totalWithTips) {
+                  // ✅ Wallet fully covers → select wallet only
+                  controller.selectedIndex.value = 0;
+                  controller.isSelectable.value = true;
+                } else {
+                  // ✅ Wallet partially covers → do NOT touch selectedIndex
+                  controller.isSelectable.value = false;
+                }
+              } else {
+                // ❌ Wallet turned off
+                controller.isSelectable.value = false;
+
+                // ✅ Remove wallet-only selection if it was previously selected
+                if (controller.selectedIndex.value == 0) {
+                  controller.selectedIndex.value = -1; // No method selected
+                }
+              }
+
+              // Recalculate after wallet toggle
+              controller.updateBalanceAfterTips(
+                totalPrice: totalPrice,
+                walletBalance: walletBalance,
+              );
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.all(16.r),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(
+                color: controller.walletSelected.value
+                    ? AppColors.primary
+                    : AppColors.lightPrimary,
+              ),
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset("assets/svg/wallet.svg"),
+                wBox(10),
+                Text(
+                  "My Wallet (\$$walletBalance)",
+                  style: AppFontStyle.text_16_400(AppColors.darkText,
+                      family: AppFontFamily.gilroyMedium),
+                ),
+                const Spacer(),
+                Container(
+                  margin: EdgeInsets.only(top: 5.r),
+                  height: 20.h,
+                  width: 20.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: AppColors.primary),
+                  ),
+                  child: controller.selectedIndex.value == 0
+                      ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+                      : null,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+  }
+  /*
   Widget wallet({required String walletBalance, required String totalPrice}) {
     return Obx(() {
       final double walletBalanceDouble = double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
@@ -718,14 +909,12 @@ class CheckoutScreen extends StatelessWidget {
             if (walletBalanceDouble > 0.0) {
               controller.walletSelected.value = !controller.walletSelected.value;
 
-              // If wallet can cover full amount, use wallet only
               if (controller.walletSelected.value && walletBalanceDouble >= totalWithTips) {
                 controller.isSelectable.value = true;
-                controller.selectedIndex.value = 0; // Wallet only
+                controller.selectedIndex.value = 0;
               }
-              // If wallet can't cover full amount, allow other payment methods
               else if (controller.walletSelected.value) {
-                controller.isSelectable.value = false;
+                controller.isSelectable.value = true;
               }
 
               controller.updateBalanceAfterTips(
@@ -772,6 +961,7 @@ class CheckoutScreen extends StatelessWidget {
       );
     });
   }
+*/
 
   // Widget wallet({required String walletBalance, required String totalPrice}) {
   //   return Obx(() {
@@ -950,7 +1140,7 @@ class CheckoutScreen extends StatelessWidget {
         hBox(15.h),
         methodList(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
-        addNewCard(),
+        // addNewCard(),
       ],
     );
   }
@@ -1181,6 +1371,119 @@ class CheckoutScreen extends StatelessWidget {
       init: controller,
       builder: (controller) {
         return Obx(
+              () => IgnorePointer(
+            ignoring: controller.isSelectable.value ? true : false,
+            child: Opacity(
+              opacity:controller.isSelectable.value ? 0.6 : 1,
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  bool isSelected = controller.selectedIndex.value == index;
+                  if(index == 0){return const SizedBox.shrink();}
+                  else if (index == 1) {
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        // Only handle card selection, don't touch wallet
+                        controller.selectedIndex.value = index;
+                        controller.update();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 17.r),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.r),
+                            border: Border.all(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.lightPrimary)),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset("assets/svg/payment_card.svg"),
+                            wBox(10.h),
+                            Text(
+                              "Pay With Card",
+                              style: AppFontStyle.text_16_400(
+                                  AppColors.darkText,
+                                  height: 1.h,family: AppFontFamily.gilroyMedium),
+                            ),
+                            const Spacer(),
+                            Container(
+                              margin: EdgeInsets.only(top: 5.r),
+                              height: 20.h,
+                              width: 20.h,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: AppColors.primary)),
+                              child: isSelected
+                                  ? SvgPicture.asset(
+                                  "assets/svg/green-check-circle.svg")
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  } else if(index == 2){
+                    return InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        // Only handle COD selection, don't touch wallet
+                        controller.selectedIndex.value = index;
+                        controller.update();
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16.r, vertical: 18.r),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.r),
+                            border: Border.all(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.lightPrimary)),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Cash On Delivery",
+                              style: AppFontStyle.text_16_400(AppColors.darkText,
+                                  family: AppFontFamily.gilroyMedium),
+                            ),
+                            const Spacer(),
+                            Container(
+                              height: 20.h,
+                              width: 20.h,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: AppColors.primary)),
+                              child: isSelected
+                                  ? SvgPicture.asset(
+                                  "assets/svg/green-check-circle.svg")
+                                  : null,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                  return null;
+                },
+                separatorBuilder: (c, i) => hBox(15.h),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /*
+  Widget methodList({required String walletBalance, required String totalPrice}) {
+    return GetBuilder(
+      init: controller,
+      builder: (controller) {
+        return Obx(
           () => IgnorePointer(
             ignoring: controller.isSelectable.value ? true : false,
             child: Opacity(
@@ -1201,7 +1504,7 @@ class CheckoutScreen extends StatelessWidget {
                         controller.update();
                       },
                       child: Container(
-                        padding: EdgeInsets.all(16.r),
+                        padding: EdgeInsets.symmetric(horizontal:  16.r ,vertical: 17.r),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.r),
                             border: Border.all(
@@ -1218,40 +1521,43 @@ class CheckoutScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SvgPicture.asset(
-                                      "assets/svg/master-card.svg"),
+                                  SvgPicture.asset("assets/svg/payment_card.svg"),
+                                  // SvgPicture.asset("assets/svg/master-card.svg"),
                                   wBox(10.h),
-                                  Text(
-                                    "•••• •••• ••••",
+                                 Text(
+                                    "Pay With Card",
                                     style: AppFontStyle.text_16_400(
                                         AppColors.darkText,
                                         height: 1.h,family: AppFontFamily.gilroyMedium),
                                   ),
-                                  Text(
-                                    "8888",
-                                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-
-                                  ),
+                                  // Text(
+                                  //   "•••• •••• ••••",
+                                  //   style: AppFontStyle.text_16_400(
+                                  //       AppColors.darkText,
+                                  //       height: 1.h,family: AppFontFamily.gilroyMedium),
+                                  // ),
+                                  // Text(
+                                  //   "8888",
+                                  //   style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  //
+                                  // ),
                                   const Spacer(),
                                 ],
                               ),
                             ),
-                            wBox(6.h),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: EdgeInsets.only(top: 5.r),
-                                height: 20.h,
-                                width: 20.h,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border:
-                                        Border.all(color: AppColors.primary)),
-                                child: isSelected
-                                    ? SvgPicture.asset(
-                                        "assets/svg/green-check-circle.svg")
-                                    : null,
-                              ),
+                            // wBox(6.h),
+                            Container(
+                              margin: EdgeInsets.only(top: 5.r),
+                              height: 20.h,
+                              width: 20.h,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border:
+                                      Border.all(color: AppColors.primary)),
+                              child: isSelected
+                                  ? SvgPicture.asset(
+                                      "assets/svg/green-check-circle.svg")
+                                  : null,
                             ),
                           ],
                         ),
@@ -1266,7 +1572,7 @@ class CheckoutScreen extends StatelessWidget {
                           controller.update();
                         },
                    child: Container(
-                        padding: EdgeInsets.all(16.r),
+                        padding: EdgeInsets.symmetric(horizontal:  16.r ,vertical: 18.r),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.r),
                             border: Border.all(
@@ -1275,7 +1581,7 @@ class CheckoutScreen extends StatelessWidget {
                                     : AppColors.lightPrimary)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               flex: 9,
@@ -1291,21 +1597,18 @@ class CheckoutScreen extends StatelessWidget {
                               ),
                             ),
                             wBox(6),
-                            Expanded(
-                              flex: 1,
-                              child: Container(
-                                margin: EdgeInsets.only(top: 5.r),
-                                height: 20.h,
-                                width: 20.h,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border:
-                                        Border.all(color: AppColors.primary)),
-                                child: isSelected
-                                    ? SvgPicture.asset(
-                                        "assets/svg/green-check-circle.svg")
-                                    : null,
-                              ),
+                            Container(
+                              // margin: EdgeInsets.only(top: 5.r),
+                              height: 20.h,
+                              width: 20.h,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border:
+                                      Border.all(color: AppColors.primary)),
+                              child: isSelected
+                                  ? SvgPicture.asset(
+                                      "assets/svg/green-check-circle.svg")
+                                  : null,
                             ),
                           ],
                         ),
@@ -1322,6 +1625,7 @@ class CheckoutScreen extends StatelessWidget {
       },
     );
   }
+*/
 
   Widget paymentDetails({
     regularPrice,
@@ -1350,7 +1654,7 @@ class CheckoutScreen extends StatelessWidget {
               Text(
                 regularPrice != ""
                     ? "\$$regularPrice"
-                    : "\$${Random.secure().nextInt(100)}.00",
+                    : "\$0.00",
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
@@ -1366,13 +1670,13 @@ class CheckoutScreen extends StatelessWidget {
               Text(
                 saveAmount != ""
                     ? "\$$saveAmount"
-                    : "\$${Random.secure().nextInt(20)}.00",
+                    : "\$0.00",
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
           ),
-          hBox(couponDiscount != "0" ? 10.h : 0.h),
-          couponDiscount != "0"
+          hBox(couponDiscount != "0.00" && couponDiscount.toString().trim() != "" ? 10.h : 0.h),
+          couponDiscount != "0.00" && couponDiscount.toString().trim() != ""
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -1382,9 +1686,8 @@ class CheckoutScreen extends StatelessWidget {
                     ),
                     Text(
                       couponDiscount != ""
-                          ? " \$$couponDiscount"
-                          // ? "-\$$couponDiscount"
-                          : "-\$${Random.secure().nextInt(20)}.00",
+                          ? "-\$$couponDiscount"
+                          : "-\$0.00",
                       style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                     ),
                   ],
@@ -1401,14 +1704,34 @@ class CheckoutScreen extends StatelessWidget {
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
-                deliveryCharge != ""
-                    ? "\$$deliveryCharge"
-                    : "\$${Random.secure().nextInt(20)}.00",
+                "\$${deliveryCharge ?? '0.00'}" ,
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
           ),
-          hBox(20.h),
+          hBox(10.h),
+          if(controller.selectedTipsIndexValue.value >= 0)...[
+          Obx(
+            ()=> Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Courier Tips",
+                  style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                ),
+                Text(
+                  controller.selectedTipsIndexValue.value == 0 ? "\$5" :
+                  controller.selectedTipsIndexValue.value == 1 ? "\$10" :
+                  controller.selectedTipsIndexValue.value == 2 ? "\$15" :
+                  controller.selectedTipsIndexValue.value == 3 ? "\$${controller.tipsController.value.text}": "",
+                  style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                ),
+              ],
+            ),
+          ),
+          hBox(10.h),
+          ],
+          hBox(10.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -1426,11 +1749,15 @@ class CheckoutScreen extends StatelessWidget {
             ],
           ),
         ],
+
+
+
       );
       },
     );
   }
 
+/*
   Widget tips(total,walletBalance) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1536,6 +1863,116 @@ class CheckoutScreen extends StatelessWidget {
       ],
     );
   }
+*/
+
+  Widget tips(total, walletBalance) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text("Tip for the courier",
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        ),
+        Text(
+          "It's optional but a tip can brighten courier's day.",
+          maxLines: 2,
+          style: AppFontStyle.text_15_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular,),
+        ),
+        hBox(8.h),
+        SizedBox(
+          height: 52.h,
+          child: Padding(
+            padding: REdgeInsets.symmetric(vertical: 5),
+            child: ListView.separated(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount:controller.priceList.length,
+              itemBuilder: (context, index) {
+                return SizedBox(
+                  width: 89.w,
+                  height: 40.h,
+                  child: Obx(
+                        () {
+                      return CustomOutlinedButton(
+                        backgroundColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.white,
+                        borderColor: controller.selectedTipsIndexValue.value == index ? AppColors.primary : AppColors.darkText,
+                        onPressed: (){
+                          if (controller.selectedTipsIndexValue.value == index) {
+                            controller.tipsController.value.clear();
+                            controller.enteredTips.value = "0";
+                            controller.selectedTipsIndexValue.value = -1;
+                            controller.updateBalanceAfterTips(
+                                totalPrice: total,
+                                walletBalance: walletBalance
+                            );
+                          } else {
+                            controller.selectedTipsIndexValue.value = index;
+                          }
+
+                          // Always update balance after tips change
+                          controller.updateBalanceAfterTips(
+                              totalPrice: total,
+                              walletBalance: walletBalance
+                          );
+
+                          if (index == 3 && controller.selectedTipsIndexValue.value == 3) {
+                            showDialog(context: context,
+                              barrierDismissible: false,
+                              builder: (context) {
+                                return PopScope(
+                                  canPop: false,
+                                  child: Stack(
+                                    children: [
+                                      AlertDialog(
+                                          insetPadding: const EdgeInsets.symmetric(horizontal: 22),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15),
+                                          ),
+                                          contentPadding: EdgeInsets.zero,
+                                          backgroundColor: AppColors.white,
+                                          content: Stack(children: [
+                                            addTips(context,total,walletBalance),
+                                            Positioned(
+                                              right: 0,
+                                              top: 0,
+                                              child: IconButton(onPressed: () {
+                                                controller.selectedTipsIndexValue.value = -1;
+                                                controller.enteredTips.value = "0";
+                                                controller.tipsController.value.clear();
+                                                Get.back();
+                                                // Update balance when closing dialog
+                                                controller.updateBalanceAfterTips(
+                                                    totalPrice: total,
+                                                    walletBalance: walletBalance
+                                                );
+                                              },
+                                                  icon: Icon(Icons.cancel,
+                                                    color: AppColors.primary,
+                                                    size: 26,)),
+                                            ),
+                                          ])
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },);
+                          }
+                        },
+                        child: Obx(
+                              ()=> Text(index == 3 ? controller.priceList[index] : "\$${controller.priceList[index]}",
+                            style: AppFontStyle.text_17_400(controller.selectedTipsIndexValue.value == index ? AppColors.white :AppColors.darkText,family: AppFontFamily.gilroyMedium,),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }, separatorBuilder: (context, index) => wBox(8.w),),
+          ),
+        )
+      ],
+    );
+  }
 
   addTips(BuildContext context,total,walletBalance) {
     return PopScope(
@@ -1555,12 +1992,23 @@ class CheckoutScreen extends StatelessWidget {
                       padding: REdgeInsets.symmetric(horizontal: 25.0),
                       child: CustomTextFormField(
                         controller: controller.tipsController.value,
-                        onChanged: (value){
+                        inputFormatters :[
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                        /*onChanged: (value){
                           controller.enteredTips.value = value;
                           controller.updateBalanceAfterTips(totalPrice: total, walletBalance: walletBalance);
+                        },*/
+                        onChanged: (value) {
+                          controller.enteredTips.value = value;
+                          controller.updateBalanceAfterTips(
+                            totalPrice: total,
+                            walletBalance: walletBalance,
+                          );
                         },
+
                         textInputType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         hintText: 'Enter tips for the courier',
                         hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
                         // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
@@ -1586,7 +2034,7 @@ class CheckoutScreen extends StatelessWidget {
                         fontFamily: AppFontFamily.gilroyMedium,
                         width: 145.w,
                         height: 50.h,
-                        onPressed: () {
+                       /* onPressed: () {
                           if(controller.tipsKey.currentState?.validate() ?? false){
                             controller.initializeWallet(walletBalance, total);
                             controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
@@ -1595,7 +2043,18 @@ class CheckoutScreen extends StatelessWidget {
                           }else{
                             controller.tipsKey.currentState?.validate();
                           }
+                        },*/
+                        onPressed: () {
+                          if (controller.tipsKey.currentState?.validate() ?? false) {
+                            // controller.initializeWallet(walletBalance, total); // no need for preserveSelectedIndex
+                            controller.updateBalanceAfterTips(totalPrice: total, walletBalance: walletBalance);
+                            Get.back();
+                            pt("entered tips value  >>>> ${controller.tipsController.value.text}");
+                          } else {
+                            controller.tipsKey.currentState?.validate();
+                          }
                         },
+
                         text: "Submit" ,
                         color: AppColors.primary,
                       ),

@@ -49,6 +49,9 @@ class GroceryQuantityController extends GetxController {
             Utils.showToast(quantityData.value.message.toString());
           });
         }
+      } else if(quantityData.value.status == false) {
+        Utils.showToast(quantityData.value.message.toString());
+        setRxRequestStatus(Status.COMPLETED);
       } else {
         Utils.showToast(quantityData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);

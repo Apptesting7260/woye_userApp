@@ -623,6 +623,12 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                     style: AppFontStyle.text_14_400(
                                         AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                   ),
+                                  // IconButton(onPressed: () {
+                                  //
+                                  // }, icon: Icon(
+                                  //   Icons.add,
+                                  //   size: 16.w,
+                                  // ),),
                                   InkWell(
                                     splashColor: Colors.transparent,
                                     highlightColor:
@@ -1141,7 +1147,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     'wallet':
                     controller.singleCartData.value.wallet.toString(),
                     'grandtotal_price' : controller.singleCartData.value.cart?.finalTotal.toString(),
-                    'coupon_discount': controller.singleCartData.value.cart?.couponDiscount.toString(),
+                    'coupon_discount_payment_details': controller.singleCartData.value.cart?.couponDiscount.toString(),
                     'cartType': "restaurant",
                   });
                 }

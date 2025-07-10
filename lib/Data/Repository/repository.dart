@@ -383,9 +383,10 @@ class Repository {
     return RestaurantAllCartDataModel.fromJson(response);
   }
 
-  Future<dynamic> getRestaurantCheckOutApi()async{
+  Future<dynamic> getRestaurantCheckOutApi({Map<String, dynamic>? params})async{
     await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.checkoutAllRestaurant, token);
+    dynamic response = await _apiService.getWithParams(AppUrls.checkoutAllRestaurant, token,params:params);
+    // dynamic response = await _apiService.getApi(AppUrls.checkoutAllRestaurant, token);
     return RestaurantCartModal.fromJson(response);
   }
 
@@ -557,9 +558,9 @@ class Repository {
     return PharmacyAllCartProductModel.fromJson(response);
   }
 
-  Future<dynamic> getPharmacyCheckOutAllApi() async {
+  Future<dynamic> getPharmacyCheckOutAllApi({Map<String, dynamic>? params}) async {
     await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.pharmacyCheckoutAll, token);
+    dynamic response = await _apiService.getWithParams(AppUrls.pharmacyCheckoutAll, token,params: params);
     return PharmacyCheckOutAllModel.fromJson(response);
   }
 
@@ -679,9 +680,9 @@ class Repository {
     return GroceryAddToCart.fromJson(response);
   }
 
-  Future<dynamic> groceryAllCartGetDataApi() async {
+  Future<dynamic> groceryAllCartGetDataApi({Map<String, dynamic>? params}) async {
     await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.groceryAllCart, token);
+    dynamic response = await _apiService.getWithParams(AppUrls.groceryAllCart, token,params: params);
     return GroceryCartModal.fromJson(response);
   }
 
