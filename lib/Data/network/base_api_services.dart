@@ -10,4 +10,6 @@ abstract class BaseApiServices {
   Future<dynamic> getWithParams(String baseUrl, String token, {Map<String, dynamic>? params});
 
   Future<dynamic> postApi2(var data, String url, String token);
+
+
 }

@@ -1061,6 +1061,24 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
           //       ],
           //     ),
           //   ),
+          if (controller.cartData.value.cart!.couponApplied != null)
+            Padding(
+              padding: EdgeInsets.only(top: 10.h),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Coupon Discount",
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  ),
+                  Text(
+                    controller.cartData.value.cart!.couponDiscount == "0.00" ? "\$0.00":
+                    "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                ],
+              ),
+            ),
           if (controller.cartData.value.addressExists == true)
             Padding(
               padding: EdgeInsets.only(top: 10.h),
@@ -1115,64 +1133,34 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 ? SizedBox(
                     width: 200.w,
                     height: 55.h,
-                    child: CustomElevatedButton(
-                      onPressed: () {
-                        var selectedItems = controller
-                            .cartData.value.cart!.raw?.decodedAttribute!.bucket
-                            ?.where((item) => item.checked == "true")
-                            .map((item) => {
-                                  'name': item.productName,
-                                  'price': "\$${item.totalPrice.toString()}"
-                                })
-                            .toList();
+                    child: Obx(
+                      ()=> CustomElevatedButton(
+                        isLoading: controller.rxRequestStatusSingleCartBtn.value == Status.LOADING,
+                        onPressed: () {
+                          var selectedItems = controller
+                              .cartData.value.cart!.raw?.decodedAttribute!.bucket
+                              ?.where((item) => item.checked == "true")
+                              .map((item) => {
+                                    'name': item.productName,
+                                    'price': "\$${item.totalPrice.toString()}"
+                                  })
+                              .toList();
 
-                        if (selectedItems!.isNotEmpty) {
-                          for (var item in selectedItems) {
-                            print(
-                                "Selected Product: ${item['name']}, Price: ${item['price']}");
-                            Get.toNamed(AppRoutes.checkoutScreen, arguments: {
-                              'address_id': controller
-                                  .cartData.value.address?.id
-                                  .toString(),
-                              'total': controller
-                                  .cartData.value.cart?.finalTotal
-                                  .toString(),
-                              'coupon_id':
-                                  controller.cartData.value.cart?.raw?.couponId ??
-                                      "",
-                              'regular_price': controller
-                                  .cartData.value.cart?.raw?.regularPrice
-                                  .toString(),
-                              // 'coupon_discount': controller
-                              //     .cartData.value.cart?.couponDiscount
-                              //     .toString(),
-                              'save_amount': controller
-                                  .cartData.value.cart?.raw?.saveAmount
-                                  .toString(),
-                              'delivery_charge': controller
-                                  .cartData.value.cart?.deliveryCharge
-                                  .toString(),
-                              'cart_id': controller.cartData.value.cart?.cartId,
-                              'vendor_id': controller.cartData.value.cart?.raw?.decodedAttribute?.vendorId,
-                              'cart_total':
-                                  controller.cartData.value.cart?.raw?.totalPrice,
-                              'cart_delivery': controller
-                                  .cartData.value.cart?.deliveryCharge,
-                              'wallet':
-                                  controller.cartData.value.wallet.toString(),
-                              'cartType': "grocery",
-                              'grandtotal_price' : controller.cartData.value.cart?.finalTotal.toString(),
-                              'coupon_discount': controller.cartData.value.cart?.couponDiscount.toString(),
-                              // 'cartType': "grocerySingleOrder",
-                            });
+                          if (selectedItems!.isNotEmpty) {
+                            for (var item in selectedItems) {
+                              print("Selected Product: ${item['name']}, Price: ${item['price']}");
+
+                              controller.checkoutBtnApi( controller.cartData.value.cart?.cartId.toString(), context);
+
+                            }
+                          } else {
+                            Utils.showToast(
+                                "Please select product to proceed to checkout");
                           }
-                        } else {
-                          Utils.showToast(
-                              "Please select product to proceed to checkout");
-                        }
-                      },
-                      text: "Checkout",
-                      textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+                        },
+                        text: "Checkout",
+                        textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+                      ),
                     ),
                   )
                 : SizedBox(

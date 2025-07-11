@@ -1059,7 +1059,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
-                    "\$${controller.singleCartData.value.cart?.raw?.deliveryCharge.toString()}",
+                    "\$${controller.singleCartData.value.cart?.deliveryCharge.toString()}",
                     style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
@@ -1102,62 +1102,75 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
             ? SizedBox(
           width: 200.w,
           height: 55.h,
-          child: CustomElevatedButton(
-            onPressed: () {
-              var selectedItems = controller
-                  .singleCartData.value.cart!.raw?.decodedAttribute!.bucket
-                  ?.where((item) => item.checked == "true")
-                  .map((item) => {
-                'name': item.productName,
-                'price': "\$${item.totalPrice.toString()}"
-              })
-                  .toList();
-
-              if (selectedItems!.isNotEmpty) {
-                for (var item in selectedItems) {
-                  print(
-                      "Selected Product: ${item['name']}, Price: ${item['price']}");
-                  Get.toNamed(AppRoutes.checkoutScreen, arguments: {
-                    'address_id': controller
-                        .singleCartData.value.address?.id
-                        .toString(),
-                    'total': controller
-                        .singleCartData.value.cart?.finalTotal.toString(),
-                    'coupon_id':
-                    controller.singleCartData.value.cart?.raw?.couponId ??
-                        "",
-                    'regular_price': controller
-                        .singleCartData.value.cart?.raw?.regularPrice
-                        .toString(),
-                    'coupon_discount': controller
-                        .singleCartData.value.cart?.couponDiscount
-                        .toString(),
-                    'save_amount': controller
-                        .singleCartData.value.cart?.raw?.saveAmount
-                        .toString(),
-                    'delivery_charge': controller
-                        .singleCartData.value.cart?.deliveryCharge
-                        .toString(),
-                    'cart_id': controller.singleCartData.value.cart?.raw?.id,
-                    'vendor_id': controller.singleCartData.value.cart?.raw?.decodedAttribute?.vendorId,
-                    'cart_total':
-                    controller.singleCartData.value.cart?.raw?.totalPrice,
-                    'cart_delivery': controller
-                        .singleCartData.value.cart?.deliveryCharge,
-                    'wallet':
-                    controller.singleCartData.value.wallet.toString(),
-                    'grandtotal_price' : controller.singleCartData.value.cart?.finalTotal.toString(),
-                    'coupon_discount_payment_details': controller.singleCartData.value.cart?.couponDiscount.toString(),
-                    'cartType': "restaurant",
-                  });
+          child: Obx(
+            ()=> CustomElevatedButton(
+              isLoading: controller.rxRequestStatusSingleCartBtn.value == Status.LOADING,
+              // onPressed: () {
+              //   var selectedItems = controller
+              //       .singleCartData.value.cart!.raw?.decodedAttribute!.bucket
+              //       ?.where((item) => item.checked == "true")
+              //       .map((item) => {
+              //     'name': item.productName,
+              //     'price': "\$${item.totalPrice.toString()}"
+              //   })
+              //       .toList();
+              //
+              //   if (selectedItems!.isNotEmpty) {
+              //     for (var item in selectedItems) {
+              //       print(
+              //           "Selected Product: ${item['name']}, Price: ${item['price']}");
+              //       Get.toNamed(AppRoutes.checkoutScreen, arguments: {
+              //         'address_id': controller
+              //             .singleCartData.value.address?.id
+              //             .toString(),
+              //         'total': controller
+              //             .singleCartData.value.cart?.finalTotal.toString(),
+              //         'coupon_id':
+              //         controller.singleCartData.value.cart?.raw?.couponId ??
+              //             "",
+              //         'regular_price': controller
+              //             .singleCartData.value.cart?.raw?.regularPrice
+              //             .toString(),
+              //         'coupon_discount': controller
+              //             .singleCartData.value.cart?.couponDiscount
+              //             .toString(),
+              //         'save_amount': controller
+              //             .singleCartData.value.cart?.raw?.saveAmount
+              //             .toString(),
+              //         'delivery_charge': controller
+              //             .singleCartData.value.cart?.deliveryCharge
+              //             .toString(),
+              //         'cart_id': controller.singleCartData.value.cart?.raw?.id,
+              //         'vendor_id': controller.singleCartData.value.cart?.raw?.decodedAttribute?.vendorId,
+              //         'cart_total':
+              //         controller.singleCartData.value.cart?.raw?.totalPrice,
+              //         'cart_delivery': controller
+              //             .singleCartData.value.cart?.deliveryCharge,
+              //         'wallet':
+              //         controller.singleCartData.value.wallet.toString(),
+              //         'grandtotal_price' : controller.singleCartData.value.cart?.finalTotal.toString(),
+              //         'coupon_discount_payment_details': controller.singleCartData.value.cart?.couponDiscount.toString(),
+              //         'cartType': "restaurant",
+              //       });
+              //     }
+              //   } else {
+              //     Utils.showToast(
+              //         "Please select product to proceed to checkout");
+              //   }
+              // },
+              onPressed: () {
+                var selectedItems =controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket
+                    ?.where((item) => item.checked == "true").map((item) => {
+                  'name': item.productName, 'price': "\$${item.totalPrice.toString()}"}).toList();
+                if (selectedItems!.isNotEmpty) {
+                    controller.checkoutBtnApiSingleCart(context,cartId: controller.singleCartData.value.cart?.cartId?.toString() ?? "");
+                } else {
+                  Utils.showToast("Please select product to proceed to checkout");
                 }
-              } else {
-                Utils.showToast(
-                    "Please select product to proceed to checkout");
-              }
-            },
-            text: "Checkout",
-            textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+              },
+              text: "Checkout",
+              textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+            ),
           ),
         )
             : SizedBox(

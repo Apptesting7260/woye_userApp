@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Core/Utils/sized_box.dart';
 import 'package:woye_user/Core/Utils/snackbar.dart';
@@ -67,6 +68,8 @@ class CreateOrderController extends GetxController {
     selectedTipsIndexValue.value = -1;
     walletSelected.value = false;
     isSelectable.value = false;
+    // loadSavedTip();
+    // clearSavedTip();
     super.onInit();
   }
 
@@ -748,7 +751,7 @@ class CreateOrderController extends GetxController {
     update();
   }
 */
-
+//------------------------------------------11-7-25--------------------------------------------------------------------------------
   void updateBalanceAfterTips({
     required String totalPrice,
     required String walletBalance,
@@ -757,11 +760,14 @@ class CreateOrderController extends GetxController {
     double tipsAmount = 0.0;
     if (selectedTipsIndexValue.value == 0) {
       tipsAmount = 5.0;
-    } else if (selectedTipsIndexValue.value == 1) {
+    }
+    else if (selectedTipsIndexValue.value == 1) {
       tipsAmount = 10.0;
-    } else if (selectedTipsIndexValue.value == 2) {
+    }
+    else if (selectedTipsIndexValue.value == 2) {
       tipsAmount = 15.0;
-    } else if (selectedTipsIndexValue.value == 3) {
+    }
+    else if (selectedTipsIndexValue.value == 3) {
       tipsAmount = double.tryParse(enteredTips.value) ?? 0.0;
     }
 
@@ -783,7 +789,8 @@ class CreateOrderController extends GetxController {
         payAfterWallet.value = totalWithTips - walletBalDouble;
         isSelectable.value = false;
       }
-    } else {
+    }
+    else {
       // Wallet not selected - just show full amount
       walletDiscount.value = 0.0;
       payAfterWallet.value = totalWithTips;
@@ -793,9 +800,131 @@ class CreateOrderController extends GetxController {
     newPayAfterWallet.value = payAfterWallet.value;
     newTotalIncludingTips.value = totalPriceIncludingTips.value;
 
+    if (walletSelected.value && walletBalDouble >= totalWithTips) {
+      selectedIndex.value = 0;
+      isSelectable.value = true;
+    }
     update();
   }
 
+  /*void updateBalanceAfterTips({
+    required String totalPrice,
+    required String walletBalance,
+    bool loadFromPrefs = false,
+  }) async {
+    // 👇 Load saved tip from SharedPreferences if requested
+    // if (loadFromPrefs) {
+    //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    //   String savedTip = prefs.getString('saved_tip') ?? '';
+    //
+    //   enteredTips.value = savedTip;
+    //   tipsController.value.text = savedTip;
+    //
+    //   pt("save tips in update wallet balance>>>>>>>>>>>>>>>>> ${enteredTips.value}");
+    //
+    //   if (savedTip == '5') {
+    //     selectedTipsIndexValue.value = 0;
+    //   } else if (savedTip == '10') {
+    //     selectedTipsIndexValue.value = 1;
+    //   } else if (savedTip == '15') {
+    //     selectedTipsIndexValue.value = 2;
+    //   } else if (savedTip != '5' && savedTip != '10' && savedTip != '15') {
+    //     selectedTipsIndexValue.value = 3;
+    //   } else {
+    //     selectedTipsIndexValue.value = -1;
+    //   }
+    // }
+
+    // 💸 Calculate tips amount
+    double tipsAmount = 0.0;
+    if (selectedTipsIndexValue.value == 0) {
+      tipsAmount = 5.0;
+    } else if (selectedTipsIndexValue.value == 1) {
+      tipsAmount = 10.0;
+    } else if (selectedTipsIndexValue.value == 2) {
+      tipsAmount = 15.0;
+    } else if (selectedTipsIndexValue.value == 3) {
+      tipsAmount = double.tryParse(enteredTips.value) ?? 0.0;
+    }
+
+    final double totalPriceDouble = double.tryParse(totalPrice.replaceAll(',', '')) ?? 0.0;
+    final double walletBalDouble = double.tryParse(walletBalance.replaceAll(',', '')) ?? 0.0;
+    final double totalWithTips = totalPriceDouble + tipsAmount;
+
+    totalPriceIncludingTips.value = totalWithTips;
+
+    if (walletSelected.value) {
+      if (walletBalDouble >= totalWithTips) {
+        walletDiscount.value = totalWithTips;
+        payAfterWallet.value = 0.0;
+        isSelectable.value = true;
+      } else {
+        walletDiscount.value = walletBalDouble;
+        payAfterWallet.value = totalWithTips - walletBalDouble;
+        isSelectable.value = false;
+      }
+    } else {
+      walletDiscount.value = 0.0;
+      payAfterWallet.value = totalWithTips;
+      isSelectable.value = false;
+    }
+
+    newPayAfterWallet.value = payAfterWallet.value;
+    newTotalIncludingTips.value = totalPriceIncludingTips.value;
+
+    // ✅ Auto-select wallet if it can now fully cover the total
+    if (walletSelected.value && walletBalDouble >= totalWithTips) {
+      selectedIndex.value = 0;
+      isSelectable.value = true;
+    }
+
+    update();
+  }*/
+
+
+  //-------------------------------------------Save Tips (SharePreference)
+
+  Future<void> saveTipToPrefs(String tip) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    loadSavedTip().then((value) async{
+      await prefs.setString('saved_tip', tip).then((value) {
+        loadSavedTip();
+      },);
+    },);
+    pt("SavedTip>>>>>>>>>>>>>>>>>> ${savedTip.value}");
+  }
+
+  RxString savedTip = "".obs;
+
+  Future<void> loadSavedTip() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    savedTip.value = prefs.getString('saved_tip') ?? "";
+    enteredTips.value = savedTip.value;
+    tipsController.value.text = savedTip.value;
+
+    if (savedTip.value == "5") {
+      selectedTipsIndexValue.value = 0;
+    } else if (savedTip.value == "10") {
+      selectedTipsIndexValue.value = 1;
+    } else if (savedTip.value == "15") {
+      selectedTipsIndexValue.value = 2;
+    } else if (savedTip.value != "" && savedTip.value != "0") {
+      selectedTipsIndexValue.value = 3;
+    } else {
+      selectedTipsIndexValue.value = -1;
+    }
+
+    pt("load SavedTip>>>>>>>>>>>>>>>>>> ${savedTip.value}");
+  }
+
+  Future<void> clearSavedTip() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final removedTips = await prefs.remove('saved_tip');
+    pt("remove SavedTip>>>>>>>>>>>>>>>>>> ${removedTips}");
+
+  }
+
+//--------------------------------------------------------------------------------------------------------------------------
 /*10/017
   void updateBalanceAfterTips({
     required String totalPrice,

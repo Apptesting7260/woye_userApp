@@ -543,6 +543,9 @@ class CheckoutScreen extends StatelessWidget {
                           );
                           debugPrint("controller.selectedIndex.value  ${controller.selectedIndex.value}");
                         } else {
+                          final String paymentAmount = controller.walletSelected.value
+                              ? controller.newPayAfterWallet.value.toStringAsFixed(2)
+                              : controller.newTotalIncludingTips.value.toStringAsFixed(2);
                           pharmacyCartController.pharmacyCreateOrder(
                             isWalletUsed: controller.walletSelected.value,
                             walletAmount: controller.walletDiscount.value.toStringAsFixed(2),
@@ -553,9 +556,10 @@ class CheckoutScreen extends StatelessWidget {
                                 : controller.selectedIndex.value == 2
                                 ? "cash_on_delivery"
                                 : "",
-                            paymentAmount: controller.walletSelected.value
-                                ? paymentAmount
-                                : controller.total.value,
+                            // paymentAmount: controller.walletSelected.value
+                            //     ? paymentAmount
+                            //     : controller.total.value,
+                            paymentAmount: paymentAmount,
                             addressId: controller.addressId.value.toString(),
                             couponId: controller.couponId.toString(),
                             totalAmount: controller.total.value.toString(),
@@ -728,6 +732,135 @@ class CheckoutScreen extends StatelessWidget {
   //     },
   //   );
   // }
+  Widget paymentDetails({
+    regularPrice,
+    saveAmount,
+    deliveryCharge,
+    couponDiscount,
+    totalPrice,
+    walletBalance,
+  }) {
+    return Obx(
+          () {return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Payment Details",
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
+          hBox(20.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Regular Price",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              ),
+              Text(
+                regularPrice != ""
+                    ? "\$$regularPrice"
+                    : "\$0.00",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+          hBox(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Save Amount",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              ),
+              Text(
+                saveAmount != ""
+                    ? "\$$saveAmount"
+                    : "\$0.00",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+          hBox(couponDiscount != "0.00" && couponDiscount.toString().trim() != "" ? 10.h : 0.h),
+          couponDiscount != "0.00" && couponDiscount.toString().trim() != ""
+              ? Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Coupon Discount",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              ),
+              Text(
+                couponDiscount != ""
+                    ? "-\$$couponDiscount"
+                    : "-\$0.00",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          )
+              : SizedBox(
+            height: 0.h,
+          ),
+          hBox(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Delivery Charge",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              ),
+              Text(
+                "\$${deliveryCharge ?? '0.00'}" ,
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+          hBox(10.h),
+          if(controller.selectedTipsIndexValue.value >= 0)...[
+            Obx(
+                  ()=> Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Courier Tips",
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  ),
+                  Text(
+                    controller.selectedTipsIndexValue.value == 0 ? "\$5" :
+                    controller.selectedTipsIndexValue.value == 1 ? "\$10" :
+                    controller.selectedTipsIndexValue.value == 2 ? "\$15" :
+                    controller.selectedTipsIndexValue.value == 3 ? "\$${controller.tipsController.value.text}": "",
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                ],
+              ),
+            ),
+            hBox(10.h),
+          ],
+          hBox(10.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Total Price",
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              ),
+              Text(
+                formatPrice(controller.newTotalIncludingTips.value.toString()),
+                // formatPrice(controller.newPayAfterWallet.value.toString()),
+                // formatPrice(controller.totalPriceIncludingTips.value.toString()),
+                // formatPrice(totalPrice.toString()),
+                style: AppFontStyle.text_20_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              ),
+            ],
+          ),
+        ],
+
+
+
+      );
+      },
+    );
+  }
 
 
 /*
@@ -809,6 +942,9 @@ class CheckoutScreen extends StatelessWidget {
     });
   }
 */
+
+
+  //----------------------------------------------------------------------------------------------------------------------------
   Widget wallet({required String walletBalance, required String totalPrice}) {
     return Obx(() {
       final double walletBalanceDouble = double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
@@ -882,7 +1018,7 @@ class CheckoutScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: AppColors.primary),
                   ),
-                  child: controller.selectedIndex.value == 0
+                  child: controller.selectedIndex.value == 0 || controller.walletSelected.value
                       ? SvgPicture.asset("assets/svg/green-check-circle.svg")
                       : null,
                 ),
@@ -893,6 +1029,106 @@ class CheckoutScreen extends StatelessWidget {
       );
     });
   }
+
+  Widget methodList({required String walletBalance, required String totalPrice}) {
+    return GetBuilder(
+      init: controller,
+      builder: (controller) {
+        return ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              bool isSelected = controller.selectedIndex.value == index;
+
+              if (index == 0) return const SizedBox.shrink();
+
+              return InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {
+                  final double walletBalanceDouble =
+                      double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
+                  final double totalWithTips = controller.totalPriceIncludingTips.value;
+
+                  // ✅ If wallet is selected and covers total, unselect it
+                  if (controller.walletSelected.value &&
+                      walletBalanceDouble >= totalWithTips) {
+                    controller.walletSelected.value = false;
+                    controller.isSelectable.value = false;
+                  }
+
+                  // ✅ Update selected method (card or cod)
+                  controller.selectedIndex.value = index;
+                  controller.update();
+
+                  // 🔁 Update balance display
+                  controller.updateBalanceAfterTips(
+                    totalPrice: totalPrice,
+                    walletBalance: walletBalance,
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 16.r,
+                      vertical: index == 1 ? 17.r : 20.r),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.r),
+                    border: Border.all(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.lightPrimary,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      if (index == 1) ...[
+                        SvgPicture.asset("assets/svg/payment_card.svg"),
+                        wBox(10.h),
+                        Text(
+                          "Pay With Card",
+                          style: AppFontStyle.text_16_400(
+                            AppColors.darkText,
+                            height: 1.h,
+                            family: AppFontFamily.gilroyMedium,
+                          ),
+                        ),
+                      ] else if (index == 2) ...[
+                        Text(
+                          "Cash On Delivery",
+                          style: AppFontStyle.text_16_400(
+                            AppColors.darkText,
+                            family: AppFontFamily.gilroyMedium,
+                          ),
+                        ),
+                      ],
+                      const Spacer(),
+                      Container(
+                        margin: index == 1 ? EdgeInsets.only(top: 5.r) : null,
+                        height: 20.h,
+                        width: 20.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.primary),
+                        ),
+                        child: isSelected
+                            ? SvgPicture.asset("assets/svg/green-check-circle.svg")
+                            : null,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            separatorBuilder: (c, i) => hBox(15.h),
+        );
+      },
+    );
+  }
+
+
+  //----------------------------------------------------------------------------------------------------------------------------
+
   /*
   Widget wallet({required String walletBalance, required String totalPrice}) {
     return Obx(() {
@@ -1366,6 +1602,7 @@ class CheckoutScreen extends StatelessWidget {
     // );
   }
 
+/*
   Widget methodList({required String walletBalance, required String totalPrice}) {
     return GetBuilder(
       init: controller,
@@ -1477,6 +1714,7 @@ class CheckoutScreen extends StatelessWidget {
       },
     );
   }
+*/ //11-07-25
 
   /*
   Widget methodList({required String walletBalance, required String totalPrice}) {
@@ -1627,135 +1865,6 @@ class CheckoutScreen extends StatelessWidget {
   }
 */
 
-  Widget paymentDetails({
-    regularPrice,
-    saveAmount,
-    deliveryCharge,
-    couponDiscount,
-    totalPrice,
-    walletBalance,
-  }) {
-    return Obx(
-      () {return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Payment Details",
-            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-          ),
-          hBox(20.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Regular Price",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-              ),
-              Text(
-                regularPrice != ""
-                    ? "\$$regularPrice"
-                    : "\$0.00",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-              ),
-            ],
-          ),
-          hBox(10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Save Amount",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-              ),
-              Text(
-                saveAmount != ""
-                    ? "\$$saveAmount"
-                    : "\$0.00",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-              ),
-            ],
-          ),
-          hBox(couponDiscount != "0.00" && couponDiscount.toString().trim() != "" ? 10.h : 0.h),
-          couponDiscount != "0.00" && couponDiscount.toString().trim() != ""
-              ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Coupon Discount",
-                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                    ),
-                    Text(
-                      couponDiscount != ""
-                          ? "-\$$couponDiscount"
-                          : "-\$0.00",
-                      style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                    ),
-                  ],
-                )
-              : SizedBox(
-                  height: 0.h,
-                ),
-          hBox(10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Delivery Charge",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-              ),
-              Text(
-                "\$${deliveryCharge ?? '0.00'}" ,
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-              ),
-            ],
-          ),
-          hBox(10.h),
-          if(controller.selectedTipsIndexValue.value >= 0)...[
-          Obx(
-            ()=> Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Courier Tips",
-                  style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
-                ),
-                Text(
-                  controller.selectedTipsIndexValue.value == 0 ? "\$5" :
-                  controller.selectedTipsIndexValue.value == 1 ? "\$10" :
-                  controller.selectedTipsIndexValue.value == 2 ? "\$15" :
-                  controller.selectedTipsIndexValue.value == 3 ? "\$${controller.tipsController.value.text}": "",
-                  style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                ),
-              ],
-            ),
-          ),
-          hBox(10.h),
-          ],
-          hBox(10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Total Price",
-                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-              ),
-              Text(
-              formatPrice(controller.newTotalIncludingTips.value.toString()),
-              // formatPrice(controller.newPayAfterWallet.value.toString()),
-              // formatPrice(controller.totalPriceIncludingTips.value.toString()),
-              // formatPrice(totalPrice.toString()),
-                style: AppFontStyle.text_20_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-              ),
-            ],
-          ),
-        ],
-
-
-
-      );
-      },
-    );
-  }
 
 /*
   Widget tips(total,walletBalance) {
@@ -2034,7 +2143,7 @@ class CheckoutScreen extends StatelessWidget {
                         fontFamily: AppFontFamily.gilroyMedium,
                         width: 145.w,
                         height: 50.h,
-                       /* onPressed: () {
+                        /* onPressed: () {
                           if(controller.tipsKey.currentState?.validate() ?? false){
                             controller.initializeWallet(walletBalance, total);
                             controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
@@ -2068,6 +2177,104 @@ class CheckoutScreen extends StatelessWidget {
       ),
     );
   }
+  /*addTips(BuildContext context,total,walletBalance) {
+    return PopScope(
+      canPop: false,
+      child: Stack(
+        children: [
+          Obx(() =>
+              Form(
+                key: controller.tipsKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    hBox(30.h),
+                    Center(child: Text( "Tips for the courier",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
+                    hBox(20.h),
+                    Padding(
+                      padding: REdgeInsets.symmetric(horizontal: 25.0),
+                      child: CustomTextFormField(
+                        controller: controller.tipsController.value,
+                        inputFormatters :[
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
+                          LengthLimitingTextInputFormatter(10),
+                        ],
+                        *//*onChanged: (value){
+                          controller.enteredTips.value = value;
+                          controller.updateBalanceAfterTips(totalPrice: total, walletBalance: walletBalance);
+                        },*//*
+                        onChanged: (value) {
+                          controller.enteredTips.value = value;
+                          controller.updateBalanceAfterTips(
+                            totalPrice: total,
+                            walletBalance: walletBalance,
+                          );
+                          controller.saveTipToPrefs(value);
+                        },
+
+                        textInputType: TextInputType.number,
+                        hintText: 'Enter tips for the courier',
+                        hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
+                        // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
+                        onTapOutside: (value){
+                          // restaurantAddOnController.isRedClr.value =false;
+                          FocusManager.instance.primaryFocus?.unfocus();
+                        },
+                        onTap: (){
+                          // restaurantAddOnController.isRedClr.value =false;
+                        },
+                        validator: (value) {
+                          if(value == null || value.isEmpty){
+                            return "Please enter tips";
+                          }else if (value.isNotEmpty && (double.tryParse(value) ?? 0) <= 0) {
+                            return "Tip amount must be more than 0.";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    hBox(13.h),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
+                        width: 145.w,
+                        height: 50.h,
+                       *//* onPressed: () {
+                          if(controller.tipsKey.currentState?.validate() ?? false){
+                            controller.initializeWallet(walletBalance, total);
+                            controller.updateBalanceAfterTips(totalPrice: total,walletBalance: walletBalance);
+                            Get.back();
+                            pt("entered tips value  >>>> ${controller.tipsController.value.text}");
+                          }else{
+                            controller.tipsKey.currentState?.validate();
+                          }
+                        },*//*
+                        onPressed: () {
+                          if (controller.tipsKey.currentState?.validate() ?? false) {
+                            // controller.initializeWallet(walletBalance, total); // no need for preserveSelectedIndex
+                            controller.saveTipToPrefs(controller.tipsController.value.text);
+                            controller.updateBalanceAfterTips(totalPrice: total, walletBalance: walletBalance);
+                            Get.back();
+                            pt("entered tips value  >>>> ${controller.tipsController.value.text}");
+                          } else {
+                            controller.tipsKey.currentState?.validate();
+                          }
+                        },
+
+                        text: "Submit" ,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    hBox(30.h),
+                  ],
+                ),
+              ),
+          ),
+        ],
+      ),
+    );
+  }*/
 
   deliveryNotesTextFields(BuildContext context) {
     return PopScope(

@@ -103,6 +103,54 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+  Future<dynamic> postApiWithParams(
+      var data,
+      String baseUrl,
+      String token, {
+        Map<String, dynamic>? params,
+      }) async {
+    pt("Token@calling : $token");
+    pt("Base URL@calling : $baseUrl");
+    pt("Body Data@calling : $data");
+
+    Uri uri;
+    if (params != null && params.isNotEmpty) {
+      uri = Uri.parse(baseUrl).replace(queryParameters: params);
+    } else {
+      uri = Uri.parse(baseUrl);
+    }
+
+    if (kDebugMode) {
+      print("Final URI: $uri");
+    }
+
+    final uriString = uri.toString().replaceAll('+', ' ');
+    final uriFixed = Uri.parse(uriString);
+
+    dynamic responseJson;
+    try {
+      final response = await http
+          .post(
+        uriFixed,
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(data),
+      )
+          .timeout(const Duration(seconds: 50));
+
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw InternetExceptionWidget(onPress: () {});
+    } on RequestTimeOut {
+      throw RequestTimeOut(onPress: () {});
+    }
+
+    print("Response JSON: $responseJson");
+    return responseJson;
+  }
+
   @override
   Future<dynamic> postApi(var data, String url, String token) async {
     if (kDebugMode) {

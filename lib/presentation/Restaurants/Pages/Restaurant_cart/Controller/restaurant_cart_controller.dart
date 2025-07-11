@@ -80,6 +80,113 @@ class RestaurantCartController extends GetxController {
       setRxRequestStatusSingleCart(Status.ERROR);
     });
   }
+//-----------------Btn api checkout
+  final singleCartDataBtn = RestaurantSingleCartModel().obs;
+  final rxRequestStatusSingleCartBtn = Status.COMPLETED.obs;
+  void singleCartSetBtn(RestaurantSingleCartModel value) => singleCartDataBtn.value = value;
+  void setRxRequestStatusSingleCartBtn(Status value) => rxRequestStatusSingleCartBtn.value = value;
+
+  checkoutBtnApiSingleCart(context,{required String cartId}) async {
+    var data = {
+      "cart_id" : cartId,
+    };
+    Map<String, dynamic> params = {
+        "key" : "checkout",
+    };
+    setRxRequestStatusSingleCartBtn(Status.LOADING);
+    api.restaurantCartGetDataApi(data,params: params).then((value) {
+      singleCartSetBtn(value);
+      if(singleCartDataBtn.value.status == true) {
+        setRxRequestStatusSingleCartBtn(Status.COMPLETED);
+          var selectedItems = singleCartDataBtn.value.cart!.raw?.decodedAttribute!.bucket
+              ?.where((item) => item.checked == "true")
+              .map((item) => {
+            'name': item.productName,
+            'price': "\$${item.totalPrice.toString()}"
+          })
+              .toList();
+
+          if (selectedItems!.isNotEmpty) {
+            for (var item in selectedItems) {
+              print(
+                  "Selected Product: ${item['name']}, Price: ${item['price']}");
+              Get.toNamed(AppRoutes.checkoutScreen, arguments: {
+                'address_id': singleCartDataBtn.value.address?.id.toString(),
+                'total': singleCartDataBtn.value.cart?.finalTotal.toString(),
+                'coupon_id':singleCartDataBtn.value.cart?.raw?.couponId ??"",
+                'regular_price': singleCartDataBtn.value.cart?.raw?.regularPrice.toString(),
+                'coupon_discount': singleCartDataBtn.value.cart?.couponDiscount.toString(),
+                'save_amount': singleCartDataBtn.value.cart?.raw?.saveAmount.toString(),
+                'delivery_charge': singleCartDataBtn.value.cart?.deliveryCharge.toString(),
+                'cart_id': singleCartDataBtn.value.cart?.raw?.id,
+                'vendor_id': singleCartDataBtn.value.cart?.raw?.decodedAttribute?.vendorId,
+                'cart_total': singleCartDataBtn.value.cart?.raw?.totalPrice,
+                'cart_delivery': singleCartDataBtn.value.cart?.deliveryCharge,
+                'wallet':singleCartDataBtn.value.wallet.toString(),
+                'grandtotal_price' : singleCartDataBtn.value.cart?.finalTotal.toString(),
+                'coupon_discount_payment_details': singleCartDataBtn.value.cart?.couponDiscount.toString(),
+                'cartType': "restaurant",
+              });
+            }
+          } else {
+            Utils.showToast(
+                "Please select product to proceed to checkout");
+          }
+      }else if(singleCartDataBtn.value.status == false){
+        setRxRequestStatusSingleCartBtn(Status.COMPLETED);
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.r),
+              ),
+              backgroundColor: Colors.white,
+              titlePadding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 8.h),
+              contentPadding: REdgeInsets.symmetric(horizontal: 22,vertical: 15),
+              actionsPadding: REdgeInsets.symmetric(horizontal: 25),
+              insetPadding:REdgeInsets.symmetric(horizontal: 22),
+              title:Icon(Icons.error_outline, color: AppColors.red, size: 24.r),
+              content: Text(
+                singleCartDataBtn.value.message?.toString() ?? "Something went wrong.",
+                maxLines: 5,
+                textAlign: TextAlign.center,
+                style: AppFontStyle.text_16_500(
+                  AppColors.darkText,
+                  family: AppFontFamily.gilroyMedium,
+                ),
+              ),
+              actions: <Widget>[
+                CustomElevatedButton(
+                  onPressed: () {
+                    Get.back(); // Close dialog
+                  },
+                  child: Text(
+                    'OK',
+                    style: AppFontStyle.text_15_600(
+                      AppColors.white,
+                      family: AppFontFamily.gilroyMedium,
+                    ),
+                  ),
+                ),
+                hBox(20.h),
+              ],
+            );
+          },
+        );
+      }else{
+        setRxRequestStatusSingleCartBtn(Status.COMPLETED);
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      pt(stackError);
+      pt(error);
+      pt('errrrrrrrrrrrr get single cart api');
+      setRxRequestStatusSingleCartBtn(Status.ERROR);
+    });
+  }
+
 
 
   //----- home screen
