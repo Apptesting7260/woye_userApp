@@ -214,7 +214,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   FloatingActionButtonLocation.centerDocked,
               floatingActionButton: Padding(
                   padding:
-                      EdgeInsets.only(bottom: Platform.isIOS ? 28.h : 60.h),
+                      EdgeInsets.only(bottom: 60.h),
                   child: restaurantCartController
                               .allResCartData.value.buttonCheck ==
                           false /* &&
