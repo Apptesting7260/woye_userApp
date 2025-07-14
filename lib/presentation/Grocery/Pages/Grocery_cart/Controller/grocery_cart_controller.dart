@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/grocery_cart_modal/GroceryCartModal.dart';
@@ -177,6 +178,14 @@ class GroceryCartController extends GetxController {
   }
 
   /// -------------------------------------------------------------------------------------------
+
+   Future<void> deleteTips() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.getString('saved_tip_restaurant') ?? '';
+     var removed =  await prefs.remove('saved_tip_restaurant');
+      pt("tips removed>>>>>>>>>>>>>>>>>>>>>>>>>> getAllCartData $removed");
+  }
+
   final rxCreateOrderRequestStatus = Status.COMPLETED.obs;
   void setRxCreateOrderRequestStatus(Status value) =>
       rxCreateOrderRequestStatus.value = value;
@@ -234,6 +243,7 @@ class GroceryCartController extends GetxController {
         if (value.status == true) {
           setRxCreateOrderRequestStatus(Status.COMPLETED);
           Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "grocery"});
+          deleteTips();
         } else if (value.status == false) {
           setRxCreateOrderRequestStatus(Status.ERROR);
           Utils.showToast(value.message.toString());

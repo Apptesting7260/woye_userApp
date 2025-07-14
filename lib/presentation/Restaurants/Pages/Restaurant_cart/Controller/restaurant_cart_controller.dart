@@ -1,4 +1,5 @@
 import 'package:get_storage/get_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/main.dart';
@@ -37,6 +38,13 @@ class RestaurantCartController extends GetxController {
     super.onInit();
   }
 
+  Future<void> deleteTips()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('saved_tip_restaurant') ?? '';
+   var removed =  await prefs.remove('saved_tip_restaurant');
+    pt("tips removed>>>>>>>>>>>>>>>>>>>>>>>>>> getAllCartData $removed");
+  }
+
   void setError(String value) => error.value = value;
   // final CartController cartController = Get.put(CartController());
 
@@ -54,6 +62,9 @@ class RestaurantCartController extends GetxController {
     api.restaurantCartGetDataApi(data).then((value) {
       singleCartSet(value);
       setRxRequestStatusSingleCart(Status.COMPLETED);
+      if(singleCartDataBtn.value.cart?.cartId == null || (singleCartDataBtn.value.cart?.cartId?.isEmpty ?? false)){
+        deleteTips();
+      }
     }).onError((error, stackError) {
       setError(error.toString());
       pt(stackError);
@@ -73,6 +84,9 @@ class RestaurantCartController extends GetxController {
     api.restaurantCartGetDataApi(data).then((value) {
       singleCartSet(value);
       setRxRequestStatusSingleCart(Status.COMPLETED);
+      if(singleCartDataBtn.value.cart?.cartId == null || (singleCartDataBtn.value.cart?.cartId?.isEmpty ?? false)){
+        deleteTips();
+      }
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
@@ -132,7 +146,8 @@ class RestaurantCartController extends GetxController {
             Utils.showToast(
                 "Please select product to proceed to checkout");
           }
-      }else if(singleCartDataBtn.value.status == false){
+      }
+      else if(singleCartDataBtn.value.status == false){
         setRxRequestStatusSingleCartBtn(Status.COMPLETED);
         showDialog(
           context: context,
@@ -175,10 +190,12 @@ class RestaurantCartController extends GetxController {
             );
           },
         );
-      }else{
+      }
+      else{
         setRxRequestStatusSingleCartBtn(Status.COMPLETED);
       }
-    }).onError((error, stackError) {
+    },
+    ).onError((error, stackError) {
       setError(error.toString());
       pt(stackError);
       pt(error);
@@ -197,12 +214,18 @@ class RestaurantCartController extends GetxController {
 
   getAllCartData()async{
     setRxRequestStatusAllCartData(Status.LOADING);
-    api.rAllCartsRestaurant().then((value) {
+    api.rAllCartsRestaurant().then((value) async{
       allCartSet(value);
       if(value.status == true){
         setRxRequestStatusAllCartData(Status.COMPLETED);
+        if(allResCartData.value.carts?.isEmpty ?? false){
+          deleteTips();
+        }
       }else if(value.status == false){
         setRxRequestStatusAllCartData(Status.COMPLETED);
+        if(allResCartData.value.carts?.isEmpty ?? false){
+          deleteTips();
+        }
       }else{
         setRxRequestStatusAllCartData(Status.ERROR);
       }
@@ -224,17 +247,26 @@ class RestaurantCartController extends GetxController {
 
   getAllCheckoutDataRes()async{
     setRxRequestStatusCheckout(Status.LOADING);
-    api.getRestaurantCheckOutApi().then((value) {
+    api.getRestaurantCheckOutApi().then((value)async {
       allCheckoutDataSet(value);
       if(value.status == true){
         setRxRequestStatusCheckout(Status.COMPLETED);
+        if(cartCheckoutData.value.cart?.buckets?.isEmpty ?? false){
+          deleteTips();
+        }
         // cartCheckoutData.value.cart!.buckets![index].isDelivery.value = cartCheckoutData.value.cart!.buckets![index].orderType == "self" ? false : true;
-      }else if(value.status == false){
+      }
+      else if(value.status == false){
         setRxRequestStatusCheckout(Status.COMPLETED);
-      }else{
+        if(cartCheckoutData.value.cart?.buckets?.isEmpty ?? false){
+          deleteTips();
+        }
+      }
+      else{
         setRxRequestStatusCheckout(Status.ERROR);
       }
-    },).onError((error, stackError) {
+    },
+    ).onError((error, stackError) {
       setError(error.toString());
       pt('error restaurant checkout api >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ');
       pt(error);
@@ -243,6 +275,7 @@ class RestaurantCartController extends GetxController {
     });
 
   }
+
   //checkout btn api call
   final rxGetCheckoutBtnDataStatus = Status.COMPLETED.obs;
   void setRxRequestStatusCheckoutBtn(Status value) => rxGetCheckoutBtnDataStatus.value = value;
@@ -344,12 +377,19 @@ class RestaurantCartController extends GetxController {
 
   refreshGetAllCheckoutDataRes()async{
     // setRxRequestStatusCheckout(Status.LOADING);
-    api.getRestaurantCheckOutApi().then((value) {
+    api.getRestaurantCheckOutApi().then((value)async {
       allCheckoutDataSet(value);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       if(value.status == true){
         setRxRequestStatusCheckout(Status.COMPLETED);
+          if(cartCheckoutData.value.cart?.buckets?.isEmpty ?? false){
+            deleteTips();
+          }
       }else if(value.status == false){
         setRxRequestStatusCheckout(Status.COMPLETED);
+        if(cartCheckoutData.value.cart?.buckets?.isEmpty ?? false){
+          deleteTips();
+        }
       }else{
         setRxRequestStatusCheckout(Status.ERROR);
       }

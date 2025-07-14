@@ -3,12 +3,14 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/PharmaCartModal.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/grocery_order_type_model.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../pharma_cart_modal/pharmacyCheckoutAllModel.dart';
 import '../pharma_cart_modal/pharmacy_all_product_model.dart';
@@ -357,6 +359,13 @@ class PharmacyCartController extends GetxController {
   }
 
 /*-------------------------------------------Pharmacy Create Order----------------------------------------------------------*/
+  Future<void> deleteTips()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.getString('saved_tip_restaurant') ?? '';
+    var removed =  await prefs.remove('saved_tip_restaurant');
+    pt("tips removed>>>>>>>>>>>>>>>>>>>>>>>>>> getAllCartData $removed");
+  }
+
 
   final rxRequestStatusCreateOrder = Status.COMPLETED.obs;
   void rxSetRequestStatusCreateOrder(Status val) => rxRequestStatusCreateOrder.value = val;
@@ -417,6 +426,7 @@ class PharmacyCartController extends GetxController {
         Utils.showToast(value.message.toString());
         Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "pharmacy"});
         getAllPharmacyCartData();
+        deleteTips();
       }if(value.status == false){
         rxSetRequestStatusCreateOrder(Status.ERROR);
         Utils.showToast(value.message.toString());
@@ -427,6 +437,7 @@ class PharmacyCartController extends GetxController {
       rxSetRequestStatusCreateOrder(Status.COMPLETED);
     },);
   }
+
 
 //----------------------pharmacy OrderType Api--------------------------------
   final rxRequestStatusOrderType = Status.COMPLETED.obs;

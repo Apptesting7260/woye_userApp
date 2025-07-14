@@ -1078,6 +1078,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   value: itemIndex.obs,
                   groupValue: controller.productData.value.product!.extra![index].selectedIndex,
                   onChanged: (value) {
+                    if(controller.goToCart.value == true){
+                      controller.goToCart.value = false;
+                    }
                     var currentExtra = controller.productData.value.product!.extra![index];
                     if (currentExtra.selectedIndex.value == value) {
                       currentExtra.selectedIndex.value = -1;
@@ -1191,6 +1194,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   groupValue: checkBoxGroupValues,
                   onChanged: (value) {
                     addOn.isChecked.value = value;
+                    if(controller.goToCart.value == true){
+                      controller.goToCart.value = false;
+                    }
                     if (value) {
                       controller.selectedAddOn.add({
                         "id": addOn.id.toString(),

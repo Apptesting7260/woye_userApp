@@ -6,6 +6,7 @@ import 'package:pay_with_paystack/model/payment_data.dart';
 import 'package:pay_with_paystack/pay_with_paystack.dart';
 import 'package:uuid/uuid.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
+import 'package:woye_user/main.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
@@ -18,6 +19,10 @@ class PayStackController extends GetxController {
       GroceryCartController());
   final PharmacyCartController pharmacyCartController = Get.put(
       PharmacyCartController());
+
+
+  RxString error = "".obs;
+  void setError(String err) => error.value = err;
 
 
   String secretKey = "";
@@ -38,9 +43,8 @@ class PayStackController extends GetxController {
   makePayment({
     required BuildContext context, required String email,
     required String addressId, required String couponId, required String total,
-    required List<String> cartIds, required String cartType, required List<
-        Map<String, dynamic>> carts,
-    List<dynamic>? prescription,
+    required List<String> cartIds, required String cartType, required List<Map<String, dynamic>> carts,
+    List<dynamic>? prescription
   }) async {
 
     debugPrint(
@@ -61,25 +65,7 @@ class PayStackController extends GetxController {
       if (context.mounted) {
         showDialog(
           context: context,
-          builder: (_) => AlertDialog(
-            title: Center(
-              child: Text("Payment Error",
-                style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
-              ),
-            ),
-            content: Text("The payment amount exceeds the maximum ($maxAmount) allowed limit.",
-              style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyRegular),
-              maxLines: 5,
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text("OK",
-                  style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
-                ),
-              ),
-            ],
-          ),
+          builder: (_) => paymentError(maxAmount, context),
         );
       }
       return;
@@ -118,6 +104,8 @@ class PayStackController extends GetxController {
     debugPrint("userType>>>>> $cartType\n uniqueTransRef>>> $uniqueTransRef\n Amount>>>>>>>>> ${controller
             .walletSelected.value ? controller.newTotalWithoutIncludingTips
             .value.toStringAsFixed(2) : total} \n Email >>>>>>>>> $email");
+
+
     final String paymentAmount = controller.walletSelected.value
         ? controller.newPayAfterWallet.value.toStringAsFixed(2)
         : controller.newTotalIncludingTips.value.toStringAsFixed(2);
@@ -130,7 +118,8 @@ class PayStackController extends GetxController {
         reference: uniqueTransRef,
         currency: "GHS",
         paymentChannel: ['card'],
-        amount:double.parse(paymentAmount).ceilToDouble(),/* controller.walletSelected.value
+        amount:double.parse(paymentAmount).ceilToDouble(),
+        /* controller.walletSelected.value
             ? controller.newTotalWithoutIncludingTips.value.ceilToDouble()
             : double.parse(total).ceilToDouble(),*/
         callbackUrl: "https://google.com",
@@ -140,7 +129,7 @@ class PayStackController extends GetxController {
           final fullResponse = jsonEncode(paymentData);
           debugPrint("📦 Full Paystack Response:\n$fullResponse");
           debugPrint("Transaction completed successfully.... $response");
-          Utils.showToast("Transaction completed successfully");
+          Utils.showToast("Transaction completed successfully",);
           if (paymentData.status == 'success') {
             if (cartType == 'restaurant') {
               controller.createOrderRestaurant(
@@ -261,7 +250,19 @@ class PayStackController extends GetxController {
         },
         transactionNotCompleted: (reason) {
           debugPrint("Transaction not completed..... $reason");
-          Utils.showToast("Transaction not completed");
+          // Utils.showToast("Transaction not completed");
+          setError(reason);
+            Future.delayed(const Duration(milliseconds: 500),() {
+              if(context.mounted) {
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return customAlertDialog(
+                        title: "Transaction not completed!");
+                  },
+                );
+              }},);
         },
 
       );
@@ -306,5 +307,65 @@ class PayStackController extends GetxController {
         );
       }
     }
+  }
+
+  AlertDialog customAlertDialog({String? title}) {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.r),
+      ),
+      backgroundColor: Colors.white,
+      titlePadding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 8.h),
+      contentPadding: REdgeInsets.symmetric(horizontal: 22,vertical: 15),
+      actionsPadding: REdgeInsets.symmetric(horizontal: 25),
+      insetPadding:REdgeInsets.symmetric(horizontal: 22),
+      title:Icon(Icons.error_outline, color: AppColors.red, size: 24.r),
+      content: Text(
+       title  ?? "",
+        maxLines: 5,
+        textAlign: TextAlign.center,
+        style: AppFontStyle.text_16_500(
+          AppColors.darkText,
+          family: AppFontFamily.gilroyMedium,
+        ),
+      ),
+      actions: <Widget>[
+        CustomElevatedButton(
+          onPressed: () {
+            Get.back();
+          },
+          child: Text(
+            'OK',
+            style: AppFontStyle.text_15_600(
+              AppColors.white,
+              family: AppFontFamily.gilroyMedium,
+            ),
+          ),
+        ),
+        hBox(20.h),
+      ],
+    );
+  }
+
+  AlertDialog paymentError(int maxAmount, BuildContext context) {
+    return AlertDialog(
+          title: Center(
+            child: Text("Payment Error",
+              style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+            ),
+          ),
+          content: Text("The payment amount exceeds the maximum ($maxAmount) allowed limit.",
+            style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyRegular),
+            maxLines: 5,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text("OK",
+                style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+              ),
+            ),
+          ],
+        );
   }
 }
