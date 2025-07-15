@@ -2933,7 +2933,8 @@ class RestaurantCartScreen extends StatefulWidget {
                             thickness: .5.w, color: AppColors.hintText),
                         hBox(15.h),
                         checkoutButton(),
-                        hBox(widget.isBack != true ? 100.h : 30.h)
+                        hBox(100.h)
+                        // hBox(widget.isBack != true ? 100.h : 30.h)
                       ],
                     ),
                   ),

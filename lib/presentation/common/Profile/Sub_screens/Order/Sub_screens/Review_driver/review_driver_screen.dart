@@ -3,11 +3,13 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Home/home_controller.dart';
 
 import '../../../../../../../shared/theme/font_family.dart';
+import '../../../../../../Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
 class ReviewDriverScreen extends StatelessWidget {
   ReviewDriverScreen({super.key});
 
   final HomeController homeController = HomeController();
+  final RestaurantNavbarController restaurantNavbarController =RestaurantNavbarController();
   var ratingg = 0.0.obs;
 
   @override
@@ -153,15 +155,15 @@ class ReviewDriverScreen extends StatelessWidget {
         onPressed: () async {
           if (cartType == "restaurant" || screenType == 'restaurantProfileScreen') {
             // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-            homeController.getIndex(0);
-            homeController.navigate(0);
+            restaurantNavbarController.getIndexMainButton(0);
+            //homeController.navigate(0);
           } else if (cartType == "pharmacy" || screenType == "pharmacyProfileScreen") {
-            homeController.getIndex(1);
-            homeController.navigate(1);
+            restaurantNavbarController.getIndexMainButton(1);
+            //homeController.navigate(1);
             //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
           }else if(cartType == "grocery" || screenType == "groceryProfileScreen") {
-            homeController.getIndex(2);
-            homeController.navigate(2);
+            restaurantNavbarController.getIndexMainButton(2);
+            //homeController.navigate(2);
             // homeController.mainButtonIndex.value = 0;
           }else if(screenType == "notificationScreen"|| screenType == "") {
            Get.back();

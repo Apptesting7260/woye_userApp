@@ -93,7 +93,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                       addAddress(type, fromcart, cartId, cartScreenType),
                       // if (type != "Profile")
                         changeAddressButton(type),
-                      hBox(30.h),
+                      hBox(100.h),
                     ],
                   ),
                 ),
@@ -319,7 +319,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
   Widget changeAddressButton(type) {
     return Obx(
       () => Padding(
-        padding: EdgeInsets.only(top: 30.h),
+        padding: EdgeInsets.only(top: 25.h),
         child: CustomElevatedButton(
           onPressed: () {
             editController.changeAddressApi(

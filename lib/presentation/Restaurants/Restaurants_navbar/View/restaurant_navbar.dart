@@ -3,6 +3,8 @@ import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 
+import '../../../Common/Home/home_controller.dart';
+
 class RestaurantNavbar extends StatelessWidget {
   final int navbarInitialIndex;
 
@@ -14,14 +16,26 @@ class RestaurantNavbar extends StatelessWidget {
   //     Get.put(RestaurantWishlistController());
   RxInt cartCount = 0.obs;
 
-  final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
+  // final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
+  final RestaurantCartController restaurantCartController =
+  Get.isRegistered<RestaurantCartController>()
+      ? Get.find<RestaurantCartController>()
+      : Get.put(RestaurantCartController());
+
+   final RestaurantNavbarController restaurantNavbarController = Get.put(RestaurantNavbarController());
+  // final HomeController homeController = Get.put(HomeController());
+  // final HomeController homeController = Get.isRegistered<HomeController>()
+  //     ? Get.find<HomeController>()
+  //     : Get.put(HomeController());
+
 
   // final CartController cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
     return GetBuilder<RestaurantNavbarController>(
-        init: RestaurantNavbarController(navbarCurrentIndex: navbarInitialIndex),
+         init: restaurantNavbarController,
+        //init: RestaurantNavbarController(navbarCurrentIndex: navbarInitialIndex),
         builder: (navbarController) {
           return PopScope(
             canPop: false,
@@ -33,7 +47,11 @@ class RestaurantNavbar extends StatelessWidget {
             child: Scaffold(
               body: Stack(
                 children: [
-                  navbarController.widgets[navbarController.navbarCurrentIndex],
+                  navbarController.mainButtonIndex.value==0 ?
+                  navbarController.widgets0[navbarController.navbarCurrentIndex] :
+                  navbarController.mainButtonIndex.value==1 ?
+                  navbarController.widgets1[navbarController.navbarCurrentIndex] :
+                  navbarController.widgets2[navbarController.navbarCurrentIndex],
                   // IndexedStack(
                   //   index: navbarController.navbarCurrentIndex,
                   //   children: navbarController.widgets,
@@ -83,7 +101,12 @@ class RestaurantNavbar extends StatelessWidget {
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 onTap: () {
-                  navbarController.getIndex(index);
+                  if (Get.currentRoute != AppRoutes.restaurantNavbar) {
+                    navbarController.navigateBackToMainNavbar(index: index);
+                  } else {
+                    navbarController.getIndex(index);
+                  }
+                  //navbarController.getIndex(index);
                   // print("MediaQuery.of(context).viewInsets.bottom ${MediaQuery.of(Get.context!).viewInsets.bottom}");
                   // print("MediaQuery.of(context).viewInsets.bottom ${MediaQuery.of(Get.context!).viewInsets.bottom.runtimeType}");
                 },

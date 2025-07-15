@@ -237,7 +237,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       SliverToBoxAdapter(
                         child: moreProducts(context, widget.Restaurantid),
                       ),
-                    SliverToBoxAdapter(child: hBox(30)),
+                    SliverToBoxAdapter(child: hBox(80.h)),
                   ],
                 ),
               );
@@ -434,29 +434,29 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                 ),
                               ),
                             ),
-                            Positioned(
-                              bottom: 10,right: 10,
-                              child: Obx(
-                                    ()=> InkWell(
-                                  onTap: () {
-                                    if (getUserDataController.userData.value.user?.userType == "guestUser") {
-                                    showLoginRequired(context);
-                                    } else {
-                                      controller.restaurant_Data.value.highlights![index].isAddToCart.value = true;
-                                    }
-                                  },
-                                  child: Container(
-                                    height: 30.h,width: 30.w,
-                                    decoration: BoxDecoration(color: AppColors.primary,
-                                        // shape: BoxShape.circle,
-                                        borderRadius: BorderRadius.circular(10.r)
-                                    ),
-                                    child: Icon(controller.restaurant_Data.value.highlights![index].isAddToCart.value ? Icons.done :Icons.add,
-                                      color: AppColors.white,size: 20,),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Positioned(
+                            //   bottom: 10,right: 10,
+                            //   child: Obx(
+                            //         ()=> InkWell(
+                            //       onTap: () {
+                            //         if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                            //         showLoginRequired(context);
+                            //         } else {
+                            //           controller.restaurant_Data.value.highlights![index].isAddToCart.value = true;
+                            //         }
+                            //       },
+                            //       child: Container(
+                            //         height: 30.h,width: 30.w,
+                            //         decoration: BoxDecoration(color: AppColors.primary,
+                            //             // shape: BoxShape.circle,
+                            //             borderRadius: BorderRadius.circular(10.r)
+                            //         ),
+                            //         child: Icon(controller.restaurant_Data.value.highlights![index].isAddToCart.value ? Icons.done :Icons.add,
+                            //           color: AppColors.white,size: 20,),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         hBox(14.h),

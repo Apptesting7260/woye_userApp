@@ -167,7 +167,7 @@ class _PharmacyVendorDetailsScreenState extends State<PharmacyVendorDetailsScree
                     if (controller.categoriesIndex.value == 0)
                       SliverToBoxAdapter(child: allProducts()),
 
-                    SliverToBoxAdapter(child: hBox(30)),
+                    SliverToBoxAdapter(child: hBox(100.h)),
                   ],
                 ),
               );

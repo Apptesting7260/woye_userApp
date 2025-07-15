@@ -73,7 +73,7 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
               if (fromCart != null && fromCart == true) {
                 Get.back();
               } else {
-                Get.off(() => const PharmacyCartScreen(isBack: true));
+                Get.off(() => const RestaurantBaseScaffold(child: PharmacyCartScreen(isBack: true)));
               }
               controller.goToCart.value = false;
               controller.cartCount.value = 1;
@@ -514,8 +514,10 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
           pharmacyDetailsController.restaurant_Details_Api(
             id: controller.productData.value.product!.userId.toString(),
           );
-          Get.to(PharmacyVendorDetailsScreen(
-            pharmacyId: controller.productData.value.product!.userId.toString(),
+          Get.to(RestaurantBaseScaffold(
+            child: PharmacyVendorDetailsScreen(
+              pharmacyId: controller.productData.value.product!.userId.toString(),
+            ),
           ));
         },
         child: Row(
@@ -900,10 +902,12 @@ class PharmacyProductDetailsScreen extends StatelessWidget {
                       if (fromCart != null && fromCart == true) {
                         Get.back();
                       } else {
-                        Get.to((() => const PharmacyCartScreen(
-                              isBack:
-                                  true, /*cartId: pharmacyAddToCarController.cartId.value.toString()*/
-                            )));
+                        Get.to((() => const RestaurantBaseScaffold(
+                          child: PharmacyCartScreen(
+                                isBack:
+                                    true, /*cartId: pharmacyAddToCarController.cartId.value.toString()*/
+                              ),
+                        )));
                       }
 
                       controller.goToCart.value = false;

@@ -579,7 +579,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           //------------------------------------------------------------------
 
                           SliverToBoxAdapter(
-                            child: hBox(10.h),
+                            child: hBox(70.h),
                           ),
                         ],
                       ),

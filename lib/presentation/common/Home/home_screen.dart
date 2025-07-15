@@ -7,6 +7,7 @@ import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
 
 import '../../../shared/widgets/CircularProgressIndicator.dart';
+import '../../Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -16,6 +17,7 @@ class HomeScreen extends StatelessWidget {
       Get.put(CurrentLocationController());
   final GetUserDataController getUserDataController =
       Get.put(GetUserDataController());
+  final RestaurantNavbarController restaurantNavbarController = Get.find<RestaurantNavbarController>();
 
   void showLocationDialog() {
     if (homeController.location.value.isEmpty) {
@@ -100,7 +102,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    homeController.mainButtonIndex.value;
+    // homeController.mainButtonIndex.value;
     // currentLocationController.getCurrentPosition(back: true);
     showLocationDialog();
     return Material(
@@ -238,15 +240,15 @@ class HomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: homeController.mainButtonbar.length,
                         itemBuilder: (context, index) {
-                          bool isSelected = homeController.mainButtonIndex.value == index;
+                          bool isSelected = restaurantNavbarController.mainButtonIndex.value == index;
                           return GestureDetector(
                             onTap: () {
                               if (index == 2) {
-                                homeController.getIndex(index);
-                                homeController.navigate(index);
+                                restaurantNavbarController.getIndexMainButton(index);
+                                //homeController.navigate(index);
                               } else {
-                                homeController.getIndex(index);
-                                homeController.navigate(index);
+                                restaurantNavbarController.getIndexMainButton(index);
+                                //homeController.navigate(index);
                               }
                             },
                             child: MainButtonBar(

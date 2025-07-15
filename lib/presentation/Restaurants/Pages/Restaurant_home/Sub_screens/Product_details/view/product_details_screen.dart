@@ -84,7 +84,7 @@ class ProductDetailsScreen extends StatelessWidget {
               if (fromCart != null && fromCart == true) {
                 Get.back();
               } else {
-                Get.off(() => const RestaurantCartScreen(isBack: true));
+                Get.off(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
               }
 
               controller.goToCart.value = false;
@@ -352,7 +352,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 Get.back();
                               } else {
                                 addToCartController.clearSelected();
-                                Get.to(() => const RestaurantCartScreen(isBack: true));
+                                Get.to(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
                               }
                               controller.goToCart.value = false;
                               controller.cartCount.value = 1;
@@ -472,7 +472,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 Get.back();
                               } else {
                                 Get.back();
-                                Get.to(() => const RestaurantCartScreen(isBack: true));
+                                Get.to(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
                               }
 
                               controller.goToCart.value = false;
@@ -738,9 +738,11 @@ class ProductDetailsScreen extends StatelessWidget {
 
         GestureDetector(
           onTap: () {
-            Get.to(RestaurantDetailsScreen(
-              Restaurantid:
-                  controller.productData.value.product!.restaurantId.toString(),
+            Get.to(RestaurantBaseScaffold(
+              child: RestaurantDetailsScreen(
+                Restaurantid:
+                    controller.productData.value.product!.restaurantId.toString(),
+              ),
             ));
             restaurantDetailsController.restaurant_Details_Api(
               id: controller.productData.value.product!.restaurantId.toString(),
@@ -1534,11 +1536,13 @@ class ProductDetailsScreen extends StatelessWidget {
                       categoryId: categoryId.toString(),
                     );
 
-                    Get.to(()=>ProductDetailsScreen(
-                      productId: controller.productData.value.moreProducts![index].id.toString(),
-                      categoryId: categoryId,
-                      categoryName: categoryName,
-                      restaurantId: restaurantId,
+                    Get.to(()=>RestaurantBaseScaffold(
+                      child: ProductDetailsScreen(
+                        productId: controller.productData.value.moreProducts![index].id.toString(),
+                        categoryId: categoryId,
+                        categoryName: categoryName,
+                        restaurantId: restaurantId,
+                      ),
                     ));
 
 

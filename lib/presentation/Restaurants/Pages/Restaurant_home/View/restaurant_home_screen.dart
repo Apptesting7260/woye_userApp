@@ -331,16 +331,18 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                             // Get.back();
                                             // restaurantNavbarController.getIndex(3);
                                             Get.to(() =>
-                                                RestaurantSingleCartScreen(
-                                                  cartId:
-                                                      restaurantCartController
-                                                              .allResCartData
-                                                              .value
-                                                              .carts?[0]
-                                                              .id
-                                                              .toString() ??
-                                                          "",
-                                                  isBack: true,
+                                                RestaurantBaseScaffold(
+                                                  child: RestaurantSingleCartScreen(
+                                                    cartId:
+                                                        restaurantCartController
+                                                                .allResCartData
+                                                                .value
+                                                                .carts?[0]
+                                                                .id
+                                                                .toString() ??
+                                                            "",
+                                                    isBack: true,
+                                                  ),
                                                 ));
                                             print(
                                                 "Cart id>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${restaurantCartController.allResCartData.value.carts?[0].id.toString()}s");
@@ -861,8 +863,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               final banner = banners[index];
               return GestureDetector(
                 onTap: () {
-                  Get.to(RestaurantHomeBanner(
-                    bannerID: banners[index].id.toString(),
+                  Get.to(RestaurantBaseScaffold(
+                    child: RestaurantHomeBanner(
+                      bannerID: banners[index].id.toString(),
+                    ),
                   ));
                   bannerDetailsController.bannerDataApi(
                       bannerId: banners[index].id.toString());
@@ -1166,7 +1170,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(() => All_Restaurant());
+                  Get.to(() => RestaurantBaseScaffold(child: All_Restaurant()));
                 },
                 child: Text(
                   "See All",
@@ -1214,8 +1218,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     final restaurant = restaurants?[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                          Restaurantid: restaurants?[index].id.toString() ?? "",
+                        Get.to(RestaurantBaseScaffold(
+                          child: RestaurantDetailsScreen(
+                            Restaurantid: restaurants?[index].id.toString() ?? "",
+                          ),
                         ));
                         restaurantDetailsController.restaurant_Details_Api(
                           id: restaurants?[index].id.toString() ?? "",
@@ -1475,7 +1481,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(All_Restaurant());
+                  Get.to(RestaurantBaseScaffold(child: All_Restaurant()));
                 },
                 child: Text(
                   "See All",
@@ -1522,8 +1528,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     final restaurant = restaurants?[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                          Restaurantid: restaurants?[index].id.toString() ?? "",
+                        Get.to(RestaurantBaseScaffold(
+                          child: RestaurantDetailsScreen(
+                            Restaurantid: restaurants?[index].id.toString() ?? "",
+                          ),
                         ));
                         restaurantDetailsController.restaurant_Details_Api(
                           id: restaurants?[index].id.toString() ?? "",
@@ -1576,7 +1584,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(() => All_Restaurant());
+                  Get.to(() => RestaurantBaseScaffold(child: All_Restaurant()));
                 },
                 child: Text(
                   "See All",
@@ -1623,8 +1631,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     final restaurant = restaurants?[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                          Restaurantid: restaurants?[index].id.toString() ?? "",
+                        Get.to(RestaurantBaseScaffold(
+                          child: RestaurantDetailsScreen(
+                            Restaurantid: restaurants?[index].id.toString() ?? "",
+                          ),
                         ));
                         restaurantDetailsController.restaurant_Details_Api(
                           id: restaurants?[index].id.toString() ?? "",
@@ -1679,7 +1689,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to(() => All_Restaurant());
+                  Get.to(() => RestaurantBaseScaffold(child: All_Restaurant()));
                 },
                 child: Text(
                   "See All",
@@ -1726,8 +1736,10 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     final restaurant = restaurants?[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                          Restaurantid: restaurants?[index].id.toString() ?? "",
+                        Get.to(RestaurantBaseScaffold(
+                          child: RestaurantDetailsScreen(
+                            Restaurantid: restaurants?[index].id.toString() ?? "",
+                          ),
                         ));
                         restaurantDetailsController.restaurant_Details_Api(
                           id: restaurants?[index].id.toString() ?? "",
@@ -1987,10 +1999,12 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                               ),
                               onPressed: () {
                                 Get.back();
-                                Get.to(() => RestaurantSingleCartScreen(
-                                      cartId: carts?.id.toString() ?? "",
-                                      isBack: true,
-                                    ));
+                                Get.to(() => RestaurantBaseScaffold(
+                                  child: RestaurantSingleCartScreen(
+                                        cartId: carts?.id.toString() ?? "",
+                                        isBack: true,
+                                      ),
+                                ));
                                 print(
                                     "Cart id>>>>>>>>>>>>>>>>>>>>>>>>>>>> ${carts?.id}");
                               },

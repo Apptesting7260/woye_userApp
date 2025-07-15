@@ -77,7 +77,7 @@ class _RestaurantCategoriesScreenState
                       controller: controller.searchController,
                     ),
                     SliverToBoxAdapter(
-                      child: controller.filteredWishlistData.value.length == 0  ?
+                      child: controller.filteredWishlistData.length.toString() == "0"  ?
                       CustomNoDataFound(heightBox:hBox(15.h) ) :   ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),

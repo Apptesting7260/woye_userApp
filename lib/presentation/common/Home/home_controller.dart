@@ -6,7 +6,7 @@ import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_na
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 
 class HomeController extends GetxController {
-  RxInt mainButtonIndex = 0.obs;
+
 
   final GetUserDataController getUserDataController =
       Get.put(GetUserDataController());
@@ -43,25 +43,25 @@ class HomeController extends GetxController {
     }
   ];
 
-  void navigate(index) {
-    switch (index) {
-      case 0:
-        Get.toNamed(AppRoutes.restaurantNavbar);
-        break;
-      case 1:
-        Get.toNamed(AppRoutes.pharmacyNavbar);
-        break;
-      case 2:
-        Get.toNamed(AppRoutes.groceryNavbar);
-        break;
-    }
-    update();
-  }
+  // void navigate(index) {
+  //   switch (index) {
+  //     case 0:
+  //       Get.toNamed(AppRoutes.restaurantNavbar);
+  //       break;
+  //     case 1:
+  //       Get.toNamed(AppRoutes.pharmacyNavbar);
+  //       break;
+  //     case 2:
+  //       Get.toNamed(AppRoutes.groceryNavbar);
+  //       break;
+  //   }
+  //   update();
+  // }
 
-  void getIndex(index) {
-    mainButtonIndex.value = index;
-    update();
-  }
+  //void getIndex(index) {
+    // mainButtonIndex.value = index;
+    // update();
+ // }
 
   var location = ''.obs;
   var latitude = 0.0.obs;

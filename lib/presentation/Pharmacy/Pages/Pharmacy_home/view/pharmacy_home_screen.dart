@@ -298,9 +298,11 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                       onPressed: () {
                                         // Get.back();
                                         // pharmacyNavbarController.getIndex(3);
-                                        Get.to(()=>PharmacySingleCartScreen(
-                                          cartId:pharmacyCartController.cartDataAll.value.carts?[0].id.toString() ?? "",
-                                          isBack: true,
+                                        Get.to(()=>RestaurantBaseScaffold(
+                                          child: PharmacySingleCartScreen(
+                                            cartId:pharmacyCartController.cartDataAll.value.carts?[0].id.toString() ?? "",
+                                            isBack: true,
+                                          ),
                                         ));
                                       },
                                       child: Column(
@@ -442,8 +444,10 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 onTap: () {
                   bannerDetailsController.bannerDataApi(
                       bannerId: banners[index].id.toString());
-                  Get.to(()=>PharmacyHomeBanner(
-                    bannerID: banners[index].id.toString(),
+                  Get.to(()=>RestaurantBaseScaffold(
+                    child: PharmacyHomeBanner(
+                      bannerID: banners[index].id.toString(),
+                    ),
                   ));
                 },
                 child: ClipRRect(
@@ -603,7 +607,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to( ()=> AllPharmaShopsScreen());
+                  Get.to( ()=> RestaurantBaseScaffold(child: AllPharmaShopsScreen()));
                 },
                 child: Text(
                   "See All",
@@ -649,7 +653,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         //   id: pharmashopsdata.id.toString(),
                         // );
                         // print("object ${pharmashopsdata?.categoryNames?.length}");
-                        Get.to(()=>PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
+                        Get.to(()=>RestaurantBaseScaffold(child: PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? "")));
                       },
                       child: Obx(
                         ()=> SizedBox(
@@ -696,7 +700,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to( ()=> AllPharmaShopsScreen());
+                  Get.to( ()=> RestaurantBaseScaffold(child: AllPharmaShopsScreen()));
                 },
                 child: Text(
                   "See All",
@@ -739,7 +743,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     return GestureDetector(
                       onTap: () {
                         pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
-                        Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
+                        Get.to(()=>RestaurantBaseScaffold(child: PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? "")));
                       },
                       child: Obx(
                         ()=> SizedBox(
@@ -785,7 +789,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to( ()=> AllPharmaShopsScreen());
+                  Get.to( ()=> RestaurantBaseScaffold(child: AllPharmaShopsScreen()));
                 },
                 child: Text(
                   "See All",
@@ -822,7 +826,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     return GestureDetector(
                       onTap: () {
                         pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
-                        Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
+                        Get.to(()=>RestaurantBaseScaffold(child: PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? "")));
                       },
                       child: Obx(
                         ()=> SizedBox(
@@ -869,7 +873,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               const Spacer(),
               GestureDetector(
                 onTap: () {
-                  Get.to( ()=> AllPharmaShopsScreen());
+                  Get.to( ()=> RestaurantBaseScaffold(child: AllPharmaShopsScreen()));
                 },
                 child: Text(
                   "See All",
@@ -906,7 +910,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     return GestureDetector(
                       onTap: () {
                         pharmacyDetailsController.restaurant_Details_Api(id: pharmashopsdata?.id.toString() ?? "");
-                        Get.to(PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? ""));
+                        Get.to(RestaurantBaseScaffold(child: PharmacyVendorDetailsScreen(pharmacyId: pharmashopsdata?.id.toString() ?? "")));
                       },
                       child: Obx(
                         ()=> SizedBox(
@@ -1227,10 +1231,12 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                               ),
                               onPressed: () {
                                 Get.back();
-                                Get.to(()=>PharmacySingleCartScreen(
-                                  cartId: carts?.id.toString() ?? "",
-                                  isBack: true,
-                                  ),
+                                Get.to(()=>RestaurantBaseScaffold(
+                                  child: PharmacySingleCartScreen(
+                                    cartId: carts?.id.toString() ?? "",
+                                    isBack: true,
+                                    ),
+                                ),
                                 );
                               },
                               child: Column(

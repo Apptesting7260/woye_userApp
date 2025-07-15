@@ -16,7 +16,7 @@ class PharmacyAddToCarController extends GetxController {
   String token = "";
   RxString cartId = "".obs;
   final PharmaSpecificProductController pharmaSpecificProductController = Get.put(PharmaSpecificProductController());
-  final PharmacyHomeController pharmacyHomeController = Get.put(PharmacyHomeController());
+  // final PharmacyHomeController pharmacyHomeController = Get.put(PharmacyHomeController());
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 

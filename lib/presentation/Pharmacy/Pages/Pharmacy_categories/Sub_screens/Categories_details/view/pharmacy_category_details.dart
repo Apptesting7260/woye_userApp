@@ -137,7 +137,7 @@ class PharmacyCategoryDetails extends StatelessWidget {
                         ],
                       ],
                       SliverToBoxAdapter( //{product_id: 5103, category_id: 87}{product_id: 5100, category_id: 87}
-                        child: hBox(50.h),
+                        child: hBox(100.h),
                       )
                     ],
                   ),

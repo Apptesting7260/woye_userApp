@@ -37,7 +37,10 @@ class _TermAndConditionsScreenState extends State<TermAndConditionsScreen> {
       appBar: const CustomAppBar(
         isLeading: true,
       ),
-      body: WebViewWidget(controller: controller),
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 58.0),
+        child: WebViewWidget(controller: controller),
+      ),
       // body: SingleChildScrollView(
       //   padding: REdgeInsets.symmetric(horizontal: 24),
       //   child: Column(

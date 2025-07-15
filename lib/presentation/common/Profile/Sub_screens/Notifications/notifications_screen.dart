@@ -65,9 +65,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   ? const CustomNoDataFound() :
                   Column(
                     children: [
-                      hBox(20),
+                      hBox(20.h),
                       notificationsList(),
-                      hBox(50),
+                      hBox(100.h),
                     ],
                   ),
                 );

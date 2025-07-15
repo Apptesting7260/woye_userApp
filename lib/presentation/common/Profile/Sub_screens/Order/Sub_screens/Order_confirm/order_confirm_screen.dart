@@ -8,6 +8,7 @@ class OrderConfirmScreen extends StatelessWidget {
   OrderConfirmScreen({super.key});
 
   final HomeController homeController = Get.put(HomeController());
+  final RestaurantNavbarController restaurantNavbarController =RestaurantNavbarController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,15 +61,15 @@ class OrderConfirmScreen extends StatelessWidget {
                 onPressed: () async {
                   if (cartType == "restaurant") {
                     // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-                    homeController.getIndex(0);
-                    homeController.navigate(0);
+                    restaurantNavbarController.getIndex(0);
+                    //homeController.navigate(0);
                   } else if (cartType == "pharmacy") {
-                    homeController.getIndex(1);
-                    homeController.navigate(1);
+                    restaurantNavbarController.getIndex(1);
+                   // homeController.navigate(1);
                    //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
                   }else if(cartType == "grocery"){
-                    homeController.getIndex(2);
-                    homeController.navigate(2);
+                    restaurantNavbarController.getIndex(2);
+                    //homeController.navigate(2);
                   }
                 },
                 child: Text("Continue Shopping",style: AppFontStyle.text_16_500(AppColors.primary,family: AppFontFamily.gilroyMedium,),),

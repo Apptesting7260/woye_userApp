@@ -58,7 +58,7 @@ class MoreProducts extends StatelessWidget {
                       category_id: category_id, restaurant_id: restaurant_id);
                 },
                 child: SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 24.r),
+                    padding: REdgeInsets.fromLTRB(24,0,24,80),
                     child: controller.seeAll_Data.value.moreProducts!.isEmpty ?
                     const CustomNoDataFound()
                         : productList(restaurant_id,productId)));

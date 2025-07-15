@@ -107,8 +107,10 @@ class RestaurantHomeFilter extends StatelessWidget {
                     final restaurant = restaurants?[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.to(RestaurantDetailsScreen(
-                          Restaurantid: restaurant!.id.toString(),
+                        Get.to(RestaurantBaseScaffold(
+                          child: RestaurantDetailsScreen(
+                            Restaurantid: restaurant!.id.toString(),
+                          ),
                         ));
                         restaurantDeatilsController.restaurant_Details_Api(
                           id: restaurant.id.toString(),
@@ -156,15 +158,17 @@ class RestaurantHomeFilter extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () {
-                    Get.to(ProductDetailsScreen(
-                      productId: controller.searchData.value.products![index].id
-                          .toString(),
-                      categoryId: controller
-                          .searchData.value.products![index].categoryId
-                          .toString(),
-                      categoryName: controller
-                          .searchData.value.products![index].categoryName
-                          .toString(),
+                    Get.to(RestaurantBaseScaffold(
+                      child: ProductDetailsScreen(
+                        productId: controller.searchData.value.products![index].id
+                            .toString(),
+                        categoryId: controller
+                            .searchData.value.products![index].categoryId
+                            .toString(),
+                        categoryName: controller
+                            .searchData.value.products![index].categoryName
+                            .toString(),
+                      ),
                     ));
 
                     specificProductController.specific_Product_Api(

@@ -1,24 +1,56 @@
+// import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:get_storage/get_storage.dart';
+// import 'package:shimmer/shimmer.dart';
+// import 'package:woye_user/Data/components/GeneralException.dart';
+// import 'package:woye_user/Data/components/InternetException.dart';
+// import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+// import 'package:woye_user/Shared/theme/font_family.dart';
+// import 'package:woye_user/core/utils/app_export.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/pharma_checked_unchecked_controller.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/coupon_apply/apply_cpooun_controller.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_product_controller.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/quantityupdatecontroller.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_upload_screen.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
+// import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
+// import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
+// import 'package:intl/intl.dart';
+//
+// import '../delete_vendor_phar/delete_vendor_phar_controller.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
-import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
-import 'package:woye_user/Shared/theme/font_family.dart';
-import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/Data/response/status.dart';
+import 'package:woye_user/Routes/app_routes.dart';
+import 'package:woye_user/core/Utils/sized_box.dart';
+import 'package:woye_user/core/Utils/snackbar.dart';
+import 'package:woye_user/core/constant/image_constants.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/checked_unchecked_pharma/pharma_checked_unchecked_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/coupon_apply/apply_cpooun_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/delete_vendor_phar/delete_vendor_phar_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_delete_ptoduct/delete_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/pharma_quantity_update/quantityupdatecontroller.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_upload_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/controller/pharma_specific_product_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Product_details/pharmacy_product_details_screen.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/coupon_apply/apply_cpooun_controller.dart';
-import 'package:intl/intl.dart';
-
-import '../delete_vendor_phar/delete_vendor_phar_controller.dart';
+import 'package:woye_user/shared/theme/colors.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/theme/font_style.dart';
+import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/shared/widgets/custom_app_bar.dart';
+import 'package:woye_user/shared/widgets/custom_elevated_button.dart';
+import 'package:woye_user/shared/widgets/custom_text_form_field.dart';
 
 class PharmacyCartScreen extends StatefulWidget {
   final bool isBack;
@@ -157,7 +189,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                                   thickness: .5.w, color: AppColors.hintText),
                               hBox(15.h),
                               checkoutButton(),
-                              hBox(widget.isBack != true ? 100.h : 30.h)
+                              hBox(widget.isBack != true ? 100.h : 100.h)
                             ],
                           ),
                         ),
@@ -2036,8 +2068,8 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
   FocusNode focusNode = FocusNode();
 
   Widget promoCode(context) {
-    return controller.cartCheckoutData.value.couponApplied == false
-        ? Padding(
+    if (controller.cartCheckoutData.value.couponApplied == false) {
+      return Padding(
           padding: REdgeInsets.symmetric(horizontal: 1.5),
           child: DottedBorder(
               strokeWidth: 2,
@@ -2119,8 +2151,9 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
                 ),
               ),
             ),
-        )
-        : Container(
+        );
+    } else {
+      return Container(
             height: Get.height * 0.080,
             width: Get.width,
             decoration: BoxDecoration(
@@ -2208,6 +2241,7 @@ class _PharmacyCartScreenState extends State<PharmacyCartScreen> {
               ],
             ),
           );
+    }
   }
 
   // Widget paymentDetails() {

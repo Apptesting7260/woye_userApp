@@ -57,15 +57,15 @@ class OrderReveivedScreen extends StatelessWidget {
                   onPressed: () async {
                     if (cartType == "restaurant" || screenType == "restaurantProfileScreen") {
                       // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-                      homeController.getIndex(0);
-                      homeController.navigate(0);
+                      restaurantNavbarController.getIndex(0);
+                      //homeController.navigate(0);
                     } else if (cartType == "pharmacy" || screenType == 'pharmacyProfileScreen') {
-                      homeController.getIndex(1);
-                      homeController.navigate(1);
+                      restaurantNavbarController.getIndex(1);
+                      //homeController.navigate(1);
                       //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
                     }else if(cartType == "grocery" || screenType == "groceryProfileScreen"){
-                      homeController.getIndex(2);
-                      homeController.navigate(2);
+                      restaurantNavbarController.getIndex(2);
+                     // homeController.navigate(2);
                     }else if(screenType == "notificationScreen" || screenType == "") {
                       Get.back();
                     }
