@@ -426,6 +426,7 @@ class PharmacyCartController extends GetxController {
         Utils.showToast(value.message.toString());
         Get.toNamed(AppRoutes.oderConfirm, arguments: {'type': "pharmacy"});
         getAllPharmacyCartData();
+        refreshGetAllCartProductsForCheckout();
         deleteTips();
       }if(value.status == false){
         rxSetRequestStatusCreateOrder(Status.ERROR);

@@ -33,7 +33,7 @@ class RestaurantNavbarController extends GetxController {
   RestaurantNavbarController({this.navbarCurrentIndex = 0});
 
   void navigateBackToMainNavbar({required int index}) {
-    Get.until((route) => Get.currentRoute == AppRoutes.restaurantNavbar); // pops all routes above navbar
+    Get.until((route) => Get.currentRoute == AppRoutes.restaurantNavbar);
     getIndex(index);
   }
 

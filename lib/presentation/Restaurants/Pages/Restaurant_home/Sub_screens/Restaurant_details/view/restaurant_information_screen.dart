@@ -45,7 +45,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
                 description(),
                 // if (controller.restaurant_Data.value.review!.isNotEmpty)
                 //   reviews(),
-                hBox(15.h),
+                hBox(100.h),
             ],
             ),
           ),

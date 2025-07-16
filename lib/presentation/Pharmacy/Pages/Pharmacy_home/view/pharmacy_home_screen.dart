@@ -10,7 +10,6 @@ import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_cart_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/view/pharmacy_single_cart_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/controller/PharmacyCategoriesDetailsController.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/Pharma_Categories_Filter_controller.dart';
@@ -24,7 +23,7 @@ import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharm
 import 'package:woye_user/shared/widgets/custom_dropdown.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
-
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import '../../../../../Core/Utils/image_cache_height.dart';
 import '../../../../../Shared/theme/font_family.dart';
 
@@ -40,6 +39,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
 
   final PharmacyNavbarController pharmacyNavbarController =Get.put(PharmacyNavbarController());
   final PharmacyDetailsController pharmacyDetailsController = Get.put(PharmacyDetailsController());
+  final RestaurantNavbarController restaurantNavbarController =   Get.put(RestaurantNavbarController());
 
   final PharmacyCategoriesDetailsController pharmacyCategoriesDetailsController = Get.put(PharmacyCategoriesDetailsController());
   final PharmaCategoriesFilterController categoriesFilterController = Get.put(PharmaCategoriesFilterController());
@@ -1144,7 +1144,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                       highlightColor: Colors.transparent,
                       onTap: () {
                         Get.back();
-                        pharmacyNavbarController.getIndex(3);
+                        // pharmacyNavbarController.getIndex(3);
+                        restaurantNavbarController.getIndex(3);
                       },
                       child: Row(
                         children: [

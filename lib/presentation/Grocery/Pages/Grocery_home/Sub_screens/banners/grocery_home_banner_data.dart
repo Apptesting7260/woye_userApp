@@ -28,61 +28,63 @@ class GroceryHomeBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const CustomAppBar(
-            // title: Text(
-            //   "Filter",
-            //   style: AppFontStyle.text_22_600(AppColors.darkText),
-            // ),
-            ),
-        body: Obx(() {
-          switch (controller.rxRequestStatus.value) {
-            case Status.LOADING:
-              return Center(child: circularProgressIndicator());
-            case Status.ERROR:
-              if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
-                return InternetExceptionWidget(
-                  onPress: () {
-                    controller.bannerDataApi(bannerId: bannerID);
-                  },
-                );
-              } else {
-                return GeneralExceptionWidget(
-                  onPress: () {
-                    controller.bannerDataApi(bannerId: bannerID);
-                  },
-                );
-              }
-            case Status.COMPLETED:
-              return Scaffold(
-                body: RefreshIndicator(
-                  onRefresh: () async {
-                    controller.bannerDataApi(bannerId: bannerID);
-                  },
-                  child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
-                    child: Padding(
-                      padding: REdgeInsets.symmetric(horizontal: 24.h),
-                      child: Column(
-                        children: [
-                          bannerView(),
-                          hBox(10.h),
-                          if (controller.bannerData.value.category!.isNotEmpty)
-                            categories(),
-                          if (controller.bannerData.value.products!.isNotEmpty)
-                            products(),
-                          if (controller
-                              .bannerData.value.groceryShops!.isNotEmpty)
-                            shops(),
-                          hBox(10.h),
-                        ],
+    return RestaurantBaseScaffold(
+      child: Scaffold(
+          appBar: const CustomAppBar(
+              // title: Text(
+              //   "Filter",
+              //   style: AppFontStyle.text_22_600(AppColors.darkText),
+              // ),
+              ),
+          body: Obx(() {
+            switch (controller.rxRequestStatus.value) {
+              case Status.LOADING:
+                return Center(child: circularProgressIndicator());
+              case Status.ERROR:
+                if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
+                  return InternetExceptionWidget(
+                    onPress: () {
+                      controller.bannerDataApi(bannerId: bannerID);
+                    },
+                  );
+                } else {
+                  return GeneralExceptionWidget(
+                    onPress: () {
+                      controller.bannerDataApi(bannerId: bannerID);
+                    },
+                  );
+                }
+              case Status.COMPLETED:
+                return Scaffold(
+                  body: RefreshIndicator(
+                    onRefresh: () async {
+                      controller.bannerDataApi(bannerId: bannerID);
+                    },
+                    child: SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: Padding(
+                        padding: REdgeInsets.symmetric(horizontal: 24.h),
+                        child: Column(
+                          children: [
+                            bannerView(),
+                            hBox(10.h),
+                            if (controller.bannerData.value.category!.isNotEmpty)
+                              categories(),
+                            if (controller.bannerData.value.products!.isNotEmpty)
+                              products(),
+                            if (controller
+                                .bannerData.value.groceryShops!.isNotEmpty)
+                              shops(),
+                            hBox(80.h),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
-          }
-        }));
+                );
+            }
+          })),
+    );
   }
 
   Widget bannerView() {

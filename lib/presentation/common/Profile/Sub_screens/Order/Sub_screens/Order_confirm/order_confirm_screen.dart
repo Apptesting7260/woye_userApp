@@ -60,15 +60,18 @@ class OrderConfirmScreen extends StatelessWidget {
               CustomOutlinedButton(
                 onPressed: () async {
                   if (cartType == "restaurant") {
+                    restaurantNavbarController.navigateBackToMainNavbar(index: 0);
                     // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-                    restaurantNavbarController.getIndex(0);
+                    // restaurantNavbarController.getIndex(0);
                     //homeController.navigate(0);
                   } else if (cartType == "pharmacy") {
-                    restaurantNavbarController.getIndex(1);
+                    restaurantNavbarController.navigateBackToMainNavbar(index: 1);
+                    // restaurantNavbarController.getIndex(1);
                    // homeController.navigate(1);
                    //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
                   }else if(cartType == "grocery"){
-                    restaurantNavbarController.getIndex(2);
+                    restaurantNavbarController.navigateBackToMainNavbar(index: 2);
+                    // restaurantNavbarController.getIndex(2);
                     //homeController.navigate(2);
                   }
                 },

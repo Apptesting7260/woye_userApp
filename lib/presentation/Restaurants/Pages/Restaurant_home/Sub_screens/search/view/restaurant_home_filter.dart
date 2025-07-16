@@ -158,17 +158,15 @@ class RestaurantHomeFilter extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                   onTap: () {
-                    Get.to(RestaurantBaseScaffold(
-                      child: ProductDetailsScreen(
-                        productId: controller.searchData.value.products![index].id
-                            .toString(),
-                        categoryId: controller
-                            .searchData.value.products![index].categoryId
-                            .toString(),
-                        categoryName: controller
-                            .searchData.value.products![index].categoryName
-                            .toString(),
-                      ),
+                    Get.to(ProductDetailsScreen(
+                      productId: controller.searchData.value.products![index].id
+                          .toString(),
+                      categoryId: controller
+                          .searchData.value.products![index].categoryId
+                          .toString(),
+                      categoryName: controller
+                          .searchData.value.products![index].categoryName
+                          .toString(),
                     ));
 
                     specificProductController.specific_Product_Api(

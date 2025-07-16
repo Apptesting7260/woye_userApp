@@ -45,7 +45,7 @@ class FaqScreen extends StatelessWidget {
               physics: const AlwaysScrollableScrollPhysics(),
               padding: REdgeInsets.symmetric(horizontal: 24),
               child: Column(
-                children: [hBox(20), faqList()],
+                children: [hBox(20), faqList(),hBox(100.h),],
               ),
             );
           }

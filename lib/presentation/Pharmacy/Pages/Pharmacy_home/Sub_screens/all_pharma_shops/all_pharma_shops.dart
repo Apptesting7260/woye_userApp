@@ -112,7 +112,7 @@ class AllPharmaShopsScreen extends StatelessWidget {
                         }),
                       ),
                       SliverToBoxAdapter(
-                        child: hBox(20.h),
+                        child: hBox(80.h),
                       )
                     ],
                   ),

@@ -8,6 +8,7 @@ import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
+import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_sliver_app_bar.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
@@ -36,91 +37,93 @@ class AllGroceryShops extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: Text(
-          "Grocery Shops",
-          style: AppFontStyle.text_20_600(
-            AppColors.darkText,family: AppFontFamily.gilroyRegular
+    return RestaurantBaseScaffold(
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: Text(
+            "Grocery Shops",
+            style: AppFontStyle.text_20_600(
+              AppColors.darkText,family: AppFontFamily.gilroyRegular
+            ),
           ),
         ),
-      ),
-      body: Obx(() {
-        switch (controller.rxRequestStatus.value) {
-          case Status.LOADING:
-            return Center(child: circularProgressIndicator());
-          case Status.ERROR:
-            if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
-              return InternetExceptionWidget(
-                onPress: () {
-                  controller.refreshApi();
-                },
-              );
-            } else {
-              return GeneralExceptionWidget(
-                onPress: () {
-                  controller.refreshApi();
-                },
-              );
-            }
-          case Status.COMPLETED:
-            return Scaffold(
-              body: RefreshIndicator(
-                onRefresh: () async {
-                  controller.refreshApi();
-                },
-                child: Padding(
-                  padding:
-                      REdgeInsets.symmetric(horizontal: 20.h, vertical: 20.h),
-                  child: CustomScrollView(
-                    slivers: [
-                      CustomSliverAppBar(
-                        onChanged: (value) {
-                          controller.filterCategories(value);
-                        },
-                        controller: controller.searchController,
-                      ),
-                      SliverToBoxAdapter(
-                        child: Obx(() {
-                          final pharma = controller.filteredWishlistData;
-                          return pharma.isEmpty ? CustomNoDataFound(heightBox: hBox(50.h),) : ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: pharma.length,
-                            itemBuilder: (context, index) {
-                              final shopsDeaitels = pharma[index];
-                              return GestureDetector(
-                                onTap: () {
-                                  groceryDetailsController
-                                      .restaurant_Details_Api(
-                                    id: shopsDeaitels.id.toString(),
-                                  );
-                                  Get.to(GroceryVendorDetailsScreen(
-                                      groceryId: shopsDeaitels.id.toString()));
-                                },
-                                child: pharmaShop(
-                                  index: index,
-                                  image: shopsDeaitels.shopimage.toString(),
-                                  title: shopsDeaitels.shopName.toString(),
-                                  rating: shopsDeaitels.rating.toString(),
-                                  price: shopsDeaitels.avgPrice.toString(),
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) => hBox(20.h),
-                          );
-                        }),
-                      ),
-                      SliverToBoxAdapter(
-                        child: hBox(20.h),
-                      )
-                    ],
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.refreshApi();
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.refreshApi();
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return Scaffold(
+                body: RefreshIndicator(
+                  onRefresh: () async {
+                    controller.refreshApi();
+                  },
+                  child: Padding(
+                    padding:
+                        REdgeInsets.symmetric(horizontal: 20.h, vertical: 20.h),
+                    child: CustomScrollView(
+                      slivers: [
+                        CustomSliverAppBar(
+                          onChanged: (value) {
+                            controller.filterCategories(value);
+                          },
+                          controller: controller.searchController,
+                        ),
+                        SliverToBoxAdapter(
+                          child: Obx(() {
+                            final pharma = controller.filteredWishlistData;
+                            return pharma.isEmpty ? CustomNoDataFound(heightBox: hBox(50.h),) : ListView.separated(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: pharma.length,
+                              itemBuilder: (context, index) {
+                                final shopsDeaitels = pharma[index];
+                                return GestureDetector(
+                                  onTap: () {
+                                    groceryDetailsController
+                                        .restaurant_Details_Api(
+                                      id: shopsDeaitels.id.toString(),
+                                    );
+                                    Get.to(GroceryVendorDetailsScreen(
+                                        groceryId: shopsDeaitels.id.toString()));
+                                  },
+                                  child: pharmaShop(
+                                    index: index,
+                                    image: shopsDeaitels.shopimage.toString(),
+                                    title: shopsDeaitels.shopName.toString(),
+                                    rating: shopsDeaitels.rating.toString(),
+                                    price: shopsDeaitels.avgPrice.toString(),
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) => hBox(20.h),
+                            );
+                          }),
+                        ),
+                        SliverToBoxAdapter(
+                          child: hBox(100.h),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-        }
-      }),
+              );
+          }
+        }),
+      ),
     );
   }
 

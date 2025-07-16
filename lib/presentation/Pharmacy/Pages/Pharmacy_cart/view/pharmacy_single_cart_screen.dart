@@ -215,7 +215,7 @@ class _PharmacySingleCartScreenState extends State<PharmacySingleCartScreen> {
                                   thickness: .5.w, color: AppColors.hintText),
                               hBox(15.h),
                               checkoutButton(),
-                              hBox(widget.isBack != true ? 100.h : 30.h)
+                              hBox(widget.isBack != true ? 100.h : 100.h)
                             ],
                           ),
                         ),

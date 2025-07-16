@@ -44,6 +44,7 @@ class MyWalletScreen extends StatelessWidget {
                 controller.refreshUserWalletApi();
               },
               child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
                 padding: REdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [

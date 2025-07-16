@@ -185,21 +185,21 @@ class AppRoutes {
     GetPage(name: moreProducts, page: () => RestaurantBaseScaffold(child: MoreProducts())),
     GetPage(name: checkoutScreen, page: () => CheckoutScreen()),
     GetPage(name: prescriptionScreen, page: () => RestaurantBaseScaffold(child: PrescriptionUploadScreen())),
-    GetPage(name: addAddressScreen, page: () => RestaurantBaseScaffold(child: AddAddressScreen())),
-    GetPage(name: editAddressScreen, page: () => RestaurantBaseScaffold(child: EditAddressScreen())),
+    GetPage(name: addAddressScreen, page: () => AddAddressScreen()),
+    GetPage(name: editAddressScreen, page: () => EditAddressScreen()),
     GetPage(name: promoCode, page: () => const PromoCodes()),
     GetPage(name: paymentMethod, page: () => PaymentMethodScreen()),
     GetPage(name: addCard, page: () => const RestaurantBaseScaffold(child: AddCardScreen())),
-    GetPage(name: oderConfirm, page: () =>  RestaurantBaseScaffold(child: OrderConfirmScreen())),
+    GetPage(name: oderConfirm, page: () =>  OrderConfirmScreen()),
     GetPage(name: trackOrder, page: () => RestaurantBaseScaffold(child: TrackOrderScreen())),
     GetPage(name: orderReveived, page: () => OrderReveivedScreen()),
     GetPage(name: reviewDriver, page: () => ReviewDriverScreen()),
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
     // GetPage(name: editProfile, page: () => const EditProfileScreen()),
-    GetPage(name: orders, page: () => RestaurantBaseScaffold(child: OrdersScreen())),
+    GetPage(name: orders, page: () => OrdersScreen()),
     GetPage(name: orderDetails, page: () =>  RestaurantBaseScaffold(child: OrderDetailsScreen())),
     GetPage(name: myWallet, page: () => RestaurantBaseScaffold(child: MyWalletScreen())),
-    GetPage(name: inviteFriends, page: () => RestaurantBaseScaffold(child: InviteFriendsScreen())),
+    GetPage(name: inviteFriends, page: () => InviteFriendsScreen()),
     GetPage(name: notifications, page: () => RestaurantBaseScaffold(child: NotificationsScreen())),
     GetPage(name: settings, page: () => const RestaurantBaseScaffold(child: SettingsScreen())),
     GetPage(name: help, page: () => const RestaurantBaseScaffold(child: HelpScreen())),
@@ -269,7 +269,7 @@ class RestaurantBaseScaffold extends StatelessWidget {
       body: Stack(
         children: [
           child,
-          if (MediaQuery.of(context).viewInsets.bottom == 0.0)
+          if (MediaQuery.of(context).viewInsets.bottom == 0.0 || MediaQuery.of(context).viewInsets.bottom == 0)
             Align(
               alignment: Alignment.bottomCenter,
               child: RestaurantNavbar().navbar(navbarController),

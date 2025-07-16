@@ -27,6 +27,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 import '../../../../../Shared/theme/font_family.dart';
 import '../../../../../shared/widgets/shimmer.dart';
 import '../../Grocery_categories/Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
 class GroceryHomeScreen extends StatefulWidget {
   const GroceryHomeScreen({super.key});
@@ -46,6 +47,7 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
   final GroceryCartController groceryCartController = Get.put(GroceryCartController());
 
   final GroceryShowAllCartController groceryShowAllCartController = Get.put(GroceryShowAllCartController());
+  final RestaurantNavbarController restaurantNavbarController =   Get.put(RestaurantNavbarController());
 
   final GroceryBannerDetailsController bannerDetailsController = Get.put(GroceryBannerDetailsController());
   //
@@ -396,7 +398,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                       highlightColor: Colors.transparent,
                       onTap: () {
                         Get.back();
-                        navbarController.getIndex(3);
+                        // navbarController.getIndex(3);
+                        restaurantNavbarController.getIndex(3);
                       },
                       child: Row(
                         children: [

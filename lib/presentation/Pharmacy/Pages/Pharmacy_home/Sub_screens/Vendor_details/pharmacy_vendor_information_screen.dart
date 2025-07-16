@@ -47,7 +47,7 @@ class _PharmacyVendorInformationScreenState extends State<PharmacyVendorInformat
                   description(),
                   // if (controller.pharma_Data.value.review?.isNotEmpty ?? false)
                   //   reviews(),
-                  hBox(15.h),
+                  hBox(100.h),
                 ],
               ),
             ),

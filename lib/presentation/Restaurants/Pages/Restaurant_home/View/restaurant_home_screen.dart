@@ -42,8 +42,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   double? height;
   final RestaurantHomeController restaurantHomeController =
       Get.put(RestaurantHomeController());
-  final RestaurantNavbarController restaurantNavbarController =
-      Get.put(RestaurantNavbarController());
+  final RestaurantNavbarController restaurantNavbarController =   Get.put(RestaurantNavbarController());
 
   _getHeight(_) {
     final keyContext = homeWidgetKey.currentContext;

@@ -363,7 +363,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                             "credit_card" : controller.selectedIndex.value == 2
                                 ? "cash_on_delivery" : "",
                             // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
-                            paymentAmount: controller.walletSelected.value ?paymentAmount : controller.total.value,
+                            paymentAmount: paymentAmount,
                             // paymentAmount: controller.walletSelected.value ? controller.newTotalWithoutIncludingTips.value.toStringAsFixed(2) : total,
                             addressId: controller.addressId.value,
                             couponId: controller.couponId,

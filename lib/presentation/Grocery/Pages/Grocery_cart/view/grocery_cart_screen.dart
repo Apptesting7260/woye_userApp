@@ -57,95 +57,97 @@ class _GroceryCartScreenState extends State<GroceryCartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        controller.readOnly.value = true;
-      },
-      child: Scaffold(
-        appBar: CustomAppBar(
-          isLeading: widget.isBack,
-          isActions: true,
-          title: Text(
-            "My Cart",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+    return RestaurantBaseScaffold(
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          controller.readOnly.value = true;
+        },
+        child: Scaffold(
+          appBar: CustomAppBar(
+            isLeading: widget.isBack,
+            isActions: true,
+            title: Text(
+              "My Cart",
+              style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            ),
           ),
-        ),
-        body: Obx(() {
-          switch (controller.rxRequestStatus.value) {
-            case Status.LOADING:
-              return Center(child: circularProgressIndicator());
-            case Status.ERROR:
-              if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
-                return InternetExceptionWidget(
-                  onPress: () {
+          body: Obx(() {
+            switch (controller.rxRequestStatus.value) {
+              case Status.LOADING:
+                return Center(child: circularProgressIndicator());
+              case Status.ERROR:
+                if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
+                  return InternetExceptionWidget(
+                    onPress: () {
+                      controller.refreshApi();
+                    },
+                  );
+                } else {
+                  return GeneralExceptionWidget(
+                    onPress: () {
+                      controller.refreshApi();
+                    },
+                  );
+                }
+              case Status.COMPLETED:
+                return RefreshIndicator(
+                  onRefresh: () async {
                     controller.refreshApi();
                   },
-                );
-              } else {
-                return GeneralExceptionWidget(
-                  onPress: () {
-                    controller.refreshApi();
-                  },
-                );
-              }
-            case Status.COMPLETED:
-              return RefreshIndicator(
-                onRefresh: () async {
-                  controller.refreshApi();
-                },
-                child: controller.cartData.value.cartContent != "Notempty"
-                    ? Column(
-                        children: [
-                          hBox(Get.height / 3),
-                          Center(
-                            child: Image.asset(
-                              ImageConstants.wishlistEmpty,
-                              height: 70.h,
-                              width: 100.h,
+                  child: controller.cartData.value.cartContent != "Notempty"
+                      ? Column(
+                          children: [
+                            hBox(Get.height / 3),
+                            Center(
+                              child: Image.asset(
+                                ImageConstants.wishlistEmpty,
+                                height: 70.h,
+                                width: 100.h,
+                              ),
+                            ),
+                            hBox(10.h),
+                            Text(
+                              "Your cart is empty!",
+                              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            ),
+                            hBox(5.h),
+                            Text(
+                              "Explore more and shortlist some items",
+                              style:AppFontStyle.text_15_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
+                            ),
+                          ],
+                        )
+                      : Padding(
+                          padding: REdgeInsets.symmetric(horizontal: 20.h),
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            controller: _scrollController,
+                            child: Column(
+                              children: [
+                                controller.cartData.value.addressExists == true
+                                    ? address()
+                                    : locationAddress(),
+                                hBox(20.h),
+                                cartItems(),
+                                hBox(20.h),
+                                promoCode(context),
+                                hBox(30.h),
+                                paymentDetails(),
+                                hBox(30.h),
+                                Divider(
+                                    thickness: .5.w, color: AppColors.hintText),
+                                hBox(15.h),
+                                checkoutButton(),
+                                hBox(widget.isBack != true ? 100.h : 100.h)
+                              ],
                             ),
                           ),
-                          hBox(10.h),
-                          Text(
-                            "Your cart is empty!",
-                            style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                          ),
-                          hBox(5.h),
-                          Text(
-                            "Explore more and shortlist some items",
-                            style:AppFontStyle.text_15_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
-                          ),
-                        ],
-                      )
-                    : Padding(
-                        padding: REdgeInsets.symmetric(horizontal: 20.h),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          controller: _scrollController,
-                          child: Column(
-                            children: [
-                              controller.cartData.value.addressExists == true
-                                  ? address()
-                                  : locationAddress(),
-                              hBox(20.h),
-                              cartItems(),
-                              hBox(20.h),
-                              promoCode(context),
-                              hBox(30.h),
-                              paymentDetails(),
-                              hBox(30.h),
-                              Divider(
-                                  thickness: .5.w, color: AppColors.hintText),
-                              hBox(15.h),
-                              checkoutButton(),
-                              hBox(widget.isBack != true ? 100.h : 30.h)
-                            ],
-                          ),
                         ),
-                      ),
-              );
-          }
-        }),
+                );
+            }
+          }),
+        ),
       ),
     );
   }

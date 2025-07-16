@@ -74,7 +74,7 @@ class PharmacyHomeBanner extends StatelessWidget {
                           if (controller
                               .bannerData.value.pharmaShops!.isNotEmpty)
                             shops(),
-                          hBox(10.h),
+                          hBox(80.h),
                         ],
                       ),
                     ),

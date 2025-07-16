@@ -154,15 +154,20 @@ class ReviewDriverScreen extends StatelessWidget {
         text: "Submit",
         onPressed: () async {
           if (cartType == "restaurant" || screenType == 'restaurantProfileScreen') {
+            restaurantNavbarController.navigateBackToMainNavbar(index: 0);
             // await Get.offAllNamed(AppRoutes.restaurantNavbar);
-            restaurantNavbarController.getIndexMainButton(0);
+            // restaurantNavbarController.getIndexMainButton(0);
             //homeController.navigate(0);
           } else if (cartType == "pharmacy" || screenType == "pharmacyProfileScreen") {
-            restaurantNavbarController.getIndexMainButton(1);
+            restaurantNavbarController.navigateBackToMainNavbar(index: 1);
+
+            // restaurantNavbarController.getIndexMainButton(1);
             //homeController.navigate(1);
             //await Get.offAllNamed(AppRoutes.pharmacyNavbar);
           }else if(cartType == "grocery" || screenType == "groceryProfileScreen") {
-            restaurantNavbarController.getIndexMainButton(2);
+            restaurantNavbarController.navigateBackToMainNavbar(index: 2);
+
+            // restaurantNavbarController.getIndexMainButton(2);
             //homeController.navigate(2);
             // homeController.mainButtonIndex.value = 0;
           }else if(screenType == "notificationScreen"|| screenType == "") {

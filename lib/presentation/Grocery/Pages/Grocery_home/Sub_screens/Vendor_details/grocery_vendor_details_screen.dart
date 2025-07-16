@@ -46,126 +46,128 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        isLeading: true,
-        title: deliveryAndCollectionsCard(),
-        actions: [
-          // deliveryAndCollectionsCard(),
-          // wBox(5.w),
-          GestureDetector(
-            onTap: () {
-              // Share.share(
-              //     '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
-              //     subject:controller.pharma_Data.value.pharmaShop?.shopName ?? 'Share Grocery Shop',
-              // );
-              Share.share(
-                'Get fresh fruits, vegetables, and daily essentials from ${controller.pharma_Data.value.pharmaShop?.shopName ?? "your trusted grocery store"}.\nOrder online now!\n'
-                    '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
-                subject: controller.pharma_Data.value.pharmaShop?.shopName ?? 'Shop Groceries Online',
-              );
-            },
-            child: Container(
-              padding: REdgeInsets.all(9),
-              height: 44.h,
-              width: 44.h,
-              decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r)),
-              child: Icon(
-                Icons.share_outlined,
-                size: 24.w,
+    return RestaurantBaseScaffold(
+      child: Scaffold(
+        appBar: CustomAppBar(
+          isLeading: true,
+          title: deliveryAndCollectionsCard(),
+          actions: [
+            // deliveryAndCollectionsCard(),
+            // wBox(5.w),
+            GestureDetector(
+              onTap: () {
+                // Share.share(
+                //     '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
+                //     subject:controller.pharma_Data.value.pharmaShop?.shopName ?? 'Share Grocery Shop',
+                // );
+                Share.share(
+                  'Get fresh fruits, vegetables, and daily essentials from ${controller.pharma_Data.value.pharmaShop?.shopName ?? "your trusted grocery store"}.\nOrder online now!\n'
+                      '${AppUrls.hostUrl}/grocery?id=${widget.groceryId}',
+                  subject: controller.pharma_Data.value.pharmaShop?.shopName ?? 'Shop Groceries Online',
+                );
+              },
+              child: Container(
+                padding: REdgeInsets.all(9),
+                height: 44.h,
+                width: 44.h,
+                decoration: BoxDecoration(
+                    color: AppColors.greyBackground,
+                    borderRadius: BorderRadius.circular(12.r)),
+                child: Icon(
+                  Icons.share_outlined,
+                  size: 24.w,
+                ),
               ),
             ),
-          ),
-          // wBox(8),
-          // Container(
-          //     padding: REdgeInsets.all(9),
-          //     height: 44.h,
-          //     width: 44.h,
-          //     decoration: BoxDecoration(
-          //         color: AppColors.greyBackground,
-          //         borderRadius: BorderRadius.circular(12.r)),
-          //     child: Icon(
-          //       Icons.favorite_outline_sharp,
-          //       size: 24.w,
-          //     )),
-          // wBox(8),
-          // GestureDetector(
-          //   onTap: () {
-          //     Get.toNamed(AppRoutes.notifications);
-          //   },
-          //   child: Container(
-          //     padding: REdgeInsets.all(9),
-          //     height: 44.h,
-          //     width: 44.h,
-          //     decoration: BoxDecoration(
-          //         color: AppColors.greyBackground,
-          //         borderRadius: BorderRadius.circular(12.r)),
-          //     child: SvgPicture.asset(
-          //       ImageConstants.notification,
-          //     ),
-          //   ),
-          // ),
-        ],
-      ),
-      body: Obx(() {
-        switch (controller.rxRequestStatus.value) {
-          case Status.LOADING:
-            return Center(child: circularProgressIndicator());
-
-          case Status.ERROR:
-            if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
-              return InternetExceptionWidget(
-                onPress: () {
-                  controller.restaurant_Details_Api(id: widget.groceryId);
-                },
-              );
-            } else {
-              return GeneralExceptionWidget(
-                onPress: () {
-                  controller.restaurant_Details_Api(id: widget.groceryId);
-                },
-              );
-            }
-
-          case Status.COMPLETED:
-            return Scaffold(
-              body: RefreshIndicator(
-                onRefresh: () async {
-                  controller.restaurant_Details_Api(id: widget.groceryId);
-                },
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(child: mainBanner()),
-                    if (controller.pharma_Data.value.highlights?.isNotEmpty ?? false)
-                      SliverToBoxAdapter(child: highlights(widget.groceryId))
-                    else SliverToBoxAdapter(child: hBox(20.h)),
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _PinnedHeaderDelegate(
-                        height: 35,
-                        child: Container(
-                          color: Colors.white,
-                          child: Padding(
-                            padding:REdgeInsets.only(bottom: 3.0),
-                            child: categoriesList(),
+            // wBox(8),
+            // Container(
+            //     padding: REdgeInsets.all(9),
+            //     height: 44.h,
+            //     width: 44.h,
+            //     decoration: BoxDecoration(
+            //         color: AppColors.greyBackground,
+            //         borderRadius: BorderRadius.circular(12.r)),
+            //     child: Icon(
+            //       Icons.favorite_outline_sharp,
+            //       size: 24.w,
+            //     )),
+            // wBox(8),
+            // GestureDetector(
+            //   onTap: () {
+            //     Get.toNamed(AppRoutes.notifications);
+            //   },
+            //   child: Container(
+            //     padding: REdgeInsets.all(9),
+            //     height: 44.h,
+            //     width: 44.h,
+            //     decoration: BoxDecoration(
+            //         color: AppColors.greyBackground,
+            //         borderRadius: BorderRadius.circular(12.r)),
+            //     child: SvgPicture.asset(
+            //       ImageConstants.notification,
+            //     ),
+            //   ),
+            // ),
+          ],
+        ),
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+      
+            case Status.ERROR:
+              if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.restaurant_Details_Api(id: widget.groceryId);
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.restaurant_Details_Api(id: widget.groceryId);
+                  },
+                );
+              }
+      
+            case Status.COMPLETED:
+              return Scaffold(
+                body: RefreshIndicator(
+                  onRefresh: () async {
+                    controller.restaurant_Details_Api(id: widget.groceryId);
+                  },
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(child: mainBanner()),
+                      if (controller.pharma_Data.value.highlights?.isNotEmpty ?? false)
+                        SliverToBoxAdapter(child: highlights(widget.groceryId))
+                      else SliverToBoxAdapter(child: hBox(20.h)),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _PinnedHeaderDelegate(
+                          height: 35,
+                          child: Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding:REdgeInsets.only(bottom: 3.0),
+                              child: categoriesList(),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    if ((controller.pharma_Data.value.categories?.data.isNotEmpty ?? false) &&
-                        controller.categoriesIndex.value != 0)
-                      SliverToBoxAdapter(child: categoriesProducts(context, widget.groceryId))
-                    else if (controller.categoriesIndex.value == 0)
-                      SliverToBoxAdapter(child: allProducts()),
-                    SliverToBoxAdapter(child: hBox(30)),
-                  ],
+                      if ((controller.pharma_Data.value.categories?.data.isNotEmpty ?? false) &&
+                          controller.categoriesIndex.value != 0)
+                        SliverToBoxAdapter(child: categoriesProducts(context, widget.groceryId))
+                      else if (controller.categoriesIndex.value == 0)
+                        SliverToBoxAdapter(child: allProducts()),
+                      SliverToBoxAdapter(child: hBox(30)),
+                    ],
+                  ),
                 ),
-              ),
-            );
-        }
-      }),
+              );
+          }
+        }),
+      ),
     );
   }
 

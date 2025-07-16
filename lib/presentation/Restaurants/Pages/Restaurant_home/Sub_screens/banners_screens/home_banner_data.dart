@@ -68,7 +68,7 @@ class RestaurantHomeBanner extends StatelessWidget {
                           if (controller
                               .bannerData.value.restaurants!.isNotEmpty)
                             restaurant(),
-                          hBox(10.h),
+                          hBox(80.h),
                         ],
                       ),
                     ),

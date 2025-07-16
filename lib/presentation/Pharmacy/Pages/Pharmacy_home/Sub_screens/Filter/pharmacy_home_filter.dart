@@ -169,8 +169,10 @@ class PharmacyHomeFilter extends StatelessWidget {
                         pharmacyDetailsController.restaurant_Details_Api(
                           id: pharmaShopdata!.id.toString(),
                         );
-                        Get.to(PharmacyVendorDetailsScreen(
-                            pharmacyId: pharmaShopdata.id.toString()));
+                        Get.to(RestaurantBaseScaffold(
+                          child: PharmacyVendorDetailsScreen(
+                              pharmacyId: pharmaShopdata.id.toString()),
+                        ));
                       },
                       child: pharmaShop(
                         index: index,

@@ -102,7 +102,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 "pageIndex" : 1,
                 "screenType" : "notificationScreen"
               });
-            }else if( controller.apiData.value.notification?[index].title == "Order Rejected"
+            }else if( controller.apiData.value.notification?[index].title == "Order Rejected" ||
+                controller.apiData.value.notification?[index].title == "Order Cancelled"
                 ||  controller.apiData.value.notification?[index].title == "Order Rejected Notification"){
               Get.toNamed(AppRoutes.orders,arguments: {
                 "pageIndex" : 3,

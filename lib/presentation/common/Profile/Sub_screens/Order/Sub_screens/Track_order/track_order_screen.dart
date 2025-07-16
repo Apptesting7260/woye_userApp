@@ -86,7 +86,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                         addressBar(),
                         hBox(20),
                         orderButton(cartType,screenType),
-                        hBox(50)
+                        hBox(100.h)
                       ],
                     ),
                   ),

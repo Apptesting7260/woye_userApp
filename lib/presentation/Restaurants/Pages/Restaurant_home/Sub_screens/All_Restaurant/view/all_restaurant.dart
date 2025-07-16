@@ -88,7 +88,7 @@ class All_Restaurant extends StatelessWidget {
                               final restaurant = restaurants[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Get.to(RestaurantDetailsScreen(
+                                  Get.to(()=>RestaurantDetailsScreen(
                                     Restaurantid: restaurant.id.toString(),
                                   ));
                                   restaurantDeatilsController
@@ -110,7 +110,7 @@ class All_Restaurant extends StatelessWidget {
                         }),
                       ),
                       SliverToBoxAdapter(
-                        child: hBox(20.h),
+                        child: hBox(100.h),
                       )
                     ],
                   ),

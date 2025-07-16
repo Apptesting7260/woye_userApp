@@ -73,173 +73,175 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        controller.readOnly.value = true;
-      },
-      child: Scaffold(
-        appBar: CustomAppBar(
-          isLeading: widget.isBack,
-          isActions: true,
-          title: Text(
-            "My Cart",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+    return RestaurantBaseScaffold(
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+          controller.readOnly.value = true;
+        },
+        child: Scaffold(
+          appBar: CustomAppBar(
+            isLeading: widget.isBack,
+            isActions: true,
+            title: Text(
+              "My Cart",
+              style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            ),
           ),
-        ),
-        body: Obx(() {
-          switch (controller.rxRequestStatus.value) {
-            case Status.LOADING:
-              return Center(child: circularProgressIndicator());
-            case Status.ERROR:
-              if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
-                return InternetExceptionWidget(
-                  onPress: () {
-                    controller.refreshApi(widget.cartId);
+          body: Obx(() {
+            switch (controller.rxRequestStatus.value) {
+              case Status.LOADING:
+                return Center(child: circularProgressIndicator());
+              case Status.ERROR:
+                if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
+                  return InternetExceptionWidget(
+                    onPress: () {
+                      controller.refreshApi(widget.cartId);
+                    },
+                  );
+                } else {
+                  return GeneralExceptionWidget(
+                    onPress: () {
+                      controller.refreshApi(widget.cartId);
+                    },
+                  );
+                }
+              case Status.COMPLETED:
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    controller.getGrocerySingleVendorCartApi(widget.cartId);
                   },
-                );
-              } else {
-                return GeneralExceptionWidget(
-                  onPress: () {
-                    controller.refreshApi(widget.cartId);
-                  },
-                );
-              }
-            case Status.COMPLETED:
-              return RefreshIndicator(
-                onRefresh: () async {
-                  controller.getGrocerySingleVendorCartApi(widget.cartId);
-                },
-                child: controller.cartData.value.cartContent != "Notempty"
-                    ? GestureDetector(
-                        onTap: () {
-                          controller.refreshApi(widget.cartId);
-                        },
-                        child: Column(
-                          children: [
-                            hBox(Get.height / 3),
-                            Center(
-                              child: Image.asset(
-                                ImageConstants.wishlistEmpty,
-                                height: 70.h,
-                                width: 100.h,
-                              ),
-                            ),
-                            hBox(10.h),
-                            Text(
-                              "Your cart is empty!",
-                              style:
-                                  AppFontStyle.text_20_600(AppColors.darkText),
-                            ),
-                            hBox(5.h),
-                            Text(
-                              "Explore more and shortlist some items",
-                              style: AppFontStyle.text_16_400(
-                                  AppColors.mediumText),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Padding(
-                        padding: REdgeInsets.symmetric(horizontal: 20.h),
-                        child: SingleChildScrollView(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          controller: _scrollController,
+                  child: controller.cartData.value.cartContent != "Notempty"
+                      ? GestureDetector(
+                          onTap: () {
+                            controller.refreshApi(widget.cartId);
+                          },
                           child: Column(
                             children: [
-                              controller.cartData.value.addressExists == true
-                                  ? address()
-                                  : locationAddress(),
-                              hBox(20.h),
-                              Row(
-                                children: [
-                                  Text("Delivery Type", style: AppFontStyle.text_16_500(
-                                      AppColors.darkText,family: AppFontFamily.gilroyMedium),),
-                                  const Spacer(),
-                                  Obx(
-                                        ()=> InkWell(
-                                      onTap: () {
-                                        if (controller.cartData.value.cart?.raw?.orderType == "delivery") {
-                                          controller.cartData.value.cart?.isDelivery.value = false;
-                                          groceryCartControllerMultiVendor.groceryOrderTypeApi(
-                                            index: 0,
-                                            cartId: controller.cartData.value.cart?.cartId ?? "",
-                                            type: "self",
-                                            isSingleCartScreen: true,
-                                          );
-                                        }
-                                      },
-                                      child: AnimatedContainer(
-                                        duration: const Duration(milliseconds: 100),
-                                        height: 30,width: 84,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
-                                          border: Border.all(
-                                            color:controller.cartData.value.cart?.raw?.orderType == "self"
-                                                ? AppColors.primary : AppColors.lightPrimary,width: 1,
-                                          ),
-                                        ),
-                                        child: Center(child: (groceryCartControllerMultiVendor.rxRequestStatusOrderType.value == Status.LOADING &&
-                                            groceryCartControllerMultiVendor.loadingType.value == "self") ?
-                                        circularProgressIndicator2() :
-                                        Text("Self", style: AppFontStyle.text_14_400(
-                                            controller.cartData.value.cart?.raw?.orderType == 'self'
-                                                ? AppColors.primary :AppColors.darkText,family: AppFontFamily.gilroyMedium),)),
-                                      ),
-                                    ),
-                                  ),
-                                  wBox(8.w),
-                                  Obx(
-                                        ()=> InkWell(
-                                      onTap: () {
-                                        if(controller.cartData.value.cart?.raw?.orderType != "delivery"){
-                                          controller.cartData.value.cart?.isDelivery.value = true;
-                                          groceryCartControllerMultiVendor.groceryOrderTypeApi(
-                                              index: 0,
-                                            cartId: controller.cartData.value.cart?.cartId.toString() ?? "",
-                                            type: "delivery",
-                                            isSingleCartScreen: true,
-                                          );
-                                        }
-                                      },
-                                      child: AnimatedContainer(
-                                        duration: const Duration(milliseconds: 100),
-                                        height: 30,width: 84,
-                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
-                                          border: Border.all(color: controller.cartData.value.cart?.raw?.orderType == "delivery" ? AppColors.primary : AppColors.lightPrimary,width: 1),
-                                        ),
-                                        child: Center(child: (groceryCartControllerMultiVendor.rxRequestStatusOrderType.value == Status.LOADING
-                                            && groceryCartControllerMultiVendor.loadingType.value == "delivery") ?
-                                        circularProgressIndicator2() :
-                                        Text("Delivery", style: AppFontStyle.text_14_400(
-                                          controller.cartData.value.cart?.raw?.orderType == "delivery"
-                                              ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
-                                        ),
-                                        ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
+                              hBox(Get.height / 3),
+                              Center(
+                                child: Image.asset(
+                                  ImageConstants.wishlistEmpty,
+                                  height: 70.h,
+                                  width: 100.h,
+                                ),
                               ),
-                              hBox(20.h),
-                              cartItems(),
-                              hBox(20.h),
-                              promoCode(context),
-                              hBox(30.h),
-                              paymentDetails(),
-                              hBox(30.h),
-                              Divider(
-                                  thickness: .5.w, color: AppColors.hintText),
-                              hBox(15.h),
-                              checkoutButton(),
-                              hBox(widget.isBack != true ? 100.h : 30.h)
+                              hBox(10.h),
+                              Text(
+                                "Your cart is empty!",
+                                style:
+                                    AppFontStyle.text_20_600(AppColors.darkText),
+                              ),
+                              hBox(5.h),
+                              Text(
+                                "Explore more and shortlist some items",
+                                style: AppFontStyle.text_16_400(
+                                    AppColors.mediumText),
+                              ),
                             ],
                           ),
+                        )
+                      : Padding(
+                          padding: REdgeInsets.symmetric(horizontal: 20.h),
+                          child: SingleChildScrollView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            controller: _scrollController,
+                            child: Column(
+                              children: [
+                                controller.cartData.value.addressExists == true
+                                    ? address()
+                                    : locationAddress(),
+                                hBox(20.h),
+                                Row(
+                                  children: [
+                                    Text("Delivery Type", style: AppFontStyle.text_16_500(
+                                        AppColors.darkText,family: AppFontFamily.gilroyMedium),),
+                                    const Spacer(),
+                                    Obx(
+                                          ()=> InkWell(
+                                        onTap: () {
+                                          if (controller.cartData.value.cart?.raw?.orderType == "delivery") {
+                                            controller.cartData.value.cart?.isDelivery.value = false;
+                                            groceryCartControllerMultiVendor.groceryOrderTypeApi(
+                                              index: 0,
+                                              cartId: controller.cartData.value.cart?.cartId ?? "",
+                                              type: "self",
+                                              isSingleCartScreen: true,
+                                            );
+                                          }
+                                        },
+                                        child: AnimatedContainer(
+                                          duration: const Duration(milliseconds: 100),
+                                          height: 30,width: 84,
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                                            border: Border.all(
+                                              color:controller.cartData.value.cart?.raw?.orderType == "self"
+                                                  ? AppColors.primary : AppColors.lightPrimary,width: 1,
+                                            ),
+                                          ),
+                                          child: Center(child: (groceryCartControllerMultiVendor.rxRequestStatusOrderType.value == Status.LOADING &&
+                                              groceryCartControllerMultiVendor.loadingType.value == "self") ?
+                                          circularProgressIndicator2() :
+                                          Text("Self", style: AppFontStyle.text_14_400(
+                                              controller.cartData.value.cart?.raw?.orderType == 'self'
+                                                  ? AppColors.primary :AppColors.darkText,family: AppFontFamily.gilroyMedium),)),
+                                        ),
+                                      ),
+                                    ),
+                                    wBox(8.w),
+                                    Obx(
+                                          ()=> InkWell(
+                                        onTap: () {
+                                          if(controller.cartData.value.cart?.raw?.orderType != "delivery"){
+                                            controller.cartData.value.cart?.isDelivery.value = true;
+                                            groceryCartControllerMultiVendor.groceryOrderTypeApi(
+                                                index: 0,
+                                              cartId: controller.cartData.value.cart?.cartId.toString() ?? "",
+                                              type: "delivery",
+                                              isSingleCartScreen: true,
+                                            );
+                                          }
+                                        },
+                                        child: AnimatedContainer(
+                                          duration: const Duration(milliseconds: 100),
+                                          height: 30,width: 84,
+                                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
+                                            border: Border.all(color: controller.cartData.value.cart?.raw?.orderType == "delivery" ? AppColors.primary : AppColors.lightPrimary,width: 1),
+                                          ),
+                                          child: Center(child: (groceryCartControllerMultiVendor.rxRequestStatusOrderType.value == Status.LOADING
+                                              && groceryCartControllerMultiVendor.loadingType.value == "delivery") ?
+                                          circularProgressIndicator2() :
+                                          Text("Delivery", style: AppFontStyle.text_14_400(
+                                            controller.cartData.value.cart?.raw?.orderType == "delivery"
+                                                ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                                          ),
+                                          ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                hBox(20.h),
+                                cartItems(),
+                                hBox(20.h),
+                                promoCode(context),
+                                hBox(30.h),
+                                paymentDetails(),
+                                hBox(30.h),
+                                Divider(
+                                    thickness: .5.w, color: AppColors.hintText),
+                                hBox(15.h),
+                                checkoutButton(),
+                                hBox(widget.isBack != true ? 100.h : 100.h)
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-              );
-          }
-        }),
+                );
+            }
+          }),
+        ),
       ),
     );
   }
