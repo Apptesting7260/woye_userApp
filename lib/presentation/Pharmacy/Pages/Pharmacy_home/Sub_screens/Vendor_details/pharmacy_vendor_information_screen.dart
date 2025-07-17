@@ -40,7 +40,8 @@ class _PharmacyVendorInformationScreenState extends State<PharmacyVendorInformat
           child: SingleChildScrollView(
             child: Obx(
                   ()=> Column(
-                children: [
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                   nameEmailAdd(),
                   hBox(35.h),
                   openHours(),

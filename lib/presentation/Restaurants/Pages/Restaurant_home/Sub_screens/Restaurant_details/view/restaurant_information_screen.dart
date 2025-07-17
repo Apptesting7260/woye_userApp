@@ -38,6 +38,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
         child: SingleChildScrollView(
           child: Obx(
             ()=> Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 nameEmailAdd(),
                 hBox(35.h),
@@ -97,6 +98,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
   Widget description() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment:  MainAxisAlignment.start,
       children: [
         Text(
           "Descriptions",

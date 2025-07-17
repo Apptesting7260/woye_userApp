@@ -56,6 +56,7 @@ class ProductReviews extends StatelessWidget {
                     controller.seeAllProductReviewApi(vendorId: productId,type: type);
                   },
                   child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     padding: REdgeInsets.symmetric(horizontal: 24),
                     child: Column(
                       children: [
@@ -257,10 +258,12 @@ class ProductReviews extends StatelessWidget {
                         )
                       ],
                     ),
-                    Padding(
+                    (index != controller.seeAllReview.value.reviewAll!.length - 1)
+                        ? Padding(
                       padding: REdgeInsets.symmetric(vertical: 10),
                       child: const Divider(),
-                    ),
+                    )
+                        : const SizedBox.shrink(),
                   ],
                 );
               },

@@ -37,6 +37,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
           padding: REdgeInsets.symmetric(horizontal: 24.0),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 nameEmailAdd(),
               hBox(25.h),
