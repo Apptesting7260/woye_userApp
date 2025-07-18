@@ -4,6 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'dart:io';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
       } catch (e) {
         print("deeplink error $e");
       }
+      getAppVersion();
     });
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -150,4 +152,18 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+
+
+  Future<void> getAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    String appName = packageInfo.appName;
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+
+    print("App Name: $appName");
+    print("Version>>>>>>>>>>>>>>>>>: $version");
+    print("Build Number: $buildNumber");
+  }
+
 }

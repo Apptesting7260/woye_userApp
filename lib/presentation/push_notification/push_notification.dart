@@ -66,6 +66,12 @@ class PushNotificationService {
         showNotification(message.notification);
         debugPrint('android not null notification==${message.notification?.title}');
         debugPrint('android not null notification body==${message.notification?.body}');
+
+        if(message.notification?.body == "App is in maintenance mode."){
+          Get.offAllNamed(AppRoutes.maintenance);
+        }else if(message.notification?.body == "Maintenance mode is off."){
+          Get.offAllNamed(AppRoutes.restaurantNavbar);
+        }
         FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
           if (message != null) {
             debugPrint("message  >> ${message.toString()}");

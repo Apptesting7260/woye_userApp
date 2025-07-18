@@ -56,6 +56,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Model/h
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/modal/see_all_review_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/banner_details_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/modal/homesearchmodal.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/model/maintenance_mode_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
@@ -123,6 +124,15 @@ class Repository {
     dynamic response = await _apiService.postApi(data, AppUrls.socialLogin, "");
     return SocialModel.fromJson(response);
   }
+
+  /* ------------------------------------------------ maintenance ----------------------------------------------------*/
+
+  Future<dynamic> maintenanceApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.maintenance, token);
+    return MaintenanceModel.fromJson(response);
+  }
+
 
   /* ------------------------------------------------ Profile ----------------------------------------------------*/
 

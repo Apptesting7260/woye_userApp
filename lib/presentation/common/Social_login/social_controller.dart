@@ -69,9 +69,15 @@ class SocialLoginController extends GetxController {
         print("Phone Number: Not available");
       }
       SocialLoginApi(
+
           email: googleUser!.email.toString(),
           id: googleUser.id.toString(),
           type: "google",
+
+
+
+
+
           name: displayName ?? "",
           mobile: Mobilenumber ?? "",
           countryCode: countryCode ?? "");

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/maintenance_mode_controller.dart';
 import 'package:woye_user/presentation/common/current_location/current_location.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
@@ -9,15 +10,24 @@ import 'package:woye_user/shared/theme/font_family.dart';
 import '../../../shared/widgets/CircularProgressIndicator.dart';
 import '../../Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
+
   final CurrentLocationController currentLocationController =
       Get.put(CurrentLocationController());
+
   final GetUserDataController getUserDataController =
       Get.put(GetUserDataController());
-  final RestaurantNavbarController restaurantNavbarController = Get.find<RestaurantNavbarController>();
+
+  final RestaurantNavbarController restaurantNavbarController = Get.find<RestaurantNavbarController >();
+  final MaintenanceModeController maintenanceModeController = Get.put(MaintenanceModeController());
 
   void showLocationDialog() {
     if (homeController.location.value.isEmpty) {
@@ -99,6 +109,13 @@ class HomeScreen extends StatelessWidget {
       });
     }
   }
+
+  @override
+  void initState() {
+    super.initState();
+    maintenanceModeController.maintenanceModeApi();
+  }
+
 
   @override
   Widget build(BuildContext context) {

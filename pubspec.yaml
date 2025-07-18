@@ -95,8 +95,7 @@ dependencies:
   dropdown_button2:
   another_flushbar:
 #  sms_autofill: ^2.0.0
-
-
+  package_info_plus: ^8.3.0
 
 
 dev_dependencies:

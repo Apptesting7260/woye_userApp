@@ -72,6 +72,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help
 import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_binding.dart';
 import 'package:woye_user/presentation/common/Update_profile/view/Update_profile_Screen.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
+import 'package:woye_user/presentation/common/maintenance/maintenance_screen.dart';
 
 import '../Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import '../presentation/Grocery/Pages/Grocery_cart/Checkout/grocery_checkout_screen.dart';
@@ -79,6 +80,7 @@ import '../presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/gr
 import '../presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_information_screen.dart';
 import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_information_screen.dart';
 import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/product_reviews.dart';
+import '../presentation/Restaurants/Pages/Restaurant_home/View/maintenance_binding.dart';
 
 class AppRoutes {
   ///`common=====================================================>`
@@ -94,6 +96,7 @@ class AppRoutes {
   static const String groceryNavbar = "/grocery_navbar";
   static const String otpVerification = "/otp_verification";
   static const String homeScreen = "/home_screen";
+  static const String maintenance = "/maintenance";
 
   ///`restaurant=====================================================>`
 
@@ -169,6 +172,7 @@ class AppRoutes {
 
   static List<GetPage> pages = [
     GetPage(name: initalRoute, page: () => const SplashScreen(),),
+    GetPage(name: maintenance, page: () => const MaintenanceModeScreen(),binding: MaintenanceBinding()),
     GetPage(name: restaurantCartScreen, page: () => const RestaurantBaseScaffold(child: RestaurantCartScreen()),),
     GetPage(name: welcomeScreen, page: () => WelcomeScreen(), binding: WelcomeBinding()),
     GetPage(name: login, page: () => LoginScreen()),
