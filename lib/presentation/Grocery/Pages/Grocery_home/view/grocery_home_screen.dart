@@ -128,12 +128,14 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
             return InternetExceptionWidget(
               onPress: () {
                 groceryHomeController.homeApiRefresh();
+                groceryCartController.getGroceryAllCartApi();
               },
             );
           } else {
             return GeneralExceptionWidget(
               onPress: () {
                 groceryHomeController.homeApiRefresh();
+                groceryCartController.getGroceryAllCartApi();
               },
             );
           }

@@ -134,12 +134,14 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             return InternetExceptionWidget(
               onPress: () {
                 pharmacyHomeController.homeApiRefresh();
+                pharmacyCartController.getAllPharmacyCartData();
               },
             );
           } else {
             return GeneralExceptionWidget(
               onPress: () {
                 pharmacyHomeController.homeApiRefresh();
+                pharmacyCartController.getAllPharmacyCartData();
               },
             );
           }

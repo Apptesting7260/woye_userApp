@@ -57,6 +57,7 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/banners_screens/banner_details_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/modal/homesearchmodal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/model/maintenance_mode_model.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/model/version_check_model.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/Modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_wishlist/Controller/aad_product_wishlist_Controller/Modal.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
@@ -129,8 +130,15 @@ class Repository {
 
   Future<dynamic> maintenanceApi() async {
     await initializeUser();
-    dynamic response = await _apiService.getApi(AppUrls.maintenance, token);
+    dynamic response = await _apiService.getApi(AppUrls.maintenance, "");
     return MaintenanceModel.fromJson(response);
+  }
+
+
+  Future<dynamic> versionCheckApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.appVersion, "");
+    return VersionCheckModel.fromJson(response);
   }
 
 

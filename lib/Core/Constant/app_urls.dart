@@ -19,6 +19,7 @@ class AppUrls {
 
   /* ------------------------------ maintenance ---------------------------------  */
   static const String maintenance = "$baseUrl/maintenance";
+  static const String appVersion = "$baseUrl/app-version";
 
   /* ------------------------------ Profile ---------------------------------  */
 

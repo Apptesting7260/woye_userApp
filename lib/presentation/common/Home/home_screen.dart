@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Get.put(GetUserDataController());
 
   final RestaurantNavbarController restaurantNavbarController = Get.find<RestaurantNavbarController >();
-  final MaintenanceModeController maintenanceModeController = Get.put(MaintenanceModeController());
+  // final MaintenanceModeController maintenanceModeController = Get.put(MaintenanceModeController());
 
   void showLocationDialog() {
     if (homeController.location.value.isEmpty) {
@@ -110,11 +110,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    maintenanceModeController.maintenanceModeApi();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //    maintenanceModeController.getAppVersion();
+  //    maintenanceModeController.maintenanceModeApi();
+  //    maintenanceModeController.versionCheckApi();
+  // }
 
 
   @override

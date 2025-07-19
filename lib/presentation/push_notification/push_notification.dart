@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/maintenance_mode_controller.dart';
 
 @pragma('vm:entry-point')
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -71,6 +72,24 @@ class PushNotificationService {
           Get.offAllNamed(AppRoutes.maintenance);
         }else if(message.notification?.body == "Maintenance mode is off."){
           Get.offAllNamed(AppRoutes.restaurantNavbar);
+        }
+        if(message.notification?.title == 'Vendor App Version Update'){
+          MaintenanceModeController  maintenanceModeController = Get.put(MaintenanceModeController());
+          maintenanceModeController.versionCheckApi();
+          print("maintenanceModeController.appVersion>>>>>>>>  ${maintenanceModeController.appVersion ?? ""}");
+          print("message.notification?.body>>>>>>>>  ${message.notification?.body?? ""}");
+          if(maintenanceModeController.appVersion != message.notification?.body){
+            showDialog(
+              context: Get.context!,
+              builder: (_) => maintenanceModeController.updaterPopUp(oldVersion:maintenanceModeController.version ,
+              newVersion:maintenanceModeController.extractVersion(message.notification?.body ?? "")),
+            );
+          }else{
+            // while (Get.isDialogOpen ?? false) {
+            //   Get.back();
+            //   await Future.delayed(const Duration(milliseconds: 1));
+            // }
+          }
         }
         FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
           if (message != null) {

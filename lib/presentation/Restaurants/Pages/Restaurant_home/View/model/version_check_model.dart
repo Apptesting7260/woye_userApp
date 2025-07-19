@@ -1,20 +1,21 @@
 class VersionCheckModel {
   bool? status;
-  String? appVersion;
+  String? userAppVersion;
   String? message;
 
-  VersionCheckModel({this.status, this.appVersion, this.message});
+  VersionCheckModel(
+      {this.status, this.userAppVersion, this.message});
 
   VersionCheckModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    appVersion = json['app_version'];
-    message = json['message'];
+    userAppVersion = json['user_app_version']?.toString();
+    message = json['message']?.toString();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['status'] = status;
-    data['app_version'] = appVersion;
+    data['user_app_version'] = userAppVersion;
     data['message'] = message;
     return data;
   }

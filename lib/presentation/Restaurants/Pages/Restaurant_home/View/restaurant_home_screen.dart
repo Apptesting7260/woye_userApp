@@ -30,6 +30,7 @@ import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/S
 import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../Restaurant_cart/Controller/restaurant_cart_controller.dart';
+import 'maintenance_mode_controller.dart';
 
 class RestaurantHomeScreen extends StatefulWidget {
   const RestaurantHomeScreen({super.key});
@@ -70,12 +71,16 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   // var storage = GetStorage();
   final Categories_FilterController categoriesFilterController =
       Get.put(Categories_FilterController());
+  final MaintenanceModeController maintenanceModeController = Get.find<MaintenanceModeController>();
 
   @override
   void initState() {
     super.initState();
     restaurantCartController.getAllCartData();
     WidgetsBinding.instance.addPostFrameCallback(_getHeight);
+      maintenanceModeController.getAppVersion();
+      maintenanceModeController.maintenanceModeApi();
+      maintenanceModeController.versionCheckApi();
     // restaurantCartController.getRestaurantCartApi();
     // latitude.value = storage.read('latitude') ?? 0.0;
     // longitude.value = storage.read('longitude') ?? 0.0;
@@ -153,12 +158,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               isAppbar: false,
               onPress: () {
                 restaurantHomeController.homeApiRefresh();
+                restaurantCartController.getAllCartData();
               },
             );
           } else {
             return GeneralExceptionWidget(
               onPress: () {
                 restaurantHomeController.homeApiRefresh();
+                restaurantCartController.getAllCartData();
               },
             );
           }
