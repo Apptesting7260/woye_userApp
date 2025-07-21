@@ -17,14 +17,11 @@ class AppUrls {
   static const String checkUser = "$baseUrl/check-user";
   static const String socialLogin = "$baseUrl/social-login";
 
-  /* ------------------------------ maintenance ---------------------------------  */
+  /* ------------------------------ maintenance and app version ---------------------------------  */
   static const String maintenance = "$baseUrl/maintenance";
   static const String appVersion = "$baseUrl/app-version";
 
   /* ------------------------------ Profile ---------------------------------  */
-
-
-
 
   static const String getProfile = "$baseUrl/get-profile";
   static const String updateProfile = "$baseUrl/update-profile";
@@ -38,13 +35,17 @@ class AppUrls {
 
   static const String privacyPolicy = '$baseUrlPrivacyPolicy/privacy-policy';
   static const String termsConditions = '$baseUrlPrivacyPolicy/terms-conditions';
+
   /* ------------------------------ Notification----------------------------  */
+
   static const String userNotification = "$baseUrl/user-notification";
 
   /* ------------------------------ invite friends ----------------------------  */
+
   static const String inviteFriends = "$baseUrl/invite-friends";
 
   /* ------------------------------ Faq ----------------------------  */
+
   static const String faq = "$baseUrl/faq-user";
 
   /* ------------------------------ Address Section ----------------------------  */
@@ -57,6 +58,7 @@ class AppUrls {
   /* ------------------------------------------------ User Wallet ----------------------------------------------------  */
 
   static const String userWallet = "$baseUrl/transaction-history";
+  static const String userTransaction = "$baseUrl/user-transaction";
   // static const String userWallet = "$baseUrl/user-wallet";
 
   /* ------------------------------------------------ Show Orders  ----------------------------------------------------  */

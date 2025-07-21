@@ -86,6 +86,7 @@ import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharma
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_all_product_model.dart';
 import '../../presentation/Pharmacy/Pages/Pharmacy_cart/pharma_cart_modal/pharmacy_create_order_model.dart';
 import '../../presentation/common/Profile/Sub_screens/Invite_friends/invite_friends_model.dart';
+import '../../presentation/common/Profile/Sub_screens/My_wallet/wallet_modal/transaction_history_model.dart';
 
 class Repository {
   final _apiService = NetworkApiServices();
@@ -211,6 +212,12 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.getApi(AppUrls.userWallet, token);
     return UserTransactionDetails.fromJson(response);
+  }
+
+  Future<UserTransactionHistoryModel> userTransactionApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.userTransaction, token);
+    return UserTransactionHistoryModel.fromJson(response);
   }
 
   /* ------------------------------------------------ Orders Section  ----------------------------------------------------*/

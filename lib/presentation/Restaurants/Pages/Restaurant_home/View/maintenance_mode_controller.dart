@@ -14,12 +14,11 @@ class MaintenanceModeController extends GetxController{
   final api = Repository();
 
   String version = "";
-  String appVersion = "";
 
   @override
   void onInit() async {
     await getAppVersion();
-    await maintenanceModeApi();
+    // await maintenanceModeApi();
     // await versionCheckApi();
     super.onInit();
   }
@@ -109,12 +108,10 @@ class MaintenanceModeController extends GetxController{
 
     String appName = packageInfo.appName;
     version = packageInfo.version;
-    appVersion = 'The current vendor app version is ${packageInfo.version}';
     String buildNumber = packageInfo.buildNumber;
 
     print("App Name: $appName");
     print("Version>>>>>>>>>>>>>>>>>: $version");
-    print("Version>>>>>>>>>>>>>>>>>: $appVersion");
     print("Build Number: $buildNumber");
   }
 

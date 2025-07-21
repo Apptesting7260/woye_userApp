@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
@@ -29,12 +30,14 @@ class MyWalletScreen extends StatelessWidget {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.refreshUserWalletApi();
+                  controller.getUserTransactionApi(isRefresh: true);
                 },
               );
             } else {
               return GeneralExceptionWidget(
                 onPress: () {
                   controller.refreshUserWalletApi();
+                  controller.getUserTransactionApi(isRefresh: true);
                 },
               );
             }
@@ -42,6 +45,7 @@ class MyWalletScreen extends StatelessWidget {
             return RefreshIndicator(
               onRefresh: () async {
                 controller.refreshUserWalletApi();
+                controller.getUserTransactionApi(isRefresh: true);
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
@@ -50,8 +54,7 @@ class MyWalletScreen extends StatelessWidget {
                   children: [
                     balance(),
                     hBox(20),
-                    if (controller
-                        .userWalletData.value.transactionDetails!.isNotEmpty)
+                    if (controller.userTransactionHistoryModel.value.transactions?.isNotEmpty ?? false)
                       transactionHistory(),
                     hBox(50)
                   ],
@@ -89,14 +92,16 @@ class MyWalletScreen extends StatelessWidget {
 
   Widget transactionHistory() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
         //   children: [
-        //     Text(
-        //       "Transaction History",
-        //       style: AppFontStyle.text_20_600(AppColors.darkText),
-        //     ),
+
+            Text(
+              "Transaction History",
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            ),
         //     InkWell(
         //       splashColor: Colors.transparent,
         //       hoverColor: Colors.transparent,
@@ -120,85 +125,95 @@ class MyWalletScreen extends StatelessWidget {
         //     ),
         //   ],
         // ),
-        // hBox(20),
+        hBox(11.h),
         ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: controller.userWalletData.value.transactionDetails!.length,
+          itemCount: controller.userTransactionHistoryModel.value.transactions?.length ?? 0,
           itemBuilder: (c, index) {
             // bool debited = false;
             // if (i % 3 == 0) {
             //   debited = true;
             // }
-            var data =
-                controller.userWalletData.value.transactionDetails![index];
+            var data =controller.userTransactionHistoryModel.value.transactions?[index];
             return SizedBox(
               width: Get.width,
               child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                      flex: 3,
-                      child:
-                          // debited
-                          //     ?
-                          Container(
-                              padding: EdgeInsets.all(10.r),
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color:
-                                      AppColors.lightPrimary.withOpacity(0.1)),
-                              child: SvgPicture.asset(
-                                "assets/svg/wallet.svg",
-                                height: 20,
-                              ))
-                      //     :
-
-                      // Container(
-                      //         decoration: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(4.r),
-                      //         ),
-                      //         child: Image.asset(
-                      //           "assets/images/coffee.png",
-                      //           height: 40.h,
-                      //           // width: 15,
-                      //         )),
-                      ),
-                  wBox(10),
+                  // Expanded(
+                  //     flex: 3,
+                  //     child:
+                  //         // debited
+                  //         //     ?
+                  //         Container(
+                  //             padding: EdgeInsets.all(10.r),
+                  //             decoration: BoxDecoration(
+                  //                 shape: BoxShape.circle,
+                  //                 color:
+                  //                     AppColors.lightPrimary.withOpacity(0.1)),
+                  //             child: SvgPicture.asset(
+                  //               "assets/svg/wallet.svg",
+                  //               height: 20,
+                  //             ))
+                  //     //     :
+                  //
+                  //     // Container(
+                  //     //         decoration: BoxDecoration(
+                  //     //           borderRadius: BorderRadius.circular(4.r),
+                  //     //         ),
+                  //     //         child: Image.asset(
+                  //     //           "assets/images/coffee.png",
+                  //     //           height: 40.h,
+                  //     //           // width: 15,
+                  //     //         )),
+                  //     ),
+                  // wBox(10),
                   Expanded(
                     flex: 17,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              data.productName.toString(),
-                              style:
-                                  AppFontStyle.text_14_600(AppColors.darkText),
+                            Expanded(
+                              child: Text(
+                                data?.descp.toString() ?? "",
+                                maxLines: 2,
+                                style:
+                                    AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                              ),
                             ),
+                            wBox(0.w),
                             Text(
-                              data.amount.toString(),
-                              style: AppFontStyle.text_12_600(
-                                  data.transactionType.toString() == "Order"
-                                      ? AppColors.red
-                                      : AppColors.primary),
+                              data?.transactionType.toString() == "Credit" ?
+                              "+\$${data?.amount.toString() ?? " "}" :  "-\$${data?.amount.toString() ?? " "}",
+                              style: AppFontStyle.text_15_400(
+                                  data?.transactionType.toString() == "Credit"
+                                      ? AppColors.primary
+                                      : AppColors.red,
+                              family: AppFontFamily.gilroyMedium,
+                              ),
                             ),
                           ],
                         ),
-                        hBox(8),
+                        hBox(6.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              data.transactionDate.toString(),
+                              DateFormat("EEE, dd MMM - hh:mm a").format(DateTime.parse(data?.transactionDate ?? "")),
                               style:
-                                  AppFontStyle.text_12_400(AppColors.lightText),
+                                  AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             ),
                             Text(
-                              data.transactionType.toString(),
+                              data?.transactionType ?? "",
                               style:
-                                  AppFontStyle.text_12_400(AppColors.lightText),
+                                  AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                             ),
                           ],
                         ),
@@ -210,9 +225,10 @@ class MyWalletScreen extends StatelessWidget {
             );
           },
           separatorBuilder: (c, i) {
-            return hBox(20.h);
+            return Divider(height: 25.h,color: AppColors.lightText.withOpacity(0.07),);
           },
-        )
+        ),
+        hBox(50.h),
       ],
     );
   }

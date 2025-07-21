@@ -14,7 +14,7 @@ class MaintenanceModeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             hBox( Get.height *0.2),
-            Image.asset("assets/images/maintenance_mode.png"),
+            Image.asset("assets/images/maintenance_mode.png",height: Get.height * 0.4),
             Text("We're making some improvements.\nWe'll be back soon — thanks for your patience!",
               maxLines: 3,
               textAlign: TextAlign.center,

@@ -73,16 +73,19 @@ class PushNotificationService {
         }else if(message.notification?.body == "Maintenance mode is off."){
           Get.offAllNamed(AppRoutes.restaurantNavbar);
         }
-        if(message.notification?.title == 'Vendor App Version Update'){
+        if(message.notification?.title == 'App Version Update'){
           MaintenanceModeController  maintenanceModeController = Get.put(MaintenanceModeController());
           maintenanceModeController.versionCheckApi();
-          print("maintenanceModeController.appVersion>>>>>>>>  ${maintenanceModeController.appVersion ?? ""}");
+          print("maintenanceModeController.appVersion>>>>>>>>  ${maintenanceModeController.version ?? ""}");
           print("message.notification?.body>>>>>>>>  ${message.notification?.body?? ""}");
-          if(maintenanceModeController.appVersion != message.notification?.body){
+          print("message.notification?.body>>>>>>>>111  ${message.notification?.body?? ""} ${maintenanceModeController.extractVersion(message.notification?.body ?? "")}");
+          print("message.notification?.body>>>>>>>>111  ${maintenanceModeController.version == maintenanceModeController.extractVersion(message.notification?.body ?? "")}");
+          if(maintenanceModeController.version != maintenanceModeController.extractVersion(message.notification?.body ?? "")){
             showDialog(
               context: Get.context!,
-              builder: (_) => maintenanceModeController.updaterPopUp(oldVersion:maintenanceModeController.version ,
-              newVersion:maintenanceModeController.extractVersion(message.notification?.body ?? "")),
+              builder: (_) => maintenanceModeController.updaterPopUp(
+                  oldVersion:maintenanceModeController.version,
+                  newVersion:maintenanceModeController.extractVersion(message.notification?.body ?? "")),
             );
           }else{
             // while (Get.isDialogOpen ?? false) {

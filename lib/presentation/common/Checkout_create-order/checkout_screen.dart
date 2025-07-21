@@ -191,26 +191,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       Utils.showToast("Payment method not available");
                     }
                     else{
-                      // if (cartType == 'restaurant') {
-                      //   controller.placeOrderApi(
-                      //       addressId: addressId,
-                      //       cartId: cartId,
-                      //       vendorId: vendorId,
-                      //       couponId: couponId,
-                      //       paymentMethod: controller.isSelectable.value == true
-                      //           ? "wallet"
-                      //           : controller.selectedIndex.value == 1
-                      //           ? "credit_card"
-                      //           :controller.selectedIndex.value == 2
-                      //           ? "cash_on_delivery"
-                      //           : "",
-                      //       total: total,
-                      //       cartType: cartType,
-                      //       imageFiles: imageFiles,
-                      //   );
-                      // }
 
-//-------------------------------------------restaurant------------------------------------------
+                      //-------------------------------------------restaurant------------------------------------------
 
                       if (controller.cartType.value == 'restaurant') {
 
@@ -304,7 +286,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                       }
 
-//-------------------------------------------grocery------------------------------------------
+                      //-------------------------------------------grocery------------------------------------------
                       if (controller.cartType.value == 'grocery') {
                         List<Map<String, dynamic>> carts = [];
 
@@ -345,7 +327,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                         if(controller.selectedIndex.value == 1){
                           final String paymentAmount = controller.walletSelected.value
-                              ? controller.newPayAfterWallet.value.toStringAsFixed(2) // 💵 after wallet
+                              ? controller.newPayAfterWallet.value.toStringAsFixed(2)
                               : controller.newTotalIncludingTips.value.toStringAsFixed(2);
                          payStackController.makePayment(context: context,email:  getUserDataController.userData.value.user?.email ?? "", addressId: controller.addressId.value,
                             couponId: controller.couponId, total: paymentAmount/* controller.newTotalIncludingTips.value.toString()*/, cartIds: cartIDs, cartType: controller.cartType.value, carts: carts,);
@@ -747,31 +729,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           highlightColor: Colors.transparent,
           onTap: () {
             if (walletBalanceDouble > 0.0) {
-              // Toggle wallet selection
               controller.walletSelected.value = !isWalletSelected;
 
               final bool nowSelected = controller.walletSelected.value;
 
               if (nowSelected) {
                 if (walletBalanceDouble >= totalWithTips) {
-                  // ✅ Wallet fully covers → select wallet only
                   controller.selectedIndex.value = 0;
                   controller.isSelectable.value = true;
                 } else {
-                  // ✅ Wallet partially covers → do NOT touch selectedIndex
                   controller.isSelectable.value = false;
                 }
               } else {
-                // ❌ Wallet turned off
                 controller.isSelectable.value = false;
 
-                // ✅ Remove wallet-only selection if it was previously selected
                 if (controller.selectedIndex.value == 0) {
-                  controller.selectedIndex.value = -1; // No method selected
+                  controller.selectedIndex.value = -1;
                 }
               }
-
-              // Recalculate after wallet toggle
               controller.updateBalanceAfterTips(
                 totalPrice: totalPrice,
                 walletBalance: walletBalance,
@@ -839,18 +814,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       double.tryParse(walletBalance.replaceAll(",", "")) ?? 0.0;
                   final double totalWithTips = controller.totalPriceIncludingTips.value;
 
-                  // ✅ If wallet is selected and covers total, unselect it
                   if (controller.walletSelected.value &&
                       walletBalanceDouble >= totalWithTips) {
                     controller.walletSelected.value = false;
                     controller.isSelectable.value = false;
                   }
 
-                  // ✅ Update selected method (card or cod)
                   controller.selectedIndex.value = index;
                   controller.update();
 
-                  // 🔁 Update balance display
                   controller.updateBalanceAfterTips(
                     totalPrice: totalPrice,
                     walletBalance: walletBalance,
