@@ -629,7 +629,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
               ),
             ],
           )
-              : SizedBox(),
+              : const SizedBox(),
         ],
       ),
     );
@@ -1222,6 +1222,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
       ],
     );
   }
+
 
 }
 class _PinnedHeaderDelegate extends SliverPersistentHeaderDelegate {

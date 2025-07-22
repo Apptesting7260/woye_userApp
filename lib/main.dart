@@ -87,70 +87,73 @@ class MyApp extends StatelessWidget {
         topColor.value = Colors.white;
       },
     );
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return GetMaterialApp(
-          enableLog: true,
-          smartManagement: SmartManagement.full,
-          debugShowCheckedModeBanner: false,
-          defaultTransition: Transition.fade,
-          themeMode: ThemeMode.system,
-          title: 'Woye',
-          theme: ThemeData(
-              pageTransitionsTheme: const PageTransitionsTheme(
-                  builders: <TargetPlatform, PageTransitionsBuilder>{
-                    TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-                    TargetPlatform.android: CupertinoPageTransitionsBuilder()
-                  }),
-              dividerTheme: DividerThemeData(color: AppColors.textFieldBorder),
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              hoverColor: Colors.transparent,
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: AppColors.primary,
-                surface: Colors.white,
-              ),
-              useMaterial3: true,
-              fontFamily: AppFontFamily.gilroyRegular),
-              // fontFamily: "Gilroy"),
-          getPages: AppRoutes.pages,
-          initialRoute: AppRoutes.initalRoute,
-          builder: (context, child) {
-            SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-            return Obx(
-              () => AnnotatedRegion<SystemUiOverlayStyle>(
-                value: SystemUiOverlayStyle(
-                    statusBarColor:
-                        inSplash.value ? AppColors.darkText : Colors.white,
-                    statusBarIconBrightness: Brightness.dark,
-                    systemNavigationBarColor: Colors.transparent,
-                    statusBarBrightness: Brightness.light,
+    return SafeArea(
+      top: false,
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return GetMaterialApp(
+            enableLog: true,
+            smartManagement: SmartManagement.full,
+            debugShowCheckedModeBanner: false,
+            defaultTransition: Transition.fade,
+            themeMode: ThemeMode.system,
+            title: 'Woye',
+            theme: ThemeData(
+                pageTransitionsTheme: const PageTransitionsTheme(
+                    builders: <TargetPlatform, PageTransitionsBuilder>{
+                      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                      TargetPlatform.android: CupertinoPageTransitionsBuilder()
+                    }),
+                dividerTheme: DividerThemeData(color: AppColors.textFieldBorder),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: AppColors.primary,
+                  surface: Colors.white,
                 ),
-                child: inSplash.value
-                    ? child!
-                    : ColorfulSafeArea(
-                        topColor: Colors.white,
-                        // bottomColor: AppColor.whiteColor,
-                        minimum: const EdgeInsets.only(
-                          bottom: 0,
+                useMaterial3: true,
+                fontFamily: AppFontFamily.gilroyRegular),
+                // fontFamily: "Gilroy"),
+            getPages: AppRoutes.pages,
+            initialRoute: AppRoutes.initalRoute,
+            builder: (context, child) {
+              SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+              return Obx(
+                () => AnnotatedRegion<SystemUiOverlayStyle>(
+                  value: SystemUiOverlayStyle(
+                      statusBarColor:
+                          inSplash.value ? AppColors.darkText : Colors.white,
+                      statusBarIconBrightness: Brightness.dark,
+                      systemNavigationBarColor: Colors.transparent,
+                      statusBarBrightness: Brightness.light,
+                  ),
+                  child: inSplash.value
+                      ? child!
+                      : ColorfulSafeArea(
+                          topColor: Colors.white,
+                          // bottomColor: AppColor.whiteColor,
+                          minimum: const EdgeInsets.only(
+                            bottom: 0,
+                          ),
+                          maintainBottomViewPadding: true,
+                          top: true,
+                          bottom: false,
+                          child: Scaffold(
+                            extendBodyBehindAppBar: true,
+                            extendBody: true,
+                            body: child,
+                          ),
                         ),
-                        maintainBottomViewPadding: true,
-                        top: true,
-                        bottom: false,
-                        child: Scaffold(
-                          extendBodyBehindAppBar: true,
-                          extendBody: true,
-                          body: child,
-                        ),
-                      ),
-              ),
-            );
-          },
-        );
-      },
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

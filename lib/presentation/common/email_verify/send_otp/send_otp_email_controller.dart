@@ -1,5 +1,6 @@
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_controller.dart';
 import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_modal.dart';
 
@@ -115,18 +116,18 @@ class SendOtpEmailController extends GetxController {
                     children: [
                       Text(
                         'OTP Verification',
-                        style: AppFontStyle.text_20_600(AppColors.darkText),
+                        style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                       ),
                       hBox(10.h),
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
                           text: "Please enter the verification code sent to",
-                          style: AppFontStyle.text_14_400(AppColors.lightText),
+                          style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                         ),
                         TextSpan(
                             text: "\n$email",
-                            style: AppFontStyle.text_14_400(AppColors.primary)),
+                            style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular)),
                       ])),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -144,7 +145,7 @@ class SendOtpEmailController extends GetxController {
                               },
                               child: Text("Wrong email?",
                                   style: AppFontStyle.text_14_400(height: 1.5,
-                                      AppColors.primary)))
+                                      AppColors.primary,family: AppFontFamily.gilroyRegular)))
                         ],
                       ),
                       // hBox(10.h),

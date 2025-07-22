@@ -221,8 +221,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
 
             hBox(15),
             Opacity(
-              opacity:
-                  controller.profileData.value.data?.type == "google" ? .8 : 1,
+              opacity: controller.profileData.value.data?.type == "google" ? .8 : 1,
               child: CustomTextFormField(
                 controller: signUpFormController.emailController,
                 prefix: SvgPicture.asset(
@@ -458,26 +457,59 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
     );
   }
 
-  // void checkValid() {
   Widget continueButton(String type) {
     return CustomElevatedButton(
-        isLoading: controller.rxRequestStatus2.value == Status.LOADING,
-        text: type == "back" ? "Update" : "Continue",
-        fontFamily: AppFontFamily.gilroyMedium,
-        onPressed: () {
-          print("object ${controller.profileData.value.data?.emailVerified}");
-          // if (controller.profileData.value.data?.emailVerified != "true") {
-          //   Utils.showToast("First Verify your Email");
-          // } else {
-            // checkValid();
-            // if (controller.isValid) {
-            // }
-            if(controller.formSignUpKey.currentState!.validate() && controller.profileData.value.data?.emailVerified == "true"){
-              controller.profileupdateApi(type);
-            }
-          // }
-        });
+      isLoading: controller.rxRequestStatus2.value == Status.LOADING,
+      text: type == "back" ? "Update" : "Continue",
+      fontFamily: AppFontFamily.gilroyMedium,
+      onPressed: () {
+        // First, validate the form
+        if (!controller.formSignUpKey.currentState!.validate()) {
+          return;
+        }
+
+        final originalEmail = controller.profileData.value.data?.email ?? "";
+        final currentEmail = controller.emailController.text.trim();
+        final emailWasChanged = originalEmail != currentEmail;
+
+        // Case 1: Email was changed but not verified
+        if (emailWasChanged && controller.emailVerify.value) {
+          Utils.showToast("Please verify your new email before updating");
+          return;
+        }
+
+        // Case 2: Original email wasn't verified (and wasn't changed)
+        if (!emailWasChanged &&
+            controller.profileData.value.data?.emailVerified != "true") {
+          Utils.showToast("Please verify your email before updating");
+          return;
+        }
+
+        // Case 3: All validations passed - proceed with update
+        controller.profileupdateApi(type);
+      },
+    );
   }
+  // void checkValid() {
+  // Widget continueButton(String type) {
+  //   return CustomElevatedButton(
+  //       isLoading: controller.rxRequestStatus2.value == Status.LOADING,
+  //       text: type == "back" ? "Update" : "Continue",
+  //       fontFamily: AppFontFamily.gilroyMedium,
+  //       onPressed: () {
+  //         print("object ${controller.profileData.value.data?.emailVerified}");
+  //         // if (controller.profileData.value.data?.emailVerified != "true") {
+  //         //   Utils.showToast("First Verify your Email");
+  //         // } else {
+  //           // checkValid();
+  //           // if (controller.isValid) {
+  //           // }
+  //           if(controller.formSignUpKey.currentState!.validate() && controller.profileData.value.data?.emailVerified == "true"){
+  //             controller.profileupdateApi(type);
+  //           }
+  //         // }
+  //       });
+  // }
 
   Future bottomSheet(BuildContext context) {
     final SignUpForm_editProfileController controller =

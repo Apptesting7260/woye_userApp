@@ -66,7 +66,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="nbttech.xyz"
+                <data android:scheme="https" android:host="nbturls.in"
                     android:pathPrefix="/restaurants" />
             </intent-filter>
 
@@ -75,7 +75,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="nbttech.xyz"
+                <data android:scheme="https" android:host="nbturls.in"
                     android:pathPrefix="/pharmacy" />
             </intent-filter>
 
@@ -84,7 +84,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="nbttech.xyz"
+                <data android:scheme="https" android:host="nbturls.in"
                     android:pathPrefix="/grocery" />
             </intent-filter>
 

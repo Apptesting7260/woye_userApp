@@ -71,7 +71,4 @@ class UserWalletController extends GetxController {
     });
   }
 
-
-
-
 }
