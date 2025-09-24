@@ -648,7 +648,8 @@ class _GroceryHomeScreenState extends State<GroceryHomeScreen> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      navbarController.getIndex(1);
+                      restaurantNavbarController.getIndex(1);
+                      // Get.toNamed(AppRoutes.groceryCategoryDetails);
                     },
                     child: Row(
                       children: [

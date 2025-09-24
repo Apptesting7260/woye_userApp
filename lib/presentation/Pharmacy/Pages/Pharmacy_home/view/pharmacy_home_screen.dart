@@ -502,7 +502,8 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      pharmacyNavbarController.getIndex(1);
+                      restaurantNavbarController.getIndex(1);
+                      // pharmacyNavbarController.getIndex(1);
                     },
                     child: Row(
                       children: [
