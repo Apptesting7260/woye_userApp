@@ -17,7 +17,7 @@ class MaintenanceModeController extends GetxController{
 
   @override
   void onInit() async {
-    await getAppVersion();
+    // await getAppVersion();
     // await maintenanceModeApi();
     // await versionCheckApi();
     super.onInit();
@@ -55,17 +55,17 @@ class MaintenanceModeController extends GetxController{
     await getAppVersion();
     api.versionCheckApi().then((value) {
       setApiDataVCheck(value);
-      if(apiDataVCheck.value.status == true){
-        pt("Version data>>>>>>>>  ${apiDataVCheck.value.message ?? ""}");
-        if(Get.context != null && apiDataVCheck.value.userAppVersion.toString() !=  version.toString() && apiDataVCheck.value.userAppVersion != null){
-          showDialog(
-            context: Get.context!,
-            builder: (_) => updaterPopUp(newVersion: apiDataVCheck.value.userAppVersion ?? "",oldVersion: version),
-          );
-        }
-      }else{
-        pt("Version data else >>>>>>>>  ${apiDataVCheck.value.message ?? ""}");
-      }
+      // if(apiDataVCheck.value.status == true){
+      //   pt("Version data>>>>>>>>  ${apiDataVCheck.value.message ?? ""}");
+      //   if(Get.context != null && apiDataVCheck.value.userAppVersion.toString() !=  version.toString() && apiDataVCheck.value.userAppVersion != null){
+      //     showDialog(
+      //       context: Get.context!,
+      //       builder: (_) => updaterPopUp(newVersion: apiDataVCheck.value.userAppVersion ?? "",oldVersion: version),
+      //     );
+      //   }
+      // }else{
+      //   pt("Version data else >>>>>>>>  ${apiDataVCheck.value.message ?? ""}");
+      // }
     },).onError((error, stackTrace) {
       pt('>>>>>>>>>>>>Version data $error');
       pt('>>>>>>>>>>>>Version data $stackTrace');

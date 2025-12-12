@@ -179,7 +179,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         //       );
         //   }
         // }));
-        body: Obx(() {
+    body: Obx(() {
           switch (controller.rxRequestStatus.value) {
             case Status.LOADING:
               return Center(child: circularProgressIndicator());
@@ -242,8 +242,11 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 ),
               );
           }
-        }));
+        },
+        ),
+    );
   }
+
 
   Widget highlights(restaurantId) {
     return Column(
@@ -1364,95 +1367,101 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         //     :
         controller.restaurant_Data.value.categories?.data[selectedKey] ?? [];
 
-    return Padding(
-      padding: REdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          hBox(10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                selectedKey,
-                style: AppFontStyle.text_20_600(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
-              ),
-              // InkWell(
-              //   onTap: () {
-              //     seeallproductcontroller.seeAll_Product_Api(
-              //         restaurant_id: widget.Restaurantid.toString(),
-              //         category_id: "");
-              //     Get.toNamed(AppRoutes.moreProducts, arguments: {
-              //       'restaurant_id': widget.Restaurantid.toString(),
-              //       'category_id': '',
-              //     });
-              //   },
-              //   splashColor: Colors.transparent,
-              //   highlightColor: Colors.transparent,
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       Text(
-              //         "See All",
-              //         style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-              //       ),
-              //       wBox(4),
-              //       Icon(
-              //         Icons.arrow_forward_sharp,
-              //         color: AppColors.primary,
-              //         size: 18,
-              //       )
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
-          hBox(15),
-          catValue.isEmpty
-              ? CustomNoDataFound(heightBox: hBox(0.h))
-              : GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: catValue.length ?? 0,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.6.w,
-                    crossAxisSpacing: 14.w,
-                    mainAxisSpacing: 5.h,
-                  ),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                        onTap: () {
-                          specific_product_controllerontroller
-                              .specific_Product_Api(
-                            productId: catValue[index].id.toString(),
+    return KeyedSubtree(
+      key: ValueKey(selectedKey),
+      child: Padding(
+        padding: REdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            hBox(10.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  selectedKey,
+                  style: AppFontStyle.text_20_600(AppColors.darkText,
+                      family: AppFontFamily.gilroyRegular),
+                ),
+                // InkWell(
+                //   onTap: () {
+                //     seeallproductcontroller.seeAll_Product_Api(
+                //         restaurant_id: widget.Restaurantid.toString(),
+                //         category_id: "");
+                //     Get.toNamed(AppRoutes.moreProducts, arguments: {
+                //       'restaurant_id': widget.Restaurantid.toString(),
+                //       'category_id': '',
+                //     });
+                //   },
+                //   splashColor: Colors.transparent,
+                //   highlightColor: Colors.transparent,
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Text(
+                //         "See All",
+                //         style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                //       ),
+                //       wBox(4),
+                //       Icon(
+                //         Icons.arrow_forward_sharp,
+                //         color: AppColors.primary,
+                //         size: 18,
+                //       )
+                //     ],
+                //   ),
+                // ),
+              ],
+            ),
+            hBox(15),
+            catValue.isEmpty
+                ? CustomNoDataFound(heightBox: hBox(0.h))
+                : GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: catValue.length ?? 0,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.6.w,
+                      crossAxisSpacing: 14.w,
+                      mainAxisSpacing: 5.h,
+                    ),
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                          onTap: () {
+                            specific_product_controllerontroller
+                                .specific_Product_Api(
+                              productId: catValue[index].id.toString(),
+                              categoryId: catValue[index].categoryId.toString(),
+                            );
+                            Get.to(ProductDetailsScreen(
+                              restaurantId: restaurantId.toString(),
+                              productId: catValue[index].id.toString(),
+                              categoryId: catValue[index].categoryId.toString(),
+                              categoryName:
+                                  catValue[index].categoryName.toString(),
+                            ));
+                          },
+                          child: CustomItemBanner(
+                            index: index,
+                            product_id: catValue[index].id.toString(),
                             categoryId: catValue[index].categoryId.toString(),
-                          );
-                          Get.to(ProductDetailsScreen(
-                            restaurantId: restaurantId.toString(),
-                            productId: catValue[index].id.toString(),
-                            categoryId: catValue[index].categoryId.toString(),
-                            categoryName:
-                                catValue[index].categoryName.toString(),
+                            image: catValue[index].urlImage,
+                            title: catValue[index].title,
+                            // rating: controller.restaurant_Data.value.moreProducts![index].rating.toString(),
+                            is_in_wishlist: catValue[index].isInWishlist,
+                            isLoading: catValue[index].isLoading,
+                            sale_price: catValue[index].salePrice ??
+                                catValue[index].regularPrice,
+                            regular_price: catValue[index].regularPrice,
+                            resto_name: catValue[index].restoName,
                           ));
-                        },
-                        child: CustomItemBanner(
-                          index: index,
-                          product_id: catValue[index].id.toString(),
-                          categoryId: catValue[index].categoryId.toString(),
-                          image: catValue[index].urlImage,
-                          title: catValue[index].title,
-                          // rating: controller.restaurant_Data.value.moreProducts![index].rating.toString(),
-                          is_in_wishlist: catValue[index].isInWishlist,
-                          isLoading: catValue[index].isLoading,
-                          sale_price: catValue[index].salePrice ??
-                              catValue[index].regularPrice,
-                          regular_price: catValue[index].regularPrice,
-                          resto_name: catValue[index].restoName,
-                        ));
-                  }),
-        ],
+                    }),
+              if((catValue.length <4) || (selectedKey == "All" && catValue.length < 4))...[
+                SizedBox(height:catValue.isEmpty ? Get.height * 0.135 : Get.height * 0.25)
+            ],
+          ],
+        ),
       ),
     );
   }

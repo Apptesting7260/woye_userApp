@@ -1020,7 +1020,10 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                       shop_name: catValue[index].restoName,
                     ));
               }),
-          hBox(20.h),
+          // hBox(20.h),
+          if((catValue.length <4) || (selectedKey == "All" && catValue.length < 4))...[
+            SizedBox(height:catValue.isEmpty ? Get.height * 0.135 : Get.height * 0.25)
+          ],
         ],
       ),
     );
