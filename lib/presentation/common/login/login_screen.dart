@@ -80,6 +80,7 @@ class LoginScreen extends StatelessWidget {
       // prefixConstraints: BoxConstraints(maxWidth: 70),
       prefix: CountryCodePicker(
           padding: const EdgeInsets.only(left: 10),
+          showFlag: false,
           onChanged: (CountryCode countryCode) {
             print("country code===========> ${countryCode.code}");
             loginController.updateCountryCode(countryCode);
@@ -226,7 +227,7 @@ class LoginScreen extends StatelessWidget {
                 style: AppFontStyle.text_16_400(AppColors.lightText)),
             TextSpan(
                 text: "Sign Up",
-                style: AppFontStyle.text_16_600(
+                style: AppFontStyle.text_16_400(
                   AppColors.darkText,
                 )),
           ])),

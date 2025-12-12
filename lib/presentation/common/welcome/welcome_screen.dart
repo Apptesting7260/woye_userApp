@@ -27,13 +27,13 @@ class WelcomeScreen extends StatelessWidget {
                 children: [
                   hBox(30),
                   header(),
-                  hBox(20),
+                  hBox(30),
                   signInWithPhoneNumberButton(),
-                  hBox(10),
+                  hBox(20),
                   guestButton(),
-                  hBox(20),
+                  hBox(30),
                   divider(),
-                  hBox(20),
+                  hBox(30),
                   facebookButton(context),
                   hBox(15),
                   googleButton(context),
@@ -60,7 +60,7 @@ class WelcomeScreen extends StatelessWidget {
         hBox(20),
         Text(
           "Let’s Get Started!",
-          style: AppFontStyle.text_36_600(AppColors.darkText),
+          style: AppFontStyle.text_24_600(AppColors.darkText),
         ),
       ],
     );
@@ -93,6 +93,7 @@ class WelcomeScreen extends StatelessWidget {
                       "assets/svg/person-primary.svg",
                       height: 26.h,
                       width: 26.h,
+                      color: AppColors.black,
                     ),
                     wBox(12),
                     Text("Continue As Guest",
@@ -207,7 +208,7 @@ class WelcomeScreen extends StatelessWidget {
               style: AppFontStyle.text_16_400(AppColors.lightText)),
           TextSpan(
               text: "Sign Up",
-              style: AppFontStyle.text_16_600(AppColors.darkText)),
+              style: AppFontStyle.text_16_400(AppColors.darkText)),
         ])),
       ),
     );

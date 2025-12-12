@@ -2,7 +2,8 @@ class ImageConstants {
   static String imagePath = "assets/images";
   static String svgPath = "assets/svg";
 
-  static String welcomeLogo = "$svgPath/welcome-logo.svg";
+  // static String welcomeLogo = "$svgPath/welcome-logo.svg";
+  static String welcomeLogo = "$svgPath/welcome-img.svg";
   static String splashLogo = "$svgPath/splash-logo.svg";
 
   static String fbLogo = "$svgPath/fb-logo.svg";

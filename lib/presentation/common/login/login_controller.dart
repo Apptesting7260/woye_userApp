@@ -48,8 +48,7 @@ class LoginController extends GetxController {
     isLoding.value = true;
     Completer<bool> completer = Completer<bool>();
     print('re == ${resendToken.value}');
-    print(
-        'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
+    print('no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
