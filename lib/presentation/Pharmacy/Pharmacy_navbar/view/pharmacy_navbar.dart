@@ -1,9 +1,14 @@
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
 
 class PharmacyNavbar extends StatelessWidget {
   final int navbarInitialIndex;
-  const PharmacyNavbar({super.key, this.navbarInitialIndex = 0});
+
+   PharmacyNavbar({super.key, this.navbarInitialIndex = 0});
+
+  final PharmacyCartController pharmacyCartController =
+  Get.put(PharmacyCartController());
 
   @override
   Widget build(BuildContext context) {
@@ -12,13 +17,19 @@ class PharmacyNavbar extends StatelessWidget {
         builder: (navbarController) {
           return PopScope(
             canPop: false,
+            onPopInvokedWithResult: (didPop, result) {
+              if (navbarController.navbarCurrentIndex != 0) {
+                navbarController.getIndex(0);
+              }
+            },
             child: Scaffold(
               body: Stack(
                 children: [
-                  IndexedStack(
-                    index: navbarController.navbarCurrentIndex,
-                    children: navbarController.widgets,
-                  ),
+                  // IndexedStack(
+                  //   index: navbarController.navbarCurrentIndex,
+                  //   children: navbarController.widgets,
+                  // ),
+                  navbarController.widgets[navbarController.navbarCurrentIndex],
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: navbar(navbarController),
@@ -49,7 +60,7 @@ class PharmacyNavbar extends StatelessWidget {
         height: 70.h,
         width: Get.width,
         decoration: BoxDecoration(
-          color: AppColors.navbar,
+        color: AppColors.navbar,
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
         ),
@@ -71,28 +82,56 @@ class PharmacyNavbar extends StatelessWidget {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                     width: 44.w,
-                    child: Column(
+                    child: Stack(
                       children: [
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.linear,
-                          height: 4.h,
-                          width: 44.w,
-                          decoration: BoxDecoration(
-                              color: isSelected
-                                  ? AppColors.primary
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10.r),
-                                  bottomRight: Radius.circular(10.r))),
+                        Column(
+                          children: [
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.linear,
+                              height: 4.h,
+                              width: 44.w,
+                              decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColors.primary
+                                      : Colors.transparent,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10.r),
+                                      bottomRight: Radius.circular(10.r))),
+                            ),
+                            Padding(
+                              padding: REdgeInsets.only(top: 19, bottom: 23),
+                              child: SvgPicture.asset(
+                                icon,
+                                height: 24.h,
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: REdgeInsets.only(top: 19, bottom: 23),
-                          child: SvgPicture.asset(
-                            icon,
-                            height: 24.h,
-                          ),
-                        ),
+                        if (index == 3)
+                          Obx(() => pharmacyCartController.cartDataAll.value.carts != null
+                                ? Positioned(top: 15, right: 3,
+                              child: (pharmacyCartController.cartDataAll.value.carts?.isNotEmpty ?? true)
+                                  ? Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: AppColors.black,
+                                ),
+                                child: Padding(
+                                  padding: REdgeInsets.all(4),
+                                  child: Obx(() {
+                                    return Text(
+                                      pharmacyCartController.cartDataAll.value.carts?.length.toString() ?? "",
+                                      style: TextStyle(fontSize: 9,
+                                          color: AppColors.white),
+                                    );
+                                  }),
+                                ),
+                              )
+                                  : SizedBox(), // If the value is null or 0, show an empty container (nothing)
+                            )
+                                : SizedBox(),
+                          )
                       ],
                     ),
                   ),

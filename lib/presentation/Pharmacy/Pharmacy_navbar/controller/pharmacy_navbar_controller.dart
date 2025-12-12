@@ -17,11 +17,11 @@ class PharmacyNavbarController extends GetxController {
   File? profileImage;
 
   List<Widget> widgets = [
-    const PharmacyHomeScreen(),
-    const PharmacyCategoriesScreen(),
-    const PharmacyWishlistScreen(),
-    const PharmacyCartScreen(),
-    ProfileScreen()
+     PharmacyHomeScreen(),
+     PharmacyCategoriesScreen(),
+     PharmacyWishlistScreen(),
+     PharmacyCartScreen(),
+    ProfileScreen(profileScreenType: "pharmacyProfileScreen")
   ];
 
   @override

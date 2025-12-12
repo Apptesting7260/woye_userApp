@@ -1,15 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user_controller.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
+
+import '../../../shared/theme/font_family.dart';
 
 class SignUpScreen extends StatelessWidget {
   SignUpScreen({super.key});
 
   final SignUpController signUpController = Get.put(SignUpController());
-
+  final CheckUserController checkUserController =
+      Get.put(CheckUserController());
   final SocialLoginController socialLoginController =
-  Get.put(SocialLoginController());
+      Get.put(SocialLoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -17,33 +24,38 @@ class SignUpScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Form(
         key: signUpController.signUpFormKey,
-        child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              hBox(100),
-              //
-              header(),
-              hBox(40),
-              //
-              formField(),
-              hBox(20),
-              //
-              signUpButton(),
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: Get.height,
+            child: Padding(
+              padding: REdgeInsets.symmetric(horizontal: 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  hBox(100),
+                  //
+                  header(),
+                  hBox(40),
+                  //
+                  formField(),
+                  hBox(20),
+                  //
+                  signUpButton(),
 
-              hBox(20),
-              //
-              continueText(),
-              hBox(20),
-              //
-              socialButtons(context),
-              hBox(20),
-              const Spacer(),
-              //
-              signInButton(),
-            ],
+                  hBox(20),
+                  //
+                  continueText(),
+                  hBox(20),
+                  //
+                  socialButtons(context),
+                  hBox(20),
+                  const Spacer(),
+                  //
+                  signInButton(),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -54,7 +66,7 @@ class SignUpScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Create your\nAccount",
-        style: AppFontStyle.text_36_600(AppColors.darkText),
+        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       ),
       hBox(20),
       Text(
@@ -62,6 +74,7 @@ class SignUpScreen extends StatelessWidget {
         style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w400,
+            fontFamily: AppFontFamily.gilroyRegular,
             color: AppColors.lightText),
       ),
     ]);
@@ -82,9 +95,13 @@ class SignUpScreen extends StatelessWidget {
                 .countryPhoneDigits[countryCode.code.toString()];
             signUpController.checkCountryLength = countrylength!;
           },
+          textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
           initialSelection: "IN"),
       hintText: "Phone Number",
       textInputType: TextInputType.phone,
+      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your phone number';
@@ -97,14 +114,38 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
+  // Widget formField() {
+  //   return Obx(
+  //     () => CustomPhoneNumberField(
+  //       controller: signUpController.mobNoCon.value,
+  //       hintText: 'Phone Number',
+  //     ),
+  //   );
+  // }
+
   Widget signUpButton() {
     return Obx(
       () => CustomElevatedButton(
         text: "Sign Up",
-        isLoading: signUpController.isLoding.value,
+        fontFamily: AppFontFamily.gilroyMedium,
+        isLoading: (signUpController.isLoding.value ||
+            checkUserController.rxRequestStatus.value == Status.LOADING),
         onPressed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           if (signUpController.signUpFormKey.currentState!.validate()) {
-            signUpController.sendOtp();
+            checkUserController.checkUserApi(
+              isLoginType: false,
+              country_code: signUpController.selectedCountryCode.value.toString(),
+              mobile: signUpController.mobNoCon.value.text.trim().toString())
+              .then((value) {
+              print("object ${checkUserController.checkUser.value.status}");
+              if (checkUserController.checkUser.value.status == false) {
+                signUpController.sendOtp();
+                print("object123 ${checkUserController.checkUser.value.status}");
+              } else {
+                Utils.showToast("Your account already exists. Please Sign in.");
+              }
+            });
           }
         },
       ),
@@ -123,7 +164,7 @@ class SignUpScreen extends StatelessWidget {
         ),
         Text(
           "or continue with",
-          style: AppFontStyle.text_16_400(AppColors.lightText),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
         ),
         Expanded(
           child: Divider(
@@ -161,16 +202,17 @@ class SignUpScreen extends StatelessWidget {
               width: 26.h,
             )),
         wBox(15),
-        CustomRoundedButton(
-          onPressed: () {
-            socialLoginController.appleLogin(context);
-          },
-          child: SvgPicture.asset(
-            ImageConstants.appleLogo,
-            height: 26.h,
-            width: 26.h,
+        if (Platform.isIOS)
+          CustomRoundedButton(
+            onPressed: () {
+              socialLoginController.appleLogin(context);
+            },
+            child: SvgPicture.asset(
+              ImageConstants.appleLogo,
+              height: 26.h,
+              width: 26.h,
+            ),
           ),
-        ),
       ],
     );
   }
@@ -192,11 +234,12 @@ class SignUpScreen extends StatelessWidget {
               text: TextSpan(children: [
             TextSpan(
                 text: "Already have an account? ",
-                style: AppFontStyle.text_16_400(AppColors.lightText)),
+                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
             TextSpan(
                 text: "Sign In",
                 style: AppFontStyle.text_16_600(
                   AppColors.darkText,
+                    family: AppFontFamily.gilroyRegular
                 )),
           ])),
         ),

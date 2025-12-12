@@ -39,8 +39,8 @@ class Products {
   int? id;
   String? image;
   int? rating;
-  int? salePrice;
-  String? regularPrice;
+  var salePrice;
+  var regularPrice;
   String? title;
   String? addimg;
   int? userId;
@@ -130,11 +130,9 @@ class Restaurants {
   String? shopimage;
   String? shopAddress;
   String? shopDes;
-  OpeningHours? openingHours;
   int? countryId;
   int? stateId;
   int? cityId;
-  List<String>? categoryId;
   String? role;
   int? status;
   String? createdAt;
@@ -161,11 +159,9 @@ class Restaurants {
       this.shopimage,
       this.shopAddress,
       this.shopDes,
-      this.openingHours,
       this.countryId,
       this.stateId,
       this.cityId,
-      this.categoryId,
       this.role,
       this.status,
       this.createdAt,
@@ -192,13 +188,9 @@ class Restaurants {
     shopimage = json['shopimage'];
     shopAddress = json['shop_address'];
     shopDes = json['shop_des'];
-    openingHours = json['opening_hours'] != null
-        ? new OpeningHours.fromJson(json['opening_hours'])
-        : null;
     countryId = json['country_id'];
     stateId = json['state_id'];
     cityId = json['city_id'];
-    categoryId = json['category_id'].cast<String>();
     role = json['role'];
     status = json['status'];
     createdAt = json['created_at'];
@@ -227,13 +219,9 @@ class Restaurants {
     data['shopimage'] = this.shopimage;
     data['shop_address'] = this.shopAddress;
     data['shop_des'] = this.shopDes;
-    if (this.openingHours != null) {
-      data['opening_hours'] = this.openingHours!.toJson();
-    }
     data['country_id'] = this.countryId;
     data['state_id'] = this.stateId;
     data['city_id'] = this.cityId;
-    data['category_id'] = this.categoryId;
     data['role'] = this.role;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;

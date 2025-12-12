@@ -33,7 +33,29 @@ class seeAll_Product_Controller extends GetxController {
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
-      print('errrrrrrrrrrrr');
+      print('errrrrrrrrrrrr seeAll_Product_Api');
+      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  refresh_seeAll_Product_Api({
+    required String restaurant_id,
+    required String category_id,
+  }) async {
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {
+      "restaurant_id": restaurant_id,
+      "category_id": category_id,
+    };
+    api.seeAllProductApi(data).then((value) {
+      seeAlldata_Set(value);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr refresh_seeAll_Product_Api');
       // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);

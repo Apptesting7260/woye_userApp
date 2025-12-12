@@ -8,6 +8,7 @@ class CustomOutlinedButton extends StatelessWidget {
   final Widget? child;
   final bool isLoading;
   final Color? borderColor;
+  final Color? backgroundColor;
   final EdgeInsets? padding;
   
 
@@ -19,7 +20,8 @@ class CustomOutlinedButton extends StatelessWidget {
       this.isLoading = false,
       required this.onPressed,
       required this.child,
-      this.borderColor, this.padding});
+      this.borderColor,
+      this.backgroundColor, this.padding});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,6 +29,7 @@ class CustomOutlinedButton extends StatelessWidget {
       width: double.maxFinite,
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
+            backgroundColor:backgroundColor,
               padding:padding?? EdgeInsets.zero,
               side: BorderSide(color: borderColor ?? AppColors.textFieldBorder),
               shape: RoundedRectangleBorder(

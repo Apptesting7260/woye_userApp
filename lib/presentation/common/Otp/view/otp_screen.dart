@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
-import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_controller.dart';
-
-// import 'package:woye_user/presentation/Common/sign_up/sign_up_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class OtpScreen extends StatelessWidget {
   // String? mobileNumber = Get.arguments["mob"];
@@ -16,16 +14,14 @@ class OtpScreen extends StatelessWidget {
 
   final LoginController loginController = Get.put(LoginController());
   final SignUpController signUpController = Get.put(SignUpController());
-
-  // final SignUpController signUpController = Get.find<SignUpController>();
   final OtpController otpController = Get.find<OtpController>();
 
   @override
   Widget build(BuildContext context) {
-    final arguments = Get.arguments as Map<String, dynamic>;
-    final from = arguments['type'];
-    final countryCode = arguments['countryCode'];
-    final mob = arguments['mob'];
+    final arguments = Get.arguments as Map<String, dynamic> ?? {};
+    final from = arguments['type'] ?? "";
+    final countryCode = arguments['countryCode'] ?? "";
+    final mob = arguments['mob'] ?? "";
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -55,61 +51,73 @@ class OtpScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Verification code",
-        style: AppFontStyle.text_30_600(AppColors.darkText),
+        style: AppFontStyle.text_28_600(AppColors.darkText,
+            family: AppFontFamily.gilroyRegular),
       ),
       hBox(20),
       Text(
         "Please enter the verification code sent to",
-        style: AppFontStyle.text_16_400(AppColors.lightText),
+        style: AppFontStyle.text_16_400(AppColors.lightText,
+            family: AppFontFamily.gilroyMedium),
       ),
       Text(
         mob,
-        style: AppFontStyle.text_16_400(AppColors.primary),
+        style: AppFontStyle.text_16_400(AppColors.primary,
+            family: AppFontFamily.gilroyMedium),
       ),
     ]);
   }
 
   Widget otpField() {
-    return Pinput(
-      length: 6,
-      controller: otpController.otpPin.value,
-      defaultPinTheme: otpController.defaultPinTheme,
-      focusedPinTheme: otpController.focusedPinTheme,
-      submittedPinTheme: otpController.submittedPinTheme,
+    return Obx(
+      ()=> Pinput(
+        length: 6,
+        controller: otpController.otpPin.value,
+        defaultPinTheme: otpController.defaultPinTheme,
+        focusedPinTheme: otpController.focusedPinTheme,
+        submittedPinTheme: otpController.submittedPinTheme,
+      ),
     );
   }
 
   Widget verifyButton(from, countryCode, mob) {
     return Obx(
-          () =>
-          CustomElevatedButton(
-            isLoading: otpController.rxRequestStatus.value == Status.LOADING,
-            onPressed: () async {
-              if (otpController.otpPin.value.text.length < 6) {
-                Utils.showToast('Please enter a valid 6-digit OTP.');
-                return;
-              } else {
-                final verify = await otpController.verifyOtp(
-                    verificationId: from == 'login'
-                        ? loginController.verificationID.value
-                        : signUpController.verificationID.value,
-                    smsCode: otpController.otpPin.value.text,
-                    countryCode: countryCode,
-                    mob: mob);
-                if (from == 'login') {
-                  if (verify) {
-                    otpController.loginApi(countryCode: countryCode, mob: mob);
-                  }
-                } else {
-                  if (verify) {
-                    otpController.registerApi(
-                        countryCode: countryCode, mob: mob);
-                  }
+      () => CustomElevatedButton(
+        fontFamily: AppFontFamily.gilroyMedium,
+        isLoading: otpController.rxRequestStatus.value == Status.LOADING,
+        onPressed: () async {
+          final otpText = otpController.otpPin.value.text.trim();
+          if (otpText.length != 6) {
+            Utils.showToast('Please enter a valid 6-digit OTP.');
+            pt("Otp length ${otpText.length}  $otpText");
+            return;
+          } else {
+            if (otpController.remainingTime.value != 0) {
+              final verify = await otpController.verifyOtp(
+                  verificationId: from == 'login'
+                      ? loginController.verificationID.value
+                      : signUpController.verificationID.value,
+                  smsCode: otpController.otpPin.value.text,
+                  countryCode: countryCode,
+                  mob: mob);
+              if (from == 'login') {
+                if (verify) {
+                  otpController.loginApi(countryCode: countryCode, mob: mob);
+                  loginController.mobNoCon.value.clear();
                 }
-              } // Get.toNamed(AppRoutes.signUp);
-            },
-            text: "Verify",
-          ),
+              } else {
+                if (verify) {
+                  otpController.registerApi(countryCode: countryCode, mob: mob);
+                }
+              }
+            } else {
+              Utils.showToast("The OTP has expired. Please resend it.");
+            }
+            // Get.toNamed(AppRoutes.signUp);
+          }
+        },
+        text: "Verify",
+      ),
     );
   }
 
@@ -120,41 +128,79 @@ class OtpScreen extends StatelessWidget {
       children: [
         Text(
           'Didn\'t receive OTP?',
-          style: AppFontStyle.text_16_400(AppColors.black),
+          style: AppFontStyle.text_16_400(AppColors.darkText,
+              family: AppFontFamily.gilroyRegular),
         ),
-        from == 'login'
-            ? OtpTimerButton(
-          buttonType: ButtonType.text_button,
-          controller: loginController.otpTimerButtonController,
-          loadingIndicatorColor: AppColors.primary,
-          onPressed: () {
-            print('Resending OTP');
-            loginController.resendOtp();
-            otpController.otpPin.value.clear();
-          },
-          text: Text(
-            'Resend',
-            style: AppFontStyle.text_16_400(AppColors.lightText,
-                fontWeight: FontWeight.w500),
+        Obx(
+          () => TextButton(
+            style: const ButtonStyle(
+                padding: WidgetStatePropertyAll(EdgeInsets.zero)),
+            onPressed: () {
+              if (otpController.remainingTime.value == 0) {
+                if (from == 'login') {
+                  print('login Resending OTP');
+                  loginController.resendOtp().then(
+                    (value) {
+                      otpController.startTimer();
+                    },
+                  );
+                  otpController.otpPin.value.clear();
+                } else {
+                  print('signUpController Resending OTP');
+                  signUpController.resendOtp().then(
+                    (value) {
+                      otpController.startTimer();
+                    },
+                  );
+                  otpController.otpPin.value.clear();
+                }
+              }
+              // otpController.remainingTime.value == 0 ? otpController.startTimer() : null;
+            },
+            child: Text(
+              " Resend ${otpController.remainingTime.value} Sec",
+              style: AppFontStyle.text_16_400(
+                  otpController.remainingTime.value == 0
+                      ? AppColors.black
+                      : AppColors.lightText,
+                  fontWeight: FontWeight.w400,
+                  family: AppFontFamily.gilroyRegular),
+            ),
           ),
-          duration: 60,
-        )
-            : OtpTimerButton(
-          buttonType: ButtonType.text_button,
-          controller: signUpController.otpTimerButtonController,
-          loadingIndicatorColor: Colors.green,
-          onPressed: () {
-            print('Resending OTP');
-            signUpController.resendOtp();
-            otpController.otpPin.value.clear();
-          },
-          text: Text(
-            'Resend',
-            style: AppFontStyle.text_16_400(AppColors.lightText,
-                fontWeight: FontWeight.w500),
-          ),
-          duration: 60,
         ),
+        // from == 'login'
+        //     ? OtpTimerButton(
+        //         buttonType: ButtonType.text_button,
+        //         controller: loginController.otpTimerButtonController,
+        //         loadingIndicatorColor: AppColors.primary,
+        //         onPressed: () {
+        //           print('Resending OTP');
+        //           loginController.resendOtp();
+        //           otpController.otpPin.value.clear();
+        //         },
+        //         text: Text(
+        //           'Resend',
+        //           style: AppFontStyle.text_16_400(AppColors.lightText,
+        //               fontWeight: FontWeight.w500),
+        //         ),
+        //         duration: 60,
+        //       )
+        //     : OtpTimerButton(
+        //         buttonType: ButtonType.text_button,
+        //         controller: signUpController.otpTimerButtonController,
+        //         loadingIndicatorColor: Colors.green,
+        //         onPressed: () {
+        //           print('Resending OTP');
+        //           signUpController.resendOtp();
+        //           otpController.otpPin.value.clear();
+        //         },
+        //         text: Text(
+        //           'Resend',
+        //           style: AppFontStyle.text_16_400(AppColors.lightText,
+        //               fontWeight: FontWeight.w500),
+        //         ),
+        //         duration: 60,
+        //       ),
       ],
     );
   }

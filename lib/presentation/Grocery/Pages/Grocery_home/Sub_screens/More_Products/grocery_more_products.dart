@@ -30,9 +30,7 @@ class GroceryMoreProducts extends StatelessWidget {
       description: "Arla DANO Full Cream Milk Powder Instant",
       quantity: "50gm",
       onTap: () {
-        Get.to(() => GroceryProductDetailsScreen(
-            image: "assets/images/grocery-item.png",
-            title: "Arla DANO Full Cream Milk Powder Instant"));
+        Get.to(() => GroceryProductDetailsScreen(categoryId: "",productId: "",categoryName: "",));
       },
     );
   }

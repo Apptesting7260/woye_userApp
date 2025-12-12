@@ -1,15 +1,20 @@
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:woye_user/core/Utils/app_export.dart';
 
+import '../../Shared/theme/font_family.dart';
+
 class Utils {
-  static String? showToast(String msg,
-      {ToastGravity gravity = ToastGravity.BOTTOM}) {
+  static String? showToast(
+    String msg, {
+    Toast? toastLength,
+    ToastGravity gravity = ToastGravity.TOP,
+  }) {
     Fluttertoast.showToast(
-      msg: msg,
-      backgroundColor: AppColors.black,
-      gravity: gravity,
-      textColor: AppColors.white,
-    );
+        msg: msg,
+        backgroundColor: AppColors.black,
+        gravity: gravity,
+        textColor: AppColors.white,
+        toastLength: toastLength);
     return null;
   }
 
@@ -21,7 +26,7 @@ class Utils {
         content: Center(
           child: Text(
             message,
-            style: TextStyle(fontSize: 14.sp, color: Colors.white),
+            style: TextStyle(fontSize: 14.sp, color: Colors.white,fontFamily: AppFontFamily.gilroyMedium),
           ),
         )));
 
@@ -44,5 +49,33 @@ class Utils {
             ),
           ),
         )));
+  }
+
+  static snackBar1(String title, String message) {
+    Get.snackbar(
+      title,
+      message,
+      backgroundColor: Colors.white54,
+      colorText: Colors.black,
+      titleText: Text(
+        title,
+        style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold), // Title text color
+      ),
+      messageText: Text(
+        message,
+        style: TextStyle(color: Colors.black), // Message text color
+      ),
+      icon: Image.asset(
+        'assets/images/app_icon.png',
+        scale: 8,
+      ),
+      borderRadius: 20,
+      snackPosition: SnackPosition.TOP,
+      margin: EdgeInsets.only(left: 10, right: 10),
+      padding: EdgeInsets.symmetric(vertical: 8),
+      duration: Duration(seconds: 1),
+    );
   }
 }

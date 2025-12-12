@@ -5,16 +5,21 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/Shared/Widgets/custom_sliver_app_bar.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/All_Restaurant/controller/all_restaurants_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/controller/RestaurantDetailsController.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 import 'package:woye_user/shared/theme/colors.dart';
 import 'package:woye_user/shared/theme/font_style.dart';
 import 'package:woye_user/shared/widgets/custom_app_bar.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 import '../../../../../../../Core/Utils/sized_box.dart';
 
 class All_Restaurant extends StatelessWidget {
@@ -31,8 +36,8 @@ class All_Restaurant extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           "Restaurants",
-          style: AppFontStyle.text_22_600(
-            AppColors.darkText,
+          style: AppFontStyle.text_20_600(
+            AppColors.darkText,family: AppFontFamily.gilroyRegular,
           ),
         ),
       ),
@@ -41,7 +46,7 @@ class All_Restaurant extends StatelessWidget {
           case Status.LOADING:
             return Center(child: circularProgressIndicator());
           case Status.ERROR:
-            if (controller.error.value == 'No internet') {
+            if (controller.error.value == 'No internet' || controller.error.value == "InternetExceptionWidget") {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.seeall_restaurant_Api();
@@ -61,15 +66,21 @@ class All_Restaurant extends StatelessWidget {
                   controller.refresh_Api();
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 20, top: 20, right: 20, bottom: 20),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Obx(() {
-                          final restaurants =
-                              controller.restaurantData.value.restaurants!;
-                          return ListView.separated(
+                  padding:
+                      REdgeInsets.symmetric(horizontal: 20.h, vertical: 20.h),
+                  child: CustomScrollView(
+                    slivers: [
+                      CustomSliverAppBar(
+                        onChanged: (value) {
+                          controller.filterCategories(value);
+                        },
+                        controller: controller.searchController,
+                      ),
+                      SliverToBoxAdapter(
+                        child: Obx(() {
+                          final restaurants = controller.filteredWishlistData;
+                          return restaurants.isEmpty ?
+                            CustomNoDataFound(heightBox: hBox(50.h)) : ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: restaurants.length,
@@ -77,7 +88,7 @@ class All_Restaurant extends StatelessWidget {
                               final restaurant = restaurants[index];
                               return GestureDetector(
                                 onTap: () {
-                                  Get.to(RestaurantDetailsScreen(
+                                  Get.to(()=>RestaurantDetailsScreen(
                                     Restaurantid: restaurant.id.toString(),
                                   ));
                                   restaurantDeatilsController
@@ -88,7 +99,7 @@ class All_Restaurant extends StatelessWidget {
                                 child: restaurantList(
                                   index: index,
                                   image: restaurant.shopimage.toString(),
-                                  title: restaurant.shopName.toString(),
+                                  title: restaurant.shopName.toString().capitalize!,
                                   rating: restaurant.rating.toString(),
                                   price: restaurant.avgPrice.toString(),
                                 ),
@@ -97,9 +108,11 @@ class All_Restaurant extends StatelessWidget {
                             separatorBuilder: (context, index) => hBox(20),
                           );
                         }),
-                        hBox(20.h),
-                      ],
-                    ),
+                      ),
+                      SliverToBoxAdapter(
+                        child: hBox(100.h),
+                      )
+                    ],
                   ),
                 ),
               ),
@@ -117,24 +130,22 @@ class All_Restaurant extends StatelessWidget {
         Stack(
           alignment: Alignment.topRight,
           children: [
-            Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.r),
-              ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20.r),
               child: CachedNetworkImage(
+                memCacheHeight: memCacheHeight,
+                width: Get.width,
+                fit: BoxFit.fitWidth,
                 imageUrl: image.toString(),
                 height: 220.h,
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
+                placeholder: (context, url) =>const ShimmerWidget(),
+                errorWidget: (context, url, error) => Container(
+                    clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
-                      color: AppColors.gray,
+                      border: Border.all(color: AppColors.textFieldBorder),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
-                  ),
-                ),
+                    child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
             // GestureDetector(
@@ -165,9 +176,9 @@ class All_Restaurant extends StatelessWidget {
         ),
         hBox(10),
         Text(
-          title,
+          title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
         // hBox(10),
         Row(
@@ -176,18 +187,18 @@ class All_Restaurant extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary),
+              style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
             ),
           ],
         )

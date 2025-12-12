@@ -18,8 +18,8 @@ class CustomSliverAppBar extends StatelessWidget {
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        snap: true,
-        floating: true,
+        // snap: true,
+        // floating: true,
         expandedHeight: 70.h,
         flexibleSpace: FlexibleSpaceBar(
           titlePadding: const EdgeInsets.only(top: 10, bottom: 15),

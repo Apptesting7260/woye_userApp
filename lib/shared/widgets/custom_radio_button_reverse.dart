@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 
 class CustomTitleRadioButton extends StatelessWidget {
   final String title;
@@ -23,20 +24,22 @@ class CustomTitleRadioButton extends StatelessWidget {
       highlightColor: Colors.transparent,
       onTap: () => onChanged(value.value),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             title,
-            style: AppFontStyle.text_16_400(AppColors.darkText),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 priceValue,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
-                  fontFamily: 'Gilroy-Regular',
+                  fontSize: 17.5.sp,
+                  fontFamily: AppFontFamily.gilroyMedium,
                 ),
               ),
               wBox(10),
@@ -47,7 +50,7 @@ class CustomTitleRadioButton extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   height: 20.h,
                   width: 20.h,
-                  margin: EdgeInsets.symmetric(vertical: 8.0.h),
+                  margin: EdgeInsets.symmetric(vertical: 3.0.h),
                   decoration: BoxDecoration(
                     color: Colors.transparent,
                     shape: BoxShape.circle,
@@ -112,7 +115,7 @@ class CustomTitleCheckbox extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppFontStyle.text_16_400(AppColors.darkText),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
           ),
           Row(
             children: [
@@ -120,8 +123,8 @@ class CustomTitleCheckbox extends StatelessWidget {
                 priceValue,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
-                  fontSize: 18.sp,
-                  fontFamily: 'Gilroy-Regular',
+                  fontSize: 17.5.sp,
+                  fontFamily:AppFontFamily.gilroyMedium,
                 ),
               ),
               wBox(10),

@@ -1,8 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
+import 'package:woye_user/presentation/common/user_check_for_login_signUp/check_user_controller.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/PhoneNumberService.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -10,9 +16,13 @@ class LoginScreen extends StatelessWidget {
   static final LoginController loginController = Get.put(LoginController());
 
   final GuestController guestController = Get.put(GuestController());
+  final CheckUserController checkUserController =
+      Get.put(CheckUserController());
 
   final SocialLoginController socialLoginController =
       Get.put(SocialLoginController());
+
+  // final PhoneNumberService phoneNumberService = Get.put(PhoneNumberService());
 
   @override
   Widget build(BuildContext context) {
@@ -20,34 +30,39 @@ class LoginScreen extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       body: Form(
         key: loginController.loginFormKey,
-        child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              hBox(100),
-              //
-              header(),
-              hBox(40),
-              //
-              phoneNumberField(),
-              hBox(20),
-              //
-              signInButton(),
-              // hBox(10),
-              //
-              // guestButton(),
-              hBox(20),
-              //
-              continueText(),
-              hBox(20),
-              //
-              socialButtons(context),
-              const Spacer(),
-              //
-              signUpButton()
-            ],
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: Get.height,
+            child: Padding(
+              padding: REdgeInsets.symmetric(horizontal: 22.h),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  hBox(100.h),
+                  //
+                  header(),
+                  hBox(40.h),
+                  //
+                  phoneNumberField(),
+                  hBox(20.h),
+                  //
+                  signInButton(),
+                  // hBox(10),
+                  //
+                  // guestButton(),
+                  hBox(20.h),
+                  //
+                  continueText(),
+                  hBox(20.h),
+                  //
+                  socialButtons(context),
+                  const Spacer(),
+                  //
+                  signUpButton()
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -58,7 +73,7 @@ class LoginScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Login to your\nAccount",
-        style: AppFontStyle.text_36_600(AppColors.darkText),
+        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       ),
       hBox(20),
       Text(
@@ -66,7 +81,9 @@ class LoginScreen extends StatelessWidget {
         style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w400,
-            color: AppColors.lightText),
+            color: AppColors.lightText,
+            fontFamily: AppFontFamily.gilroyRegular,
+        ),
       ),
     ]);
   }
@@ -77,7 +94,6 @@ class LoginScreen extends StatelessWidget {
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],
-      // prefixConstraints: BoxConstraints(maxWidth: 70),
       prefix: CountryCodePicker(
           padding: const EdgeInsets.only(left: 10),
           showFlag: false,
@@ -89,9 +105,15 @@ class LoginScreen extends StatelessWidget {
                 loginController.countryPhoneDigits[countryCode.code.toString()];
             loginController.chackCountryLength = countrylength!;
           },
-          initialSelection: "IN"),
+        textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          initialSelection: "IN",
+      ),
+      errorStyle : AppFontStyle.text_11_400(AppColors.errorColor,family: AppFontFamily.gilroyMedium),
       hintText: "Phone Number",
+      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       textInputType: TextInputType.phone,
+
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your phone number';
@@ -104,13 +126,37 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
+  // Widget phoneNumberField() {
+  //   return Obx(() {
+  //     print("object${loginController.selectedCountryCode.value.dialCode}");
+  //     return CustomPhoneNumberField(
+  //       controller: loginController.mobNoCon.value,
+  //       hintText: 'Phone Number',
+  //       selectedCountryCode: loginController.selectedCountryCode.value,
+  //     );
+  //   });
+  // }
+
   Widget signInButton() {
     return Obx(() => CustomElevatedButton(
           text: "Sign In",
-          isLoading: loginController.isLoding.value,
-          onPressed: () {
+      fontFamily: AppFontFamily.gilroyMedium,
+      isLoading: (loginController.isLoding.value || checkUserController.rxRequestStatus.value == Status.LOADING),
+          onPressed: () async {
             if (loginController.loginFormKey.currentState!.validate()) {
-              loginController.sendOtp();
+              checkUserController.checkUserApi(
+                isLoginType: true,
+                country_code: loginController.selectedCountryCode.value.toString(),
+                mobile: loginController.mobNoCon.value.text.trim().toString())
+                  .then((value) {
+                print("object ${checkUserController.checkUser.value.status}");
+                if (checkUserController.checkUser.value.status == true) {
+                  loginController.sendOtp();
+                  print("object123 ${checkUserController.checkUser.value.status}");
+                }
+              });
+              // if (loginController.loginFormKey.currentState!.validate()) {
+              //   loginController.sendOtp();
             }
           },
         ));
@@ -155,7 +201,7 @@ class LoginScreen extends StatelessWidget {
         ),
         Text(
           "or continue with",
-          style: AppFontStyle.text_16_400(AppColors.lightText),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
         ),
         Expanded(
           child: Divider(
@@ -193,16 +239,17 @@ class LoginScreen extends StatelessWidget {
               width: 26.h,
             )),
         wBox(15),
-        CustomRoundedButton(
-          onPressed: () {
-            socialLoginController.appleLogin(context);
-          },
-          child: SvgPicture.asset(
-            ImageConstants.appleLogo,
-            height: 26.h,
-            width: 26.h,
+        if (Platform.isIOS)
+          CustomRoundedButton(
+            onPressed: () {
+              socialLoginController.appleLogin(context);
+            },
+            child: SvgPicture.asset(
+              ImageConstants.appleLogo,
+              height: 26.h,
+              width: 26.h,
+            ),
           ),
-        ),
       ],
     );
   }
@@ -224,11 +271,12 @@ class LoginScreen extends StatelessWidget {
               text: TextSpan(children: [
             TextSpan(
                 text: "Don't have an account? ",
-                style: AppFontStyle.text_16_400(AppColors.lightText)),
+                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
             TextSpan(
                 text: "Sign Up",
                 style: AppFontStyle.text_16_400(
                   AppColors.darkText,
+                  family: AppFontFamily.gilroyRegular,
                 )),
           ])),
         ),

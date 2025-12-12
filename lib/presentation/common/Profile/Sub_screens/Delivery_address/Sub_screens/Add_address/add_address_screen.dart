@@ -1,8 +1,11 @@
 import 'package:flutter/services.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_controller.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/AddressFromGoogleTextField.dart';
+
+import '../../../../../../../Shared/theme/font_family.dart';
 
 class AddAddressScreen extends StatelessWidget {
   AddAddressScreen({super.key});
@@ -13,7 +16,12 @@ class AddAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.loadLocationData();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.printUserNameAndPhone();
+      controller.loadLocationData();
+    },);
+
     return PopScope(
       canPop: controller.location.value == "" ? false : true,
       child: Scaffold(
@@ -21,7 +29,7 @@ class AddAddressScreen extends StatelessWidget {
           isLeading: controller.location.value == "" ? false : true,
           title: Text(
             "Add New Address",
-            style: AppFontStyle.text_22_600(AppColors.darkText),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           ),
         ),
         body: SingleChildScrollView(
@@ -41,12 +49,12 @@ class AddAddressScreen extends StatelessWidget {
                   controller: controller.locationController,
                   onChanged: (value) {
                     controller.isValidAddress.value = false;
-                    print(
-                        "SelectedLocation 1${controller.isValidAddress.value}");
+                    print("SelectedLocation 1${controller.isValidAddress.value}");
                   },
                   suggestionsCallback: (query) async {
                     return await controller.searchAutocomplete(query);
                   },
+
                   itemBuilder: (context, Predictions suggestion) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
@@ -68,8 +76,7 @@ class AddAddressScreen extends StatelessWidget {
                     controller.locationController.text =
                         selectedAddress.description ?? "";
                     controller.getLatLang(controller.locationController.text);
-                    controller.selectedLocation =
-                        controller.locationController.text;
+                    controller.selectedLocation = controller.locationController.text;
                     controller.isValidAddress.value = true;
                     controller.searchPlace.clear();
                     print("SelectedLocation ${controller.selectedLocation}");
@@ -119,22 +126,24 @@ class AddAddressScreen extends StatelessWidget {
 
   Widget phoneNumber() {
     return CustomTextFormField(
-      controller: controller.mobNoController!.value,
+      controller: controller.mobNoController.value,
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],
       prefix: CountryCodePicker(
-          padding: const EdgeInsets.only(left: 10),
-          onChanged: (CountryCode countryCode) {
-            print("country code===========> ${countryCode.code}");
-            controller.updateCountryCode(countryCode);
-            controller.showError.value = false;
-            int? countrylength =
-                controller.countryPhoneDigits[countryCode.code.toString()];
-            controller.chackCountryLength = countrylength!;
-          },
-          initialSelection: "IN"),
+        textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        padding: const EdgeInsets.only(left: 10),
+        onChanged: (CountryCode countryCode) {
+          print("country code===========> ${countryCode.code}");
+          controller.updateCountryCode(countryCode);
+          controller.showError.value = false;
+          int? countrylength = controller.countryPhoneDigits[countryCode.code.toString()];
+          controller.chackCountryLength = countrylength!;
+        },
+        initialSelection: controller.selectedCountryCode.value.dialCode,
+      ),
       hintText: "Phone Number",
+      textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
       textInputType: TextInputType.phone,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -147,6 +156,12 @@ class AddAddressScreen extends StatelessWidget {
       },
     );
   }
+
+  // Widget phoneNumber() {
+  //   return CustomPhoneNumberField(
+  //     controller: controller.mobNoController.value,
+  //   );
+  // }
 
   Widget houseNo() {
     return CustomTextFormField(
@@ -223,12 +238,13 @@ class AddAddressScreen extends StatelessWidget {
                   onChanged: (value) {
                     controller.defaultSet.value = !controller.defaultSet.value;
                   }),
+
             ),
           ),
         ),
         Text(
           "Set default",
-          style: AppFontStyle.text_16_400(AppColors.darkText),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
       ],
     );
@@ -244,9 +260,11 @@ class AddAddressScreen extends StatelessWidget {
   Widget saveButton() {
     return Obx(
       () => CustomElevatedButton(
+        fontFamily: AppFontFamily.gilroyMedium,
         onPressed: () {
+          FocusManager.instance.primaryFocus?.unfocus();
           if (_formKey.currentState!.validate()) {
-            controller.addAddressApi();
+              controller.addAddressApi();
           }
         },
         isLoading: controller.rxRequestStatus.value == Status.LOADING,

@@ -1,11 +1,14 @@
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:flutter/material.dart';
 import 'package:woye_user/Presentation/Common/Home/home_screen.dart';
 import 'package:woye_user/Presentation/Common/Otp/controller/otp_binding.dart';
 import 'package:woye_user/Presentation/Common/Otp/view/otp_screen.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_cart_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/restaurant_category_details.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/View/restaurant_categories_screen.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/more_products.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_reviews/product_reviews.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_wishlist/Sub_screens/Filter/restaurant_wishlist_filter.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_binding.dart';
 import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/View/restaurant_navbar.dart';
@@ -15,11 +18,15 @@ import 'package:woye_user/presentation/Common/splash/splash_screen.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_binding.dart';
 import 'package:woye_user/presentation/Common/welcome/welcome_screen.dart';
 import 'package:woye_user/presentation/Grocery/Grocery_navbar/view/grocery_navbar.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/grocery_category_details.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Filter/grocery_categories_filter.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Filter/grocery_home_filter.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/More_Products/grocery_more_products.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Most_popular/grocery_most_popular.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Checkout/pharmacy_checkout_screen.dart';
-import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/pharmacy_category_details.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_details_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/prescription/prescription_upload_screen.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Categories_details/view/pharmacy_category_details.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_categories/Sub_screens/Filter/pharmacy_categories_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Filter/pharmacy_home_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/More_Products/pharmacy_more_products.dart';
@@ -29,15 +36,16 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_review/pharmacy_vendor_review_screen.dart';
 import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_wishlist/sub_screens/Filter/pharmacy_wishlist_filter.dart';
 import 'package:woye_user/presentation/Pharmacy/Pharmacy_navbar/view/pharmacy_navbar.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Checkout/checkout_screen.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_single_cart_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/categoriesfilter_binding.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/view/restaurant_categories_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_details_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/search/view/restaurant_home_filter.dart';
+import 'package:woye_user/presentation/common/Checkout_create-order/checkout_screen.dart';
 import 'package:woye_user/presentation/common/Home/home_binding.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/view/delivery_address_screen.dart';
-import 'package:woye_user/presentation/common/Profile/Sub_screens/Edit_profile/edit_profile_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Invite_friends/invite_friends_screen.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/Sub_screens/Filter/my_wallet_filter.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/My_wallet/Sub_screens/Transaction_history/transaction_history_screen.dart';
@@ -64,6 +72,15 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/help/view/help
 import 'package:woye_user/presentation/common/Update_profile/controller/Update_profile_binding.dart';
 import 'package:woye_user/presentation/common/Update_profile/view/Update_profile_Screen.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
+import 'package:woye_user/presentation/common/maintenance/maintenance_screen.dart';
+
+import '../Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
+import '../presentation/Grocery/Pages/Grocery_cart/Checkout/grocery_checkout_screen.dart';
+import '../presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_shop_information.dart';
+import '../presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_information_screen.dart';
+import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_information_screen.dart';
+import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/product_reviews.dart';
+import '../presentation/Restaurants/Pages/Restaurant_home/View/maintenance_binding.dart';
 
 class AppRoutes {
   ///`common=====================================================>`
@@ -79,6 +96,7 @@ class AppRoutes {
   static const String groceryNavbar = "/grocery_navbar";
   static const String otpVerification = "/otp_verification";
   static const String homeScreen = "/home_screen";
+  static const String maintenance = "/maintenance";
 
   ///`restaurant=====================================================>`
 
@@ -86,13 +104,13 @@ class AppRoutes {
   static const String restaurantDetailsScreen = "/restaurant_details_screen";
   static const String productDetailsScreen = "/product_details_screen";
   static const String restaurantCategories = "/restaurant_categories";
-  static const String restaurantCategoriesFilter =
-      "/restaurant_categories_filter";
+  static const String restaurantCategoriesFilter = "/restaurant_categories_filter";
   static String restaurantCategoriesDetails = "/restaurant_categories_details";
-  static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
+  // static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
   static const String productReviews = "/product_reviews";
   static const String moreProducts = "/more_products";
   static const String checkoutScreen = "/checkout_screen";
+  static const String prescriptionScreen = "/Prescription_screen";
   static const String deliveryAddressScreen = "/delivery_ddress_screen";
   static const String addAddressScreen = "/add_address";
   static const String editAddressScreen = "/edit_address";
@@ -104,6 +122,8 @@ class AppRoutes {
   static const String orderReveived = "/order_reveived";
   static const String reviewDriver = "/review_driver";
   static const String orderOtp = "/order_otp";
+  static const String restaurantSingleCartScreen = "/restaurantSingleCartScreen";
+  static const String restaurantCartScreen = "/restaurantCartScreen";
 
   // static const String editProfile = "/edit_profile";
   static const String orders = "/orders";
@@ -120,8 +140,9 @@ class AppRoutes {
   static const String support = "/support";
   static const String privayPolicy = "/privacyPolicy";
   static const String termsAndConditions = "/termAndConditions";
-  static const String rateAndReviewProductScreen =
-      "/rateAndReviewProductScreen";
+  static const String rateAndReviewProductScreen ="/rateAndReviewProductScreen";
+  static const String prescriptionsScreen ="/prescriptionsScreen";
+  static const String restaurantInformationScreen ="/restaurantInformationScreen";
 
   ///`pharmacy=====================================================>`
   static const String pharmcayHomeFilter = "/pharmcayHomeFilter";
@@ -130,13 +151,13 @@ class AppRoutes {
   static const String pharmacyWishlistFilter = "/pharmacyWishlistFilter";
   static const String pharmacyMoreProduct = "/pharmacyMoreProduct";
   static const String pharmacyMostPopular = "/pharmacyMostPopular";
-  static const String pharmacyProductDetailsScreen =
-      "/pharmacyProductDetailsScreen";
+  static const String pharmacyProductDetailsScreen = "/pharmacyProductDetailsScreen";
   static const String pharmacyProductReviews = "/pharmacyProductReviews";
   static const String pharmacyVendorDetails = "/pharmacyVendorDetails";
   static const String pharmacyVendorReview = "/pharmacyVendorReview";
   static const String pharmacyRateVendor = "/pharmacyRateVendor";
-  static const String pharmacyCheckout = "/pharmacyCheckout";
+  // static const String pharmacyCheckout = "/pharmacyCheckout";
+  static const String pharmacyVendorInformationScreen = "/pharmacyVendorInformationScreen";
 
   ///`grocery=====================================================>`
   static const String groceryHomeFilter = "/groceryHomeFilter";
@@ -144,129 +165,123 @@ class AppRoutes {
   static const String groceryMoreProducts = "/groceryMoreProducts";
   static const String groceryProductDetails = "/groceryProductDetails";
   static const String groceryVendorDetails = "/groceryVendorDetails";
+  static const String groceryCategoryDetails = "/groceryCategoryDetails";
+  static const String groceryCategoryFilter = "/groceryCategoryFilter";
+  // static const String groceryCheckoutScreen = "/groceryCheckoutScreen";
+  static const String groceryShopInformation = "/groceryShopInformation";
 
   static List<GetPage> pages = [
-    GetPage(
-      name: initalRoute,
-      page: () => const SplashScreen(),
-    ),
-    GetPage(
-        name: welcomeScreen,
-        page: () => WelcomeScreen(),
-        binding: WelcomeBinding()),
+    GetPage(name: initalRoute, page: () => const SplashScreen(),),
+    GetPage(name: maintenance, page: () => const MaintenanceModeScreen(),binding: MaintenanceBinding()),
+    GetPage(name: restaurantCartScreen, page: () => const RestaurantBaseScaffold(child: RestaurantCartScreen()),),
+    GetPage(name: welcomeScreen, page: () => WelcomeScreen(), binding: WelcomeBinding()),
     GetPage(name: login, page: () => LoginScreen()),
     GetPage(name: login, page: () => LoginScreen(), binding: GuestBinding()),
     GetPage(name: otp, page: () => OtpScreen(), binding: OtpBinding()),
     GetPage(name: signUp, page: () => SignUpScreen()),
-    GetPage(
-        name: signUpFom,
-        page: () => SignUpFormScreen(),
-        binding: SignUpFormBinding()),
-    GetPage(
-      name: homeScreen,
-      page: () => HomeScreen(),
-      // binding: RestaurantNavbarBinding()
-    ),
-    GetPage(
-        name: restaurantNavbar,
-        page: () => RestaurantNavbar(
-              navbarInitialIndex: 0,
-            ),
-        bindings: [RestaurantNavbarBinding(), HomeBinding()]),
-    GetPage(
-      name: pharmacyNavbar,
-      page: () => const PharmacyNavbar(),
-    ),
-    GetPage(
-      name: groceryNavbar,
-      page: () => const GroceryNavbar(),
-    ),
+    GetPage(name: signUpFom, page: () => SignUpFormScreen(), binding: SignUpFormBinding()),
+    GetPage(name: homeScreen, page: () => HomeScreen(), /*binding: RestaurantNavbarBinding()*/),
+    GetPage(name: restaurantNavbar, page: () => RestaurantNavbar(navbarInitialIndex: 0,), bindings: [RestaurantNavbarBinding(), HomeBinding()]),
+    GetPage(name: pharmacyNavbar, page: () => PharmacyNavbar(),),
+    GetPage(name: groceryNavbar, page: () => GroceryNavbar(),),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
-    GetPage(name: productReviews, page: () => ProductReviews()),
-    GetPage(name: moreProducts, page: () => MoreProducts()),
-    GetPage(name: checkoutScreen, page: () => const CheckoutScreen()),
+    GetPage(name: productReviews, page: () => RestaurantBaseScaffold(child: ProductReviews())),
+    GetPage(name: moreProducts, page: () => RestaurantBaseScaffold(child: MoreProducts())),
+    GetPage(name: checkoutScreen, page: () => CheckoutScreen()),
+    GetPage(name: prescriptionScreen, page: () => RestaurantBaseScaffold(child: PrescriptionUploadScreen())),
     GetPage(name: addAddressScreen, page: () => AddAddressScreen()),
-    GetPage(name: editAddressScreen, page: () =>  EditAddressScreen()),
+    GetPage(name: editAddressScreen, page: () => EditAddressScreen()),
     GetPage(name: promoCode, page: () => const PromoCodes()),
-    GetPage(name: paymentMethod, page: () => const PaymentMethodScreen()),
-    GetPage(name: addCard, page: () => const AddCardScreen()),
-    GetPage(name: oderConfirm, page: () => const OrderConfirmScreen()),
-    GetPage(name: trackOrder, page: () => const TrackOrderScreen()),
-    GetPage(name: orderReveived, page: () => const OrderReveivedScreen()),
-    GetPage(name: reviewDriver, page: () => const ReviewDriverScreen()),
+    GetPage(name: paymentMethod, page: () => PaymentMethodScreen()),
+    GetPage(name: addCard, page: () => const RestaurantBaseScaffold(child: AddCardScreen())),
+    GetPage(name: oderConfirm, page: () =>  OrderConfirmScreen()),
+    GetPage(name: trackOrder, page: () => RestaurantBaseScaffold(child: TrackOrderScreen())),
+    GetPage(name: orderReveived, page: () => OrderReveivedScreen()),
+    GetPage(name: reviewDriver, page: () => ReviewDriverScreen()),
     GetPage(name: orderOtp, page: () => const OrderOtpScreen()),
     // GetPage(name: editProfile, page: () => const EditProfileScreen()),
-    GetPage(name: orders, page: () => const OrdersScreen()),
-    GetPage(name: orderDetails, page: () => const OrderDetailsScreen()),
-    GetPage(name: myWallet, page: () =>  MyWalletScreen()),
-    GetPage(name: inviteFriends, page: () => const InviteFriendsScreen()),
-    GetPage(name: notifications, page: () => const NotificationsScreen()),
-    GetPage(name: settings, page: () => const SettingsScreen()),
-    GetPage(name: help, page: () => const HelpScreen()),
-    GetPage(name: support, page: () => const SupportScreen()),
-    GetPage(name: faq, page: () => const FaqScreen()),
-    GetPage(name: privayPolicy, page: () => const PrivayPolicyScreen()),
-    GetPage(
-        name: termsAndConditions, page: () => const TermAndConditionsScreen()),
-    GetPage(
-        name: notificationsSettings,
-        page: () => const NotificationsSettingsScreen()),
-    GetPage(
-        name: transactionHistory, page: () => const TransactionHistoryScreen()),
+    GetPage(name: orders, page: () => OrdersScreen()),
+    GetPage(name: orderDetails, page: () =>  RestaurantBaseScaffold(child: OrderDetailsScreen())),
+    GetPage(name: myWallet, page: () => RestaurantBaseScaffold(child: MyWalletScreen())),
+    GetPage(name: inviteFriends, page: () => InviteFriendsScreen()),
+    GetPage(name: notifications, page: () => RestaurantBaseScaffold(child: NotificationsScreen())),
+    GetPage(name: settings, page: () => const RestaurantBaseScaffold(child: SettingsScreen())),
+    GetPage(name: help, page: () => const RestaurantBaseScaffold(child: HelpScreen())),
+    GetPage(name: support, page: () => const RestaurantBaseScaffold(child: SupportScreen())),
+    GetPage(name: faq, page: () => RestaurantBaseScaffold(child: FaqScreen())),
+    GetPage(name: privayPolicy, page: () => const RestaurantBaseScaffold(child: PrivayPolicyScreen())),
+    GetPage(name: termsAndConditions, page: () => const RestaurantBaseScaffold(child: TermAndConditionsScreen())),
+    GetPage(name: notificationsSettings, page: () =>  const RestaurantBaseScaffold(child: NotificationsSettingsScreen())),
+    GetPage(name: transactionHistory, page: () => const RestaurantBaseScaffold(child: TransactionHistoryScreen())),
     GetPage(name: myWalletFilter, page: () => const MyWalletFilter()),
-    GetPage(name: deliveryAddressScreen, page: () => DeliveryAddressScreen()),
-    GetPage(
-        name: restaurantCategories, page: () => RestaurantCategoriesScreen()),
-    // GetPage(
-    //     name: restaurantCategoriesFilter,
-    //     page: () => RestaurantCategoriesFilter()),
-    GetPage(
-        name: restaurantCategoriesFilter,
-        page: () => RestaurantCategoriesFilter(),
-        binding: CategoriesFilterBinding()),
-    GetPage(
-        name: restaurantCategoriesDetails,
-        page: () => RestaurantCategoryDetails()),
-    GetPage(
-        name: restaurantWishlistFilter,
-        page: () => const RestaurantWishlistFilter()),
-    GetPage(
-        name: rateAndReviewProductScreen,
-        page: () => const RateAndReviewProductScreen()),
+    GetPage(name: deliveryAddressScreen, page: () => RestaurantBaseScaffold(child: DeliveryAddressScreen())),
+    GetPage(name: restaurantCategories, page: () => RestaurantBaseScaffold(child: RestaurantCategoriesScreen())),
+    // GetPage(name: restaurantCategoriesFilter,page: () => RestaurantCategoriesFilter()),
+    GetPage(name: restaurantCategoriesFilter, page: () => const RestaurantCategoriesFilter(), binding: CategoriesFilterBinding()),
+    GetPage(name: restaurantCategoriesDetails, page: () => RestaurantBaseScaffold(child: RestaurantCategoryDetails())),
+    // GetPage( name: restaurantWishlistFilter, page: () => const RestaurantWishlistFilter()),
+    GetPage(name: rateAndReviewProductScreen, page: () => RestaurantBaseScaffold(child: RateAndReviewProductScreen())),
+    GetPage(name: prescriptionsScreen, page: () => const PrescriptionsScreen()),
+    GetPage(name: restaurantInformationScreen, page: () => const RestaurantBaseScaffold(child: RestaurantInformationScreen())),
+    // GetPage(name: restaurantSingleCartScreen, page: () => RestaurantSingleCartScreen()),
 
     ///`pharmacy=====================================================>`
     GetPage(name: pharmcayHomeFilter, page: () => PharmacyHomeFilter()),
-    GetPage(
-        name: pharmacyCategoryDetails, page: () => PharmacyCategoryDetails()),
-    GetPage(
-        name: pharmacyCategoryFilter, page: () => PharmacyCategoriesFilter()),
+    GetPage(name: pharmacyCategoryDetails, page: () => RestaurantBaseScaffold(child: PharmacyCategoryDetails())),
+    GetPage(name: pharmacyCategoryFilter, page: () => const PharmacyCategoriesFilter()),
     GetPage(name: pharmacyWishlistFilter, page: () => PharmacyWishlistFilter()),
-    GetPage(
-        name: pharmacyMoreProduct, page: () => const PharmacyMoreProducts()),
-    GetPage(name: pharmacyMostPopular, page: () => const PharmacyMostPopular()),
-    GetPage(
-        name: pharmacyProductReviews,
-        page: () => const PharmacyProductReviews()),
-    GetPage(
-        name: pharmacyVendorReview,
-        page: () => const PharmacyVendorReviewScreen()),
-    GetPage(
-        name: pharmacyRateVendor, page: () => const PharmacyRateVendorScreen()),
-    GetPage(name: pharmacyCheckout, page: () => const PharmacyCheckoutScreen()),
-
-    // GetPage(
-    //     name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),
-    // GetPage(
-    //     name: pharmacyProductDetailsScreen,
-    //     page: () => PharmacyProductDetailsScreen()),
+    GetPage(name: pharmacyMoreProduct, page: () => const RestaurantBaseScaffold(child: PharmacyMoreProducts())),
+    GetPage(name: pharmacyMostPopular, page: () => const RestaurantBaseScaffold(child: PharmacyMostPopular())),
+    GetPage(name: pharmacyProductReviews, page: () => const RestaurantBaseScaffold(child: PharmacyProductReviews())),
+    GetPage(name: pharmacyVendorReview, page: () => const RestaurantBaseScaffold(child: PharmacyVendorReviewScreen())),
+    GetPage(name: pharmacyRateVendor, page: () => const RestaurantBaseScaffold(child: PharmacyRateVendorScreen())),
+    GetPage(name: pharmacyVendorInformationScreen, page: () => const RestaurantBaseScaffold(child: PharmacyVendorInformationScreen())),
+    // GetPage(name: pharmacyCheckout, page: () => const PharmacyCheckoutScreen()),
+    // GetPage(name: pharmacyVendorDetails, page: () => PharmacyVendorDetailsScreen()),
+    // GetPage( name: pharmacyProductDetailsScreen, page: () => PharmacyProductDetailsScreen()),
 
     ///`pharmacy=====================================================>`
     GetPage(name: groceryHomeFilter, page: () => GroceryHomeFilter()),
-    GetPage(name: groceryMostPopular, page: () => GroceryMostPopular()),
-    GetPage(name: groceryMoreProducts, page: () => GroceryMoreProducts()),
-    // GetPage(
-    //     name: groceryVendorDetails, page: () => GroceryVendorDetailsScreen()),
-    // GetPage(
-    //     name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
+    GetPage(name: groceryMostPopular, page: () => const RestaurantBaseScaffold(child: GroceryMostPopular())),
+    GetPage(name: groceryMoreProducts, page: () => const RestaurantBaseScaffold(child: GroceryMoreProducts())),
+    GetPage(name: groceryCategoryDetails, page: () => RestaurantBaseScaffold(child: GroceryCategoryDetails())),
+    // GetPage(name: groceryProductDetails, page: () => GroceryProductDetailsScreen()),
+    GetPage(name: groceryCategoryFilter,page: () =>  const RestaurantBaseScaffold(child: GroceryCategoriesFilter())),
+    // GetPage(name: groceryCheckoutScreen,page: () =>  GroceryCheckoutScreen()),
+    GetPage(name: groceryShopInformation,page: () =>  RestaurantBaseScaffold(child: GroceryShopInformation())),
+    GetPage(name: groceryShopInformation,page: () =>  RestaurantBaseScaffold(child: GroceryShopInformation())),
+
   ];
 }
+
+class RestaurantBaseScaffold extends StatelessWidget {
+  final Widget child;
+  final int currentIndex;
+
+  const RestaurantBaseScaffold({
+    super.key,
+    required this.child,
+    this.currentIndex = 0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final RestaurantNavbarController navbarController =
+    Get.find<RestaurantNavbarController>();
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          child,
+          if (MediaQuery.of(context).viewInsets.bottom == 0.0 || MediaQuery.of(context).viewInsets.bottom == 0)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: RestaurantNavbar().navbar(navbarController),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+

@@ -1,23 +1,29 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:intl/intl.dart';
 import 'package:location/location.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
 import 'package:woye_user/Data/Model/usermodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:woye_user/Data/userPrefrenceController.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
+import 'package:image_cropper/image_cropper.dart';
+import "package:path/path.dart" as p;
 
 class SignUpForm_editProfileController extends GetxController {
   String typeFrom = "";
 
   @override
   void onInit() async {
-    getprofileApi();
+    // getprofileApi();
     fisrtNameController = TextEditingController();
     mobileController = TextEditingController();
     emailController = TextEditingController();
@@ -31,6 +37,8 @@ class SignUpForm_editProfileController extends GetxController {
     print("objectyyyyyyyyyyyyyyyy$typeFrom");
     super.onInit();
   }
+
+  RxBool emailVerify = false.obs;
 
   final api = Repository();
 
@@ -54,6 +62,86 @@ class SignUpForm_editProfileController extends GetxController {
   var profileImageFromAPI = "".obs;
 
   getprofileApi() async {
+    emailVerify.value = false;
+    userModel = await pref.getUser();
+    log("get header : ${userModel.token.toString()}");
+    profileImageGetUrl.value = "";
+    api.getprofileApi().then((value) {
+      profileSet(value);
+      if (profileData.value.status == true) {
+        userModel.step = profileData.value.step;
+        String countryCodeFromAPI = profileData.value.data?.countryCode ?? "";
+        if (countryCodeFromAPI.isNotEmpty) {
+          String dialCode = countryCodeFromAPI;
+          String countryCode = countryCodeFromAPI.substring(1);
+          selectedCountryCode.value =
+              CountryCode(dialCode: dialCode, code: countryCode);
+
+          CountryCode country = CountryCode.fromDialCode(dialCode);
+          String? countryCodename = country.code;
+          chackCountryLength = countryPhoneDigits[countryCodename]!;
+          print("chackCountryLength: ${chackCountryLength}");
+        }
+        mobileController.text = profileData.value.data?.phone ?? "";
+        emailController.text = profileData.value.data?.email != 'null'
+            ? profileData.value.data?.email ?? ""
+            : '';
+        if(typeFrom != "back" && profileData.value.data?.firstName != null){
+          fisrtNameController.text = profileData.value.data?.firstName ?? "";
+        }else if(typeFrom == "back"){
+          fisrtNameController.text = profileData.value.data?.firstName ?? "";
+        }
+        // if(typeFrom != "back" && profileData.value.data?.dob != null){
+        // formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        // }else if(typeFrom == "back"){
+        //   formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
+        // }
+
+        if (typeFrom != "back" && profileData.value.data?.dob != null) {
+          String dobStr = profileData.value.data?.dob ?? "";
+          formattedCurrentDateController.value.text = dobStr;
+
+          try {
+            selectedDate = DateFormat('dd-MM-yyyy').parse(dobStr);
+          } catch (e) {
+            selectedDate = DateTime.now();
+          }
+        } else if (typeFrom == "back") {
+          String dobStr = profileData.value.data?.dob ?? "";
+          formattedCurrentDateController.value.text = dobStr;
+
+          try {
+            selectedDate = DateFormat('dd-MM-yyyy').parse(dobStr);
+          } catch (e) {
+            selectedDate = DateTime.now();
+          }
+        }
+
+        // formattedCurrentDate.value = profileData.value.data?.dob ?? "";
+        if(typeFrom != "back" && profileData.value.data?.gender != null){
+          genderController.text  = profileData.value.data?.gender ?? "";
+        }else if(typeFrom == "back"){
+          genderController.text = profileData.value.data?.gender ?? "";
+        }
+        if(typeFrom != "back" && profileData.value.data?.imageUrl != null){
+          profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
+        }else if(typeFrom == "back"){
+          profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
+        }
+
+        update();
+        setRxRequestStatus(Status.COMPLETED);
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  refreshGetProfileApi() async {
+    setRxRequestStatus(Status.LOADING);
     userModel = await pref.getUser();
     log("get header : ${userModel.token.toString()}");
     profileImageGetUrl.value = "";
@@ -79,7 +167,8 @@ class SignUpForm_editProfileController extends GetxController {
             ? profileData.value.data?.email ?? ""
             : '';
         fisrtNameController.text = profileData.value.data?.firstName ?? "";
-        formattedCurrentDate.value = profileData.value.data?.dob ?? "";
+        formattedCurrentDateController.value.text = profileData.value.data?.dob ?? "";
+        // formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";
         profileImageFromAPI.value = profileData.value.data?.imageUrl ?? "";
         update();
@@ -95,33 +184,81 @@ class SignUpForm_editProfileController extends GetxController {
   }
 
   late DateTime selectedDate = DateTime.now();
-  RxString formattedCurrentDate = "".obs;
+  // RxString formattedCurrentDate = "".obs;
+  Rx<TextEditingController> formattedCurrentDateController = TextEditingController().obs;
 
+  // Future<void> selectDate(BuildContext context) async {
+  //   final DateTime initialDate =
+  //       (selectedDate != null && selectedDate!.isBefore(DateTime(2025, 12, 31)))
+  //           ? selectedDate
+  //           : DateTime(2015, 12, 31);
+  //
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     builder: (context, child) => Theme(
+  //       data: ThemeData().copyWith(
+  //         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+  //       ),
+  //       child: child!,
+  //     ),
+  //     initialDate: initialDate,
+  //     firstDate: DateTime(1990, 1, 1),
+  //     // lastDate: DateTime.now(),
+  //     lastDate: DateTime(2015, 12, 31),
+  //   );
+  //
+  //   if (picked != null && picked != selectedDate) {
+  //     selectedDate = picked;
+  //     formattedCurrentDateController.value.text =
+  //         DateFormat('dd-MM-yyyy').format(selectedDate);
+  //     // formattedCurrentDate.value =
+  //     //     DateFormat('dd-MM-yyyy').format(selectedDate!);
+  //
+  //     print("Formatted Selected Date: ${formattedCurrentDateController.value.text }");
+  //   }
+  // }
   Future<void> selectDate(BuildContext context) async {
-    final DateTime initialDate =
-        (selectedDate != null && selectedDate!.isBefore(DateTime(2015, 12, 31)))
-            ? selectedDate
-            : DateTime(2015, 12, 31);
+    final DateTime now = DateTime.now();
+    final DateTime initialDate = (selectedDate.isBefore(DateTime(2025, 12, 31)) &&
+        selectedDate.isAfter(DateTime(1990, 1, 1)))
+        ? selectedDate
+        : now;
 
     final DateTime? picked = await showDatePicker(
       context: context,
       builder: (context, child) => Theme(
         data: ThemeData().copyWith(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          textTheme: TextTheme(
+            headlineLarge: TextStyle(
+              fontFamily: AppFontFamily.gilroyMedium,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.black,
+            ),
+            titleLarge: TextStyle(
+              fontFamily: AppFontFamily.gilroyMedium,
+              fontSize: 16,
+              color: Colors.blue,
+            ),
+            bodyLarge: TextStyle(
+              fontFamily: AppFontFamily.gilroyMedium,
+              fontSize: 14,
+            ),
+          ),
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         ),
         child: child!,
       ),
       initialDate: initialDate,
       firstDate: DateTime(1990, 1, 1),
-      lastDate: DateTime(2015, 12, 31),
+      lastDate: DateTime(2025, 12, 31),
     );
 
-    if (picked != null && picked != selectedDate) {
+    if (picked != null) {
       selectedDate = picked;
-      formattedCurrentDate.value =
-          DateFormat('dd-MM-yyyy').format(selectedDate!);
-
-      print("Formatted Selected Date: ${formattedCurrentDate.value}");
+      formattedCurrentDateController.value.text =
+          DateFormat('dd-MM-yyyy').format(selectedDate);
+      print("Formatted Selected Date: ${formattedCurrentDateController.value.text}");
     }
   }
 
@@ -176,27 +313,303 @@ class SignUpForm_editProfileController extends GetxController {
 
   var profileImageGetUrl = "".obs;
 
+  void setRxRequestStatus2(Status value) => rxRequestStatus2.value = value;
+
   Rx<File> image = File("assets/appLogo.png").obs;
 
   Future<void> pickImage(ImageSource source) async {
-    final pickedImage = await ImagePicker().pickImage(source: source);
-
-    if (pickedImage != null) {
-      File originalImage = File(pickedImage.path);
-      int originalSize = await originalImage.length();
-      print('Original image size: $originalSize bytes');
-
-      image.value = originalImage;
-
-      profileImageGetUrl.value = image.value.path;
-      print("Path ---> ${image.value.path}");
-      print("Path ---> ${profileImageGetUrl.value}");
-      imageUploadApi();
+   if(Platform.isAndroid){
+     bool hasPermission = await _handlePermissions(source);
+     if (!hasPermission) return;
+   }
+    try {
+      final pickedImage = await ImagePicker().pickImage(source: source);
+      if (pickedImage != null) {
+        File originalImage = await _copyToTempDirectory(pickedImage);
+        int originalSize = await originalImage.length();
+        print('Original image size: $originalSize bytes');
+        image.value = originalImage;
+        print("Path ---> ${image.value.path}");
+        File? croppedImage = await _cropImage(image.value.path);
+        if (croppedImage != null) {
+          int croppedSize = await croppedImage.length();
+          debugPrint('Cropped image size: $croppedSize bytes');
+          image.value = croppedImage;
+          profileImageGetUrl.value = croppedImage.path;
+          debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
+          imageUploadApi();
+          try {
+            if (await originalImage.exists()) {
+              await originalImage.delete();
+              debugPrint("Deleted original temp image: ${originalImage.path}");
+            }
+          } catch (e) {
+            debugPrint("Error deleting original image: $e");
+          }
+        } else {
+          debugPrint("Image cropping was canceled or failed.");
+          try {
+            if (await originalImage.exists()) {
+              await originalImage.delete();
+              debugPrint("Deleted original temp image after crop cancel: ${originalImage.path}");
+            }
+          } catch (e) {
+            debugPrint("Error deleting temp image: $e");
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("Error picking image: $e");
     }
   }
 
-  final RestaurantHomeController restaurantHomeController =
-      Get.put(RestaurantHomeController());
+  // Future<void> pickImage(ImageSource source) async {
+  //   bool hasPermission = await _handlePermissions(source);
+  //   if (!hasPermission) return;
+  //
+  //   try{
+  //     final pickedImage = await ImagePicker().pickImage(source: source);
+  //
+  //   if (pickedImage != null) {
+  //     // File originalImage = File(pickedImage.path);
+  //     File originalImage = await _copyToTempDirectory(pickedImage);
+  //     int originalSize = await originalImage.length();
+  //     print('Original image size: $originalSize bytes');
+  //
+  //     image.value = originalImage;
+  //
+  //     print("Path ---> ${image.value.path}");
+  //
+  //     File? croppedImage = await _cropImage(image.value.path);
+  //
+  //     if (croppedImage != null) {
+  //       int croppedSize = await croppedImage.length();
+  //       debugPrint('Cropped image size: $croppedSize bytes');
+  //       image.value = croppedImage;
+  //       profileImageGetUrl.value = croppedImage.path;
+  //       debugPrint("Cropped image path ---> ${profileImageGetUrl.value}");
+  //       imageUploadApi();
+  //     } else {
+  //       debugPrint("Image cropping was canceled or failed.");
+  //     }
+  //   }}catch(e){
+  //     debugPrint("Error picking image: $e");
+  //   }
+  // }
+
+  // Future<void> pickImage(ImageSource source) async {
+  //   try {
+  //     bool hasPermission = await _handlePermissions(source);
+  //     if (!hasPermission) return;
+  //
+  //     final pickedImage = await ImagePicker().pickImage(source: source);
+  //     if (pickedImage == null) return;
+  //     debugPrint("pickedImage  ???????>>> $pickedImage");
+  //
+  //     File originalImage = await _copyToTempDirectory(pickedImage);
+  //
+  //     // image.value = originalImage;
+  //
+  //     debugPrint("originalImage ???????>>> $originalImage");
+  //
+  //     File? croppedImage = await _cropImage(originalImage.path);
+  //     if(croppedImage !=  null){
+  //       image.value = File(croppedImage.path ?? "");
+  //     }
+  //     debugPrint("croppedImage ???????>>> $croppedImage");
+  //
+  //     if (croppedImage != null ) {
+  //       profileImageGetUrl.value = croppedImage.path;
+  //       final compressedXFile = await compressImage(imageFile: File(croppedImage.path));
+  //       image.value = File(compressedXFile.path);
+  //       profileImageGetUrl.value = compressedXFile.path;
+  //
+  //       // image.value = croppedImage;
+  //       // profileImageGetUrl.value = croppedImage.path;
+  //       imageUploadApi();
+  //     } else {
+  //       debugPrint("Cropping cancelled or failed.");
+  //     }
+  //
+  //   } catch (e, stackTrace) {
+  //     debugPrint("pickImage error: $e");
+  //     debugPrint("StackTrace: $stackTrace");
+  //   }
+  // }
+
+  Future<bool> _handlePermissions(ImageSource source) async {
+    if (source == ImageSource.camera) {
+      var status = await Permission.camera.status;
+      if (!status.isGranted) {
+        status = await Permission.camera.request();
+
+        if (status.isPermanentlyDenied || status.isDenied) {
+          showPermissionDialog(Get.context!, "Camera");
+          return false;
+        }
+
+      }
+      return true;
+    }
+    return true;
+  }
+
+  // Future<bool> _handlePermissions(ImageSource source) async {
+  //   if (source == ImageSource.camera) {
+  //     var status = await Permission.camera.status;
+  //     if (!status.isGranted) {
+  //       status = await Permission.camera.request();
+  //       if (status.isPermanentlyDenied || !status.isGranted) {
+  //         showPermissionDialog(Get.context!, "Camera");
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   }
+    // else {
+    //   var status =  await Permission.photos.status;
+    //
+    //   if (!status.isGranted) {
+    //     status = await Permission.photos.request();
+    //     status = await Permission.storage.request();
+    //     if (status.isPermanentlyDenied || !status.isGranted) {
+    //       showPermissionDialog(Get.context!, "Gallery");
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // }
+  //   return true;
+  // }
+
+  // Future<File?> _cropImage(String filePath) async {
+  //   final croppedFile = await ImageCropper().cropImage(
+  //     sourcePath: filePath,
+  //     aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+  //     uiSettings: [
+  //       AndroidUiSettings(
+  //         toolbarTitle: 'Crop Image',
+  //         toolbarColor: AppColors.primary,
+  //         toolbarWidgetColor: Colors.black,
+  //         activeControlsWidgetColor: AppColors.primary,
+  //         lockAspectRatio: true,
+  //       ),
+  //       IOSUiSettings(
+  //         title: 'Crop Image',
+  //         aspectRatioLockEnabled: true ,
+  //       ),
+  //     ],
+  //   );
+  //
+  //   return croppedFile != null ? File(croppedFile.path) : null;
+
+  // }
+  Future<File?> _cropImage(String filePath) async {
+    try {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: filePath,
+        aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Image',
+            toolbarColor: AppColors.primary,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: AppColors.primary,
+            lockAspectRatio: true,
+            initAspectRatio: CropAspectRatioPreset.square,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+            aspectRatioLockEnabled: true,
+          ),
+        ],
+      );
+      return croppedFile != null ? File(croppedFile.path) : null;
+    } catch (e, stackTrace) {
+      debugPrint('Image cropping failed: $e');
+      debugPrint('Stack trace: $stackTrace');
+      return null;
+    }
+  }
+
+  void showPermissionDialog(BuildContext context, String permissionType) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Center(child: Text("Permission Required")),
+        content: Text(
+          "$permissionType permission is denied. Please enable it in settings.",
+          textAlign: TextAlign.start,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {
+              openAppSettings();
+              Get.back();
+            },
+            child: const Text("Open Settings"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<File> _copyToTempDirectory(XFile xFile) async {
+    final tempDir = await getTemporaryDirectory();
+    final newFile = File('${tempDir.path}/${DateTime.now().millisecondsSinceEpoch}_${xFile.name}');
+    return await File(xFile.path).copy(newFile.path);
+  }
+
+  // Future<void> pickImage(ImageSource source) async {
+  //   final pickedImage = await ImagePicker().pickImage(source: source);
+  //
+  //   if (pickedImage != null) {
+  //     File originalImage = File(pickedImage.path);
+  //     int originalSize = await originalImage.length();
+  //     print('Original image size: $originalSize bytes');
+  //
+  //     image.value = originalImage;
+  //
+  //     // profileImageGetUrl.value = image.value.path;
+  //     print("Path ---> ${image.value.path}");
+  //     // print("Path ---> ${profileImageGetUrl.value}");
+  //     _cropImage(image.value.path);
+  //     // imageUploadApi();
+  //   }
+  // }
+  //
+  // Future<File?> _cropImage(String filePath) async {
+  //   final croppedFile = await ImageCropper().cropImage(
+  //     sourcePath: filePath,
+  //     aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+  //     // For a square crop
+  //     uiSettings: [
+  //       AndroidUiSettings(
+  //         toolbarTitle: 'Crop Image',
+  //         toolbarColor: Colors.blue,
+  //         toolbarWidgetColor: Colors.white,
+  //         activeControlsWidgetColor: Colors.blue,
+  //         lockAspectRatio: true,
+  //       ),
+  //       IOSUiSettings(
+  //         title: 'Crop Image',
+  //       ),
+  //     ],
+  //   );
+  //
+  //   return croppedFile != null ? File(croppedFile.path) : null;
+  // }
+
+
+  // final RestaurantHomeController restaurantHomeController =
+  //     Get.put(RestaurantHomeController());
+
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
 
   imageUploadApi() async {
     var uri = Uri.parse(AppUrls.updateProfile);
@@ -212,7 +625,7 @@ class SignUpForm_editProfileController extends GetxController {
       print("Adding image with path: ${image.value.path}");
       request.files.add(pic);
     }
-
+    print(request.files);
     try {
       var response = await request.send();
       print("Response status code: ${response.statusCode}");
@@ -224,7 +637,7 @@ class SignUpForm_editProfileController extends GetxController {
         upprofileSet(profileData);
         if (updateprofileData.value.status == true) {
           if (typeFrom == "back") {
-            restaurantHomeController.homeApi(1);
+            getUserDataController.getUserDataApi();
           }
           Utils.showToast("Your profile image has been updated.");
         }
@@ -243,7 +656,8 @@ class SignUpForm_editProfileController extends GetxController {
       "first_name": fisrtNameController.text.toString(),
       "country_code": selectedCountryCode.value.toString(),
       "phone": mobileController.text.trim().toString(),
-      "dob": formattedCurrentDate.value,
+      "dob": formattedCurrentDateController.value.text.toString(),
+      // "dob": formattedCurrentDate.value,
       "email": emailController.text.trim().toString(),
       "gender": genderController.text.toString(),
     };
@@ -256,36 +670,36 @@ class SignUpForm_editProfileController extends GetxController {
 
     log("get header : ${userModel.token.toString()}");
 
-    setRxRequestStatus(Status.LOADING);
+    setRxRequestStatus2(Status.LOADING);
 
     api.updateprofileApi(data).then((value) {
       upprofileSet(value);
       if (updateprofileData.value.status == true) {
         if (type == "back") {
-          restaurantHomeController.homeApi(1);
+          getUserDataController.getUserDataApi();
           Utils.showToast("Your profile has been updated.");
           Get.back();
-          setRxRequestStatus(Status.COMPLETED);
+          setRxRequestStatus2(Status.COMPLETED);
           getprofileApi();
-          rxRequestStatus2(Status.COMPLETED);
+          // rxRequestStatus2(Status.COMPLETED);
         } else {
           userModel.step = updateprofileData.value.step;
           log("get Response Step: ${userModel.step}");
           pref.saveStep(userModel.step!);
           Get.offAllNamed(AppRoutes.restaurantNavbar);
-          rxRequestStatus2(Status.COMPLETED);
-          setRxRequestStatus(Status.COMPLETED);
+          setRxRequestStatus2(Status.COMPLETED);
+          Future.delayed(const Duration(seconds: 5));
           getprofileApi();
         }
       } else {
         Utils.showToast(updateprofileData.value.message.toString());
         log('Failed to update profile. Status code: ${updateprofileData.value.message}');
-        rxRequestStatus2(Status.ERROR);
+        setRxRequestStatus2(Status.ERROR);
       }
     }).onError((error, stackError) {
       setError(error.toString());
       Utils.showToast(error.toString());
-      setRxRequestStatus(Status.ERROR);
+      setRxRequestStatus2(Status.ERROR);
     });
   }
 

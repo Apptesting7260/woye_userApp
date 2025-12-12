@@ -44,6 +44,13 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
+  @override
+  void onInit() {
+    mobNoCon.value.clear();
+    // TODO: implement onInit
+    super.onInit();
+  }
+
   Future<bool> sendOtp() async {
     isLoding.value = true;
     Completer<bool> completer = Completer<bool>();
@@ -58,7 +65,7 @@ class LoginController extends GetxController {
             ? (resendToken.value != 0 ? resendToken.value : null)
             : null,
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+          //await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
@@ -94,8 +101,11 @@ class LoginController extends GetxController {
               'countryCode': '${selectedCountryCode.value.toString()}',
               'mob': '${mobNoCon.value.text.trim().toString()}',
             },
-          );
+          )?.then((value) {
+            return mobNoCon.value.clear();
+          },);
           isLoding.value = false;
+
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
@@ -107,21 +117,20 @@ class LoginController extends GetxController {
     return completer.future;
   }
 
-  OtpTimerButtonController otpTimerButtonController =
-      OtpTimerButtonController();
+  // OtpTimerButtonController otpTimerButtonController =
+  //     OtpTimerButtonController();
 
   Future<bool> resendOtp() async {
     print(
         'no == ${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}');
     Completer<bool> completer = Completer<bool>();
-    otpTimerButtonController.loading();
+    // otpTimerButtonController.loading();
     try {
       await auth.verifyPhoneNumber(
         timeout: const Duration(seconds: 59),
-        phoneNumber:
-            '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
+        phoneNumber: '${selectedCountryCode.value.toString()}${mobNoCon.value.text.trim().toString()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
-          await auth.signInWithCredential(credential);
+         // await auth.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
           if (e.code == 'invalid-phone-number') {
@@ -130,20 +139,20 @@ class LoginController extends GetxController {
           } else {
             Utils.showToast('Something went wrong');
           }
-          otpTimerButtonController.enableButton();
+          // otpTimerButtonController.enableButton();
           completer.complete(false);
         },
         codeSent: (String verificationId, int? forceResendingToken) {
           print('codesent');
           Utils.showToast('otp has been send successfully.');
           verificationID.value = verificationId;
-          otpTimerButtonController.startTimer();
+          // otpTimerButtonController.startTimer();
           completer.complete(true);
         },
         codeAutoRetrievalTimeout: (String verificationId) {},
       );
     } catch (e) {
-      otpTimerButtonController.enableButton();
+      // otpTimerButtonController.enableButton();
       completer.complete(false);
       print('error == ${e.toString()}');
     }
@@ -381,51 +390,5 @@ class LoginController extends GetxController {
     'WF': 7, // Wallis and Futuna
   };
 
-// final api = Repository();
-//
-// final guestData = RegisterModel().obs;
-// RxString error = ''.obs;
-// UserModel userModel = UserModel();
-//
-// var pref = UserPreference();
-//
-// void setRxRequestStatus(Status _value) => rxRequestStatus.value = _value;
-// void guestSet(RegisterModel _value) => guestData.value = _value;
-// void setError(String _value) => error.value = _value;
-//
-// guestUserApi() async {
-//   // String? tokenFCM = await FirebaseMessaging.instance.getToken();
-//
-//   final data = {
-//     "fcm_token": "tokenFCM.toString()",
-//   };
-//
-//   log(data.toString());
-//
-//   setRxRequestStatus(Status.LOADING);
-//
-//   api.guestUserApi(data, "").then((value) {
-//     setRxRequestStatus(Status.COMPLETED);
-//     guestSet(value);
-//
-//     if (guestData.value.status == true) {
-//       userModel.step = guestData.value.step;
-//       log("Response Step: ${userModel.step}");
-//       userModel.token = guestData.value.token;
-//       log("Response token: ${userModel.token}");
-//       userModel.islogin = true;
-//       log("Response islogin: ${userModel.islogin}");
-//       userModel.loginType = guestData.value.loginType;
-//       log("Response loginType: ${userModel.loginType}");
-//       pref.saveUser(userModel);
-//       Get.offAllNamed(AppRoutes.restaurantNavbar);
-//     }
-//   }).onError((error, stackError) {
-//     setError(error.toString());
-//     print('errrrrrrrrrrrr');
-//     // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
-//     print(error);
-//     setRxRequestStatus(Status.ERROR);
-//   });
-// }
+
 }

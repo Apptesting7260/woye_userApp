@@ -3,9 +3,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_controller.dart';
+import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Add_address/add_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
+import 'package:woye_user/presentation/common/get_user_data/user_data_modal.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
 
 class AddAddressController extends GetxController {
@@ -39,15 +43,55 @@ class AddAddressController extends GetxController {
     print('Stored Latitude: ${latitude.value}');
     print('Stored Longitude: ${longitude.value}');
     locationController.text = location.value;
+    printUserNameAndPhone();
   }
 
-  Rx<CountryCode> selectedCountryCode =
-      CountryCode(dialCode: '+91', code: 'IN').obs;
+  void printUserNameAndPhone() {
+    Map<String, dynamic>? userJson = storage.read('user_data');
+    if (userJson != null) {
+      UserResponse userResponse = UserResponse.fromJson(userJson);
 
+      String firstName = userResponse.user?.firstName ?? '';
+      String lastName = userResponse.user?.lastName ?? '';
+      String phone = userResponse.user?.phone ?? '';
+      String countryCodeFromAPI = userResponse.user?.countryCode ?? '';
+
+      nameController.value.text = firstName.toString();
+      mobNoController.value.text = phone.toString();
+      print("countryCodeFrom API: $countryCodeFromAPI");
+      if (countryCodeFromAPI.isNotEmpty) {
+        String dialCode = countryCodeFromAPI;
+        String countryCode = countryCodeFromAPI;
+        selectedCountryCode.value =
+            CountryCode(dialCode: dialCode, code: countryCode);
+        CountryCode country = CountryCode.fromDialCode(dialCode);
+        String? countryCodename = country.code;
+        chackCountryLength = countryPhoneDigits[countryCodename]!;
+        print("chackCountryLength: ${chackCountryLength}");
+        print("selectedCountryCode: ${selectedCountryCode.value.code}");
+      }
+
+      print('Full Name: $firstName $lastName');
+      print('Phone: $phone');
+    } else {
+      print('No user data found in storage');
+    }
+  }
+
+  Rx<CountryCode> selectedCountryCode = CountryCode(dialCode: '+91', code: 'IN').obs;
+
+  String? cartId = "";
+  String? userType = '';
   @override
   void onInit() {
     loadLocationData();
     print("objectiiiii");
+    var arguments = Get.arguments;
+    if(arguments['cartId'] != null){
+      cartId = arguments['cartId'];
+    }
+    userType = arguments['type'] ?? "";
+    print("cart Id ----- ${cartId.toString()}");
     super.onInit();
   }
 
@@ -63,10 +107,6 @@ class AddAddressController extends GetxController {
     mobNoController.value.dispose();
     locationController.clear();
     super.onClose();
-  }
-
-  void updateCountryCode(CountryCode countryCode) {
-    selectedCountryCode.value = countryCode;
   }
 
   // ---------------------------------------- Place API ---------------------------------------------
@@ -124,10 +164,18 @@ class AddAddressController extends GetxController {
   final RestaurantCartController restaurantCartController =
       Get.put(RestaurantCartController());
 
-  addAddressApi() async {
+  final PharmacyCartController pharmacyCartController =Get.put(PharmacyCartController());
+  final GroceryCartController groceryCartController =Get.put(GroceryCartController());
+  final SingleGroceryCartController singleGroceryCartController =Get.put(SingleGroceryCartController());
+
+  Future addAddressApi() async {
     var arguments = Get.arguments;
     String? type = arguments['type'];
+    String? cartId = arguments['cartId'];
+    bool fromcart = arguments['fromcart'];
     print("cart--------------------------------$type");
+    print("fromcart--------------------------------$fromcart");
+    print("cartId--------------------------------$cartId");
     setRxRequestStatus(Status.LOADING);
     var body = {
       'full_name': nameController.value.text,
@@ -141,44 +189,150 @@ class AddAddressController extends GetxController {
       'delivery_instruction': deliveryInstructionController.value.text,
       'is_default': defaultSet.value == true ? "1" : "0",
     };
+    // pharmacyCartController.getPharmacyCartApi(cartId: cartId.toString());
+    print('back and api call : :::: $body');
     api.addAddressApi(body).then((value) {
       setData(value);
       if (addAddress.value.status == true) {
-        if (location.value.isEmpty) {
-          deliveryAddressController.getDeliveryAddressApi().then((value) {
-            location.value = locationController.text;
-            storage.write('location', location.value);
-            Utils.showToast(addAddress.value.message.toString());
-            setRxRequestStatus(Status.COMPLETED);
-            Get.offAllNamed(AppRoutes.restaurantNavbar);
-            nameController.value.clear();
-            mobNoController.value.clear();
-            houseNoController.value.clear();
-            deliveryInstructionController.value.clear();
-            locationController.clear();
-            radioValue.value = 0;
-            return;
-          });
-        } else {
+        // if (location.value.isEmpty) {
+        //   print("object1111111");
+        //   deliveryAddressController.getDeliveryAddressApi().then((value) {
+        //     location.value = locationController.text;
+        //     storage.write('location', location.value);
+        //     Utils.showToast(addAddress.value.message.toString());
+        //     setRxRequestStatus(Status.COMPLETED);
+        //     if (fromcart == true) {
+        //       Get.back();
+        //     }
+        //     Get.back();
+        //     // Get.offAllNamed(AppRoutes.restaurantNavbar);
+        //     nameController.value.clear();
+        //     mobNoController.value.clear();
+        //     houseNoController.value.clear();
+        //     deliveryInstructionController.value.clear();
+        //     locationController.clear();
+        //     radioValue.value = 0;
+        //     return;
+        //   });
+        // } else {
           if (type == "RestaurantCart") {
-            restaurantCartController.getRestaurantCartApi().then((value) {
-              Utils.showToast(addAddress.value.message.toString());
-              setRxRequestStatus(Status.COMPLETED);
-              Get.back();
-              nameController.value.clear();
-              mobNoController.value.clear();
-              houseNoController.value.clear();
-              deliveryInstructionController.value.clear();
-              locationController.clear();
-              radioValue.value = 0;
-              return;
-            });
-          } else {
+            print("object22222222");
+            if (cartId?.isEmpty ?? true) {
+              restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if (fromcart == true) {
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            } else {
+              restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if (fromcart == true) {
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }
+          }
+          else if (type == "PharmacyCart") {
+            print("object333333");
+            if(cartId?.isEmpty ?? true){
+              pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if(fromcart == true){
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }else if(cartId?.isNotEmpty ?? true){
+                pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) {
+                  Utils.showToast(addAddress.value.message.toString());
+                  setRxRequestStatus(Status.COMPLETED);
+                  if(fromcart == true){
+                    Get.back();
+                  }
+                  Get.back();
+                  nameController.value.clear();
+                  mobNoController.value.clear();
+                  houseNoController.value.clear();
+                  deliveryInstructionController.value.clear();
+                  locationController.clear();
+                  radioValue.value = 0;
+                  return;
+                });
+              }
+          }
+          else if (type == "GroceryCart") {
+            print("object333333");
+            if(cartId?.isEmpty ?? true){
+              groceryCartController.getGroceryAllCartApi().then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if(fromcart == true){
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }
+            else if(cartId?.isNotEmpty ?? true){
+              singleGroceryCartController.getGrocerySingleVendorCartApi(cartId.toString()).then((value) {
+                Utils.showToast(addAddress.value.message.toString());
+                setRxRequestStatus(Status.COMPLETED);
+                if(fromcart == true){
+                  Get.back();
+                }
+                Get.back();
+                nameController.value.clear();
+                mobNoController.value.clear();
+                houseNoController.value.clear();
+                deliveryInstructionController.value.clear();
+                locationController.clear();
+                radioValue.value = 0;
+                return;
+              });
+            }
+          }
+          else if(type == 'Profile'){
+            print("edfertgeryety Profile");
             deliveryAddressController.getDeliveryAddressApi().then((value) {
+              print("edfertgeryety1 Profile");
               Utils.showToast(addAddress.value.message.toString());
               setRxRequestStatus(Status.COMPLETED);
               Get.back();
-              nameController.value.clear();
+              // Get.back();
+              // value.clear();
               mobNoController.value.clear();
               houseNoController.value.clear();
               deliveryInstructionController.value.clear();
@@ -187,7 +341,7 @@ class AddAddressController extends GetxController {
               return;
             });
           }
-        }
+        // }
       } else {
         Utils.showToast(addAddress.value.message.toString());
       }
@@ -202,6 +356,10 @@ class AddAddressController extends GetxController {
   void setError(String value) => error.value = value;
 
   // ------------------------------------------------------------- ------------------------------
+
+  void updateCountryCode(CountryCode countryCode) {
+    selectedCountryCode.value = countryCode;
+  }
 
   int chackCountryLength = 10;
   final Map<String, int> countryPhoneDigits = {
@@ -433,4 +591,42 @@ class AddAddressController extends GetxController {
     'VI': 10, // United States Virgin Islands
     'WF': 7, // Wallis and Futuna
   };
+
 }
+// if (type == "RestaurantCart") {
+// print("object22222222");
+// if(cartId?.isEmpty ?? true) {
+// restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+// Utils.showToast(addAddress.value.message.toString());
+// setRxRequestStatus(Status.COMPLETED);
+// if (fromcart == true) {
+// Get.back();
+// }
+// Get.back();
+// nameController.value.clear();
+// mobNoController.value.clear();
+// houseNoController.value.clear();
+// deliveryInstructionController.value.clear();
+// locationController.clear();
+// radioValue.value = 0;
+// return;
+// });
+// }
+// if (cartId?.isNotEmpty ?? false) {
+// restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
+// Utils.showToast(addAddress.value.message.toString());
+// setRxRequestStatus(Status.COMPLETED);
+// if(fromcart == true){
+// Get.back();
+// }
+// Get.back();
+// nameController.value.clear();
+// mobNoController.value.clear();
+// houseNoController.value.clear();
+// deliveryInstructionController.value.clear();
+// locationController.clear();
+// radioValue.value = 0;
+// return;
+// });
+// }
+// }

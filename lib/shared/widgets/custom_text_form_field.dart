@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -34,6 +35,7 @@ class CustomTextFormField extends StatelessWidget {
     this.borderRadius,
     this.inputFormatters,
     this.minLines,
+    this.errorStyle,
   });
 
   final Alignment? alignment;
@@ -88,6 +90,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function()? onTap;
   final bool readOnly;
   final List<TextInputFormatter>? inputFormatters;
+  final TextStyle? errorStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -105,14 +108,14 @@ class CustomTextFormField extends StatelessWidget {
         child: TextFormField(
           // expands: true,
           onTap: onTap,
-          onTapOutside: onTapOutside,
+          onTapOutside:  onTapOutside ?? (event)=> FocusManager.instance.primaryFocus?.unfocus(),
           onChanged: onChanged,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           enabled: enabled ?? true,
           controller: controller,
           // focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus ?? false,
-          style: textStyle ?? AppFontStyle.text_16_400(AppColors.darkText),
+          style: textStyle ?? AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
           obscureText: obscureText!,
           textInputAction: textInputAction,
           keyboardType: textInputType,
@@ -127,15 +130,20 @@ class CustomTextFormField extends StatelessWidget {
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? "",
         hintStyle: hintStyle ?? AppFontStyle.text_14_400(AppColors.hintText),
+        errorStyle:errorStyle ??  AppFontStyle.text_12_400(
+          AppColors.errorColor,
+          family: AppFontFamily.gilroyMedium,
+        ),
+        errorMaxLines: 2,
         prefixIcon: prefix,
         prefixIconConstraints:
             prefixConstraints ?? BoxConstraints(minWidth: 30.w),
         suffixIcon: suffix,
         suffixIconConstraints: suffixConstraints,
         isDense: true,
-        contentPadding: contentPadding ??
-            REdgeInsets.symmetric(vertical: 15, horizontal: 20),
-        fillColor: fillColor ?? Colors.transparent,
+        // contentPadding: contentPadding ??REdgeInsets.symmetric(vertical: 15, horizontal: 20),
+    contentPadding: contentPadding ?? REdgeInsets.symmetric(vertical: 15, horizontal: 12),
+    fillColor: fillColor ?? Colors.transparent,
         filled: filled,
         border: borderDecoration ??
             OutlineInputBorder(

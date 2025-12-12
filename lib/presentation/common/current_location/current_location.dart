@@ -49,18 +49,23 @@ class CurrentLocationController extends GetxController {
   int hasPermissionForSettings = 0;
 
   Future<void> getCurrentPosition({bool back = false}) async {
-    hasPermissionForSettings++;
     print("hasPermissionForSettings $hasPermissionForSettings");
     final hasPermission = await _handleLocationPermission();
-
+    print("objectobjectobjectobjectobjectobject12345${back}");
+    if (!hasPermission) {
+      hasPermissionForSettings++;
+      print(
+          "Permission Denied. Incrementing hasPermissionForSettings: $hasPermissionForSettings");
+    }
     if (hasPermissionForSettings > 1 && !hasPermission) {
+      print("objectobjectobjectobjectobjectobject${back}");
       print("hasPermissionForSettingsagain $hasPermissionForSettings");
-      Get.back();
+      // Get.back();
       _showPermissionDialog();
       return;
     }
     if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
       _currentPosition = position;
       print("position ${_currentPosition}");
@@ -94,8 +99,7 @@ class CurrentLocationController extends GetxController {
   }
 
   Future<void> _getAddressFromLatLng(Position position, bool back) async {
-    await placemarkFromCoordinates(
-            _currentPosition!.latitude, _currentPosition!.longitude)
+    await placemarkFromCoordinates(_currentPosition!.latitude, _currentPosition!.longitude)
         .then((List<Placemark> placemarks) {
       Placemark place = placemarks[0];
       String houseNumber = place.subThoroughfare ?? '';
@@ -104,18 +108,30 @@ class CurrentLocationController extends GetxController {
       String locality = place.locality ?? '';
       String subAdministrativeArea = place.subAdministrativeArea ?? '';
       String postalCode = place.postalCode ?? '';
-      currentAddress.value =
-          '$houseNumber $street, $subLocality, $locality, $subAdministrativeArea, $postalCode';
+      // currentAddress.value = '$houseNumber $street, $subLocality, $locality, $subAdministrativeArea, $postalCode';
+      // Create a list of address components
+      List<String> addressComponents = [];
+
+      if (houseNumber.isNotEmpty) addressComponents.add(houseNumber);
+      if (street.isNotEmpty) addressComponents.add(street);
+      if (subLocality.isNotEmpty) addressComponents.add(subLocality);
+      if (locality.isNotEmpty) addressComponents.add(locality);
+      if (subAdministrativeArea.isNotEmpty) {
+        addressComponents.add(subAdministrativeArea);
+      }
+      if (postalCode.isNotEmpty) addressComponents.add(postalCode);
+      currentAddress.value = addressComponents.join(', ');
+      location.value = "";
       location.value = currentAddress.value.toString();
       print("Latitude: ${position.latitude}, Longitude: ${position.longitude}");
       storage.write('location', location.value);
       storage.write('latitude', position.latitude);
       storage.write('longitude', position.longitude);
-      print("jjjjkk ${currentAddress.value}");
-      print("asdfg ${location.value}");
-      if (back == true) {
-        Get.back();
-      }
+      print("Updated Location: ${location.value}");
+      print("objectobjectobjectobjectobjectobject${back}");
+      // if (back == true) {
+      //   Get.back();
+      // }
       homeController.loadLocationData();
     }).catchError((e) {
       debugPrint(e.toString());
@@ -124,7 +140,6 @@ class CurrentLocationController extends GetxController {
 
   Future<void> _getLatLng(Position position) async {
     try {
-      // print("Latitude: ${position.latitude}, Longitude: ${position.longitude}");
       lat.value = position.latitude;
       long.value = position.longitude;
     } catch (e) {

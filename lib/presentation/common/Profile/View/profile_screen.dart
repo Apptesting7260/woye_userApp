@@ -1,39 +1,47 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:woye_user/Data/Model/usermodel.dart';
-import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_home/controller/restaurant_home_controller.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Controller/profile_controller.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
+import 'package:woye_user/shared/widgets/shimmer.dart';
 
 import '../../../../Data/userPrefrenceController.dart';
+import '../../../Pharmacy/Pharmacy_navbar/controller/pharmacy_navbar_controller.dart';
 import '../../Social_login/social_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
+  String? profileScreenType;
+  ProfileScreen({super.key,this.profileScreenType});
 
   // UserModel userModel = UserModel();
 
-  static final ProfileController restaurantProfileController =
-      Get.put(ProfileController());
+  static final ProfileController restaurantProfileController =  Get.put(ProfileController());
 
-  final RestaurantHomeController restaurantHomeController =
-      Get.put(RestaurantHomeController());
+  // final RestaurantHomeController restaurantHomeController =  Get.put(RestaurantHomeController());
 
-  final SocialLoginController socialLoginController =
-      Get.put(SocialLoginController());
+  final GetUserDataController getUserDataController = Get.put(GetUserDataController());
+
+  final SocialLoginController socialLoginController = Get.put(SocialLoginController());
+
+  // final PharmacyNavbarController pharmacyNavbarController = PharmacyNavbarController();
 
   UserPreference userPreference = UserPreference();
 
   @override
   Widget build(BuildContext context) {
+    if(profileScreenType != null) {
+      print("profileScreenType : $profileScreenType");
+    }
     return Scaffold(
       appBar: CustomAppBar(
         isActions: true,
         isLeading: false,
         title: Text(
           "My Profile",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -49,15 +57,15 @@ class ProfileScreen extends StatelessWidget {
             //
             deliveryAddress(context),
             //
-            paymentMethod(context),
+            //paymentMethod(context),
             //
             myWallet(context),
             //
-            promotionalCodes(context),
+            //promotionalCodes(context),
             //
             inviteFriends(context),
             //
-            settings(context),
+            //settings(context),
             //
             help(context),
             //
@@ -80,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.center,
-            child: restaurantHomeController.homeData.value.userdata?.image
+            child: getUserDataController.userData.value.user?.imageUrl
                         .toString() !=
                     null
                 ? Obx(
@@ -93,15 +101,20 @@ class ProfileScreen extends StatelessWidget {
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(100.r),
                             child: CachedNetworkImage(
-                              imageUrl: restaurantHomeController
-                                  .homeData.value.userdata!.image
-                                  .toString(),
-                              placeholder: (context, url) =>
-                                  circularProgressIndicator(),
-                              errorWidget: (context, url, error) => Icon(
-                                Icons.person,
-                                size: 40.h,
-                                color: AppColors.lightText.withOpacity(0.5),
+                              imageUrl:getUserDataController.userData.value.user!.imageUrl.toString(),
+                              placeholder: (context, url) => const ShimmerWidget(),
+                              errorWidget: (context, url, error) => Container(
+                                width: 80.h,
+                                height: 80.h,
+                                decoration: BoxDecoration(
+                                  color: AppColors.greyBackground.withOpacity(0.4),
+                                  borderRadius: BorderRadius.circular(100.r),
+                                ),
+                                child: Icon(
+                                  Icons.person,
+                                  size: 40.h,
+                                  color: AppColors.lightText.withOpacity(0.5),
+                                ),
                               ),
                               fit: BoxFit.cover,
                             ))),
@@ -124,25 +137,28 @@ class ProfileScreen extends StatelessWidget {
                             )))),
           ),
           wBox(15),
-          restaurantHomeController.homeData.value.userdata?.type != "guestUser"
+          getUserDataController.userData.value.user?.userType != "guestUser"
               ? Obx(
-                  () => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        restaurantHomeController
-                                .homeData.value.userdata?.firstName ??
-                            "",
-                        style: AppFontStyle.text_18_600(AppColors.darkText),
-                      ),
-                      hBox(10),
-                      Text(
-                        restaurantHomeController
-                                .homeData.value.userdata?.email ??
-                            "",
-                        style: AppFontStyle.text_14_400(AppColors.darkText),
-                      ),
-                    ],
+                  () => Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getUserDataController
+                                  .userData.value.user?.firstName?.characters
+                                  .toString() ??
+                              "",
+                          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                        ),
+                        hBox(10),
+                        Text(
+                          getUserDataController.userData.value.user?.email ??
+                              "",
+                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          maxLines: 2,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : Text(
@@ -156,16 +172,17 @@ class ProfileScreen extends StatelessWidget {
 
   Widget editProfile(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
       title: Text(
         'Edit Profile',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -182,20 +199,29 @@ class ProfileScreen extends StatelessWidget {
 
   Widget orders(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/cart-dark.svg"),
       title: Text(
         'Orders',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        // style: AppFontStyle.text_16_500(AppColors.darkText),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
-          Get.toNamed(AppRoutes.orders);
+          pt("screen>>>>>>>>>>>>>>>>>>>>> $profileScreenType");
+          Get.toNamed(AppRoutes.orders,
+          arguments: {
+            "screenType" : profileScreenType,
+            }
+          );
+          pt("screen>>>>>>>>>>>>>>>>>>>>>12 $profileScreenType");
+
         }
       },
     );
@@ -203,58 +229,64 @@ class ProfileScreen extends StatelessWidget {
 
   Widget deliveryAddress(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/location-pin-dark.svg"),
       title: Text(
         'Delivery Address',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
-          Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {'type': "Profile"});
+          Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
+            'type': "Profile",
+            "fromcart": false,
+          });
         }
       },
     );
   }
 
-  Widget paymentMethod(context) {
-    return ListTile(
-      splashColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
-      title: Text(
-        'Payment Method',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
-      ),
-      trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
-            "guestUser") {
-          showLoginRequired(context);
-        } else {
-          Get.toNamed(AppRoutes.paymentMethod);
-        }
-      },
-    );
-  }
+  // Widget paymentMethod(context) {
+  //   return ListTile(
+  //     splashColor: Colors.transparent,
+  //     hoverColor: Colors.transparent,
+  //     leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
+  //     title: Text(
+  //       'Payment Method',
+  //       style: AppFontStyle.text_16_500(AppColors.darkText),
+  //     ),
+  //     trailing: const Icon(Icons.arrow_forward_ios),
+  //     onTap: () {
+  //       if (getUserDataController.userData.value.user?.userType ==
+  //           "guestUser") {
+  //         showLoginRequired(context);
+  //       } else {
+  //         Get.toNamed(AppRoutes.paymentMethod);
+  //       }
+  //     },
+  //   );
+  // }
 
   Widget myWallet(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
+
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/wallet-dark.svg"),
       title: Text(
         'My Wallet',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -264,39 +296,41 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget promotionalCodes(context) {
-    return ListTile(
-      splashColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      leading: SvgPicture.asset("assets/svg/coupon-dark.svg"),
-      title: Text(
-        'Promotion Code',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
-      ),
-      trailing: const Icon(Icons.arrow_forward_ios),
-      onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
-            "guestUser") {
-          showLoginRequired(context);
-        } else {
-          Get.toNamed(AppRoutes.promoCode);
-        }
-      },
-    );
-  }
+  // Widget promotionalCodes(context) {
+  //   return ListTile(
+  //     splashColor: Colors.transparent,
+  //     hoverColor: Colors.transparent,
+  //     leading: SvgPicture.asset("assets/svg/coupon-dark.svg"),
+  //     title: Text(
+  //       'Promotion Code',
+  //       style: AppFontStyle.text_16_500(AppColors.darkText),
+  //     ),
+  //     trailing: const Icon(Icons.arrow_forward_ios),
+  //     onTap: () {
+  //       if (getUserDataController.userData.value.user?.userType ==
+  //           "guestUser") {
+  //         showLoginRequired(context);
+  //       } else {
+  //         Get.toNamed(AppRoutes.promoCode);
+  //       }
+  //     },
+  //   );
+  // }
 
   Widget inviteFriends(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
+
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
       title: Text(
         'Invite Friends',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -308,16 +342,18 @@ class ProfileScreen extends StatelessWidget {
 
   Widget settings(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
+
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/settings-dark.svg"),
       title: Text(
         'Settings',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -331,14 +367,15 @@ class ProfileScreen extends StatelessWidget {
     return ListTile(
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
+      contentPadding: EdgeInsets.zero,
       leading: SvgPicture.asset("assets/svg/help-dark.svg"),
       title: Text(
         'Help',
-        style: AppFontStyle.text_16_500(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
-      trailing: const Icon(Icons.arrow_forward_ios),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (restaurantHomeController.homeData.value.userdata?.type ==
+        if (getUserDataController.userData.value.user?.userType ==
             "guestUser") {
           showLoginRequired(context);
         } else {
@@ -350,12 +387,13 @@ class ProfileScreen extends StatelessWidget {
 
   Widget logout(context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       splashColor: Colors.transparent,
       hoverColor: Colors.transparent,
       leading: SvgPicture.asset("assets/svg/logout.svg"),
       title: Text(
         'Logout',
-        style: AppFontStyle.text_16_500(AppColors.primary),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
       onTap: () {
         logoutPopUp(context);
@@ -381,12 +419,13 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Logout',
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                   ),
                   // hBox(15),
                   Text(
                     'Are you sure you want to log out?',
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    maxLines: 2,
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                   ),
                   // hBox(15),
                   Row(
@@ -400,19 +439,19 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+                              AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
                       ),
                       wBox(15),
                       Expanded(
                         child: CustomElevatedButton(
                           height: 40.h,
-                          onPressed: () {
+                          textStyle:AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),                          onPressed: () {
                             socialLoginController.signout();
                             userPreference.removeUser();
                             Get.offAllNamed(AppRoutes.welcomeScreen);
                           },
-                          text: "Yes,Logout",
+                          text: "Logout",
                         ),
                       ),
                     ],
@@ -442,12 +481,12 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Login Required',
-                    style: AppFontStyle.text_18_600(AppColors.darkText),
+                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                   ),
                   // hBox(15),
                   Text(
                     'You need to log in first',
-                    style: AppFontStyle.text_14_400(AppColors.lightText),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                   ),
                   // hBox(15),
                   Row(
@@ -461,7 +500,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText),
+                              AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
                       ),
                       wBox(15),
@@ -473,6 +512,8 @@ class ProfileScreen extends StatelessWidget {
                             Get.offAllNamed(AppRoutes.signUp);
                           },
                           text: "Login",
+                          textStyle:
+                          AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                         ),
                       ),
                     ],

@@ -24,17 +24,14 @@ class SocialLoginController extends GetxController {
     showLoading();
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
       print('user crediental -------------$credential');
-      print(
-          'details------${googleUser?.displayName}---${googleUser?.email}---${googleUser?.photoUrl}---${googleUser?.id}----${googleUser?.serverAuthCode}  ===   ${googleAuth?.accessToken}');
-      final datad =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+      print('details------${googleUser?.displayName}---${googleUser?.email}---${googleUser?.photoUrl}---${googleUser?.id}----${googleUser?.serverAuthCode}  ===   ${googleAuth?.accessToken}');
+      final datad = await FirebaseAuth.instance.signInWithCredential(credential);
 
       String? displayName = googleUser?.displayName;
       String firstName = '';
@@ -57,16 +54,13 @@ class SocialLoginController extends GetxController {
       print("Photo: ${googleUser?.photoUrl}");
       print("Phone: ${datad.user?.phoneNumber ?? 'No phone number available'}");
       print("Phone: ${datad.user?.phoneNumber ?? 'No phone number available'}");
-      print(
-          "gender: ${datad.additionalUserInfo?.profile ?? 'No phone number available'}");
+      print("gender: ${datad.additionalUserInfo?.profile ?? 'No phone number available'}");
       String Mobilenumber = "";
       String countryCode = "";
       String? phoneNumber = datad.user?.phoneNumber;
       if (phoneNumber != null) {
-        countryCode =
-            phoneNumber.substring(0, phoneNumber.indexOf(' ') + 1).trim();
-        String phoneNumberWithoutCountryCode =
-            phoneNumber.substring(phoneNumber.indexOf(' ') + 1).trim();
+        countryCode = phoneNumber.substring(0, phoneNumber.indexOf(' ') + 1).trim();
+        String phoneNumberWithoutCountryCode = phoneNumber.substring(phoneNumber.indexOf(' ') + 1).trim();
         print("Phone Number: $phoneNumberWithoutCountryCode");
         print("Country Code: $countryCode");
         Mobilenumber = phoneNumberWithoutCountryCode;
@@ -75,9 +69,15 @@ class SocialLoginController extends GetxController {
         print("Phone Number: Not available");
       }
       SocialLoginApi(
+
           email: googleUser!.email.toString(),
           id: googleUser.id.toString(),
           type: "google",
+
+
+
+
+
           name: displayName ?? "",
           mobile: Mobilenumber ?? "",
           countryCode: countryCode ?? "");
@@ -226,7 +226,7 @@ class SocialLoginController extends GetxController {
     Map data = {
       'email': email.toString(),
       "fcm_token": tokenFCM.toString(),
-      'step': userModel.token.toString() == 2 ? '2' : '1',
+      'step': userModel.token.toString() == "2" ? '2'  : '1',
       'type': type.toString(),
       'fname': name ?? "",
       'mob_no': mobile ?? "",

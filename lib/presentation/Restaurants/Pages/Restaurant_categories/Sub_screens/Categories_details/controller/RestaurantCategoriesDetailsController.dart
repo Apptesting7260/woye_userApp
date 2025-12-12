@@ -31,6 +31,7 @@ class RestaurantCategoriesDetailsController extends GetxController {
     }
   }
 
+  //-----------------------------------restaurant_Categories_Details_Api-----------------------------
   restaurant_Categories_Details_Api({
     required String id,
   }) async {
@@ -52,6 +53,30 @@ class RestaurantCategoriesDetailsController extends GetxController {
     });
   }
 
+  ///refresh
+  refresh_Restaurant_Categories_Details_Api({
+    required String id,
+  }) async {
+    // searchController.clear();
+    // filterProductSearchData.clear();
+    // searchData.clear();
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {"category_id": id};
+    api.Restaurant_Category_Details_Api(data).then((value) {
+      categories_Set(value);
+      searchDataFun(searchController.text);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+  //------------------------------------------------------------------------------------------------------
+
   RxList<CategoryProduct> filterProductSearchData = RxList<CategoryProduct>();
 
   void filterSearchDataFun(String query) {
@@ -67,12 +92,13 @@ class RestaurantCategoriesDetailsController extends GetxController {
     }
   }
 
+//------------------------------------------------------------restaurant_Categories_Details_filter_Api
   restaurant_Categories_Details_filter_Api({
     required String id,
-    required String cuisine_type,
-    required String price_sort,
-    required var quick_filter,
-    required String price_range,
+     String? cuisine_type,
+     String? price_sort,
+     var quick_filter,
+     String? price_range,
   }) async {
     searchController.clear();
     searchData.clear();
@@ -80,11 +106,18 @@ class RestaurantCategoriesDetailsController extends GetxController {
     setRxRequestStatus(Status.LOADING);
     Map data = {
       "category_id": id,
+      if(cuisine_type != null && cuisine_type != '')
       "cuisine_type": cuisine_type,
+      if(price_sort != null)
       "price_sort": price_sort,
+      if(quick_filter != null && quick_filter != "")
       "quick_filter[]": quick_filter,
+      if(price_range != null)
       "price_range": price_range,
     };
+
+    print("Map data : $data");
+
     api.Restaurant_Category_Details_Api(data).then((value) {
       categories_Set(value);
       filterSearchDataFun(searchController.text);
@@ -97,4 +130,48 @@ class RestaurantCategoriesDetailsController extends GetxController {
       setRxRequestStatus(Status.ERROR);
     });
   }
+
+  refresh_restaurant_Categories_Details_filter_Api({
+    required String id,
+     String? cuisine_type,
+     String? price_sort,
+     var quick_filter,
+     String? price_range,
+  }) async {
+    // searchController.clear();
+    // searchData.clear();
+    // filterProductSearchData.clear();
+    // setRxRequestStatus(Status.LOADING);
+
+    print("objectafdssssss ${quick_filter.runtimeType}");
+
+    Map data = {
+      "category_id": id,
+      if(cuisine_type != null && cuisine_type != '')
+      "cuisine_type": cuisine_type,
+      if(price_sort != null && price_sort != "")
+      "price_sort": price_sort,
+      if (quick_filter != null && quick_filter.isNotEmpty && quick_filter != [].toString() && (price_sort == null || price_sort.isEmpty))
+      "quick_filter[]": quick_filter,
+      if(price_range != null && price_sort == "")
+      "price_range": price_range,
+    };
+
+    print("Map data : $data");
+
+    api.Restaurant_Category_Details_Api(data).then((value) {
+      categories_Set(value);
+      filterSearchDataFun(searchController.text);
+      setRxRequestStatus(Status.COMPLETED);
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+//-----------------------------------------------------------------------------------------------
+
 }

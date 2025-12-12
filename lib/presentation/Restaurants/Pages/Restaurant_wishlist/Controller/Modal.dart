@@ -37,8 +37,8 @@ class CategoryProduct {
   int? userId;
   int? categoryId;
   String? categoryName;
-  String? regularPrice;
-  int? salePrice;
+  var regularPrice;
+  var salePrice;
   String? description;
   String? discount;
   int? rating;

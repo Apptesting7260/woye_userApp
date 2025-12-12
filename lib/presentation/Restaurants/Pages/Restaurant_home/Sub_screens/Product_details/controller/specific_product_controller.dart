@@ -6,45 +6,89 @@ class specific_Product_Controller extends GetxController {
   final api = Repository();
 
   RxString selectedImageUrl = ''.obs;
-  RxInt isSelected = (-1).obs;
+  RxInt isSelected = 0.obs;
   RxBool isLoading = false.obs;
   RxInt cartCount = 1.obs;
   var productPrice = 0;
 
   RxBool goToCart = false.obs;
+  RxBool isExtraPopUps = false.obs;
 
   final rxRequestStatus = Status.COMPLETED.obs;
-  final product_Data = specificProduct().obs;
+  final productData = specificProduct().obs;
 
   RxString error = ''.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void productdata_Set(specificProduct value) => product_Data.value = value;
+  void productdata_Set(specificProduct value) => productData.value = value;
 
   void setError(String value) => error.value = value;
 
   specific_Product_Api({
-    required String product_id,
-    required String category_id,
+    required String productId,
+    required String categoryId,
   }) async {
     goToCart.value = false;
-    selectedAddOnIds.clear();
+    selectedAddOn.clear();
     extrasTitlesIdsId.clear();
     extrasItemIdsId.clear();
     extrasItemIdsName.clear();
     extrasItemIdsPrice.clear();
     selectedImageUrl.value = "";
-    cartCount.value =1;
+    cartCount.value = 1;
     setRxRequestStatus(Status.LOADING);
     Map data = {
-      "product_id": product_id,
-      "category_id": category_id,
+      "product_id": productId,
+      "category_id": categoryId,
     };
     api.specific_Product_Api(data).then((value) {
-      isSelected = (-1).obs;
-      productdata_Set(value);
-      setRxRequestStatus(Status.COMPLETED);
+      if(value.status == true){
+        isSelected = (-1).obs;
+        productdata_Set(value);
+        setRxRequestStatus(Status.COMPLETED);
+      }else if(value.status == false){
+        Get.back();
+        Utils.showToast("Product is not active.");
+        setRxRequestStatus(Status.ERROR);
+      }
+    }).onError((error, stackError) {
+      setError(error.toString());
+      print(stackError);
+      print('errrrrrrrrrrrr');
+      print(error);
+      setRxRequestStatus(Status.ERROR);
+    });
+  }
+
+
+  refreshSpecificProductApi({
+    required String productId,
+    required String categoryId,
+  }) async {
+    // goToCart.value = false;
+    // selectedAddOn.clear();
+    // extrasTitlesIdsId.clear();
+    // extrasItemIdsId.clear();
+    // extrasItemIdsName.clear();
+    // extrasItemIdsPrice.clear();
+    // selectedImageUrl.value = "";
+    // cartCount.value = 1;
+    // setRxRequestStatus(Status.LOADING);
+    Map data = {
+      "product_id": productId,
+      "category_id": categoryId,
+    };
+    api.specific_Product_Api(data).then((value) {
+      if(value.status == true){
+        // isSelected = (-1).obs;
+        productdata_Set(value);
+        setRxRequestStatus(Status.COMPLETED);
+      }else if(value.status == false){
+        Get.back();
+        Utils.showToast("Product is not active.");
+        setRxRequestStatus(Status.COMPLETED);
+      }
     }).onError((error, stackError) {
       setError(error.toString());
       print(stackError);
@@ -70,18 +114,37 @@ class specific_Product_Controller extends GetxController {
   }
 
   // ----------------- add to cart data -----------------
-  RxList selectedAddOnIds = [].obs;
+  RxList selectedAddOn = [].obs;
   RxList extrasTitlesIdsId = [].obs;
   RxList extrasItemIdsId = [].obs;
   RxList extrasItemIdsName = [].obs;
   RxList extrasItemIdsPrice = [].obs;
 
-  void productPriceFun() {
-    int count = cartCount.value;
-    int? price = product_Data.value.product!.salePrice;
-
-    int totalPrice = count * price!;
-    productPrice = totalPrice;
-    print("Total Price: $totalPrice");
-  }
+  // void productPriceFun() {
+  //   int count = cartCount.value;
+  //   if(productData.value.product!.salePrice != null) {
+  //     int? price = productData.value.product!.salePrice;
+  //     if (price != null) {
+  //       int totalPrice = count * price;
+  //       productPrice = totalPrice;
+  //       print("Total Price: $totalPrice");
+  //     } else {
+  //       print("Error: Price is not a valid number");
+  //     }
+  //   } else {
+  //
+  //     int? price = productData.value.product!.regularPrice;
+  //     if (price != null) {
+  //       int totalPrice = count * price;
+  //       productPrice = totalPrice;
+  //       print("Total Price: $totalPrice");
+  //     } else {
+  //       print("Error: Price is not a valid number");
+  //     }
+  //
+  //
+  //   }
+  //   // productPrice = totalPrice;
+  //   // print("Total Price: $totalPrice");
+  // }
 }

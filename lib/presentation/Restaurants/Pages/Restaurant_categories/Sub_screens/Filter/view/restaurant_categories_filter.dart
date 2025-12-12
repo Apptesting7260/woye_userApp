@@ -7,129 +7,339 @@ import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/modal/CategoriesFilter_modal.dart';
 
-final Categories_FilterController controller =
-    Get.put(Categories_FilterController());
+import '../../../../../../../Shared/theme/font_family.dart';
 
-final RestaurantCategoriesDetailsController
-    restaurantCategoriesDetailsController =
-    Get.put(RestaurantCategoriesDetailsController());
+final Categories_FilterController controller =Get.put(Categories_FilterController());
+
+final RestaurantCategoriesDetailsController restaurantCategoriesDetailsController = Get.put(RestaurantCategoriesDetailsController());
 
 class RestaurantCategoriesFilter extends StatelessWidget {
-  RestaurantCategoriesFilter({super.key});
+  const RestaurantCategoriesFilter({super.key});
+
 
   @override
   Widget build(BuildContext context) {
-    var categoryId = Get.arguments['categoryId'];
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: Text(
-          "Filter",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
-        ),
-      ),
-      body: Obx(() {
-        switch (controller.rxRequestStatus.value) {
-          case Status.LOADING:
-            return Center(child: circularProgressIndicator());
-          case Status.ERROR:
-            if (controller.error.value == 'No internet') {
-              return InternetExceptionWidget(
-                onPress: () {
-                  controller.Refresh_Api();
-                },
-              );
-            } else {
-              return GeneralExceptionWidget(
-                onPress: () {
-                  controller.Refresh_Api();
-                },
-              );
-            }
-          case Status.COMPLETED:
-            return RefreshIndicator(
+    var categoryId = Get.arguments['categoryId'] ?? "";
+    // WidgetsBinding.instance.add
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        // appBar: CustomAppBar(
+        //   title: Text(
+        //     "Filter",
+        //     style: AppFontStyle.text_22_600(AppColors.darkText),
+        //   ),
+        // ),
+        body: Obx(() {
+          switch (controller.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(child: circularProgressIndicator());
+            case Status.ERROR:
+              if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    controller.Refresh_Api();
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    controller.Refresh_Api();
+                  },
+                );
+              }
+            case Status.COMPLETED:
+              return RefreshIndicator(
                 onRefresh: () async {
                   controller.Refresh_Api();
                 },
-                child: Padding(
-                  padding: REdgeInsets.symmetric(horizontal: 24.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (controller
-                            .getFilterData.value.cuisineType!.isNotEmpty)
-                          Cuisines(),
-                        if (controller
-                            .getFilterData.value.cuisineType!.isNotEmpty)
-                          hBox(30),
-                        price(),
-                        hBox(30),
-                        quickFilter(),
-                        hBox(30),
-                        priceRange(),
-                        hBox(20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Expanded(
-                                child: CustomElevatedButton(
-                                    height: 55.h,
-                                    text: "Clear",
-                                    color: AppColors.black,
-                                    onPressed: () {
-                                      controller.selectedCuisines.clear();
-                                      controller.selectedQuickFilters.clear();
-                                      controller.priceRadioValue.value = 0;
-                                      controller.lowerValue.value = controller
-                                          .getFilterData.value.minPrice!
-                                          .toDouble();
-                                      controller.upperValue.value = controller
-                                          .getFilterData.value.maxPrice!
-                                          .toDouble();
-                                      for (var cuisine in controller
-                                          .getFilterData.value.cuisineType!) {
-                                        cuisine.isSelected.value = false;
-                                      }
-                                    })),
-                            wBox(10),
-                            Expanded(
-                                child: CustomElevatedButton(
-                                    height: 55.h,
-                                    text: "Apply",
-                                    onPressed: () {
-                                      Get.back();
-                                      restaurantCategoriesDetailsController
-                                          .restaurant_Categories_Details_filter_Api(
-                                        id: categoryId.toString(),
-                                        cuisine_type: controller
-                                            .selectedCuisines
-                                            .join(', '),
-                                        price_sort:
-                                            controller.priceRadioValue.value ==
-                                                    0
-                                                ? ""
-                                                : controller.priceRadioValue
-                                                            .value ==
-                                                        1
-                                                    ? "low to high"
-                                                    : "high to low",
-                                        quick_filter: controller
-                                            .selectedQuickFilters
-                                            .toString(),
-                                        price_range:
-                                            "${controller.lowerValue.value},${controller.upperValue.value}",
-                                      );
-                                    }))
-                          ],
-                        ),
-                        hBox(50)
-                      ],
+                child: Column(
+                  children: [
+                    appbar(),
+                    Padding(
+                      padding: REdgeInsets.symmetric(horizontal: 24.0),
+                      child: TabBar(
+                        labelPadding: EdgeInsets.zero,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        dividerColor: AppColors.gray,
+                        dividerHeight: 0.5,
+                        labelStyle:
+                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                        tabs: const [
+                          Tab(text: "Filter"),
+                          Tab(text: "Sort"),
+                        ],
+                      ),
                     ),
-                  ),
-                ));
-        }
-      }),
+                    Expanded(
+                      child: TabBarView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: [
+                          filterWidget(categoryId),
+                          sortWidget(categoryId),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                // child: Padding(
+                //   padding: REdgeInsets.symmetric(horizontal: 24.0),
+                //   child: SingleChildScrollView(
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       mainAxisSize: MainAxisSize.min,
+                //       children: [
+                //         if (controller
+                //             .getFilterData.value.cuisineType!.isNotEmpty)
+                //           Cuisines(),
+                //         if (controller
+                //             .getFilterData.value.cuisineType!.isNotEmpty)
+                //           hBox(30),
+                //         price(),
+                //         hBox(30),
+                //         quickFilter(),
+                //         hBox(30),
+                //         priceRange(),
+                //         hBox(20),
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //           children: [
+                //             Expanded(
+                //                 child: CustomElevatedButton(
+                //                     height: 55.h,
+                //                     text: "Clear",
+                //                     color: AppColors.black,
+                //                     onPressed: () {
+                //                       controller.selectedCuisines.clear();
+                //                       controller.selectedQuickFilters.clear();
+                //                       controller.priceRadioValue.value = 0;
+                //                       controller.lowerValue.value = controller
+                //                           .getFilterData.value.minPrice!
+                //                           .toDouble();
+                //                       controller.upperValue.value = controller
+                //                           .getFilterData.value.maxPrice!
+                //                           .toDouble();
+                //                       for (var cuisine in controller
+                //                           .getFilterData.value.cuisineType!) {
+                //                         cuisine.isSelected.value = false;
+                //                       }
+                //                     })),
+                //             wBox(10),
+                //             Expanded(
+                //                 child: CustomElevatedButton(
+                //                     height: 55.h,
+                //                     text: "Apply",
+                //                     onPressed: () {
+                //                       Get.back();
+                //                       restaurantCategoriesDetailsController
+                //                           .restaurant_Categories_Details_filter_Api(
+                //                         id: categoryId.toString(),
+                //                         cuisine_type: controller
+                //                             .selectedCuisines
+                //                             .join(', '),
+                //                         price_sort:
+                //                             controller.priceRadioValue.value ==
+                //                                     0
+                //                                 ? ""
+                //                                 : controller.priceRadioValue
+                //                                             .value ==
+                //                                         1
+                //                                     ? "low to high"
+                //                                     : "high to low",
+                //                         quick_filter: controller
+                //                             .selectedQuickFilters
+                //                             .toString(),
+                //                         price_range:
+                //                             "${controller.lowerValue.value},${controller.upperValue.value}",
+                //                       );
+                //                     }))
+                //           ],
+                //         ),
+                //         hBox(50)
+                //       ],
+                //     ),
+                //   ),
+                // ),
+              );
+          }
+        }),
+      ),
+    );
+  }
+
+  Widget filterWidget(categoryId) {
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            hBox(15.h),
+            if (controller.getFilterData.value.cuisineType?.isNotEmpty ?? false)
+              Cuisines(),
+            if (controller.getFilterData.value.cuisineType?.isNotEmpty ?? false)
+              hBox(20.h),
+            // price(),
+            // hBox(30),
+            quickFilter(),
+            hBox(30),
+            priceRange(),
+            hBox(20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                    child: CustomElevatedButton(
+                        fontFamily: AppFontFamily.gilroyMedium,
+                        height: 55.h,
+                        text: "Clear",
+                        color: AppColors.black,
+                        onPressed: () {
+                          controller.selectedCuisines.clear();
+                          controller.selectedQuickFilters.clear();
+                          // controller.priceRadioValue.value = 0;
+                          controller.lowerValue.value = controller
+                              .getFilterData.value.minPrice!
+                              .toDouble();
+                          controller.upperValue.value = controller
+                              .getFilterData.value.maxPrice!
+                              .toDouble();
+                          for (var cuisine
+                              in controller.getFilterData.value.cuisineType!) {
+                            cuisine.isSelected.value = false;
+                          }
+                        })),
+                wBox(10),
+                Expanded(
+                    child: CustomElevatedButton(
+                      fontFamily: AppFontFamily.gilroyMedium,
+                        height: 55.h,
+                        text: "Apply",
+                        onPressed: () {
+                          Get.back();
+                          controller.priceRadioValue.value = 0;
+                          final selectedQuickFilter = controller.selectedQuickFilters.toString();
+                          restaurantCategoriesDetailsController.restaurant_Categories_Details_filter_Api(
+                            id: categoryId.toString(),
+                            cuisine_type: controller.selectedCuisines.join(', '),
+                            // price_sort: controller.priceRadioValue.value == 0
+                            //     ? ""
+                            //     : controller.priceRadioValue.value == 1
+                            //         ? "low to high"
+                            //         : "high to low",
+                            quick_filter:selectedQuickFilter != [].toString() ? selectedQuickFilter : "" ,
+                            price_range:"${controller.lowerValue.value},${controller.upperValue.value}",
+                          );
+                        }))
+              ],
+            ),
+            hBox(50)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget sortWidget(categoryId) {
+    return Padding(
+      padding: REdgeInsets.symmetric(horizontal: 24.0,vertical: 20),
+      child: Column(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                price(),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Expanded(
+                  child: CustomElevatedButton(
+                      fontFamily: AppFontFamily.gilroyMedium,
+                      height: 55.h,
+                      text: "Clear",
+                      color: AppColors.black,
+                      onPressed: () {
+                        // controller.selectedCuisines.clear();
+                        // controller.selectedQuickFilters.clear();
+                        controller.priceRadioValue.value = 0;
+                        // controller.lowerValue.value =
+                        //     controller.getFilterData.value.minPrice!.toDouble();
+                        // controller.upperValue.value =
+                        //     controller.getFilterData.value.maxPrice!.toDouble();
+                        // for (var cuisine
+                        // in controller.getFilterData.value.cuisineType!) {
+                        //   cuisine.isSelected.value = false;
+                        // }
+                      })),
+              wBox(10),
+              Expanded(
+                  child: CustomElevatedButton(
+                      fontFamily: AppFontFamily.gilroyMedium,
+                      height: 55.h,
+                      text: "Apply",
+                      onPressed: () {
+                        Get.back();
+                        controller.selectedCuisines.clear();
+                        controller.selectedQuickFilters.clear();
+                        // controller.priceRadioValue.value = 0;
+                        controller.lowerValue.value = controller
+                            .getFilterData.value.minPrice!
+                            .toDouble();
+                        controller.upperValue.value = controller
+                            .getFilterData.value.maxPrice!
+                            .toDouble();
+                        for (var cuisine
+                        in controller.getFilterData.value.cuisineType!) {
+                          cuisine.isSelected.value = false;
+                        }
+                        restaurantCategoriesDetailsController.restaurant_Categories_Details_filter_Api(
+                          id: categoryId.toString(),
+                          // cuisine_type:
+                          // controller.selectedCuisines.join(', '),
+                          price_sort: controller.priceRadioValue.value == 0
+                            ? ""
+                            : controller.priceRadioValue.value == 1
+                            ? "low to high"
+                            : "high to low",
+                          // quick_filter:
+                          // controller.selectedQuickFilters.toString(),
+                          // price_range:
+                          // "${controller.lowerValue.value},${controller.upperValue.value}",
+                        );
+                      }))
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding appbar() {
+    return Padding(
+      padding: REdgeInsets.only(left: 24, top: 18),
+      child: AppBar(
+        leadingWidth: 44.w,
+        leading: GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            width: 44.h,
+            height: 44.h,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey.shade200,
+            ),
+            child: Center(
+              child: SvgPicture.asset("assets/svg/back.svg"),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -143,18 +353,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: 'Gilroy',
+            fontFamily: AppFontFamily.gilroyMedium,
           ),
         ),
         Obx(() {
-          List<CuisineType> cuisineTypes =
-              controller.getFilterData.value.cuisineType ?? [];
+          List<CuisineType> cuisineTypes =controller.getFilterData.value.cuisineType ?? [];
           List<List<CuisineType>> columns = [];
-          for (int i = 0;
-              i < visibleItemCount.value && i < cuisineTypes.length;
-              i += 2) {
-            columns.add(cuisineTypes.sublist(
-              i,
+          for (int i = 0;i < visibleItemCount.value && i < cuisineTypes.length;i += 2) {
+            columns.add(cuisineTypes.sublist(i,
               (i + 2) > cuisineTypes.length ? cuisineTypes.length : (i + 2),
             ));
           }
@@ -179,20 +385,19 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                                   cuisine.name.toString(),
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
-                                    fontSize: 18.sp,
-                                    fontFamily: 'Gilroy-Regular',
+                                    fontSize: 16.sp,
+                                    fontFamily:AppFontFamily.gilroyMedium,
                                   ),
                                 ),
                               ),
-                              value: cuisine.isSelected.value,
+                              value: controller.selectedCuisines.contains(cuisine.id.toString()),
+                              // value: cuisine.isSelected.value,
                               onChanged: (value) {
                                 cuisine.isSelected.value = value!;
                                 if (value) {
-                                  controller.selectedCuisines
-                                      .add(cuisine.id.toString());
+                                  controller.selectedCuisines.add(cuisine.id.toString());
                                 } else {
-                                  controller.selectedCuisines
-                                      .remove(cuisine.id.toString());
+                                  controller.selectedCuisines.remove(cuisine.id.toString());
                                 }
                               },
                               checkboxShape: RoundedRectangleBorder(
@@ -203,6 +408,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                               activeColor: Colors.black,
                               controlAffinity: ListTileControlAffinity.leading,
                               contentPadding: EdgeInsets.zero,
+                              dense: true,
                             ),
                           ),
                         ),
@@ -230,7 +436,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Gilroy-Regular',
+                        fontFamily: AppFontFamily.gilroyMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -251,7 +457,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: 'Gilroy-Regular',
+                        fontFamily: AppFontFamily.gilroyMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -264,7 +470,6 @@ class RestaurantCategoriesFilter extends StatelessWidget {
         }),
       ],
     );
-    ;
   }
 
   Widget price() {
@@ -272,13 +477,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
         CustomRadioButton(
           title: "Low to high",
           value: 1.obs,
           groupValue: controller.priceRadioValue,
           onChanged: (value) {
             controller.priceRadioValue.value = value!;
+            controller.update();
           },
         ),
         CustomRadioButton(
@@ -305,7 +511,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
         hBox(10),
         Wrap(
           spacing: 10.w,
@@ -317,8 +523,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 isSelect: isSelected[index],
                 onSelected: (isSelected) {
                   if (isSelected) {
-                    if (!controller.selectedQuickFilters
-                        .contains(labels[index])) {
+                    if (!controller.selectedQuickFilters.contains(labels[index])) {
                       controller.selectedQuickFilters.add(labels[index]);
                     }
                   } else {
@@ -341,14 +546,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
             Obx(() {
               return Text(
                   "\$${controller.lowerValue.value} - \$${controller.upperValue.value}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16.sp,
-                      color: AppColors.primary));
+                      color: AppColors.primary,fontFamily: AppFontFamily.gilroyMedium));
             }),
           ],
         ),
@@ -357,7 +562,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
-                color: AppColors.lightText)),
+                color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular)),
         hBox(4),
         Obx(() {
           double minPrice = controller.getFilterData.value.minPrice!.toDouble();
@@ -435,9 +640,9 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: 'Gilroy-Regular',
+            fontFamily: AppFontFamily.gilroyMedium,
             fontWeight: FontWeight.w400,
-            fontSize: 18.sp,
+            fontSize: 17.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,
           ),
         ),

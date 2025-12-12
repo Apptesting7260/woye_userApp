@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "783589739636",
     "project_id": "woyewala",
-    "storage_bucket": "woyewala.appspot.com"
+    "storage_bucket": "woyewala.firebasestorage.app"
   },
   "client": [
     {
@@ -13,6 +13,54 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "783589739636-2dtn17bnqe61c6p8uvagjl1ge84k4plt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woye_user.woye_user",
+            "certificate_hash": "e5d941a44fbecdb4b90d206f50fdb8217e95393c"
+          }
+        },
+        {
+          "client_id": "783589739636-7n8dfol0v53skhmrcb1forsvb9ceg3k4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woye_user.woye_user",
+            "certificate_hash": "507433a660abf7cb88ef36f016910ebb2da48057"
+          }
+        },
+        {
+          "client_id": "783589739636-lsikj6uja1bp82bv31bbeh73q2b3qitj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woye_user.woye_user",
+            "certificate_hash": "485ea4d1e95d4e9ff30548b61df076005a21f3fe"
+          }
+        },
+        {
+          "client_id": "783589739636-r8j8ktv9htdg981gl36n5dsra0iu4928.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woye_user.woye_user",
+            "certificate_hash": "fe4b63361685ab3ba4e7a925cb0b5b8d00bdc4c1"
+          }
+        },
+        {
+          "client_id": "783589739636-tofmbsh10qqv8u9ag8gbqrkffef5qqa2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woye_user.woye_user",
+            "certificate_hash": "da672c3780aba82d4a566df831684aab14811e3e"
+          }
+        },
+        {
+          "client_id": "783589739636-ucn2rv8q6bgv2h0j3tuapv0o6d5bitor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.woye_user.woye_user",
+            "certificate_hash": "b10e236db47d432cb78cfbb00e917703b9673641"
+          }
+        },
         {
           "client_id": "783589739636-uh4lulmkmaajflncaeetls6lurdib0av.apps.googleusercontent.com",
           "client_type": 1,
@@ -39,10 +87,46 @@
               "client_type": 3
             },
             {
-              "client_id": "783589739636-59dhdktjor251p6tfmpqqkv1nrggvqba.apps.googleusercontent.com",
+              "client_id": "783589739636-12j8cutllp3a6k9k9c9fpbgalif5g7dm.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.woyeUser"
+                "bundle_id": "com.woyevender.woyevender"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783589739636:android:113c78c2c47c041b53d521",
+        "android_client_info": {
+          "package_name": "com.woye_vender.woye_vender"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "783589739636-jcpmgb30urcjfle22cm8nlhqo1462okf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_3I1EYcTLHYDrRUJPwPL3eVmQ_QvJ-po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "783589739636-jcpmgb30urcjfle22cm8nlhqo1462okf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "783589739636-12j8cutllp3a6k9k9c9fpbgalif5g7dm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.woyevender.woyevender"
               }
             }
           ]

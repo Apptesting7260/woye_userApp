@@ -1,9 +1,12 @@
+import 'package:woye_user/Shared/theme/font_family.dart';
+
 import '../../Core/Utils/app_export.dart';
 
 class InternetExceptionWidget extends StatefulWidget {
   final VoidCallback onPress;
+  final bool? isAppbar;
 
-  const InternetExceptionWidget({Key? key, required this.onPress})
+  const InternetExceptionWidget({Key? key, required this.onPress,this.isAppbar})
       : super(key: key);
 
   @override
@@ -16,28 +19,43 @@ class _InternetExceptionWidgetState extends State<InternetExceptionWidget> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           SizedBox(
-            height: height * .15,
+            height: widget.isAppbar == false ? height * .25 : height * .14,
           ),
           Icon(
-            Icons.cloud_off,
-            // color: AppColor.primaryColor,
+            Icons.wifi_off_rounded,
+            color: AppColors.primary,
             size: Get.height * 0.18,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Center(
-                child: Text(
-                  "Oh no!\nYour internet took a coffee break!",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'RammettoOne',
-                  ),
+           Padding(
+            padding: REdgeInsets.only(top: 5),
+            child:  Center(
+                child: Column(
+                  children: [
+                    Text(
+                      "Oops!",
+                      // "Oh no!\nYour internet took a coffee break!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: AppFontFamily.gilroyMedium,
+                      ),
+                    ),
+                    hBox(20.h),
+                    Text(
+                      "No Internet connection found \n Check your connection.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: AppFontFamily.gilroyMedium,
+                      ),
+                    ),
+                  ],
                 )),
           ),
           SizedBox(
@@ -49,15 +67,15 @@ class _InternetExceptionWidgetState extends State<InternetExceptionWidget> {
               height: 44,
               width: 160,
               decoration: BoxDecoration(
-                  // color: AppColor.primaryColor,
-                  borderRadius: BorderRadius.circular(50)),
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(50.r)),
               child: Center(
                   child: Text(
                     "Retry",
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        fontFamily: 'RammettoOne',
+                        fontFamily: AppFontFamily.gilroyMedium,
                         color: Colors.white),
                   )),
             ),

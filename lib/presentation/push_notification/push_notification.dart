@@ -1,0 +1,657 @@
+import 'package:another_flushbar/flushbar.dart';
+import 'dart:developer';
+import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/maintenance_mode_controller.dart';
+
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  log("📥 Background Notification: ${message.notification?.body}");
+}
+
+@pragma('vm:entry-point')
+void backgroundNotificationTap(NotificationResponse notificationResponse) {
+  final String? payload = notificationResponse.payload;
+    Get.toNamed(AppRoutes.orders);
+  debugPrint("🔙 Background Notification tapped. Payload: $payload");
+}
+
+class PushNotificationService {
+  static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+  static String? fcmToken;
+
+  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  static DarwinInitializationSettings initializationSettingsDarwin =
+  const DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
+
+  static firebaseNotification() async {
+    firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: false,
+      criticalAlert: true,
+      provisional: false,
+      sound: true,
+    );
+
+    var android = const AndroidInitializationSettings('@drawable/launch_background');
+    var ios = const DarwinInitializationSettings();
+
+    var platform = InitializationSettings(android: android, iOS: ios);
+    flutterLocalNotificationsPlugin.initialize(platform);
+
+    initLocalNotification();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      AppleNotification? appleNotification = message.notification?.apple;
+
+      debugPrint('message notification body=====${message.notification?.body}' );
+      debugPrint('message notification payload =====${message.data}');
+      debugPrint('notification body=====$notification.  $android.   $appleNotification');
+
+      if (notification != null && android != null) {
+        showNotification(message.notification);
+        debugPrint('android not null notification==${message.notification?.title}');
+        debugPrint('android not null notification body==${message.notification?.body}');
+
+        if(message.notification?.body == "App is in maintenance mode."){
+          Get.offAllNamed(AppRoutes.maintenance);
+        }else if(message.notification?.body == "Maintenance mode is off."){
+          Get.offAllNamed(AppRoutes.restaurantNavbar);
+        }
+        if(message.notification?.title == 'App Version Update'){
+          MaintenanceModeController  maintenanceModeController = Get.put(MaintenanceModeController());
+          maintenanceModeController.versionCheckApi();
+          print("maintenanceModeController.appVersion>>>>>>>>  ${maintenanceModeController.version ?? ""}");
+          print("message.notification?.body>>>>>>>>  ${message.notification?.body?? ""}");
+          print("message.notification?.body>>>>>>>>111  ${message.notification?.body?? ""} ${maintenanceModeController.extractVersion(message.notification?.body ?? "")}");
+          print("message.notification?.body>>>>>>>>111  ${maintenanceModeController.version == maintenanceModeController.extractVersion(message.notification?.body ?? "")}");
+          if(maintenanceModeController.version != maintenanceModeController.extractVersion(message.notification?.body ?? "")){
+            showDialog(
+              context: Get.context!,
+              builder: (_) => maintenanceModeController.updaterPopUp(
+                  oldVersion:maintenanceModeController.version,
+                  newVersion:maintenanceModeController.extractVersion(message.notification?.body ?? "")),
+            );
+          }else{
+            // while (Get.isDialogOpen ?? false) {
+            //   Get.back();
+            //   await Future.delayed(const Duration(milliseconds: 1));
+            // }
+          }
+        }
+        FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage? message) {
+          if (message != null) {
+            debugPrint("message  >> ${message.toString()}");
+            debugPrint("abc525");
+          } else {
+            debugPrint("123154115415abc");
+
+          }
+        });
+      } else if (notification != null && appleNotification != null) {
+        showCustomSnackBar(notification.title.toString(),
+            notification.body.toString(), Get.context!);
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      if (message.notification != null) {
+        showNotification(message.notification);
+        print("Notification message :: ${message.notification}");
+        if(message.notification?.title == "Order Placed Successfully"){
+          Get.toNamed(AppRoutes.orders);
+        } else if(message.notification?.title == "Order Delivered"){
+          Get.toNamed(AppRoutes.orders,arguments: {
+            "pageIndex" : 2,
+          });
+        }else if(message.notification?.title == "Order Accepted"
+            || message.notification?.title == "Order Accepted Notification"){
+          Get.toNamed(AppRoutes.orders,arguments: {
+            "pageIndex" : 1,
+          });
+        }else if( message.notification?.title == "Order Rejected"
+            || message.notification?.title == "Order Cancelled"
+            || message.notification?.title == "Order Rejected Notification"
+            || message.notification?.title == "Order has been cancelled"){
+          Get.toNamed(AppRoutes.orders,arguments: {
+            "pageIndex" : 3,
+          });
+        }
+      }
+    });
+
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+
+    FirebaseMessaging.instance.getToken().then((String? token) async {
+      if (token == null) {
+        debugPrint('FCM token is null');
+      } else {
+        fcmToken = token;
+        debugPrint('FCM token: $token');
+      }
+    }).catchError((error) {
+      debugPrint('Error getting FCM token: ${error.toString()}');
+    });
+
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      debugPrint('FlutterFire Messaging Example: Getting APNs token...');
+      String? token = await FirebaseMessaging.instance.getAPNSToken();
+      debugPrint('FlutterFire Messaging Example: Got APNs token: $token');
+    }
+  }
+
+  static Future initLocalNotification() async {
+    if (Platform.isIOS) {
+      var initializationSettingsAndroid =
+      const AndroidInitializationSettings('ic_launcher');
+
+      final InitializationSettings initializationSettings = InitializationSettings(
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsDarwin);
+
+      flutterLocalNotificationsPlugin.initialize(initializationSettings,
+          onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
+    } else {
+      var initializationSettingsAndroid =
+      const AndroidInitializationSettings('@drawable/launch_background');
+
+      const initializationSettingsIOS = DarwinInitializationSettings(
+          onDidReceiveLocalNotification: _onDidReceiveLocalNotification);
+
+      var initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
+      );
+
+      await flutterLocalNotificationsPlugin.initialize(
+        initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+        onDidReceiveBackgroundNotificationResponse: backgroundNotificationTap,
+      );
+    }
+  }
+
+  static Future<void> showNotification(RemoteNotification? notification) async {
+    var android = const AndroidNotificationDetails(
+      'high_importance_channel',
+      "Woye",
+      channelDescription: "channelDescription",
+      importance: Importance.max,
+      fullScreenIntent: true,
+      icon: '@mipmap/ic_launcher',
+      priority: Priority.high,
+      visibility: NotificationVisibility.public,
+    );
+
+    var iOS = const DarwinNotificationDetails(
+      presentAlert: true,
+      presentSound: true,
+      presentBadge: true,
+      sound: 'default',
+    );
+
+    var platform = NotificationDetails(android: android, iOS: iOS);
+
+    await flutterLocalNotificationsPlugin.show(DateTime.now().second,
+        notification?.title, notification?.body, platform,payload: notification?.title);
+  }
+
+  static Future _onDidReceiveLocalNotification(int? id, String? title, String? body, String? payload) async {
+    debugPrint("receive==$payload,== $body");
+  }
+
+  static Future _selectNotification(String? payload) async {
+    debugPrint('notification payload: $payload');
+  }
+
+  static void onDidReceiveNotificationResponse(
+      NotificationResponse notificationResponse) async {
+    final String? payload = notificationResponse.payload;
+    if (notificationResponse.payload != null) {
+      debugPrint('notification payload: $payload');
+      if(notificationResponse.payload.toString()  == "Order Placed Successfully"){
+        Get.toNamed(AppRoutes.orders);
+      } else if(notificationResponse.payload.toString()  == "Order Delivered"){
+        Get.toNamed(AppRoutes.orders,arguments: {
+          "pageIndex" : 2,
+        });
+      }else if(notificationResponse.payload.toString()  == "Order Accepted"
+          || notificationResponse.payload.toString()  == "Order Accepted Notification"){
+        Get.toNamed(AppRoutes.orders,arguments: {
+          "pageIndex" : 1,
+        });
+      }else if(notificationResponse.payload.toString() == "Order Rejected"
+          ||notificationResponse.payload.toString()  == "Order Rejected Notification"
+          ||notificationResponse.payload.toString()  == "Order Cancelled"
+          ||notificationResponse.payload.toString()  == "Order has been cancelled"){
+        Get.toNamed(AppRoutes.orders,arguments: {
+          "pageIndex" : 3,
+        });
+      }
+    }
+  }
+
+  // static showCustomSnackBar(
+  //     String title, String message, BuildContext context) {
+  //   final snackBar = SnackBar(
+  //     content: InkWell(
+  //       onTap: () {
+  //         if (title == "Order Placed Successfully") {
+  //           Get.toNamed(AppRoutes.orders);
+  //         }
+  //         else if (title == "Order Delivered") {
+  //           Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 2});
+  //         }
+  //         else if (title == "Order Accepted" || title == "Order Accepted Notification") {
+  //           Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 1});
+  //         }
+  //         else if (title == "Order Rejected" ||
+  //             title == "Order Cancelled" ||
+  //             title == "Order Rejected Notification" ||
+  //             title == "Order has been cancelled") {
+  //           Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 3});
+  //         }
+  //       },
+  //       child: Row(
+  //         mainAxisSize: MainAxisSize.max,
+  //         children: [
+  //           Image.asset(
+  //             'assets/images/launcher.webp',
+  //             width: 50,
+  //             height: 50,
+  //             fit: BoxFit.cover,
+  //           ),
+  //           const SizedBox(width: 10),
+  //           Flexible(
+  //             child: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Text(
+  //                   title,
+  //                   style: TextStyle(
+  //                       fontWeight: FontWeight.bold, color: AppColors.black),
+  //                   maxLines: 1,
+  //                 ),
+  //                 Flexible(
+  //                   child: Text(
+  //                     message,
+  //                     style: TextStyle(color: AppColors.black),
+  //                     maxLines: 1,
+  //                     overflow: TextOverflow.ellipsis,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //     backgroundColor: AppColors.greyBackground,
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+  //     behavior: SnackBarBehavior.floating,
+  //     duration: const Duration(seconds: 3),
+  //     padding: const EdgeInsets.all(10),
+  //     margin: EdgeInsets.only(
+  //         bottom: Get.height - (Get.height * 0.170),
+  //         left: 10,
+  //         right: 10),
+  //     dismissDirection: DismissDirection.up,
+  //   );
+  //
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
+
+  static showCustomSnackBar(String title, String message, BuildContext context) {
+    Flushbar(
+      margin: const EdgeInsets.all(10),
+      borderRadius: BorderRadius.circular(12),
+      backgroundColor: AppColors.greyBackground,
+      flushbarPosition: FlushbarPosition.TOP,
+      icon: Padding(
+        padding: REdgeInsets.only(left: 8.0),
+        child: Image.asset(
+          'assets/images/launcher.webp',
+          width: 40,
+          height: 40,
+          fit: BoxFit.cover,
+        ),
+      ),
+      titleText: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: AppColors.black,
+        ),
+      ),
+      messageText: Text(
+        message,
+        style: TextStyle(
+          color: AppColors.black,
+        ),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+      duration: const Duration(seconds: 3),
+      onTap: (_) {
+        if (title == "Order Placed Successfully") {
+          Get.toNamed(AppRoutes.orders);
+        } else if (title == "Order Delivered") {
+          Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 2});
+        } else if (title == "Order Accepted" || title == "Order Accepted Notification") {
+          Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 1});
+        } else if (title == "Order Rejected" ||
+            title == "Order Cancelled" ||
+            title == "Order Rejected Notification" ||
+            title == "Order has been cancelled") {
+          Get.toNamed(AppRoutes.orders, arguments: {"pageIndex": 3});
+        }
+      },
+    ).show(context);
+  }
+
+
+// static showCustomSnackBar(
+  //     String title, String message, BuildContext context) {
+  //   final snackBar = SnackBar(
+  //     content: Row(
+  //       mainAxisSize: MainAxisSize.max,
+  //       children: [
+  //         Image.asset(
+  //           'assets/images/launcher.webp',
+  //           width: 50,
+  //           height: 50,
+  //           fit: BoxFit.cover,
+  //         ),
+  //         const SizedBox(width: 10),
+  //         Flexible(
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               Text(
+  //                 title,
+  //                 style: TextStyle(
+  //                     fontWeight: FontWeight.bold, color: AppColors.black),
+  //                 maxLines: 1,
+  //               ),
+  //               Flexible(
+  //                 child: Text(
+  //                   message,
+  //                   style: TextStyle(color: AppColors.black),
+  //                   maxLines: 1,
+  //                   overflow: TextOverflow.ellipsis,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //     backgroundColor: AppColors.greyBackground,
+  //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+  //     behavior: SnackBarBehavior.floating,
+  //     duration: const Duration(seconds: 3),
+  //     padding: const EdgeInsets.all(10),
+  //     margin: EdgeInsets.only(
+  //         bottom: Get.height - (Get.height * 0.180),
+  //         left: 10,
+  //         right: 10),
+  //     dismissDirection: DismissDirection.up,
+  //   );
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
+}
+
+// class PushNotificationService {
+//   static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+//
+//   static String? fcmToken;
+//
+//   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+//   static DarwinInitializationSettings initializationSettingsDarwin =const DarwinInitializationSettings(
+//     requestAlertPermission: true,
+//     requestBadgePermission: true,
+//     requestSoundPermission: true,
+//   );
+//
+//   static firebaseNotification() async {
+//     firebaseMessaging.requestPermission(
+//       alert: true,
+//       announcement: true,
+//       badge: true,
+//       carPlay: false,
+//       criticalAlert: true,
+//       provisional: false,
+//       sound: true,
+//     );
+//     firebaseMessaging.isAutoInitEnabled;
+//     var android = const AndroidInitializationSettings('@drawable/launch_background');
+//     var ios = const DarwinInitializationSettings();
+//
+//     var platform = InitializationSettings(android: android, iOS: ios);
+//     flutterLocalNotificationsPlugin.initialize(platform);
+//     // firebaseMessaging.requestPermission();
+//
+//     initLocalNotification();
+//
+//     FirebaseMessaging.onMessage.listen(
+//           (RemoteMessage message) async {
+//         RemoteNotification? notification = message.notification;
+//         AndroidNotification? android = message.notification?.android;
+//         AppleNotification? appleNotification = message.notification?.apple;
+//
+//         debugPrint(
+//             'message notification body=====${message.notification?.body}');
+//         debugPrint('notification body=====$notification.  $android.   $appleNotification');
+//
+//         if (notification != null && android != null) {
+//           showNotification(message.notification);
+//           debugPrint('android not null notification==${message.notification}');
+//           FirebaseMessaging.instance.getInitialMessage().then((message) {
+//             if (message != null) {
+//               debugPrint("abc525");
+//             } else {
+//               debugPrint("123154115415abc");
+//             }
+//           });
+//         } else if (notification != null && appleNotification != null) {
+//           // await showNotification(message.notification);
+//           debugPrint('apple notification1');
+//           // Utils.snackBar1(
+//           //   message.notification!.title!,
+//           //   message.notification!.body!,
+//           // );
+//           showCustomSnackBar(notification.title.toString(), notification.body.toString(), Get.context!);
+//         }
+//       },
+//     );
+//
+//     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+//       if (message.notification != null) {
+//         // Get.offAll(NotificationScreen());
+//         showNotification(message.notification);
+//         // Get.to(() => NotificationScreen());
+//         print(message.notification);
+//       }
+//     });
+//
+//     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+//
+//     FirebaseMessaging.instance.getToken().then((String? token) async {
+//       if (token == null) {
+//         debugPrint('FCM token is null');
+//       } else {
+//         fcmToken = token;
+//         debugPrint('FCM token: $token');
+//       }
+//     }).catchError((error) {
+//       debugPrint('Error getting FCM token: ${error.toString()}');
+//     });
+//
+//     if (defaultTargetPlatform == TargetPlatform.iOS) {
+//       debugPrint('FlutterFire Messaging Example: Getting APNs token...');
+//       String? token = await FirebaseMessaging.instance.getAPNSToken();
+//       debugPrint('FlutterFire Messaging Example: Got APNs token: $token');
+//     }
+//   }
+//
+//   static Future initLocalNotification() async {
+//     if (Platform.isIOS) {
+//       var initializationSettingsAndroid = const AndroidInitializationSettings('ic_launcher');
+//
+//       final InitializationSettings initializationSettings = InitializationSettings(
+//           android: initializationSettingsAndroid,
+//           iOS: initializationSettingsDarwin);
+//
+//       flutterLocalNotificationsPlugin.initialize(initializationSettings,
+//           onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
+//     } else {
+//       var initializationSettingsAndroid =
+//       const AndroidInitializationSettings('@drawable/launch_background');
+//
+//       const initializationSettingsIOS = DarwinInitializationSettings(
+//           onDidReceiveLocalNotification: _onDidReceiveLocalNotification);
+//
+//       var initializationSettings = InitializationSettings(
+//         android: initializationSettingsAndroid,
+//         iOS: initializationSettingsIOS,
+//       );
+//
+//       await flutterLocalNotificationsPlugin.initialize(
+//         initializationSettings,
+//         onDidReceiveBackgroundNotificationResponse: (details) {
+//           _selectNotification(details.payload);
+//         },
+//       );
+//     }
+//   }
+//
+//   static Future<void> showNotification(RemoteNotification? notification) async {
+//     var android = const AndroidNotificationDetails(
+//       'high_importance_channel',
+//       // 'CHANNLEID',
+//       "Woye",
+//       // "CHANNLENAME",
+//       channelDescription: "channelDescription",
+//       importance: Importance.max,
+//       fullScreenIntent: true,
+//       icon: '@mipmap/ic_launcher',
+//       priority: Priority.high,
+//       visibility: NotificationVisibility.public,
+//     );
+//
+//     var iOS = const DarwinNotificationDetails(
+//       presentAlert: true,
+//       presentSound: true,
+//       presentBadge: true,
+//       sound: 'default',
+//     );
+//     var platform = NotificationDetails(android: android, iOS: iOS);
+//
+//     await flutterLocalNotificationsPlugin.show(DateTime.now().second,
+//         notification?.title, notification?.body, platform);
+//   }
+//
+//   static Future _onDidReceiveLocalNotification(
+//       int? id, String? title, String? body, String? payload) async {
+//     debugPrint("receive==$payload,== $body");
+//   }
+//
+//   static Future _selectNotification(String? payload) async {
+//     debugPrint('notification payload: $payload');
+//   }
+//
+//   static void onDidReceiveNotificationResponse(
+//       NotificationResponse notificationResponse) async {
+//     final String? payload = notificationResponse.payload;
+//     if (notificationResponse.payload != null) {
+//       debugPrint('notification payload: $payload');
+//       debugPrint('notification payload: $payload');
+//     }
+//   }
+//
+//   static showCustomSnackBar(String title, String message, BuildContext context) {
+//     final snackBar = SnackBar(
+//
+//       content: Row(
+//         mainAxisSize: MainAxisSize.max,
+//         children: [
+//           Image.asset(
+//             'assets/images/launcher.webp',
+//             width: 50,
+//             height: 50,
+//             fit: BoxFit.cover,
+//           ),
+//           const SizedBox(width: 10),
+//           Flexible(
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               mainAxisSize: MainAxisSize.min,
+//               children: [
+//                 Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.black), maxLines: 1,),
+//                 Flexible(
+//                   child: Text(
+//                     message,
+//                     style: TextStyle(color: AppColors.black),
+//                     maxLines: 1,
+//                     overflow: TextOverflow.ellipsis,
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//       backgroundColor: AppColors.greyBackground,
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+//       behavior: SnackBarBehavior.floating,
+//       duration: const Duration(seconds: 3),
+//       padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+//       margin: EdgeInsets.only(bottom: Get.height - (Get.height * 0.125), top: 0,left: 10, right: 10),
+//       // margin: EdgeInsets.only(bottom: Get.height - (Get.height * 0.35), top: 0,left: 10, right: 10),
+//       dismissDirection: DismissDirection.up,
+//
+//     );
+//     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+//   }
+//
+//
+//   // @pragma('vm:entry-point')
+//   // static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   //   await Firebase.initializeApp();
+//   //   log("Background Notification: ${message.notification?.body}");
+//   // }
+//
+// // static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+// //   log("background notification--> ${message.notification?.body}");
+// // }
+// //   @pragma('vm:entry-point')
+// //   static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+// //     await Firebase.initializeApp();
+// //     log("📥 Background Notification: ${message.notification?.body}");
+// //   }
+// //
+// //   @pragma('vm:entry-point')
+// //   void backgroundNotificationTap(NotificationResponse notificationResponse) {
+// //     final String? payload = notificationResponse.payload;
+// //     debugPrint("🔙 Background Notification tapped. Payload: $payload");
+// //   }
+//
+// }
+//

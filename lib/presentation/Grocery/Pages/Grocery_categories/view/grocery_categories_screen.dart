@@ -1,0 +1,188 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/Sub_screens/Categories_details/controller/GroceryCategoriesDetailsController.dart';
+import 'package:woye_user/presentation/Grocery/Pages/Grocery_categories/controller/grocery_categories_controller.dart';
+
+import '../../../../../Shared/theme/font_family.dart';
+import '../../../../../shared/widgets/custom_no_data_found.dart';
+import '../Sub_screens/Filter/Grocery_Categories_Filter_controller.dart';
+
+class GroceryCategoriesScreen extends StatefulWidget {
+  const GroceryCategoriesScreen({super.key});
+
+  @override
+  State<GroceryCategoriesScreen> createState() => _GroceryCategoriesScreenState();
+}
+
+class _GroceryCategoriesScreenState extends State<GroceryCategoriesScreen> {
+  final GroceryCategoriesController controller =
+  Get.put(GroceryCategoriesController());
+
+  final Grocerycategoriesdetailscontroller grocerycategoriesdetailscontroller = Get.put(Grocerycategoriesdetailscontroller());
+  final GroceryCategoriesFilterController groceryCategoriesFilterController = Get.put(GroceryCategoriesFilterController());
+
+  @override
+  void initState() {
+    controller.pharmacyCategoriesApi();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      groceryCategoriesFilterController.clearData();
+    },);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: CustomAppBar(
+          isLeading: false,
+          isActions: true,
+          title: Text(
+            "Categories",
+            style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
+        ),
+      body: Obx(() {
+        switch (controller.rxRequestStatus.value) {
+          case Status.LOADING:
+            return Center(child: circularProgressIndicator());
+          case Status.ERROR:
+            if (controller.error.value == 'No internet'|| controller.error.value == "InternetExceptionWidget") {
+              return InternetExceptionWidget(
+                onPress: () {
+                  controller.pharmacyCategoriesApiRefresh();
+                },
+              );
+            } else {
+              return GeneralExceptionWidget(
+                onPress: () {
+                  controller.pharmacyCategoriesApiRefresh();
+                },
+              );
+            }
+          case Status.COMPLETED:
+            return RefreshIndicator(
+              onRefresh: () async {
+                controller.pharmacyCategoriesApiRefresh();
+              },
+              child: Padding(
+                padding: REdgeInsets.symmetric(horizontal: 24),
+                child: CustomScrollView(
+                  slivers: [
+                    CustomSliverAppBar(
+                      onChanged: (value) {
+                        controller.filterCategories(value);
+                      },
+                      controller: controller.searchController,
+                    ),
+                    SliverToBoxAdapter(
+                      child: controller.filteredWishlistData.value.length == 0 ?
+                      CustomNoDataFound(heightBox:hBox(15.h) ) :
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.filteredWishlistData.value.length,
+                        // Use the filtered list
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Get.toNamed(AppRoutes.groceryCategoryDetails,
+                                  arguments: {
+                                    'name': controller
+                                        .filteredWishlistData[index].name
+                                        .toString(),
+                                    'id': int.parse(controller
+                                        .filteredWishlistData[index].id
+                                        .toString()),
+                                  }
+                                  );
+                              grocerycategoriesdetailscontroller
+                                  .groceryCategoriesDetailsApi(
+                                id: controller.filteredWishlistData[index].id
+                                    .toString(),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    width: 0.8.w,
+                                    color: AppColors.lightPrimary),
+                                borderRadius: BorderRadius.circular(15.r),
+                              ),
+                              child: Padding(
+                                padding: REdgeInsets.only(
+                                    left: 10.h,
+                                    right: 15.h,
+                                    top: 10.h,
+                                    bottom: 10.h),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      width: Get.width * .72,
+                                     // color: Colors.red,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(10.r)),
+                                            height: 70.w,
+                                            width: 70.w,
+                                            child: ClipRRect(
+                                              borderRadius:BorderRadius.circular(10.r),
+                                              child: CachedNetworkImage(
+                                                imageUrl: controller
+                                                    .filteredWishlistData[index]
+                                                    .imageUrl
+                                                    .toString(),
+                                                height: 80.h,
+                                                width: 70.w,
+                                                fit: BoxFit.fill,
+                                                placeholder: (context, url) =>
+                                                    circularProgressIndicator(),
+                                                errorWidget:
+                                                    (context, url, error) =>
+                                                const Icon(Icons.error),
+                                              ),
+                                            ),
+                                          ),
+                                          wBox(20.h),
+                                          Flexible(
+                                            child: Text(
+                                              controller.filteredWishlistData[index].name.toString(),
+
+                                              style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    const Icon(Icons.arrow_forward_ios,size: 20,),
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return hBox(20.h);
+                        },
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: hBox(100.h),
+                    )
+                  ],
+                ),
+              ),
+            );
+        }
+      }),);
+  }
+}
