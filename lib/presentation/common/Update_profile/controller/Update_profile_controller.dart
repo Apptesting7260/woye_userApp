@@ -25,6 +25,7 @@ class SignUpForm_editProfileController extends GetxController {
   void onInit() async {
     // getprofileApi();
     fisrtNameController = TextEditingController();
+    lastNameController = TextEditingController();
     mobileController = TextEditingController();
     emailController = TextEditingController();
     genderController = TextEditingController();
@@ -90,6 +91,12 @@ class SignUpForm_editProfileController extends GetxController {
           fisrtNameController.text = profileData.value.data?.firstName ?? "";
         }else if(typeFrom == "back"){
           fisrtNameController.text = profileData.value.data?.firstName ?? "";
+        }
+
+        if(typeFrom != "back" && profileData.value.data?.lastName != null){
+          lastNameController.text = profileData.value.data?.lastName ?? "";
+        }else if(typeFrom == "back"){
+          lastNameController.text = profileData.value.data?.lastName ?? "";
         }
         // if(typeFrom != "back" && profileData.value.data?.dob != null){
         // formattedCurrentDateController.value.text  = profileData.value.data?.dob ?? "";
@@ -167,6 +174,7 @@ class SignUpForm_editProfileController extends GetxController {
             ? profileData.value.data?.email ?? ""
             : '';
         fisrtNameController.text = profileData.value.data?.firstName ?? "";
+        lastNameController.text = profileData.value.data?.lastName ?? "";
         formattedCurrentDateController.value.text = profileData.value.data?.dob ?? "";
         // formattedCurrentDate.value = profileData.value.data?.dob ?? "";
         genderController.text = profileData.value.data?.gender ?? "";
@@ -263,6 +271,7 @@ class SignUpForm_editProfileController extends GetxController {
   }
 
   late TextEditingController fisrtNameController,
+       lastNameController,
       mobileController,
       emailController,
       genderController;
@@ -281,6 +290,13 @@ class SignUpForm_editProfileController extends GetxController {
   String? validateFirstName(String? value) {
     if (value!.isEmpty) {
       return "Please enter a valid Name";
+    }
+    return null;
+  }
+
+  String? validateLastName(String? value) {
+    if (value!.isEmpty) {
+      return "Please enter a valid name";
     }
     return null;
   }
@@ -654,10 +670,10 @@ class SignUpForm_editProfileController extends GetxController {
   profileupdateApi(String type) async {
     final data = {
       "first_name": fisrtNameController.text.toString(),
+      "last_name": lastNameController.text.toString(),
       "country_code": selectedCountryCode.value.toString(),
       "phone": mobileController.text.trim().toString(),
       "dob": formattedCurrentDateController.value.text.toString(),
-      // "dob": formattedCurrentDate.value,
       "email": emailController.text.trim().toString(),
       "gender": genderController.text.toString(),
     };

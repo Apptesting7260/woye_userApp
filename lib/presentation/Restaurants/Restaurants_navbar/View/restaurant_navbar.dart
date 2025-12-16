@@ -69,6 +69,7 @@ class RestaurantNavbar extends StatelessWidget {
         });
   }
 
+/*
   Widget navbar(RestaurantNavbarController navbarController) {
     List<String> navbarItems = [
       ImageConstants.home,
@@ -85,12 +86,13 @@ class RestaurantNavbar extends StatelessWidget {
       ImageConstants.profilefilled,
     ];
     return   Container(
-        height: 70.h,
+        height: 80.h,
         width: Get.width,
         decoration: BoxDecoration(
           color: AppColors.navbar,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)),
+              topLeft: Radius.circular(20.r),
+              topRight: Radius.circular(20.r)),
         ),
         child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -190,31 +192,112 @@ class RestaurantNavbar extends StatelessWidget {
                 ),
               );
             })
-            // navbarItems.map((icon) {
-            //   int index = navbarItems.indexOf(icon);
-            //   bool isSelected = navbarController.navbarCurrentIndex == index;
-            //   return GestureDetector(
-            //     onTap: () {
-            //       navbarController.getIndex(index);
-            //     },
-            //     child: Padding(
-            //       padding: REdgeInsets.symmetric(horizontal: 12),
-            //       child: AnimatedContainer(
-            //         duration: const Duration(milliseconds: 300),
-            //         curve: Curves.easeInOut,
-            //         height: 48.h,
-            //         width: 48.h,
-            //         child: Column(
-            //           children: [
-            //             SvgPicture.asset(
-            //               icon,
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   );
-            // }).toList(),
             ));
+  }
+*/
+
+  Widget navbar(RestaurantNavbarController navbarController) {
+    List<String> navbarItems = [
+      ImageConstants.home,
+      ImageConstants.categories,
+      ImageConstants.cart,
+      ImageConstants.profileOutlined,
+    ];
+
+    List<String> navbarTexts = [
+      "Home",
+      "Categories",
+      "Cart",
+      "Profile"
+    ];
+
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+      height: 70.h,
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: AppColors.white,
+        borderRadius: BorderRadius.circular(30.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.12),
+            blurRadius: 15,
+            offset: Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: List.generate(navbarItems.length, (index) {
+          bool isSelected = navbarController.navbarCurrentIndex == index;
+
+          return InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              navbarController.getIndex(index);
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 100),
+              padding: EdgeInsets.symmetric(
+                horizontal: isSelected ? 10.w : 4.w,
+                vertical: 6.h,
+              ),
+              height: 60.h,
+              decoration: BoxDecoration(
+                color: isSelected ? Colors.black : Colors.transparent,
+                borderRadius: BorderRadius.circular(25.r),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ICON CONTAINER (ALWAYS LIGHT GREEN)
+                  Container(
+                    height: 42.h,
+                    width: 42.w,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.white
+                    ),
+                    child: Transform.scale(
+                      scale: 1.30,
+                      child: Container(
+                        height: 38.h,
+                        width: 38.w,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: AppColors.primary.withOpacity(0.25),
+                        ),
+                        child: Center(
+                          child: SvgPicture.asset(
+                            navbarItems[index],
+                            height: 15.h,
+                            color: isSelected ? AppColors.primary : AppColors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // TEXT ONLY FOR SELECTED
+                  if (isSelected) ...[
+                    SizedBox(width: 6.w),
+                    Text(
+                      navbarTexts[index],
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          );
+        }),
+      ),
+    );
   }
 }

@@ -146,7 +146,7 @@ class LoginScreen extends StatelessWidget {
             if (loginController.loginFormKey.currentState!.validate()) {
               checkUserController.checkUserApi(
                 isLoginType: true,
-                country_code: loginController.selectedCountryCode.value.toString(),
+                  phone_code: loginController.selectedCountryCode.value.toString(),
                 mobile: loginController.mobNoCon.value.text.trim().toString())
                   .then((value) {
                 print("object ${checkUserController.checkUser.value.status}");
@@ -159,7 +159,8 @@ class LoginScreen extends StatelessWidget {
               //   loginController.sendOtp();
             }
           },
-        ));
+        )
+    );
   }
 
   Widget guestButton() {

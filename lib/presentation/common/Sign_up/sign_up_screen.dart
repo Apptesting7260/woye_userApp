@@ -45,10 +45,10 @@ class SignUpScreen extends StatelessWidget {
 
                   hBox(20),
                   //
-                  continueText(),
+                  // continueText(),
                   hBox(20),
                   //
-                  socialButtons(context),
+                  // socialButtons(context),
                   hBox(20),
                   const Spacer(),
                   //
@@ -87,6 +87,7 @@ class SignUpScreen extends StatelessWidget {
         FilteringTextInputFormatter.digitsOnly,
       ],
       prefix: CountryCodePicker(
+        showFlag: false,
           padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 9),
           onChanged: (CountryCode countryCode) {
             signUpController.updateCountryCode(countryCode);
@@ -135,7 +136,7 @@ class SignUpScreen extends StatelessWidget {
           if (signUpController.signUpFormKey.currentState!.validate()) {
             checkUserController.checkUserApi(
               isLoginType: false,
-              country_code: signUpController.selectedCountryCode.value.toString(),
+                phone_code: signUpController.selectedCountryCode.value.toString(),
               mobile: signUpController.mobNoCon.value.text.trim().toString())
               .then((value) {
               print("object ${checkUserController.checkUser.value.status}");
@@ -237,7 +238,7 @@ class SignUpScreen extends StatelessWidget {
                 style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
             TextSpan(
                 text: "Sign In",
-                style: AppFontStyle.text_16_600(
+                style: AppFontStyle.text_16_400(
                   AppColors.darkText,
                     family: AppFontFamily.gilroyRegular
                 )),

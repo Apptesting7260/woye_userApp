@@ -10,7 +10,8 @@ plugins {
 
 android {
     namespace = "com.woye_user.woye_user"
-    compileSdk = flutter.compileSdkVersion
+//    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
 //    ndkVersion = flutter.ndkVersion
     ndkVersion = '25.1.8937393'
 

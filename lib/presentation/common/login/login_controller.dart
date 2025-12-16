@@ -73,7 +73,7 @@ class LoginController extends GetxController {
             Utils.showToast('The provided phone number is not valid.');
             isLoding.value = false;
           } else {
-            Utils.showToast('Something went wrong');
+            Utils.showToast('Something went wrong????????????????????');
             isLoding.value = false;
           }
           print(e.toString());

@@ -39,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: Image.asset(
                 "assets/images/Location.png",
                 height: 95.h,
+                color: AppColors.darkText,
               ),
               content: Padding(
                 padding: REdgeInsets.all(0.h),
@@ -61,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 20.h),
                     CustomElevatedButton(
                       height: 50.h,
-                      color: AppColors.primary,
+                      color: AppColors.black,
                       onPressed: () async {
                         Get.back();
                         await currentLocationController.getCurrentPosition(back: true);
@@ -79,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 50.h,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50.r),
-                              border: Border.all(color: AppColors.primary)),
+                              border: Border.all(color: AppColors.black)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,12 +88,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               SvgPicture.asset(
                                 "assets/svg/pin_location.svg",
                                 height: 22.h,
+                                color: AppColors.black,
                               ),
                               SizedBox(width: 5.h),
                               Text(
                                 "Add Address",
                                 style:
-                                    AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                    AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyMedium),
                               ),
                             ],
                           )),
@@ -275,7 +277,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               image: isSelected ? homeController.mainButtonbar[index]["imageEnabled"] ?? ""
                                   : homeController.mainButtonbar[index]["imageDisabled"] ?? "",
                               backgroundColor: isSelected
-                                  ? AppColors.primary
+                                  ? AppColors.black
                                   : Colors.transparent,
                               titleColor: isSelected
                                   ? AppColors.white

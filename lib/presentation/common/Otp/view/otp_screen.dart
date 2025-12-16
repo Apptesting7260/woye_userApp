@@ -62,7 +62,7 @@ class OtpScreen extends StatelessWidget {
       ),
       Text(
         mob,
-        style: AppFontStyle.text_16_400(AppColors.primary,
+        style: AppFontStyle.text_16_400(AppColors.black,
             family: AppFontFamily.gilroyMedium),
       ),
     ]);
@@ -126,11 +126,11 @@ class OtpScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        /*Text(
           'Didn\'t receive OTP?',
           style: AppFontStyle.text_16_400(AppColors.darkText,
               family: AppFontFamily.gilroyRegular),
-        ),
+        ),*/
         Obx(
           () => TextButton(
             style: const ButtonStyle(
@@ -158,7 +158,7 @@ class OtpScreen extends StatelessWidget {
               // otpController.remainingTime.value == 0 ? otpController.startTimer() : null;
             },
             child: Text(
-              " Resend ${otpController.remainingTime.value} Sec",
+              " Resend code in ${otpController.remainingTime.value} Sec",
               style: AppFontStyle.text_16_400(
                   otpController.remainingTime.value == 0
                       ? AppColors.black

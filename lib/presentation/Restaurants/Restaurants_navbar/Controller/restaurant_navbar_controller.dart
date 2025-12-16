@@ -46,7 +46,6 @@ class RestaurantNavbarController extends GetxController {
   List<Widget> widgets0 = [
     const RestaurantHomeScreen(),
     RestaurantCategoriesScreen(),
-    RestaurantWishlistScreen(),
     RestaurantCartScreen(),
     ProfileScreen(profileScreenType: "restaurantProfileScreen",)
   ];
@@ -54,7 +53,6 @@ class RestaurantNavbarController extends GetxController {
   List<Widget> widgets1 = [
     PharmacyHomeScreen(),
     PharmacyCategoriesScreen(),
-    PharmacyWishlistScreen(),
     PharmacyCartScreen(),
     ProfileScreen(profileScreenType: "pharmacyProfileScreen")
   ];
@@ -62,7 +60,6 @@ class RestaurantNavbarController extends GetxController {
   List<Widget> widgets2 = [
     GroceryHomeScreen(),
     GroceryCategoriesScreen(),
-    GroceryWishlistScreen(),
     GroceryCartScreen(isBack: false,),
     ProfileScreen(profileScreenType: 'groceryProfileScreen',)
   ];

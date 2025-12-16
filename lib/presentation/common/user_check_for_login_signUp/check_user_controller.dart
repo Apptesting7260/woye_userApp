@@ -15,12 +15,12 @@ class CheckUserController extends GetxController {
 
   Future checkUserApi({
     required bool isLoginType,
-    required String country_code,
+    required String phone_code,
     required String mobile,
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
-      "country_code": country_code,
+      "phone_code": phone_code,
       "mobile": mobile,
     };
     await api.checkUserApi(body).then((value) {

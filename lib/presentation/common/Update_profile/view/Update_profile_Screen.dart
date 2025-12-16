@@ -90,7 +90,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         Text(
           typeFrom == "back" ? "Update your profile" : "Fill your profile",
           maxLines: 2,
-          style: AppFontStyle.text_28_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_40_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(15),
         Text(
@@ -123,11 +123,26 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               ),
               prefixConstraints:
                   BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
-              hintText: "Name",
+              hintText: "First Name",
               onTapOutside: (event) {
                 FocusScope.of(context).unfocus();
               },
               validator: signUpFormController.validateFirstName,
+            ),
+            hBox(15),
+            CustomTextFormField(
+              alignment: Alignment.center,
+              controller: signUpFormController.lastNameController,
+              prefix: SvgPicture.asset(
+                ImageConstants.profileIcon,
+              ),
+              prefixConstraints:
+              BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
+              hintText: "Last Name",
+              onTapOutside: (event) {
+                FocusScope.of(context).unfocus();
+              },
+              validator: signUpFormController.validateLastName,
             ),
             hBox(15),
             CustomTextFormField(
@@ -137,6 +152,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               ],
               prefix: CountryCodePicker(
                 padding: const EdgeInsets.only(left: 10),
+                showFlag: false,
                 textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                 onChanged: (CountryCode countryCode) {
                   print("country code===========> ${countryCode.code}");
@@ -263,7 +279,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                 (controller.profileData.value.data?.emailVerified =="true" && controller.emailVerify.value == false)
                     ? Icon(
                         Icons.check_circle,
-                        color: AppColors.primary,
+                        color: AppColors.black,
                       )
                     :Obx(() => TextButton(
                     onPressed: (sendOtpEmailController.rxRequestStatus.value == Status.LOADING) ? null
@@ -433,9 +449,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                   width: 30.h,
                   height: 30.h,
                   decoration: BoxDecoration(
-                      color: AppColors.primary,
+                      color: AppColors.black,
                       borderRadius: BorderRadius.circular(50.r),
-                      border: Border.all(color: AppColors.primary)),
+                      border: Border.all(color: AppColors.black)),
                   child: Icon(
                     Icons.photo_camera,
                     color: Colors.white,
