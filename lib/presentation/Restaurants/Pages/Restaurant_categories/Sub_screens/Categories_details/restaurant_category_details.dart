@@ -3,6 +3,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Shared/Widgets/custom_search_filter.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
@@ -21,6 +22,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
   RestaurantCategoryDetails({super.key});
 
   final RestaurantCategoriesDetailsController controller = Get.put(RestaurantCategoriesDetailsController());
+  final AddToCartController addToCartController = Get.put(AddToCartController());
 
   final AddProductWishlistController add_Wishlist_Controller = Get.put(AddProductWishlistController());
 
@@ -108,7 +110,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                         'categoryId': categoryId.toString()
                                       },
                                     );
-                                    categoriesFilterController.restaurant_get_CategoriesFilter_Api();
+                                    // Get.toNamed(AppRoutes.restaurantCategoriesNewFilter);
+                                    categoriesFilterController.restaurant_get_CategoriesFilter_Api(categoryId.toString());
                                   },
                                 )),
                               ),
@@ -151,12 +154,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           productId: product.id.toString(),
                                           categoryId: categoryId.toString(),
                                           categoryName: categoryTitle,
-                                          restaurantId: product.userId.toString(),
+                                          restaurantId: product.vendorId.toString(),
                                         ));
                                       },
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Stack(
                                             alignment: Alignment.topRight,
@@ -168,7 +171,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
-                                                    imageUrl: product.urlImage
+                                                    imageUrl: "${product.image}"
                                                         .toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,
@@ -225,18 +228,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                       if (getUserDataController.userData.value.user?.userType =="guestUser") {
                                                         showLoginRequired(context);
                                                       }else{
-                                                      product.isInWishlist =
-                                                          !product
-                                                              .isInWishlist!;
-                                                      product.isLoading.value =
-                                                          true;
-                                                      await add_Wishlist_Controller
-                                                          .restaurant_add_product_wishlist(
-                                                        categoryId: categoryId
-                                                            .toString(),
-                                                        product_id: product.id
-                                                            .toString(),
-                                                      );
+                                                      product.isInWishlist = !product.isInWishlist!;
+                                                      product.isLoading.value = true;
+                                                      await add_Wishlist_Controller.restaurant_add_product_wishlist(categoryId: categoryId.toString(), product_id: product.id.toString(),);
                                                       product.isLoading.value =
                                                           false;
                                                       }
@@ -275,6 +269,150 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           hBox(10.h),
                                           Row(
                                             children: [
+                                              Text(
+                                                product.title.toString(),
+                                                textAlign: TextAlign.left,
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                              ),
+                                              const Spacer(),
+                                              SvgPicture.asset(
+                                                "assets/svg/star-yellow.svg",
+                                                height: 15,
+                                              ),
+                                              wBox(4),
+                                              Padding(
+                                                padding: const EdgeInsets.only(top: 3.0),
+                                                child: Text(
+                                                  "${product.rating}",
+                                                  style: AppFontStyle.text_14_400(AppColors.darkText,
+                                                      family: AppFontFamily.gilroyRegular),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Flexible(
+                                            child: Text(
+                                              product.restoName.toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.left,
+                                              style: AppFontStyle.text_14_300(
+                                                  AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                            ),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Container(
+                                                height: 20,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    color: AppColors.primary.withOpacity(0.1),
+                                                    borderRadius: BorderRadius.circular(15.r),
+                                                    border: Border.all(
+                                                      color: AppColors.primary,
+                                                    )
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    "\$${product.regularPrice ?? '0'}",
+                                                    style: AppFontStyle.text_10_400(AppColors.black,
+                                                        family: AppFontFamily.gilroyRegular
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 2),
+                                              SvgPicture.asset(
+                                                ImageConstants.clockIcon,
+                                                height: 10,
+                                                colorFilter:
+                                                ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),
+                                              ),
+                                              wBox(3.w),
+                                              Text(
+                                                product.preparationTime.toString(),
+                                                style: AppFontStyle.text_10_400(AppColors.darkText,
+                                                    family: AppFontFamily.gilroyRegular),
+                                              ),
+                                              const Spacer(),
+                                              /*Obx((){
+                                                return GestureDetector(
+                                                  onTap: () {
+                                                    if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                                      showLoginRequired(context);
+                                                    }else{
+                                                      addToCartController.addToCartApi(
+                                                          productId: product.id.toString(),
+                                                          productQuantity: '1',
+                                                          productPrice: product.regularPrice,
+                                                          restaurantId: product.vendorId.toString(),
+                                                          addons: [],
+                                                          extrasIds: [],
+                                                          extrasItemIds: [],
+                                                          extrasItemNames: [],
+                                                          extrasItemPrices: [],
+                                                          isPopUp: false
+                                                      );
+                                                    }
+                                                  }, child: addToCartController.isCartLoading(product.id.toString())
+                                                    ? circularProgressIndicator(size: 30)
+                                                    : Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  decoration:  BoxDecoration(
+                                                      color: AppColors.black,
+                                                      borderRadius: BorderRadius.circular(20)
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    size: 20,
+                                                    color: AppColors.white,
+                                                  ),
+                                                ),);
+                                              })*/
+                                              GetBuilder<AddToCartController>(
+                                                builder: (cartController) {
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                                                        showLoginRequired(context);
+                                                      } else {
+                                                        cartController.addToCartApi(
+                                                            productId: product.id.toString(),
+                                                            productQuantity: '1',
+                                                            productPrice: product.regularPrice,
+                                                            restaurantId: product.vendorId.toString(),
+                                                            addons: [],
+                                                            extrasIds: [],
+                                                            extrasItemIds: [],
+                                                            extrasItemNames: [],
+                                                            extrasItemPrices: [],
+                                                            isPopUp: false
+                                                        );
+                                                      }
+                                                    },
+                                                    child: cartController.isCartLoading(product.id.toString())
+                                                        ? circularProgressIndicator(size: 30)
+                                                        : Container(
+                                                      height: 40,
+                                                      width: 40,
+                                                      decoration: BoxDecoration(
+                                                          color: AppColors.black,
+                                                          borderRadius: BorderRadius.circular(20)
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.add,
+                                                        size: 20,
+                                                        color: AppColors.white,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              )
+                                            ],
+                                          ),
+                                         /* Row(
+                                            children: [
                                               product.salePrice != null
                                                   ? Text(
                                                       "\$${product.salePrice}",
@@ -312,39 +450,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   //  AppFontStyle.text_14_300(AppColors.lightText),
                                                 ),
                                             ],
-                                          ),
-                                          // hBox(10),
-                                          Text(
-                                            product.title.toString(),
-                                            textAlign: TextAlign.left,
-                                            style: AppFontStyle.text_16_400(
-                                                AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                                          ),
-                                          // hBox(10),
-
-                                          // hBox(10),
-                                          // Row(
-                                          //   children: [
-                                          //     SvgPicture.asset(
-                                          //         "assets/svg/star-yellow.svg"),
-                                          //     wBox(4),
-                                          //     Text(
-                                          //       "${product.rating.toString()}/5",
-                                          //       style: AppFontStyle.text_14_300(
-                                          //           AppColors.lightText),
-                                          //     ),
-                                          //     wBox(4),
-                                          Flexible(
-                                            child: Text(
-                                              product.restoName.toString(),
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.left,
-                                              style: AppFontStyle.text_14_300(
-                                                  AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                                            ),
-                                          ),
-                                          //   ],
-                                          // )
+                                          ),*/
                                         ],
                                       ));
                                   //  categoryItem(index);
@@ -592,7 +698,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
       ),
     );
   }
-
   // Container navBarStatic() {
   //   List<String> navbarItems = [
   //     ImageConstants.home,
@@ -692,3 +797,5 @@ class RestaurantCategoryDetails extends StatelessWidget {
   //       );
   // }
 }
+
+

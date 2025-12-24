@@ -671,7 +671,7 @@ class SignUpForm_editProfileController extends GetxController {
     final data = {
       "first_name": fisrtNameController.text.toString(),
       "last_name": lastNameController.text.toString(),
-      "country_code": selectedCountryCode.value.toString(),
+      "phone_code": selectedCountryCode.value.toString(),
       "phone": mobileController.text.trim().toString(),
       "dob": formattedCurrentDateController.value.text.toString(),
       "email": emailController.text.trim().toString(),

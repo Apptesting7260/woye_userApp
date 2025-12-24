@@ -42,33 +42,5 @@ class CheckUserController extends GetxController {
     });
   }
 
-  // Future<bool> checkUserApi({
-  //   required String country_code,
-  //   required String mobile,
-  // }) async {
-  //   setRxRequestStatus(Status.LOADING);
-  //   var body = {
-  //     "country_code": country_code,
-  //     "mobile": mobile,
-  //   };
-  //  await api.checkUserApi(body).then((value) {
-  //     setData(value);
-  //     if (checkUser.value.status == true) {
-  //       return true;
-  //     } else {
-  //       Utils.showToast(checkUser.value.message.toString());
-  //       setRxRequestStatus(Status.COMPLETED);
-  //       return false;
-  //     }
-  //   }).onError((error, stackError) {
-  //     print("Error: $error");
-  //     setError(error.toString());
-  //     print(stackError);
-  //     setRxRequestStatus(Status.ERROR);
-  //     return false;
-  //   });
-  //   return false;
-  // }
-
   void setError(String value) => error.value = value;
 }

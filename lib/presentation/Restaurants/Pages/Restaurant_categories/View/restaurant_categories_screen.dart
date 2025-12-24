@@ -36,7 +36,7 @@ class _RestaurantCategoriesScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        isLeading: false,
+        isLeading: true,
         isActions: true,
         title: Text(
           "Categories",

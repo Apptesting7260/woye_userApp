@@ -43,52 +43,64 @@ class RestaurantCategoryDetailsModal {
 }
 
 class CategoryProduct {
-  int? id;
+  String? id;
+  String? image;
   var salePrice;
   var regularPrice;
   String? title;
+  String? preparationTime;
   bool? isInWishlist;
   String? restoName;
   String? urlImage;
-  String? userId;
+  String? vendorId;
   var rating;
   Rx<bool> isLoading = false.obs;
   Rx<bool> isAddToCart = false.obs;
+  Rx<bool> isCartLoading  = false.obs;
 
   CategoryProduct({
     this.id,
+    this.image,
     this.salePrice,
     this.regularPrice,
     this.title,
+    this.preparationTime,
     this.isInWishlist,
     this.restoName,
     this.urlImage,
-    this.userId,
+    this.vendorId,
     this.rating,
-  });
+  }){
+    isCartLoading = false.obs;
+  }
 
   CategoryProduct.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    salePrice = json['sale_price'];
-    regularPrice = json['regular_price'];
-    title = json['title'];
+    id = json['id'].toString();
+    image = json['image_url'].toString();
+    salePrice = json['sale_price'].toString();
+    regularPrice = json['regular_price'].toString();
+    title = json['title'].toString();
+    preparationTime = json['preparation_time'].toString();
     isInWishlist = json['is_in_wishlist'];
-    restoName = json['resto_name'];
+    restoName = json['resto_name'].toString();
     urlImage = json['url_image'];
-    userId = json['user_id']?.toString();
-    rating = json['rating'];
+    vendorId = json['vendor_id']?.toString();
+    rating = json['rating'].toString();
+    isCartLoading = false.obs;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['id'] = this.id;
+    data['image_url'] = this.image;
     data['sale_price'] = this.salePrice;
     data['regular_price'] = this.regularPrice;
     data['title'] = this.title;
+    data['preparation_time'] = this.preparationTime;
     data['is_in_wishlist'] = this.isInWishlist;
     data['resto_name'] = this.restoName;
     data['url_image'] = this.urlImage;
-    data['user_id'] = this.userId;
+    data['vendor_id'] = this.vendorId;
     data['rating'] = this.rating;
     return data;
   }

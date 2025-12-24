@@ -75,7 +75,6 @@ import 'package:woye_user/presentation/common/guest%20login/guest_binding.dart';
 import 'package:woye_user/presentation/common/maintenance/maintenance_screen.dart';
 
 import '../Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
-import '../presentation/Grocery/Pages/Grocery_cart/Checkout/grocery_checkout_screen.dart';
 import '../presentation/Grocery/Pages/Grocery_home/Sub_screens/Vendor_details/grocery_shop_information.dart';
 import '../presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/pharmacy_vendor_information_screen.dart';
 import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_information_screen.dart';
@@ -105,6 +104,7 @@ class AppRoutes {
   static const String productDetailsScreen = "/product_details_screen";
   static const String restaurantCategories = "/restaurant_categories";
   static const String restaurantCategoriesFilter = "/restaurant_categories_filter";
+  static const String restaurantCategoriesNewFilter = "/restaurant_categories_New_filter";
   static String restaurantCategoriesDetails = "/restaurant_categories_details";
   // static const String restaurantWishlistFilter = "/restaurant_Wishlist_filter";
   static const String productReviews = "/product_reviews";

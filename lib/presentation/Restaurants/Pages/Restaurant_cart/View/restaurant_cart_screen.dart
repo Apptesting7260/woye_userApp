@@ -3710,7 +3710,17 @@ class RestaurantCartScreen extends StatefulWidget {
                             //   textAlign: TextAlign.left,
                             //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
                             // ),
-
+                            SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+                            wBox(3.w),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 3.0),
+                              child: Text(
+                                "\$5 Delivery",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                              ),
+                            ),
                             SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
                             wBox(3.w),
                             Padding(
@@ -3727,7 +3737,7 @@ class RestaurantCartScreen extends StatefulWidget {
                               textAlign: TextAlign.left,
                               style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                             ),
-                            SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+                            /*SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
                             wBox(3.w),
                             Padding(
                               padding: const EdgeInsets.only(top: 3.0),
@@ -3737,7 +3747,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                 maxLines: 1,
                                 style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                               ),
-                            ),
+                            ),*/
                           ],
                         ),
                         hBox(5.h),

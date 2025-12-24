@@ -935,7 +935,8 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,
                     onTap: () {
-                      restaurantNavbarController.getIndex(1);
+                      // restaurantNavbarController.getIndex(1);
+                      Get.toNamed(AppRoutes.restaurantCategories);
                     },
                     child: Row(
                       children: [
@@ -1248,11 +1249,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                   title: restaurant?.shopName?.capitalize!,
                                   rating: restaurant?.rating,
                                   price: restaurant?.avgPrice,
-                                  catIndex:
-                                      restaurant?.categoriesName?.length ?? 0,
-                                  catName: restaurant?.categoriesName
+                            catIndex: restaurant?.categoryIds?.length ?? 0,
+                            catName: restaurant?.categoryIds
+                                ?.map((e) => e.name ?? "")
+                                .where((e) => e.isNotEmpty)
+                                .toList() ?? ["0"],
 
-                                  // image: restaurant?.shopImageUrl,
+                            // image: restaurant?.shopImageUrl,
                                   // title: restaurant.shopName?.capitalize!,
                                   // rating: restaurant.rating,
                                   // price: restaurant.avgPrice,
@@ -1357,12 +1360,6 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
         Row(
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // Text(
-            //   price,
-            //   textAlign: TextAlign.left,
-            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
-            // ),
-
             SvgPicture.asset(
               "assets/svg/star-yellow.svg",
               height: 15,
@@ -1385,17 +1382,19 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                           family: AppFontFamily.gilroyRegular),
                     )
                   : const SizedBox.shrink(),
-              Row(
-                children: List.generate(
-                  catIndex > 3 ? 3 : catIndex,
-                  (index) => Text(
-                    "${catName?[index]}${index < (catIndex > 3 ? 3 : catIndex) - 1 ? ', ' : ''}",
-                    textAlign: TextAlign.left,
-                    style: AppFontStyle.text_14_400(AppColors.primary,
-                        family: AppFontFamily.gilroyRegular),
+              if (catName != null && catName!.isNotEmpty)
+                Row(
+                  children: List.generate(
+                    catName!.length > 3 ? 3 : catName!.length,
+                        (index) => Text(
+                      "${catName![index]}${index < (catName!.length > 3 ? 3 : catName!.length) - 1 ? ', ' : ''}",
+                      style: AppFontStyle.text_14_400(
+                        AppColors.primary,
+                        family: AppFontFamily.gilroyRegular,
+                      ),
+                    ),
                   ),
                 ),
-              ),
             ],
           ],
         ),
@@ -1558,12 +1557,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                   title: restaurant?.shopName?.capitalize!,
                                   rating: restaurant?.rating,
                                   price: restaurant?.avgPrice,
-                                  catIndex:
-                                      restaurant?.categoriesName?.length ?? 0,
-                                  catName: restaurant?.categoriesName),
+                    catIndex: restaurant?.categoryIds?.length ?? 0,
+                    catName: restaurant?.categoryIds
+                        ?.map((e) => e.name ?? "")
+                        .where((e) => e.isNotEmpty)
+                        .toList() ?? [],
                         ),
                       ),
-                    );
+                    ));
                   },
                   separatorBuilder: (context, index) => wBox(15.w),
                 );
@@ -1661,12 +1662,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                   title: restaurant?.shopName?.capitalize!,
                                   rating: restaurant?.rating,
                                   price: restaurant?.avgPrice,
-                                  catIndex:
-                                      restaurant?.categoriesName?.length ?? 0,
-                                  catName: restaurant?.categoriesName),
+                    catIndex: restaurant?.categoryIds?.length ?? 0,
+                    catName: restaurant?.categoryIds
+                        ?.map((e) => e.name ?? "")
+                        .where((e) => e.isNotEmpty)
+                        .toList() ?? [],
                         ),
                       ),
-                    );
+                    ));
                   },
                   separatorBuilder: (context, index) => wBox(15.w),
                 );
@@ -1865,7 +1868,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           padding: REdgeInsets.symmetric(horizontal: 7, vertical: 6),
           // height: 20,
           decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: AppColors.black,
               borderRadius: BorderRadius.circular(6.r)),
           child: Row(
             mainAxisSize: MainAxisSize.min,

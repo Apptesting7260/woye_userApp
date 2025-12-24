@@ -5,6 +5,7 @@ import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
@@ -464,6 +465,40 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         ),
                         hBox(14.h),
                         Row(
+                          children: [
+                            Text(
+                              item?.title.toString().capitalizeFirst.toString() ?? "",
+                              style: AppFontStyle.text_17_400(AppColors.darkText,
+                                  family: AppFontFamily.gilroyMedium),
+                            ),
+                            const Spacer(),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.star,
+                                  color: AppColors.goldStar,
+                                  size: 16.w,
+                                ),
+                                wBox(4),
+                                Text(
+                                  item?.rating ?? "0",
+                                  style: AppFontStyle.text_14_400(AppColors.darkText,
+                                      family: AppFontFamily.gilroyMedium),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        hBox(6.h),
+                        Text(
+                          item?.restoName.toString() ?? "",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: AppFontStyle.text_14_300(AppColors.lightText,
+                              family: AppFontFamily.gilroyRegular),
+                        ),
+                        hBox(8.h),
+                       /* Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
@@ -487,22 +522,83 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                               //  AppFontStyle.text_14_300(AppColors.lightText),
                             ),
                           ],
-                        ),
-                        // hBox(10),
-                        Text(
-                          item?.title.toString().capitalizeFirst.toString() ??
-                              "",
-                          // textAlign: TextAlign.left,
-                          style: AppFontStyle.text_17_400(AppColors.darkText,
-                              family: AppFontFamily.gilroyMedium),
-                        ),
-                        // hBox(10),
-                        Text(
-                          item?.restoName.toString() ?? "",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: AppFontStyle.text_14_300(AppColors.lightText,
-                              family: AppFontFamily.gilroyRegular),
+                        ),*/
+                        Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.ultraLightPrimary,
+                                borderRadius: BorderRadius.circular(6.r),
+                              ),
+                              child: Text(
+                                "\$${item?.regularPrice}",
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w300,
+                                    color: AppColors.lightText,
+                                    fontFamily: AppFontFamily.gilroyRegular,
+                                    decoration: TextDecoration.lineThrough,
+                                    decorationColor: AppColors.lightText),
+                                //  AppFontStyle.text_14_300(AppColors.lightText),
+                              ),
+                            ),
+                            wBox(5),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.access_time,
+                                  color: AppColors.black,
+                                  size: 16.w,
+                                ),
+                                wBox(4),
+                                Text(
+                                  // "${item?.estimatedTime} mins",
+                                  '45 mins',
+                                  style: AppFontStyle.text_14_400(
+                                      AppColors.darkText,
+                                      family: AppFontFamily.gilroyMedium),
+                                ),
+                                const Spacer(),
+                                GetBuilder<AddToCartController>(
+                                  builder: (cartController) {
+                                    return GestureDetector(
+                                      onTap: () {},
+                                      child: Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.black,
+                                            borderRadius: BorderRadius.circular(20)
+                                        ),
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 20,
+                                          color: AppColors.white,
+                                        ),
+                                      ),
+                                     /* child: cartController.isCartLoading(product.id.toString())
+                                          ? circularProgressIndicator(size: 30)
+                                          : Container(
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.black,
+                                            borderRadius: BorderRadius.circular(20)
+                                        ),
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 20,
+                                          color: AppColors.white,
+                                        ),
+                                      ),*/
+                                    );
+                                  },
+                                )
+                              ],
+                            )
+                          ],
                         ),
                         hBox(18.h)
                       ],
@@ -543,7 +639,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         padding: REdgeInsets.only(left: 10, right: 3),
                         height: 50.h,
                         decoration: BoxDecoration(
-                          color: controller.isDelivery.value ?  AppColors.primary :AppColors.transparent,
+                          color: controller.isDelivery.value ?  AppColors.black :AppColors.transparent,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Row(
@@ -602,7 +698,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         padding: REdgeInsets.only(left: 10),
                         height: 50.h,
                         decoration: BoxDecoration(
-                          color: controller.isDelivery.value ?  AppColors.transparent :AppColors.primary,
+                          color: controller.isDelivery.value ?  AppColors.transparent :AppColors.black,
                           borderRadius: BorderRadius.circular(100),
                         ),
                         child: Row(
@@ -746,36 +842,36 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                   family: AppFontFamily.gilroyMedium),
             ),
             wBox(5.w),
-            GestureDetector(
-              onTap: () {
-                if (controller.restaurant_Data.value.review?.length != 0) {
-                  Get.toNamed(
-                    AppRoutes.productReviews,
-                    arguments: {
-                      'product_id': widget.Restaurantid.toString(),
-                      'product_review':
-                          controller.restaurant_Data.value.averageRating,
-                      'review_count': controller
-                          .restaurant_Data.value.totalReviews
-                          .toString(),
-                      "type": "restaurant",
-                    },
-                  );
-                  seeAllProductReviewController.seeAllProductReviewApi(
-                      vendorId: widget.Restaurantid.toString(),
-                      type: "restaurant");
-                }
-              },
-              child: Text(
-                "(${controller.restaurant_Data.value.review?.length} Reviews)",
-                style: TextStyle(
-                    fontSize: 15.sp,
-                    fontFamily: AppFontFamily.gilroyRegular,
-                    decoration: TextDecoration.underline,
-                    color: AppColors.lightText,
-                    decorationColor: AppColors.lightText),
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     if (controller.restaurant_Data.value.review?.length != 0) {
+            //       Get.toNamed(
+            //         AppRoutes.productReviews,
+            //         arguments: {
+            //           'product_id': widget.Restaurantid.toString(),
+            //           'product_review':
+            //               controller.restaurant_Data.value.averageRating,
+            //           'review_count': controller
+            //               .restaurant_Data.value.totalReviews
+            //               .toString(),
+            //           "type": "restaurant",
+            //         },
+            //       );
+            //       seeAllProductReviewController.seeAllProductReviewApi(
+            //           vendorId: widget.Restaurantid.toString(),
+            //           type: "restaurant");
+            //     }
+            //   },
+            //   child: Text(
+            //     "(${controller.restaurant_Data.value.review?.length} Reviews)",
+            //     style: TextStyle(
+            //         fontSize: 15.sp,
+            //         fontFamily: AppFontFamily.gilroyRegular,
+            //         decoration: TextDecoration.underline,
+            //         color: AppColors.lightText,
+            //         decorationColor: AppColors.lightText),
+            //   ),
+            // ),
           ],
         ),
         hBox(8.h),

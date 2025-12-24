@@ -31,7 +31,13 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
     var arguments = Get.arguments;
     String? typeFrom = arguments?['typefrom'];
     return Scaffold(
-        appBar: CustomAppBar(isLeading: typeFrom != "back" ? false : true),
+        appBar: CustomAppBar(
+            isLeading: typeFrom != "back" ? false : true,
+          title: Text(
+            "Edit Profile",
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          ),
+        ),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
             case Status.LOADING:
@@ -66,8 +72,8 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        header(typeFrom ?? ""),
-                        hBox(30),
+                        /*header(typeFrom ?? ""),
+                        hBox(30),*/
                         //
                         form(controller, context),
                         hBox(20),
@@ -145,76 +151,6 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               validator: signUpFormController.validateLastName,
             ),
             hBox(15),
-            CustomTextFormField(
-              controller: signUpFormController.mobileController,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              prefix: CountryCodePicker(
-                padding: const EdgeInsets.only(left: 10),
-                showFlag: false,
-                textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                onChanged: (CountryCode countryCode) {
-                  print("country code===========> ${countryCode.code}");
-                  signUpFormController.updateCountryCode(countryCode);
-                  signUpFormController.showError.value = false;
-                  int? countrylength = signUpFormController
-                      .countryPhoneDigits[countryCode.code.toString()];
-                  signUpFormController.chackCountryLength = countrylength!;
-                },
-                // initialSelection: "IN"
-                initialSelection:
-                    signUpFormController.selectedCountryCode.value.dialCode,
-              ),
-              hintText: "Phone Number",
-              textInputType: TextInputType.phone,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your phone number';
-                }
-                if (value.length != signUpFormController.chackCountryLength) {
-                  return 'Please enter a valid phone number (${signUpFormController.chackCountryLength} digits required)';
-                }
-                return null;
-              },
-            ),
-
-            // CustomPhoneNumberField(
-            //   initialSelection:
-            //   signUpFormController.selectedCountryCode.value.dialCode.toString(),
-            //   controller: signUpFormController.mobileController,
-            //   hintText: 'Phone Number',
-            // ),
-
-            hBox(15),
-            // GestureDetector(
-            //   onTap: () => signUpFormController.selectDate(context),
-            //   child: Obx(() {
-            //     return Container(
-            //       padding: const EdgeInsets.all(16.0),
-            //       decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(16.0),
-            //         border: Border.all(color: AppColors.textFieldBorder),
-            //       ),
-            //       child: Row(
-            //         children: [
-            //           SvgPicture.asset(
-            //             ImageConstants.calendar,
-            //           ),
-            //           const SizedBox(
-            //             width: 10,
-            //           ),
-            //           Text(
-            //             signUpFormController.formattedCurrentDate.value.isEmpty
-            //                 ? "Date of Birth"
-            //                 : signUpFormController.formattedCurrentDate.value,
-            //             style: const TextStyle(fontSize: 16),
-            //           ),
-            //         ],
-            //       ),
-            //     );
-            //   }),
-            // ),
 
             CustomTextFormField(
               controller: signUpFormController.formattedCurrentDateController.value,
@@ -352,7 +288,41 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
 
                 return null;
               },
-            )
+            ),
+            hBox(15),
+            CustomTextFormField(
+              controller: signUpFormController.mobileController,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              prefix: CountryCodePicker(
+                padding: const EdgeInsets.only(left: 10),
+                showFlag: false,
+                textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                onChanged: (CountryCode countryCode) {
+                  print("country code===========> ${countryCode.code}");
+                  signUpFormController.updateCountryCode(countryCode);
+                  signUpFormController.showError.value = false;
+                  int? countrylength = signUpFormController
+                      .countryPhoneDigits[countryCode.code.toString()];
+                  signUpFormController.chackCountryLength = countrylength!;
+                },
+                // initialSelection: "IN"
+                initialSelection:
+                signUpFormController.selectedCountryCode.value.dialCode,
+              ),
+              hintText: "Phone Number",
+              textInputType: TextInputType.phone,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your phone number';
+                }
+                if (value.length != signUpFormController.chackCountryLength) {
+                  return 'Please enter a valid phone number (${signUpFormController.chackCountryLength} digits required)';
+                }
+                return null;
+              },
+            ),
           ],
         ));
   }
@@ -476,7 +446,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
   Widget continueButton(String type) {
     return CustomElevatedButton(
       isLoading: controller.rxRequestStatus2.value == Status.LOADING,
-      text: type == "back" ? "Update" : "Continue",
+      text: type == "back" ? "Save" : "Continue",
       fontFamily: AppFontFamily.gilroyMedium,
       onPressed: () {
         // First, validate the form
@@ -526,7 +496,6 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
   //         // }
   //       });
   // }
-
   Future bottomSheet(BuildContext context) {
     final SignUpForm_editProfileController controller =
         Get.find<SignUpForm_editProfileController>();

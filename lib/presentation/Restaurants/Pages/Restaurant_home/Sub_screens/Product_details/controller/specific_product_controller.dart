@@ -10,6 +10,8 @@ class specific_Product_Controller extends GetxController {
   RxBool isLoading = false.obs;
   RxInt cartCount = 1.obs;
   var productPrice = 0;
+  PageController pageController = PageController();
+  RxInt priceRadioValue = 0.obs;
 
   RxBool goToCart = false.obs;
   RxBool isExtraPopUps = false.obs;
@@ -40,7 +42,7 @@ class specific_Product_Controller extends GetxController {
     setRxRequestStatus(Status.LOADING);
     Map data = {
       "product_id": productId,
-      "category_id": categoryId,
+      // "category_id": categoryId,
     };
     api.specific_Product_Api(data).then((value) {
       if(value.status == true){
@@ -119,6 +121,13 @@ class specific_Product_Controller extends GetxController {
   RxList extrasItemIdsId = [].obs;
   RxList extrasItemIdsName = [].obs;
   RxList extrasItemIdsPrice = [].obs;
+
+
+  @override
+  void onClose() {
+    pageController.dispose();
+    super.onClose();
+  }
 
   // void productPriceFun() {
   //   int count = cartCount.value;

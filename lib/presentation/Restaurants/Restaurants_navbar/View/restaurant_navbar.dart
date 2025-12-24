@@ -206,8 +206,8 @@ class RestaurantNavbar extends StatelessWidget {
 
     List<String> navbarTexts = [
       "Home",
-      "Categories",
-      "Cart",
+      "Discover",
+      "My Cart",
       "Profile"
     ];
 

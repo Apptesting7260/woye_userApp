@@ -16,6 +16,7 @@ class AppUrls {
   static const String guestUser = "$baseUrl/guest-user";
   static const String checkUser = "$baseUrl/check-user";
   static const String socialLogin = "$baseUrl/social-login";
+  static const String logoutUser = "$baseUrl/logout-user";
 
   /* ------------------------------ maintenance and app version ---------------------------------  */
   static const String maintenance = "$baseUrl/maintenance";

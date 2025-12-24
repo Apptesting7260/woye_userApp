@@ -129,7 +129,7 @@ class OtpController extends GetxController {
     final data = {
       "mob_no": mob,
       "fcm_token": tokenFcm,
-      "country_code": countryCode,
+      "phone_code": countryCode,
     };
     api
         .registerApi(
@@ -176,7 +176,7 @@ class OtpController extends GetxController {
     final data = {
       "mob_no": mob,
       "fcm_token": tokenFcm,
-      "country_code": countryCode,
+      "phone_code": countryCode,
     };
 
     setRxRequestStatus(Status.LOADING);

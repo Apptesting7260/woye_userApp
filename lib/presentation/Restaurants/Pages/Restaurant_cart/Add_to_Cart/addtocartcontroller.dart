@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
@@ -40,6 +41,17 @@ class AddToCartController extends GetxController {
 
   void setError(String value) => error.value = value;
 
+  final Map<String, bool> _cartLoadingMap = {};
+
+  bool isCartLoading(String productId) {
+    return _cartLoadingMap[productId] ?? false;
+  }
+
+  void setCartLoading(String productId, bool loading) {
+    _cartLoadingMap[productId] = loading;
+    update();
+  }
+
   addToCartApi({
     required String productId,
     required String productQuantity,
@@ -52,7 +64,9 @@ class AddToCartController extends GetxController {
     required List<dynamic> extrasItemPrices,
     String? cartId,
      required bool isPopUp,
+    RestaurantCategoryDetailsModal? product
   }) async {
+    setCartLoading(productId, true);
     if(isPopUp == false) {
       setRxRequestStatus(Status.LOADING);
     }else {
@@ -72,6 +86,7 @@ class AddToCartController extends GetxController {
 
     });
     api.addToCartApi(body).then((value) {
+      setCartLoading(productId, false);
       setData(value);
       if (addToCartData.value.status == true) {
         // if (addToCartData.value.message =="Making cart from another restaurant") {
@@ -104,6 +119,7 @@ class AddToCartController extends GetxController {
           }
           // groceryShowAllCartController.getGroceryAllShowApi();
       } else {
+        setCartLoading(productId, false);
         Utils.showToast(addToCartData.value.message.toString());
         if(isPopUp == false) {
           setRxRequestStatus(Status.COMPLETED);
@@ -112,6 +128,7 @@ class AddToCartController extends GetxController {
         }
       }
     }).onError((error, stackError) {
+      setCartLoading(productId, false);
       print("Error: $error");
       setError(error.toString());
       print(stackError);
@@ -125,19 +142,19 @@ class AddToCartController extends GetxController {
 
   void clearSelected(){
     specificProductController.selectedAddOn.clear();
-    final addOns = specificProductController.productData.value.product?.addOn;
+    final addOns = specificProductController.productData.value.product?.addOns;
     if (addOns != null) {
       for (var addOn in addOns) {
-        addOn.isChecked.value = false;
+        addOn.isSelected.value = false;
       }
     }
 
-    final extras = specificProductController.productData.value.product?.extra;
+    /*final extras = specificProductController.productData.value.product?.extra;
     if (extras != null) {
       for (var extra in extras) {
         extra.selectedIndex.value = -1;
       }
-    }
+    }*/
     specificProductController.extrasItemIdsId.clear();
     specificProductController.extrasItemIdsName.clear();
     specificProductController.extrasItemIdsPrice.clear();

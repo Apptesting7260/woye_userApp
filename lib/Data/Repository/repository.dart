@@ -74,6 +74,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_scre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/ordes_list_modal/orders_list_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/help/sub_screens/faq/model/faq_model.dart';
+import 'package:woye_user/presentation/common/Profile/model/logout_model.dart';
 import 'package:woye_user/presentation/common/Social_login/social_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/getprofile_model.dart';
 import 'package:woye_user/presentation/common/Update_profile/Model/updateprofile_model.dart';
@@ -125,6 +126,12 @@ class Repository {
   Future<dynamic> SocialLoginApi(data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.socialLogin, "");
     return SocialModel.fromJson(response);
+  }
+
+  Future<dynamic> logoutUserApi() async {
+    await initializeUser();
+    dynamic response = await _apiService.getApi(AppUrls.logoutUser, "Bearer ${token}");
+    return LogoutModel.fromJson(response);
   }
 
   /* ------------------------------------------------ maintenance ----------------------------------------------------*/
@@ -298,8 +305,7 @@ class Repository {
 
   Future<dynamic> specific_Product_Api(var data) async {
     await initializeUser();
-    dynamic response =
-        await _apiService.postApi(data, AppUrls.specificProduct, token);
+    dynamic response = await _apiService.postApi(data, AppUrls.specificProduct, token);
     return specificProduct.fromJson(response);
   }
 
@@ -319,10 +325,10 @@ class Repository {
     return restaurant_product_wishlist_modal.fromJson(response);
   }
 
-  Future<dynamic> get_CategoriesFilter_Api() async {
+  Future<dynamic> get_CategoriesFilter_Api(String categoryId) async {
     await initializeUser();
-    dynamic response =
-        await _apiService.getApi(AppUrls.getCategoriesFilter, token);
+    String url = '${AppUrls.getCategoriesFilter}/$categoryId';
+    dynamic response = await _apiService.getApi(url, token);
     return CategoriesFilter_modal.fromJson(response);
   }
 

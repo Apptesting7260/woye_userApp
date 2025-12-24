@@ -130,7 +130,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 decoration: BoxDecoration(
                     color:
-                        isSelected ? AppColors.primary : AppColors.lightPrimary,
+                        isSelected ? AppColors.black : AppColors.lightText.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(50.r)),
                 child: Center(
                   child: Text(

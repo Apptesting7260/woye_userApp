@@ -55,17 +55,19 @@ class ProfileScreen extends StatelessWidget {
             //
             orders(context),
             //
+            wishList(context),
+            //
             deliveryAddress(context),
             //
-            //paymentMethod(context),
+            paymentMethod(context),
             //
             myWallet(context),
             //
-            //promotionalCodes(context),
+            promotionalCodes(context),
             //
             inviteFriends(context),
             //
-            //settings(context),
+            settings(context),
             //
             help(context),
             //
@@ -227,6 +229,22 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  Widget wishList(context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/wishlist.svg", color: AppColors.black),
+      title: Text(
+        'Wishlist',
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        // style: AppFontStyle.text_16_500(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
+      onTap: () {},
+    );
+  }
+
   Widget deliveryAddress(context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
@@ -252,26 +270,27 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Widget paymentMethod(context) {
-  //   return ListTile(
-  //     splashColor: Colors.transparent,
-  //     hoverColor: Colors.transparent,
-  //     leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
-  //     title: Text(
-  //       'Payment Method',
-  //       style: AppFontStyle.text_16_500(AppColors.darkText),
-  //     ),
-  //     trailing: const Icon(Icons.arrow_forward_ios),
-  //     onTap: () {
-  //       if (getUserDataController.userData.value.user?.userType ==
-  //           "guestUser") {
-  //         showLoginRequired(context);
-  //       } else {
-  //         Get.toNamed(AppRoutes.paymentMethod);
-  //       }
-  //     },
-  //   );
-  // }
+  Widget paymentMethod(context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
+      title: Text(
+        'Payment Method',
+        style: AppFontStyle.text_17_400(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        if (getUserDataController.userData.value.user?.userType ==
+            "guestUser") {
+          showLoginRequired(context);
+        } else {
+          Get.toNamed(AppRoutes.paymentMethod);
+        }
+      },
+    );
+  }
 
   Widget myWallet(context) {
     return ListTile(
@@ -296,26 +315,27 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Widget promotionalCodes(context) {
-  //   return ListTile(
-  //     splashColor: Colors.transparent,
-  //     hoverColor: Colors.transparent,
-  //     leading: SvgPicture.asset("assets/svg/coupon-dark.svg"),
-  //     title: Text(
-  //       'Promotion Code',
-  //       style: AppFontStyle.text_16_500(AppColors.darkText),
-  //     ),
-  //     trailing: const Icon(Icons.arrow_forward_ios),
-  //     onTap: () {
-  //       if (getUserDataController.userData.value.user?.userType ==
-  //           "guestUser") {
-  //         showLoginRequired(context);
-  //       } else {
-  //         Get.toNamed(AppRoutes.promoCode);
-  //       }
-  //     },
-  //   );
-  // }
+  Widget promotionalCodes(context) {
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      splashColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+      leading: SvgPicture.asset("assets/svg/coupon-dark.svg"),
+      title: Text(
+        'Promotion Code',
+        style: AppFontStyle.text_17_400(AppColors.darkText),
+      ),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        if (getUserDataController.userData.value.user?.userType ==
+            "guestUser") {
+          showLoginRequired(context);
+        } else {
+          Get.toNamed(AppRoutes.promoCode);
+        }
+      },
+    );
+  }
 
   Widget inviteFriends(context) {
     return ListTile(
@@ -393,7 +413,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/logout.svg"),
       title: Text(
         'Logout',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
       ),
       onTap: () {
         logoutPopUp(context);
@@ -446,10 +466,12 @@ class ProfileScreen extends StatelessWidget {
                       Expanded(
                         child: CustomElevatedButton(
                           height: 40.h,
-                          textStyle:AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),                          onPressed: () {
-                            socialLoginController.signout();
+                          textStyle:AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          onPressed: () {
+                           /* socialLoginController.signout();
                             userPreference.removeUser();
-                            Get.offAllNamed(AppRoutes.welcomeScreen);
+                            Get.offAllNamed(AppRoutes.welcomeScreen);*/
+                            restaurantProfileController.logoutUser();
                           },
                           text: "Logout",
                         ),

@@ -99,6 +99,9 @@ class RestaurantCategoriesDetailsController extends GetxController {
      String? price_sort,
      var quick_filter,
      String? price_range,
+    required String? attribute_ids,
+    required String? addons,
+    required String? options
   }) async {
     searchController.clear();
     searchData.clear();
@@ -107,13 +110,19 @@ class RestaurantCategoriesDetailsController extends GetxController {
     Map data = {
       "category_id": id,
       if(cuisine_type != null && cuisine_type != '')
-      "cuisine_type": cuisine_type,
+      "cuisine_id": cuisine_type,
       if(price_sort != null)
       "price_sort": price_sort,
       if(quick_filter != null && quick_filter != "")
       "quick_filter[]": quick_filter,
       if(price_range != null)
       "price_range": price_range,
+      if(attribute_ids != null)
+        "attribute_ids[]": attribute_ids,
+      if(addons != null)
+        "addons[]": addons,
+      if(options != null)
+        "options[]": options
     };
 
     print("Map data : $data");

@@ -13,6 +13,7 @@ import 'package:woye_user/presentation/Pharmacy/Pages/Pharmacy_home/view/pharmac
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/View/restaurant_single_cart_screen.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/restaurant_home_screen.dart';
 import 'package:woye_user/presentation/common/Profile/View/profile_screen.dart';
+import 'package:woye_user/presentation/common/discover/discover_screen.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../../Pharmacy/Pages/Pharmacy_cart/view/pharmacy_cart_screen.dart';
@@ -45,7 +46,7 @@ class RestaurantNavbarController extends GetxController {
 
   List<Widget> widgets0 = [
     const RestaurantHomeScreen(),
-    RestaurantCategoriesScreen(),
+    DiscoverScreen(),
     RestaurantCartScreen(),
     ProfileScreen(profileScreenType: "restaurantProfileScreen",)
   ];

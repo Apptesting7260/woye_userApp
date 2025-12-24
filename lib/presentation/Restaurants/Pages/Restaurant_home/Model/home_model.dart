@@ -1,3 +1,4 @@
+/*
 class HomeModel {
   bool? status;
   List<Category>? category;
@@ -346,4 +347,268 @@ class AllRestaurant {
     data['category_names'] = categoriesName;
     return data;
   }
+}
+*/
+
+class HomeModel {
+  bool? status;
+  List<Category>? category;
+  List<AllRestaurant>? freedelResto;
+  List<AllRestaurant>? nearbyResto;
+  List<AllRestaurant>? popularResto;
+  List<AllRestaurant>? restaurants;
+  List<Banner>? banners;
+  String? address;
+  int? totalRestoProducts;
+  String? message;
+
+  HomeModel({
+    this.status,
+    this.category,
+    this.freedelResto,
+    this.nearbyResto,
+    this.popularResto,
+    this.restaurants,
+    this.banners,
+    this.address,
+    this.totalRestoProducts,
+    this.message,
+  });
+
+  factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
+    status: json["status"],
+    category: json["category"] == null
+        ? []
+        : List<Category>.from(
+        json["category"]!.map((x) => Category.fromJson(x))),
+    freedelResto: json["freedel_resto"] == null
+        ? []
+        : List<AllRestaurant>.from(
+        json["freedel_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+    nearbyResto: json["nearby_resto"] == null
+        ? []
+        : List<AllRestaurant>.from(
+        json["nearby_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+    popularResto: json["popular_resto"] == null
+        ? []
+        : List<AllRestaurant>.from(
+        json["popular_resto"]!.map((x) => AllRestaurant.fromJson(x))),
+    restaurants: json["restaurants"] == null
+        ? []
+        : List<AllRestaurant>.from(
+        json["restaurants"]!.map((x) => AllRestaurant.fromJson(x))),
+    banners: json["banners"] == null
+        ? []
+        : List<Banner>.from(
+        json["banners"]!.map((x) => Banner.fromJson(x))),
+    address: json["address"],
+    totalRestoProducts: json["total_resto_products"],
+    message: json["message"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "category": category == null
+        ? []
+        : List<dynamic>.from(category!.map((x) => x.toJson())),
+    "freedel_resto": freedelResto == null
+        ? []
+        : List<dynamic>.from(freedelResto!.map((x) => x.toJson())),
+    "nearby_resto": nearbyResto == null
+        ? []
+        : List<dynamic>.from(nearbyResto!.map((x) => x.toJson())),
+    "popular_resto": popularResto == null
+        ? []
+        : List<dynamic>.from(popularResto!.map((x) => x.toJson())),
+    "restaurants": restaurants == null
+        ? []
+        : List<dynamic>.from(restaurants!.map((x) => x.toJson())),
+    "banners": banners == null
+        ? []
+        : List<dynamic>.from(banners!.map((x) => x.toJson())),
+    "address": address,
+    "total_resto_products": totalRestoProducts,
+    "message": message,
+  };
+}
+
+class Category {
+  int? id;
+  String? name;
+  String? parentCategory;
+  String? image;
+  String? imageUrl;
+  int? productsCount;
+
+  Category({
+    this.id,
+    this.name,
+    this.parentCategory,
+    this.image,
+    this.imageUrl,
+    this.productsCount,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+    id: json["id"],
+    name: json["name"],
+    parentCategory: json["parent_category"],
+    image: json["image"],
+    imageUrl: json["image_url"],
+    productsCount: json["products_count"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "parent_category": parentCategory,
+    "image": image,
+    "image_url": imageUrl,
+    "products_count": productsCount,
+  };
+}
+
+class Banner {
+  int? id;
+  String? image;
+  String? parentCategory;
+  String? imageUrl;
+
+  Banner({
+    this.id,
+    this.image,
+    this.parentCategory,
+    this.imageUrl,
+  });
+
+  factory Banner.fromJson(Map<String, dynamic> json) => Banner(
+    id: json["id"],
+    image: json["image"],
+    parentCategory: json["parent_category"],
+    imageUrl: json["image_url"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "image": image,
+    "parent_category": parentCategory,
+    "image_url": imageUrl,
+  };
+}
+
+class AllRestaurant {
+  int? id;
+  String? rating;
+  String? shopName;
+  String? description;
+  String? status;
+  String? logo;
+  String? coverPhoto;
+  List<CategoryIds>? categoryIds;
+  bool? isInWishlist;
+  List<String>? categoryNames;
+  String? logoUrl;
+  String? coverPhotoUrl;
+  String? roleName;
+  String? role;
+  String? avgPrice;
+  String? shopDes;
+  String? shopimage;
+
+  AllRestaurant({
+    this.id,
+    this.rating,
+    this.shopName,
+    this.description,
+    this.status,
+    this.logo,
+    this.coverPhoto,
+    this.categoryIds,
+    this.isInWishlist,
+    this.categoryNames,
+    this.logoUrl,
+    this.coverPhotoUrl,
+    this.roleName,
+    this.role,
+    this.avgPrice,
+    this.shopDes,
+    this.shopimage,
+  });
+
+  factory AllRestaurant.fromJson(Map<String, dynamic> json) => AllRestaurant(
+    id: json["id"],
+    rating: json["rating"]?.toString(),
+    shopName: json["shop_name"],
+    description: json["description"],
+    status: json["status"]?.toString(),
+    logo: json["logo"],
+    coverPhoto: json["cover_photo"],
+    categoryIds: json["category_ids"] == null
+        ? []
+        : List<CategoryIds>.from(
+        json["category_ids"]!.map((x) => CategoryIds.fromJson(x))),
+    isInWishlist: json["is_in_wishlist"],
+    categoryNames: json["category_names"] == null
+        ? []
+        : List<String>.from(json["category_names"]!.map((x) => x)),
+    logoUrl: json["logo_url"],
+    coverPhotoUrl: json["cover_photo_url"],
+    roleName: json["role_name"],
+    role: json["role"],
+    avgPrice: json["avg_price"]?.toString() ?? "",
+    shopDes: json["shop_des"] ?? json["description"],
+    shopimage: json["shopimage"] ?? json["logo_url"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "rating": rating,
+    "shop_name": shopName,
+    "description": description,
+    "status": status,
+    "logo": logo,
+    "cover_photo": coverPhoto,
+    "category_ids": categoryIds == null
+        ? []
+        : List<dynamic>.from(categoryIds!.map((x) => x.toJson())),
+    "is_in_wishlist": isInWishlist,
+    "category_names": categoryNames == null
+        ? []
+        : List<dynamic>.from(categoryNames!.map((x) => x)),
+    "logo_url": logoUrl,
+    "cover_photo_url": coverPhotoUrl,
+    "role_name": roleName,
+    "role": role,
+    "avg_price": avgPrice,
+    "shop_des": shopDes,
+    "shopimage": shopimage,
+  };
+}
+
+class CategoryIds {
+  String? id;
+  String? name;
+  String? status;
+  String? added;
+
+  CategoryIds({
+    this.id,
+    this.name,
+    this.status,
+    this.added,
+  });
+
+  factory CategoryIds.fromJson(Map<String, dynamic> json) => CategoryIds(
+    id: json["id"]?.toString(),
+    name: json["name"]?.toString(),
+    status: json["status"]?.toString(),
+    added: json["added"]?.toString(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "status": status,
+    "added": added,
+  };
 }
