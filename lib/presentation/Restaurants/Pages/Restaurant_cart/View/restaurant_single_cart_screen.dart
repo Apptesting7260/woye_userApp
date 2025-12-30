@@ -715,7 +715,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               maxLines: 1,
                             ),
                             Text(
-                              '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice?.capitalize}',
+                              '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice}',
                               style:
                               AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,

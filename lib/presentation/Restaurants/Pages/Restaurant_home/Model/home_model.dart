@@ -358,8 +358,8 @@ class HomeModel {
   List<AllRestaurant>? popularResto;
   List<AllRestaurant>? restaurants;
   List<Banner>? banners;
-  String? address;
-  int? totalRestoProducts;
+  Address? address;
+  String? totalRestoProducts;
   String? message;
 
   HomeModel({
@@ -401,8 +401,10 @@ class HomeModel {
         ? []
         : List<Banner>.from(
         json["banners"]!.map((x) => Banner.fromJson(x))),
-    address: json["address"],
-    totalRestoProducts: json["total_resto_products"],
+    address: json["address"] == null
+        ? null
+        : Address.fromJson(json["address"] as Map<String, dynamic>),
+    totalRestoProducts: json["total_resto_products"].toString(),
     message: json["message"],
   );
 
@@ -426,7 +428,7 @@ class HomeModel {
     "banners": banners == null
         ? []
         : List<dynamic>.from(banners!.map((x) => x.toJson())),
-    "address": address,
+    "address": address?.toJson(),
     "total_resto_products": totalRestoProducts,
     "message": message,
   };
@@ -536,29 +538,45 @@ class AllRestaurant {
   });
 
   factory AllRestaurant.fromJson(Map<String, dynamic> json) => AllRestaurant(
-    id: json["id"],
-    rating: json["rating"]?.toString(),
-    shopName: json["shop_name"],
-    description: json["description"],
-    status: json["status"]?.toString(),
-    logo: json["logo"],
-    coverPhoto: json["cover_photo"],
+    id: json["id"] as int?,
+    rating: _parseString(json["rating"]),
+    shopName: json["shop_name"] as String?,
+    description: json["description"] as String?,
+    status: _parseString(json["status"]),
+    logo: json["logo"] as String?,
+    coverPhoto: json["cover_photo"] as String?,
     categoryIds: json["category_ids"] == null
         ? []
-        : List<CategoryIds>.from(
-        json["category_ids"]!.map((x) => CategoryIds.fromJson(x))),
-    isInWishlist: json["is_in_wishlist"],
+        : _parseCategoryIds(json["category_ids"]),
+    isInWishlist: json["is_in_wishlist"] as bool? ?? false,
     categoryNames: json["category_names"] == null
         ? []
-        : List<String>.from(json["category_names"]!.map((x) => x)),
-    logoUrl: json["logo_url"],
-    coverPhotoUrl: json["cover_photo_url"],
-    roleName: json["role_name"],
-    role: json["role"],
-    avgPrice: json["avg_price"]?.toString() ?? "",
-    shopDes: json["shop_des"] ?? json["description"],
-    shopimage: json["shopimage"] ?? json["logo_url"],
+        : List<String>.from(json["category_names"]!.map((x) => x.toString())),
+    logoUrl: json["logo_url"] as String?,
+    coverPhotoUrl: json["cover_photo_url"] as String?,
+    roleName: json["role_name"] as String?,
+    role: json["role"] as String?,
+    avgPrice: _parseString(json["avg_price"]),
+    shopDes: json["shop_des"] as String? ?? json["description"] as String?,
+    shopimage: json["shopimage"] as String? ?? json["logo_url"] as String?,
   );
+
+  static String? _parseString(dynamic value) {
+    if (value == null) return null;
+    if (value is String) return value;
+    if (value is num) return value.toString();
+    return value.toString();
+  }
+
+  static List<CategoryIds> _parseCategoryIds(dynamic data) {
+    if (data == null) return [];
+    if (data is List) {
+      return data
+          .map((item) => CategoryIds.fromJson(item as Map<String, dynamic>))
+          .toList();
+    }
+    return [];
+  }
 
   Map<String, dynamic> toJson() => {
     "id": id,
@@ -610,5 +628,73 @@ class CategoryIds {
     "name": name,
     "status": status,
     "added": added,
+  };
+}
+
+class Address {
+  int? id;
+  int? userId;
+  String? fullName;
+  String? phoneNumber;
+  String? countryCode;
+  String? houseDetails;
+  String? address;
+  String? addressType;
+  int? isDefault;
+  String? latitude;
+  String? longitude;
+  String? deliveryInstruction;
+  String? createdAt;
+  String? updatedAt;
+
+  Address({
+    this.id,
+    this.userId,
+    this.fullName,
+    this.phoneNumber,
+    this.countryCode,
+    this.houseDetails,
+    this.address,
+    this.addressType,
+    this.isDefault,
+    this.latitude,
+    this.longitude,
+    this.deliveryInstruction,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+    id: json["id"] as int?,
+    userId: json["user_id"] as int?,
+    fullName: json["full_name"] as String?,
+    phoneNumber: json["phone_number"] as String?,
+    countryCode: json["country_code"] as String?,
+    houseDetails: json["house_details"] as String?,
+    address: json["address"] as String?,
+    addressType: json["address_type"] as String?,
+    isDefault: json["is_default"] as int?,
+    latitude: json["latitude"] as String?,
+    longitude: json["longitude"] as String?,
+    deliveryInstruction: json["delivery_instruction"] as String?,
+    createdAt: json["created_at"] as String?,
+    updatedAt: json["updated_at"] as String?,
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "user_id": userId,
+    "full_name": fullName,
+    "phone_number": phoneNumber,
+    "country_code": countryCode,
+    "house_details": houseDetails,
+    "address": address,
+    "address_type": addressType,
+    "is_default": isDefault,
+    "latitude": latitude,
+    "longitude": longitude,
+    "delivery_instruction": deliveryInstruction,
+    "created_at": createdAt,
+    "updated_at": updatedAt,
   };
 }

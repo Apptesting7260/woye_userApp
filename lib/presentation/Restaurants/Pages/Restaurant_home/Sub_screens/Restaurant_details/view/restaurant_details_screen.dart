@@ -1,11 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:woye_user/Core/Constant/app_urls.dart';
-import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/core/utils/app_export.dart';
-import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/More_Products/controller/more_products_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/view/product_details_screen.dart';
@@ -17,7 +14,8 @@ import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 import 'package:woye_user/shared/widgets/shimmer.dart';
-import 'package:woye_user/shared/widgets/sliverPinnedHeaderDelegate.dart';
+import 'package:woye_user/shared/widgets/sliverPinnedHeaderDelegate.dart' show SliverPinnedHeaderDelegate;
+import 'package:woye_user/shared/widgets/updated_custom_item_banner.dart';
 
 import '../../../../../../../Core/Utils/image_cache_height.dart';
 import '../../../../../../../Shared/theme/font_family.dart';
@@ -69,10 +67,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             // const Spacer(),
             GestureDetector(
               onTap: () {
-                // Share.share(
-                //     '${AppUrls.hostUrl}/restaurants?id=${widget.Restaurantid}',
-                //     subject:
-                //         controller.restaurant_Data.value.restaurant?.shopName ?? 'Share Restaurant');
                 final restaurant = controller.restaurant_Data.value.restaurant;
 
                 Share.share(
@@ -215,9 +209,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         child: mainBanner(),
                       ),
                     ),
-                    if (controller.restaurant_Data.value.highlights?.isNotEmpty ?? false)
+
+                   /* if (controller.restaurant_Data.value.highlights?.isNotEmpty ?? false)
                       SliverToBoxAdapter(
-                        child: highlights(widget.Restaurantid),
+                        // child: highlights(widget.Restaurantid),
                       )
                     else SliverToBoxAdapter(child: hBox(20.h)),
                     SliverPersistentHeader(
@@ -228,7 +223,17 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           child: categoriesList(),
                         ),
                       ),
+                    ),*/
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: SliverPinnedHeaderDelegate(
+                        child: Container(
+                          color: Colors.white,
+                          child: categoriesList(),
+                        ),
+                      ),
                     ),
+
                     if ((controller.restaurant_Data.value.categories?.data.isNotEmpty ?? false)
                         && controller.categoriesIndex.value != 0)
                       SliverToBoxAdapter(
@@ -249,7 +254,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
   }
 
 
-  Widget highlights(restaurantId) {
+  /*Widget highlights(restaurantId) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -265,7 +270,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         hBox(13.h),
         Obx(
           () => SizedBox(
-            width: /*240.w*/ Get.width,
+            width: *//*240.w*//* Get.width,
             height: 287.h,
             child: ListView.separated(
               padding: REdgeInsets.symmetric(horizontal: 23, vertical: 3),
@@ -498,7 +503,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                               family: AppFontFamily.gilroyRegular),
                         ),
                         hBox(8.h),
-                       /* Row(
+                       *//* Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
@@ -522,7 +527,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                               //  AppFontStyle.text_14_300(AppColors.lightText),
                             ),
                           ],
-                        ),*/
+                        ),*//*
                         Row(
                           children: [
                             Container(
@@ -578,7 +583,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                           color: AppColors.white,
                                         ),
                                       ),
-                                     /* child: cartController.isCartLoading(product.id.toString())
+                                     *//* child: cartController.isCartLoading(product.id.toString())
                                           ? circularProgressIndicator(size: 30)
                                           : Container(
                                         height: 40,
@@ -592,7 +597,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                           size: 20,
                                           color: AppColors.white,
                                         ),
-                                      ),*/
+                                      ),*//*
                                     );
                                   },
                                 )
@@ -612,7 +617,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         ),
       ],
     );
-  }
+  }*/
 
   Widget deliveryAndCollectionsCard() {
     return Obx(
@@ -759,8 +764,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             child: CachedNetworkImage(
               memCacheHeight: memCacheHeight,
               width: Get.width,
-              imageUrl: controller.restaurant_Data.value.restaurant!.shopimage
-                  .toString(),
+              imageUrl: controller.restaurant_Data.value.restaurant!.logoUrl.toString(),
               placeholder: (context, url) => const ShimmerWidget(),
               errorWidget: (context, url, error) => Container(
                   width: double.maxFinite,
@@ -841,7 +845,48 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               style: AppFontStyle.text_15_400(AppColors.darkText,
                   family: AppFontFamily.gilroyMedium),
             ),
-            wBox(5.w),
+            wBox(6.w),
+            Row(
+              children: [
+                SvgPicture.asset(
+                  ImageConstants.scooterImage,
+                  height: 18,
+                  width: 18,
+                  colorFilter: ColorFilter.mode(
+                      AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),
+                ),
+                wBox(6.w),
+                Padding(
+                  padding: const EdgeInsets.only(top: 3.0),
+                  child: Text(
+                    "\$5 Delivery",
+                    style: AppFontStyle.text_15_400(AppColors.darkText,
+                        family: AppFontFamily.gilroyRegular),
+                  ),
+                ),
+                Text(
+                  "  •  ",
+                  textAlign: TextAlign.left,
+                  style: AppFontStyle.text_16_300(AppColors.lightText,
+                      family: AppFontFamily.gilroyRegular),
+                ),
+                SvgPicture.asset(
+                  ImageConstants.cartIconImage,
+                  height: 18,
+                  colorFilter:
+                  ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),
+                ),
+                wBox(6.w),
+                Padding(
+                  padding: const EdgeInsets.only(top: 3.0),
+                  child: Text(
+                    "No min. order",
+                    style: AppFontStyle.text_15_400(AppColors.darkText,
+                        family: AppFontFamily.gilroyRegular),
+                  ),
+                ),
+              ],
+            ),
             // GestureDetector(
             //   onTap: () {
             //     if (controller.restaurant_Data.value.review?.length != 0) {
@@ -872,48 +917,6 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             //         decorationColor: AppColors.lightText),
             //   ),
             // ),
-          ],
-        ),
-        hBox(8.h),
-        Row(
-          children: [
-            SvgPicture.asset(
-              ImageConstants.scooterImage,
-              height: 18,
-              width: 18,
-              colorFilter: ColorFilter.mode(
-                  AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),
-            ),
-            wBox(6.w),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: Text(
-                "\$5 Delivery",
-                style: AppFontStyle.text_15_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
-              ),
-            ),
-            Text(
-              "  •  ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,
-                  family: AppFontFamily.gilroyRegular),
-            ),
-            SvgPicture.asset(
-              ImageConstants.cartIconImage,
-              height: 18,
-              colorFilter:
-                  ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),
-            ),
-            wBox(6.w),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: Text(
-                "No min. order",
-                style: AppFontStyle.text_15_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
-              ),
-            ),
           ],
         ),
         // hBox(18.h),
@@ -966,10 +969,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         //     )
         //   ],
         // ),
-        hBox(15.h),
+        hBox(20.h),
         Container(
           decoration: BoxDecoration(
-              color: AppColors.primary,
+              color: AppColors.primary.withOpacity(0.1),
+              border: Border.all(
+                width: 1,
+                color: AppColors.primary
+              ),
               borderRadius: BorderRadius.circular(54.r)),
           padding: REdgeInsets.symmetric(vertical: 7, horizontal: 10),
           child: Row(
@@ -978,304 +985,304 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
               SvgPicture.asset(
                 ImageConstants.scooterImage,
                 height: 18,
-                colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                colorFilter: ColorFilter.mode(AppColors.black, BlendMode.srcIn),
               ),
               wBox(8.w),
               Padding(
                 padding: REdgeInsets.only(top: 3.0),
                 child: Text(
                   "Free delivery when you spend over \$1009",
-                  style: AppFontStyle.text_14_400(AppColors.white,
-                      family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.black,
+                      family: AppFontFamily.gilroyRegular),
                 ),
               ),
             ],
           ),
         ),
+        hBox(20.h),
       ],
     );
   }
 
-  //
-  // Widget openHours() {
-  //   var openingHours = controller.restaurant_Data.value.restaurant!.openingHours;
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         "Open Hours",
-  //         style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-  //       ),
-  //       hBox(14),
-  //       for (var openingHour in openingHours!)
-  //         Padding(
-  //           padding: const EdgeInsets.only(bottom: 10.0),
-  //           child: SizedBox(
-  //             // width: Get.width * 0.7,
-  //             child: Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //               children: [
-  //                 Text(
-  //                   openingHour.day ?? "",
-  //                   style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-  //                   overflow: TextOverflow.ellipsis,
-  //                 ),
-  //                 Text(
-  //                   openingHour.status == null
-  //                       ? 'Closed'
-  //                       : "${openingHour.open} - ${openingHour.close}",
-  //                   style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-  //                   textAlign: TextAlign.start,
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //     ],
-  //   );
-  // }
-  //
-  // Widget description() {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         "Descriptions",
-  //         style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-  //       ),
-  //       hBox(10),
-  //       Text(
-  //         controller.restaurant_Data.value.restaurant!.shopDes.toString(),
-  //         maxLines: 100,
-  //         style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-  //       ),
-  //     ],
-  //   );
-  // }
-  //
-  // Widget reviews() {
-  //   return Padding(
-  //     padding: EdgeInsets.only(top: 30.h),
-  //     child: Column(
-  //       children: [
-  //         Column(
-  //           children: [
-  //             ListView.builder(
-  //               shrinkWrap: true,
-  //               physics: const NeverScrollableScrollPhysics(),
-  //               itemCount: controller.restaurant_Data.value.review!.length,
-  //               itemBuilder: (context, index) {
-  //                 return controller.restaurant_Data.value.review![index].user !=
-  //                         null
-  //                     ? Column(
-  //                         children: [
-  //                           Row(
-  //                             crossAxisAlignment: CrossAxisAlignment.start,
-  //                             children: [
-  //                               ClipRRect(
-  //                                 borderRadius: BorderRadius.circular(50.r),
-  //                                 child: CachedNetworkImage(
-  //                                   imageUrl: controller.restaurant_Data.value
-  //                                       .review![index].user!.imageUrl
-  //                                       .toString(),
-  //                                   fit: BoxFit.cover,
-  //                                   height: 50.h,
-  //                                   width: 50.h,
-  //                                   errorWidget: (context, url, error) =>
-  //                                       Center(
-  //                                           child: Container(
-  //                                     height: 50.h,
-  //                                     width: 50.h,
-  //                                     color: AppColors.gray.withOpacity(.2),
-  //                                     child: Icon(
-  //                                       Icons.person,
-  //                                       color: AppColors.gray,
-  //                                     ),
-  //                                   )),
-  //                                   placeholder: (context, url) =>
-  //                                       Shimmer.fromColors(
-  //                                     baseColor: AppColors.gray,
-  //                                     highlightColor: AppColors.lightText,
-  //                                     child: Container(
-  //                                       decoration: BoxDecoration(
-  //                                         color: AppColors.gray,
-  //                                         borderRadius:
-  //                                             BorderRadius.circular(20.r),
-  //                                       ),
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                               wBox(15),
-  //                               Flexible(
-  //                                 flex: 4,
-  //                                 child: Column(
-  //                                   crossAxisAlignment:
-  //                                       CrossAxisAlignment.start,
-  //                                   children: [
-  //                                     Container(
-  //                                       decoration: BoxDecoration(
-  //                                         color: AppColors.bgColor,
-  //                                         borderRadius:
-  //                                             BorderRadius.circular(20),
-  //                                       ),
-  //                                       child: Padding(
-  //                                         padding: EdgeInsets.all(10.h),
-  //                                         child: Column(
-  //                                           crossAxisAlignment:
-  //                                               CrossAxisAlignment.start,
-  //                                           mainAxisAlignment:
-  //                                               MainAxisAlignment.start,
-  //                                           children: [
-  //                                             Text(
-  //                                               controller
-  //                                                   .restaurant_Data
-  //                                                   .value
-  //                                                   .review![index]
-  //                                                   .user!
-  //                                                   .firstName
-  //                                                   .toString(),
-  //                                               style: AppFontStyle.text_16_400(
-  //                                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
-  //                                             ),
-  //                                             hBox(5),
-  //                                             RatingBar.readOnly(
-  //                                               filledIcon: Icons.star,
-  //                                               emptyIcon: Icons.star,
-  //                                               filledColor: AppColors.goldStar,
-  //                                               emptyColor:
-  //                                                   AppColors.normalStar,
-  //                                               initialRating: double.parse(
-  //                                                   controller
-  //                                                       .restaurant_Data
-  //                                                       .value
-  //                                                       .review![index]
-  //                                                       .rating!
-  //                                                       .toString()),
-  //                                               maxRating: 5,
-  //                                               size: 20.h,
-  //                                             ),
-  //                                             hBox(10),
-  //                                             Text(
-  //                                               controller.restaurant_Data.value
-  //                                                   .review![index].message
-  //                                                   .toString(),
-  //                                               style: AppFontStyle.text_16_400(
-  //                                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
-  //                                               maxLines: 3,
-  //                                             ),
-  //                                             hBox(10),
-  //                                             Text(
-  //                                               controller.formatDate(controller
-  //                                                   .restaurant_Data
-  //                                                   .value
-  //                                                   .review![index]
-  //                                                   .updatedAt
-  //                                                   .toString()),
-  //                                               style: AppFontStyle.text_16_400(
-  //                                                   AppColors.lightText,family: AppFontFamily.gilroyRegular),
-  //                                             ),
-  //                                           ],
-  //                                         ),
-  //                                       ),
-  //                                     ),
-  //                                     if (controller.restaurant_Data.value
-  //                                             .review![index].reply !=
-  //                                         null)
-  //                                       Padding(
-  //                                         padding: EdgeInsets.only(top: 10.h),
-  //                                         child: Row(
-  //                                           crossAxisAlignment:
-  //                                               CrossAxisAlignment.start,
-  //                                           mainAxisAlignment:
-  //                                               MainAxisAlignment.end,
-  //                                           children: [
-  //                                             Icon(
-  //                                               Icons.reply,
-  //                                               color: AppColors.primary,
-  //                                             ),
-  //                                             Flexible(
-  //                                               child: Text(
-  //                                                 controller
-  //                                                     .restaurant_Data
-  //                                                     .value
-  //                                                     .review![index]
-  //                                                     .reply
-  //                                                     .toString()
-  //                                                     .trim(),
-  //                                                 style:
-  //                                                     AppFontStyle.text_16_400(
-  //                                                         AppColors.lightText,family: AppFontFamily.gilroyMedium),
-  //                                                 maxLines: 100,
-  //                                                 overflow:
-  //                                                     TextOverflow.ellipsis,
-  //                                               ),
-  //                                             ),
-  //                                           ],
-  //                                         ),
-  //                                       ),
-  //                                   ],
-  //                                 ),
-  //                               )
-  //                             ],
-  //                           ),
-  //                           Padding(
-  //                             padding: REdgeInsets.symmetric(vertical: 10),
-  //                             child: const Divider(),
-  //                           ),
-  //                         ],
-  //                       )
-  //                     : const SizedBox();
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //         controller.restaurant_Data.value.totalReviews!.toInt() > 0
-  //             ? Column(
-  //                 children: [
-  //                   hBox(10),
-  //                   InkWell(
-  //                     splashColor: Colors.transparent,
-  //                     highlightColor: Colors.transparent,
-  //                     onTap: () {
-  //                       Get.toNamed(
-  //                         AppRoutes.productReviews,
-  //                         arguments: {
-  //                           'product_id': widget.Restaurantid.toString(),
-  //                           'product_review':
-  //                               controller.restaurant_Data.value.averageRating,
-  //                           'review_count': controller
-  //                               .restaurant_Data.value.totalReviews
-  //                               .toString(),
-  //                           "type": "restaurant",
-  //                         },
-  //                       );
-  //                       seeAllProductReviewController.seeAllProductReviewApi(
-  //                           vendorId: widget.Restaurantid.toString(),
-  //                           type: "restaurant");
-  //                     },
-  //                     child: Row(
-  //                       mainAxisAlignment: MainAxisAlignment.center,
-  //                       children: [
-  //                         Text(
-  //                           "See All (${controller.restaurant_Data.value.totalReviews.toString()})",
-  //                           style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-  //                         ),
-  //                         Icon(
-  //                           Icons.arrow_forward,
-  //                           color: AppColors.primary,
-  //                           size: 20.h,
-  //                         )
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ],
-  //               )
-  //             : const SizedBox(),
-  //       ],
-  //     ),
-  //   );
-  // }
+ /* Widget openHours() {
+    var openingHours = controller.restaurant_Data.value.restaurant!.openingHours;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Open Hours",
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        ),
+        hBox(14),
+        for (var openingHour in openingHours!)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: SizedBox(
+              // width: Get.width * 0.7,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    openingHour.day ?? "",
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    openingHour.status == null
+                        ? 'Closed'
+                        : "${openingHour.open} - ${openingHour.close}",
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    textAlign: TextAlign.start,
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget description() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Descriptions",
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        ),
+        hBox(10),
+        Text(
+          controller.restaurant_Data.value.restaurant!.shopDes.toString(),
+          maxLines: 100,
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        ),
+      ],
+    );
+  }
+
+  Widget reviews() {
+    return Padding(
+      padding: EdgeInsets.only(top: 30.h),
+      child: Column(
+        children: [
+          Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.restaurant_Data.value.review!.length,
+                itemBuilder: (context, index) {
+                  return controller.restaurant_Data.value.review![index].user !=
+                          null
+                      ? Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(50.r),
+                                  child: CachedNetworkImage(
+                                    imageUrl: controller.restaurant_Data.value
+                                        .review![index].user!.imageUrl
+                                        .toString(),
+                                    fit: BoxFit.cover,
+                                    height: 50.h,
+                                    width: 50.h,
+                                    errorWidget: (context, url, error) =>
+                                        Center(
+                                            child: Container(
+                                      height: 50.h,
+                                      width: 50.h,
+                                      color: AppColors.gray.withOpacity(.2),
+                                      child: Icon(
+                                        Icons.person,
+                                        color: AppColors.gray,
+                                      ),
+                                    )),
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: AppColors.gray,
+                                      highlightColor: AppColors.lightText,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.gray,
+                                          borderRadius:
+                                              BorderRadius.circular(20.r),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                wBox(15),
+                                Flexible(
+                                  flex: 4,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: AppColors.bgColor,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10.h),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                controller
+                                                    .restaurant_Data
+                                                    .value
+                                                    .review![index]
+                                                    .user!
+                                                    .firstName
+                                                    .toString(),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                              ),
+                                              hBox(5),
+                                              RatingBar.readOnly(
+                                                filledIcon: Icons.star,
+                                                emptyIcon: Icons.star,
+                                                filledColor: AppColors.goldStar,
+                                                emptyColor:
+                                                    AppColors.normalStar,
+                                                initialRating: double.parse(
+                                                    controller
+                                                        .restaurant_Data
+                                                        .value
+                                                        .review![index]
+                                                        .rating!
+                                                        .toString()),
+                                                maxRating: 5,
+                                                size: 20.h,
+                                              ),
+                                              hBox(10),
+                                              Text(
+                                                controller.restaurant_Data.value
+                                                    .review![index].message
+                                                    .toString(),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                                maxLines: 3,
+                                              ),
+                                              hBox(10),
+                                              Text(
+                                                controller.formatDate(controller
+                                                    .restaurant_Data
+                                                    .value
+                                                    .review![index]
+                                                    .updatedAt
+                                                    .toString()),
+                                                style: AppFontStyle.text_16_400(
+                                                    AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      if (controller.restaurant_Data.value
+                                              .review![index].reply !=
+                                          null)
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10.h),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(
+                                                Icons.reply,
+                                                color: AppColors.primary,
+                                              ),
+                                              Flexible(
+                                                child: Text(
+                                                  controller
+                                                      .restaurant_Data
+                                                      .value
+                                                      .review![index]
+                                                      .reply
+                                                      .toString()
+                                                      .trim(),
+                                                  style:
+                                                      AppFontStyle.text_16_400(
+                                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                                  maxLines: 100,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: REdgeInsets.symmetric(vertical: 10),
+                              child: const Divider(),
+                            ),
+                          ],
+                        )
+                      : const SizedBox();
+                },
+              ),
+            ],
+          ),
+          controller.restaurant_Data.value.totalReviews!.toInt() > 0
+              ? Column(
+                  children: [
+                    hBox(10),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.productReviews,
+                          arguments: {
+                            'product_id': widget.Restaurantid.toString(),
+                            'product_review':
+                                controller.restaurant_Data.value.averageRating,
+                            'review_count': controller
+                                .restaurant_Data.value.totalReviews
+                                .toString(),
+                            "type": "restaurant",
+                          },
+                        );
+                        seeAllProductReviewController.seeAllProductReviewApi(
+                            vendorId: widget.Restaurantid.toString(),
+                            type: "restaurant");
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "See All (${controller.restaurant_Data.value.totalReviews.toString()})",
+                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: AppColors.primary,
+                            size: 20.h,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox(),
+        ],
+      ),
+    );
+  }*/
 
   Widget moreProducts(context, String? Restaurantid) {
     return Padding(
@@ -1283,61 +1290,20 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          hBox(10.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "All Products",
-                style: AppFontStyle.text_20_600(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
-              ),
-              // if(controller.restaurant_Data.value.moreProducts?.isNotEmpty ?? false)
-              // InkWell(
-              //   onTap: () {
-              //     seeallproductcontroller.seeAll_Product_Api(
-              //         restaurant_id: widget.Restaurantid.toString(),
-              //         category_id: "");
-              //     Get.toNamed(AppRoutes.moreProducts, arguments: {
-              //       'restaurant_id': widget.Restaurantid.toString(),
-              //       'category_id': '',
-              //     });
-              //   },
-              //   splashColor: Colors.transparent,
-              //   highlightColor: Colors.transparent,
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       Text(
-              //         "See All",
-              //         style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-              //       ),
-              //       wBox(4),
-              //       Icon(
-              //         Icons.arrow_forward_sharp,
-              //         color: AppColors.primary,
-              //         size: 18,
-              //       )
-              //     ],
-              //   ),
-              // ),
-            ],
-          ),
-          hBox(15),
+          hBox(10),
           controller.restaurant_Data.value.moreProducts!.isEmpty
               ? CustomNoDataFound(heightBox: hBox(0.h))
-              : GridView.builder(
+              : ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount:
-                      controller.restaurant_Data.value.moreProducts?.length ??
-                          0,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      controller.restaurant_Data.value.moreProducts?.length ?? 0,
+                 /* gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     childAspectRatio: 0.6.w,
                     crossAxisSpacing: 14.w,
                     mainAxisSpacing: 5.h,
-                  ),
+                  ),*/
                   itemBuilder: (context, index) {
                     return GestureDetector(
                         onTap: () {
@@ -1363,7 +1329,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                 .toString(),
                           ));
                         },
-                        child: CustomItemBanner(
+                        child: UpdatedCustomItemBanner(
                           index: index,
                           product_id: controller
                               .restaurant_Data.value.moreProducts![index].id
@@ -1372,7 +1338,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                               .moreProducts![index].categoryId
                               .toString(),
                           image: controller.restaurant_Data.value
-                              .moreProducts![index].urlImage,
+                              .moreProducts![index].imageUrl,
                           title: controller
                               .restaurant_Data.value.moreProducts![index].title,
                           // rating: controller.restaurant_Data.value.moreProducts![index].rating.toString(),
@@ -1390,7 +1356,9 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                               .moreProducts![index].restoName
                               .toString(),
                         ));
-                  }),
+                  }, separatorBuilder: (BuildContext context, int index) {
+                     return SizedBox(height: 16.h);
+          },),
         ],
       ),
     );
@@ -1457,11 +1425,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         ? "All"
         : categoryKeys[controller.categoriesIndex.value];
 
-    final List<AllProducts> catValue =
-        // controller.categoriesIndex.value == 0
-        //     ? controller.restaurant_Data.value.categories?.data.values.expand((e) => e).toList() ?? []
-        //     :
-        controller.restaurant_Data.value.categories?.data[selectedKey] ?? [];
+    final List<Product> catValue =
+        controller.categoriesIndex.value == 0
+            ? controller.restaurant_Data.value.categories?.data.values.expand((e) => e).toList() ?? []
+            : controller.restaurant_Data.value.categories?.data[selectedKey] ?? [];
 
     return KeyedSubtree(
       key: ValueKey(selectedKey),
@@ -1471,57 +1438,18 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             hBox(10.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  selectedKey,
-                  style: AppFontStyle.text_20_600(AppColors.darkText,
-                      family: AppFontFamily.gilroyRegular),
-                ),
-                // InkWell(
-                //   onTap: () {
-                //     seeallproductcontroller.seeAll_Product_Api(
-                //         restaurant_id: widget.Restaurantid.toString(),
-                //         category_id: "");
-                //     Get.toNamed(AppRoutes.moreProducts, arguments: {
-                //       'restaurant_id': widget.Restaurantid.toString(),
-                //       'category_id': '',
-                //     });
-                //   },
-                //   splashColor: Colors.transparent,
-                //   highlightColor: Colors.transparent,
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Text(
-                //         "See All",
-                //         style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-                //       ),
-                //       wBox(4),
-                //       Icon(
-                //         Icons.arrow_forward_sharp,
-                //         color: AppColors.primary,
-                //         size: 18,
-                //       )
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
-            hBox(15),
             catValue.isEmpty
                 ? CustomNoDataFound(heightBox: hBox(0.h))
-                : GridView.builder(
+                : ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: catValue.length ?? 0,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                   /* gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 0.6.w,
                       crossAxisSpacing: 14.w,
                       mainAxisSpacing: 5.h,
-                    ),
+                    ),*/
                     itemBuilder: (context, index) {
                       return GestureDetector(
                           onTap: () {
@@ -1538,7 +1466,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                   catValue[index].categoryName.toString(),
                             ));
                           },
-                          child: CustomItemBanner(
+                          child: UpdatedCustomItemBanner(
                             index: index,
                             product_id: catValue[index].id.toString(),
                             categoryId: catValue[index].categoryId.toString(),
@@ -1552,7 +1480,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                             regular_price: catValue[index].regularPrice,
                             resto_name: catValue[index].restoName,
                           ));
-                    }),
+                    }, separatorBuilder: (BuildContext context, int index) {
+                         return SizedBox(height: 16.h);}),
               if((catValue.length <4) || (selectedKey == "All" && catValue.length < 4))...[
                 SizedBox(height:catValue.isEmpty ? Get.height * 0.135 : Get.height * 0.25)
             ],

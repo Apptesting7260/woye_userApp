@@ -371,7 +371,6 @@ class Repository {
     await initializeUser();
     dynamic response = await _apiService.postApiWithParams(data,AppUrls.getCartData, token,params:params);
     return RestaurantSingleCartModel.fromJson(response);
-    // return RestaurantCartModal.fromJson(response);
   }
 
   Future<dynamic> updateQuantityApi(var data) async {
@@ -416,8 +415,8 @@ class Repository {
 
   Future<dynamic> getRestaurantCheckOutApi({Map<String, dynamic>? params})async{
     await initializeUser();
-    dynamic response = await _apiService.getWithParams(AppUrls.checkoutAllRestaurant, token,params:params);
-    // dynamic response = await _apiService.getApi(AppUrls.checkoutAllRestaurant, token);
+    // dynamic response = await _apiService.getWithParams(AppUrls.checkoutAllRestaurant, token,params:params);
+    dynamic response = await _apiService.getApi(AppUrls.checkoutAllRestaurant, token);
     return RestaurantCartModal.fromJson(response);
   }
 

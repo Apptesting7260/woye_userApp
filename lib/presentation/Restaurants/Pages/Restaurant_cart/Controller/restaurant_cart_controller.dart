@@ -57,6 +57,7 @@ class RestaurantCartController extends GetxController {
       "cart_id" : cartId,
     };
     readOnly.value = true;
+    print("./././././././././././.${cartId}");
     couponCodeController.value.clear();
     setRxRequestStatusSingleCart(Status.LOADING);
     api.restaurantCartGetDataApi(data).then((value) {
@@ -78,6 +79,7 @@ class RestaurantCartController extends GetxController {
     var data = {
       "cart_id" : cartId,
     };
+    print("hccccccccccccc");
     // setRxRequestStatus(Status.LOADING);
     couponCodeController.value.clear();
     readOnly.value = true;

@@ -2142,7 +2142,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 color: Colors.grey[400]!,
                 width: 1.5,
               ),
-              activeColor: AppColors.primary,
+              activeColor: AppColors.black,
             ),
           ),
           wBox(12.w),

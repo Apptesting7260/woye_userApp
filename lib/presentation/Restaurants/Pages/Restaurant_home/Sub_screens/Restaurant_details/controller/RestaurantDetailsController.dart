@@ -53,7 +53,7 @@ class RestaurantDetailsController extends GetxController {
       }
 
       print(
-          "Location from api ${restaurant_Data.value.restaurant?.shopAddress}");
+          "Location from api ${restaurant_Data.value.restaurant?.address}");
       print("latitude from api ${restaurant_Data.value.restaurant?.latitude}");
       print(
           "longitude from api ${restaurant_Data.value.restaurant?.longitude}");
@@ -102,7 +102,7 @@ class RestaurantDetailsController extends GetxController {
       }
 
       print(
-          "Location from api ${restaurant_Data.value.restaurant?.shopAddress}");
+          "Location from api ${restaurant_Data.value.restaurant?.address}");
       print("latitude from api ${restaurant_Data.value.restaurant?.latitude}");
       print(
           "longitude from api ${restaurant_Data.value.restaurant?.longitude}");

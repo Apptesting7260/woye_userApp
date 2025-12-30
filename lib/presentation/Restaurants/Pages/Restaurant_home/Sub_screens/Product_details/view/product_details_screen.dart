@@ -3,7 +3,9 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:woye_user/Core/Constant/app_urls.dart' show AppUrls;
 import 'package:woye_user/Core/Utils/login_required_pop_up.dart';
 import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
@@ -28,6 +30,7 @@ import 'package:woye_user/shared/widgets/error_widget.dart';
 import 'package:woye_user/shared/widgets/radio_button.dart';
 import '../../../../../../../Core/Utils/image_cache_height.dart';
 import '../../../../../../../Shared/theme/font_family.dart';
+import '../modal/specific_product_modal.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String productId;
@@ -428,7 +431,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   // ---------- add to cart api -----------
                                   // controller.productPriceFun();
 
-                                  if ((controller.productData.value.product?.options?.isNotEmpty ?? false) ||
+                               /*   if ((controller.productData.value.product?.options?.isNotEmpty ?? false) ||
                                       (controller.productData.value.product?.addOns?.isNotEmpty ?? false)) {
                                     addToCartPopUp(context);
                                   }else{
@@ -446,10 +449,27 @@ class ProductDetailsScreen extends StatelessWidget {
                                     extrasItemIds: controller.extrasItemIdsId.toList(),
                                     extrasItemNames: controller.extrasItemIdsName.toList(),
                                     extrasItemPrices: controller.extrasItemIdsPrice.toList(),
+                                  );*/
+
+
+                                  addToCartController.addToCartApi(
+                                    isPopUp: false,
+                                    cartId: cartId,
+                                    productId: controller.productData.value.product!.id.toString(),
+                                    productPrice: controller.productData.value.product!.salePrice != null
+                                        ? controller.productData.value.product!.salePrice.toString()
+                                        : controller.productData.value.product!.regularPrice.toString(),
+                                    productQuantity: controller.cartCount.toString(),
+                                    restaurantId: controller.productData.value.product!.vendorId.toString(),
+                                    addons: controller.selectedAddOn.toList(),
+                                    extrasIds: controller.extrasTitlesIdsId,
+                                    extrasItemIds: controller.extrasItemIdsId.toList(),
+                                    extrasItemNames: controller.extrasItemIdsName.toList(),
+                                    extrasItemPrices: controller.extrasItemIdsPrice.toList(),
                                   );
+
                                   pt("object ${controller.extrasItemIdsName}");
                                 }
-                                  }
                               },
                             ),
                           ),
@@ -586,370 +606,6 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-/*
-  Widget mainContainer() {
-    controller.selectedImageUrl.value =
-        controller.productData.value.product!.imageUrl.toString();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Obx(
-            () => ClipRRect(
-              borderRadius: BorderRadius.circular(20.r),
-              child: CachedNetworkImage(
-                memCacheHeight: memCacheHeight,
-                imageUrl: controller.selectedImageUrl.value,
-                fit: BoxFit.cover,
-                height: 340.h,
-                errorWidget: (context, url, error) =>const ImageErrorWidget(),
-                placeholder: (context, url) => Shimmer.fromColors(
-                  baseColor: AppColors.gray,
-                  highlightColor: AppColors.lightText,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.gray,
-                      borderRadius: BorderRadius.circular(20.r),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-        if (controller.productData.value.product!.addimgUrl!.isNotEmpty)...[
-          hBox(10),
-          SizedBox(
-            height: 75.h,
-            child: ListView.separated(
-              shrinkWrap: true,
-              itemCount: 1 +
-                  (controller.productData.value.product!.addimgUrl!.length ??
-                      0),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                String imageUrl;
-
-                if (index == 0) {
-                  imageUrl = controller.productData.value.product!.imageUrl.toString();
-                } else {
-                  imageUrl = controller.productData.value.product!.addimgUrl![index - 1];
-                }
-
-                controller.isSelected.value = 0;
-
-                return Obx(
-                  () => GestureDetector(
-                    onTap: () {
-                      controller.isSelected.value = index;
-
-                      pt("object  ${controller.isSelected.value}");
-
-                      controller.selectedImageUrl.value = imageUrl;
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: controller.isSelected.value == index
-                            ? Border.all(color: AppColors.primary, width: 2)
-                            : null,
-                        borderRadius: BorderRadius.circular(18.r),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.r),
-                        child: CachedNetworkImage(
-                          memCacheHeight: 500,
-                          imageUrl: imageUrl,
-                          fit: BoxFit.cover,
-                          width: 75.h,
-                          errorWidget: (context, url, error) =>Container(
-                            width: 75.h,
-                            decoration: BoxDecoration(
-                              border: controller.isSelected.value != index
-                                  ? Border.all(color: AppColors.textFieldBorder)
-                                  : null,
-                              color: AppColors.textFieldBorder.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(18.r),
-                            ),
-                            child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 17),
-                          ),
-                          placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: AppColors.gray,
-                            highlightColor: AppColors.lightText,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.gray,
-                                borderRadius: BorderRadius.circular(18.r),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (context, itemIndex) => wBox(10.w),
-            ),
-          ),
-        ],
-        // Obx(
-        //   () => ClipRRect(
-        //     borderRadius: BorderRadius.circular(20.r),
-        //     child: CachedNetworkImage(
-        //       imageUrl: controller.selectedImageUrl.value.isEmpty
-        //           ? controller.productData.value.product!.urlImage.toString()
-        //           : controller.selectedImageUrl.value,
-        //       // Display selected image if available
-        //       fit: BoxFit.cover,
-        //       height: 340.h,
-        //       errorWidget: (context, url, error) =>
-        //           const Center(child: Icon(Icons.error)),
-        //       placeholder: (context, url) => Shimmer.fromColors(
-        //         baseColor: AppColors.gray,
-        //         highlightColor: AppColors.lightText,
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             color: AppColors.gray,
-        //             borderRadius: BorderRadius.circular(20.r),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        // if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
-        //   hBox(10),
-        // if (controller.productData.value.product!.urlAddimg!.isNotEmpty)
-        //   SizedBox(
-        //     height: 75.h,
-        //     child: ListView.separated(
-        //       shrinkWrap: true,
-        //       itemCount:
-        //           controller.productData.value.product?.urlAddimg!.length ?? 0,
-        //       scrollDirection: Axis.horizontal,
-        //       itemBuilder: (context, index) {
-        //         return Obx(
-        //           () => GestureDetector(
-        //             onTap: () {
-        //               controller.isSelected.value = index;
-        //
-        //               controller.selectedImageUrl.value = controller
-        //                   .productData.value.product!.urlAddimg![index];
-        //             },
-        //             child: Container(
-        //               decoration: BoxDecoration(
-        //                 border: controller.isSelected.value == index
-        //                     ? Border.all(color: AppColors.primary, width: 2)
-        //                     : null,
-        //                 borderRadius: BorderRadius.circular(18.r),
-        //               ),
-        //               child: ClipRRect(
-        //                 borderRadius: BorderRadius.circular(15.r),
-        //                 child: CachedNetworkImage(
-        //                   imageUrl: controller
-        //                       .productData.value.product!.urlAddimg![index],
-        //                   fit: BoxFit.cover,
-        //                   width: 75.h,
-        //                   errorWidget: (context, url, error) =>
-        //                       const Center(child: Icon(Icons.error)),
-        //                   placeholder: (context, url) => Shimmer.fromColors(
-        //                     baseColor: AppColors.gray,
-        //                     highlightColor: AppColors.lightText,
-        //                     child: Container(
-        //                       decoration: BoxDecoration(
-        //                         color: AppColors.gray,
-        //                         borderRadius: BorderRadius.circular(18.r),
-        //                       ),
-        //                     ),
-        //                   ),
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //         );
-        //       },
-        //       separatorBuilder: (context, itemIndex) => wBox(10.w),
-        //     ),
-        //   ),
-        hBox(10),
-        Text(
-          categoryName,
-          style: AppFontStyle.text_16_400(AppColors.primary,
-              family: AppFontFamily.gilroyMedium),
-        ),
-        hBox(10),
-        Text(
-          controller.productData.value.product!.title.toString(),
-          style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-        ),
-        hBox(10),
-        // Row(
-        //   children: [
-        //     SvgPicture.asset("assets/svg/star-yellow.svg"),
-        //     wBox(4),
-        //     Text(
-        //       "${controller.productData.value.product!.rating.toString()}/5",
-        //       style: AppFontStyle.text_14_400(AppColors.lightText),
-        //     ),
-        //   ],
-        // ),
-        // hBox(10),
-
-        GestureDetector(
-          onTap: () {
-            Get.to(RestaurantBaseScaffold(
-              child: RestaurantDetailsScreen(
-                Restaurantid:
-                    controller.productData.value.product!.vendorId.toString(),
-              ),
-            ));
-            restaurantDetailsController.restaurant_Details_Api(
-              id: controller.productData.value.product!.vendorId.toString(),
-            );
-          },
-          child: Row(
-            children: [
-              // Text(
-              //   "Provided by",
-              //   style: AppFontStyle.text_12_400(AppColors.lightText),
-              // ),
-              // wBox(5),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(50.r),
-                child: Image.network(
-                  controller.productData.value.product!.restoImage.toString(),
-                  height: 20.h,
-                  width: 20.h,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    height: 22.h,
-                    width: 22.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.textFieldBorder.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(50.r),
-                    ),
-                    child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 15,),
-                  ),
-                ),
-              ),
-              wBox(5),
-              Flexible(
-                child: Text(
-                  controller.productData.value.product!.restoName
-                      .toString()
-                      .capitalize!,
-                  style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-        hBox(10),
-        Row(
-          children: [
-            controller.productData.value.product!.salePrice != null
-                ? Text(
-                    "\$${controller.productData.value.product!.salePrice.toString()}",
-                    style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-                  )
-                : Text(
-                    "\$${controller.productData.value.product!.regularPrice.toString()}",
-                    style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-                  ),
-            wBox(8),
-            if (controller.productData.value.product!.salePrice != null)
-              Text(
-                "\$${controller.productData.value.product!.regularPrice.toString()}",
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColors.mediumText,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: AppFontFamily.gilroyRegular,
-                    decoration: TextDecoration.lineThrough,
-                    decorationColor: AppColors.mediumText),
-              ),
-            const Spacer(),
-            Container(
-              height: 40.h,
-              width: 115.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50.r),
-                border: Border.all(width: 0.8.w, color: AppColors.primary),
-              ),
-              child: Obx(
-                () => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     if (controller.cartCount.value > 1) {
-                    //       controller.cartCount.value--;
-                    //       if(controller.goToCart.value == true){
-                    //         controller.goToCart.value = false;
-                    //       }
-                    //     }
-                    //   },
-                    //   child: Icon(
-                    //     Icons.remove,
-                    //     size: 20.w,
-                    //   ),
-                    // ),
-                    IconButton(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                      if (controller.cartCount.value > 1) {
-                        controller.cartCount.value--;
-                        if(controller.goToCart.value == true){
-                          controller.goToCart.value = false;
-                        }
-                      }
-                    }, icon: Icon(
-                      Icons.remove,
-                      size: 20.w,
-                      ),
-                    ),
-                    Text(
-                      "${controller.cartCount.value}",
-                      style: AppFontStyle.text_14_400(AppColors.darkText),
-                    ),
-                    // InkWell(
-                    //   onTap: () {
-                    //     controller.cartCount.value++;
-                    //     if(controller.goToCart.value == true){
-                    //       controller.goToCart.value = false;
-                    //     }
-                    //   },
-                    //   child: Icon(
-                    //     Icons.add,
-                    //     size: 20.w,
-                    //   ),
-                    // ),
-                    IconButton(
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      padding: EdgeInsets.zero,
-                      onPressed: () {
-                      controller.cartCount.value++;
-                      if(controller.goToCart.value == true){
-                        controller.goToCart.value = false;
-                      }
-                    }, icon:  Icon(
-                      Icons.add,
-                      size: 20.w,
-                    ),)
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
-    );
-  }
-*/
   Widget mainContainer() {
     controller.selectedImageUrl.value =
         controller.productData.value.product!.imageUrl.toString();
@@ -1086,19 +742,28 @@ class ProductDetailsScreen extends StatelessWidget {
                       const Spacer(),
                       Row(
                         children: [
-                          Container(
-                            padding: REdgeInsets.all(9),
-                            height: 44.h,
-                            width: 44.h,
-                            decoration: BoxDecoration(
-                              color: AppColors.greyBackground,
-                              borderRadius: BorderRadius.circular(12.r),
-                            ),
-                            child: controller.isLoading.value
-                                ? circularProgressIndicator(size: 18)
-                                : Icon(
-                              Icons.share,
-                              size: 24.w,
+                          GestureDetector(
+                            onTap: (){
+                              final restaurant = controller.productData.value.product;
+
+                              Share.share(
+                                'Check out this amazing restaurant: ${restaurant?.restoName ?? "Our Restaurant"}\n'
+                                    '${AppUrls.hostUrl}/restaurants?id=${restaurant?.vendorId}',
+                                subject: restaurant?.restoName ?? 'Share Restaurant',
+                              );
+                            },
+                            child: Container(
+                              padding: REdgeInsets.all(9),
+                              height: 44.h,
+                              width: 44.h,
+                              decoration: BoxDecoration(
+                                color: AppColors.greyBackground,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child:  Icon(
+                                Icons.share,
+                                size: 24.w,
+                              ),
                             ),
                           ),
                           wBox(5),
@@ -1224,7 +889,8 @@ class ProductDetailsScreen extends StatelessWidget {
                   extra(context: Get.context),
                   hBox(20),
                   addOn(),
-                  hBox(20),
+                  hBox(30),
+                  moreProducts()
                 ],
               ),
             ),
@@ -1240,7 +906,7 @@ class ProductDetailsScreen extends StatelessWidget {
       children: [
         Text(
           "Descriptions",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_20_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         hBox(10),
         Text(
@@ -1253,185 +919,202 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Widget extra({context}) {
+    // Check if options are available
+    if (controller.productData.value.product?.options == null ||
+        controller.productData.value.product!.options!.isEmpty) {
+      return SizedBox.shrink(); // Return empty widget if no options
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ---------- Size Section ----------
-        Text(
-          "Size",
-          style: AppFontStyle.text_20_600(AppColors.darkText, family: AppFontFamily.gilroyRegular),
-        ),
-        hBox(10),
+        // Loop through each option
+        ...controller.productData.value.product!.options!.asMap().entries.map((entry) {
+          final option = entry.value;
+          final index = entry.key;
 
-        // Small Size (Selected)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Small",
-              style: AppFontStyle.text_16_400(
-                AppColors.black,
-                family: AppFontFamily.gilroyRegular,
+          // Check if choices are available
+          if (option.choices == null || option.choices!.isEmpty) {
+            return SizedBox.shrink();
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Option Name (Heading)
+              Text(
+                option.optionName ?? "Option ${index + 1}",
+                style: AppFontStyle.text_20_500(
+                    AppColors.darkText,
+                    family: AppFontFamily.gilroySemiBold
+                ),
               ),
-            ),
-            RadioButton(
-              title: '\$18.00',
-              onChanged: (value) {
-                controller.priceRadioValue.value = value!;
-                controller.update();
-              },
-              value: 1.obs,
-              groupValue: controller.priceRadioValue,
-            )
-          ],
-        ),
-        hBox(8),
 
-        // Medium Size
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Medium",
-              style: AppFontStyle.text_16_400(
-                AppColors.darkText,
-                family: AppFontFamily.gilroyRegular,
-              ),
-            ),
-            RadioButton(
-              title: '\$22.00',
-              onChanged: (value) {
-                controller.priceRadioValue.value = value!;
-                controller.update();
-              },
-              value: 2.obs,
-              groupValue: controller.priceRadioValue,
-            )
-          ],
-        ),
-        hBox(8),
+              // Required/Selection info (if needed)
+              if (option.choices != null && option.choices!.isNotEmpty) ...[
+                hBox(5),
+                Row(
+                  children: [
+                    Text(
+                      "Required",
+                      style: AppFontStyle.text_12_200(
+                          AppColors.lightText,
+                          family: AppFontFamily.gilroyRegular
+                      ),
+                    ),
+                    Text(
+                      "•",
+                      style: AppFontStyle.text_12_200(
+                          AppColors.lightText,
+                          family: AppFontFamily.gilroyRegular
+                      ),
+                    ),
+                    wBox(4),
+                    Expanded(
+                      child: Text(
+                        "Select any 1 option",
+                        style: AppFontStyle.text_12_200(
+                            AppColors.lightText,
+                            family: AppFontFamily.gilroyRegular
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
 
-        // Large Size
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Large",
-              style: AppFontStyle.text_16_400(
-                AppColors.darkText,
-                family: AppFontFamily.gilroyRegular,
-              ),
-            ),
-            RadioButton(
-              title: '\$28.00',
-              onChanged: (value) {
-                controller.priceRadioValue.value = value!;
-                controller.update();
-              },
-              value: 3.obs,
-              groupValue: controller.priceRadioValue,
-            )
-          ],
-        ),
+              hBox(10),
 
-        hBox(20.h),
+              // Choices for this option
+              ...option.choices!.asMap().entries.map((choiceEntry) {
+                final choice = choiceEntry.value;
+                final choiceIndex = choiceEntry.key;
 
-        // ---------- Base Bread Section ----------
-        Text(
-          "Base Bread Section",
-          style: AppFontStyle.text_20_600(AppColors.darkText, family: AppFontFamily.gilroyRegular),
-        ),
-        hBox(5),
-        Row(
-          children: [
-            Text(
-              "Required",
-              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
-            ),
-            Text(
-              "•",
-              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
-            ),
-            wBox(4),
-            Text(
-              "Select any 1 option",
-              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
-            ),
-          ],
-        ),
-        hBox(10),
+                // Generate a unique key for this choice
+                final choiceKey = '${option.optionId}_${choiceIndex}';
 
-        // White Base (Selected)
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "White Base",
-              style: AppFontStyle.text_16_400(
-                AppColors.black,
-                family: AppFontFamily.gilroyRegular,
-              ),
-            ),
-            RadioButton(
-              title: '\$5.00',
-              onChanged: (value) {
-                controller.priceRadioValue.value = value!;
-                controller.update();
-              },
-              value: 4.obs,
-              groupValue: controller.priceRadioValue,
-            )
-          ],
-        ),
-        hBox(8),
+                return Column(
+                  children: [
+                    // Choice Row with FIXED LAYOUT
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Choice Name - Flexible width
+                        Flexible(
+                          flex: 2,
+                          child: Text(
+                            choice.name ?? "Choice ${choiceIndex + 1}",
+                            style: AppFontStyle.text_16_400(
+                              AppColors.black,
+                              family: AppFontFamily.gilroyRegular,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
 
-        // Cheese Burst
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Cheese Burst",
-              style: AppFontStyle.text_16_400(
-                AppColors.darkText,
-                family: AppFontFamily.gilroyRegular,
-              ),
-            ),
-            RadioButton(
-              title: '\$7.00',
-              onChanged: (value) {
-                controller.priceRadioValue.value = value!;
-                controller.update();
-              },
-              value: 5.obs,
-              groupValue: controller.priceRadioValue,
-            )
-          ],
-        ),
-        hBox(8),
+                        // Spacing
+                        wBox(8),
 
-        // Wheat Base
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Wheat Base",
-              style: AppFontStyle.text_16_400(
-                AppColors.darkText,
-                family: AppFontFamily.gilroyRegular,
-              ),
-            ),
-            RadioButton(
-              title: '\$8.00',
-              onChanged: (value) {
-                controller.priceRadioValue.value = value!;
-                controller.update();
-              },
-              value: 6.obs,
-              groupValue: controller.priceRadioValue,
-            )
-          ],
-        ),
+                        // Price and Radio Button - Fixed width
+                        Flexible(
+                          flex: 1,
+                          child: Obx(() => _buildToggleableRadioButton(
+                            title: '\$${choice.price ?? "0.00"}',
+                            isSelected: controller.isChoiceSelected(choiceKey),
+                            onTap: () {
+                              // Toggle selection for this choice
+                              controller.toggleChoiceSelection(
+                                optionId: option.optionId,
+                                optionName: option.optionName,
+                                choiceKey: choiceKey,
+                                choiceName: choice.name,
+                                choicePrice: choice.price,
+                                isRequired: true, // Set to true if required to select exactly one
+                              );
+                            },
+                          )),
+                        ),
+                      ],
+                    ),
+
+                    // Add spacing between choices (except last one)
+                    if (choiceIndex < option.choices!.length - 1) hBox(8),
+                  ],
+                );
+              }).toList(),
+
+              // Add spacing between options (except last one)
+              if (index < controller.productData.value.product!.options!.length - 1)
+                hBox(20.h),
+            ],
+          );
+        }).toList(),
       ],
+    );
+  }
+
+// Toggleable Radio Button Widget
+  Widget _buildToggleableRadioButton({
+    required String title,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        constraints: BoxConstraints(
+          maxWidth: 100, // Limit maximum width
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Price text
+            Flexible(
+              child: Text(
+                title,
+                style: AppFontStyle.text_16_400(
+                  AppColors.black,
+                  family: AppFontFamily.gilroySemiBold,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+
+            wBox(8),
+
+            // Radio circle (togglable)
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: isSelected ? AppColors.primary : AppColors.lightText,
+                  width: 2,
+                ),
+              ),
+              child: isSelected
+                  ? Center(
+                child: Container(
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primary,
+                  ),
+                ),
+              )
+                  : SizedBox(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -1450,13 +1133,13 @@ class ProductDetailsScreen extends StatelessWidget {
       children: [
         Text(
           "Add On",
-          style: AppFontStyle.text_20_600(AppColors.darkText, family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
         ),
         hBox(5),
         Row(
           children: [
             Text(
-              "Select up to 9 option",
+              "Select any option",
               style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
             ),
           ],
@@ -1492,7 +1175,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           Text(
                             controller.productData.value.product?.addOns?[index].name ?? "Addon ${index + 1}",
                             style: AppFontStyle.text_16_400(
-                              isSelected ? AppColors.primary : AppColors.darkText,
+                              AppColors.black,
                               family: AppFontFamily.gilroyRegular,
                             ),
                           ),
@@ -1504,7 +1187,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               Text(
                                 "\$${controller.productData.value.product?.addOns?[index].price ?? "0.00"}",
                                 style: AppFontStyle.text_16_600(
-                                  isSelected ? AppColors.primary : AppColors.darkText,
+                                  AppColors.black,
                                   family: AppFontFamily.gilroyRegular,
                                 ),
                               ),
@@ -1537,6 +1220,15 @@ class ProductDetailsScreen extends StatelessWidget {
                                     ),
                                     borderRadius: BorderRadius.circular(4.r),
                                   ),
+                                  child: isSelected
+                                  ? Center(
+                                    child: Icon(
+                                      Icons.check,
+                                      size: 10,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                      : null
                                 ),
                               ),
                             ],
@@ -1793,108 +1485,299 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }*/
 
-  Widget moreProducts() {
+  Widget moreProducts(){
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "More Products",
-              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              'More Products',
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
             ),
-            InkWell(
-              onTap: () {
-                seeAllProductController.seeAll_Product_Api(
-                    restaurant_id: '', category_id: categoryId.toString());
-                Get.toNamed(AppRoutes.moreProducts, arguments: {
-                  'restaurant_id': '',
-                  'category_id': categoryId.toString(),
-                  'productId' : productId.toString(),
-                });
-              },
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "See All",
-                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
-                  ),
-                  wBox(4),
-                  Icon(
-                    Icons.arrow_forward_sharp,
-                    color: AppColors.primary,
-                    size: 18,
-                  )
-                ],
-              ),
+            const Spacer(),
+            Row(
+              children: [
+                Text(
+                  "See All",
+                  style: AppFontStyle.text_15_400(AppColors.primary,
+                      family: AppFontFamily.gilroyMedium),
+                ),
+                wBox(4),
+                Icon(
+                  Icons.arrow_forward_sharp,
+                  color: AppColors.primary,
+                  size: 18,
+                ),
+              ],
             ),
           ],
         ),
-        hBox(15.h),
         GridView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: controller.productData.value.moreProducts!.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.6.w,
-              crossAxisSpacing: 14.w,
-              mainAxisSpacing: 0.h,
-            ),
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                  onTap: () {
-                    pt("object productId >>>> ${controller.productData.value.moreProducts![index].id}");
-                    // Utils.showToast("restaurant>>>>>>>>>>>> $restaurantId :: catid>>> $categoryId :: productId $productId >> :: ${controller.productData.value.moreProducts![index].id}  catName >> $categoryName");
-                    pt("restaurant>>>>>>>>>>>> $restaurantId :: catid>>> $categoryId :: productId $productId >> :: ${controller.productData.value.moreProducts![index].id}  catName >> $categoryName");
-
-                    controller.specific_Product_Api(
-                      productId: controller.productData.value.moreProducts![index].id.toString(),
-                      categoryId: categoryId.toString(),
-                    );
-
-                    Get.to(()=>RestaurantBaseScaffold(
-                      child: ProductDetailsScreen(
-                        productId: controller.productData.value.moreProducts![index].id.toString(),
-                        categoryId: categoryId,
-                        categoryName: categoryName,
-                        restaurantId: restaurantId,
-                      ),
-                    ));
-
-
-                  },
-                  child: CustomItemBanner(
-                    index: index,
-                    product_id: controller.productData.value.moreProducts![index].id.toString(),
-                    categoryId: categoryId,
-                    image: controller
-                        .productData.value.moreProducts![index].urlImage,
-                    title:
-                        controller.productData.value.moreProducts![index].title,
-                    // rating: controller
-                    //     .productData.value.moreProducts![index].rating
-                    //     .toString(),
-                    is_in_wishlist: controller
-                        .productData.value.moreProducts![index].isInWishlist,
-                    isLoading: controller
-                        .productData.value.moreProducts![index].isLoading,
-                    sale_price: controller
-                        .productData.value.moreProducts![index].salePrice
-                        .toString(),
-                    regular_price: controller
-                        .productData.value.moreProducts![index].regularPrice
-                        .toString(),
-                    resto_name: controller
-                        .productData.value.moreProducts![index].restoName
-                        .toString(),
-                  ),
-              );
-            })
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 5,
+            childAspectRatio: 0.72,
+            crossAxisSpacing: 10,
+          ),
+          itemCount: controller.productData.value.moreProducts?.length,
+          itemBuilder: (context, index) {
+            return buildMoreProducts(
+              controller.productData.value.moreProducts?[index].imageUrl,
+              controller.productData.value.moreProducts?[index].title,
+              controller.productData.value.moreProducts?[index].restoName,
+              controller.productData.value.moreProducts?[index].rating,
+              controller.productData.value.moreProducts?[index].regularPrice,
+              controller.productData.value.moreProducts?[index].isInWishlist
+            );
+          },
+        )
       ],
+    );
+  }
+
+  Widget buildMoreProducts(
+      String? image,
+      String? productName,
+      String? restroName,
+      String? rating,
+      String? price,
+      bool? isInWishlist,
+      ){
+    final isWishlisted = (isInWishlist ?? false).obs;
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: CachedNetworkImage(
+              imageUrl: image!,
+              fit: BoxFit.cover,
+            )
+          ),
+
+          Positioned(
+            top: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: () {
+                // Toggle wishlist state
+                isWishlisted.value = !isWishlisted.value;
+
+                // Call wishlist API here
+                if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                  showLoginRequired(Get.context);
+                } else {
+                  // Call your wishlist API
+                  addWishlistController.restaurant_add_product_wishlist(
+                    restaurantId: restaurantId.toString(),
+                    categoryId: categoryId,
+                    product_id: productId ?? '',
+                    cuisineType: cuisineType,
+                    priceRange: priceRange,
+                    priceSort: priceSort,
+                    quickFilter: quickFilter,
+                  );
+                }
+              },
+              child: Obx(() => Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.9),
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 4,
+                      spreadRadius: 0,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Icon(
+                    isWishlisted.value ? Icons.favorite : Icons.favorite_border,
+                    color: isWishlisted.value ? Colors.black : Colors.grey[700],
+                    size: 18,
+                  ),
+                ),
+              )),
+            ),
+          ),
+
+          // ---------- Gradient Overlay at Bottom ----------
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 80,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.6),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+
+          // Text Content Section (35-40% height)
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(8), // Reduced from 12 to 8
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Product Name and Rating Row
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Text(
+                          productName!,
+                          style: TextStyle(
+                            fontSize: 14, // Reduced from 16
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      wBox(4),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                            size: 12, // Reduced from 14
+                          ),
+                          SizedBox(width: 2),
+                          Text(
+                            rating!,
+                            style: TextStyle(
+                              fontSize: 10, // Reduced from 12
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+
+                  // Restaurant Name
+                  SizedBox(height: 2),
+                  Text(
+                    restroName!, // Shortened text
+                    style: TextStyle(
+                      fontSize: 11, // Reduced from 12
+                      color: Colors.grey[600],
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+
+                  hBox(4),
+
+                  // Bottom Row (Price, Time)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // Price - Made more compact
+                      Container(
+                        height: 18, // Reduced from 20
+                        padding: EdgeInsets.symmetric(horizontal: 6),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10), // Reduced from 15
+                          border: Border.all(
+                            color: AppColors.primary,
+                            width: 0.5,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "\$${rating}",
+                            style: TextStyle(
+                              fontSize: 9, // Reduced font size
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Delivery Time and Add Button
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            color: Colors.grey[600],
+                            size: 12, // Reduced from 14
+                          ),
+                          SizedBox(width: 2), // Reduced spacing
+                          Text(
+                            '45 min',
+                            style: TextStyle(
+                              fontSize: 11, // Reduced from 12
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          wBox(6), // Reduced spacing
+                          GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                color: AppColors.black,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                size: 16, // Reduced from 20
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

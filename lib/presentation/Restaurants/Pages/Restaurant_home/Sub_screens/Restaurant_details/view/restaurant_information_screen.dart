@@ -444,10 +444,13 @@ class RestaurantInformationScreen extends StatefulWidget {
 }
 
 class _RestaurantInformationScreenState extends State<RestaurantInformationScreen> {
-  final RestaurantDetailsController controller = Get.put(RestaurantDetailsController());
-  final SeeAllProductReviewController seeAllProductReviewController = Get.put(SeeAllProductReviewController());
+  final RestaurantDetailsController controller = Get.put(
+      RestaurantDetailsController());
+  final SeeAllProductReviewController seeAllProductReviewController = Get.put(
+      SeeAllProductReviewController());
 
   String restaurantId = "";
+
   @override
   void initState() {
     var arguments = Get.arguments ?? {};
@@ -459,164 +462,190 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(),
-      body: Padding(
-        padding: REdgeInsets.symmetric(horizontal: 24.0),
-        child: SingleChildScrollView(
-          child: Obx(
-                () => Column(
+      backgroundColor: AppColors.white,
+      body: Obx(
+            () => SingleChildScrollView(
+          child: Stack(
+            children: [
+              /// Banner Image
+              _buildRestaurantBanner(),
+
+              /// Back Button on Banner (Top Left)
+              Positioned(
+                top: MediaQuery.of(context).padding.top + 12,
+                left: 16,
+                child: _buildBackButton(),
+              ),
+
+              /// White Card (Overlapping)
+              Container(
+                margin: EdgeInsets.only(top: 180.h),
+                padding: REdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24.r),
+                    topRight: Radius.circular(24.r),
+                  ),
+                ),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildRestaurantBanner(),
+                    _buildRestaurantHeaderWithLogo(),
                     hBox(25.h),
-
-                    // Restaurant Header Card
-                    _buildRestaurantHeader(),
-                    hBox(25.h),
-
-                    // Restaurant Info Section
                     _buildRestaurantInfo(),
                     hBox(25.h),
-
-                    // Social Media Section
                     _buildSocialMedia(),
                     hBox(30.h),
-
-                    // Delivery & Service Info
                     _buildDeliveryServiceInfo(),
                     hBox(25.h),
-
-                    // Open Hours
                     _buildOpenHours(),
                     hBox(100.h),
                   ],
                 ),
+              ),
+            ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBackButton() {
+    return GestureDetector(
+      onTap: () => Get.back(),
+      child: Container(
+        height: 40,
+        width: 40,
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.15),
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Icon(
+          Icons.arrow_back_ios_new,
+          size: 18,
+          color: AppColors.black,
         ),
       ),
     );
   }
 
   Widget _buildRestaurantBanner() {
-    return Container(
-      height: 180.h,
+    return SizedBox(
+      height: 220.h,
       width: double.infinity,
-      margin: REdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16.r),
-          topRight: Radius.circular(16.r),
-        ),
-        image: DecorationImage(
-          image: AssetImage("assets/images/restaurant_banner.png"), // Add your banner image
-          fit: BoxFit.cover,
-        ),
-      ),
-      // If you're using network image instead:
       child: CachedNetworkImage(
-        imageUrl: "YOUR_BANNER_IMAGE_URL", // Add your banner URL
+        imageUrl: controller.restaurant_Data.value.restaurant?.logoUrl ?? "",
         fit: BoxFit.cover,
-        placeholder: (context, url) => Center(
-          child: CircularProgressIndicator(
-            color: AppColors.primary,
-          ),
-        ),
-        errorWidget: (context, url, error) => Container(
-          color: AppColors.gray.withOpacity(0.1),
-          child: Icon(
-            Icons.restaurant,
-            size: 50.h,
-            color: AppColors.primary,
-          ),
+        placeholder: (_, __) =>
+            Center(child: CircularProgressIndicator(color: AppColors.primary)),
+        errorWidget: (_, __, ___) => Container(
+          color: AppColors.gray.withOpacity(0.2),
+          child: Icon(Icons.restaurant, size: 50, color: AppColors.primary),
         ),
       ),
     );
   }
 
-  Widget _buildRestaurantHeader() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildRestaurantHeaderWithLogo() {
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        // Restaurant Name
-        Text(
-          controller.restaurant_Data.value.restaurant!.shopName.toString(),
-          style: AppFontStyle.text_20_500(AppColors.black, family: AppFontFamily.gilroySemiBold),
-        ),
-        hBox(12.h),
-
-        // Rating and Delivery Info
-        Row(
-          // crossAxisAlignment: CrossAxisAlignment.end,
+        /// Left Content
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SvgPicture.asset(
-              "assets/svg/star-yellow.svg",
-              height: 15,
-            ),
-            wBox(4),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: Text(
-                "${controller.restaurant_Data.value.averageRating.toString()}/5",
-                style: AppFontStyle.text_14_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
-              ),
-            ),
-            wBox(3),
+            SizedBox(height: 20.h), // space for overlapping logo
+
             Text(
-              " • ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,
-                  family: AppFontFamily.gilroyRegular),
-            ),
-            SvgPicture.asset(
-              ImageConstants.scooterImage,
-              height: 14,
-              colorFilter: ColorFilter.mode(
-                  AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),
-            ),
-            wBox(3.w),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: Text(
-                // "\$5 Delivery",
-                '\$${controller.restaurant_Data.value.averageRating} Deliveries',
-                style: AppFontStyle.text_12_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+              controller.restaurant_Data.value.restaurant?.shopName ?? "",
+              style: AppFontStyle.text_20_500(
+                AppColors.black,
+                family: AppFontFamily.gilroySemiBold,
               ),
             ),
+            hBox(12.h),
+
+            Row(
+              children: [
+                SvgPicture.asset("assets/svg/star-yellow.svg", height: 14),
+                wBox(6),
+                Text(
+                  "${controller.restaurant_Data.value.averageRating}/5",
+                  style: AppFontStyle.text_14_400(AppColors.darkText),
+                ),
+                wBox(8),
+                Text("•", style: TextStyle(color: AppColors.lightText)),
+                wBox(8),
+                Icon(Icons.delivery_dining, size: 16),
+                wBox(4),
+                Text(
+                  "\$5 Delivery",
+                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                ),
+                wBox(8),
+                Text("•", style: TextStyle(color: AppColors.lightText)),
+                wBox(8),
+                Icon(Icons.shopping_cart_outlined, size: 16),
+                wBox(4),
+                Text(
+                  "No min. order",
+                  style: AppFontStyle.text_12_400(AppColors.darkText),
+                ),
+              ],
+            ),
+
+            hBox(16.h),
+
             Text(
-              " • ",
-              textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,
-                  family: AppFontFamily.gilroyRegular),
-            ),
-            SvgPicture.asset(
-              ImageConstants.cartIconImage,
-              height: 14,
-              colorFilter:
-              ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),
-            ),
-            wBox(3.w),
-            Padding(
-              padding: const EdgeInsets.only(top: 3.0),
-              child: Text(
-                "No min. order",
-                style: AppFontStyle.text_12_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
-              ),
+              controller.restaurant_Data.value.message ?? "",
+              style: AppFontStyle.text_16_400(AppColors.lightText),
             ),
           ],
         ),
-        hBox(16.h),
-        // Description
-        Text(
-          // "Authentic Italian cuisine with fresh ingredients and traditional recipes. Family owned restaurant serving the community for over 15 years.",
-          controller.restaurant_Data.value.message.toString(),
-          style: AppFontStyle.text_16_400(AppColors.lightText, family: AppFontFamily.gilroyRegular),
-          maxLines: 3,
+
+        /// Right Circular Logo
+        Positioned(
+          top: -40.h,
+          right: 0,
+          child: _buildRestaurantLogo(),
         ),
       ],
+    );
+  }
+
+  Widget _buildRestaurantLogo() {
+    return Container(
+      height: 80.h,
+      width: 80.h,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: AppColors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            blurRadius: 10,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: ClipOval(
+        child: CachedNetworkImage(
+          imageUrl: controller.restaurant_Data.value.restaurant?.logo ?? "",
+          fit: BoxFit.cover,
+          placeholder: (_, __) =>
+              Center(child: CircularProgressIndicator(strokeWidth: 2)),
+          errorWidget: (_, __, ___) =>
+              Icon(Icons.restaurant, color: AppColors.primary),
+        ),
+      ),
     );
   }
 
@@ -640,7 +669,8 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
             ),
             wBox(12),
             Text(
-              "${controller.restaurant_Data.value.restaurant!.firstName} ${controller.restaurant_Data.value.restaurant!.lastName}",
+              // "${controller.restaurant_Data.value.restaurant!.firstName} ${controller.restaurant_Data.value.restaurant!.lastName}",
+              "${controller.restaurant_Data.value.restaurant!.ownerName}",
               style: AppFontStyle.text_16_400(AppColors.mediumText, family: AppFontFamily.gilroyRegular),
             ),
           ],
@@ -691,7 +721,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
             ),
             wBox(12),
             Text(
-              controller.restaurant_Data.value.restaurant!.shopEmail .toString(),
+              controller.restaurant_Data.value.restaurant!.email .toString(),
               style: AppFontStyle.text_16_400(AppColors.mediumText, family: AppFontFamily.gilroyRegular),
             ),
           ],
@@ -710,7 +740,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
             wBox(12),
             Expanded(
               child: Text(
-                controller.restaurant_Data.value.restaurant!.shopAddress.toString(),
+                controller.restaurant_Data.value.restaurant!.address.toString(),
                 style: AppFontStyle.text_16_400(AppColors.mediumText, family: AppFontFamily.gilroyRegular),
                 maxLines: 2,
               ),
@@ -734,13 +764,13 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
         // Social Media Icons (You can add actual social media links here)
         Row(
           children: [
-            _buildSocialIcon('assets/svg/fb-logo.svg'),
+            _buildSocialIcon('assets/images/fb-logo.png'),
             wBox(16),
-            _buildSocialIcon('assets/svg/instagram-logo.svg'),
+            _buildSocialIcon('assets/images/instagram-logo.png'),
             wBox(16),
-            _buildSocialIcon('assets/svg/twitter-logo.svg'),
+            _buildSocialIcon('assets/images/twitter-logo.png'),
             wBox(16),
-            _buildSocialIcon('assets/svg/youtube-logo'),
+            _buildSocialIcon('assets/images/youtube-logo.png'),
           ],
         ),
       ],
@@ -748,7 +778,7 @@ class _RestaurantInformationScreenState extends State<RestaurantInformationScree
   }
 
   Widget _buildSocialIcon(String iconPath) {
-    return SvgPicture.asset(
+    return Image.asset(
       iconPath,
       height: 20.h,
       width: 20.h,

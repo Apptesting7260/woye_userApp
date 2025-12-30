@@ -335,41 +335,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     family: AppFontFamily.gilroyRegular),
                                               ),
                                               const Spacer(),
-                                              /*Obx((){
-                                                return GestureDetector(
-                                                  onTap: () {
-                                                    if (getUserDataController.userData.value.user?.userType =="guestUser") {
-                                                      showLoginRequired(context);
-                                                    }else{
-                                                      addToCartController.addToCartApi(
-                                                          productId: product.id.toString(),
-                                                          productQuantity: '1',
-                                                          productPrice: product.regularPrice,
-                                                          restaurantId: product.vendorId.toString(),
-                                                          addons: [],
-                                                          extrasIds: [],
-                                                          extrasItemIds: [],
-                                                          extrasItemNames: [],
-                                                          extrasItemPrices: [],
-                                                          isPopUp: false
-                                                      );
-                                                    }
-                                                  }, child: addToCartController.isCartLoading(product.id.toString())
-                                                    ? circularProgressIndicator(size: 30)
-                                                    : Container(
-                                                  height: 40,
-                                                  width: 40,
-                                                  decoration:  BoxDecoration(
-                                                      color: AppColors.black,
-                                                      borderRadius: BorderRadius.circular(20)
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.add,
-                                                    size: 20,
-                                                    color: AppColors.white,
-                                                  ),
-                                                ),);
-                                              })*/
                                               GetBuilder<AddToCartController>(
                                                 builder: (cartController) {
                                                   return GestureDetector(
@@ -411,46 +376,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               )
                                             ],
                                           ),
-                                         /* Row(
-                                            children: [
-                                              product.salePrice != null
-                                                  ? Text(
-                                                      "\$${product.salePrice}",
-                                                      textAlign: TextAlign.left,
-                                                      style: AppFontStyle
-                                                          .text_16_600(AppColors
-                                                              .primary,family: AppFontFamily.gilroyRegular),
-                                                    )
-                                                  : Text(
-                                                      "\$${product.regularPrice}",
-                                                      textAlign: TextAlign.left,
-                                                      style: AppFontStyle
-                                                          .text_16_600(AppColors
-                                                              .primary,family: AppFontFamily.gilroyRegular),
-                                                    ),
-                                              wBox(5.h),
-                                              if (product.salePrice != null)
-                                                Text(
-                                                  "\$${product.regularPrice}",
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  textAlign: TextAlign.left,
-
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color:
-                                                          AppColors.lightText,
-                                                      decoration: TextDecoration
-                                                          .lineThrough,
-                                                      decorationColor:
-                                                          AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular),
-
-                                                  //  AppFontStyle.text_14_300(AppColors.lightText),
-                                                ),
-                                            ],
-                                          ),*/
                                         ],
                                       ));
                                   //  categoryItem(index);
@@ -461,10 +386,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   childAspectRatio: 0.6.w,
                                   crossAxisSpacing: 14.w,
                                   mainAxisSpacing: 5.h,
-                                  // crossAxisCount: 2,
-                                  // childAspectRatio: 0.7.w,
-                                  // crossAxisSpacing: 16.w,
-                                  // mainAxisSpacing: 5.h,
                                 ))),
                             ],
                           ],

@@ -1,274 +1,5 @@
 
 import 'package:get/get.dart';
-//
-// class RestaurantSingleCartModel {
-//   bool? status;
-//   String? message;
-//   Cart? cart;
-//   Address? address;
-//   String? wallet;
-//   String? cartContent;
-//   List<Coupons>? coupons;
-//   bool? addressExists;
-//
-//   RestaurantSingleCartModel(
-//       {this.status,
-//         this.message,
-//         this.cart,
-//         this.address,
-//         this.wallet,
-//         this.cartContent,
-//         this.coupons,
-//         this.addressExists});
-//
-//   RestaurantSingleCartModel.fromJson(Map<String, dynamic> json) {
-//     status = json['status'];
-//     message = json['message']?.toString();
-//     cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
-//     address =
-//     json['address'] != null ? Address.fromJson(json['address']) : null;
-//     wallet = json['wallet'];
-//     cartContent = json['cartContent'];
-//     if (json['coupons'] != null) {
-//       coupons = <Coupons>[];
-//       json['coupons'].forEach((v) {
-//         coupons!.add(Coupons.fromJson(v));
-//       });
-//     }
-//     addressExists = json['address_exists'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['status'] = status;
-//     data['message'] = message;
-//     if (cart != null) {
-//       data['cart'] = cart!.toJson();
-//     }
-//     if (address != null) {
-//       data['address'] = address!.toJson();
-//     }
-//     data['wallet'] = wallet;
-//     data['cartContent'] = cartContent;
-//     if (coupons != null) {
-//       data['coupons'] = coupons!.map((v) => v.toJson()).toList();
-//     }
-//     data['address_exists'] = addressExists;
-//     return data;
-//   }
-// }
-//
-// class Cart {
-//   String? id;
-//   String? userId;
-//   String? productId;
-//   String? restoId;
-//   String? pharmaId;
-//   String? status;
-//   String? orderId;
-//   String? bucket;
-//   String? couponId;
-//   String? createdAt;
-//   String? updatedAt;
-//   DecodedAttribute? decodedAttribute;
-//   String? regularPrice;
-//   String? saveAmount;
-//   String? deliveryCharge;
-//   String? totalPrice;
-//   String? couponDiscount;
-//   String? grandTotalPrice;
-//   String? totalProductsInCart;
-//   String? couponApplied;
-//
-//   Cart(
-//       {this.id,
-//         this.userId,
-//         this.productId,
-//         this.restoId,
-//         this.pharmaId,
-//         this.status,
-//         this.orderId,
-//         this.bucket,
-//         this.couponId,
-//         this.createdAt,
-//         this.updatedAt,
-//         this.decodedAttribute,
-//         this.regularPrice,
-//         this.saveAmount,
-//         this.deliveryCharge,
-//         this.totalPrice,
-//         this.couponDiscount,
-//         this.grandTotalPrice,
-//         this.totalProductsInCart,
-//         this.couponApplied});
-//
-//   Cart.fromJson(Map<String, dynamic> json) {
-//     id = json['id']?.toString();
-//     userId = json['user_id']?.toString();
-//     productId = json['product_id']?.toString();
-//     restoId = json['resto_id']?.toString();
-//     pharmaId = json['pharma_id']?.toString();
-//     status = json['status']?.toString();
-//     orderId = json['order_id']?.toString();
-//     bucket = json['bucket']?.toString();
-//     couponId = json['coupon_id']?.toString();
-//     createdAt = json['created_at']?.toString();
-//     updatedAt = json['updated_at']?.toString();
-//     decodedAttribute = json['decoded_attribute'] != null
-//         ? DecodedAttribute.fromJson(json['decoded_attribute'])
-//         : null;
-//     regularPrice = json['regular_price']?.toString();
-//     saveAmount = json['save_amount']?.toString();
-//     deliveryCharge = json['delivery_charge']?.toString();
-//     totalPrice = json['total_price']?.toString();
-//     couponDiscount = json['coupon_discount']?.toString();
-//     grandTotalPrice = json['grand_total_price']?.toString();
-//     totalProductsInCart = json['total_products_in_cart']?.toString();
-//     couponApplied = json['coupon_applied']?.toString();
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['id'] = id;
-//     data['user_id'] = userId;
-//     data['product_id'] = productId;
-//     data['resto_id'] = restoId;
-//     data['pharma_id'] = pharmaId;
-//     data['status'] = status;
-//     data['order_id'] = orderId;
-//     data['bucket'] = bucket;
-//     data['coupon_id'] = couponId;
-//     data['created_at'] = createdAt;
-//     data['updated_at'] = updatedAt;
-//     if (decodedAttribute != null) {
-//       data['decoded_attribute'] = decodedAttribute!.toJson();
-//     }
-//     data['regular_price'] = regularPrice;
-//     data['save_amount'] = saveAmount;
-//     data['delivery_charge'] = deliveryCharge;
-//     data['total_price'] = totalPrice;
-//     data['coupon_discount'] = couponDiscount;
-//     data['grand_total_price'] = grandTotalPrice;
-//     data['total_products_in_cart'] = totalProductsInCart;
-//     data['coupon_applied'] = couponApplied;
-//     return data;
-//   }
-// }
-//
-// class DecodedAttribute {
-//   String? vendorId;
-//   List<Bucket>? bucket;
-//
-//   DecodedAttribute({this.vendorId, this.bucket});
-//
-//   DecodedAttribute.fromJson(Map<String, dynamic> json) {
-//     vendorId = json['vendor_id']?.toString();
-//     if (json['bucket'] != null) {
-//       bucket = <Bucket>[];
-//       json['bucket'].forEach((v) {
-//         bucket!.add(Bucket.fromJson(v));
-//       });
-//     }
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['vendor_id'] = vendorId;
-//     if (bucket != null) {
-//       data['bucket'] = bucket!.map((v) => v.toJson()).toList();
-//     }
-//     return data;
-//   }
-// }
-//
-// class Bucket {
-//   String? productId;
-//   String? quantity;
-//   String? price;
-//   List<Addons>? addons;
-//   List<Attribute>? attribute;
-//   String? checked;
-//   String? count;
-//   String? productName;
-//   String? categoryId;
-//   String? categoryName;
-//   String? productImage;
-//   String? status;
-//   List<String>? addonName;
-//   String? totalPrice;
-//   Rx<bool> isSelectedLoading = false.obs;
-//   Rx<bool> isLoading = false.obs;
-//
-//   Bucket(
-//       {this.productId,
-//         this.quantity,
-//         this.price,
-//         this.addons,
-//         this.attribute,
-//         this.checked,
-//         this.count,
-//         this.productName,
-//         this.categoryId,
-//         this.categoryName,
-//         this.productImage,
-//         this.status,
-//         this.addonName,
-//         this.totalPrice});
-//
-//   Bucket.fromJson(Map<String, dynamic> json) {
-//     productId = json['product_id']?.toString();
-//     quantity = json['quantity']?.toString();
-//     price = json['price'];
-//     if (json['addons'] != null) {
-//       addons = <Addons>[];
-//       json['addons'].forEach((v) {
-//         addons!.add(Addons.fromJson(v));
-//       });
-//     }
-//     if (json['attribute'] != null) {
-//       attribute = <Attribute>[];
-//       json['attribute'].forEach((v) {
-//         attribute!.add(Attribute.fromJson(v));
-//       });
-//     }
-//     checked = json['checked']?.toString();
-//     count = json['count']?.toString();
-//     productName = json['product_name']?.toString();
-//     categoryId = json['category_id']?.toString();
-//     categoryName = json['category_name']?.toString();
-//     productImage = json['product_image']?.toString();
-//     status = json['status']?.toString();
-//     if(json['addon_name'] != null){
-//       addonName = json['addon_name'].cast<String>();
-//     }else{
-//       addonName = [];
-//     }
-//     totalPrice = json['total_price']?.toString();
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['product_id'] = productId;
-//     data['quantity'] = quantity;
-//     data['price'] = price;
-//     if (addons != null) {
-//       data['addons'] = addons!.map((v) => v.toJson()).toList();
-//     }
-//     if (attribute != null) {
-//       data['attribute'] = attribute!.map((v) => v.toJson()).toList();
-//     }
-//     data['checked'] = checked;
-//     data['count'] = count;
-//     data['product_name'] = productName;
-//     data['category_id'] = categoryId;
-//     data['category_name'] = categoryName;
-//     data['product_image'] = productImage;
-//     data['status'] = status;
-//     data['addon_name'] = addonName;
-//     data['total_price'] = totalPrice;
-//     return data;
-//   }
-// }
 
 class Addons {
   String? id;
@@ -318,14 +49,14 @@ class Attribute {
 class ItemDetails {
   String? itemId;
   String? itemName;
-  String? itemPrice;
+  int? itemPrice;
 
   ItemDetails({this.itemId, this.itemName, this.itemPrice});
 
   ItemDetails.fromJson(Map<String, dynamic> json) {
     itemId = json['item_id']?.toString();
     itemName = json['item_name']?.toString();
-    itemPrice = json['item_price']?.toString();
+    itemPrice = json['item_price'];
   }
 
   Map<String, dynamic> toJson() {
@@ -337,119 +68,7 @@ class ItemDetails {
   }
 }
 
-// class Address {
-//   String? id;
-//   String? userId;
-//   String? fullName;
-//   String? phoneNumber;
-//   String? countryCode;
-//   String? houseDetails;
-//   String? address;
-//   String? addressType;
-//   String? isDefault;
-//   String? latitude;
-//   String? longitude;
-//   String? deliveryInstruction;
-//   String? createdAt;
-//   String? updatedAt;
-//
-//   Address(
-//       {this.id,
-//         this.userId,
-//         this.fullName,
-//         this.phoneNumber,
-//         this.countryCode,
-//         this.houseDetails,
-//         this.address,
-//         this.addressType,
-//         this.isDefault,
-//         this.latitude,
-//         this.longitude,
-//         this.deliveryInstruction,
-//         this.createdAt,
-//         this.updatedAt});
-//
-//   Address.fromJson(Map<String, dynamic> json) {
-//     id = json['id']?.toString();
-//     userId = json['user_id']?.toString();
-//     fullName = json['full_name']?.toString();
-//     phoneNumber = json['phone_number']?.toString();
-//     countryCode = json['country_code']?.toString();
-//     houseDetails = json['house_details']?.toString();
-//     address = json['address']?.toString();
-//     addressType = json['address_type']?.toString();
-//     isDefault = json['is_default']?.toString();
-//     latitude = json['latitude']?.toString();
-//     longitude = json['longitude']?.toString();
-//     deliveryInstruction = json['delivery_instruction']?.toString();
-//     createdAt = json['created_at']?.toString();
-//     updatedAt = json['updated_at']?.toString();
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['id'] = id;
-//     data['user_id'] = userId;
-//     data['full_name'] = fullName;
-//     data['phone_number'] = phoneNumber;
-//     data['country_code'] = countryCode;
-//     data['house_details'] = houseDetails;
-//     data['address'] = address;
-//     data['address_type'] = addressType;
-//     data['is_default'] = isDefault;
-//     data['latitude'] = latitude;
-//     data['longitude'] = longitude;
-//     data['delivery_instruction'] = deliveryInstruction;
-//     data['created_at'] = createdAt;
-//     data['updated_at'] = updatedAt;
-//     return data;
-//   }
-// }
-//
-// class Coupons {
-//   String? id;
-//   String? couponType;
-//   String? title;
-//   String? code;
-//   String? discountType;
-//   String? discountAmount;
-//   String? expireDate;
-//   String? expiryStatus;
-//
-//   Coupons(
-//       {this.id,
-//         this.couponType,
-//         this.title,
-//         this.code,
-//         this.discountType,
-//         this.discountAmount,
-//         this.expireDate,
-//         this.expiryStatus});
-//
-//   Coupons.fromJson(Map<String, dynamic> json) {
-//     id = json['id']?.toString();
-//     couponType = json['coupon_type']?.toString();
-//     title = json['title']?.toString();
-//     code = json['code']?.toString();
-//     discountType = json['discount_type']?.toString();
-//     discountAmount = json['discount_amount']?.toString();
-//     expireDate = json['expire_date']?.toString();
-//     expiryStatus = json['expiry_status']?.toString();
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['id'] = id;
-//     data['coupon_type'] = couponType;
-//     data['title'] = title;
-//     data['code'] = code;
-//     data['discount_type'] = discountType;
-//     data['discount_amount'] = discountAmount;
-//     data['expire_date'] = expireDate;
-//     data['expiry_status'] = expiryStatus;
-//     return data;
-//   }
-// }
+//////////////////////////////////
 
 class RestaurantSingleCartModel {
   bool? status;
@@ -848,15 +467,15 @@ class Coupons {
 }
 
 class Address {
-  String? id;
-  String? userId;
+  int? id;
+  int? userId;
   String? fullName;
   String? phoneNumber;
   String? countryCode;
   String? houseDetails;
   String? address;
   String? addressType;
-  String? isDefault;
+  int? isDefault;
   String? latitude;
   String? longitude;
   String? deliveryInstruction;
@@ -880,15 +499,15 @@ class Address {
         this.updatedAt});
 
   Address.fromJson(Map<String, dynamic> json) {
-    id = json['id']?.toString();
-    userId = json['user_id']?.toString();
+    id = json['id'];
+    userId = json['user_id'];
     fullName = json['full_name']?.toString();
     phoneNumber = json['phone_number']?.toString();
     countryCode = json['country_code']?.toString();
     houseDetails = json['house_details']?.toString();
     address = json['address']?.toString();
     addressType = json['address_type']?.toString();
-    isDefault = json['is_default']?.toString();
+    isDefault = json['is_default'];
     latitude = json['latitude']?.toString();
     longitude = json['longitude']?.toString();
     deliveryInstruction = json['delivery_instruction']?.toString();

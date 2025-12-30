@@ -796,6 +796,87 @@ class Buckets {
   }
 }
 
+// class Bucket {
+//   String? productId;
+//   String? quantity;
+//   String? price;
+//   List<Addons>? addons;
+//   List<Attribute>? attribute;
+//   String? checked;
+//   String? count;
+//   String? productName;
+//   String? newPrice;
+//   String? categoryId;
+//   String? categoryName;
+//   String? productImage;
+//   String? productTotalPrice;
+//   Rx<bool> isLoading = false.obs;
+//   Rx<bool> isDelete = false.obs;
+//
+//   Bucket(
+//       {this.productId,
+//         this.quantity,
+//         this.price,
+//         this.addons,
+//         this.attribute,
+//         this.checked,
+//         this.count,
+//         this.productName,
+//         this.newPrice,
+//         this.categoryId,
+//         this.categoryName,
+//         this.productImage,
+//         this.productTotalPrice,
+//       });
+//
+//   Bucket.fromJson(Map<String, dynamic> json) {
+//     productId = json['product_id']?.toString();
+//     quantity = json['quantity']?.toString();
+//     price = json['price']?.toString();
+//     if (json['addons'] != null) {
+//       addons = <Addons>[];
+//       json['addons'].forEach((v) {
+//         addons!.add(Addons.fromJson(v));
+//       });
+//     }
+//     if (json['attribute'] != null) {
+//       attribute = <Attribute>[];
+//       json['attribute'].forEach((v) {
+//         attribute!.add(Attribute.fromJson(v));
+//       });
+//     }
+//     checked = json['checked']?.toString();
+//     count = json['count']?.toString();
+//     productName = json['product_name']?.toString();
+//     newPrice = json['new_price']?.toString();
+//     categoryId = json['category_id']?.toString();
+//     categoryName = json['category_name']?.toString();
+//     productImage = json['product_image']?.toString();
+//     productTotalPrice = json['product_total_price']?.toString();
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['product_id'] = productId;
+//     data['quantity'] = quantity;
+//     data['price'] = price;
+//     if (addons != null) {
+//       data['addons'] = addons!.map((v) => v.toJson()).toList();
+//     }
+//     if (attribute != null) {
+//       data['attribute'] = attribute!.map((v) => v.toJson()).toList();
+//     }
+//     data['checked'] = checked;
+//     data['count'] = count;
+//     data['product_name'] = productName;
+//     data['new_price'] = newPrice;
+//     data['category_id'] = categoryId;
+//     data['category_name'] = categoryName;
+//     data['product_image'] = productImage;
+//     data['product_total_price'] = productTotalPrice;
+//     return data;
+//   }
+// }
 class Bucket {
   String? productId;
   String? quantity;
@@ -813,38 +894,47 @@ class Bucket {
   Rx<bool> isLoading = false.obs;
   Rx<bool> isDelete = false.obs;
 
-  Bucket(
-      {this.productId,
-        this.quantity,
-        this.price,
-        this.addons,
-        this.attribute,
-        this.checked,
-        this.count,
-        this.productName,
-        this.newPrice,
-        this.categoryId,
-        this.categoryName,
-        this.productImage,
-        this.productTotalPrice,
-      });
+  Bucket({
+    this.productId,
+    this.quantity,
+    this.price,
+    this.addons,
+    this.attribute,
+    this.checked,
+    this.count,
+    this.productName,
+    this.newPrice,
+    this.categoryId,
+    this.categoryName,
+    this.productImage,
+    this.productTotalPrice,
+  });
 
   Bucket.fromJson(Map<String, dynamic> json) {
     productId = json['product_id']?.toString();
     quantity = json['quantity']?.toString();
     price = json['price']?.toString();
-    if (json['addons'] != null) {
-      addons = <Addons>[];
+
+    // Handle addons - check if it's a List and not null
+    addons = <Addons>[];
+    if (json['addons'] != null && json['addons'] is List) {
       json['addons'].forEach((v) {
-        addons!.add(Addons.fromJson(v));
+        if (v is Map<String, dynamic>) {
+          addons!.add(Addons.fromJson(v));
+        }
       });
     }
-    if (json['attribute'] != null) {
-      attribute = <Attribute>[];
+
+    // Handle attribute - check if it's a List and not null
+    attribute = <Attribute>[];
+    if (json['attribute'] != null && json['attribute'] is List) {
       json['attribute'].forEach((v) {
-        attribute!.add(Attribute.fromJson(v));
+        if (v is Map<String, dynamic>) {
+          attribute!.add(Attribute.fromJson(v));
+        }
       });
     }
+
     checked = json['checked']?.toString();
     count = json['count']?.toString();
     productName = json['product_name']?.toString();
@@ -878,6 +968,27 @@ class Bucket {
   }
 }
 
+// class Addons {
+//   String? id;
+//   String? price;
+//   String? name;
+//
+//   Addons({this.id, this.price, this.name});
+//
+//   Addons.fromJson(Map<String, dynamic> json) {
+//     id = json['id']?.toString();
+//     price = json['price']?.toString();
+//     name = json['name']?.toString();
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['id'] = id;
+//     data['price'] = price;
+//     data['name'] = name;
+//     return data;
+//   }
+// }
 class Addons {
   String? id;
   String? price;
@@ -900,6 +1011,28 @@ class Addons {
   }
 }
 
+// class Attribute {
+//   String? titleId;
+//   ItemDetails? itemDetails;
+//
+//   Attribute({this.titleId, this.itemDetails});
+//
+//   Attribute.fromJson(Map<String, dynamic> json) {
+//     titleId = json['title_id']?.toString();
+//     itemDetails = json['item_details'] != null
+//         ? ItemDetails.fromJson(json['item_details'])
+//         : null;
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['title_id'] = titleId;
+//     if (itemDetails != null) {
+//       data['item_details'] = itemDetails!.toJson();
+//     }
+//     return data;
+//   }
+// }
 class Attribute {
   String? titleId;
   ItemDetails? itemDetails;
@@ -908,9 +1041,9 @@ class Attribute {
 
   Attribute.fromJson(Map<String, dynamic> json) {
     titleId = json['title_id']?.toString();
-    itemDetails = json['item_details'] != null
-        ? ItemDetails.fromJson(json['item_details'])
-        : null;
+    if (json['item_details'] != null && json['item_details'] is Map<String, dynamic>) {
+      itemDetails = ItemDetails.fromJson(json['item_details']);
+    }
   }
 
   Map<String, dynamic> toJson() {

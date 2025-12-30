@@ -127,56 +127,9 @@ class CustomItemBanner extends StatelessWidget {
                 ),
               ),
             ),
-            // Positioned(
-            //   bottom: 10,right: 10,
-            //   child: /*Obx(
-            //         ()=>*/ InkWell(
-            //       onTap: () {
-            //         // if (getUserDataController.userData.value.user?.userType == "guestUser") {
-            //         //   showLoginRequired(context);
-            //         // } else {
-            //         //   controller.restaurant_Data.value.highlights![index].isAddToCart.value = true;
-            //         // }
-            //       },
-            //       child: Container(
-            //         height: 30.h,width: 30.w,
-            //         decoration: BoxDecoration(color: AppColors.primary,
-            //             // shape: BoxShape.circle,
-            //             borderRadius: BorderRadius.circular(10.r)
-            //         ),
-            //         child: Icon(/*controller.restaurant_Data.value.highlights![index].isAddToCart.value ? Icons.done :*/Icons.add,
-            //           color: AppColors.white,size: 20,),
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
         hBox(10),
-        // Row(
-        //   children: [
-        //     Text(
-        //       "\$${sale_price}",
-        //       textAlign: TextAlign.left,
-        //       style: AppFontStyle.text_16_600(AppColors.primary),
-        //     ),
-        //     wBox(5),
-        //     Text(
-        //       "\$${regular_price}",
-        //       overflow: TextOverflow.ellipsis,
-        //       textAlign: TextAlign.left,
-        //
-        //       style: TextStyle(
-        //           fontSize: 14.sp,
-        //           fontWeight: FontWeight.w300,
-        //           color: AppColors.lightText,
-        //           decoration: TextDecoration.lineThrough,
-        //           decorationColor: AppColors.lightText),
-        //
-        //       //  AppFontStyle.text_14_300(AppColors.lightText),
-        //     ),
-        //   ],
-        // ),
         Row(
           children: [
             sale_price != "null"

@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+/*import 'package:get/get.dart';
 
 class SpecificRestaurantModal {
   bool? status;
@@ -1212,4 +1212,956 @@ class AllProducts {
     // }
     return data;
   }
+}*/
+
+////////////////////////////////////////////
+
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+
+class SpecificRestaurantModal {
+  bool? status;
+  Restaurant? restaurant;
+  Categories? categories;
+  List<Product>? moreProducts;
+  List<dynamic>? highlights;
+  List<dynamic>? reviews;
+  dynamic totalReviews; // Changed from String to dynamic
+  dynamic averageRating; // String or int
+  String? message;
+
+  SpecificRestaurantModal({
+    this.status,
+    this.restaurant,
+    this.categories,
+    this.moreProducts,
+    this.highlights,
+    this.reviews,
+    this.totalReviews,
+    this.averageRating,
+    this.message,
+  });
+
+  factory SpecificRestaurantModal.fromJson(Map<String, dynamic> json) {
+    return SpecificRestaurantModal(
+      status: json['status'],
+      restaurant: json['restaurant'] != null
+          ? Restaurant.fromJson(json['restaurant'])
+          : null,
+      categories: json['categories'] != null
+          ? Categories.fromJson(json['categories'])
+          : null,
+      moreProducts: json['moreProducts'] != null
+          ? (json['moreProducts'] as List)
+          .map((item) => Product.fromJson(item))
+          .toList()
+          : null,
+      highlights: json['highlights'] as List<dynamic>?,
+      reviews: json['reviews'] as List<dynamic>?,
+      totalReviews: json['totalReviews'], // No need to convert
+      averageRating: json['average_rating'],
+      message: json['message']?.toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    if (restaurant != null) {
+      data['restaurant'] = restaurant!.toJson();
+    }
+    if (categories != null) {
+      data['categories'] = categories!.toJson();
+    }
+    if (moreProducts != null) {
+      data['moreProducts'] = moreProducts!.map((v) => v.toJson()).toList();
+    }
+    data['highlights'] = highlights;
+    data['reviews'] = reviews;
+    data['totalReviews'] = totalReviews;
+    data['average_rating'] = averageRating;
+    data['message'] = message;
+    return data;
+  }
 }
+
+class Restaurant {
+  dynamic id;
+  String? shopName;
+  String? ownerName;
+  String? description;
+  String? dob;
+  String? phoneCode;
+  String? phone;
+  String? email;
+  String? website;
+  String? address;
+  String? latitude;
+  String? longitude;
+  String? logo;
+  String? coverPhoto;
+  String? licenseNumber;
+  String? taxNumber;
+  String? deaRegistrationNumber;
+  String? establishedDate;
+  String? noOfEmployees;
+  String? facebook;
+  String? instagram;
+  String? twitter;
+  String? youtube;
+  String? deliveryRadius;
+  String? minOrderAmount;
+  String? avgPreparationTime;
+  String? avgFulfillmentTime;
+  List<String>? serviceType;
+  String? deliveryFee;
+  dynamic delivery;
+  List<dynamic>? categoryIds;
+  List<OpeningHours>? openingHours;
+  List<String>? cuisineIds;
+  String? commissionRate;
+  String? commissionTier;
+  DocumentVerification? documentVerification;
+  String? storeType;
+  String? storeSize;
+  String? storeSpecializations;
+  dynamic pciCompliance;
+  dynamic cashDrawerSecurity;
+  String? otherDetails;
+  dynamic roleId;
+  String? parentId;
+  String? type;
+  String? otp;
+  String? rating;
+  String? emailVerify;
+  dynamic step;
+  String? deviceToken;
+  String? status;
+  String? addedBy;
+  dynamic doNotDisturb;
+  dynamic quietHours;
+  String? startTime;
+  String? endTime;
+  dynamic notificationSounds;
+  dynamic notificationBadges;
+  dynamic notifyNewOrders;
+  dynamic notifyOrderUpdates;
+  dynamic notifyPaymentIssues;
+  dynamic notifyLowStock;
+  dynamic notifyOutOfStock;
+  dynamic notifyTableReservations;
+  dynamic notifyMenuItemRequests;
+  dynamic pushNotifications;
+  dynamic emailNotifications;
+  dynamic smsNotifications;
+  String? orderSummaryFrequency;
+  String? reviewNotificationFrequency;
+  String? inventoryAlertFrequency;
+  String? appVersion;
+  String? twoFa;
+  String? twoFaApp;
+  String? twoFaCode;
+  String? twoFaExpiresAt;
+  String? lastLoginAt;
+  dynamic isOnline;
+  String? createdAt;
+  String? updatedAt;
+  String? logoUrl;
+  String? coverPhotoUrl;
+  String? roleName;
+  Role? role;
+
+  Restaurant({
+    this.id,
+    this.shopName,
+    this.ownerName,
+    this.description,
+    this.dob,
+    this.phoneCode,
+    this.phone,
+    this.email,
+    this.website,
+    this.address,
+    this.latitude,
+    this.longitude,
+    this.logo,
+    this.coverPhoto,
+    this.licenseNumber,
+    this.taxNumber,
+    this.deaRegistrationNumber,
+    this.establishedDate,
+    this.noOfEmployees,
+    this.facebook,
+    this.instagram,
+    this.twitter,
+    this.youtube,
+    this.deliveryRadius,
+    this.minOrderAmount,
+    this.avgPreparationTime,
+    this.avgFulfillmentTime,
+    this.serviceType,
+    this.deliveryFee,
+    this.delivery,
+    this.categoryIds,
+    this.openingHours,
+    this.cuisineIds,
+    this.commissionRate,
+    this.commissionTier,
+    this.documentVerification,
+    this.storeType,
+    this.storeSize,
+    this.storeSpecializations,
+    this.pciCompliance,
+    this.cashDrawerSecurity,
+    this.otherDetails,
+    this.roleId,
+    this.parentId,
+    this.type,
+    this.otp,
+    this.rating,
+    this.emailVerify,
+    this.step,
+    this.deviceToken,
+    this.status,
+    this.addedBy,
+    this.doNotDisturb,
+    this.quietHours,
+    this.startTime,
+    this.endTime,
+    this.notificationSounds,
+    this.notificationBadges,
+    this.notifyNewOrders,
+    this.notifyOrderUpdates,
+    this.notifyPaymentIssues,
+    this.notifyLowStock,
+    this.notifyOutOfStock,
+    this.notifyTableReservations,
+    this.notifyMenuItemRequests,
+    this.pushNotifications,
+    this.emailNotifications,
+    this.smsNotifications,
+    this.orderSummaryFrequency,
+    this.reviewNotificationFrequency,
+    this.inventoryAlertFrequency,
+    this.appVersion,
+    this.twoFa,
+    this.twoFaApp,
+    this.twoFaCode,
+    this.twoFaExpiresAt,
+    this.lastLoginAt,
+    this.isOnline,
+    this.createdAt,
+    this.updatedAt,
+    this.logoUrl,
+    this.coverPhotoUrl,
+    this.roleName,
+    this.role,
+  });
+
+  factory Restaurant.fromJson(Map<String, dynamic> json) {
+    return Restaurant(
+      id: json['id'],
+      shopName: _toString(json['shop_name']),
+      ownerName: _toString(json['owner_name']),
+      description: _toString(json['description']),
+      dob: _toString(json['dob']),
+      phoneCode: _toString(json['phone_code']),
+      phone: _toString(json['phone']),
+      email: _toString(json['email']),
+      website: _toString(json['website']),
+      address: _toString(json['address']),
+      latitude: _toString(json['latitude']),
+      longitude: _toString(json['longitude']),
+      logo: _toString(json['logo']),
+      coverPhoto: _toString(json['cover_photo']),
+      licenseNumber: _toString(json['license_number']),
+      taxNumber: _toString(json['tax_number']),
+      deaRegistrationNumber: _toString(json['dea_registration_number']),
+      establishedDate: _toString(json['established_date']),
+      noOfEmployees: _toString(json['no_of_employees']),
+      facebook: _toString(json['facebook']),
+      instagram: _toString(json['instagram']),
+      twitter: _toString(json['twitter']),
+      youtube: _toString(json['youtube']),
+      deliveryRadius: _toString(json['delivery_radius']),
+      minOrderAmount: _toString(json['min_order_amount']),
+      avgPreparationTime: _toString(json['avg_preparation_time']),
+      avgFulfillmentTime: _toString(json['avg_fulfillment_time']),
+      serviceType: json['service_type'] != null
+          ? List<String>.from(json['service_type'].map((x) => x.toString()))
+          : null,
+      deliveryFee: _toString(json['delivery_fee']),
+      delivery: json['delivery'],
+      categoryIds: _parseCategoryIds(json['category_ids']),
+      openingHours: json['opening_hours'] != null
+          ? (json['opening_hours'] as List)
+          .map((item) => OpeningHours.fromJson(item))
+          .toList()
+          : null,
+      cuisineIds: json['cuisine_ids'] != null
+          ? List<String>.from(json['cuisine_ids'].map((x) => x.toString()))
+          : null,
+      commissionRate: _toString(json['commission_rate']),
+      commissionTier: _toString(json['commission_tier']),
+      documentVerification: json['document_verification'] != null
+          ? DocumentVerification.fromJson(json['document_verification'])
+          : null,
+      storeType: _toString(json['store_type']),
+      storeSize: _toString(json['store_size']),
+      storeSpecializations: _toString(json['store_specializations']),
+      pciCompliance: json['pci_compliance'],
+      cashDrawerSecurity: json['cash_drawer_security'],
+      otherDetails: _toString(json['other_details']),
+      roleId: json['role_id'],
+      parentId: _toString(json['parent_id']),
+      type: _toString(json['type']),
+      otp: _toString(json['otp']),
+      rating: _toString(json['rating']),
+      emailVerify: _toString(json['email_verify']),
+      step: json['step'],
+      deviceToken: _toString(json['device_token']),
+      status: _toString(json['status']),
+      addedBy: _toString(json['added_by']),
+      doNotDisturb: json['do_not_disturb'],
+      quietHours: json['quiet_hours'],
+      startTime: _toString(json['start_time']),
+      endTime: _toString(json['end_time']),
+      notificationSounds: json['notification_sounds'],
+      notificationBadges: json['notification_badges'],
+      notifyNewOrders: json['notify_new_orders'],
+      notifyOrderUpdates: json['notify_order_updates'],
+      notifyPaymentIssues: json['notify_payment_issues'],
+      notifyLowStock: json['notify_low_stock'],
+      notifyOutOfStock: json['notify_out_of_stock'],
+      notifyTableReservations: json['notify_table_reservations'],
+      notifyMenuItemRequests: json['notify_menu_item_requests'],
+      pushNotifications: json['push_notifications'],
+      emailNotifications: json['email_notifications'],
+      smsNotifications: json['sms_notifications'],
+      orderSummaryFrequency: _toString(json['order_summary_frequency']),
+      reviewNotificationFrequency: _toString(json['review_notification_frequency']),
+      inventoryAlertFrequency: _toString(json['inventory_alert_frequency']),
+      appVersion: _toString(json['app_version']),
+      twoFa: _toString(json['two_fa']),
+      twoFaApp: _toString(json['two_fa_app']),
+      twoFaCode: _toString(json['two_fa_code']),
+      twoFaExpiresAt: _toString(json['two_fa_expires_at']),
+      lastLoginAt: _toString(json['last_login_at']),
+      isOnline: json['is_online'],
+      createdAt: _toString(json['created_at']),
+      updatedAt: _toString(json['updated_at']),
+      logoUrl: _toString(json['logo_url']),
+      coverPhotoUrl: _toString(json['cover_photo_url']),
+      roleName: _toString(json['role_name']),
+      role: json['role'] != null ? Role.fromJson(json['role']) : null,
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  static List<dynamic>? _parseCategoryIds(dynamic categoryIds) {
+    if (categoryIds == null) return null;
+
+    if (categoryIds is List) {
+      if (categoryIds.isNotEmpty && categoryIds.first is Map) {
+        return categoryIds.map((item) => CategoryId.fromJson(item)).toList();
+      } else {
+        return List<dynamic>.from(categoryIds);
+      }
+    }
+    return null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['shop_name'] = shopName;
+    data['owner_name'] = ownerName;
+    data['description'] = description;
+    data['dob'] = dob;
+    data['phone_code'] = phoneCode;
+    data['phone'] = phone;
+    data['email'] = email;
+    data['website'] = website;
+    data['address'] = address;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['logo'] = logo;
+    data['cover_photo'] = coverPhoto;
+    data['license_number'] = licenseNumber;
+    data['tax_number'] = taxNumber;
+    data['dea_registration_number'] = deaRegistrationNumber;
+    data['established_date'] = establishedDate;
+    data['no_of_employees'] = noOfEmployees;
+    data['facebook'] = facebook;
+    data['instagram'] = instagram;
+    data['twitter'] = twitter;
+    data['youtube'] = youtube;
+    data['delivery_radius'] = deliveryRadius;
+    data['min_order_amount'] = minOrderAmount;
+    data['avg_preparation_time'] = avgPreparationTime;
+    data['avg_fulfillment_time'] = avgFulfillmentTime;
+    data['service_type'] = serviceType;
+    data['delivery_fee'] = deliveryFee;
+    data['delivery'] = delivery;
+    if (categoryIds != null) {
+      if (categoryIds!.isNotEmpty && categoryIds!.first is CategoryId) {
+        data['category_ids'] = categoryIds!.map((v) => (v as CategoryId).toJson()).toList();
+      } else {
+        data['category_ids'] = categoryIds;
+      }
+    }
+    if (openingHours != null) {
+      data['opening_hours'] = openingHours!.map((v) => v.toJson()).toList();
+    }
+    data['cuisine_ids'] = cuisineIds;
+    data['commission_rate'] = commissionRate;
+    data['commission_tier'] = commissionTier;
+    if (documentVerification != null) {
+      data['document_verification'] = documentVerification!.toJson();
+    }
+    data['store_type'] = storeType;
+    data['store_size'] = storeSize;
+    data['store_specializations'] = storeSpecializations;
+    data['pci_compliance'] = pciCompliance;
+    data['cash_drawer_security'] = cashDrawerSecurity;
+    data['other_details'] = otherDetails;
+    data['role_id'] = roleId;
+    data['parent_id'] = parentId;
+    data['type'] = type;
+    data['otp'] = otp;
+    data['rating'] = rating;
+    data['email_verify'] = emailVerify;
+    data['step'] = step;
+    data['device_token'] = deviceToken;
+    data['status'] = status;
+    data['added_by'] = addedBy;
+    data['do_not_disturb'] = doNotDisturb;
+    data['quiet_hours'] = quietHours;
+    data['start_time'] = startTime;
+    data['end_time'] = endTime;
+    data['notification_sounds'] = notificationSounds;
+    data['notification_badges'] = notificationBadges;
+    data['notify_new_orders'] = notifyNewOrders;
+    data['notify_order_updates'] = notifyOrderUpdates;
+    data['notify_payment_issues'] = notifyPaymentIssues;
+    data['notify_low_stock'] = notifyLowStock;
+    data['notify_out_of_stock'] = notifyOutOfStock;
+    data['notify_table_reservations'] = notifyTableReservations;
+    data['notify_menu_item_requests'] = notifyMenuItemRequests;
+    data['push_notifications'] = pushNotifications;
+    data['email_notifications'] = emailNotifications;
+    data['sms_notifications'] = smsNotifications;
+    data['order_summary_frequency'] = orderSummaryFrequency;
+    data['review_notification_frequency'] = reviewNotificationFrequency;
+    data['inventory_alert_frequency'] = inventoryAlertFrequency;
+    data['app_version'] = appVersion;
+    data['two_fa'] = twoFa;
+    data['two_fa_app'] = twoFaApp;
+    data['two_fa_code'] = twoFaCode;
+    data['two_fa_expires_at'] = twoFaExpiresAt;
+    data['last_login_at'] = lastLoginAt;
+    data['is_online'] = isOnline;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['logo_url'] = logoUrl;
+    data['cover_photo_url'] = coverPhotoUrl;
+    data['role_name'] = roleName;
+    if (role != null) {
+      data['role'] = role!.toJson();
+    }
+    return data;
+  }
+}
+
+class CategoryId {
+  dynamic id;
+  String? name;
+  dynamic status;
+  String? added;
+
+  CategoryId({this.id, this.name, this.status, this.added});
+
+  factory CategoryId.fromJson(Map<String, dynamic> json) {
+    return CategoryId(
+      id: json['id'],
+      name: _toString(json['name']),
+      status: json['status'],
+      added: _toString(json['added']),
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'status': status,
+      'added': added,
+    };
+  }
+}
+
+class OpeningHours {
+  String? day;
+  dynamic status;
+  String? open;
+  String? close;
+
+  OpeningHours({this.day, this.status, this.open, this.close});
+
+  factory OpeningHours.fromJson(Map<String, dynamic> json) {
+    return OpeningHours(
+      day: _toString(json['day']),
+      status: json['status'],
+      open: _toString(json['open']),
+      close: _toString(json['close']),
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'day': day,
+      'status': status,
+      'open': open,
+      'close': close,
+    };
+  }
+}
+
+class DocumentVerification {
+  FoodSafetyCertificate? foodSafetyCertificate;
+  FireSafetyCertificate? fireSafetyCertificate;
+  FireSafetyCertificate? businessLicense;
+  FireSafetyCertificate? liquorLicense;
+
+  DocumentVerification({
+    this.foodSafetyCertificate,
+    this.fireSafetyCertificate,
+    this.businessLicense,
+    this.liquorLicense,
+  });
+
+  factory DocumentVerification.fromJson(Map<String, dynamic> json) {
+    return DocumentVerification(
+      foodSafetyCertificate: json['food_safety_certificate'] != null
+          ? FoodSafetyCertificate.fromJson(json['food_safety_certificate'])
+          : null,
+      fireSafetyCertificate: json['fire_safety_certificate'] != null
+          ? FireSafetyCertificate.fromJson(json['fire_safety_certificate'])
+          : null,
+      businessLicense: json['business_license'] != null
+          ? FireSafetyCertificate.fromJson(json['business_license'])
+          : null,
+      liquorLicense: json['liquor_license'] != null
+          ? FireSafetyCertificate.fromJson(json['liquor_license'])
+          : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'food_safety_certificate': foodSafetyCertificate?.toJson(),
+      'fire_safety_certificate': fireSafetyCertificate?.toJson(),
+      'business_license': businessLicense?.toJson(),
+      'liquor_license': liquorLicense?.toJson(),
+    };
+  }
+}
+
+class FoodSafetyCertificate {
+  String? documentNumber;
+  String? status;
+  String? image;
+  String? issuingAuthority;
+  String? issueDate;
+  String? expiryDate;
+  String? approveDate;
+
+  FoodSafetyCertificate({
+    this.documentNumber,
+    this.status,
+    this.image,
+    this.issuingAuthority,
+    this.issueDate,
+    this.expiryDate,
+    this.approveDate,
+  });
+
+  factory FoodSafetyCertificate.fromJson(Map<String, dynamic> json) {
+    return FoodSafetyCertificate(
+      documentNumber: _toString(json['document_number']),
+      status: _toString(json['status']),
+      image: _toString(json['image']),
+      issuingAuthority: _toString(json['issuing_authority']),
+      issueDate: _toString(json['issue_date']),
+      expiryDate: _toString(json['expiry_date']),
+      approveDate: _toString(json['approve_date']),
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'document_number': documentNumber,
+      'status': status,
+      'image': image,
+      'issuing_authority': issuingAuthority,
+      'issue_date': issueDate,
+      'expiry_date': expiryDate,
+      'approve_date': approveDate,
+    };
+  }
+}
+
+class FireSafetyCertificate {
+  String? documentNumber;
+  String? status;
+  String? image;
+  String? issuingAuthority;
+  String? issueDate;
+  String? expiryDate;
+  dynamic notes;
+  String? approveDate;
+
+  FireSafetyCertificate({
+    this.documentNumber,
+    this.status,
+    this.image,
+    this.issuingAuthority,
+    this.issueDate,
+    this.expiryDate,
+    this.notes,
+    this.approveDate,
+  });
+
+  factory FireSafetyCertificate.fromJson(Map<String, dynamic> json) {
+    return FireSafetyCertificate(
+      documentNumber: _toString(json['document_number']),
+      status: _toString(json['status']),
+      image: _toString(json['image']),
+      issuingAuthority: _toString(json['issuing_authority']),
+      issueDate: _toString(json['issue_date']),
+      expiryDate: _toString(json['expiry_date']),
+      notes: json['notes'],
+      approveDate: _toString(json['approve_date']),
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'document_number': documentNumber,
+      'status': status,
+      'image': image,
+      'issuing_authority': issuingAuthority,
+      'issue_date': issueDate,
+      'expiry_date': expiryDate,
+      'notes': notes,
+      'approve_date': approveDate,
+    };
+  }
+}
+
+class Role {
+  dynamic id;
+  String? name;
+  String? guardName;
+  String? createdAt;
+  String? updatedAt;
+
+  Role({
+    this.id,
+    this.name,
+    this.guardName,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  factory Role.fromJson(Map<String, dynamic> json) {
+    return Role(
+      id: json['id'],
+      name: _toString(json['name']),
+      guardName: _toString(json['guard_name']),
+      createdAt: _toString(json['created_at']),
+      updatedAt: _toString(json['updated_at']),
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'guard_name': guardName,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
+  }
+}
+
+class Categories {
+  Map<String, List<Product>> data = {};
+
+  Categories();
+
+  factory Categories.fromJson(Map<String, dynamic> json) {
+    final categories = Categories();
+    json.forEach((key, value) {
+      if (value is List) {
+        categories.data[key] = value
+            .map((item) => Product.fromJson(item))
+            .toList();
+      }
+    });
+    return categories;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> json = {};
+    data.forEach((key, value) {
+      json[key] = value.map((item) => item.toJson()).toList();
+    });
+    return json;
+  }
+}
+
+class Product {
+  dynamic id;
+  String? image;
+  dynamic rating;
+  String? salePrice;
+  String? regularPrice;
+  String? title;
+  String? addimg;
+  dynamic vendorId;
+  dynamic categoryId;
+  bool? isInWishlist;
+  String? restoName;
+  String? categoryName;
+  List<String>? addimgUrl;
+  String? imageUrl;
+  String? cuisineName;
+  String? brandName;
+  String? packagingName;
+  String? applicationName;
+  Vendor? vendor;
+  String? cuisine;
+  String? brand;
+  String? packaging;
+  String? application;
+  int? productreviewCount;
+  List<String>? urlAddimg;
+  String? urlImage;
+  Rx<bool> isLoading = false.obs;
+
+  Product({
+    this.id,
+    this.image,
+    this.rating,
+    this.salePrice,
+    this.regularPrice,
+    this.title,
+    this.addimg,
+    this.vendorId,
+    this.categoryId,
+    this.isInWishlist,
+    this.restoName,
+    this.categoryName,
+    this.addimgUrl,
+    this.imageUrl,
+    this.cuisineName,
+    this.brandName,
+    this.packagingName,
+    this.applicationName,
+    this.vendor,
+    this.cuisine,
+    this.brand,
+    this.packaging,
+    this.application,
+    this.productreviewCount,
+    this.urlAddimg,
+    this.urlImage,
+  });
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json['id'],
+      image: _toString(json['image']),
+      rating: json['rating'],
+      salePrice: _toString(json['sale_price']),
+      regularPrice: _toString(json['regular_price']),
+      title: _toString(json['title']),
+      addimg: _toString(json['addimg']),
+      vendorId: json['vendor_id'],
+      categoryId: json['category_id'],
+      isInWishlist: json['is_in_wishlist'],
+      restoName: _toString(json['resto_name']),
+      categoryName: _toString(json['category_name']),
+      addimgUrl: _parseStringList(json['addimg_url']),
+      imageUrl: _toString(json['image_url']),
+      cuisineName: _toString(json['cuisine_name']),
+      brandName: _toString(json['brand_name']),
+      packagingName: _toString(json['packaging_name']),
+      applicationName: _toString(json['application_name']),
+      vendor: json['vendor'] != null ? Vendor.fromJson(json['vendor']) : null,
+      cuisine: _toString(json['cuisine']),
+      brand: _toString(json['brand']),
+      packaging: _toString(json['packaging']),
+      application: _toString(json['application']),
+      productreviewCount: json['productreview_count'] is String
+          ? int.tryParse(json['productreview_count'])
+          : json['productreview_count'],
+      urlAddimg: _parseStringList(json['url_addimg']),
+      urlImage: _toString(json['url_image']),
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  static List<String>? _parseStringList(dynamic value) {
+    if (value == null) return null;
+    if (value is List) {
+      return List<String>.from(value.map((item) => item.toString()));
+    }
+    return null;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'image': image,
+      'rating': rating,
+      'sale_price': salePrice,
+      'regular_price': regularPrice,
+      'title': title,
+      'addimg': addimg,
+      'vendor_id': vendorId,
+      'category_id': categoryId,
+      'is_in_wishlist': isInWishlist,
+      'resto_name': restoName,
+      'category_name': categoryName,
+      'addimg_url': addimgUrl,
+      'image_url': imageUrl,
+      'cuisine_name': cuisineName,
+      'brand_name': brandName,
+      'packaging_name': packagingName,
+      'application_name': applicationName,
+      'vendor': vendor?.toJson(),
+      'cuisine': cuisine,
+      'brand': brand,
+      'packaging': packaging,
+      'application': application,
+      'productreview_count': productreviewCount,
+      'url_addimg': urlAddimg,
+      'url_image': urlImage,
+    };
+  }
+}
+
+class Vendor {
+  dynamic id;
+  String? shopName;
+  String? logoUrl;
+  String? coverPhotoUrl;
+  String? roleName;
+  dynamic role;
+
+  Vendor({
+    this.id,
+    this.shopName,
+    this.logoUrl,
+    this.coverPhotoUrl,
+    this.roleName,
+    this.role,
+  });
+
+  factory Vendor.fromJson(Map<String, dynamic> json) {
+    return Vendor(
+      id: json['id'],
+      shopName: _toString(json['shop_name']),
+      logoUrl: _toString(json['logo_url']),
+      coverPhotoUrl: _toString(json['cover_photo_url']),
+      roleName: _toString(json['role_name']),
+      role: json['role'],
+    );
+  }
+
+  static String? _toString(dynamic value) {
+    if (value == null) return null;
+    return value.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'shop_name': shopName,
+      'logo_url': logoUrl,
+      'cover_photo_url': coverPhotoUrl,
+      'role_name': roleName,
+      'role': role,
+    };
+  }
+}
+
+// Helper method for backward compatibility
+extension ProductExtensions on Product {
+  String? get primaryImageUrl {
+    return imageUrl ?? urlImage;
+  }
+
+  List<String>? get additionalImages {
+    return addimgUrl ?? urlAddimg;
+  }
+
+  bool get isOnSale {
+    if (salePrice == null || regularPrice == null) return false;
+    try {
+      final sale = double.tryParse(salePrice!);
+      final regular = double.tryParse(regularPrice!);
+      if (sale == null || regular == null) return false;
+      return sale < regular;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  double? get discountPercentage {
+    if (!isOnSale || salePrice == null || regularPrice == null) return null;
+    try {
+      final sale = double.tryParse(salePrice!);
+      final regular = double.tryParse(regularPrice!);
+      if (sale == null || regular == null || regular == 0) return null;
+      return ((regular - sale) / regular) * 100;
+    } catch (e) {
+      return null;
+    }
+  }
+}
+
