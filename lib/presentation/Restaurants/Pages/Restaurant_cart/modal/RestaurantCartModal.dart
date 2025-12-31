@@ -1252,7 +1252,12 @@ class AppliedCouponCode {
     value = json['value']?.toString();
     minSpend = json['min_spend']?.toString();
     category = json['category']?.toString();
-    vendorId = json['vendor_id'].cast<String>();
+    vendorId = <String>[];
+    if (json['vendor_id'] != null && json['vendor_id'] is List) {
+      json['vendor_id'].forEach((v) {
+        vendorId!.add(v.toString());
+      });
+    }
     geoZone = json['geo_zone']?.toString();
     latitude = json['latitude']?.toString();
     longitude = json['longitude']?.toString();

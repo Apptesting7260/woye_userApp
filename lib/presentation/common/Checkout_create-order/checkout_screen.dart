@@ -155,6 +155,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              address(),
+              hBox(15.h),
               paymentMethod(walletBalance: controller.walletBalance.value, totalPrice: controller.total.value),
               hBox(15.h),
               deliveryNotes(context),
@@ -253,12 +255,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 walletUsed: controller.walletSelected.value,
                                 walletAmount: controller.walletDiscount.value
                                     .toStringAsFixed(2),
-                                paymentMethod: controller.isSelectable.value ==
-                                    true
-                                    ? "wallet" : controller.selectedIndex
-                                    .value == 1 ? "credit_card" : controller
-                                    .selectedIndex.value == 2
-                                    ? "cash_on_delivery" : "",
+                                paymentMethod: controller.isSelectable.value == true ? "wallet" : controller.selectedIndex.value == 1 ? "credit_card" : controller.selectedIndex.value == 2 ? "cash_on_delivery" : "",
                                 // paymentAmount: controller.payAfterWallet.value.toStringAsFixed(2),
                                 paymentAmount: controller.walletSelected.value
                                     ? paymentAmount
@@ -588,6 +585,58 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
+  Widget address() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Delivery Address",
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        ),
+        hBox(20.h),
+        InkWell(
+          onTap: () {
+            Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
+              'type': "RestaurantCart",
+              "fromcart": true,
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15.r),
+              border: Border.all(
+                color: AppColors.primary
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Row(
+                children: [
+                  SvgPicture.asset("assets/svg/location-pin-primary.svg"),
+                  wBox(8.w),
+                  Text(
+                    'Add Address',
+                    style: AppFontStyle.text_16_400(
+                      AppColors.darkText,
+                      height: 1.h,
+                      family: AppFontFamily.gilroyMedium,
+                    ),
+                  ),
+                  const Spacer(),
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 12,
+                    color: AppColors.lightText,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget paymentDetails({
     regularPrice,
     saveAmount,
@@ -897,7 +946,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       children: [
         Text(
           "Payment Method",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(15.h),
         wallet(walletBalance: walletBalance, totalPrice: totalPrice),
@@ -1285,7 +1334,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       children: [
         Text(
           "Tip for the courier",
-          style: AppFontStyle.text_20_600(
+          style: AppFontStyle.text_18_600(
             AppColors.darkText,
             family: AppFontFamily.gilroyRegular,
           ),

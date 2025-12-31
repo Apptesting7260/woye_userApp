@@ -291,6 +291,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               ),
                                             ],
                                           ),
+                                          hBox(5),
                                           Flexible(
                                             child: Text(
                                               product.restoName.toString(),

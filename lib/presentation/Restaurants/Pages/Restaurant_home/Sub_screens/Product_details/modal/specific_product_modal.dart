@@ -1373,7 +1373,7 @@ class MoreProducts {
   int? id;
   String? image;
   String? rating;
-  String? salePrice;
+  int? salePrice;
   String? regularPrice;
   String? title;
   String? addimg;

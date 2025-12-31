@@ -42,9 +42,14 @@ class AddToCartController extends GetxController {
   void setError(String value) => error.value = value;
 
   final Map<String, bool> _cartLoadingMap = {};
+  final Map<String, bool> _cartLoadingMap2 = {};
 
   bool isCartLoading(String productId) {
     return _cartLoadingMap[productId] ?? false;
+  }
+
+  bool isCartLoader(String productId) {
+    return _cartLoadingMap2[productId] ?? false;
   }
 
   void setCartLoading(String productId, bool loading) {
@@ -139,6 +144,8 @@ class AddToCartController extends GetxController {
       }
     });
   }
+
+
 
   void clearSelected(){
     specificProductController.selectedAddOn.clear();

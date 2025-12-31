@@ -317,7 +317,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 Positioned(
                   bottom: 2,
                   right: 0,
-                  left: 2,
+                  left: 10,
                   child: Row(
                     children: [
                       Obx(
@@ -400,9 +400,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 fontFamily: AppFontFamily.gilroyMedium,
                                 width: Get.width,
                                 color: AppColors.primary,
-                                isLoading:
-                                addToCartController.rxRequestStatus.value ==
-                                    (Status.LOADING),
+                                isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
                                 text: "Go to Cart",
                                 onPressed: () {
                                   // restaurantCartController.isCartScreen.value ?
@@ -423,40 +421,15 @@ class ProductDetailsScreen extends StatelessWidget {
                               isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
                               text: "Add to Cart",
                               onPressed: () {
-
                                 if (getUserDataController.userData.value.user?.userType =="guestUser") {
                                   showLoginRequired(context);
                                 }
                                 else {
-                                  // ---------- add to cart api -----------
-                                  // controller.productPriceFun();
-
-                               /*   if ((controller.productData.value.product?.options?.isNotEmpty ?? false) ||
-                                      (controller.productData.value.product?.addOns?.isNotEmpty ?? false)) {
-                                    addToCartPopUp(context);
-                                  }else{
                                   addToCartController.addToCartApi(
                                     isPopUp: false,
                                     cartId: cartId,
                                     productId: controller.productData.value.product!.id.toString(),
-                                    productPrice: controller.productData.value.product!.salePrice != null
-                                        ? controller.productData.value.product!.salePrice.toString()
-                                        : controller.productData.value.product!.regularPrice.toString(),
-                                    productQuantity: controller.cartCount.toString(),
-                                    restaurantId: controller.productData.value.product!.vendorId.toString(),
-                                    addons: controller.selectedAddOn.toList(),
-                                    extrasIds: controller.extrasTitlesIdsId,
-                                    extrasItemIds: controller.extrasItemIdsId.toList(),
-                                    extrasItemNames: controller.extrasItemIdsName.toList(),
-                                    extrasItemPrices: controller.extrasItemIdsPrice.toList(),
-                                  );*/
-
-
-                                  addToCartController.addToCartApi(
-                                    isPopUp: false,
-                                    cartId: cartId,
-                                    productId: controller.productData.value.product!.id.toString(),
-                                    productPrice: controller.productData.value.product!.salePrice != null
+                                    productPrice: controller.productData.value.product!.salePrice != "null"
                                         ? controller.productData.value.product!.salePrice.toString()
                                         : controller.productData.value.product!.regularPrice.toString(),
                                     productQuantity: controller.cartCount.toString(),
@@ -467,7 +440,6 @@ class ProductDetailsScreen extends StatelessWidget {
                                     extrasItemNames: controller.extrasItemIdsName.toList(),
                                     extrasItemPrices: controller.extrasItemIdsPrice.toList(),
                                   );
-
                                   pt("object ${controller.extrasItemIdsName}");
                                 }
                               },
@@ -707,7 +679,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
         // ---------- Curved Layout Container ----------
         Transform.translate(
-          offset: Offset(0, -25.h),
+          offset: Offset(0, -5.h),
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -836,7 +808,39 @@ class ProductDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       // Price with discount
+                      controller.productData.value.product!.salePrice != "null" ?
                       Row(
+                        children: [
+                          Text(
+                            "\$${controller.productData.value.product!.salePrice ?? "0.00"}",
+                            style: AppFontStyle.text_18_600(
+                              AppColors.primary,
+                              family: AppFontFamily.gilroyMedium,
+                            ),
+                          ),
+                          wBox(8.w),
+                          Text(
+                            "\$${controller.productData.value.product!.regularPrice ?? "0.00"}",
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: AppColors.mediumText,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: AppFontFamily.gilroyRegular,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: AppColors.mediumText,
+                            ),
+                          ),
+                        ],
+                      )
+                          :
+                      Text(
+                        "\$${controller.productData.value.product!.regularPrice ?? "0.00"}",
+                        style: AppFontStyle.text_18_600(
+                          AppColors.primary,
+                          family: AppFontFamily.gilroyMedium,
+                        ),
+                      ),
+                     /* Row(
                         children: [
                           Text(
                             "\$${controller.productData.value.product!.salePrice ?? controller.productData.value.product!.regularPrice ?? "0.00"}",
@@ -859,10 +863,8 @@ class ProductDetailsScreen extends StatelessWidget {
                               ),
                             ),
                         ],
-                      ),
-
+                      ),*/
                       const Spacer(),
-
                       // Rating
                       Row(
                         children: [
@@ -1495,22 +1497,6 @@ class ProductDetailsScreen extends StatelessWidget {
               'More Products',
               style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
             ),
-            const Spacer(),
-            Row(
-              children: [
-                Text(
-                  "See All",
-                  style: AppFontStyle.text_15_400(AppColors.primary,
-                      family: AppFontFamily.gilroyMedium),
-                ),
-                wBox(4),
-                Icon(
-                  Icons.arrow_forward_sharp,
-                  color: AppColors.primary,
-                  size: 18,
-                ),
-              ],
-            ),
           ],
         ),
         GridView.builder(
@@ -1526,6 +1512,7 @@ class ProductDetailsScreen extends StatelessWidget {
           itemCount: controller.productData.value.moreProducts?.length,
           itemBuilder: (context, index) {
             return buildMoreProducts(
+              index,
               controller.productData.value.moreProducts?[index].imageUrl,
               controller.productData.value.moreProducts?[index].title,
               controller.productData.value.moreProducts?[index].restoName,
@@ -1540,6 +1527,7 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Widget buildMoreProducts(
+      int index,
       String? image,
       String? productName,
       String? restroName,
@@ -1741,32 +1729,57 @@ class ProductDetailsScreen extends StatelessWidget {
                           Icon(
                             Icons.access_time,
                             color: Colors.grey[600],
-                            size: 12, // Reduced from 14
+                            size: 12,
                           ),
-                          SizedBox(width: 2), // Reduced spacing
+                          wBox(2.w),
                           Text(
                             '45 min',
                             style: TextStyle(
-                              fontSize: 11, // Reduced from 12
+                              fontSize: 11,
                               color: Colors.grey[600],
                             ),
                           ),
-                          wBox(6), // Reduced spacing
-                          GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                color: AppColors.black,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                size: 16, // Reduced from 20
-                                color: AppColors.white,
-                              ),
-                            ),
+                          wBox(6),
+                          GetBuilder<AddToCartController>(
+                            builder: (addToCartController) {
+                              return GestureDetector(
+                                onTap: () {
+                                  print("cart_iddddddddddddddddddd------$cartId");
+                                  print("product_iddddddddddddddddddd------${controller.productData.value.product!.id.toString()}");
+                                  if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                                    showLoginRequired(Get.context);
+                                  } else {
+                                    addToCartController.addToCartApi(
+                                        productId:  controller.productData.value.moreProducts?[index].id.toString() ?? '',
+                                        productQuantity: '1',
+                                        productPrice: controller.productData.value.moreProducts?[index].regularPrice.toString() ?? '',
+                                        restaurantId:controller.productData.value.moreProducts?[index].vendorId.toString() ?? '',
+                                        addons: [],
+                                        extrasIds: [],
+                                        extrasItemIds: [],
+                                        extrasItemNames: [],
+                                        extrasItemPrices: [],
+                                        isPopUp: false
+                                    );
+                                  }
+                                },
+                                child: addToCartController.isCartLoader(controller.productData.value.product!.id.toString())
+                                    ? circularProgressIndicator(size: 25)
+                                    : Container(
+                                  height: 32,
+                                  width: 32,
+                                  decoration: BoxDecoration(
+                                      color: AppColors.black,
+                                      borderRadius: BorderRadius.circular(20)
+                                  ),
+                                  child: Icon(
+                                    Icons.add,
+                                    size: 18,
+                                    color: AppColors.white,
+                                  ),
+                                ),
+                              );
+                            }
                           ),
                         ],
                       ),

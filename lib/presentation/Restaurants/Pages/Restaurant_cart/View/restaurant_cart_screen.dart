@@ -2953,7 +2953,7 @@ class RestaurantCartScreen extends StatefulWidget {
           children: [
             Text(
               "Delivery Address",
-              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
             ),
             const Spacer(),
             InkWell(
@@ -2989,7 +2989,7 @@ class RestaurantCartScreen extends StatefulWidget {
           padding: EdgeInsets.all(20.r),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(color: AppColors.mediumText)),
+              border: Border.all(color: AppColors.lightText.withOpacity(0.5))),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -3013,7 +3013,7 @@ class RestaurantCartScreen extends StatefulWidget {
                       "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                 ),
               ),
             ],
@@ -3593,10 +3593,10 @@ class RestaurantCartScreen extends StatefulWidget {
         return Container(
           width: Get.width,
           padding:
-          EdgeInsets.only(top: 10.r, bottom: 10.r, left: 10.r, right: 10.r),
+          EdgeInsets.only(top: 10.r, bottom: 10.r, left: 10.r, right: 5.r),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.r),
-              border: Border.all(color: AppColors.hintText)),
+              border: Border.all(color: AppColors.hintText.withOpacity(0.5))),
           child: Column(
             children: [
               Row(
@@ -3622,137 +3622,50 @@ class RestaurantCartScreen extends StatefulWidget {
                             fit: BoxFit.cover,
                           ))),
                   wBox(10.h),
-                  Container(
-                    width: Get.width / 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          buckets.vendorName?.capitalize.toString() ?? "",
-                          overflow: TextOverflow.ellipsis,
-                          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                        ),
-                        hBox(4.h),
-                        Text(
-                          buckets.vendorAddress.toString(),
-                          style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                        hBox(1.h),
-                        // Row(
-                        //   children: [
-                        //     Container(
-                        //       height: 30,
-                        //       width: 60,
-                        //       decoration: BoxDecoration(
-                        //         color: AppColors.primary.withOpacity(0.1),
-                        //         borderRadius: BorderRadius.circular(10.r),
-                        //       ),
-                        //       child: Row(
-                        //         mainAxisAlignment: MainAxisAlignment.center,
-                        //         children: [
-                        //           SvgPicture.asset(
-                        //             ImageConstants.bikeLogo,
-                        //             colorFilter: ColorFilter.mode(
-                        //                 AppColors.primary, BlendMode.srcIn),
-                        //             height: 17,
-                        //             width: 17,
-                        //           ),
-                        //           wBox(5.w),
-                        //           Text(
-                        //             "\$2",
-                        //             style: AppFontStyle.text_16_400(
-                        //                 AppColors.primary,family: AppFontFamily.gilroyMedium
-                        //             ),
-                        //           ),
-                        //         ],
-                        //       ),
-                        //     ),
-                        //     wBox(8.w),
-                        //     Container(
-                        //       height: 30,
-                        //       width: 91,
-                        //       decoration: BoxDecoration(
-                        //         color: AppColors.primary.withOpacity(0.1),
-                        //         borderRadius: BorderRadius.circular(10.r),
-                        //       ),
-                        //       child: Row(
-                        //         mainAxisAlignment: MainAxisAlignment.center,
-                        //         children: [
-                        //           SvgPicture.asset(
-                        //             ImageConstants.historyLogo,
-                        //             colorFilter: ColorFilter.mode(
-                        //                 AppColors.primary, BlendMode.srcIn),
-                        //             height: 17,
-                        //             width: 17,
-                        //           ),
-                        //           wBox(5.w),
-                        //           Text(
-                        //             "20min",
-                        //             style: AppFontStyle.text_16_400(
-                        //                 AppColors.primary,family: AppFontFamily.gilroyMedium
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                        Row(
-                          // crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            // Text(
-                            //   price,
-                            //   textAlign: TextAlign.left,
-                            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
-                            // ),
-                            SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
-                            wBox(3.w),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3.0),
-                              child: Text(
-                                "\$5 Delivery",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                              ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        buckets.vendorName?.capitalize.toString() ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                      ),
+                      hBox(4.h),
+                      Text(
+                        buckets.vendorAddress.toString(),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                      ),
+                      hBox(15.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+                          wBox(3.w),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 3.0),
+                            child: Text(
+                              "\$5",
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                             ),
-                            SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
-                            wBox(3.w),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3.0),
-                              child: Text(
-                                "30-50 mins",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                              ),
-                            ),
-                            Text(
-                              " • ",
-                              textAlign: TextAlign.left,
-                              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                            ),
-                            /*SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
-                            wBox(3.w),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 3.0),
-                              child: Text(
-                                "\$5 Delivery",
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                              ),
-                            ),*/
-                          ],
-                        ),
-                        hBox(5.h),
-                      ],
-                    ),
+                          ),
+                          wBox(5.w),
+                          SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+                          wBox(3.w),
+                          Text(
+                            "30-50 mins",
+                            style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                          ),
+                          wBox(20),
+                          deliveryType(buckets, index),
+                        ],
+                      ),
+                      hBox(5.h),
+                    ],
                   ),
                   const Spacer(),
                   // Obx(() =>deleteVendorPharController.rxDeleteVendorReqStatus.value == Status.LOADING &&
@@ -3770,7 +3683,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   //       )
                   //       :
                   Padding(
-                    padding: REdgeInsets.only(right:2,top:5),
+                    padding: REdgeInsets.only(right:2),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -3805,11 +3718,16 @@ class RestaurantCartScreen extends StatefulWidget {
                               // buckets.isVendorDelete.value = true;
                               // deleteVendorController.deleteProductApi(cartId: buckets.cartId.toString());
                             },
-                            child: Text(
+                           /* child: Text(
                               "Remove",
                               style: AppFontStyle.text_14_400(AppColors.red,family: AppFontFamily.gilroyMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
+                            ),*/
+                            child: SvgPicture.asset(
+                              "assets/svg/delete-outlined.svg",
+                              height: 20,
+                              color: AppColors.red,
                             ),
                           ),
                           // ),
@@ -3820,8 +3738,6 @@ class RestaurantCartScreen extends StatefulWidget {
                 ],
               ),
               hBox(8.h),
-              deliveryType(buckets, index),
-              hBox(8.h),
               Divider(thickness: .5.w, color: AppColors.hintText),
               hBox(3.h),
               ListView.separated(
@@ -3831,6 +3747,11 @@ class RestaurantCartScreen extends StatefulWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index1) {
                   var items = buckets.bucket![index1];
+                  Attribute? attribute;
+
+                  if (items.attribute != null && items.attribute!.isNotEmpty) {
+                    attribute = items.attribute!.first;
+                  }
                   return Column(
                     children: [
                       Row(
@@ -4027,26 +3948,19 @@ class RestaurantCartScreen extends StatefulWidget {
                                     // ),
                                   ],
                                 ),
-                                hBox(15.h),
+                                hBox(5.h),
+                                Text(
+                                  attribute?.itemDetails?.itemName ?? '',
+                                  maxLines: 1,
+                                  style: AppFontStyle.text_16_400(
+                                      AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    // isLoading
-                                    //     ? Shimmer.fromColors(
-                                    //   baseColor: Colors.grey.shade300,
-                                    //   highlightColor: Colors.grey.shade100,
-                                    //   child: Container(
-                                    //     height: 14.h,
-                                    //     width: 60.w,
-                                    //     color: Colors.white,
-                                    //   ),
-                                    // )
-                                    //     :
-
                                     Text(
                                       "\$${buckets.bucket?[index1].productTotalPrice}",
-                                      // "\$${items.newPrice.toString()}",
                                       overflow: TextOverflow.ellipsis,
                                       style: AppFontStyle.text_14_600(
                                           AppColors.primary,family: AppFontFamily.gilroyRegular),
@@ -4067,141 +3981,111 @@ class RestaurantCartScreen extends StatefulWidget {
                                     //   ),
                                     // )
                                     //     :
-                                    Container(
-                                      height: 35.h,
-                                      width: 105.w,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50.r),
-                                        border: Border.all(
-                                            width: 0.8.w, color: AppColors.primary),
-                                      ),
-                                      child: Obx(
-                                            () => quantityUpdateController.rxRequestStatus.value == Status.LOADING
-                                            && items.isLoading.value == true
-                                            ? Center(child: circularProgressIndicator2())
-                                            : Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            // InkWell(
-                                            //   splashColor: Colors.transparent,
-                                            //   highlightColor:
-                                            //   Colors.transparent,
-                                            //   onTap: () {
-                                            //     // if (controller
-                                            //     //     .cartData
-                                            //     //     .value
-                                            //     //     .cart!
-                                            //     //     .decodedAttribute![
-                                            //     // index]
-                                            //     //     .checked !=
-                                            //     //     "false") {
-                                            //     if (items.quantity == "1") {
-                                            //       Utils.showToast(
-                                            //           "Qty can not less then 1");
-                                            //     } else {
-                                            //       items.isLoading.value =true;
-                                            //       quantityUpdateController.updateQuantityApi(
-                                            //         isSingleCartScreen: false,
-                                            //         cartId: buckets.cartId.toString(),
-                                            //         productId: items.productId.toString(),
-                                            //         countId: items.count.toString(),
-                                            //         productQuantity: (int.parse(items.quantity!) - 1).toString(),
-                                            //       );
-                                            //     }
-                                            //     // }
-                                            //     // else {
-                                            //     //   Utils.showToast(
-                                            //     //       "First select product",
-                                            //     //       gravity: ToastGravity
-                                            //     //           .CENTER);
-                                            //     // }
-                                            //   },
-                                            //   child: Icon(
-                                            //     Icons.remove,
-                                            //     size: 16.w,
-                                            //   ),
-                                            // ),
-                                            IconButton(
-                                              splashColor: Colors.transparent,
-                                              highlightColor:Colors.transparent,
-                                              onPressed: () {
-                                                if (items.quantity == "1") {
-                                                  Utils.showToast(
-                                                      "Qty can not less then 1");
-                                                } else {
-                                                  items.isLoading.value =true;
-                                                  quantityUpdateController.updateQuantityApi(
-                                                    isSingleCartScreen: false,
-                                                    cartId: buckets.cartId.toString(),
-                                                    productId: items.productId.toString(),
-                                                    countId: items.count.toString(),
-                                                    productQuantity: (int.parse(items.quantity!) - 1).toString(),
-                                                  );
-                                                }
-                                              },
-                                              icon: Icon(
+                                    Obx(
+                                          () => quantityUpdateController.rxRequestStatus.value == Status.LOADING
+                                          && items.isLoading.value == true
+                                          ? Center(child: circularProgressIndicator2())
+                                          : Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          IconButton(
+                                            splashColor: Colors.transparent,
+                                            highlightColor:Colors.transparent,
+                                            onPressed: () {
+                                              if (items.quantity == "1") {
+                                                Utils.showToast(
+                                                    "Qty can not less then 1");
+                                              } else {
+                                                items.isLoading.value =true;
+                                                quantityUpdateController.updateQuantityApi(
+                                                  isSingleCartScreen: false,
+                                                  cartId: buckets.cartId.toString(),
+                                                  productId: items.productId.toString(),
+                                                  countId: items.count.toString(),
+                                                  productQuantity: (int.parse(items.quantity!) - 1).toString(),
+                                                );
+                                              }
+                                            },
+                                            icon: Container(
+                                              height: 28,
+                                              width: 28,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(10),
+                                                border: Border.all(color: AppColors.darkText),
+                                              ),
+                                              child: Icon(
                                                 Icons.remove,
                                                 size: 16.w,
                                               ),
                                             ),
-                                            Text(
-                                              items.quantity.toString(),
-                                              style: AppFontStyle.text_14_400(
-                                                  AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                                            ),
-                                            // InkWell(
-                                            //   splashColor: Colors.transparent,
-                                            //   highlightColor:Colors.transparent,
-                                            //   onTap: () {
-                                            //     // if (controller
-                                            //     //     .cartData
-                                            //     //     .value
-                                            //     //     .cart!
-                                            //     //     .decodedAttribute![
-                                            //     // index]
-                                            //     //     .checked !=
-                                            //     //     "false") {
-                                            //
-                                            //     // items.isLoading.value = true;
-                                            //     items.isLoading.value = true;
-                                            //     quantityUpdateController.updateQuantityApi(
-                                            //       isSingleCartScreen: false,
-                                            //       cartId: buckets.cartId.toString(),
-                                            //       productId: items.productId.toString(),
-                                            //       countId:items.count.toString(),
-                                            //       productQuantity:(int.parse(items.quantity!) + 1).toString(),
-                                            //     );
-                                            //     // } else {
-                                            //     //   Utils.showToast(
-                                            //     //       "First select product");
-                                            //     // }
-                                            //   },
-                                            //   child: Icon(
-                                            //     Icons.add,
-                                            //     size: 16.w,
-                                            //   ),
-                                            // ),
+                                          ),
+                                          Text(
+                                            items.quantity.toString(),
+                                            style: AppFontStyle.text_14_400(
+                                                AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                          ),
+                                          // InkWell(
+                                          //   splashColor: Colors.transparent,
+                                          //   highlightColor:Colors.transparent,
+                                          //   onTap: () {
+                                          //     // if (controller
+                                          //     //     .cartData
+                                          //     //     .value
+                                          //     //     .cart!
+                                          //     //     .decodedAttribute![
+                                          //     // index]
+                                          //     //     .checked !=
+                                          //     //     "false") {
+                                          //
+                                          //     // items.isLoading.value = true;
+                                          //     items.isLoading.value = true;
+                                          //     quantityUpdateController.updateQuantityApi(
+                                          //       isSingleCartScreen: false,
+                                          //       cartId: buckets.cartId.toString(),
+                                          //       productId: items.productId.toString(),
+                                          //       countId:items.count.toString(),
+                                          //       productQuantity:(int.parse(items.quantity!) + 1).toString(),
+                                          //     );
+                                          //     // } else {
+                                          //     //   Utils.showToast(
+                                          //     //       "First select product");
+                                          //     // }
+                                          //   },
+                                          //   child: Icon(
+                                          //     Icons.add,
+                                          //     size: 16.w,
+                                          //   ),
+                                          // ),
 
-                                            IconButton(
-                                              splashColor: Colors.transparent,
-                                              highlightColor:Colors.transparent,
-                                              onPressed: () {
-                                              items.isLoading.value = true;
-                                              quantityUpdateController.updateQuantityApi(
-                                                isSingleCartScreen: false,
-                                                cartId: buckets.cartId.toString(),
-                                                productId: items.productId.toString(),
-                                                countId:items.count.toString(),
-                                                productQuantity:(int.parse(items.quantity!) + 1).toString(),
-                                              );
-                                            },
-                                            icon: Icon(
+                                          IconButton(
+                                            splashColor: Colors.transparent,
+                                            highlightColor:Colors.transparent,
+                                            onPressed: () {
+                                            items.isLoading.value = true;
+                                            quantityUpdateController.updateQuantityApi(
+                                              isSingleCartScreen: false,
+                                              cartId: buckets.cartId.toString(),
+                                              productId: items.productId.toString(),
+                                              countId:items.count.toString(),
+                                              productQuantity:(int.parse(items.quantity!) + 1).toString(),
+                                            );
+                                          },
+                                          icon: Container(
+                                            height: 28,
+                                            width: 28,
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Icon(
                                               Icons.add,
                                               size: 16.w,
+                                                color: AppColors.white,
                                             ),
-                                            ),
-                                          ],
-                                        ),
+                                          ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],
@@ -4211,7 +4095,7 @@ class RestaurantCartScreen extends StatefulWidget {
                           ),
                         ],
                       ),
-                      if(items.attribute!.isNotEmpty)...[
+                  /*    if(items.attribute!.isNotEmpty)...[
                         hBox(15.h),
                         Padding(
                           padding: EdgeInsets.only(bottom: 8.h),
@@ -4321,7 +4205,7 @@ class RestaurantCartScreen extends StatefulWidget {
                           ),
                         ),
                       ),
-                     ],
+                     ],*/
                     ],
                   );
                 },
@@ -4340,61 +4224,115 @@ class RestaurantCartScreen extends StatefulWidget {
   }
 
   Widget deliveryType(Buckets buckets, int index) {
-    return Row(
+    return Container(
+      height: 26,
+      width: 100,
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary, width: 1),
+      ),
+      child: Obx(
+            () =>
+            Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Delivery Type", style: AppFontStyle.text_16_500(
-                    AppColors.darkText,family: AppFontFamily.gilroyMedium),),
-                const Spacer(),
-                Obx(
-                      ()=> InkWell(
+
+                /// DELIVERY
+                Expanded(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
                     onTap: () {
-                        if (buckets.isDelivery.value == true) {
-                          buckets.isDelivery.value = false;
-                            controller.restaurantOrderTypeApi(index: index,cartId: buckets.cartId.toString(),type: "self", isDelivery:buckets.isDelivery);
-                          }
+                      if (!buckets.isDelivery.value) {
+                        buckets.isDelivery.value = true;
+                        controller.restaurantOrderTypeApi(
+                          index: index,
+                          cartId: buckets.cartId.toString(),
+                          type: "delivery",
+                          isDelivery: buckets.isDelivery,
+                        );
+                      }
                     },
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 100),
-                      height: 30,width: 84,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color:buckets.isDelivery.value ? AppColors.lightPrimary : AppColors.primary,width: 1),
+                      duration: const Duration(milliseconds: 150),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: buckets.isDelivery.value
+                            ? AppColors.black
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
-                          controller.loadingIndex.value == index && controller.loadingType.value == "self") ?
-                          circularProgressIndicator2() :
-                          Text("Self", style: AppFontStyle.text_14_400(
-                          buckets.isDelivery.value ? AppColors.darkText :AppColors.primary,family: AppFontFamily.gilroyMedium),)),
+                      child: (controller.rxRequestStatusOrderType.value ==
+                          Status.LOADING &&
+                          controller.loadingIndex.value == index &&
+                          controller.loadingType.value == "delivery")
+                          ? circularProgressIndicator2()
+                          : FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "Delivery",
+                          style: AppFontStyle.text_8_400(
+                            buckets.isDelivery.value
+                                ? AppColors.white
+                                : AppColors.darkText,
+                            family: AppFontFamily.gilroyMedium,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-                wBox(8.w),
-                Obx(
-                      ()=> InkWell(
+
+                /// PICKUP
+                Expanded(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(16),
                     onTap: () {
-                      if(buckets.isDelivery.value  == false){
-                        buckets.isDelivery.value = true;
-                          controller.restaurantOrderTypeApi(index: index, cartId: buckets.cartId.toString(), type: "delivery", isDelivery:buckets.isDelivery);
+                      if (buckets.isDelivery.value) {
+                        buckets.isDelivery.value = false;
+                        controller.restaurantOrderTypeApi(
+                          index: index,
+                          cartId: buckets.cartId.toString(),
+                          type: "self",
+                          isDelivery: buckets.isDelivery,
+                        );
                       }
-                      },
+                    },
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 100),
-                      height: 30,width: 84,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.r),
-                        border: Border.all(color:buckets.isDelivery.value ? AppColors.primary : AppColors.lightPrimary,width: 1),
+                      duration: const Duration(milliseconds: 150),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: !buckets.isDelivery.value
+                            ? AppColors.black
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(16),
                       ),
-                      child: Center(child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
-                          controller.loadingIndex.value == index && controller.loadingType.value == "delivery") ?
-                      circularProgressIndicator2() : Text("Delivery", style: AppFontStyle.text_14_400(
-                        buckets.isDelivery.value == true ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
-                      ),
-                      ),
+                      child: (controller.rxRequestStatusOrderType.value ==
+                          Status.LOADING &&
+                          controller.loadingIndex.value == index &&
+                          controller.loadingType.value == "self")
+                          ? circularProgressIndicator2()
+                          : FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "Pickup",
+                          style: AppFontStyle.text_8_400(
+                            !buckets.isDelivery.value
+                                ? AppColors.white
+                                : AppColors.darkText,
+                            family: AppFontFamily.gilroyMedium,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                )
+                ),
               ],
-            );
+            ),
+      ),
+    );
   }
+
 
   FocusNode focusNode = FocusNode();
 
@@ -4403,7 +4341,7 @@ class RestaurantCartScreen extends StatefulWidget {
         ? Padding(
       padding: REdgeInsets.symmetric(horizontal: 1.5),
           child: DottedBorder(
-                strokeWidth: 2,
+                strokeWidth: 1,
                 borderType: BorderType.RRect,
                 radius: Radius.circular(15.r),
                 color: AppColors.primary,
@@ -4769,7 +4707,6 @@ class RestaurantCartScreen extends StatefulWidget {
     );
   }
 
-
   Widget checkoutButton() {
     bool isLoading =
         checkedUncheckedController.rxRequestStatus.value == Status.LOADING ||
@@ -4804,6 +4741,7 @@ class RestaurantCartScreen extends StatefulWidget {
           child: Obx(
             ()=> CustomElevatedButton(
               isLoading: controller.rxGetCheckoutBtnDataStatus.value == Status.LOADING,
+              color: AppColors.primary,
               onPressed: ()async {
                 // var selectedItems = controller
                 //     .cartData.value.cart!.decodedAttribute!

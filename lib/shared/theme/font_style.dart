@@ -25,7 +25,11 @@ class AppFontStyle {
     return _textStyle(color, 18.sp, FontWeight.w300, height: height,fontFamily:family);
   }
 
-  ///`font-weight:400 ===========>`
+  ///`font-weight:400 ===========>
+
+  static text_8_400(Color color, {height,family}) {
+    return _textStyle(color, 8.sp, FontWeight.w400, height: height,fontFamily:family);
+  }
 
   static text_10_400(Color color, {height,family}) {
     return _textStyle(color, 10.sp, FontWeight.w400, height: height,fontFamily:family);
