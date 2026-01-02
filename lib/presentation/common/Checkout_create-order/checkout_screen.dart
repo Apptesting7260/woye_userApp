@@ -3,16 +3,22 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Data/components/GeneralException.dart';
+import 'package:woye_user/Data/components/InternetException.dart' show InternetExceptionWidget;
+import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/main.dart';
 import 'package:woye_user/pay_stack/payment_controller.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_controller.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_controller.dart' show EditAdressController;
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Payment_method/View/payment_method_screen.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 import '../../../shared/widgets/format_price.dart';
 import '../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
+import '../Profile/Sub_screens/Delivery_address/delivery_address_modal/delivery_address_modal.dart';
 
 class CheckoutScreen extends StatefulWidget {
   CheckoutScreen({super.key});
@@ -32,6 +38,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final PayStackController payStackController = Get.put(PayStackController());
 
   final GetUserDataController getUserDataController = Get.put(GetUserDataController());
+
+  final DeliveryAddressController deliveryAddressController = Get.put(DeliveryAddressController(), permanent: true);
+
+  final EditAdressController editController = Get.put(EditAdressController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Auto-select default address if no address is selected
+      if (controller.addressId.value.isEmpty &&
+          deliveryAddressController.deliveryAddressData.value.data != null &&
+          deliveryAddressController.deliveryAddressData.value.data!.isNotEmpty) {
+
+        // Find and select default address
+        final defaultAddress = deliveryAddressController.deliveryAddressData.value.data!
+            .firstWhere((address) => address.isDefault == 1,
+            orElse: () => deliveryAddressController.deliveryAddressData.value.data!.first);
+
+        controller.addressId.value = defaultAddress.id.toString();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -594,47 +623,258 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(20.h),
-        InkWell(
-          onTap: () {
-            Get.toNamed(AppRoutes.deliveryAddressScreen, arguments: {
-              'type': "RestaurantCart",
-              "fromcart": true,
-            });
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.r),
-              border: Border.all(
-                color: AppColors.primary
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Row(
-                children: [
-                  SvgPicture.asset("assets/svg/location-pin-primary.svg"),
-                  wBox(8.w),
-                  Text(
-                    'Add Address',
-                    style: AppFontStyle.text_16_400(
-                      AppColors.darkText,
-                      height: 1.h,
-                      family: AppFontFamily.gilroyMedium,
-                    ),
-                  ),
-                  const Spacer(),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 12,
-                    color: AppColors.lightText,
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
+        Obx(() {
+          switch (deliveryAddressController.rxRequestStatus.value) {
+            case Status.LOADING:
+              return Center(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20.h),
+                  child: circularProgressIndicator(),
+                ),
+              );
+
+            case Status.ERROR:
+              if (deliveryAddressController.error.value == 'No internet' ||
+                  deliveryAddressController.error.value == 'InternetExceptionWidget') {
+                return InternetExceptionWidget(
+                  onPress: () {
+                    deliveryAddressController.refreshDeliveryAddressApi();
+                  },
+                );
+              } else {
+                return GeneralExceptionWidget(
+                  onPress: () {
+                    deliveryAddressController.refreshDeliveryAddressApi();
+                  },
+                );
+              }
+
+            case Status.COMPLETED:
+            // Check if addresses are available
+            return Column(
+              children: [
+                addressList(deliveryAddressController.deliveryAddressData.value.data!),
+                hBox(8),
+                addAddressButton()
+              ],
+            );
+          }
+        }),
       ],
     );
+  }
+
+  Widget addAddressButton() {
+    return InkWell(
+      onTap: () {
+        Get.toNamed(
+          AppRoutes.addAddressScreen,
+          arguments: {
+            'type': "RestaurantCart",
+            "fromcart": true,
+          },
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: AppColors.primary),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Row(
+            children: [
+              SvgPicture.asset("assets/svg/location-pin-primary.svg"),
+              wBox(8.w),
+              Text(
+                'Add Address',
+                style: AppFontStyle.text_16_400(
+                  AppColors.darkText,
+                  height: 1.h,
+                  family: AppFontFamily.gilroyMedium,
+                ),
+              ),
+              const Spacer(),
+              Icon(
+                Icons.arrow_forward_ios_rounded,
+                size: 12,
+                color: AppColors.lightText,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+// Address list widget (modified from DeliveryAddressScreen)
+  Widget addressList(List<Data> dataList) {
+    controller.setDefaultAddress(dataList);
+
+    return Obx(() => ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: dataList.length,
+      separatorBuilder: (c, i) => hBox(10.h),
+      itemBuilder: (context, index) {
+        final address = dataList[index];
+
+        final isSelected =
+            controller.addressId.value == address.id.toString();
+
+        return InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            /// USER CAN SELECT ANY ADDRESS
+            controller.addressId.value =
+                address.id.toString();
+          },
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: EdgeInsets.all(15.r),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.primary
+                    : AppColors.lightPrimary,
+                width: 1.5,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
+                /// HEADER
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          address.addressType
+                              ?.capitalizeFirst ??
+                              "",
+                          style:
+                          AppFontStyle.text_16_600(
+                            AppColors.darkText,
+                          ),
+                        ),
+                        wBox(8.w),
+
+                        /// DEFAULT TAG (ONLY LABEL)
+                        if (address.isDefault == true)
+                          Container(
+                            padding:
+                            EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors
+                                  .primary
+                                  .withOpacity(0.1),
+                              borderRadius:
+                              BorderRadius
+                                  .circular(
+                                  4.r),
+                            ),
+                            child: Text(
+                              "Default",
+                              style: AppFontStyle
+                                  .text_12_400(
+                                AppColors.primary,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+
+                    /// SELECTION INDICATOR
+                    Container(
+                      height: 20.h,
+                      width: 20.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isSelected
+                              ? AppColors.primary
+                              : AppColors
+                              .lightPrimary,
+                        ),
+                      ),
+                      child: isSelected
+                          ? SvgPicture.asset(
+                          "assets/svg/green-check-circle.svg")
+                          : null,
+                    ),
+                  ],
+                ),
+
+                hBox(10.h),
+
+                if (address.fullName?.isNotEmpty ??
+                    false)
+                  Text(
+                    address.fullName!
+                        .capitalizeFirst!,
+                    style: AppFontStyle
+                        .text_14_400(
+                      AppColors.darkText,
+                      family: AppFontFamily
+                          .gilroyMedium,
+                    ),
+                  ),
+
+                hBox(5.h),
+
+                Text(
+                  "${address.houseDetails ?? ""}\n${address.address}",
+                  maxLines: 3,
+                  overflow:
+                  TextOverflow.ellipsis,
+                  style:
+                  AppFontStyle.text_14_400(
+                    AppColors.lightText,
+                  ),
+                ),
+
+                hBox(5.h),
+
+                Text(
+                  "${address.countryCode} ${address.phoneNumber}",
+                  style:
+                  AppFontStyle.text_14_400(
+                    AppColors.darkText,
+                    family: AppFontFamily
+                        .gilroyMedium,
+                  ),
+                ),
+
+                if (address.deliveryInstruction
+                    ?.isNotEmpty ??
+                    false)
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: 8.h),
+                    child: Text(
+                      "Delivery Instruction: ${address.deliveryInstruction}",
+                      maxLines: 2,
+                      style: AppFontStyle
+                          .text_14_400(
+                        AppColors.darkText,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    ));
   }
 
   Widget paymentDetails({

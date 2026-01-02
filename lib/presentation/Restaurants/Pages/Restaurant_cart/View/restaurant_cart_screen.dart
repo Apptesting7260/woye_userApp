@@ -4363,12 +4363,6 @@ class RestaurantCartScreen extends StatefulWidget {
                     readOnly: controller.readOnly.value,
                     focusNode: focusNode,
                     onTap: () {
-                      // if (controller.cartData.value.cart?.decodedAttribute
-                      //     ?.where((item) => item.checked == "true")
-                      //     .isEmpty ??
-                      //     true) {
-                      //   Utils.showToast("Please select a product");
-                      // } else
                         if (controller.cartCheckoutData.value.coupons?.isNotEmpty ?? true) {
                         if (controller.readOnly.value) {
                           bottomBar(context);

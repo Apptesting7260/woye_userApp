@@ -292,28 +292,6 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
         ),
       ),
     );
-    // Container(
-    //   padding: REdgeInsetsDirectional.all(15),
-    //   height: 60.h,
-    //   decoration: BoxDecoration(
-    //       borderRadius: BorderRadius.circular(20.r),
-    //       border: Border.all(color: AppColors.primary)),
-    //   child: Row(
-    //     children: [
-    //       SvgPicture.asset("assets/svg/pin_location.svg"),
-    //       wBox(10),
-    //       Text(
-    //         "Add Address",
-    //         style: AppFontStyle.text_16_400(AppColors.primary),
-    //       ),
-    //       Spacer(),
-    //       Icon(
-    //         Icons.arrow_forward_ios_sharp,
-    //         size: 20.h,
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 
   Widget changeAddressButton(type) {

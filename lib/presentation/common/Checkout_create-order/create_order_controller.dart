@@ -26,6 +26,7 @@ import 'package:woye_user/shared/widgets/custom_elevated_button.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../Pharmacy/Pages/Pharmacy_cart/prescription/prescription_controller.dart';
+import '../Profile/Sub_screens/Delivery_address/delivery_address_modal/delivery_address_modal.dart';
 
 class CreateOrderController extends GetxController {
   Rx<TextEditingController> tipsController = Rx(TextEditingController());
@@ -116,6 +117,19 @@ class CreateOrderController extends GetxController {
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
   void setCreateOrderData(RestaurantCreateOrderModel value) => createOrderData.value = value;
+
+  void setDefaultAddress(List<Data> dataList) {
+    if (addressId.value.isNotEmpty) return;
+
+    final defaultAddress = dataList.firstWhereOrNull(
+          (e) => e.isDefault == true,
+    );
+
+    if (defaultAddress != null) {
+      addressId.value = defaultAddress.id.toString();
+    }
+  }
+
 
 
   createOrderRestaurant({

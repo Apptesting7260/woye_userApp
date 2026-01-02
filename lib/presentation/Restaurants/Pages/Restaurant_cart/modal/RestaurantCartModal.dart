@@ -1104,10 +1104,10 @@ class Coupons {
   Coupons.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
     couponType = json['coupon_type']?.toString();
-    title = json['title']?.toString();
+    title = json['description']?.toString();
     code = json['code']?.toString();
     discountType = json['discount_type']?.toString();
-    discountAmount = json['discount_amount']?.toString();
+    discountAmount = json['discount_value']?.toString();
     expireDate = json['expire_date']?.toString();
     expiryStatus = json['expiry_status']?.toString();
     value = json['value']?.toString();
@@ -1118,10 +1118,10 @@ class Coupons {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['coupon_type'] = couponType;
-    data['title'] = title;
+    data['description'] = title;
     data['code'] = code;
     data['discount_type'] = discountType;
-    data['discount_amount'] = discountAmount;
+    data['discount_value'] = discountAmount;
     data['expire_date'] = expireDate;
     data['expiry_status'] = expiryStatus;
     data['value'] = value;

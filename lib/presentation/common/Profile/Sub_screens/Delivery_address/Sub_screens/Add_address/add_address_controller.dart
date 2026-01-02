@@ -194,27 +194,6 @@ class AddAddressController extends GetxController {
     api.addAddressApi(body).then((value) {
       setData(value);
       if (addAddress.value.status == true) {
-        // if (location.value.isEmpty) {
-        //   print("object1111111");
-        //   deliveryAddressController.getDeliveryAddressApi().then((value) {
-        //     location.value = locationController.text;
-        //     storage.write('location', location.value);
-        //     Utils.showToast(addAddress.value.message.toString());
-        //     setRxRequestStatus(Status.COMPLETED);
-        //     if (fromcart == true) {
-        //       Get.back();
-        //     }
-        //     Get.back();
-        //     // Get.offAllNamed(AppRoutes.restaurantNavbar);
-        //     nameController.value.clear();
-        //     mobNoController.value.clear();
-        //     houseNoController.value.clear();
-        //     deliveryInstructionController.value.clear();
-        //     locationController.clear();
-        //     radioValue.value = 0;
-        //     return;
-        //   });
-        // } else {
           if (type == "RestaurantCart") {
             print("object22222222");
             if (cartId?.isEmpty ?? true) {
