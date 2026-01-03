@@ -1041,8 +1041,8 @@ class Attribute {
 
   Attribute.fromJson(Map<String, dynamic> json) {
     titleId = json['title_id']?.toString();
-    if (json['item_details'] != null && json['item_details'] is Map<String, dynamic>) {
-      itemDetails = ItemDetails.fromJson(json['item_details']);
+    if (json['choices'] != null && json['choices'] is Map<String, dynamic>) {
+      itemDetails = ItemDetails.fromJson(json['choices']);
     }
   }
 
@@ -1050,7 +1050,7 @@ class Attribute {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['title_id'] = titleId;
     if (itemDetails != null) {
-      data['item_details'] = itemDetails!.toJson();
+      data['choices'] = itemDetails!.toJson();
     }
     return data;
   }
@@ -1064,16 +1064,16 @@ class ItemDetails {
   ItemDetails({this.itemId, this.itemName, this.itemPrice});
 
   ItemDetails.fromJson(Map<String, dynamic> json) {
-    itemId = json['item_id']?.toString();
-    itemName = json['item_name']?.toString();
-    itemPrice = json['item_price']?.toString();
+    itemId = json['option_id']?.toString();
+    itemName = json['name']?.toString();
+    itemPrice = json['price']?.toString();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['item_id'] = itemId;
-    data['item_name'] = itemName;
-    data['item_price'] = itemPrice;
+    data['option_id'] = itemId;
+    data['name'] = itemName;
+    data['price'] = itemPrice;
     return data;
   }
 }

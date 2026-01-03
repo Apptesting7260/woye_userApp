@@ -256,6 +256,61 @@ class specific_Product_Controller extends GetxController {
   RxList extrasItemIdsName = [].obs;
   RxList extrasItemIdsPrice = [].obs;
 
+  void toggleAddOnSelection({
+    required String addOnId,
+    required String addOnName,
+    required String addOnPrice,
+  }) {
+    // Check if addon is already selected
+    int existingIndex = selectedAddOn.indexWhere((addon) => addon['id'] == addOnId);
+
+    if (existingIndex != -1) {
+      // Remove addon
+      selectedAddOn.removeAt(existingIndex);
+    } else {
+      // Check max selection limit (9)
+      if (selectedAddOn.length < 9) {
+        // Add addon with full details
+        selectedAddOn.add({
+          'id': addOnId,
+          'name': addOnName,
+          'price': addOnPrice,
+        });
+      } else {
+        // Show message if limit reached
+        Utils.showToast("Maximum 9 add-ons can be selected");
+      }
+    }
+
+    update();
+  }
+
+  // Check if addon is selected
+  bool isAddOnSelected(String addOnId) {
+    return selectedAddOn.any((addon) => addon['id'] == addOnId);
+  }
+
+  // Get addon IDs only (for API)
+  List<String> getAddOnIds() {
+    return selectedAddOn.map((addon) => addon['id'].toString()).toList();
+  }
+
+  // Get addon names only (for API)
+  List<String> getAddOnNames() {
+    return selectedAddOn.map((addon) => addon['name'].toString()).toList();
+  }
+
+  // Get addon prices only (for API)
+  List<String> getAddOnPrices() {
+    return selectedAddOn.map((addon) => addon['price'].toString()).toList();
+  }
+
+  // Clear all addon selections
+  void clearAddOnSelections() {
+    selectedAddOn.clear();
+    update();
+  }
+
   // Method to check if a choice is selected
   bool isChoiceSelected(String choiceKey) {
     return selectedChoices[choiceKey] ?? false;
@@ -297,9 +352,9 @@ class specific_Product_Controller extends GetxController {
         updateSelectedOptionChoice(
           optionId: optionId,
           optionName: optionName,
-          choiceKey: choiceKey, // Add this
+          choiceKey: choiceKey,
           choiceName: choiceName,
-          choicePrice: choicePrice?.toString(), // Ensure it's string
+          choicePrice: choicePrice?.toString(),
         );
       }
     } else {
@@ -335,7 +390,7 @@ class specific_Product_Controller extends GetxController {
     String? optionName,
     String? choiceName,
     String? choicePrice,
-    String? choiceKey, // Add this parameter
+    String? choiceKey
   }) {
     if (optionId == null || choiceKey == null) return;
 

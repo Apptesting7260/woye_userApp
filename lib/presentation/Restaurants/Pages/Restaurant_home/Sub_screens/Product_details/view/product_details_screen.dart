@@ -995,7 +995,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 final choiceIndex = choiceEntry.key;
 
                 // Generate a unique key for this choice
-                final choiceKey = '${option.optionId}_${choiceIndex}';
+                // final choiceKey = '${option.optionId}_${choiceIndex}';
+                final choiceKey = '${option.optionId}';
 
                 return Column(
                   children: [
@@ -1035,7 +1036,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 choiceKey: choiceKey,
                                 choiceName: choice.name,
                                 choicePrice: choice.price,
-                                isRequired: true, // Set to true if required to select exactly one
+                                isRequired: true,
                               );
                             },
                           )),
@@ -1120,6 +1121,7 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
+/*
   Widget addOn({context, checkBoxGroupValues}) {
     RxBool showAll = false.obs;
 
@@ -1231,6 +1233,165 @@ class ProductDetailsScreen extends StatelessWidget {
                                     ),
                                   )
                                       : null
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      if (index < itemsToShow - 1) hBox(8),
+                    ],
+                  );
+                },
+              ),
+
+              // Show More/Less button if more than initial items
+              if (totalAddons > initialShowCount) ...[
+                hBox(10),
+                InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                    showAll.value = !showAll.value;
+                  },
+                  child: Container(
+                    padding: REdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.primary.withOpacity(0.5)),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          showAll.value ?
+                          "-${totalAddons - initialShowCount} Less" :
+                          "+${totalAddons - initialShowCount} More",
+                          style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.gilroyRegular),
+                        ),
+                        wBox(4),
+                        Icon(
+                          showAll.value ? Icons.expand_less : Icons.expand_more,
+                          color: AppColors.primary,
+                          size: 18,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          )),
+      ],
+    );
+  }
+*/
+  Widget addOn({context, checkBoxGroupValues}) {
+    RxBool showAll = false.obs;
+
+    // Get addons from API
+    int totalAddons = controller.productData.value.product?.addOns?.length ?? 0;
+
+    // Show only first 6 items initially
+    int initialShowCount = 6;
+    int itemsToShow = showAll.value ? totalAddons : min(totalAddons, initialShowCount);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Add On",
+          style: AppFontStyle.text_20_500(AppColors.darkText, family: AppFontFamily.gilroySemiBold),
+        ),
+        hBox(5),
+        Row(
+          children: [
+            Text(
+              "Select any option",
+              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
+            ),
+          ],
+        ),
+        hBox(10),
+
+        // Check if addons are available
+        if (controller.productData.value.product?.addOns == null || controller.productData.value.product!.addOns!.isEmpty)
+          Container(
+            padding: REdgeInsets.symmetric(vertical: 30),
+            child: Center(
+              child: Text(
+                "No add-ons available",
+                style: AppFontStyle.text_16_400(AppColors.lightText, family: AppFontFamily.gilroyRegular),
+              ),
+            ),
+          )
+        else
+          Obx(() => Column(
+            children: [
+              // Show addons from API
+              ...List.generate(
+                itemsToShow,
+                    (index) {
+                  final addOn = controller.productData.value.product?.addOns?[index];
+                  bool isSelected = controller.isAddOnSelected(addOn?.id ?? '');
+
+                  return Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Addon name
+                          Text(
+                            addOn?.name ?? "Addon ${index + 1}",
+                            style: AppFontStyle.text_16_400(
+                              AppColors.black,
+                              family: AppFontFamily.gilroyRegular,
+                            ),
+                          ),
+
+                          // Price and checkbox
+                          Row(
+                            children: [
+                              // Price
+                              Text(
+                                "\$${addOn?.price ?? "0.00"}",
+                                style: AppFontStyle.text_16_600(
+                                  AppColors.black,
+                                  family: AppFontFamily.gilroyRegular,
+                                ),
+                              ),
+                              wBox(10),
+
+                              // Checkbox
+                              GestureDetector(
+                                onTap: () {
+                                  // Toggle selection using the new method
+                                  controller.toggleAddOnSelection(
+                                    addOnId: addOn?.id ?? '',
+                                    addOnName: addOn?.name ?? '',
+                                    addOnPrice: addOn?.price ?? '0.00',
+                                  );
+                                },
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: isSelected ? AppColors.primary : Colors.transparent,
+                                    border: Border.all(
+                                      color: isSelected ? AppColors.primary : AppColors.lightText,
+                                      width: isSelected ? 6 : 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4.r),
+                                  ),
+                                  child: isSelected
+                                      ? Center(
+                                    child: Icon(
+                                      Icons.check,
+                                      size: 10,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                      : null,
                                 ),
                               ),
                             ],

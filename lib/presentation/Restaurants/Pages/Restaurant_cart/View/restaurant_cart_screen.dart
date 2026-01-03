@@ -2831,6 +2831,7 @@ class RestaurantCartScreen extends StatefulWidget {
     super.initState();
     // controller.getAllCartData();
    WidgetsBinding.instance.addPostFrameCallback((_) {
+     controller.refreshGetAllCheckoutDataRes();
      _scrollController.addListener(
            () {
          if (_scrollController.position.isScrollingNotifier.value) {
@@ -4656,7 +4657,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
               ),
               Text(
-                "\$${controller.cartCheckoutData.value.cart?.saveAmount.toString() ?? ""}",
+                 controller.cartCheckoutData.value.cart?.saveAmount == null ? "0" : "\$${controller.cartCheckoutData.value.cart?.saveAmount.toString() ?? ""}",
                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
               ),
             ],
