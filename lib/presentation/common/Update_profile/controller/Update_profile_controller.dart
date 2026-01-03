@@ -259,7 +259,7 @@ class SignUpForm_editProfileController extends GetxController {
       ),
       initialDate: initialDate,
       firstDate: DateTime(1990, 1, 1),
-      lastDate: DateTime(2025, 12, 31),
+      lastDate: DateTime(2026, 12, 31),
     );
 
     if (picked != null) {

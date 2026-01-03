@@ -32,11 +32,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
     String? typeFrom = arguments?['typefrom'];
     return Scaffold(
         appBar: CustomAppBar(
-            isLeading: typeFrom != "back" ? false : true,
-          title: Text(
-            "Edit Profile",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-          ),
+            // isLeading: typeFrom != "back" ? false : true,
+            isLeading: true,
+          title: typeFrom == "back" ? Text("Edit Profile", style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular)) : const SizedBox(),
         ),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
@@ -72,8 +70,10 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /*header(typeFrom ?? ""),
-                        hBox(30),*/
+                        if (typeFrom != "back") ...[
+                          header(),
+                          hBox(30),
+                        ],
                         //
                         form(controller, context),
                         hBox(20),
@@ -89,14 +89,14 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         }));
   }
 
-  Widget header(typeFrom) {
+  Widget header() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          typeFrom == "back" ? "Update your profile" : "Fill your profile",
+          "Fill your profile",
           maxLines: 2,
-          style: AppFontStyle.text_40_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
         hBox(15),
         Text(

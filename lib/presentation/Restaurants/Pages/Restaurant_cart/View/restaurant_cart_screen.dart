@@ -2829,7 +2829,7 @@ class RestaurantCartScreen extends StatefulWidget {
   @override
   void initState() {
     super.initState();
-    // controller.getAllCheckoutDataRes();
+    // controller.getAllCartData();
    WidgetsBinding.instance.addPostFrameCallback((_) {
      _scrollController.addListener(
            () {
@@ -5084,12 +5084,12 @@ class RestaurantCartScreen extends StatefulWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            controller.cartCheckoutData.value.coupons![index].value ?? "0",
+                            (double.tryParse(controller.cartCheckoutData.value.coupons![index].discountAmount?.toString() ?? '0')?.toInt() ?? 0).toString(),
                             style: AppFontStyle.text_22_600(Colors.white,
                                 height: 1.h,family: AppFontFamily.gilroyMedium),
                           ),
                           Text(
-                            controller.cartCheckoutData.value.coupons![index].couponType
+                            controller.cartCheckoutData.value.coupons![index].discountType
                                 .toString() ==
                                 "percentage"
                                 ? "%"

@@ -49,29 +49,15 @@ class ProfileController extends GetxController {
       if (response.status == true) {
         // Clear user data from preferences
         await userPreference.removeUser();
-
-        // Clear any other controllers if needed
-        // For example:
-        // Get.find<GetUserDataController>().clearData();
-        // Get.find<SocialLoginController>().signout();
-
         setRxRequestStatus(Status.COMPLETED);
 
-        Get.snackbar(
-          'Success',
-          response.message ?? 'Logged out successfully',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        Utils.showToast("Logout Successfully");
 
         // Navigate to welcome screen
         Get.offAllNamed(AppRoutes.welcomeScreen);
       } else {
         setRxRequestStatus(Status.COMPLETED);
-        Get.snackbar(
-          'Error',
-          response.message ?? 'Logout failed',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        Utils.showToast("Logout Failed");
       }
     } catch (e) {
       setRxRequestStatus(Status.ERROR);

@@ -17,6 +17,7 @@ import 'package:woye_user/Data/userPrefrenceController.dart';
 import 'package:woye_user/Routes/app_routes.dart';
 import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/pay_stack/payment_controller.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/modal/RestaurantCartModal.dart';
 import 'package:woye_user/presentation/common/Checkout_create-order/create_order_modal.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
@@ -42,7 +43,7 @@ class CreateOrderController extends GetxController {
   RxDouble totalPriceIncludingTips = 0.00.obs;
   RxString totalPayAmount = "0".obs;
   RxDouble newPayAfterWallet = 0.00.obs;
-
+  final RestaurantCartController restaurantCartController = Get.put(RestaurantCartController());
 
   //------
   RxString addressId = "".obs;
