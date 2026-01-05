@@ -137,55 +137,6 @@ class ProductDetailsScreen extends StatelessWidget {
               ],
             ),
           ),
-          /*Obx(() {
-            return GestureDetector(
-              onTap: () async {
-                if (getUserDataController.userData.value.user?.userType =="guestUser") {
-                  showLoginRequired(context);
-                }else{
-                controller.isLoading.value = true;
-                controller.productData.value.product?.isInWishlist = !controller.productData.value.product!.isInWishlist!;
-                await addWishlistController.restaurant_add_product_wishlist(
-                  restaurantId: restaurantId.toString(),
-                  categoryId: categoryId,
-                  product_id: controller.productData.value.product?.id.toString() ?? productId.toString(),
-                  cuisineType: cuisineType,
-                  priceRange: priceRange,
-                  priceSort: priceSort,
-                  quickFilter: quickFilter,
-                ).then((value) {
-                  if(bannerId != "" && bannerId != null){
-                    bannerController.refreshBannerDataApi(bannerId: bannerId.toString());
-                   }
-                  },
-                );
-                // Utils.showToast("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
-
-                pt("productId 1>> :: $productId");
-                pt("restaurant>> $restaurantId :: catid>>> $categoryId :: productId 1>> :: $productId");
-                controller.isLoading.value = false;
-                }
-              },
-              child: Container(
-                padding: REdgeInsets.all(9),
-                height: 44.h,
-                width: 44.h,
-                decoration: BoxDecoration(
-                  color: AppColors.greyBackground,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: controller.isLoading.value
-                    ? circularProgressIndicator(size: 18)
-                    : Icon(
-                        controller.productData.value.product?.isInWishlist !=
-                                true
-                            ? Icons.favorite_outline_sharp
-                            : Icons.favorite_outlined,
-                        size: 24.w,
-                      ),
-              ),
-            );
-          }),*/
         ],
       ),
       body: Obx(() {
@@ -222,95 +173,6 @@ class ProductDetailsScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           mainContainer(),
-                          /*hBox(30),
-                          description(),
-                          hBox(30),
-                          extra(context: context),
-                          hBox(30),
-                          addOn(),
-                          // hBox(30),
-                          // if (controller.productData.value.product!.extra != null)
-                          //   extra(context: context),
-                          // if (controller.productData.value.product!.extra != null)
-                          //   hBox(10.h),
-                          // if (controller
-                          //     .productData.value.product!.addOn!.isNotEmpty)
-                          //   addOn(
-                          //     context: context,
-                          //     checkBoxGroupValues: true.obs,
-                          //   ),
-                          if (controller.productData.value.product!.addOns != null)
-                            hBox(25.h),
-                          // Obx(
-                          //   () => controller.goToCart.value == true
-                          //       ? CustomElevatedButton(
-                          //       fontFamily: AppFontFamily.gilroyMedium,
-                          //       width: Get.width,
-                          //           color: AppColors.primary,
-                          //           isLoading:
-                          //               addToCartController.rxRequestStatus.value ==
-                          //                   (Status.LOADING),
-                          //           text: "Go to Cart",
-                          //           onPressed: () {
-                          //             // restaurantCartController.isCartScreen.value ?
-                          //             // Get.toNamed(AppRoutes.restaurantNavbar) :
-                          //             if (fromCart != null && fromCart == true) {
-                          //               Get.back();
-                          //             } else {
-                          //               Get.to(() => const RestaurantCartScreen(isBack: true));
-                          //             }
-                          //
-                          //             controller.goToCart.value = false;
-                          //             controller.cartCount.value = 1;
-                          //           })
-                          //       : CustomElevatedButton(
-                          //       fontFamily: AppFontFamily.gilroyMedium,
-                          //       width: Get.width,
-                          //           color: AppColors.darkText,
-                          //           isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
-                          //           text: "Add to Cart",
-                          //           onPressed: () {
-                          //             if (getUserDataController.userData.value.user?.userType =="guestUser") {
-                          //               showLoginRequired(context);
-                          //             } else {
-                          //               // ---------- add to cart api -----------
-                          //               // controller.productPriceFun();
-                          //               addToCartController.addToCartApi(
-                          //                 cartId: cartId,
-                          //                 productId: controller.productData.value.product!.id.toString(),
-                          //                 productPrice: controller.productData.value.product!.salePrice != null
-                          //                     ? controller.productData.value.product!.salePrice.toString()
-                          //                     : controller.productData.value.product!.regularPrice.toString(),
-                          //                 productQuantity: controller.cartCount.toString(),
-                          //                 restaurantId: controller.productData.value.product!.restaurantId.toString(),
-                          //                 addons: controller.selectedAddOn.toList(),
-                          //                 extrasIds: controller.extrasTitlesIdsId,
-                          //                 extrasItemIds: controller.extrasItemIdsId.toList(),
-                          //                 extrasItemNames: controller.extrasItemIdsName.toList(),
-                          //                 extrasItemPrices: controller.extrasItemIdsPrice.toList(),
-                          //               );
-                          //               pt("object ${controller.extrasItemIdsName}");
-                          //             }
-                          //           },
-                          //   ),
-                          // ),
-                          // hBox(30),
-
-                          //------------------------
-                          // productReviews(),
-                          // hBox(8),
-                          // const Divider(),
-                          // if (controller
-                          //     .productData.value.product!.productreview!.isNotEmpty)
-                          //   hBox(30),
-                          // if (controller
-                          //     .productData.value.product!.productreview!.isNotEmpty)
-                          //   reviews(),
-                          if (controller.productData.value.moreProducts!.isNotEmpty)...[
-                            // hBox(20.h),
-                            moreProducts(),
-                          ],
-                          hBox(60.h),*/
                         ],
                       ),
                     )),
@@ -458,123 +320,207 @@ class ProductDetailsScreen extends StatelessWidget {
    );
   }
 
-  Future<dynamic> addToCartPopUp(BuildContext context) {
-    return showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return PopScope(
-        canPop:  true,
-        child: AlertDialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 20,vertical: 25),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
-          contentPadding: EdgeInsets.zero,
-          backgroundColor: AppColors.white,
-          content: SizedBox(
-            width: Get.width * 0.95,
-            child: Stack(
-              children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    hBox(40.h),
-                    Flexible(
-                      child: SingleChildScrollView(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10.0, right: 16, left: 16, bottom: 16),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (controller.productData.value.product?.options != null)
-                                extra(context: context),
-                              if (controller.productData.value.product?.options != null)
-                                hBox(10.h),
-                              if (controller.productData.value.product?.addOns?.isNotEmpty ?? false)
-                                addOn(
-                                  context: context,
-                                  checkBoxGroupValues: true.obs,
-                                ),
-                              // hBox(20.h),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Obx(
-                            () => controller.goToCart.value == true
-                            ? CustomElevatedButton(
-                            fontFamily: AppFontFamily.gilroyMedium,
-                            width: Get.width,
-                            color: AppColors.primary,
-                            isLoading:
-                            addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
-                            text: "Go to Cart",
-                            onPressed: () {
-                              // restaurantCartController.isCartScreen.value ?
-                              // Get.toNamed(AppRoutes.restaurantNavbar) :
-                              addToCartController.clearSelected();
-                              if (fromCart != null && fromCart == true) {
-                                Get.back();
-                                Get.back();
-                              } else {
-                                Get.back();
-                                Get.to(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
-                              }
+  Future<dynamic> addToCartPopUp(BuildContext context, MoreProducts? product) {
+    final tempController = specific_Product_Controller();
 
-                              controller.goToCart.value = false;
-                              controller.cartCount.value = 1;
-                            })
-                            : CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
-                              width: Get.width,
-                              color: AppColors.darkText,
-                              isLoading:  addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
-                              text: "Add to Cart",
-                              onPressed: () {
-                            addToCartController.addToCartApi(
-                              isPopUp: true,
-                              cartId: cartId,
-                              productId: controller.productData.value.product!.id.toString(),
-                              productPrice: controller.productData.value.product!.salePrice != null
-                                  ? controller.productData.value.product!.salePrice.toString()
-                                  : controller.productData.value.product!.regularPrice.toString(),
-                              productQuantity: controller.cartCount.toString(),
-                              restaurantId: controller.productData.value.product!.vendorId.toString(),
-                              addons: controller.selectedAddOn.toList(),
-                              extrasIds: controller.extrasTitlesIdsId,
-                              extrasItemIds: controller.extrasItemIdsId.toList(),
-                              extrasItemNames: controller.extrasItemIdsName.toList(),
-                              extrasItemPrices: controller.extrasItemIdsPrice.toList(),
-                            );
-                            pt("object ${controller.extrasItemIdsName}");
-                            },
+    // Set the product data for popup
+    tempController.productData.value = specificProduct(
+      product: Product(
+        id: product?.id,
+        title: product?.title,
+        imageUrl: product?.imageUrl,
+        addimgUrl: product?.addimgUrl,
+        regularPrice: product?.regularPrice,
+        salePrice: product?.salePrice,
+        vendorId: product?.vendorId,
+        addOns: product?.addOns,
+        options: product?.options,
+        productAttributes: product?.productAttributes,
+        rating: product?.rating,
+        restoName: product?.restoName,
+      ),
+      moreProducts: controller.productData.value.moreProducts,
+    );
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return PopScope(
+          canPop: true,
+          child: AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            contentPadding: EdgeInsets.zero,
+            backgroundColor: AppColors.white,
+            content: StatefulBuilder(
+              builder: (context, setState) {
+                // Check if all sections are empty
+                final hasOptions = tempController.productData.value.product?.options != null &&
+                    tempController.productData.value.product!.options!.isNotEmpty;
+
+                final hasAddOns = tempController.productData.value.product?.addOns != null &&
+                    tempController.productData.value.product!.addOns!.isNotEmpty;
+
+                final hasAttributes = tempController.productData.value.product?.productAttributes != null &&
+                    tempController.productData.value.product!.productAttributes!.isNotEmpty;
+
+                final hasAnyContent = hasOptions || hasAddOns || hasAttributes;
+
+                return SizedBox(
+                  width: Get.width * 0.95,
+                  child: Stack(
+                    children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          hBox(40.h),
+                          Flexible(
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10.0, right: 16, left: 16, bottom: 16),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // Show message if no content
+                                    if (!hasAnyContent)
+                                      Container(
+                                        padding: REdgeInsets.symmetric(vertical: 40),
+                                        child: Center(
+                                          child: Column(
+                                            children: [
+                                              Icon(
+                                                Icons.check_circle_outline,
+                                                color: AppColors.primary,
+                                                size: 40,
+                                              ),
+                                              hBox(10),
+                                              Text(
+                                                "No addons available",
+                                                style: AppFontStyle.text_16_400(
+                                                  AppColors.darkText,
+                                                  family: AppFontFamily.gilroyMedium,
+                                                ),
+                                              ),
+                                              hBox(5),
+                                              Text(
+                                                "You can add this product directly to cart",
+                                                style: AppFontStyle.text_14_400(
+                                                  AppColors.lightText,
+                                                  family: AppFontFamily.gilroyRegular,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                    // Show content if available
+                                    if (hasAnyContent) ...[
+                                      // Use the reusable extra widget with tempController
+                                      if (hasOptions)
+                                        extra(tempController: tempController, setState: setState),
+                                      if (hasOptions)
+                                        hBox(10.h),
+
+                                      // Use the reusable addOn widget with tempController
+                                      if (hasAddOns)
+                                        addOn(tempController: tempController, setState: setState),
+
+                                      // Use the reusable productAttributes widget with tempController
+                                      if (hasAttributes)
+                                        Column(
+                                          children: [
+                                            hBox(10.h),
+                                            productAttributes(tempController: tempController),
+                                          ],
+                                        ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Obx(
+                                  () => controller.goToCart.value == true
+                                  ? CustomElevatedButton(
+                                fontFamily: AppFontFamily.gilroyMedium,
+                                width: Get.width,
+                                color: AppColors.primary,
+                                isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
+                                text: "Go to Cart",
+                                onPressed: () {
+                                  addToCartController.clearSelected();
+                                  if (fromCart != null && fromCart == true) {
+                                    Get.back();
+                                    Get.back();
+                                  } else {
+                                    Get.back();
+                                    Get.to(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
+                                  }
+                                  controller.goToCart.value = false;
+                                  tempController.cartCount.value = 1;
+                                },
+                              )
+                                  : CustomElevatedButton(
+                                fontFamily: AppFontFamily.gilroyMedium,
+                                width: Get.width,
+                                color: AppColors.darkText,
+                                isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
+                                text: "Add to Cart",
+                                onPressed: () {
+                                  if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                                    showLoginRequired(context);
+                                    return;
+                                  }
+
+                                  addToCartController.addToCartApi(
+                                    isPopUp: true,
+                                    cartId: cartId,
+                                    productId: product?.id.toString() ?? '',
+                                    productPrice: tempController.productData.value.product!.salePrice != "null"
+                                        ? tempController.productData.value.product!.salePrice.toString()
+                                        : tempController.productData.value.product!.regularPrice.toString(),
+                                    productQuantity: tempController.cartCount.toString(),
+                                    restaurantId: product?.vendorId.toString() ?? '',
+                                    addons: tempController.selectedAddOn.toList(),
+                                    extrasIds: tempController.extrasTitlesIdsId,
+                                    extrasItemIds: tempController.extrasItemIdsId.toList(),
+                                    extrasItemNames: tempController.extrasItemIdsName.toList(),
+                                    extrasItemPrices: tempController.extrasItemIdsPrice.toList(),
+                                  );
+                                  pt("object ${tempController.extrasItemIdsName}");
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      // Close Icon
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: IconButton(
+                          onPressed: () {
+                            Get.back();
+                            addToCartController.clearSelected();
+                          },
+                          icon: Icon(Icons.cancel, color: AppColors.primary, size: 26),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                // Close Icon
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: IconButton(
-                    onPressed: () {
-                      Get.back();
-                      addToCartController.clearSelected();
-                    },
-                    icon: Icon(Icons.cancel, color: AppColors.primary, size: 26),
+                    ],
                   ),
-                ),
-              ],
+                );
+              },
             ),
           ),
-        ),
-      );
-    },
+        );
+      },
     );
   }
 
@@ -840,30 +786,6 @@ class ProductDetailsScreen extends StatelessWidget {
                           family: AppFontFamily.gilroyMedium,
                         ),
                       ),
-                     /* Row(
-                        children: [
-                          Text(
-                            "\$${controller.productData.value.product!.salePrice ?? controller.productData.value.product!.regularPrice ?? "0.00"}",
-                            style: AppFontStyle.text_18_600(
-                              AppColors.primary,
-                              family: AppFontFamily.gilroyMedium,
-                            ),
-                          ),
-                          wBox(8.w),
-                          if (controller.productData.value.product!.salePrice != null)
-                            Text(
-                              "\$${controller.productData.value.product!.regularPrice ?? "0.00"}",
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: AppColors.mediumText,
-                                fontWeight: FontWeight.w400,
-                                fontFamily: AppFontFamily.gilroyRegular,
-                                decoration: TextDecoration.lineThrough,
-                                decorationColor: AppColors.mediumText,
-                              ),
-                            ),
-                        ],
-                      ),*/
                       const Spacer(),
                       // Rating
                       Row(
@@ -888,9 +810,11 @@ class ProductDetailsScreen extends StatelessWidget {
                   hBox(20),
                   description(),
                   hBox(20),
-                  extra(context: Get.context),
+                  extra(tempController: controller),
                   hBox(20),
-                  addOn(),
+                  addOn(tempController: controller),
+                  hBox(20),
+                  productAttributes(tempController: controller),
                   hBox(30),
                   moreProducts()
                 ],
@@ -920,18 +844,21 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget extra({context}) {
+  Widget extra({specific_Product_Controller? tempController, StateSetter? setState}) {
+    // Use tempController if provided, otherwise use main controller
+    final controllerToUse = tempController ?? controller;
+
     // Check if options are available
-    if (controller.productData.value.product?.options == null ||
-        controller.productData.value.product!.options!.isEmpty) {
-      return SizedBox.shrink(); // Return empty widget if no options
+    if (controllerToUse.productData.value.product?.options == null ||
+        controllerToUse.productData.value.product!.options!.isEmpty) {
+      return SizedBox.shrink();
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Loop through each option
-        ...controller.productData.value.product!.options!.asMap().entries.map((entry) {
+        ...controllerToUse.productData.value.product!.options!.asMap().entries.map((entry) {
           final option = entry.value;
           final index = entry.key;
 
@@ -994,9 +921,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 final choice = choiceEntry.value;
                 final choiceIndex = choiceEntry.key;
 
-                // Generate a unique key for this choice
-                // final choiceKey = '${option.optionId}_${choiceIndex}';
-                final choiceKey = '${option.optionId}';
+                // Create unique key for internal tracking (optionId + choiceIndex)
+                final String uniqueKey = '${option.optionId}_$choiceIndex';
 
                 return Column(
                   children: [
@@ -1025,21 +951,27 @@ class ProductDetailsScreen extends StatelessWidget {
                         // Price and Radio Button - Fixed width
                         Flexible(
                           flex: 1,
-                          child: Obx(() => _buildToggleableRadioButton(
+                          child: _buildToggleableRadioButton(
                             title: '\$${choice.price ?? "0.00"}',
-                            isSelected: controller.isChoiceSelected(choiceKey),
+                            isSelected: controllerToUse.isChoiceSelected(uniqueKey),
                             onTap: () {
                               // Toggle selection for this choice
-                              controller.toggleChoiceSelection(
+                              controllerToUse.toggleChoiceSelection(
                                 optionId: option.optionId,
                                 optionName: option.optionName,
-                                choiceKey: choiceKey,
+                                uniqueKey: uniqueKey, // For internal tracking
+                                choiceIndex: choiceIndex, // To identify which choice
                                 choiceName: choice.name,
                                 choicePrice: choice.price,
                                 isRequired: true,
                               );
+
+                              // Update UI if setState is provided
+                              if (setState != null) {
+                                setState(() {});
+                              }
                             },
-                          )),
+                          ),
                         ),
                       ],
                     ),
@@ -1051,7 +983,7 @@ class ProductDetailsScreen extends StatelessWidget {
               }).toList(),
 
               // Add spacing between options (except last one)
-              if (index < controller.productData.value.product!.options!.length - 1)
+              if (index < controllerToUse.productData.value.product!.options!.length - 1)
                 hBox(20.h),
             ],
           );
@@ -1060,7 +992,6 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-// Toggleable Radio Button Widget
   Widget _buildToggleableRadioButton({
     required String title,
     required bool isSelected,
@@ -1121,176 +1052,74 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-/*
-  Widget addOn({context, checkBoxGroupValues}) {
-    RxBool showAll = false.obs;
+  Widget productAttributes({specific_Product_Controller? tempController}) {
+    final controllerToUse = tempController ?? controller;
 
-    // Get addons from API
-    int totalAddons = controller.productData.value.product?.addOns?.length ?? 0;
-
-    // Show only first 6 items initially
-    int initialShowCount = 6;
-    int itemsToShow = showAll.value ? totalAddons : min(totalAddons, initialShowCount);
+    if (controllerToUse.productData.value.product?.productAttributes == null ||
+        controllerToUse.productData.value.product!.productAttributes!.isEmpty) {
+      return SizedBox.shrink();
+    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Add On",
-          style: AppFontStyle.text_20_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
-        ),
-        hBox(5),
-        Row(
-          children: [
-            Text(
-              "Select any option",
-              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
-            ),
-          ],
+          "Attributes",
+          style: AppFontStyle.text_20_500(
+            AppColors.darkText,
+            family: AppFontFamily.gilroySemiBold,
+          ),
         ),
         hBox(10),
 
-        // Check if addons are available
-        if (controller.productData.value.product?.addOns == null || controller.productData.value.product!.addOns!.isEmpty)
-          Container(
-            padding: REdgeInsets.symmetric(vertical: 30),
-            child: Center(
-              child: Text(
-                "No add-ons available",
-                style: AppFontStyle.text_16_400(AppColors.lightText, family: AppFontFamily.gilroyRegular),
-              ),
-            ),
-          )
-        else
-          Obx(() => Column(
+        // Loop through each product attribute
+        ...controllerToUse.productData.value.product!.productAttributes!.asMap().entries.map((entry) {
+          final attribute = entry.value;
+          final index = entry.key;
+
+          return Column(
             children: [
-              // Show addons from API
-              ...List.generate(
-                itemsToShow,
-                    (index) {
-                  bool isSelected = controller.selectedAddOn.contains(controller.productData.value.product?.addOns?[index].id);
-
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Addon name
-                          Text(
-                            controller.productData.value.product?.addOns?[index].name ?? "Addon ${index + 1}",
-                            style: AppFontStyle.text_16_400(
-                              AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
-                            ),
-                          ),
-
-                          // Price and checkbox
-                          Row(
-                            children: [
-                              // Price - Assuming price field exists or use default
-                              Text(
-                                "\$${controller.productData.value.product?.addOns?[index].price ?? "0.00"}",
-                                style: AppFontStyle.text_16_600(
-                                  AppColors.black,
-                                  family: AppFontFamily.gilroyRegular,
-                                ),
-                              ),
-                              wBox(10),
-
-                              // Checkbox
-                              GestureDetector(
-                                onTap: () {
-                                  // Toggle selection
-                                  if (isSelected) {
-                                    controller.selectedAddOn.remove(controller.productData.value.product?.addOns?[index].id);
-                                  } else {
-                                    // Check max selection limit (9)
-                                    if (controller.selectedAddOn.length < 9) {
-                                      controller.selectedAddOn.add(controller.productData.value.product?.addOns?[index].id);
-                                    } else {
-                                      // Show message if limit reached
-                                      Utils.showToast("Maximum 9 add-ons can be selected");
-                                    }
-                                  }
-                                },
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: isSelected ? AppColors.primary : Colors.transparent,
-                                    border: Border.all(
-                                      color: isSelected ? AppColors.primary : AppColors.lightText,
-                                      width: isSelected ? 6 : 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: isSelected
-                                  ? Center(
-                                    child: Icon(
-                                      Icons.check,
-                                      size: 10,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                      : null
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    child: Text(
+                      attribute.name ?? "Attribute ${index + 1}",
+                      style: AppFontStyle.text_16_400(
+                        AppColors.black,
+                        family: AppFontFamily.gilroyRegular,
                       ),
-                      if (index < itemsToShow - 1) hBox(8),
-                    ],
-                  );
-                },
-              ),
-
-              // Show More/Less button if more than initial items
-              if (totalAddons > initialShowCount) ...[
-                hBox(10),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    showAll.value = !showAll.value;
-                  },
-                  child: Container(
-                    padding: REdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary.withOpacity(0.5)),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          showAll.value ?
-                          "-${totalAddons - initialShowCount} Less" :
-                          "+${totalAddons - initialShowCount} More",
-                          style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.gilroyRegular),
-                        ),
-                        wBox(4),
-                        Icon(
-                          showAll.value ? Icons.expand_less : Icons.expand_more,
-                          color: AppColors.primary,
-                          size: 18,
-                        )
-                      ],
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ),
-              ],
+
+                  // Spacing
+                  wBox(8),
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                    ),
+                  ),
+                ],
+              ),
+              if (index < controllerToUse.productData.value.product!.productAttributes!.length - 1)
+                hBox(8),
             ],
-          )),
+          );
+        }).toList(),
       ],
     );
   }
-*/
-  Widget addOn({context, checkBoxGroupValues}) {
+
+  Widget addOn({specific_Product_Controller? tempController, StateSetter? setState, checkBoxGroupValues}) {
+    final controllerToUse = tempController ?? controller;
     RxBool showAll = false.obs;
 
     // Get addons from API
-    int totalAddons = controller.productData.value.product?.addOns?.length ?? 0;
+    int totalAddons = controllerToUse.productData.value.product?.addOns?.length ?? 0;
 
     // Show only first 6 items initially
     int initialShowCount = 6;
@@ -1315,7 +1144,7 @@ class ProductDetailsScreen extends StatelessWidget {
         hBox(10),
 
         // Check if addons are available
-        if (controller.productData.value.product?.addOns == null || controller.productData.value.product!.addOns!.isEmpty)
+        if (controllerToUse.productData.value.product?.addOns == null || controllerToUse.productData.value.product!.addOns!.isEmpty)
           Container(
             padding: REdgeInsets.symmetric(vertical: 30),
             child: Center(
@@ -1326,14 +1155,14 @@ class ProductDetailsScreen extends StatelessWidget {
             ),
           )
         else
-          Obx(() => Column(
+          Column(
             children: [
               // Show addons from API
               ...List.generate(
                 itemsToShow,
                     (index) {
-                  final addOn = controller.productData.value.product?.addOns?[index];
-                  bool isSelected = controller.isAddOnSelected(addOn?.id ?? '');
+                  final addOn = controllerToUse.productData.value.product?.addOns?[index];
+                  bool isSelected = controllerToUse.isAddOnSelected(addOn?.id ?? '');
 
                   return Column(
                     children: [
@@ -1366,11 +1195,16 @@ class ProductDetailsScreen extends StatelessWidget {
                               GestureDetector(
                                 onTap: () {
                                   // Toggle selection using the new method
-                                  controller.toggleAddOnSelection(
+                                  controllerToUse.toggleAddOnSelection(
                                     addOnId: addOn?.id ?? '',
                                     addOnName: addOn?.name ?? '',
                                     addOnPrice: addOn?.price ?? '0.00',
                                   );
+
+                                  // Update UI if setState is provided
+                                  if (setState != null) {
+                                    setState(() {});
+                                  }
                                 },
                                 child: Container(
                                   width: 20,
@@ -1412,6 +1246,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   highlightColor: Colors.transparent,
                   onTap: () {
                     showAll.value = !showAll.value;
+                    if (setState != null) {
+                      setState(() {});
+                    }
                   },
                   child: Container(
                     padding: REdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -1440,7 +1277,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
               ],
             ],
-          )),
+          ),
       ],
     );
   }
@@ -1672,14 +1509,19 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
           itemCount: controller.productData.value.moreProducts?.length,
           itemBuilder: (context, index) {
+            final moreProducts = controller.productData.value.moreProducts;
+            final product = moreProducts?[index];
+
             return buildMoreProducts(
               index,
-              controller.productData.value.moreProducts?[index].imageUrl,
-              controller.productData.value.moreProducts?[index].title,
-              controller.productData.value.moreProducts?[index].restoName,
-              controller.productData.value.moreProducts?[index].rating,
-              controller.productData.value.moreProducts?[index].regularPrice,
-              controller.productData.value.moreProducts?[index].isInWishlist
+                product?.imageUrl,
+                product?.title,
+                product?.restoName,
+                product?.rating,
+                (product?.salePrice != "0")
+                    ? product?.salePrice
+                    : product?.regularPrice,
+                product?.isInWishlist
             );
           },
         )
@@ -1697,6 +1539,8 @@ class ProductDetailsScreen extends StatelessWidget {
       bool? isInWishlist,
       ){
     final isWishlisted = (isInWishlist ?? false).obs;
+    final moreProducts = controller.productData.value.moreProducts?[index];
+
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -1843,7 +1687,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   // Restaurant Name
                   SizedBox(height: 2),
                   Text(
-                    restroName!, // Shortened text
+                    restroName! ?? '',
                     style: TextStyle(
                       fontSize: 11, // Reduced from 12
                       color: Colors.grey[600],
@@ -1873,7 +1717,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            "\$${rating}",
+                            "\$${price}",
                             style: TextStyle(
                               fontSize: 9, // Reduced font size
                               fontWeight: FontWeight.w500,
@@ -1907,7 +1751,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 onTap: () {
                                   print("cart_iddddddddddddddddddd------$cartId");
                                   print("product_iddddddddddddddddddd------${controller.productData.value.product!.id.toString()}");
-                                  if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                                /*  if (getUserDataController.userData.value.user?.userType == "guestUser") {
                                     showLoginRequired(Get.context);
                                   } else {
                                     addToCartController.addToCartApi(
@@ -1922,7 +1766,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                         extrasItemPrices: [],
                                         isPopUp: false
                                     );
-                                  }
+                                  }*/
+                                  addToCartPopUp(Get.context!, moreProducts!);
                                 },
                                 child: addToCartController.isCartLoader(controller.productData.value.product!.id.toString())
                                     ? circularProgressIndicator(size: 25)

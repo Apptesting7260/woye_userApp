@@ -98,10 +98,10 @@ class All_Restaurant extends StatelessWidget {
                                 },
                                 child: restaurantList(
                                   index: index,
-                                  image: restaurant.shopimage.toString(),
+                                  image: restaurant.logoUrl.toString(),
                                   title: restaurant.shopName.toString().capitalize!,
                                   rating: restaurant.rating.toString(),
-                                  price: restaurant.avgPrice.toString(),
+                                  price: controller.restaurantData.value.avgPrice ?? '0'
                                 ),
                               );
                             },
@@ -148,30 +148,6 @@ class All_Restaurant extends StatelessWidget {
                     child:  Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder)),
               ),
             ),
-            // GestureDetector(
-            //   onTap: () {},
-            //   child: Container(
-            //     margin: REdgeInsets.only(top: 15, right: 15),
-            //     padding: REdgeInsets.symmetric(horizontal: 6, vertical: 6),
-            //     decoration: BoxDecoration(
-            //         borderRadius: BorderRadius.circular(10.r),
-            //         color: AppColors.greyBackground),
-            //     child: isFavourite != true
-            //         ? Icon(
-            //             Icons.favorite_border_outlined,
-            //             size: 20.w,
-            //           )
-            //         : Icon(
-            //             Icons.favorite,
-            //             size: 20.w,
-            //           ),
-            //
-            //     // SvgPicture.asset(
-            //     //   "assets/svg/favorite-inactive.svg",
-            //     //   height: 15.h,
-            //     // ),
-            //   ),
-            // )
           ],
         ),
         hBox(10),
