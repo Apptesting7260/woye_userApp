@@ -4662,7 +4662,7 @@ class RestaurantCartScreen extends StatefulWidget {
               ),
             ],
           ),
-          if (controller.cartCheckoutData.value.couponApplied != false)
+          if (controller.cartCheckoutData.value.couponApplied != false && controller.cartCheckoutData.value.coupons?.first.discountType != "free_delivery")
             Padding(
               padding: EdgeInsets.only(top: 10.h),
               child: Row(
@@ -4673,14 +4673,13 @@ class RestaurantCartScreen extends StatefulWidget {
                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                   ),
                   Text(
-                    controller.cartCheckoutData.value.cart?.couponDiscount == null ? "\$0.0" :
-                    "- \$${controller.cartCheckoutData.value.cart?.couponDiscount ?? 0}",
+                    controller.cartCheckoutData.value.cart?.couponDiscount == null ? "\$0.0" : "- \$${controller.cartCheckoutData.value.cart?.couponDiscount ?? 0}",
                     style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                   ),
                 ],
               ),
             ),
-          if ((controller.cartCheckoutData.value.addressExists == true) && (controller.cartCheckoutData.value.cart?.deliveryCharge?.isNotEmpty ?? false))
+          // if ((controller.cartCheckoutData.value.addressExists == true) && (controller.cartCheckoutData.value.cart?.deliveryCharge?.isNotEmpty ?? false))
             Padding(
               padding: EdgeInsets.only(top: 10.h),
               child: Row(
@@ -5077,7 +5076,8 @@ class RestaurantCartScreen extends StatefulWidget {
                 decoration: BoxDecoration(
                     color: index % 2 == 0 ? AppColors.primary : AppColors.black,
                     borderRadius: BorderRadius.circular(15.r)),
-                child: Column(
+                child: controller.cartCheckoutData.value.coupons?.first.discountType != "free_delivery"
+                  ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     FittedBox(
@@ -5105,7 +5105,22 @@ class RestaurantCartScreen extends StatefulWidget {
                       style: AppFontStyle.text_15_400(Colors.white),
                     )
                   ],
-                ),
+                )
+                    : Column(
+                  children: [
+                    Text(
+                        'Free',
+                      style: AppFontStyle.text_12_600(Colors.white,
+                          height: 1.h,family: AppFontFamily.gilroyMedium),
+                    ),
+                    hBox(5),
+                    Text(
+                           "Delivery",
+                      style: AppFontStyle.text_12_600(Colors.white,
+                          height: 1.h,family: AppFontFamily.gilroyMedium),
+                    )
+                  ],
+                )
               ),
               wBox(10.h),
               Expanded(
@@ -5155,7 +5170,7 @@ class RestaurantCartScreen extends StatefulWidget {
                         AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),
                         width: 85.w,
                         height: 36.h,
-                        text: "Select",
+                        text: "Apply",
                         onPressed: () {
                           controller.couponCodeController.value.text =
                               controller.cartCheckoutData.value.coupons![index].code

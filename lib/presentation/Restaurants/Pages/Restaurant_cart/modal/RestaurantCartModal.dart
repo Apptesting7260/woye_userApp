@@ -682,6 +682,7 @@ class Cart {
   String? deliveryCharge;
   String? totalPrice;
   String? couponDiscount;
+  String? deliveryDiscount;
   String? grandTotalPrice;
   String? totalProductsInCart;
   List<Buckets>? buckets;
@@ -692,6 +693,7 @@ class Cart {
         this.deliveryCharge,
         this.totalPrice,
         this.couponDiscount,
+        this.deliveryDiscount,
         this.grandTotalPrice,
         this.totalProductsInCart,
         this.buckets});
@@ -702,6 +704,7 @@ class Cart {
     deliveryCharge = json['delivery_charge']?.toString();
     totalPrice = json['total_price']?.toString();
     couponDiscount = json['coupon_discount']?.toString();
+    deliveryDiscount = json['delivery_discount']?.toString();
     grandTotalPrice = json['grand_total_price']?.toString();
     totalProductsInCart = json['total_products_in_cart']?.toString();
     if (json['buckets'] != null) {
@@ -719,6 +722,7 @@ class Cart {
     data['delivery_charge'] = deliveryCharge;
     data['total_price'] = totalPrice;
     data['coupon_discount'] = couponDiscount;
+    data['delivery_discount'] = deliveryDiscount;
     data['grand_total_price'] = grandTotalPrice;
     data['total_products_in_cart'] = totalProductsInCart;
     if (buckets != null) {
@@ -1129,7 +1133,6 @@ class Coupons {
   }
 }
 
-
 class Address {
   int? id;
   int? userId;
@@ -1201,6 +1204,7 @@ class Address {
     };
   }
 }
+
 class AppliedCouponCode {
   String? id;
   String? couponType;

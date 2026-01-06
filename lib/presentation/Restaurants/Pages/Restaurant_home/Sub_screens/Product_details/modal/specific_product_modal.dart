@@ -271,14 +271,40 @@ class Product {
 }
 
 class ProductAttributes {
-  String? id;
-  String? name;
+  String? groupName;
+  List<Attributes>? attributes;
 
-  ProductAttributes({this.id, this.name});
+  ProductAttributes({this.groupName, this.attributes});
 
   ProductAttributes.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    name = json['name'].toString();
+    groupName = json['group_name'].toString();
+    if (json['attributes'] != null) {
+      attributes = <Attributes>[];
+      json['attributes'].forEach((v) {
+        attributes!.add(new Attributes.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['group_name'] = this.groupName;
+    if (this.attributes != null) {
+      data['attributes'] = this.attributes!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Attributes {
+  int? id;
+  String? name;
+
+  Attributes({this.id, this.name});
+
+  Attributes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {

@@ -241,7 +241,9 @@ class ProfileScreen extends StatelessWidget {
         // style: AppFontStyle.text_16_500(AppColors.darkText),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
-      onTap: () {},
+      onTap: () {
+
+      },
     );
   }
 

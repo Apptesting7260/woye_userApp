@@ -479,7 +479,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                     return;
                                   }
 
-                                  addToCartController.addToCartApi(
+                                  addToCartController.addToCartApi_in_categoryProduct(
                                     isPopUp: true,
                                     cartId: cartId,
                                     productId: product?.id.toString() ?? '',
@@ -625,14 +625,14 @@ class ProductDetailsScreen extends StatelessWidget {
 
         // ---------- Curved Layout Container ----------
         Transform.translate(
-          offset: Offset(0, -5.h),
+          offset: Offset(0, -20.h),
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
               color: AppColors.backgroundColor,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30.r),
-                topRight: Radius.circular(30.r),
+                topLeft: Radius.circular(25.r),
+                topRight: Radius.circular(25.r),
               ),
               boxShadow: [
                 BoxShadow(
@@ -1072,41 +1072,68 @@ class ProductDetailsScreen extends StatelessWidget {
         ),
         hBox(10),
 
-        // Loop through each product attribute
+        // Loop through each product attribute group
         ...controllerToUse.productData.value.product!.productAttributes!.asMap().entries.map((entry) {
-          final attribute = entry.value;
-          final index = entry.key;
+          final attributeGroup = entry.value; // This is ProductAttributes object
+          final groupIndex = entry.key;
 
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Text(
-                      attribute.name ?? "Attribute ${index + 1}",
-                      style: AppFontStyle.text_16_400(
-                        AppColors.black,
-                        family: AppFontFamily.gilroyRegular,
+              // Display group name if it exists
+              if (attributeGroup.groupName != null && attributeGroup.groupName!.isNotEmpty)
+                Column(
+                  children: [
+                    Text(
+                      attributeGroup.groupName!,
+                      style: AppFontStyle.text_18_600(
+                        AppColors.darkText,
+                        family: AppFontFamily.gilroyMedium,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
+                    hBox(10),
+                  ],
+                ),
 
-                  // Spacing
-                  wBox(8),
-                  Flexible(
-                    flex: 1,
-                    child: Container(
+              // Loop through each attribute in this group
+              ...attributeGroup.attributes!.asMap().entries.map((attrEntry) {
+                final attribute = attrEntry.value; // This is Attributes object
+                final attrIndex = attrEntry.key;
+
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: Text(
+                            attribute.name ?? "Attribute ${attrIndex + 1}",
+                            style: AppFontStyle.text_16_400(
+                              AppColors.black,
+                              family: AppFontFamily.gilroyRegular,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        wBox(8),
+                        Flexible(
+                          flex: 1,
+                          child: Container(),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              if (index < controllerToUse.productData.value.product!.productAttributes!.length - 1)
-                hBox(8),
+                    if (attrIndex < attributeGroup.attributes!.length - 1)
+                      hBox(8),
+                  ],
+                );
+              }).toList(),
+
+              // Space between groups
+              if (groupIndex < controllerToUse.productData.value.product!.productAttributes!.length - 1)
+                hBox(12),
             ],
           );
         }).toList(),
@@ -1125,6 +1152,11 @@ class ProductDetailsScreen extends StatelessWidget {
     int initialShowCount = 6;
     int itemsToShow = showAll.value ? totalAddons : min(totalAddons, initialShowCount);
 
+    if (controllerToUse.productData.value.product?.addOns == null ||
+        controllerToUse.productData.value.product!.addOns!.isEmpty) {
+      return SizedBox.shrink();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1142,142 +1174,129 @@ class ProductDetailsScreen extends StatelessWidget {
           ],
         ),
         hBox(10),
+        Column(
+          children: [
+            // Show addons from API
+            ...List.generate(
+              itemsToShow,
+                  (index) {
+                final addOn = controllerToUse.productData.value.product?.addOns?[index];
+                bool isSelected = controllerToUse.isAddOnSelected(addOn?.id ?? '');
 
-        // Check if addons are available
-        if (controllerToUse.productData.value.product?.addOns == null || controllerToUse.productData.value.product!.addOns!.isEmpty)
-          Container(
-            padding: REdgeInsets.symmetric(vertical: 30),
-            child: Center(
-              child: Text(
-                "No add-ons available",
-                style: AppFontStyle.text_16_400(AppColors.lightText, family: AppFontFamily.gilroyRegular),
-              ),
-            ),
-          )
-        else
-          Column(
-            children: [
-              // Show addons from API
-              ...List.generate(
-                itemsToShow,
-                    (index) {
-                  final addOn = controllerToUse.productData.value.product?.addOns?[index];
-                  bool isSelected = controllerToUse.isAddOnSelected(addOn?.id ?? '');
-
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Addon name
-                          Text(
-                            addOn?.name ?? "Addon ${index + 1}",
-                            style: AppFontStyle.text_16_400(
-                              AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
-                            ),
-                          ),
-
-                          // Price and checkbox
-                          Row(
-                            children: [
-                              // Price
-                              Text(
-                                "\$${addOn?.price ?? "0.00"}",
-                                style: AppFontStyle.text_16_600(
-                                  AppColors.black,
-                                  family: AppFontFamily.gilroyRegular,
-                                ),
-                              ),
-                              wBox(10),
-
-                              // Checkbox
-                              GestureDetector(
-                                onTap: () {
-                                  // Toggle selection using the new method
-                                  controllerToUse.toggleAddOnSelection(
-                                    addOnId: addOn?.id ?? '',
-                                    addOnName: addOn?.name ?? '',
-                                    addOnPrice: addOn?.price ?? '0.00',
-                                  );
-
-                                  // Update UI if setState is provided
-                                  if (setState != null) {
-                                    setState(() {});
-                                  }
-                                },
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: isSelected ? AppColors.primary : Colors.transparent,
-                                    border: Border.all(
-                                      color: isSelected ? AppColors.primary : AppColors.lightText,
-                                      width: isSelected ? 6 : 1,
-                                    ),
-                                    borderRadius: BorderRadius.circular(4.r),
-                                  ),
-                                  child: isSelected
-                                      ? Center(
-                                    child: Icon(
-                                      Icons.check,
-                                      size: 10,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                      : null,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      if (index < itemsToShow - 1) hBox(8),
-                    ],
-                  );
-                },
-              ),
-
-              // Show More/Less button if more than initial items
-              if (totalAddons > initialShowCount) ...[
-                hBox(10),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () {
-                    showAll.value = !showAll.value;
-                    if (setState != null) {
-                      setState(() {});
-                    }
-                  },
-                  child: Container(
-                    padding: REdgeInsets.symmetric(vertical: 8, horizontal: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppColors.primary.withOpacity(0.5)),
-                      borderRadius: BorderRadius.circular(8.r),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        // Addon name
                         Text(
-                          showAll.value ?
-                          "-${totalAddons - initialShowCount} Less" :
-                          "+${totalAddons - initialShowCount} More",
-                          style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.gilroyRegular),
+                          addOn?.name ?? "Addon ${index + 1}",
+                          style: AppFontStyle.text_16_400(
+                            AppColors.black,
+                            family: AppFontFamily.gilroyRegular,
+                          ),
                         ),
-                        wBox(4),
-                        Icon(
-                          showAll.value ? Icons.expand_less : Icons.expand_more,
-                          color: AppColors.primary,
-                          size: 18,
-                        )
+
+                        // Price and checkbox
+                        Row(
+                          children: [
+                            // Price
+                            Text(
+                              "\$${addOn?.price ?? "0.00"}",
+                              style: AppFontStyle.text_16_600(
+                                AppColors.black,
+                                family: AppFontFamily.gilroyRegular,
+                              ),
+                            ),
+                            wBox(10),
+
+                            // Checkbox
+                            GestureDetector(
+                              onTap: () {
+                                // Toggle selection using the new method
+                                controllerToUse.toggleAddOnSelection(
+                                  addOnId: addOn?.id ?? '',
+                                  addOnName: addOn?.name ?? '',
+                                  addOnPrice: addOn?.price ?? '0.00',
+                                );
+
+                                // Update UI if setState is provided
+                                if (setState != null) {
+                                  setState(() {});
+                                }
+                              },
+                              child: Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: isSelected ? AppColors.primary : Colors.transparent,
+                                  border: Border.all(
+                                    color: isSelected ? AppColors.primary : AppColors.lightText,
+                                    width: isSelected ? 6 : 1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4.r),
+                                ),
+                                child: isSelected
+                                    ? Center(
+                                  child: Icon(
+                                    Icons.check,
+                                    size: 10,
+                                    color: Colors.white,
+                                  ),
+                                )
+                                    : null,
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
+                    if (index < itemsToShow - 1) hBox(8),
+                  ],
+                );
+              },
+            ),
+
+            // Show More/Less button if more than initial items
+            if (totalAddons > initialShowCount) ...[
+              hBox(10),
+              InkWell(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () {
+                  showAll.value = !showAll.value;
+                  if (setState != null) {
+                    setState(() {});
+                  }
+                },
+                child: Container(
+                  padding: REdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.primary.withOpacity(0.5)),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        showAll.value ?
+                        "-${totalAddons - initialShowCount} Less" :
+                        "+${totalAddons - initialShowCount} More",
+                        style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.gilroyRegular),
+                      ),
+                      wBox(4),
+                      Icon(
+                        showAll.value ? Icons.expand_less : Icons.expand_more,
+                        color: AppColors.primary,
+                        size: 18,
+                      )
+                    ],
                   ),
                 ),
-              ],
+              ),
             ],
-          ),
+          ],
+        ),
       ],
     );
   }
@@ -1768,6 +1787,21 @@ class ProductDetailsScreen extends StatelessWidget {
                                     );
                                   }*/
                                   addToCartPopUp(Get.context!, moreProducts!);
+                                  if(moreProducts.addOns!.isNotEmpty || moreProducts.options!.isNotEmpty || moreProducts.productAttributes !.isNotEmpty )
+                                    addToCartPopUp(Get.context!, moreProducts!);
+                                  else
+                                    addToCartController.addToCartApi(
+                                        productId:  controller.productData.value.moreProducts?[index].id.toString() ?? '',
+                                        productQuantity: '1',
+                                        productPrice: controller.productData.value.moreProducts?[index].regularPrice.toString() ?? '',
+                                        restaurantId:controller.productData.value.moreProducts?[index].vendorId.toString() ?? '',
+                                        addons: [],
+                                        extrasIds: [],
+                                        extrasItemIds: [],
+                                        extrasItemNames: [],
+                                        extrasItemPrices: [],
+                                        isPopUp: false
+                                    );
                                 },
                                 child: addToCartController.isCartLoader(controller.productData.value.product!.id.toString())
                                     ? circularProgressIndicator(size: 25)

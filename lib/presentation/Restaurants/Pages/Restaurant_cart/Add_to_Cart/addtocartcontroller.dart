@@ -57,6 +57,8 @@ class AddToCartController extends GetxController {
     update();
   }
 
+  RxBool goToCart = false.obs;
+
   addToCartApi({
     required String productId,
     required String productQuantity,
@@ -123,6 +125,82 @@ class AddToCartController extends GetxController {
             restaurantCartController.refreshRestaurantSingleCartApi(cartId:cartId.toString());
           }
           // groceryShowAllCartController.getGroceryAllShowApi();
+      } else {
+        setCartLoading(productId, false);
+        Utils.showToast(addToCartData.value.message.toString());
+        if(isPopUp == false) {
+          setRxRequestStatus(Status.COMPLETED);
+        }else{
+          setRxRequestStatusPopUP(Status.COMPLETED);
+        }
+      }
+    }).onError((error, stackError) {
+      setCartLoading(productId, false);
+      print("Error: $error");
+      setError(error.toString());
+      print(stackError);
+      if(isPopUp == false) {
+        setRxRequestStatus(Status.ERROR);
+      }else {
+        setRxRequestStatusPopUP(Status.ERROR);
+      }
+    });
+  }
+
+
+
+  addToCartApi_in_categoryProduct({
+    required String productId,
+    required String productQuantity,
+    required String productPrice,
+    required String restaurantId,
+    required List<dynamic> addons,
+    required List<dynamic> extrasIds,
+    required List<dynamic> extrasItemIds,
+    required List<dynamic> extrasItemNames,
+    required List<dynamic> extrasItemPrices,
+    String? cartId,
+    required bool isPopUp,
+    RestaurantCategoryDetailsModal? product
+  }) async {
+    setCartLoading(productId, true);
+    if(isPopUp == false) {
+      setRxRequestStatus(Status.LOADING);
+    }else {
+      setRxRequestStatusPopUP(Status.LOADING);
+    }
+    // initializeUser();
+    var body = jsonEncode({
+      "product_id": productId,
+      "quantity": productQuantity,
+      "price": productPrice,
+      "resto_id": restaurantId,
+      "addon": addons,
+      "title_id": extrasIds,
+      "item_id": extrasItemIds,
+      "item_name": extrasItemNames,
+      "item_price": extrasItemPrices,
+
+    });
+    api.addToCartApi(body).then((value) {
+      setCartLoading(productId, false);
+      setData(value);
+      if (addToCartData.value.status == true) {
+        if(isPopUp == false) {
+          setRxRequestStatus(Status.COMPLETED);
+        }else {
+          setRxRequestStatusPopUP(Status.COMPLETED);
+        }
+        // specificProductController.goToCart.value = true;
+        Utils.showToast(addToCartData.value.message.toString());
+        restaurantCartController.getAllCartData();
+        restaurantCartController.refreshGetAllCheckoutDataRes();
+        Get.back();
+
+       /* if(cartId?.isNotEmpty ?? true){
+          restaurantCartController.refreshRestaurantSingleCartApi(cartId:cartId.toString());
+        }*/
+        // groceryShowAllCartController.getGroceryAllShowApi();
       } else {
         setCartLoading(productId, false);
         Utils.showToast(addToCartData.value.message.toString());
