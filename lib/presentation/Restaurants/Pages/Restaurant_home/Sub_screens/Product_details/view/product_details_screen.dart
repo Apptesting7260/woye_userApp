@@ -1786,8 +1786,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                         isPopUp: false
                                     );
                                   }*/
-                                  addToCartPopUp(Get.context!, moreProducts!);
-                                  if(moreProducts.addOns!.isNotEmpty || moreProducts.options!.isNotEmpty || moreProducts.productAttributes !.isNotEmpty )
+                                  // addToCartPopUp(Get.context!, moreProducts!);
+                                  if(moreProducts!.addOns!.isNotEmpty || moreProducts.options!.isNotEmpty || moreProducts.productAttributes !.isNotEmpty )
                                     addToCartPopUp(Get.context!, moreProducts!);
                                   else
                                     addToCartController.addToCartApi(

@@ -4509,6 +4509,9 @@ class RestaurantCartScreen extends StatefulWidget {
                       ),
                     ],
                   ),
+                  if(controller.cartCheckoutData.value.coupons?.first.discountType == "free_delivery")
+                    SizedBox.shrink()
+                  else
                   Text(
                     "-\$${controller.cartCheckoutData.value.cart?.couponDiscount ?? ""}",
                     style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
