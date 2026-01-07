@@ -107,7 +107,7 @@ class UpdatedCustomItemBanner extends StatelessWidget {
                   Text(
                     title?.toString() ?? "Product Name",
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
                       fontFamily: AppFontFamily.gilroySemiBold,

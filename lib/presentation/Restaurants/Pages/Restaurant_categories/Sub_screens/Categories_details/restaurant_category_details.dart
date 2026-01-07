@@ -2391,20 +2391,20 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               Text(
                                                 product.title.toString(),
                                                 textAlign: TextAlign.left,
-                                                style: AppFontStyle.text_16_400(
+                                                style: AppFontStyle.text_14_400(
                                                     AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                               ),
                                               const Spacer(),
                                               SvgPicture.asset(
                                                 "assets/svg/star-yellow.svg",
-                                                height: 13,
+                                                height: 12,
                                               ),
                                               wBox(4),
                                               Padding(
                                                 padding: const EdgeInsets.only(top: 3.0),
                                                 child: Text(
                                                   "${product.rating}",
-                                                  style: AppFontStyle.text_13_400(AppColors.darkText,
+                                                  style: AppFontStyle.text_12_400(AppColors.darkText,
                                                       family: AppFontFamily.gilroyMedium),
                                                 ),
                                               ),
