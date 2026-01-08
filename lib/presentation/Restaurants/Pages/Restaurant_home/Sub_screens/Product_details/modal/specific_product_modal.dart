@@ -176,9 +176,9 @@ class Product {
         options!.add(new Options.fromJson(v));
       });
     }
-    if (json['product_attributes'] != null) {
+    if (json['attributes_grouped'] != null) {
       productAttributes = <ProductAttributes>[];
-      json['product_attributes'].forEach((v) {
+      json['attributes_grouped'].forEach((v) {
         productAttributes!.add(new ProductAttributes.fromJson(v));
       });
     }
@@ -241,7 +241,7 @@ class Product {
     if (this.options != null) {
       data['options'] = this.options!.map((v) => v.toJson()).toList();
     }
-    data['product_attributes'] = this.productAttributes;
+    data['attributes_grouped'] = this.productAttributes;
     data['type'] = this.type;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
@@ -564,9 +564,9 @@ class MoreProducts {
         options!.add(new Options.fromJson(v));
       });
     }
-    if (json['product_attributes'] != null) {
+    if (json['attributes_grouped'] != null) {
       productAttributes = <ProductAttributes>[];
-      json['product_attributes'].forEach((v) {
+      json['attributes_grouped'].forEach((v) {
         productAttributes!.add(new ProductAttributes.fromJson(v));
       });
     }
@@ -602,7 +602,7 @@ class MoreProducts {
     if (this.options != null) {
       data['options'] = this.options!.map((v) => v.toJson()).toList();
     }
-    data['product_attributes'] = this.productAttributes;
+    data['attributes_grouped'] = this.productAttributes;
     data['is_in_wishlist'] = this.isInWishlist;
     data['resto_name'] = this.restoName;
     data['addimg_url'] = this.addimgUrl;

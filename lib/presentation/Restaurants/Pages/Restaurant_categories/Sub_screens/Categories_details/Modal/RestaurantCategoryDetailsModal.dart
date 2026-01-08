@@ -103,9 +103,9 @@ class CategoryProduct {
         options!.add(new Options.fromJson(v));
       });
     }
-    if (json['product_attributes'] != null) {
+    if (json['attributes_grouped'] != null) {
       productAttributes = <ProductAttributes>[];
-      json['product_attributes'].forEach((v) {
+      json['attributes_grouped'].forEach((v) {
         productAttributes!.add(new ProductAttributes.fromJson(v));
       });
     }
@@ -132,7 +132,7 @@ class CategoryProduct {
       data['options'] = this.options!.map((v) => v.toJson()).toList();
     }
     if (this.productAttributes != null) {
-      data['product_attributes'] =
+      data['attributes_grouped'] =
           this.productAttributes!.map((v) => v.toJson()).toList();
     }
     data['rating'] = this.rating;

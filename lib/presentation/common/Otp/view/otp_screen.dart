@@ -126,11 +126,12 @@ class OtpScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        /*Text(
+Text(
           'Didn\'t receive OTP?',
           style: AppFontStyle.text_16_400(AppColors.darkText,
               family: AppFontFamily.gilroyRegular),
-        ),*/
+        ),
+
         Obx(
           () => TextButton(
             style: const ButtonStyle(
@@ -168,39 +169,6 @@ class OtpScreen extends StatelessWidget {
             ),
           ),
         ),
-        // from == 'login'
-        //     ? OtpTimerButton(
-        //         buttonType: ButtonType.text_button,
-        //         controller: loginController.otpTimerButtonController,
-        //         loadingIndicatorColor: AppColors.primary,
-        //         onPressed: () {
-        //           print('Resending OTP');
-        //           loginController.resendOtp();
-        //           otpController.otpPin.value.clear();
-        //         },
-        //         text: Text(
-        //           'Resend',
-        //           style: AppFontStyle.text_16_400(AppColors.lightText,
-        //               fontWeight: FontWeight.w500),
-        //         ),
-        //         duration: 60,
-        //       )
-        //     : OtpTimerButton(
-        //         buttonType: ButtonType.text_button,
-        //         controller: signUpController.otpTimerButtonController,
-        //         loadingIndicatorColor: Colors.green,
-        //         onPressed: () {
-        //           print('Resending OTP');
-        //           signUpController.resendOtp();
-        //           otpController.otpPin.value.clear();
-        //         },
-        //         text: Text(
-        //           'Resend',
-        //           style: AppFontStyle.text_16_400(AppColors.lightText,
-        //               fontWeight: FontWeight.w500),
-        //         ),
-        //         duration: 60,
-        //       ),
       ],
     );
   }
