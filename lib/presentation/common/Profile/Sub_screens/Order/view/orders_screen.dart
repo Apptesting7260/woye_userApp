@@ -243,12 +243,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         hBox(15),
                         buildOrderDetailRow(
                             "Order id", order.orderId.toString()),
+                        hBox(5),
                         buildOrderDetailRow(
                             "Tracking number:", order.trackingId.toString()),
+                        hBox(5),
                         buildOrderDetailRow(order.type.toString().capitalize!,
                             order.vendorName.toString()),
+                        hBox(5),
                         buildOrderDetailRow(
                             "Date & Time", DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
+                        hBox(5),
                         buildOrderDetailRow(
                           "Status",
                           order.status
@@ -259,10 +263,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         hBox(15),
                         // buildTotalAmountRow(order.ordersSubtotal.toString()),
                         buildTotalAmountRow(order.discountedTotal.toString()),
-                        hBox(20),
-                        hBox(20),
-                        buildDeliveryTimeRow(),
                         hBox(10),
+                        buildDeliveryTimeRow(),
+                        hBox(15),
                         buildActionButtons(
                           context: context,
                           orderId: order.id.toString(),
@@ -689,9 +692,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             order.vendorName.toString()),
                         buildOrderDetailRow(
                             "Date & Time",DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
-                        buildOrderDetailRow(
+                        buildOrderDetailRowStatus(
                             "Status",
-                            order.status
+                            order.paymentStatus
                                 .toString()
                                 .replaceAll("_", " ")
                                 .capitalize!),
@@ -740,6 +743,32 @@ class _OrdersScreenState extends State<OrdersScreen> {
     );
   }
 
+  Widget buildOrderDetailRowStatus(String label, String value) {
+    Color getValueColor(String value) {
+      if (value.toLowerCase() == 'pending') {
+        return Colors.orange;
+      } else if (value.toLowerCase() == 'cancelled') {
+        return Colors.red;
+      } else {
+        return Colors.green;
+      }
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label,
+          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+        ),
+        Text(
+          value,
+          style: AppFontStyle.text_12_500(getValueColor(value),family: AppFontFamily.gilroySemiBold),
+        ),
+      ],
+    );
+  }
+
+
   Widget buildTotalAmountRow(var total) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -750,7 +779,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         ),
         Text(
           "\$$total",
-          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_14_500(AppColors.primary,family: AppFontFamily.gilroySemiBold),
         ),
       ],
     );

@@ -100,6 +100,7 @@ class Orders {
   String? trackingId;
   int? customerId;
   String? paymentMethod;
+  String? paymentStatus;
   int? addressId;
   int? couponId;
   String? type;
@@ -123,6 +124,7 @@ class Orders {
     this.trackingId,
     this.customerId,
     this.paymentMethod,
+    this.paymentStatus,
     this.addressId,
     this.couponId,
     this.type,
@@ -147,6 +149,7 @@ class Orders {
     trackingId = json['tracking_id'];
     customerId = json['customer_id'];
     paymentMethod = json['payment_method'];
+    paymentStatus = json['payment_status'];
     addressId = json['address_id'];
     couponId = json['coupon_id'];
     type = json['type'];
@@ -177,6 +180,7 @@ class Orders {
     data['tracking_id'] = trackingId;
     data['customer_id'] = customerId;
     data['payment_method'] = paymentMethod;
+    data['payment_status'] = paymentStatus;
     data['address_id'] = addressId;
     data['coupon_id'] = couponId;
     data['type'] = type;
