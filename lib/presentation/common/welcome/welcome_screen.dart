@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Sign_up/sign_up_controller.dart';
 import 'package:woye_user/presentation/common/Social_login/social_controller.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
+
+import '../../../Shared/theme/font_family.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({super.key});
@@ -38,6 +42,7 @@ class WelcomeScreen extends StatelessWidget {
                   hBox(15),
                   googleButton(context),
                   hBox(15),
+                  if(Platform.isIOS)
                   appleButton(context),
                   hBox(0),
                 ],
@@ -60,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
         hBox(20),
         Text(
           "Let’s Get Started!",
-          style: AppFontStyle.text_24_600(AppColors.darkText),
+          style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
       ],
     );
@@ -97,7 +102,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     wBox(12),
                     Text("Continue As Guest",
-                        style: AppFontStyle.text_16_400(AppColors.darkText))
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
                   ],
                 )),
     );
@@ -143,7 +148,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Facebook",
-                style: AppFontStyle.text_16_400(AppColors.darkText))
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
           ],
         ));
   }
@@ -163,7 +168,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Google",
-                style: AppFontStyle.text_16_400(AppColors.darkText)
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium)
                 // AppFontStyle.text_16_800(AppColors.darkText),
                 )
           ],
@@ -187,7 +192,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Apple",
-                style: AppFontStyle.text_16_400(AppColors.darkText))
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
           ],
         ));
   }
@@ -200,15 +205,15 @@ class WelcomeScreen extends StatelessWidget {
         Get.toNamed(AppRoutes.signUp);
       },
       child: Padding(
-        padding: REdgeInsets.only(bottom: 30),
+        padding: REdgeInsets.only(bottom: 26),
         child: RichText(
             text: TextSpan(children: [
           TextSpan(
               text: "Don't have an account? ",
-              style: AppFontStyle.text_16_400(AppColors.lightText)),
+              style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium)),
           TextSpan(
               text: "Sign Up",
-              style: AppFontStyle.text_16_400(AppColors.darkText)),
+              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium)),
         ])),
       ),
     );

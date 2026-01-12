@@ -1,6 +1,8 @@
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 
+import '../theme/font_family.dart';
+
 class CustomElevatedButton extends StatelessWidget {
   final BorderRadiusGeometry? borderRadius;
   final double? width;
@@ -27,7 +29,7 @@ class CustomElevatedButton extends StatelessWidget {
     required this.onPressed,
     this.child,
     this.forGroundColor,
-    this.fontFamily,
+    this.fontFamily ,
   });
 
   @override
@@ -48,7 +50,7 @@ class CustomElevatedButton extends StatelessWidget {
             ),
           ),
           alignment: Alignment.center,
-          textStyle: textStyle ?? AppFontStyle.text_16_400(AppColors.white,family: fontFamily),
+          textStyle: textStyle ?? AppFontStyle.text_16_400(AppColors.white,family: fontFamily ?? AppFontFamily.gilroyMedium),
         ),
         child: child ??
             Center(
