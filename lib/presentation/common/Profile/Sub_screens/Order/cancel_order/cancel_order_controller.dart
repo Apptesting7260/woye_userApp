@@ -16,35 +16,70 @@ class CancelOrderController extends GetxController {
 
   void setData(CancelOrderModal value) => cancelOrderData.value = value;
 
-  final OrderScreenController orderScreenController =
-      Get.put(OrderScreenController());
+  final OrderScreenController orderScreenController = Get.put(OrderScreenController());
 
-  cancelOrderApi({
+ // Future<bool> cancelOrderApi({
+ //    required String orderId,
+ //  }) async {
+ //    setRxRequestStatus(Status.LOADING);
+ //    var body = {
+ //      "order_id": orderId,
+ //    };
+ //    api.cancelOrderApi(body).then((value) {
+ //      setData(value);
+ //      if (cancelOrderData.value.status == true) {
+ //        Get.back();
+ //        orderScreenController.getOrdersListApi().then((value) async {
+ //          await Future.delayed(const Duration(milliseconds: 500));
+ //          Utils.showToast(cancelOrderData.value.message.toString());
+ //          setRxRequestStatus(Status.COMPLETED);
+ //        });
+ //
+ //      } else {
+ //        Utils.showToast(cancelOrderData.value.message.toString());
+ //        setRxRequestStatus(Status.COMPLETED);
+ //      }
+ //    }).onError((error, stackError) {
+ //      print("Error: $error");
+ //      setError(error.toString());
+ //      print(stackError);
+ //      setRxRequestStatus(Status.ERROR);
+ //    });
+ //  }
+  Future<bool> cancelOrderApi({
     required String orderId,
   }) async {
     setRxRequestStatus(Status.LOADING);
-    var body = {
-      "order_id": orderId,
-    };
-    api.cancelOrderApi(body).then((value) {
+
+    try {
+      var body = {
+        "order_id": orderId,
+      };
+
+      final value = await api.cancelOrderApi(body);
       setData(value);
+
       if (cancelOrderData.value.status == true) {
         Get.back();
-        orderScreenController.getOrdersListApi().then((value) async {
-          await Future.delayed(const Duration(milliseconds: 500));
-          Utils.showToast(cancelOrderData.value.message.toString());
-          setRxRequestStatus(Status.COMPLETED);
-        });
+
+        await orderScreenController.getOrdersListApi();
+        await Future.delayed(const Duration(milliseconds: 500));
+
+        Utils.showToast(cancelOrderData.value.message.toString());
+        setRxRequestStatus(Status.COMPLETED);
+        return true;
       } else {
         Utils.showToast(cancelOrderData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);
+        return false;
       }
-    }).onError((error, stackError) {
+    } catch (error, stackError) {
       print("Error: $error");
-      setError(error.toString());
       print(stackError);
+      setError(error.toString());
       setRxRequestStatus(Status.ERROR);
-    });
+      return false;
+    }
   }
 
   void setError(String value) => error.value = value;

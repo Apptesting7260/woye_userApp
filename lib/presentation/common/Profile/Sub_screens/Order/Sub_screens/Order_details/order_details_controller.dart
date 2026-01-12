@@ -17,8 +17,11 @@ class OrderDetailsController extends GetxController {
 
   orderDetailsApi({
     required String orderId,
+    bool? isShowLoading = true
   }) async {
-    setRxRequestStatus(Status.LOADING);
+    if(isShowLoading == true) {
+      setRxRequestStatus(Status.LOADING);
+    }
     var body = {
       "order_id": orderId,
     };

@@ -184,8 +184,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (getUserDataController.userData.value.user?.userType ==
-            "guestUser") {
+        if (getUserDataController.userData.value.user?.userType == "guestUser") {
           showLoginRequired(context);
         } else {
           Get.toNamed(
@@ -242,7 +241,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-
+        Get.toNamed(AppRoutes.restaurantWishlistScreen);
       },
     );
   }
@@ -280,7 +279,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
       title: Text(
         'Payment Method',
-        style: AppFontStyle.text_17_400(AppColors.darkText),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {

@@ -322,7 +322,7 @@ class Repository {
     await initializeUser();
     dynamic response =
         await _apiService.getApi(AppUrls.restaurantProductWishlist, token);
-    return restaurant_product_wishlist_modal.fromJson(response);
+    return RestaurantProductWishlistModal.fromJson(response);
   }
 
   Future<dynamic> get_CategoriesFilter_Api(String categoryId) async {

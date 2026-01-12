@@ -25,7 +25,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    print('thjjfrioey irt mt2');
+    print('restaurant_product_wishlist_api');
     controller.restaurant_product_wishlist_api();
     super.initState();
   }
@@ -75,7 +75,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
               },
               child: Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24.w),
-                child: controller.wishlistData.value.categoryProduct!.isEmpty
+                child: (controller.wishlistData.value.categoryProduct?.isEmpty ?? false)
                     ? Column(
                         // mainAxisAlignment: MainAxisAlignment.center,
                         // crossAxisAlignment: CrossAxisAlignment.center,
@@ -130,7 +130,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                             ),
                           ),
                           if (controller
-                              .wishlistData.value.categoryProduct!.isNotEmpty)...[
+                              .wishlistData.value.categoryProduct?.isNotEmpty ?? false)...[
                             controller.filteredWishlistData.isNotEmpty ? SliverGrid(
                                 delegate: SliverChildBuilderDelegate(
                                     childCount: controller.filteredWishlistData
@@ -169,7 +169,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
-                                                    imageUrl: product.urlImage
+                                                    imageUrl: product.imageUrl
                                                         .toString(),
                                                     fit: BoxFit.cover,
                                                     height: 160.h,

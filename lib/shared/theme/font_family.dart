@@ -9,4 +9,13 @@ class AppFontFamily {
   static String gilroyExtraBold = 'GilroyExtraBold';
   static String gilroyHeavy = 'GilroyHeavy';
   static String gilroyBlack = 'GilroyBlack';
+  static String onestBlack = 'OnestBlack';
+  static String onestBold = 'OnestBold';
+  static String onestExtraBold = 'OnestExtraBold';
+  static String onestExtraLight = 'OnestExtraLight';
+  static String onestLight = 'OnestLight';
+  static String onestMedium = 'OnestMedium';
+  static String onestRegular = 'OnestRegular';
+  static String onestSemiBold = 'OnestSemiBold';
+  static String onestThin = 'OnestThin';
 }

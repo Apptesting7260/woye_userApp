@@ -15,7 +15,8 @@ class CustomElevatedButton extends StatelessWidget {
   final String text;
   final TextStyle? textStyle;
   final String? fontFamily;
-
+  final double? elevation;
+  final BorderSide? side;
   const CustomElevatedButton({
     super.key,
     this.borderRadius,
@@ -30,6 +31,8 @@ class CustomElevatedButton extends StatelessWidget {
     this.child,
     this.forGroundColor,
     this.fontFamily ,
+    this.elevation,
+    this.side,
   });
 
   @override
@@ -41,10 +44,12 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading != true ? onPressed : (){},
         style: ElevatedButton.styleFrom(
+          elevation: elevation ?? 0,
           surfaceTintColor: Colors.transparent,
           foregroundColor: forGroundColor ?? AppColors.white,
           backgroundColor: color,
           shape: RoundedRectangleBorder(
+            side:side ??  BorderSide.none ,
             borderRadius: BorderRadius.all(
               Radius.circular(32.0.r),
             ),
@@ -55,7 +60,7 @@ class CustomElevatedButton extends StatelessWidget {
         child: child ??
             Center(
                 child: isLoading != true
-                    ? FittedBox(child: Text(text,style: TextStyle(height: 1),),)
+                    ? FittedBox(child: Text(text,style:textStyle ?? const TextStyle(height: 1),),)
                     : LoadingAnimationWidget.inkDrop(
                         color: Colors.white,
                         size: 30.h,

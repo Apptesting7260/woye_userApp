@@ -11,6 +11,7 @@ import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_scre
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class OrdersScreen extends StatefulWidget {
@@ -48,7 +49,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
         isLeading: true,
         title: Text(
           "Orders",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
       ),
       body: Obx(() {
@@ -70,30 +71,33 @@ class _OrdersScreenState extends State<OrdersScreen> {
               );
             }
           case Status.COMPLETED:
-            return RefreshIndicator(
-              onRefresh: () async {
-                controller.refreshOrdersListApi();
-              },
+            return  SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.only(
                     top: 20, left: 20, right: 20, bottom: 5),
                 child: GetBuilder(
                     init: OrderScreenController(),
                     builder: (orderScreenController) {
-                      return Column(
-                        children: [
-                          orderStatusList(orderScreenController),
-                          hBox(27.h),
-                          IndexedStack(
-                            index: orderScreenController.pageIndex,
-                            children: [
-                              allOrders(context),
-                              waitingForDelivery(context),
-                              delivered(),
-                              cancelled(),
-                            ],
-                          ),
-                        ],
+                      return RefreshIndicator(
+                        onRefresh: () async{
+                          await controller.refreshOrdersListApi();
+                        },
+                        child: Column(
+                          children: [
+                            orderStatusList(orderScreenController),
+                            hBox(27.h),
+                            IndexedStack(
+                              index: orderScreenController.pageIndex,
+                              children: [
+                                allOrders(context),
+                                waitingForDelivery(context),
+                                delivered(),
+                                cancelled(),
+                              ],
+                            ),
+                          ],
+                        ),
                       );
                     }),
               ),
@@ -105,7 +109,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   Widget orderStatusList(OrderScreenController orderScreenController) {
     return SizedBox(
-      height: 45.h,
+      height: 40.h,
       child: ListView.separated(
           controller: orderScreenController.scrollController,
           scrollDirection: Axis.horizontal,
@@ -127,16 +131,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 // key: orderScreenController.tabKeys[i],
                 duration: const Duration(microseconds: 500),
                 curve: Curves.easeInOut,
-                padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding: REdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 decoration: BoxDecoration(
-                    color:
-                        isSelected ? AppColors.black : AppColors.lightText.withOpacity(0.5),
+                    color:isSelected ? AppColors.black : AppColors.lightText.withAlpha(50),
                     borderRadius: BorderRadius.circular(50.r)),
                 child: Center(
                   child: Text(
                     buttonNames[i],
                     style: AppFontStyle.text_15_400(
-                        isSelected ? AppColors.white : AppColors.black,family: AppFontFamily.gilroyMedium),
+                        isSelected ? AppColors.white : AppColors.black,family: AppFontFamily.onestMedium),
                   ),
                 ),
               ),
@@ -152,14 +155,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Obx(() {
       if (controller.ordersData.value.orders?.isEmpty ?? true) {
         return Center(
-          child: Text(
-            "No orders available",
-            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                CustomNoDataFound(heightBox: hBox(0)),
+              ],
+            ),
           ),
         );
       }
 
-      return Container(
+      return SizedBox(
         height: height * 0.7,
         child: Column(
           children: [
@@ -198,11 +205,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               ClipRRect(
                                 borderRadius : BorderRadius.circular(10),
                                 child: CachedNetworkImage(
-                                  imageUrl: order
-                                      .decodedAttribute![0].productImage
-                                      .toString(),
-                                  height: 100.h,
-                                  width: 100.h,
+                                  imageUrl: order.decodedAttribute![0].productImage ?? "",
+                                  height: 90.h,
+                                  width: 90.h,
                                   fit: BoxFit.cover,
                                   placeholder: (context, url) =>
                                       Shimmer.fromColors(
@@ -210,8 +215,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                     highlightColor: AppColors.lightText,
                                     child: Container(
                                       color: AppColors.white,
-                                      height: 100.h,
-                                      width: 100.h,
+                                      height: 90.h,
+                                      width: 90.h,
                                     ),
                                   ),
                                   errorWidget: (context, url, error) =>
@@ -224,15 +229,15 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      order.decodedAttribute![0].productName.toString(),
-                                      style: AppFontStyle.text_14_600(
-                                          AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                      order.decodedAttribute?[0].productName ?? "",
+                                      style: AppFontStyle.text_15_600(
+                                          AppColors.darkText,family: AppFontFamily.onestRegular),
                                     ),
                                     hBox(10),
                                     Text(
-                                      "Qty:${order.decodedAttribute![0].quantity.toString()}",
-                                      style: AppFontStyle.text_12_400(
-                                          AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                      "Qty:${order.decodedAttribute?[0].quantity ?? ""}",
+                                      style: AppFontStyle.text_13_400(
+                                          AppColors.darkText,family: AppFontFamily.onestMedium),
                                     ),
                                   ],
                                 ),
@@ -250,16 +255,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         buildOrderDetailRow(order.type.toString().capitalize!,
                             order.vendorName.toString()),
                         hBox(5),
-                        buildOrderDetailRow(
-                            "Date & Time", DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
+                        buildOrderDetailRow("Date & Time", formatOrderDate(order.createdAt.toString())),
                         hBox(5),
-                        buildOrderDetailRow(
-                          "Status",
-                          order.status
-                              .toString()
-                              .replaceAll("_", " ")
-                              .capitalize!,
-                        ),
+                        // buildOrderDetailRow(
+                        buildOrderDetailRowStatus("Status",order.status.toString().replaceAll("_", " ").capitalize ?? ''),
                         hBox(15),
                         // buildTotalAmountRow(order.ordersSubtotal.toString()),
                         buildTotalAmountRow(order.discountedTotal.toString()),
@@ -289,24 +288,41 @@ class _OrdersScreenState extends State<OrdersScreen> {
     });
   }
 
+
+  String formatOrderDate(String? date) {
+    try {
+      if (date == null || date.isEmpty) return "--";
+
+      final parsedDate = DateTime.parse(date).toLocal();
+      return DateFormat('EEE, dd MMM - hh:mm a').format(parsedDate);
+    } catch (e) {
+      debugPrint("Date parse error: $e");
+      return "--";
+    }
+  }
+
   Widget waitingForDelivery(context) {
     return Obx(() {
       if (controller.ordersData.value.waitingOrders?.isEmpty ?? true) {
         return Center(
-          child: Text(
-            "No orders available", // Custom message when there are no orders
-            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                CustomNoDataFound(heightBox: hBox(0)),
+              ],
+            ),
           ),
         );
       }
-      return Container(
+      return SizedBox(
         height: Get.height * 0.7,
         child: Column(
           children: [
             Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 // To prevent scrolling here
                 itemCount:
                     controller.ordersData.value.waitingOrders?.length ?? 0,
@@ -421,7 +437,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             order.vendorName.toString()),
                         buildOrderDetailRow(
                             "Date & Time",DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
-                        buildOrderDetailRow(
+                        // buildOrderDetailRow(
+                        buildOrderDetailRowStatus(
                           "Status",
                           order.status
                               .toString()
@@ -460,20 +477,24 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Obx(() {
       if (controller.ordersData.value.deliveredOrders?.isEmpty ?? true) {
         return Center(
-          child: Text(
-            "No orders available", // Custom message when there are no orders
-            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                CustomNoDataFound(heightBox: hBox(0)),
+              ],
+            ),
           ),
         );
       }
-      return Container(
+      return SizedBox(
         height: Get.height * 0.7,
         child: Column(
           children: [
             Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 // To prevent scrolling here
                 itemCount:
                     controller.ordersData.value.deliveredOrders?.length ?? 0,
@@ -558,7 +579,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             order.vendorName.toString()),
                         buildOrderDetailRow(
                             "Date & Time", DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
-                        buildOrderDetailRow(
+                        buildOrderDetailRowStatus(
                           "Status",
                           order.status
                               .toString()
@@ -597,20 +618,24 @@ class _OrdersScreenState extends State<OrdersScreen> {
     return Obx(() {
       if (controller.ordersData.value.cancelOrders?.isEmpty ?? true) {
         return Center(
-          child: Text(
-            "No orders available",
-            style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                CustomNoDataFound(heightBox: hBox(0)),
+              ],
+            ),
           ),
         );
       }
-      return Container(
+      return SizedBox(
         height: Get.height * 0.7,
         child: Column(
           children: [
             Expanded(
               child: ListView.separated(
                 shrinkWrap: true,
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 itemCount:
                     controller.ordersData.value.cancelOrders?.length ?? 0,
                 itemBuilder: (context, index) {
@@ -694,10 +719,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             "Date & Time",DateFormat('dd MMMM yyyy').format(DateTime.parse(order.createdAt.toString()))),
                         buildOrderDetailRowStatus(
                             "Status",
-                            order.paymentStatus
+                            order.status
                                 .toString()
                                 .replaceAll("_", " ")
-                                .capitalize!),
+                                .capitalize ?? ""),
                         hBox(15),
                         buildTotalAmountRow(order.discountedTotal.toString()),
                         hBox(20),
@@ -732,12 +757,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
       children: [
         Text(
           label,
-          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_13_500(AppColors.lightText,family: AppFontFamily.onestMedium),
         ),
         Text(
           value,
           // style: AppFontStyle.text_12_600(AppColors.darkText),
-          style: AppFontStyle.text_12_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_13_500(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
       ],
     );
@@ -749,6 +774,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
         return Colors.orange;
       } else if (value.toLowerCase() == 'cancelled') {
         return Colors.red;
+      }  else if (value.toLowerCase() == "delivered") {
+        return AppColors.primary;
       } else {
         return Colors.green;
       }
@@ -758,11 +785,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
       children: [
         Text(
           label,
-          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_13_500(AppColors.lightText,family: AppFontFamily.onestMedium),
         ),
         Text(
           value,
-          style: AppFontStyle.text_12_500(getValueColor(value),family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_13_500(getValueColor(value),family: AppFontFamily.onestSemiBold),
         ),
       ],
     );
@@ -775,11 +802,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
       children: [
         Text(
           "Total Amount:",
-          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
         Text(
           "\$$total",
-          style: AppFontStyle.text_14_500(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_14_500(AppColors.primary,family: AppFontFamily.onestSemiBold),
         ),
       ],
     );
@@ -791,17 +818,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
       children: [
         Text(
           "Your order will be delivered to you at ",
-          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_13_500(AppColors.lightText,family: AppFontFamily.onestMedium),
         ),
         hBox(4),
         Text(
           "12 Apr - 10:00 AM",
-          style: AppFontStyle.text_12_500(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_13_500(AppColors.lightText,family: AppFontFamily.onestMedium),
         ),
       ],
     );
   }
-
   Widget buildActionButtons({
     required BuildContext context,
     required String orderId,
@@ -810,110 +836,139 @@ class _OrdersScreenState extends State<OrdersScreen> {
     required String type,
     required var reviews,
   }) {
-    return Row(
+    return Wrap(
+      spacing: 8, // horizontal gap
+      runSpacing: 8, // next line gap
       children: [
+        /// DETAILS
         InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           onTap: () {
-            print("orderId $orderId");
-
-            final arguments = {
-              'order_id': orderId,
-            };
-            Get.toNamed(
-              AppRoutes.orderDetails,
-              arguments: arguments,
-            );
-            orderDetailsController.orderDetailsApi(orderId: orderId.toString());
+            final arguments = {'order_id': orderId};
+            Get.toNamed(AppRoutes.orderDetails, arguments: arguments);
+            orderDetailsController.orderDetailsApi(orderId: orderId);
           },
           child: Container(
-            padding: REdgeInsets.symmetric(vertical: 10.h, horizontal: 20.h),
+            padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
             decoration: BoxDecoration(
-                color: AppColors.black,
-                borderRadius: BorderRadius.circular(50.r)),
-            child: Center(
-              child: Text(
-                "Details",
-                style: AppFontStyle.text_15_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+              color: AppColors.black,
+              borderRadius: BorderRadius.circular(50.r),
+            ),
+            child: Text(
+              "Details",
+              style: AppFontStyle.text_15_400(
+                AppColors.white,
+                family: AppFontFamily.onestMedium,
               ),
             ),
           ),
         ),
-        wBox(10.h),
+
+        /// CANCEL
         if (orderStatus == "pending")
           InkWell(
             onTap: () {
               cancelPopUp(oderId: orderId, context: context);
             },
             child: Container(
-              padding: REdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              padding: REdgeInsets.symmetric(vertical: 8, horizontal: 20),
               decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(50.r)),
-              child: Center(
-                child: Text(
-                  "Cancel",
-                  style: AppFontStyle.text_15_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(50.r),
+                border: Border.all(color: AppColors.black),
+              ),
+              child: Text(
+                "Cancel",
+                style: AppFontStyle.text_15_400(
+                  AppColors.black,
+                  family: AppFontFamily.onestMedium,
                 ),
               ),
             ),
           ),
-        wBox(10.h),
-        if (orderStatus != "pending" && orderStatus != "completed" && orderStatus != "cancelled")
+
+        if (orderStatus == "delivered" || orderStatus == "cancelled")
           InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              pt("orders c${controller.screenType}");
-              Get.toNamed(AppRoutes.trackOrder,
-                  arguments: {
-                    "id" : orderId,
-                    "screenType" : controller.screenType,
-                  });
-            },
+            onTap: () {},
             child: Container(
-              padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
+              padding: REdgeInsets.symmetric(vertical: 8, horizontal: 20),
               decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primary),
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(50.r)),
-              child: Center(
-                child: Text(
-                  "Track",
-                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(50.r),
+                border: Border.all(color: AppColors.black),
+              ),
+              child: Text(
+                "Re-Order",
+                style: AppFontStyle.text_15_400(
+                  AppColors.black,
+                  family: AppFontFamily.onestMedium,
                 ),
               ),
             ),
           ),
-        if (orderStatus == "completed" && reviews == null)
+
+        /// TRACK
+        if (orderStatus != "delivered" && orderStatus != "cancelled")
           InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: () {
-              final arguments = {
-                'order_id': orderId,
-                'vendor_id': vendorId,
-                'type': type,
-                'reply': "null",
-                "raring": "0",
-                "from": "order"
-              };
               Get.toNamed(
-                AppRoutes.rateAndReviewProductScreen,
-                arguments: arguments,
+                AppRoutes.trackOrder,
+                arguments: {
+                  "id": orderId,
+                  "screenType": controller.screenType,
+                },
               );
             },
             child: Container(
-              padding: REdgeInsets.symmetric(vertical: 9, horizontal: 20),
+              padding: REdgeInsets.symmetric(vertical: 8, horizontal: 20),
               decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.primary),
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(50.r)),
-              child: Center(
-                child: Text(
-                  "Rate & Review",
-                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                border: Border.all(color: AppColors.primary),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(50.r),
+              ),
+              child: Text(
+                "Track",
+                style: AppFontStyle.text_15_400(
+                  AppColors.primary,
+                  family: AppFontFamily.onestMedium,
+                ),
+              ),
+            ),
+          ),
+
+        /// RATE & REVIEW
+        if (orderStatus == "delivered" && reviews == null)
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              Get.toNamed(
+                AppRoutes.rateAndReviewProductScreen,
+                arguments: {
+                  'order_id': orderId,
+                  'vendor_id': vendorId,
+                  'type': type,
+                  'reply': "null",
+                  "raring": "0",
+                  "from": "order",
+                },
+              );
+            },
+            child: Container(
+              padding: REdgeInsets.symmetric(vertical: 8, horizontal: 20),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.primary),
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(50.r),
+              ),
+              child: Text(
+                "Rate & Review",
+                style: AppFontStyle.text_15_400(
+                  AppColors.primary,
+                  family: AppFontFamily.onestMedium,
                 ),
               ),
             ),
@@ -922,6 +977,157 @@ class _OrdersScreenState extends State<OrdersScreen> {
     );
   }
 
+  // Widget buildActionButtons({
+  //   required BuildContext context,
+  //   required String orderId,
+  //   required String orderStatus,
+  //   required String vendorId,
+  //   required String type,
+  //   required var reviews,
+  // }) {
+  //   return Wrap(
+  //     children: [
+  //       InkWell(
+  //         splashColor: Colors.transparent,
+  //         highlightColor: Colors.transparent,
+  //         onTap: () {
+  //           print("orderId $orderId");
+  //
+  //           final arguments = {
+  //             'order_id': orderId,
+  //           };
+  //           Get.toNamed(
+  //             AppRoutes.orderDetails,
+  //             arguments: arguments,
+  //           );
+  //           orderDetailsController.orderDetailsApi(orderId: orderId.toString());
+  //         },
+  //         child: Container(
+  //           padding: REdgeInsets.symmetric(vertical: 8.h, horizontal: 20.h),
+  //           decoration: BoxDecoration(
+  //               color: AppColors.black,
+  //               borderRadius: BorderRadius.circular(50.r)),
+  //           child: Center(
+  //             child: Text(
+  //               "Details",
+  //               style: AppFontStyle.text_15_400(AppColors.white,family: AppFontFamily.onestMedium),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //
+  //       if (orderStatus == "pending")...[
+  //         wBox(8.h),
+  //         InkWell(
+  //           onTap: () {
+  //             cancelPopUp(oderId: orderId, context: context);
+  //           },
+  //           child: Container(
+  //             padding: REdgeInsets.symmetric(vertical: 7, horizontal: 20),
+  //             decoration: BoxDecoration(
+  //                 color: AppColors.white,
+  //                 borderRadius: BorderRadius.circular(50.r),
+  //             border: Border.all(color: AppColors.black),
+  //             ),
+  //             child: Center(
+  //               child: Text(
+  //                 "Cancel",
+  //                 style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.onestMedium),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //
+  //       if (orderStatus == "delivered")...[
+  //         wBox(8.h),
+  //         InkWell(
+  //           onTap: () {
+  //             // cancelPopUp(oderId: orderId, context: context);
+  //           },
+  //           child: Container(
+  //             padding: REdgeInsets.symmetric(vertical: 7, horizontal: 20),
+  //             decoration: BoxDecoration(
+  //                 color: AppColors.white,
+  //                 borderRadius: BorderRadius.circular(50.r),
+  //             border: Border.all(color: AppColors.black),
+  //             ),
+  //             child: Center(
+  //               child: Text(
+  //                 "Re-Order",
+  //                 style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.onestMedium),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //       // if (orderStatus != "pending" && orderStatus != "completed" && orderStatus != "cancelled")
+  //       if (orderStatus != "delivered"  && orderStatus != "cancelled")...[
+  //         wBox(8.h),
+  //         InkWell(
+  //           splashColor: Colors.transparent,
+  //           highlightColor: Colors.transparent,
+  //           onTap: () {
+  //             pt("orders c${controller.screenType}");
+  //             Get.toNamed(AppRoutes.trackOrder,
+  //                 arguments: {
+  //                   "id" : orderId,
+  //                   "screenType" : controller.screenType,
+  //                 });
+  //           },
+  //           child: Container(
+  //             padding: REdgeInsets.symmetric(vertical: 7, horizontal: 20),
+  //             decoration: BoxDecoration(
+  //                 border: Border.all(color: AppColors.primary),
+  //                 color: AppColors.white,
+  //                 borderRadius: BorderRadius.circular(50.r)),
+  //             child: Center(
+  //               child: Text(
+  //                 "Track",
+  //                 style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //       if (orderStatus == "delivered" && reviews == null)...[
+  //        wBox(8.h),
+  //       InkWell(
+  //             splashColor: Colors.transparent,
+  //           highlightColor: Colors.transparent,
+  //           onTap: () {
+  //             final arguments = {
+  //               'order_id': orderId,
+  //               'vendor_id': vendorId,
+  //               'type': type,
+  //               'reply': "null",
+  //               "raring": "0",
+  //               "from": "order"
+  //             };
+  //             Get.toNamed(
+  //               AppRoutes.rateAndReviewProductScreen,
+  //               arguments: arguments,
+  //             );
+  //           },
+  //           child: Container(
+  //             padding: REdgeInsets.symmetric(vertical: 8, horizontal: 20),
+  //             decoration: BoxDecoration(
+  //                 border: Border.all(color: AppColors.primary),
+  //                 color: AppColors.white,
+  //                 borderRadius: BorderRadius.circular(50.r)),
+  //             child: Center(
+  //               child: Text(
+  //                 "Rate & Review",
+  //                 style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ],
+  //   );
+  // }
+
   Future<dynamic> cancelPopUp({context, required String oderId}) {
     return showCupertinoModalPopup(
         context: context,
@@ -929,10 +1135,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
           return PopScope(
             canPop: false,
             child: AlertDialog.adaptive(
+              surfaceTintColor: AppColors.transparent,
+              backgroundColor: AppColors.white,
               content: Container(
                 height: 150.h,
                 width: 320.w,
-                padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                padding: REdgeInsets.symmetric(vertical: 10, horizontal: 10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30.r),
                 ),
@@ -941,14 +1149,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   children: [
                     Text(
                       'Cancel',
-                      style: AppFontStyle.text_18_600(AppColors.darkText),
+                      style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
                     ),
                     // hBox(15),
                     Text(
                       'Are you sure you want to cancel?',
                       maxLines: 2,
                       textAlign: TextAlign.center,
-                      style: AppFontStyle.text_14_400(AppColors.lightText),
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
                     ),
                     // hBox(15),
                     Row(
@@ -962,7 +1170,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             },
                             text: "No",
                             textStyle:
-                                AppFontStyle.text_14_400(AppColors.darkText),
+                                AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                           ),
                         ),
                         wBox(15),
@@ -974,12 +1182,11 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                   Status.LOADING),
                               height: 40.h,
                               onPressed: () {
-                                cancelOrderController.cancelOrderApi(
-                                    orderId: oderId);
+                                cancelOrderController.cancelOrderApi(orderId: oderId);
                               },
                               text: "Yes",
                               textStyle:
-                                  AppFontStyle.text_14_400(AppColors.darkText),
+                                  AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
                             ),
                           ),
                         ),

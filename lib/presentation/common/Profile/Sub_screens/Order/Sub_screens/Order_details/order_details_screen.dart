@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
 import 'package:shimmer/shimmer.dart';
@@ -7,6 +8,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Core/Utils/image_cache_height.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_expansion_tile.dart';
 import 'package:woye_user/presentation/Grocery/Pages/Grocery_home/Sub_screens/Product_details/controller/grocery_specific_product_controller.dart';
@@ -18,14 +20,19 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_scr
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'dart:io';
 
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/app_image.dart';
+
 
 class OrderDetailsScreen extends StatelessWidget {
   OrderDetailsScreen({super.key});
 
   final OrderDetailsController controller = Get.put(OrderDetailsController());
+  final RestaurantNavbarController restaurantNavbarController = Get.put(RestaurantNavbarController());
+  final CancelOrderController cancelOrderController = Get.put(CancelOrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,7 @@ class OrderDetailsScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Order Details",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -93,6 +100,14 @@ class OrderDetailsScreen extends StatelessWidget {
                           reviews(),
                         ],
                         hBox(20),
+                        downloadInvoice(),
+                        if(controller.ordersData.value.orderDetails?.status?.toLowerCase() == "pending")...[
+                        hBox(14),
+                        cancelOrder(id: id),
+                        ],
+                        hBox(14),
+                        continueShopping(),
+                        hBox(20),
                         buttons(),
                         hBox(50)
                       ],
@@ -104,15 +119,67 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 
+  CustomElevatedButton continueShopping() {
+    return CustomElevatedButton(
+        forGroundColor: AppColors.primary,
+        color: AppColors.primary,
+        onPressed:(){
+          restaurantNavbarController.navigateBackToMainNavbar(index: 0);
+        },
+        text: "Continue Shopping",
+        textStyle:AppFontStyle.text_16_500(AppColors.white,family: AppFontFamily.onestMedium)
+      );
+  }
+
+  CustomElevatedButton cancelOrder({required String id}) {
+    return CustomElevatedButton(
+      forGroundColor: AppColors.black,
+      color: AppColors.black,
+      onPressed:(){
+        cancelPopUp(oderId: controller.ordersData.value.orderDetails?.orderId ?? "",id: id);
+      },
+      child: Row(
+        children: [
+          AppImage(path: ImageConstants.delete,svgColor:ColorFilter.mode( AppColors.white, BlendMode.srcIn)),
+          wBox(10),
+          Text("Cancel Order",style:AppFontStyle.text_16_500(AppColors.white,family: AppFontFamily.onestSemiBold),),
+          Spacer(),
+          Icon(Icons.arrow_forward_ios_rounded,color: AppColors.white),
+        ],
+      ),
+    );
+  }
+
+  CustomElevatedButton downloadInvoice() {
+    return CustomElevatedButton(
+      forGroundColor: AppColors.white,
+      color: AppColors.white,
+      side: BorderSide(
+        color: AppColors.black,
+        width: 0.8,
+      ),
+      onPressed:(){},
+      child: Row(
+        children: [
+          AppImage(path: ImageConstants.receipt),
+          wBox(10),
+          Text("Download Invoice",style:AppFontStyle.text_16_500(AppColors.black,family: AppFontFamily.onestMedium),),
+          Spacer(),
+          Icon(Icons.arrow_forward_ios_rounded,color: AppColors.black),
+        ],
+      ),
+    );
+  }
+
   Widget heading() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          controller.ordersData.value.addressDetails?.fullName.toString().capitalize ?? "",
-          style: AppFontStyle.text_24_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+         "Hey, ${controller.ordersData.value.addressDetails?.fullName.toString().capitalize ?? ""}",
+          style: AppFontStyle.text_24_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
-        hBox(15.h),
+        hBox(10.h),
         Wrap(
           children: [
             Text(
@@ -120,7 +187,7 @@ class OrderDetailsScreen extends StatelessWidget {
               style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
-                  fontFamily: AppFontFamily.gilroyRegular,
+                  fontFamily: AppFontFamily.onestRegular,
                   color: AppColors.lightText),
             ),
           ],
@@ -160,14 +227,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Order Status",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               Text(
-                controller.ordersData.value.orderDetails!.status
-                    .toString()
-                    .replaceAll("_", " ")
-                    .capitalize!,
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                controller.ordersData.value.orderDetails?.status?.replaceAll("_", " ").capitalize ?? "",
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
             ],
           ),
@@ -177,11 +241,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Tracking id",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               Text(
-                controller.ordersData.value.orderDetails!.trackingId.toString(),
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                controller.ordersData.value.orderDetails?.trackingId ?? "",
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
             ],
           ),
@@ -194,9 +258,9 @@ class OrderDetailsScreen extends StatelessWidget {
                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
               ),
               Text(
-                  DateFormat('dd MMMM yyyy').format(DateTime.parse( controller.ordersData.value.orderDetails!.createdAt.toString(),)),
+                  DateFormat('dd MMMM yyyy').format(DateTime.parse( controller.ordersData.value.orderDetails?.createdAt ?? "",)),
 
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
             ],
           ),
@@ -205,18 +269,15 @@ class OrderDetailsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                controller.ordersData.value.orderDetails!.type
-                    .toString()
-                    .capitalizeFirst!,
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                controller.ordersData.value.orderDetails?.type?.capitalizeFirst ?? "",
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               wBox(10),
               Flexible(
                 child: Text(
-                  controller.ordersData.value.orderDetails!.vendorName
-                      .toString(),
+                  controller.ordersData.value.orderDetails?.vendorName ?? "",
                   maxLines: 2,
-                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                 ),
               ),
             ],
@@ -227,11 +288,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Total",
-                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
               ),
               Text(
-                "\$${controller.ordersData.value.orderDetails!.total.toString()}",
-                style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+                "\$${controller.ordersData.value.orderDetails?.total ?? ""}",
+                style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestSemiBold),
               ),
             ],
           ),
@@ -240,28 +301,28 @@ class OrderDetailsScreen extends StatelessWidget {
           hBox(10),
           Text(
             "Delivery Address",
-            style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+            style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           hBox(10),
           Text(
             controller.ordersData.value.addressDetails?.addressType.toString().capitalize ?? "",
-            style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.onestMedium),
           ),
           hBox(10),
           Text(
-            controller.ordersData.value.addressDetails?.fullName.toString().capitalize ?? "",
-            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            controller.ordersData.value.addressDetails?.fullName?.capitalize ?? "",
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           hBox(10),
           Text(
             controller.ordersData.value.addressDetails?.address.toString() ?? "",
             maxLines: 4,
-            style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
           ),
           hBox(10),
           Text(
-            "${controller.ordersData.value.addressDetails?.countryCode} ${controller.ordersData.value.addressDetails?.phoneNumber.toString()}",
-            style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            "${controller.ordersData.value.addressDetails?.countryCode ?? ""} ${controller.ordersData.value.addressDetails?.phoneNumber ?? ""}",
+            style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           hBox(15),
         ],
@@ -269,8 +330,7 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 
-  final specific_Product_Controller specificProductController =
-      Get.put(specific_Product_Controller());
+  final specific_Product_Controller specificProductController =Get.put(specific_Product_Controller());
   final PharmaSpecificProductController pharmaSpecificProductController = Get.put(PharmaSpecificProductController());
   final GrocerySpecificProductController grocerySpecificProductController  = Get.put(GrocerySpecificProductController());
 
@@ -281,7 +341,7 @@ class OrderDetailsScreen extends StatelessWidget {
             border: Border.all(color: AppColors.textFieldBorder)),
         child: CustomExpansionTile(
           title:
-              "Order Id ${controller.ordersData.value.orderDetails!.orderId.toString()}",
+              "Order Id: #${controller.ordersData.value.orderDetails?.orderId ?? ""}",
           children: [
             ListView.separated(
               shrinkWrap: true,
@@ -367,20 +427,20 @@ class OrderDetailsScreen extends StatelessWidget {
                                 Text(
                                   item.productName.toString(),
                                   maxLines: 2,
-                                  style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                  style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                                   // style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                                 ),
                                 hBox(10),
                                 Text(
                                   "Qty:${item.quantity.toString()}",
                                   style: AppFontStyle.text_12_400(
-                                      AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                      AppColors.darkText,family: AppFontFamily.onestRegular),
                                 ),
                                 hBox(10),
                                 Text(
                                   "\$${item.price.toString()}",
                                   style: AppFontStyle.text_14_600(
-                                      AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                      AppColors.primary,family: AppFontFamily.onestRegular),
                                 ),
                               ],
                             ),
@@ -410,23 +470,23 @@ class OrderDetailsScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '${item.attribute![addonIndex].itemDetails!.itemName?.capitalizeFirst}',
+                                        '${item.attribute?[addonIndex].itemDetails?.itemName?.capitalizeFirst}',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                            AppColors.primary,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
                                         ' - ',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                            AppColors.primary,family: AppFontFamily.onestRegular),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
-                                        '\$${item.attribute![addonIndex].itemDetails!.itemPrice}',
+                                        '\$${item.attribute?[addonIndex].itemDetails?.itemPrice ?? ""}',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                            AppColors.primary,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
@@ -434,7 +494,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                         Text(
                                           ',',
                                           style: AppFontStyle.text_12_400(
-                                              AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                              AppColors.primary,family: AppFontFamily.onestMedium),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
@@ -469,21 +529,21 @@ class OrderDetailsScreen extends StatelessWidget {
                                       Text(
                                         '${item.addons![addonIndex].name?.capitalizeFirst}',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.lightText,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
                                         ' - ',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.lightText,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
                                         '\$${item.addons![addonIndex].price}',
                                         style: AppFontStyle.text_12_400(
-                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.lightText,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
@@ -491,7 +551,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                         Text(
                                           ',',
                                           style: AppFontStyle.text_12_400(
-                                              AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                              AppColors.lightText,family: AppFontFamily.onestMedium),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
@@ -506,11 +566,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 );
               },
               separatorBuilder: (context, index) {
-                return Divider();
+                return const Divider();
               },
             ),
             hBox(0.h),
-            Divider(),
+            const Divider(),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //   children: [
@@ -535,12 +595,12 @@ class OrderDetailsScreen extends StatelessWidget {
                     Text(
                       "Sub Total",
                       // style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     ),
                     Text(
                       "\$${controller.ordersData.value.orderDetails?.subtotal.toString() ?? ""}",
                       // "\$${controller.ordersData.value.subtotal.toString()}",
-                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                       // style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
 
                     ),
@@ -552,11 +612,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Delivery Charge",
-                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     ),
                     Text(
                       "\$${controller.ordersData.value.deliveryCharges.toString()}",
-                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                     ),
                   ],
                 ),
@@ -569,11 +629,11 @@ class OrderDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     "Coupon Discount",
-                    style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                   ),
                   Text(
                    "\$${controller.ordersData.value.orderDetails!.couponDiscount.toString()}",
-                    style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),/*Text(
                     controller.ordersData.value.orderDetails!.coupon!.couponType.toString() == "percentage"
                         ? "-${controller.ordersData.value.orderDetails!.coupon!.value.toString()}%"
@@ -591,11 +651,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Delivery Tip",
-                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     ),
                     Text(
                       "\$${controller.ordersData.value.orderDetails?.courierTip.toString()}",
-                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                     ),
                   ],
                 ),
@@ -610,12 +670,12 @@ class OrderDetailsScreen extends StatelessWidget {
               children: [
                 Text(
                   "Total ",
-                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                 ),
                 Text(
                   // "\$${controller.ordersData.value.subtotal.toString()}",
                   "\$${controller.ordersData.value.orderDetails!.total.toString()}",
-                  style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+                  style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.onestSemiBold),
                 ),
               ],
             ),
@@ -638,7 +698,7 @@ class OrderDetailsScreen extends StatelessWidget {
           children: [
             Text(
               "Payment method",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
             Text(
               controller.ordersData.value.orderDetails!.paymentMethod
@@ -646,56 +706,54 @@ class OrderDetailsScreen extends StatelessWidget {
                   .replaceAll("_", " ")
                   .toString()
                   .capitalize!,
-              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
             ),
           ],
         ),
-        hBox(10),
-        if (controller.ordersData.value.orderDetails!.walletUsed.toString() !=
-            "0")
+        hBox(6),
+        if (controller.ordersData.value.orderDetails?.walletUsed.toString() != "0")
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Wallet",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               Text(
                 "\$${controller.ordersData.value.orderDetails!.walletUsed.toString()}",
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
             ],
           ),
-        if (controller.ordersData.value.orderDetails!.walletUsed.toString() !=
-            "0")
-          hBox(10),
+        if (controller.ordersData.value.orderDetails?.walletUsed.toString() != "0")
+          hBox(6),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Payment Date",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
-            Text(
-              DateFormat('dd MMMM yyyy').format(DateTime.parse( controller.ordersData.value.orderDetails!.createdAt.toString())),
+            Text(controller.ordersData.value.orderDetails?.createdAt == null ? "" :
+              DateFormat('dd MMMM, yyyy').format(DateTime.parse(controller.ordersData.value.orderDetails?.createdAt.toString() ?? "")),
               overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               // style: AppFontStyle.text_12_600(AppColors.darkText),
             ),
           ],
         ),
-        hBox(10),
+        hBox(6),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               "Total",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
             Text(
               // "\$${controller.ordersData.value.subtotal.toString()}",
-              "\$${controller.ordersData.value.orderDetails!.total.toString()}",
-              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              "\$${controller.ordersData.value.orderDetails?.total ?? ""}",
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
 
               // style: AppFontStyle.text_12_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             ),
@@ -723,7 +781,7 @@ class OrderDetailsScreen extends StatelessWidget {
             Expanded(
               child: Text(
                 "Delivery Notes",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
             ),
             Align(
@@ -732,7 +790,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 child: Text(
                   controller.ordersData.value.orderDetails!.deliveryNotes.toString().capitalize ?? "",
                   maxLines: 25,
-                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                 ),
               ),
             ),
@@ -747,11 +805,11 @@ class OrderDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 "Delivery Soon",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               Text(
                 controller.ordersData.value.orderDetails?.deliverySoon ?? "",
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
             ],
           ),
@@ -857,15 +915,14 @@ class OrderDetailsScreen extends StatelessWidget {
                         filledColor: AppColors.goldStar,
                         emptyColor: AppColors.normalStar,
                         initialRating: double.parse(controller
-                            .ordersData.value.review!.rating
-                            .toString()),
+                            .ordersData.value.review?.rating ?? ""),
                         maxRating: 5,
                         size: 20.h,
                       ),
                       hBox(10),
                       Text(
                         controller.ordersData.value.review!.review.toString(),
-                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                         maxLines: 2,
                       ),
                     ],
@@ -915,8 +972,8 @@ class OrderDetailsScreen extends StatelessWidget {
                 ),
                 Flexible(
                   child: Text(
-                    controller.ordersData.value.review!.reply.toString().trim(),
-                    style: AppFontStyle.text_16_400(AppColors.lightText),
+                    controller.ordersData.value.review?.reply?.trim() ?? "",
+                    style: AppFontStyle.text_16_400(AppColors.lightText ,family: AppFontFamily.onestMedium),
                     maxLines: 100,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -1013,4 +1070,80 @@ class OrderDetailsScreen extends StatelessWidget {
       // )
     ]);
   }
+
+  Future<dynamic> cancelPopUp({ required String oderId ,required String id}) {
+    return showCupertinoModalPopup(
+        context: Get.context!,
+        builder: (context) {
+          return PopScope(
+            canPop: false,
+            child: AlertDialog.adaptive(
+              surfaceTintColor: AppColors.transparent,
+              backgroundColor: AppColors.white,
+              content: Container(
+                height: 150.h,
+                width: 320.w,
+                padding: REdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30.r),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Cancel',
+                      style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                    ),
+                    // hBox(15),
+                    Text(
+                      'Are you sure you want to cancel?',
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    ),
+                    // hBox(15),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomElevatedButton(
+                            height: 40.h,
+                            color: AppColors.black,
+                            onPressed: () {
+                              Get.back();
+                            },
+                            text: "No",
+                            textStyle:
+                            AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                          ),
+                        ),
+                        wBox(15),
+                        Expanded(
+                          child: Obx(
+                                () => CustomElevatedButton(
+                              isLoading: (cancelOrderController
+                                  .rxRequestStatus.value ==
+                                  Status.LOADING),
+                              height: 40.h,
+                              onPressed: () async{
+                                final success =  await cancelOrderController.cancelOrderApi(orderId: id);
+                                  if (success) {
+                                    controller.orderDetailsApi(orderId: id,isShowLoading: false);
+                                  }
+                              },
+                              text: "Yes",
+                              textStyle:
+                              AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
 }

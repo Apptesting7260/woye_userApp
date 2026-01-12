@@ -50,6 +50,9 @@ class AppFontStyle {
   static text_13_400(Color color, {height,family}) {
     return _textStyle(color, 13.sp, FontWeight.w400, height: height,fontFamily:family);
   }
+  static text_13_500(Color color, {height,family}) {
+    return _textStyle(color, 13.sp, FontWeight.w500, height: height,fontFamily:family);
+  }
 
   static text_14_400(Color color, {height,family}) {
     return _textStyle(color, 14.sp, FontWeight.w400, height: height,fontFamily:family);

@@ -1526,7 +1526,7 @@ class ProductDetailsScreen extends StatelessWidget {
             childAspectRatio: 0.72,
             crossAxisSpacing: 10,
           ),
-          itemCount: controller.productData.value.moreProducts?.length,
+          itemCount: controller.productData.value.moreProducts?.length ?? 0,
           itemBuilder: (context, index) {
             final moreProducts = controller.productData.value.moreProducts;
             final product = moreProducts?[index];

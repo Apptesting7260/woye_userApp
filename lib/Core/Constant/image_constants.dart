@@ -10,7 +10,10 @@ class ImageConstants {
   static String googleLogo = "$svgPath/google-logo.svg";
   static String appleLogo = "$svgPath/apple-logo.svg";
 
+  static String receipt = "$svgPath/receipt.svg";
   static String arrowDown = "$svgPath/arrow-down.svg";
+
+  static String delete = "$svgPath/delete-outlined.svg";
 
   static String profileIcon = "$svgPath/profile-icon.svg";
   static String calendar = "$svgPath/calendar.svg";

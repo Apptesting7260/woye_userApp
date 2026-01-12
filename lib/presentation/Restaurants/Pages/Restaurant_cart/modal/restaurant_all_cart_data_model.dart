@@ -58,20 +58,23 @@ class Carts {
 class Resto {
   String? id;
   String? shopimage;
+  String? coverPhotoUrl;
   String? shopName;
 
   Resto({this.id, this.shopimage, this.shopName});
 
   Resto.fromJson(Map<String, dynamic> json) {
     id = json['id']?.toString();
-    shopimage = json['shopimage']?.toString();
+    shopimage = json['logo_url']?.toString();
+    coverPhotoUrl = json['cover_photo_url']?.toString();
     shopName = json['shop_name']?.toString();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['shopimage'] = shopimage;
+    data['logo_url'] = shopimage;
+    data['cover_photo_url'] = coverPhotoUrl;
     data['shop_name'] = shopName;
     return data;
   }

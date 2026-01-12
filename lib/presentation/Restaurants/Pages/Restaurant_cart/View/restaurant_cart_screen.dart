@@ -2862,7 +2862,7 @@ class RestaurantCartScreen extends StatefulWidget {
           isActions: true,
           title: Text(
             "My Cart",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.onestBold),
           ),
         ),
         body: Obx(() {
@@ -3621,7 +3621,9 @@ class RestaurantCartScreen extends StatefulWidget {
                               color: AppColors.lightText.withOpacity(0.5),
                             ),
                             fit: BoxFit.cover,
-                          ))),
+                          ),
+                      ),
+                  ),
                   wBox(10.h),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -3639,33 +3641,6 @@ class RestaurantCartScreen extends StatefulWidget {
                         style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                       ),
                       hBox(15.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
-                          wBox(3.w),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 3.0),
-                            child: Text(
-                              "\$5",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                              style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                            ),
-                          ),
-                          wBox(5.w),
-                          SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
-                          wBox(3.w),
-                          Text(
-                            "30-50 mins",
-                            style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
-                          ),
-                          wBox(20),
-                          deliveryType(buckets, index),
-                        ],
-                      ),
-                      hBox(5.h),
                     ],
                   ),
                   const Spacer(),
@@ -3736,6 +3711,33 @@ class RestaurantCartScreen extends StatefulWidget {
                       ],
                     ),
                   ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  wBox(50),
+                  SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
+                  wBox(3.w),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 3.0),
+                    child: Text(
+                      "\$5",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    ),
+                  ),
+                  wBox(5.w),
+                  SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
+                  wBox(3.w),
+                  Text(
+                    "30-50 mins",
+                    style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  ),
+                  const Spacer(),
+                  deliveryType(buckets, index),
                 ],
               ),
               hBox(8.h),
@@ -4225,111 +4227,116 @@ class RestaurantCartScreen extends StatefulWidget {
   }
 
   Widget deliveryType(Buckets buckets, int index) {
-    return Container(
-      height: 26,
-      width: 100,
-      padding: const EdgeInsets.all(2),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.primary, width: 1),
-      ),
-      child: Obx(
-            () =>
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-
-                /// DELIVERY
-                Expanded(
-                  child: InkWell(
+    return Obx(
+          () => Container(
+        padding: const EdgeInsets.all(2),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.primary.withAlpha(120),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            /// DELIVERY
+            Flexible(
+              fit: FlexFit.loose,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {
+                  if (!buckets.isDelivery.value) {
+                    buckets.isDelivery.value = true;
+                    controller.restaurantOrderTypeApi(
+                      index: index,
+                      cartId: buckets.cartId.toString(),
+                      type: "delivery",
+                      isDelivery: buckets.isDelivery,
+                    );
+                  }
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 150),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: buckets.isDelivery.value
+                        ? AppColors.black
+                        : Colors.transparent,
                     borderRadius: BorderRadius.circular(16),
-                    onTap: () {
-                      if (!buckets.isDelivery.value) {
-                        buckets.isDelivery.value = true;
-                        controller.restaurantOrderTypeApi(
-                          index: index,
-                          cartId: buckets.cartId.toString(),
-                          type: "delivery",
-                          isDelivery: buckets.isDelivery,
-                        );
-                      }
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 150),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: buckets.isDelivery.value
-                            ? AppColors.black
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: (controller.rxRequestStatusOrderType.value ==
-                          Status.LOADING &&
-                          controller.loadingIndex.value == index &&
-                          controller.loadingType.value == "delivery")
-                          ? circularProgressIndicator2()
-                          : FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          "Delivery",
-                          style: AppFontStyle.text_8_400(
-                            buckets.isDelivery.value
-                                ? AppColors.white
-                                : AppColors.darkText,
-                            family: AppFontFamily.gilroyMedium,
-                          ),
-                        ),
-                      ),
+                  ),
+                  child: (controller.rxRequestStatusOrderType.value ==
+                      Status.LOADING &&
+                      controller.loadingIndex.value == index &&
+                      controller.loadingType.value == "delivery")
+                      ? circularProgressIndicator2(size: 12)
+                      : Text(
+                    "Delivery",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppFontStyle.text_10_400(
+                      buckets.isDelivery.value
+                          ? AppColors.white
+                          : AppColors.darkText,
+                      family: AppFontFamily.gilroyBold,
                     ),
                   ),
                 ),
-
-                /// PICKUP
-                Expanded(
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(16),
-                    onTap: () {
-                      if (buckets.isDelivery.value) {
-                        buckets.isDelivery.value = false;
-                        controller.restaurantOrderTypeApi(
-                          index: index,
-                          cartId: buckets.cartId.toString(),
-                          type: "self",
-                          isDelivery: buckets.isDelivery,
-                        );
-                      }
-                    },
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 150),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: !buckets.isDelivery.value
-                            ? AppColors.black
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: (controller.rxRequestStatusOrderType.value ==
-                          Status.LOADING &&
-                          controller.loadingIndex.value == index &&
-                          controller.loadingType.value == "self")
-                          ? circularProgressIndicator2()
-                          : FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          "Pickup",
-                          style: AppFontStyle.text_8_400(
-                            !buckets.isDelivery.value
-                                ? AppColors.white
-                                : AppColors.darkText,
-                            family: AppFontFamily.gilroyMedium,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
+
+            const SizedBox(width: 4),
+
+            /// PICKUP
+            Flexible(
+              fit: FlexFit.loose,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                onTap: () {
+                  if (buckets.isDelivery.value) {
+                    buckets.isDelivery.value = false;
+                    controller.restaurantOrderTypeApi(
+                      index: index,
+                      cartId: buckets.cartId.toString(),
+                      type: "self",
+                      isDelivery: buckets.isDelivery,
+                    );
+                  }
+                },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 150),
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: !buckets.isDelivery.value
+                        ? AppColors.black
+                        : Colors.transparent,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: (controller.rxRequestStatusOrderType.value ==
+                      Status.LOADING &&
+                      controller.loadingIndex.value == index &&
+                      controller.loadingType.value == "self")
+                      ? circularProgressIndicator2(size: 12)
+                      : Text(
+                    "Pickup",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppFontStyle.text_10_400(
+                      !buckets.isDelivery.value
+                          ? AppColors.white
+                          : AppColors.darkText,
+                      family: AppFontFamily.gilroyBold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

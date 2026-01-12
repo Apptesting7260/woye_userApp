@@ -6,14 +6,14 @@ class RestaurantWishlistController extends GetxController {
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
-  final wishlistData = restaurant_product_wishlist_modal().obs;
+  final wishlistData = RestaurantProductWishlistModal().obs;
 
   RxString error = ''.obs;
   RxList<CategoryProduct> filteredWishlistData = RxList<CategoryProduct>();
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void wishlist_Set(restaurant_product_wishlist_modal value) =>
+  void wishlist_Set(RestaurantProductWishlistModal value) =>
       wishlistData.value = value;
 
   void setError(String value) => error.value = value;

@@ -237,20 +237,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                 Container(
                                   margin: EdgeInsets.only(
                                       top: 10.r,
-                                      bottom: 10.r,
+                                      bottom: 14,
                                       left: 20.r,
                                       right: 20.r),
                                   width: Get.width,
-                                  padding: EdgeInsets.only(
-                                      top: 10.r,
-                                      bottom: 10.r,
-                                      left: 10.r,
-                                      right: 10.r),
-                                  decoration: BoxDecoration(
-                                      color: AppColors.white,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(color: AppColors.white,
                                       borderRadius: BorderRadius.circular(20.r),
-                                      border: Border.all(
-                                          color: AppColors.hintText)),
+                                      border: Border.all(color: AppColors.hintText.withAlpha(80))),
                                   child: Row(
                                     children: [
                                       Container(
@@ -265,26 +259,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                                   BorderRadius.circular(100.r),
                                               child: CachedNetworkImage(
                                                 imageUrl:
-                                                    restaurantCartController
-                                                            .allResCartData
-                                                            .value
-                                                            .carts?[0]
-                                                            .resto
-                                                            ?.shopimage
-                                                            .toString() ??
-                                                        "",
-                                                placeholder: (context, url) =>
-                                                    circularProgressIndicator(),
-                                                errorWidget:
-                                                    (context, url, error) =>
-                                                        Icon(
-                                                  Icons.person,
-                                                  size: 40.h,
-                                                  color: AppColors.lightText
-                                                      .withOpacity(0.5),
-                                                ),
+                                                restaurantCartController.allResCartData.value.carts?[0].resto?.coverPhotoUrl ??
+                                                restaurantCartController.allResCartData.value.carts?[0].resto?.shopimage ?? "",
+                                                placeholder: (context, url) => circularProgressIndicator(),
+                                                errorWidget: (context, url, error) => Icon(Icons.person,size: 40.h,color: AppColors.lightText.withOpacity(0.5)),
                                                 fit: BoxFit.cover,
-                                              ))),
+                                              ),
+                                          ),
+                                      ),
                                       wBox(10.h),
                                       Container(
                                         width: Get.width / 3,
@@ -381,13 +363,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     ],
                                   ),
                                 ),
-                                if (restaurantCartController
-                                            .allResCartData.value.carts !=
-                                        null &&
-                                    (restaurantCartController.allResCartData
-                                                .value.carts?.length ??
-                                            0) >
-                                        1)
+                                if (restaurantCartController.allResCartData.value.carts != null && (restaurantCartController.allResCartData.value.carts?.length ??0) > 1)
                                   Positioned(
                                     top: -15.h,
                                     child: ElevatedButton(
@@ -1916,7 +1892,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       highlightColor: Colors.transparent,
                       onTap: () {
                         Get.back();
-                        restaurantNavbarController.getIndex(3);
+                        restaurantNavbarController.getIndex(2);
                       },
                       child: Row(
                         children: [

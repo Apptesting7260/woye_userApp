@@ -133,7 +133,7 @@ class  OrderDetails {
     if (json['decoded_attribute'] != null) {
       decodedAttribute = <DecodedAttribute>[];
       json['decoded_attribute'].forEach((v) {
-        decodedAttribute!.add(new DecodedAttribute.fromJson(v));
+        decodedAttribute!.add(DecodedAttribute.fromJson(v));
       });
     }
     vendorName = json['vendor_name'];
@@ -142,7 +142,7 @@ class  OrderDetails {
     deliverySoon = json['delivery_soon']?.toString();
     couponDiscount = json['coupon_discount']?.toString();
     addressDetails = json['address_details'] != null
-        ? new AddressDetails.fromJson(json['address_details'])
+        ? AddressDetails.fromJson(json['address_details'])
         : null;
   }
 
@@ -269,7 +269,7 @@ class Addons {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['price'] = price;
     data['name'] = name;
@@ -285,16 +285,16 @@ class Attribute {
 
   Attribute.fromJson(Map<String, dynamic> json) {
     titleId = json['title_id'];
-    itemDetails = json['item_details'] != null
-        ? new ItemDetails.fromJson(json['item_details'])
+    itemDetails = json['choices'] != null
+        ? ItemDetails.fromJson(json['choices'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['title_id'] = titleId;
     if (itemDetails != null) {
-      data['item_details'] = itemDetails!.toJson();
+      data['choices'] = itemDetails!.toJson();
     }
     return data;
   }
@@ -308,16 +308,16 @@ class ItemDetails {
   ItemDetails({this.itemId, this.itemName, this.itemPrice});
 
   ItemDetails.fromJson(Map<String, dynamic> json) {
-    itemId = json['item_id'];
-    itemName = json['item_name'];
-    itemPrice = json['item_price'];
+    itemId = json['option_id'];
+    itemName = json['name'];
+    itemPrice = json['price'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['item_id'] = itemId;
-    data['item_name'] = itemName;
-    data['item_price'] = itemPrice;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['option_id'] = itemId;
+    data['name'] = itemName;
+    data['price'] = itemPrice;
     return data;
   }
 }
@@ -372,7 +372,7 @@ class AddressDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['user_id'] = userId;
     data['full_name'] = fullName;
@@ -456,7 +456,7 @@ class Coupon {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['coupon_type'] = couponType;
     data['title'] = title;
