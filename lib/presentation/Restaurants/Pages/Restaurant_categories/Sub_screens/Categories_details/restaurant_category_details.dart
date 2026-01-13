@@ -133,7 +133,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "No addons available",
                                                 style: AppFontStyle.text_16_400(
                                                   AppColors.darkText,
-                                                  family: AppFontFamily.gilroyMedium,
+                                                  family: AppFontFamily.onestMedium,
                                                 ),
                                               ),
                                               hBox(5),
@@ -161,7 +161,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Extras",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -173,7 +173,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     option.optionName ?? "Option",
                                                     style: AppFontStyle.text_14_400(
                                                       AppColors.darkText,
-                                                      family: AppFontFamily.gilroyMedium,
+                                                      family: AppFontFamily.onestMedium,
                                                     ),
                                                   ),
                                                   hBox(5.h),
@@ -214,7 +214,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Add-ons",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -248,7 +248,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   "Attributes",
                                                   style: AppFontStyle.text_16_400(
                                                     AppColors.darkText,
-                                                    family: AppFontFamily.gilroyMedium,
+                                                    family: AppFontFamily.onestMedium,
                                                   ),
                                                 ),
                                                 hBox(10.h),
@@ -260,7 +260,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         attributeGroup.groupName ?? "",
                                                         style: AppFontStyle.text_14_400(
                                                           AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                       hBox(5.h),
@@ -292,7 +292,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
+                              fontFamily: AppFontFamily.onestMedium,
                               width: Get.width,
                               color: AppColors.darkText,
                               isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
@@ -507,7 +507,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "No addons available",
                                                 style: AppFontStyle.text_16_400(
                                                   AppColors.darkText,
-                                                  family: AppFontFamily.gilroyMedium,
+                                                  family: AppFontFamily.onestMedium,
                                                 ),
                                               ),
                                               hBox(5),
@@ -535,7 +535,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Extras",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -547,7 +547,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     option.optionName ?? "Option",
                                                     style: AppFontStyle.text_14_400(
                                                       AppColors.darkText,
-                                                      family: AppFontFamily.gilroyMedium,
+                                                      family: AppFontFamily.onestMedium,
                                                     ),
                                                   ),
                                                   hBox(5.h),
@@ -580,14 +580,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                               choice.name ?? "",
                                                               style: AppFontStyle.text_14_400(
                                                                 isSelected ? AppColors.primary : AppColors.darkText,
-                                                                family: AppFontFamily.gilroyMedium,
+                                                                family: AppFontFamily.onestMedium,
                                                               ),
                                                             ),
                                                             Text(
                                                               "+₹${choice.price ?? "0"}",
                                                               style: AppFontStyle.text_14_400(
                                                                 isSelected ? AppColors.primary : AppColors.darkText,
-                                                                family: AppFontFamily.gilroyMedium,
+                                                                family: AppFontFamily.onestMedium,
                                                               ),
                                                             ),
                                                           ],
@@ -612,7 +612,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Add-ons",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -640,14 +640,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         addOn.name ?? "",
                                                         style: AppFontStyle.text_14_400(
                                                           addOn.isSelected.value ? AppColors.primary : AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                       Text(
                                                         "+₹${addOn.price ?? "0"}",
                                                         style: AppFontStyle.text_14_400(
                                                           addOn.isSelected.value ? AppColors.primary : AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                     ],
@@ -670,7 +670,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   "Attributes",
                                                   style: AppFontStyle.text_16_400(
                                                     AppColors.darkText,
-                                                    family: AppFontFamily.gilroyMedium,
+                                                    family: AppFontFamily.onestMedium,
                                                   ),
                                                 ),
                                                 hBox(10.h),
@@ -682,7 +682,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         attributeGroup.groupName ?? "",
                                                         style: AppFontStyle.text_14_400(
                                                           AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                       hBox(5.h),
@@ -722,7 +722,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Obx(() => CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
+                              fontFamily: AppFontFamily.onestMedium,
                               width: Get.width,
                               color: addToCartController.goToCart.value ? AppColors.primary : AppColors.darkText,
                               isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
@@ -1106,7 +1106,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       attributeGroup.groupName!,
                       style: AppFontStyle.text_18_600(
                         AppColors.darkText,
-                        family: AppFontFamily.gilroyMedium,
+                        family: AppFontFamily.onestMedium,
                       ),
                     ),
                     hBox(10),
@@ -1646,7 +1646,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     attributeGroup.groupName!,
                                     style: AppFontStyle.text_18_600(
                                       AppColors.darkText,
-                                      family: AppFontFamily.gilroyMedium,
+                                      family: AppFontFamily.onestMedium,
                                     ),
                                   ),
                                   hBox(10),
@@ -1732,7 +1732,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "No addons available",
                                                 style: AppFontStyle.text_16_400(
                                                   AppColors.darkText,
-                                                  family: AppFontFamily.gilroyMedium,
+                                                  family: AppFontFamily.onestMedium,
                                                 ),
                                               ),
                                               hBox(5),
@@ -1771,7 +1771,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Obx(() => CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
+                              fontFamily: AppFontFamily.onestMedium,
                               width: Get.width,
                               color: addToCartController.goToCart.value
                                   ? AppColors.primary
@@ -2100,7 +2100,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       attributeGroup.groupName!,
                       style: AppFontStyle.text_18_600(
                         AppColors.darkText,
-                        family: AppFontFamily.gilroyMedium,
+                        family: AppFontFamily.onestMedium,
                       ),
                     ),
                     hBox(10),
@@ -2221,7 +2221,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 flexibleSpace: FlexibleSpaceBar(
                   titlePadding: REdgeInsets.only(bottom: 15),
                   title: SizedBox(
-                    height: 35.h ,
+                    height: 35.h,
                     child: (CustomSearchFilter(
                       controller: controller.searchController,
                       onChanged: (value) {
@@ -2273,12 +2273,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       var product = controller.searchData[index];
                       return GestureDetector(
                           onTap: () {
-                            specific_product_controllerontroller
-                                .specific_Product_Api(
-                                    productId:
-                                        product.id.toString(),
-                                    categoryId:
-                                        categoryId.toString());
+                            specific_product_controllerontroller.specific_Product_Api(productId:product.id.toString(),categoryId:categoryId.toString());
                             Get.to(()=>ProductDetailsScreen(
                               productId: product.id.toString(),
                               categoryId: categoryId.toString(),
@@ -2296,14 +2291,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   Container(
                                     clipBehavior: Clip.antiAlias,
                                     decoration: BoxDecoration(
-                                      borderRadius:BorderRadius.circular(20.r),
+                                      borderRadius:BorderRadius.only(topLeft: Radius.circular(20.r),topRight: Radius.circular(20.r))
                                     ),
                                     child: Center(
                                       child: CachedNetworkImage(
-                                        imageUrl: "${product.image}"
-                                            .toString(),
+                                        imageUrl: product.image ?? "",
                                         fit: BoxFit.cover,
-                                        height: 160.h,
+                                        height: 130.h,
                                         width: double.maxFinite,
                                         errorWidget: (context, url,
                                                 error) => Container(
@@ -2340,15 +2334,11 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   ),
                                   Obx(
                                     () => Container(
-                                      margin: REdgeInsets.only(
-                                          top: 10, right: 10),
-                                      padding: REdgeInsets.all(6),
+                                      margin: REdgeInsets.only(top: 8, right: 8),
+                                      padding: REdgeInsets.all(7),
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                10.r),
-                                        color: AppColors
-                                            .greyBackground,
+                                        borderRadius:BorderRadius.circular(100.r),
+                                        color: AppColors.white,
                                       ),
                                       child: InkWell(
                                         highlightColor:Colors.transparent,
@@ -2395,27 +2385,27 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   // )
                                 ],
                               ),
-                              hBox(10.h),
+                              hBox(8.h),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    product.title.toString(),
+                                    product.title ?? "",
                                     textAlign: TextAlign.left,
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                    style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                   ),
                                   const Spacer(),
                                   SvgPicture.asset(
                                     "assets/svg/star-yellow.svg",
-                                    height: 12,
+                                    height: 14,
                                   ),
                                   wBox(4),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 3.0),
                                     child: Text(
-                                      "${product.rating}",
-                                      style: AppFontStyle.text_12_400(AppColors.darkText,
-                                          family: AppFontFamily.gilroyMedium),
+                                      double.tryParse(product.rating ?? "0")?.toStringAsFixed(1) ?? "0",
+                                      style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                     ),
                                   ),
                                 ],
@@ -2425,8 +2415,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   product.restoName.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
-                                  style: AppFontStyle.text_14_300(
-                                      AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                  style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                                 ),
                               ),
                               Row(
@@ -2704,7 +2693,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 product.title.toString(),
                                 textAlign: TextAlign.left,
                                 style: AppFontStyle.text_16_400(
-                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                    AppColors.darkText,family: AppFontFamily.onestMedium),
                               ),
                               // hBox(10),
 

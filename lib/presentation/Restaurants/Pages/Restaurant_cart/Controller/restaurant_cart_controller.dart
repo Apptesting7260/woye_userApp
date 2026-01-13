@@ -431,22 +431,22 @@ class RestaurantCartController extends GetxController {
         isSingleCartScreen == true? refreshRestaurantSingleCartApi(cartId: cartId) : refreshGetAllCheckoutDataRes();
         setRxRequestStatusOrderType(Status.COMPLETED);
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
-        loadingIndex.value = -1;
-        loadingType.value = '';
-        if(type == "self"){
-          isDelivery?.value = false;
-        }else if(type == 'delivery'){
-          isDelivery?.value = true;
-        }
+        // loadingIndex.value = -1;
+        // loadingType.value = '';
+        // if(type == "self"){
+        //   isDelivery?.value = false;
+        // }else if(type == 'delivery'){
+        //   isDelivery?.value = true;
+        // }
       }else if(apiDataOrderType.value.status == false){
-        if(type == "self"){
-          isDelivery?.value = true;
-        }else if(type == 'delivery'){
-          isDelivery?.value = false;
-        }
         setRxRequestStatusOrderType(Status.COMPLETED);
-        loadingIndex.value = -1;
-        loadingType.value = '';
+        // if(type == "self"){
+        //   isDelivery?.value = true;
+        // }else if(type == 'delivery'){
+        //   isDelivery?.value = false;
+        // }
+        // loadingIndex.value = -1;
+        // loadingType.value = '';
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
       }
     },).onError((error, stackTrace) {

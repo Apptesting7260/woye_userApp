@@ -4244,7 +4244,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 onTap: () {
                   if (controller.rxRequestStatusOrderType.value == Status.LOADING) return;
                   if (!buckets.isDelivery.value) {
-                    buckets.isDelivery.value = true;
+                    // buckets.isDelivery.value = true;
                     controller.restaurantOrderTypeApi(
                       index: index,
                       cartId: buckets.cartId.toString(),
@@ -4264,10 +4264,8 @@ class RestaurantCartScreen extends StatefulWidget {
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: (controller.rxRequestStatusOrderType.value ==
-                      Status.LOADING &&
-                      controller.loadingIndex.value == index &&
-                      controller.loadingType.value == "delivery")
+                  child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                      controller.loadingIndex.value == index && controller.loadingType.value == "delivery")
                       ? circularProgressIndicator2(size: 12)
                       : Text(
                     "Delivery",
@@ -4294,7 +4292,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 onTap: () {
                   if (controller.rxRequestStatusOrderType.value == Status.LOADING) return;
                   if (buckets.isDelivery.value) {
-                    buckets.isDelivery.value = false;
+                    // buckets.isDelivery.value = false;
                     controller.restaurantOrderTypeApi(
                       index: index,
                       cartId: buckets.cartId.toString(),
