@@ -7,6 +7,7 @@ import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Data/components/GeneralException.dart';
 import 'package:woye_user/Data/components/InternetException.dart';
 import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/addtocartcontroller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/cancel_order/cancel_order_controller.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/controller/order_screen_controller.dart';
@@ -22,11 +23,11 @@ class OrdersScreen extends StatefulWidget {
 }
 
 class _OrdersScreenState extends State<OrdersScreen> {
+
   final OrderScreenController controller = Get.put(OrderScreenController());
-
   final OrderDetailsController orderDetailsController = Get.put(OrderDetailsController());
-
   final CancelOrderController cancelOrderController = Get.put(CancelOrderController());
+  final AddToCartController addToCartController = Get.put(AddToCartController());
 
   @override
   void initState() {
@@ -272,6 +273,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
                           reviews: order.review,
+                          index: index,
                         ),
                       ],
                     ),
@@ -457,6 +459,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
                           reviews: order.review,
+                          index: index,
                         ),
                       ],
                     ),
@@ -598,6 +601,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
                           reviews: order.review,
+                          index: index,
                         ),
                       ],
                     ),
@@ -698,7 +702,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                     ),
                                     hBox(10.h),
                                     Text(
-                                      "Qty:${order.decodedAttribute![0].quantity.toString()}",
+                                      "Qty:${order.decodedAttribute?[0].quantity.toString() ?? ""}",
                                       style: AppFontStyle.text_12_400(
                                           AppColors.darkText,family: AppFontFamily.gilroyMedium),
                                     ),
@@ -735,6 +739,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                           type: order.type.toString(),
                           vendorId: order.vendorId.toString(),
                           reviews: order.review,
+                          index: index,
                         ),
                       ],
                     ),
@@ -835,6 +840,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
     required String vendorId,
     required String type,
     required var reviews,
+    required int index,
   }) {
     return Wrap(
       spacing: 8, // horizontal gap
@@ -890,7 +896,35 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
         if (orderStatus == "delivered" || orderStatus == "cancelled")
           InkWell(
-            onTap: () {},
+            onTap: () {
+              controller.setSelectedIndex(index);
+                final orders = controller.ordersData.value.orders;
+                if (orders != null && index < orders.length) {
+                  final order = orders[index];
+                  // if (order.decodedAttribute?.isNotEmpty == true && order.decodedAttribute?.first.attribute?.isNotEmpty == true) {
+                    final attributes = order.decodedAttribute?.first.attribute;
+                    final extrasItemIds = attributes?.map((e) => e.choices?.optionId).whereType<String>().toList();
+
+                    final extrasItemNames = attributes?.map((e) => e.choices?.name).whereType<String>().toList();
+
+                    final extrasItemPrices = attributes?.map((e) => e.choices?.price).whereType<String>().toList();
+
+                    addToCartController.addToCartApi(
+                      isPopUp: false,
+                      productId: order.orderss?.first.productId ?? "",
+                      productPrice: order.orderss?.first.price ?? "",
+                      productQuantity: order.orderss?.first.quantity ?? "",
+                      restaurantId: order.vendorId?.toString() ?? "",
+                      addons: order.decodedAttribute?.first.addons ?? [],
+                      extrasItemIds: extrasItemIds ?? [],
+                      extrasItemNames: extrasItemNames ?? [],
+                      extrasItemPrices: extrasItemPrices ?? [],
+                      extrasIds: extrasItemIds ?? [],
+                      isReOrder: true,
+                    );
+                  // }
+                }
+            },
             child: Container(
               padding: REdgeInsets.symmetric(vertical: 8, horizontal: 20),
               decoration: BoxDecoration(
@@ -898,11 +932,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 borderRadius: BorderRadius.circular(50.r),
                 border: Border.all(color: AppColors.black),
               ),
-              child: Text(
-                "Re-Order",
-                style: AppFontStyle.text_15_400(
-                  AppColors.black,
-                  family: AppFontFamily.onestMedium,
+              child:Obx(
+                ()=>controller.selectedIndex.value == index &&  addToCartController.rxRequestStatus.value == Status.LOADING ?
+                SizedBox(
+                    height: 23,
+                    width: 60,
+                    child: circularProgressIndicator()) :
+                Text(
+                  "Re-Order",
+                  style: AppFontStyle.text_15_400(
+                    AppColors.black,
+                    family: AppFontFamily.onestMedium,
+                  ),
                 ),
               ),
             ),

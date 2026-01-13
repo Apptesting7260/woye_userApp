@@ -77,7 +77,6 @@ dependencies:
   package_info_plus: ^8.3.0
   google_nav_bar: ^5.0.7
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

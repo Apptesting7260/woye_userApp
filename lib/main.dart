@@ -12,6 +12,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/maintenance_mode_controller.dart';
 import 'package:woye_user/presentation/common/app_link/deeplinkingController.dart';
 import 'package:woye_user/presentation/push_notification/push_notification.dart';
+import 'package:woye_user/shared/widgets/file_downloder.dart';
 import 'firebase_options.dart';
 
 var inSplash = true.obs;

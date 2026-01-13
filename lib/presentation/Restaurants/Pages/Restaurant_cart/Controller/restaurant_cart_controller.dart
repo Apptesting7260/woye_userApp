@@ -428,16 +428,16 @@ class RestaurantCartController extends GetxController {
     api.restaurantOrderTypeApi(data).then((value) {
       setOrderDataOrderType(value);
       if(apiDataOrderType.value.status == true){
-        if(type == "self"){
-          isDelivery?.value = false;
-        }else if(type == 'delivery'){
-          isDelivery?.value = true;
-        }
         isSingleCartScreen == true? refreshRestaurantSingleCartApi(cartId: cartId) : refreshGetAllCheckoutDataRes();
         setRxRequestStatusOrderType(Status.COMPLETED);
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
         loadingIndex.value = -1;
         loadingType.value = '';
+        if(type == "self"){
+          isDelivery?.value = false;
+        }else if(type == 'delivery'){
+          isDelivery?.value = true;
+        }
       }else if(apiDataOrderType.value.status == false){
         if(type == "self"){
           isDelivery?.value = true;

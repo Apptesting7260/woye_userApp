@@ -53,7 +53,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
         title: Text(
           "Delivery Address",
           style: AppFontStyle.text_20_600(AppColors.darkText,
-              family: AppFontFamily.gilroyRegular),
+              family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -166,7 +166,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                                   dataList[index].addressType?.capitalizeFirst.toString() ??"",
                                   style: AppFontStyle.text_20_600(
                                       AppColors.darkText,
-                                      family: AppFontFamily.gilroyRegular),
+                                      family: AppFontFamily.onestRegular),
                                 ),
                                 wBox(10.h),
                                 if (dataList[index].isDefault == 1)
@@ -174,7 +174,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                                     "default",
                                     style: AppFontStyle.text_14_400(
                                         AppColors.lightText,
-                                        family: AppFontFamily.gilroyRegular),
+                                        family: AppFontFamily.onestRegular),
                                   ),
                                 const Spacer(),
                                 if (dataList[index].isDefault != 1)
@@ -213,14 +213,14 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                                   "",
                               style: AppFontStyle.text_14_400(
                                   AppColors.darkText,
-                                  family: AppFontFamily.gilroyMedium),
+                                  family: AppFontFamily.onestMedium),
                             ),
                             hBox(10.h),
                             Text(
                               "${dataList[index].houseDetails?.capitalizeFirst.toString()}\n${dataList[index].address.toString()}",
                               style: AppFontStyle.text_14_400(
                                   AppColors.lightText,
-                                  family: AppFontFamily.gilroyRegular),
+                                  family: AppFontFamily.onestRegular),
                               maxLines: 4,
                             ),
                             hBox(10.h),
@@ -228,7 +228,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                               "${dataList[index].countryCode.toString()} ${dataList[index].phoneNumber.toString()}",
                               style: AppFontStyle.text_14_400(
                                   AppColors.darkText,
-                                  family: AppFontFamily.gilroyMedium),
+                                  family: AppFontFamily.onestMedium),
                             ),
                             if (dataList[index].deliveryInstruction !=
                                 null)
@@ -239,7 +239,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                                   maxLines: 2,
                                   style: AppFontStyle.text_14_400(
                                       AppColors.darkText,
-                                      family: AppFontFamily.gilroyMedium),
+                                      family: AppFontFamily.onestMedium),
                                 ),
                               ),
                           ],
@@ -284,7 +284,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
         title: Text(
           "Add Address",
           style: AppFontStyle.text_16_400(AppColors.primary,
-              family: AppFontFamily.gilroyMedium),
+              family: AppFontFamily.onestMedium),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios_sharp,
@@ -338,7 +338,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
             );
           },
           isLoading: editController.rxRequestStatus.value == Status.LOADING,
-          fontFamily: AppFontFamily.gilroyMedium,
+          fontFamily: AppFontFamily.onestMedium,
           text: "Change Address",
         ),
       ),
@@ -361,7 +361,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
-                  fontFamily: AppFontFamily.gilroyRegular,
+                  fontFamily: AppFontFamily.onestRegular,
                 ),
               ),
               SizedBox(height: 15.h),
@@ -371,7 +371,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey,
-                  fontFamily: AppFontFamily.gilroyRegular,
+                  fontFamily: AppFontFamily.onestRegular,
                 ),
               ),
               SizedBox(height: 15.h),
@@ -379,7 +379,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                 children: [
                   Expanded(
                     child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 40.h,
                       color: AppColors.black,
                       onPressed: () {
@@ -393,7 +393,7 @@ class _DeliveryAddressScreenState extends State<DeliveryAddressScreen> {
                   Obx(
                     () => Expanded(
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 40.h,
                         isLoading:
                             deleteAddressController.rxRequestStatus.value ==

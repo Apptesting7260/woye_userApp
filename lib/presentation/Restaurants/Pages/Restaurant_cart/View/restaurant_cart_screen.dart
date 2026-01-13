@@ -68,7 +68,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //           isActions: true,
 //           title: Text(
 //             "My Cart",
-//             style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//             style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //           ),
 //         ),
 //         body: Obx(() {
@@ -108,13 +108,13 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                           hBox(10.h),
 //                           Text(
 //                             "Your cart is empty!",
-//                             style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//                             style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //                           ),
 //                           hBox(5.h),
 //                           Text(
 //                             "Explore more and shortlist some items",
 //                             style:
-//                                 AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+//                                 AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
 //                           ),
 //                         ],
 //                       )
@@ -178,7 +178,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //           crossAxisAlignment: CrossAxisAlignment.start,
 //           children: [
 //           Text("You may be interested in... ",
-//             style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//             style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //           ),
 //             hBox(20.h),
 //            ListView.separated(
@@ -297,7 +297,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                                overflow: TextOverflow.ellipsis,
 //                                maxLines: 2,
 //                                style: AppFontStyle.text_16_400(
-//                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//                                    AppColors.darkText,family: AppFontFamily.onestMedium),
 //                              ),
 //                            ),
 //                            // Obx(
@@ -345,15 +345,15 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                              "\$${controller.cartData.value.cart!.decodedAttribute![0].totalPrice.toString()}",
 //                              overflow: TextOverflow.ellipsis,
 //                              style: AppFontStyle.text_15_600(
-//                                  AppColors.primary,family: AppFontFamily.gilroyRegular),
+//                                  AppColors.primary,family: AppFontFamily.onestRegular),
 //                            ),
 //                            wBox(8.w),
 //                            Text(
 //                                "\$${controller.cartData.value.cart!.decodedAttribute![0].totalPrice.toString()}",
 //                                overflow: TextOverflow.ellipsis,
-//                                style: TextStyle( color: AppColors.lightText,fontSize: 15.sp,fontFamily: AppFontFamily.gilroyRegular,fontWeight: FontWeight.w400,decoration: TextDecoration.lineThrough,decorationColor: AppColors.lightText)
+//                                style: TextStyle( color: AppColors.lightText,fontSize: 15.sp,fontFamily: AppFontFamily.onestRegular,fontWeight: FontWeight.w400,decoration: TextDecoration.lineThrough,decorationColor: AppColors.lightText)
 //                              // AppFontStyle.text_15_600(
-//                              //     AppColors.primary,family: AppFontFamily.gilroyRegular),
+//                              //     AppColors.primary,family: AppFontFamily.onestRegular),
 //                            ),
 //                          ],
 //                        ),
@@ -364,7 +364,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                          onPressed: () {},
 //                          child: Text("Add to cart",
 //                            style: AppFontStyle.text_12_400(
-//                                AppColors.white,family: AppFontFamily.gilroyMedium),
+//                                AppColors.white,family: AppFontFamily.onestMedium),
 //                          ),
 //                        ),
 //                      ],
@@ -387,7 +387,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //           children: [
 //             Text(
 //               "Delivery Address",
-//               style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//               style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //             ),
 //             const Spacer(),
 //             InkWell(
@@ -403,7 +403,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                 children: [
 //                   Text(
 //                     "Change Address",
-//                     style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+//                     style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.onestMedium),
 //                   ),
 //                   wBox(4),
 //                   Icon(
@@ -434,7 +434,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                     .toString()
 //                     .capitalizeFirst
 //                     .toString(),
-//                 style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+//                 style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
 //               ),
 //               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
 //               SizedBox(
@@ -443,7 +443,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                   controller.cartData.value.address!.address.toString(),
 //                   maxLines: 2,
 //                   overflow: TextOverflow.ellipsis,
-//                   style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//                   style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
 //                 ),
 //               ),
 //             ],
@@ -475,7 +475,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //           Text(
 //             "Your\nLocation",
 //             textAlign: TextAlign.center,
-//             style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+//             style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
 //           ),
 //           VerticalDivider(thickness: 1.w, color: AppColors.hintText),
 //           SizedBox(
@@ -484,7 +484,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //               currentLocation.value,
 //               maxLines: 2,
 //               overflow: TextOverflow.ellipsis,
-//               style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//               style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestRegular),
 //             ),
 //           ),
 //         ],
@@ -680,7 +680,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //   //                                   overflow: TextOverflow.ellipsis,
 //   //                                   maxLines: 2,
 //   //                                   style: AppFontStyle.text_14_600(
-//   //                                       AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//   //                                       AppColors.darkText,family: AppFontFamily.onestRegular),
 //   //                                 ),
 //   //                               ),
 //   //                         // Obx(
@@ -742,7 +742,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //   //                                 "\$${controller.cartData.value.cart!.decodedAttribute![index].totalPrice.toString()}",
 //   //                                 overflow: TextOverflow.ellipsis,
 //   //                                 style: AppFontStyle.text_14_600(
-//   //                                     AppColors.primary,family: AppFontFamily.gilroyRegular),
+//   //                                     AppColors.primary,family: AppFontFamily.onestRegular),
 //   //                               ),
 //   //                         isLoading
 //   //                             ? Shimmer.fromColors(
@@ -865,7 +865,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //   //                                                   .quantity
 //   //                                                   .toString(),
 //   //                                               style: AppFontStyle.text_14_400(
-//   //                                                   AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//   //                                                   AppColors.darkText,family: AppFontFamily.onestMedium),
 //   //                                             ),
 //   //                                             InkWell(
 //   //                                               splashColor: Colors.transparent,
@@ -973,21 +973,21 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //   //                           Text(
 //   //                             '${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemName}',
 //   //                             style:
-//   //                                 AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+//   //                                 AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
 //   //                             overflow: TextOverflow.ellipsis,
 //   //                             maxLines: 1,
 //   //                           ),
 //   //                           Text(
 //   //                             ' - ',
 //   //                             style:
-//   //                                 AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+//   //                                 AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
 //   //                             overflow: TextOverflow.ellipsis,
 //   //                             maxLines: 1,
 //   //                           ),
 //   //                           Text(
 //   //                             '\$${controller.cartData.value.cart!.decodedAttribute![index].attribute![addonIndex].itemDetails!.itemPrice}',
 //   //                             style:
-//   //                                 AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+//   //                                 AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
 //   //                             overflow: TextOverflow.ellipsis,
 //   //                             maxLines: 1,
 //   //                           ),
@@ -995,7 +995,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //   //                             Text(
 //   //                               ',',
 //   //                               style:
-//   //                                   AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+//   //                                   AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
 //   //                               overflow: TextOverflow.ellipsis,
 //   //                               maxLines: 1,
 //   //                             ),
@@ -1033,21 +1033,21 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //   //                         Text(
 //   //                           '${controller.cartData.value.cart!.decodedAttribute![index].addons![addonIndex].name}',
 //   //                           style:
-//   //                               AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//   //                               AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //   //                           overflow: TextOverflow.ellipsis,
 //   //                           maxLines: 1,
 //   //                         ),
 //   //                         Text(
 //   //                           ' - ',
 //   //                           style:
-//   //                               AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//   //                               AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //   //                           overflow: TextOverflow.ellipsis,
 //   //                           maxLines: 1,
 //   //                         ),
 //   //                         Text(
 //   //                           '\$${controller.cartData.value.cart!.decodedAttribute![index].addons![addonIndex].price}',
 //   //                           style:
-//   //                               AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//   //                               AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //   //                           overflow: TextOverflow.ellipsis,
 //   //                           maxLines: 1,
 //   //                         ),
@@ -1055,7 +1055,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //   //                           Text(
 //   //                             ',',
 //   //                             style:
-//   //                                 AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//   //                                 AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //   //                             overflow: TextOverflow.ellipsis,
 //   //                             maxLines: 1,
 //   //                           ),
@@ -1125,12 +1125,12 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         Text(
 //                           controller.cartData.value.cart!.decodedAttribute![index].productName.toString(),
 //                           overflow: TextOverflow.ellipsis,
-//                           style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//                           style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
 //                         ),
 //                         hBox(4.h),
 //                         Text(
 //                           controller.cartData.value.cart!.decodedAttribute![index].productName.toString(),
-//                           style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+//                           style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
 //                           overflow: TextOverflow.ellipsis,
 //                           maxLines: 1,
 //                         ),
@@ -1156,7 +1156,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                                   wBox(5.w),
 //                                   Text(
 //                                     "\$2",
-//                                     style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium
+//                                     style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.onestMedium
 //                                     ),
 //                                   ),
 //                                 ],
@@ -1182,7 +1182,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                                   wBox(5.w),
 //                                   Text(
 //                                     "20min",
-//                                     style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium
+//                                     style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.onestMedium
 //                                     ),
 //                                   )
 //                                 ],
@@ -1218,7 +1218,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                       },
 //                       child: Text(
 //                         "Remove",
-//                         style: AppFontStyle.text_14_400(AppColors.red,family: AppFontFamily.gilroyMedium),
+//                         style: AppFontStyle.text_14_400(AppColors.red,family: AppFontFamily.onestMedium),
 //                         overflow: TextOverflow.ellipsis,
 //                         maxLines: 1,
 //                       ),
@@ -1416,7 +1416,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                                     overflow: TextOverflow.ellipsis,
 //                                     maxLines: 2,
 //                                     style: AppFontStyle.text_16_400(
-//                                         AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//                                         AppColors.darkText,family: AppFontFamily.onestMedium),
 //                                   ),
 //                                 ),
 //                                 // Obx(
@@ -1479,7 +1479,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                                   "\$${controller.cartData.value.cart!.decodedAttribute![index].price.toString()}",
 //                                   overflow: TextOverflow.ellipsis,
 //                                   style: AppFontStyle.text_14_600(
-//                                       AppColors.primary,family: AppFontFamily.gilroyRegular),
+//                                       AppColors.primary,family: AppFontFamily.onestRegular),
 //                                 ),
 //                                 // isLoading
 //                                 //     ?
@@ -1565,7 +1565,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                                         Text(
 //                                          "2".toString(),
 //                                           style: AppFontStyle.text_14_400(
-//                                               AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//                                               AppColors.darkText,family: AppFontFamily.onestMedium),
 //                                         ),
 //                                         InkWell(
 //                                           splashColor: Colors.transparent,
@@ -2178,8 +2178,8 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         prefixConstraints:
 //                             BoxConstraints(maxHeight: 18.h, minWidth: 48.h),
 //                         hintText: "Enter coupon code",
-//                         hintStyle:AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-//                         textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//                         hintStyle:AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
+//                         textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
 //                         onTapOutside: (event) {
 //                           FocusScope.of(context).unfocus();
 //                         },
@@ -2209,7 +2209,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                           },
 //                           child: Text(
 //                             "Apply",
-//                             style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+//                             style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
 //                           ),
 //                         ),
 //                   wBox(20.h),
@@ -2290,20 +2290,20 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                               controller
 //                                   .cartData.value.cart!.couponApplied!.code
 //                                   .toString(),
-//                               style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
+//                               style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.onestRegular),
 //                             ),
 //                             wBox(5.h),
 //                             Text(
 //                               "Applied",
 //                               style:
-//                                   AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+//                                   AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
 //                             ),
 //                           ],
 //                         ),
 //                         hBox(2.h),
 //                         Text(
 //                           "-\$${controller.cartData.value.cart!.couponDiscount}",
-//                           style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//                           style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //                         ),
 //                       ],
 //                     ),
@@ -2325,7 +2325,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //       children: [
 //         Text(
 //           "Payment Details",
-//           style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//           style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //         ),
 //         hBox(10.h),
 //         if (isLoading) ...[
@@ -2342,11 +2342,11 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //             children: [
 //               Text(
 //                 "Regular Price",
-//                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //               ),
 //               Text(
 //                 "\$${controller.cartData.value.cart!.regularPrice.toString()}",
-//                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //               ),
 //             ],
 //           ),
@@ -2356,11 +2356,11 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //             children: [
 //               Text(
 //                 "Save Amount",
-//                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//                 style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //               ),
 //               Text(
 //                 "\$${controller.cartData.value.cart!.saveAmount.toString()}",
-//                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//                 style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //               ),
 //             ],
 //           ),
@@ -2372,11 +2372,11 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                 children: [
 //                   Text(
 //                     "Coupon Discount",
-//                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //                   ),
 //                   Text(
 //                     "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-//                     style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//                     style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //                   ),
 //                 ],
 //               ),
@@ -2389,11 +2389,11 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                 children: [
 //                   Text(
 //                     "Delivery Charge",
-//                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //                   ),
 //                   Text(
 //                     "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
-//                     style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+//                     style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
 //                   ),
 //                 ],
 //               ),
@@ -2417,14 +2417,14 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //           children: [
 //             Text(
 //               "Total Price",
-//               style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+//               style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestSemiBold),
 //             ),
 //             isLoading
 //                 ? shimmerItem('\$0.00',
 //                     width: 70, height: 40, secondShimmer: false)
 //                 : Text(
 //                     "\$${controller.cartData.value.cart!.totalPrice.toString()}",
-//                     style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+//                     style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.onestRegular),
 //                   ),
 //           ],
 //         ),
@@ -2492,7 +2492,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         }
 //                       },
 //                       text: "Checkout",
-//                       textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+//                       textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
 //                     ),
 //                   )
 //                 : SizedBox(
@@ -2506,7 +2506,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         });
 //                       },
 //                       text: "Complete Address",
-//                       textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+//                       textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
 //                     ),
 //                   ),
 //       ],
@@ -2584,7 +2584,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                     children: [
 //                       Text(
 //                         "Your Promo Codes",
-//                         style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+//                         style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.onestMedium),
 //                       ),
 //                       InkWell(
 //                         splashColor: Colors.transparent,
@@ -2647,7 +2647,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                           Text(
 //                             "${controller.cartData.value.coupons![index].discountAmount}",
 //                             style: AppFontStyle.text_28_600(Colors.white,
-//                                 height: 1.h,family: AppFontFamily.gilroyMedium),
+//                                 height: 1.h,family: AppFontFamily.onestMedium),
 //                           ),
 //                           Text(
 //                             controller.cartData.value.coupons![index]
@@ -2656,14 +2656,14 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                                     "percent"
 //                                 ? "%"
 //                                 : "\$",
-//                             style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
+//                             style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.onestRegular),
 //                           )
 //                         ],
 //                       ),
 //                     ),
 //                     Text(
 //                       "OFF",
-//                       style: AppFontStyle.text_15_400(Colors.white,family: AppFontFamily.gilroyRegular),
+//                       style: AppFontStyle.text_15_400(Colors.white,family: AppFontFamily.onestRegular),
 //                     )
 //                   ],
 //                 ),
@@ -2678,7 +2678,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                       controller.cartData.value.coupons![index].couponType
 //                           .toString().capitalize.toString(),
 //                       overflow: TextOverflow.ellipsis,
-//                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//                       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //                     ),
 //                     hBox(10),
 //                     FittedBox(
@@ -2686,7 +2686,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         controller.cartData.value.coupons![index].code
 //                             .toString(),
 //                         overflow: TextOverflow.ellipsis,
-//                         style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
+//                         style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestSemiBold,
 //                             height: 1.h),
 //                       ),
 //                     ),
@@ -2704,7 +2704,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         daysRemaining,
 //                         // overflow: TextOverflow.ellipsis,
 //                         maxLines: 2,
-//                         style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+//                         style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
 //                       ),
 //                     ),
 //                     hBox(8),
@@ -2713,7 +2713,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         "Expired")
 //                       CustomElevatedButton(
 //                         textStyle:
-//                             AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),
+//                             AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.onestMedium),
 //                         width: 85.w,
 //                         height: 36.h,
 //                         text: "Select",
@@ -2750,7 +2750,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                 'Delete Product',
 //                 style: TextStyle(
 //                   fontSize: 18.sp,
-//                   fontFamily: AppFontFamily.gilroyRegular,
+//                   fontFamily: AppFontFamily.onestRegular,
 //                   fontWeight: FontWeight.w600,
 //                   color: Colors.black,
 //                 ),
@@ -2761,7 +2761,7 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                 textAlign: TextAlign.center,
 //                 style: TextStyle(
 //                   fontSize: 14.sp,
-//                   fontFamily: AppFontFamily.gilroyMedium,
+//                   fontFamily: AppFontFamily.onestMedium,
 //                   fontWeight: FontWeight.w400,
 //                   color: Colors.grey,
 //                 ),
@@ -2777,14 +2777,14 @@ import 'package:woye_user/shared/widgets/custom_print.dart';
 //                         Get.back();
 //                       },
 //                       text: "Cancel",
-//                       textStyle: AppFontStyle.text_16_400(AppColors.darkText ,family: AppFontFamily.gilroyMedium,),
+//                       textStyle: AppFontStyle.text_16_400(AppColors.darkText ,family: AppFontFamily.onestMedium,),
 //                     ),
 //                   ),
 //                   wBox(15),
 //                   Obx(
 //                     () => Expanded(
 //                       child: CustomElevatedButton(
-//                         fontFamily: AppFontFamily.gilroyMedium,
+//                         fontFamily: AppFontFamily.onestMedium,
 //
 //                         height: 40.h,
 //                         isLoading:
@@ -2862,7 +2862,7 @@ class RestaurantCartScreen extends StatefulWidget {
           isActions: true,
           title: Text(
             "My Cart",
-            style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.onestBold),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestBold),
           ),
         ),
         body: Obx(() {
@@ -2903,12 +2903,12 @@ class RestaurantCartScreen extends StatefulWidget {
                     hBox(10.h),
                     Text(
                       "Your cart is empty!",
-                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                     ),
                     hBox(5.h),
                     Text(
                       "Explore more and shortlist some items",
-                      style:AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+                      style:AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
                     ),
                   ],
                 )
@@ -2934,7 +2934,7 @@ class RestaurantCartScreen extends StatefulWidget {
                             thickness: .5.w, color: AppColors.hintText),
                         hBox(15.h),
                         checkoutButton(),
-                        hBox(100.h)
+                        hBox(85.h)
                         // hBox(widget.isBack != true ? 100.h : 30.h)
                       ],
                     ),
@@ -2954,7 +2954,7 @@ class RestaurantCartScreen extends StatefulWidget {
           children: [
             Text(
               "Delivery Address",
-              style: AppFontStyle.text_16_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_16_800(AppColors.darkText,family: AppFontFamily.onestMedium),
             ),
             const Spacer(),
             InkWell(
@@ -2970,7 +2970,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 children: [
                   Text(
                     "Change Address",
-                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.onestMedium),
                   ),
                   wBox(4),
                   Icon(
@@ -2997,15 +2997,10 @@ class RestaurantCartScreen extends StatefulWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                controller.cartCheckoutData.value.address?.addressType
-                    .toString()
-                    .capitalizeFirst
-                    .toString() ??
-                    "",
-                // controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
-                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                controller.cartCheckoutData.value.address?.addressType?.capitalizeFirst.toString() ?? "",
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
               ),
-              VerticalDivider(thickness: 1.w, color: AppColors.hintText),
+              VerticalDivider(thickness: 1.w, color: AppColors.black.withAlpha(120)),
               SizedBox(
                 width: Get.width * 0.6,
                 child: Text(
@@ -3014,7 +3009,7 @@ class RestaurantCartScreen extends StatefulWidget {
                       "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                 ),
               ),
             ],
@@ -3046,7 +3041,7 @@ class RestaurantCartScreen extends StatefulWidget {
           Text(
             "Your\nLocation",
             textAlign: TextAlign.center,
-            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
           ),
           SizedBox(height: 60.h, child: VerticalDivider(thickness: 1.w, color: AppColors.hintText)),
           SizedBox(
@@ -3055,7 +3050,7 @@ class RestaurantCartScreen extends StatefulWidget {
               currentLocation.value,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
           ),
         ],
@@ -3629,18 +3624,18 @@ class RestaurantCartScreen extends StatefulWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        buckets.vendorName?.capitalize.toString() ?? "",
+                        buckets.vendorName?.capitalize ?? "",
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
                       ),
-                      hBox(4.h),
+                      hBox(2.h),
                       Text(
-                        buckets.vendorAddress.toString(),
+                        buckets.vendorAddress ?? "",
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                       ),
-                      hBox(15.h),
+                      hBox(8.h),
                     ],
                   ),
                   const Spacer(),
@@ -3696,7 +3691,7 @@ class RestaurantCartScreen extends StatefulWidget {
                             },
                            /* child: Text(
                               "Remove",
-                              style: AppFontStyle.text_14_400(AppColors.red,family: AppFontFamily.gilroyMedium),
+                              style: AppFontStyle.text_14_400(AppColors.red,family: AppFontFamily.onestMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),*/
@@ -3726,7 +3721,7 @@ class RestaurantCartScreen extends StatefulWidget {
                       "\$5",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
                     ),
                   ),
                   wBox(5.w),
@@ -3734,7 +3729,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   wBox(3.w),
                   Text(
                     "30-50 mins",
-                    style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                   const Spacer(),
                   deliveryType(buckets, index),
@@ -3756,6 +3751,7 @@ class RestaurantCartScreen extends StatefulWidget {
                     attribute = items.attribute!.first;
                   }
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -3842,12 +3838,9 @@ class RestaurantCartScreen extends StatefulWidget {
                                   categoryId: controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString(),
                                 );
 
-                                print(
-                                    "category_id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString()}");
-                                print(
-                                    "category Name ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryName.toString()}");
-                                print(
-                                    "product Id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString()}");
+                                pt("category_id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryId.toString()}");
+                                pt("category Name ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].categoryName.toString()}");
+                                pt("product Id ${controller.cartCheckoutData.value.cart!.buckets![index].bucket![index1].productId.toString()}");
 
                                 Get.to(
                                       () => ProductDetailsScreen(
@@ -3860,21 +3853,21 @@ class RestaurantCartScreen extends StatefulWidget {
                               },
                               child: CachedNetworkImage(
                                 imageUrl: items.productImage.toString(),
-                                height: 100.h,
-                                width: 100.h,
+                                height: 86.h,
+                                width: 86.h,
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) => Shimmer.fromColors(
                                   baseColor: AppColors.gray,
                                   highlightColor: AppColors.lightText,
                                   child: Container(
                                     color: AppColors.gray,
-                                    height: 100.h,
-                                    width: 100.h,
+                                    height: 86.h,
+                                    width: 86.h,
                                   ),
                                 ),
                                 errorWidget: (context, url, error) => Container(
-                                  height: 100.h,
-                                  width: 100.h,
+                                  height: 86.h,
+                                  width: 86.h,
                                   decoration: BoxDecoration(
                                     color: AppColors.textFieldBorder.withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(20.r),
@@ -3910,11 +3903,11 @@ class RestaurantCartScreen extends StatefulWidget {
                                     SizedBox(
                                       width: 110.w,
                                       child: Text(
-                                        items.productName.toString(),
+                                        items.productName ?? "",
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
                                         style: AppFontStyle.text_16_400(
-                                            AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.darkText,family: AppFontFamily.onestMedium),
                                       ),
                                     ),
                                     // Obx(
@@ -3955,8 +3948,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                 Text(
                                   attribute?.itemDetails?.itemName ?? '',
                                   maxLines: 1,
-                                  style: AppFontStyle.text_16_400(
-                                      AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -3966,7 +3958,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                       "\$${buckets.bucket?[index1].productTotalPrice}",
                                       overflow: TextOverflow.ellipsis,
                                       style: AppFontStyle.text_14_600(
-                                          AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                          AppColors.primary,family: AppFontFamily.onestRegular),
                                     ),
 
                                     // isLoading
@@ -3987,7 +3979,12 @@ class RestaurantCartScreen extends StatefulWidget {
                                     Obx(
                                           () => quantityUpdateController.rxRequestStatus.value == Status.LOADING
                                           && items.isLoading.value == true
-                                          ? Center(child: circularProgressIndicator2())
+                                          ? SizedBox(
+                                              height:48,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(right: 14.0),
+                                                child: Center(child: circularProgressIndicator2()),
+                                              ))
                                           : Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                         children: [
@@ -3996,8 +3993,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                             highlightColor:Colors.transparent,
                                             onPressed: () {
                                               if (items.quantity == "1") {
-                                                Utils.showToast(
-                                                    "Qty can not less then 1");
+                                                Utils.showToast("Qty can not less then 1");
                                               } else {
                                                 items.isLoading.value =true;
                                                 quantityUpdateController.updateQuantityApi(
@@ -4026,7 +4022,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                           Text(
                                             items.quantity.toString(),
                                             style: AppFontStyle.text_14_400(
-                                                AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                                AppColors.darkText,family: AppFontFamily.onestMedium),
                                           ),
                                           // InkWell(
                                           //   splashColor: Colors.transparent,
@@ -4120,21 +4116,21 @@ class RestaurantCartScreen extends StatefulWidget {
                                       Text(
                                         '${items.attribute![addonIndex].itemDetails!.itemName?.capitalize}',
                                         style:
-                                        AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                        AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
                                         ' - ',
                                         style:
-                                        AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                        AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
                                       Text(
                                         '\$${items.attribute![addonIndex].itemDetails!.itemPrice}',
                                         style:
-                                        AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                        AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
@@ -4142,7 +4138,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                         Text(
                                           ',',
                                           style:
-                                          AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                          AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                         ),
@@ -4176,21 +4172,21 @@ class RestaurantCartScreen extends StatefulWidget {
                                   Text(
                                     '${items.addons![addonIndex].name?.capitalize}',
                                     style:
-                                    AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                    AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
                                     ' - ',
                                     style:
-                                    AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                    AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
                                     '\$${items.addons![addonIndex].price}',
                                     style:
-                                    AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                    AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -4198,7 +4194,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                     Text(
                                       ',',
                                       style:
-                                      AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                      AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
@@ -4246,6 +4242,7 @@ class RestaurantCartScreen extends StatefulWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: () {
+                  if (controller.rxRequestStatusOrderType.value == Status.LOADING) return;
                   if (!buckets.isDelivery.value) {
                     buckets.isDelivery.value = true;
                     controller.restaurantOrderTypeApi(
@@ -4295,6 +4292,7 @@ class RestaurantCartScreen extends StatefulWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: () {
+                  if (controller.rxRequestStatusOrderType.value == Status.LOADING) return;
                   if (buckets.isDelivery.value) {
                     buckets.isDelivery.value = false;
                     controller.restaurantOrderTypeApi(
@@ -4316,10 +4314,8 @@ class RestaurantCartScreen extends StatefulWidget {
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: (controller.rxRequestStatusOrderType.value ==
-                      Status.LOADING &&
-                      controller.loadingIndex.value == index &&
-                      controller.loadingType.value == "self")
+                  child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                  controller.loadingIndex.value == index && controller.loadingType.value == "self")
                       ? circularProgressIndicator2(size: 12)
                       : Text(
                     "Pickup",
@@ -4415,7 +4411,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 },
                 child: Text(
                   "Apply",
-                  style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                  style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
                 ),
               ),
               wBox(20.h),
@@ -4506,13 +4502,13 @@ class RestaurantCartScreen extends StatefulWidget {
                         controller
                             .cartCheckoutData.value.appliedCoupon?.code
                             .toString() ?? "",
-                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.onestRegular),
                       ),
                       wBox(5.h),
                       Text(
                         "Applied",
                         style:
-                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
                       ),
                     ],
                   ),
@@ -4521,7 +4517,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   else
                   Text(
                     "-\$${controller.cartCheckoutData.value.cart?.couponDiscount ?? ""}",
-                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                 ],
               ),
@@ -4633,7 +4629,7 @@ class RestaurantCartScreen extends StatefulWidget {
       children: [
         Text(
           "Payment Details",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10.h),
         if (isLoading) ...[
@@ -4650,11 +4646,11 @@ class RestaurantCartScreen extends StatefulWidget {
             children: [
               Text(
                 "Regular Price",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
-                "\$${controller.cartCheckoutData.value.cart?.regularPrice.toString() ?? ""}",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                "\$${controller.cartCheckoutData.value.cart?.regularPrice ?? ""}",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -4664,11 +4660,11 @@ class RestaurantCartScreen extends StatefulWidget {
             children: [
               Text(
                 "Save Amount",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
-                 controller.cartCheckoutData.value.cart?.saveAmount == null ? "0" : "\$${controller.cartCheckoutData.value.cart?.saveAmount.toString() ?? ""}",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                 controller.cartCheckoutData.value.cart?.saveAmount == null ? "\$0" : "-\$${controller.cartCheckoutData.value.cart?.saveAmount ?? ""}",
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -4680,11 +4676,11 @@ class RestaurantCartScreen extends StatefulWidget {
                 children: [
                   Text(
                     "Coupon Discount",
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                   Text(
                     controller.cartCheckoutData.value.cart?.couponDiscount == null ? "\$0.0" : "- \$${controller.cartCheckoutData.value.cart?.couponDiscount ?? 0}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -4697,11 +4693,11 @@ class RestaurantCartScreen extends StatefulWidget {
                 children: [
                   Text(
                     "Delivery Charge",
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                   Text(
-                    "\$${controller.cartCheckoutData.value.cart?.deliveryCharge.toString() ?? ""}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    "\$${controller.cartCheckoutData.value.cart?.deliveryCharge ?? ""}",
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -4725,14 +4721,14 @@ class RestaurantCartScreen extends StatefulWidget {
           children: [
             Text(
               "Total Price",
-              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestSemiBold),
             ),
             isLoading
                 ? shimmerItem('\$0.00',
                 width: 70, height: 40, secondShimmer: false)
                 : Text(
-              "\$${controller.cartCheckoutData.value.cart?.grandTotalPrice.toString() ?? ""}",
-              style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              "\$${controller.cartCheckoutData.value.cart?.grandTotalPrice ?? ""}",
+              style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.onestRegular),
             ),
           ],
         ),
@@ -4797,7 +4793,7 @@ class RestaurantCartScreen extends StatefulWidget {
               );*/
               },
               text: "Checkout",
-              textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+              textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
             ),
           ),
         )
@@ -4812,7 +4808,7 @@ class RestaurantCartScreen extends StatefulWidget {
               });
             },
             text: "Complete Address",
-            textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+            textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
           ),
         ),
       ],
@@ -4834,14 +4830,14 @@ class RestaurantCartScreen extends StatefulWidget {
   //           children: [
   //             Text(
   //               "Total Price",
-  //               style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+  //               style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestSemiBold),
   //             ),
   //             isLoading
   //                 ? shimmerItem('\$0.00',
   //                 width: 70, height: 40, secondShimmer: false)
   //                 : Text(
   //               "\$${controller.cartData.value.cart?.totalPrice.toString()}",
-  //               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+  //               style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.onestRegular),
   //             ),
   //           ],
   //         ),
@@ -4931,7 +4927,7 @@ class RestaurantCartScreen extends StatefulWidget {
   //             //   }
   //             // },
   //             text: "Checkout",
-  //             textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+  //             textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
   //           ),
   //         )
   //             : SizedBox(
@@ -4945,7 +4941,7 @@ class RestaurantCartScreen extends StatefulWidget {
   //               });
   //             },
   //             text: "Complete Address",
-  //             textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+  //             textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
   //           ),
   //         ),
   //       ],
@@ -5024,7 +5020,7 @@ class RestaurantCartScreen extends StatefulWidget {
                     children: [
                       Text(
                         "Your Promo Codes",
-                        style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                       ),
                       InkWell(
                         splashColor: Colors.transparent,
@@ -5097,7 +5093,7 @@ class RestaurantCartScreen extends StatefulWidget {
                           Text(
                             (double.tryParse(controller.cartCheckoutData.value.coupons![index].discountAmount?.toString() ?? '0')?.toInt() ?? 0).toString(),
                             style: AppFontStyle.text_22_600(Colors.white,
-                                height: 1.h,family: AppFontFamily.gilroyMedium),
+                                height: 1.h,family: AppFontFamily.onestMedium),
                           ),
                           Text(
                             controller.cartCheckoutData.value.coupons![index].discountType
@@ -5105,7 +5101,7 @@ class RestaurantCartScreen extends StatefulWidget {
                                 "percentage"
                                 ? "%"
                                 : "\$",
-                            style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.onestRegular),
                           )
                         ],
                       ),
@@ -5121,13 +5117,13 @@ class RestaurantCartScreen extends StatefulWidget {
                     Text(
                         'Free',
                       style: AppFontStyle.text_12_600(Colors.white,
-                          height: 1.h,family: AppFontFamily.gilroyMedium),
+                          height: 1.h,family: AppFontFamily.onestMedium),
                     ),
                     hBox(5),
                     Text(
                            "Delivery",
                       style: AppFontStyle.text_12_600(Colors.white,
-                          height: 1.h,family: AppFontFamily.gilroyMedium),
+                          height: 1.h,family: AppFontFamily.onestMedium),
                     )
                   ],
                 )
@@ -5141,7 +5137,7 @@ class RestaurantCartScreen extends StatefulWidget {
                     Text(
                       controller.cartCheckoutData.value.coupons![index].title.toString(),
                       overflow: TextOverflow.ellipsis,
-                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                     ),
                     hBox(10),
                     FittedBox(
@@ -5149,7 +5145,7 @@ class RestaurantCartScreen extends StatefulWidget {
                         controller.cartCheckoutData.value.coupons![index].code
                             .toString(),
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
+                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestSemiBold,
                             height: 1.h),
                       ),
                     ),
@@ -5167,7 +5163,7 @@ class RestaurantCartScreen extends StatefulWidget {
                       child: Text(
                         daysRemaining.toString(),
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                       ),
                     ),
                     hBox(8),
@@ -5177,7 +5173,7 @@ class RestaurantCartScreen extends StatefulWidget {
                         "Expired")
                       CustomElevatedButton(
                         textStyle:
-                        AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),
+                        AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.onestMedium),
                         width: 85.w,
                         height: 36.h,
                         text: "Apply",
@@ -5211,6 +5207,8 @@ class RestaurantCartScreen extends StatefulWidget {
       PopScope(
         canPop: true,
         child: AlertDialog.adaptive(
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -5218,7 +5216,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 'Delete Product',
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontFamily: AppFontFamily.gilroyRegular,
+                  fontFamily: AppFontFamily.onestRegular,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -5230,7 +5228,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                   color: Colors.grey,
                 ),
               ),
@@ -5245,7 +5243,7 @@ class RestaurantCartScreen extends StatefulWidget {
                         Get.back();
                       },
                       text: "Cancel",
-                      textStyle: AppFontStyle.text_16_400(AppColors.darkText ,family: AppFontFamily.gilroyMedium,
+                      textStyle: AppFontStyle.text_16_400(AppColors.white ,family: AppFontFamily.onestMedium,
                       ),
                     ),
                   ),
@@ -5253,7 +5251,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   Obx(
                         () => Expanded(
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 40.h,
                         isLoading:deleteProductController.rxRequestStatus.value == Status.LOADING,
                             // && controller .cartCheckoutData.value.cart!.buckets![index] .bucket![index1].isDelete.value == true,
@@ -5288,6 +5286,8 @@ class RestaurantCartScreen extends StatefulWidget {
       PopScope(
         canPop: true,
         child: AlertDialog.adaptive(
+          backgroundColor: AppColors.white,
+          surfaceTintColor: AppColors.white,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -5295,7 +5295,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 'Remove Products',
                 style: TextStyle(
                   fontSize: 18.sp,
-                  fontFamily: AppFontFamily.gilroyRegular,
+                  fontFamily: AppFontFamily.onestRegular,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
@@ -5306,7 +5306,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14.sp,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey,
                 ),
@@ -5322,8 +5322,8 @@ class RestaurantCartScreen extends StatefulWidget {
                         Get.back();
                       },
                       text: "Cancel",
-                      textStyle: AppFontStyle.text_16_400(AppColors.darkText
-                        ,family : AppFontFamily.gilroyMedium,
+                      textStyle: AppFontStyle.text_16_400(AppColors.white
+                        ,family : AppFontFamily.onestMedium,
                       ),
                     ),
                   ),
@@ -5331,7 +5331,7 @@ class RestaurantCartScreen extends StatefulWidget {
                   Obx(
                         () => Expanded(
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 40.h,
                         isLoading: deleteProductController.rxDeleteVendorStatus.value == Status.LOADING
                         && controller.cartCheckoutData.value.cart!.buckets![index].isVendorDelete.value,

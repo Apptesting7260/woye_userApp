@@ -55,7 +55,7 @@ class CustomElevatedButton extends StatelessWidget {
             ),
           ),
           alignment: Alignment.center,
-          textStyle: textStyle ?? AppFontStyle.text_16_400(AppColors.white,family: fontFamily ?? AppFontFamily.gilroyMedium),
+          textStyle: textStyle ?? AppFontStyle.text_16_400(AppColors.white,family: fontFamily ?? AppFontFamily.onestMedium),
         ),
         child: child ??
             Center(

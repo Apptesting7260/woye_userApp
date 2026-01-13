@@ -11,6 +11,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? toolbarHeight;
   final PreferredSizeWidget? bottom;
   final void Function()? leadingOnTap;
+  final double? width;
+  final double? height;
 
   const CustomAppBar(
       {super.key,
@@ -24,6 +26,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.toolbarHeight,
       this.bottom,
       this.leadingOnTap,
+      this.width,
+      this.height,
       });
 
   @override
@@ -49,7 +53,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                       child: Center(
                         child: SvgPicture.asset(
-                            "assets/svg/back.svg"
+                            "assets/svg/back.svg",
+                          width:width,
+                          height:height,
                         ),
                       ),
                     ),

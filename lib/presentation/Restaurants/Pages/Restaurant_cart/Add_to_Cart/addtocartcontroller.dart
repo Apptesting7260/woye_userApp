@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/Presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Categories_details/Modal/RestaurantCategoryDetailsModal.dart';
+import 'package:woye_user/Presentation/Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Add_to_Cart/add_to_cart_modal.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Controller/restaurant_cart_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Product_details/controller/specific_product_controller.dart';
@@ -71,7 +74,8 @@ class AddToCartController extends GetxController {
     required List<dynamic> extrasItemPrices,
     String? cartId,
      required bool isPopUp,
-    RestaurantCategoryDetailsModal? product
+    RestaurantCategoryDetailsModal? product,
+    bool isReOrder = false,
   }) async {
     setCartLoading(productId, true);
     if(isPopUp == false) {
@@ -86,12 +90,17 @@ class AddToCartController extends GetxController {
       "price": productPrice,
       "resto_id": restaurantId,
       "addon": addons,
+      if(extrasIds.isNotEmpty)
       "title_id": extrasIds,
+      if(extrasItemIds.isNotEmpty)
       "item_id": extrasItemIds,
+      if(extrasItemNames.isNotEmpty)
       "item_name": extrasItemNames,
+      if(extrasItemPrices.isNotEmpty)
       "item_price": extrasItemPrices,
-
     });
+    log("Body data >>>>>>> $body");
+
     api.addToCartApi(body).then((value) {
       setCartLoading(productId, false);
       setData(value);
@@ -121,8 +130,13 @@ class AddToCartController extends GetxController {
           restaurantCartController.getAllCartData();
           restaurantCartController.refreshGetAllCheckoutDataRes();
 
-          if(cartId?.isNotEmpty ?? true){
+          if(cartId?.isNotEmpty ?? false){
             restaurantCartController.refreshRestaurantSingleCartApi(cartId:cartId.toString());
+          }
+          if(isReOrder == true){
+            RestaurantNavbarController restaurantNavbarController = Get.isRegistered<RestaurantNavbarController>() ? Get.find<RestaurantNavbarController>()  : Get.put(RestaurantNavbarController());
+            Get.back();
+            restaurantNavbarController.getIndex(2);
           }
           // groceryShowAllCartController.getGroceryAllShowApi();
       } else {

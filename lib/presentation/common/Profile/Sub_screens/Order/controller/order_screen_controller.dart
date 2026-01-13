@@ -39,6 +39,13 @@ class OrderScreenController extends GetxController {
     }
   }
 
+  final RxInt _selectedIndex = (-1).obs;
+  RxInt get selectedIndex => _selectedIndex;
+  setSelectedIndex(int index){
+    _selectedIndex.value = index;
+    update();
+  }
+
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;
   final ordersData = OrdersList().obs;

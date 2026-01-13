@@ -211,8 +211,7 @@ class ProfileScreen extends StatelessWidget {
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
-        if (getUserDataController.userData.value.user?.userType ==
-            "guestUser") {
+        if (getUserDataController.userData.value.user?.userType =="guestUser") {
           showLoginRequired(context);
         } else {
           pt("screen>>>>>>>>>>>>>>>>>>>>> $profileScreenType");

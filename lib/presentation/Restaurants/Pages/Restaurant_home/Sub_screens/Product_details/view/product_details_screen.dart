@@ -79,66 +79,7 @@ class ProductDetailsScreen extends StatelessWidget {
     // restaurantCartController.isCartScreen.value;
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: CustomAppBar(
-        isLeading: true,
-        actions: [
-          GestureDetector(
-            onTap: () {
-              if (fromCart != null && fromCart == true) {
-                Get.back();
-              } else {
-                Get.off(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
-              }
-
-              controller.goToCart.value = false;
-              controller.cartCount.value = 1;
-            },
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Container(
-                  padding: REdgeInsets.all(9),
-                  height: 44.h,
-                  width: 44.h,
-                  decoration: BoxDecoration(
-                      color: AppColors.greyBackground,
-                      borderRadius: BorderRadius.circular(12.r)),
-                  child: SvgPicture.asset(
-                    ImageConstants.cart,
-                  ),
-                ),
-                Obx(
-                  () {
-                    return restaurantCartController.allResCartData.value.carts?.length == null ||
-                            restaurantCartController.allResCartData.value.carts!.isEmpty
-                        ? const SizedBox.shrink()
-                        : Positioned(
-                            right: -3,
-                            top: -8,
-                            child: Container(
-                              padding: REdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                color: AppColors.black.withOpacity(0.75),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 1.5),
-                                child: Center(
-                                  child: Text(
-                                    restaurantCartController.allResCartData.value.carts?.length.toString() ?? "",
-                                    style: TextStyle(fontSize: 9, color: AppColors.white),
-                                  ),
-                                ),
-                              ),
-                            ),
-                        );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      appBar: appbar(),
       body: Obx(() {
         switch (controller.rxRequestStatus.value) {
           case Status.LOADING:
@@ -160,164 +101,280 @@ class ProductDetailsScreen extends StatelessWidget {
               );
             }
           case Status.COMPLETED:
-            return Stack(
-              children: [
-                RefreshIndicator(
-                    onRefresh: () async {
-                      controller.specific_Product_Api(
-                          productId: productId, categoryId: categoryId.toString());
-                    },
-                    child: SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          mainContainer(),
-                        ],
-                      ),
-                    )),
-                Positioned(
-                  bottom: 2,
-                  right: 0,
-                  left: 10,
-                  child: Row(
-                    children: [
-                      Obx(
-                            () => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
-                                if (controller.cartCount.value > 1) {
-                                  controller.cartCount.value--;
-                                  if (controller.goToCart.value == true) {
-                                    controller.goToCart.value = false;
-                                  }
-                                }
-                              },
-                              icon: Container(
-                                height: 30.h,
-                                width: 30.h,
-                                decoration: BoxDecoration(
-                                  color: controller.cartCount.value > 1
-                                      ? AppColors.black
-                                      : AppColors.textFieldBorder,
-                                ),
-                                child: Icon(
-                                  Icons.remove,
-                                  size: 18.w,
-                                  color: controller.cartCount.value > 1
-                                      ? AppColors.primary
-                                      : AppColors.lightText,
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "${controller.cartCount.value}",
-                              style: AppFontStyle.text_16_600(
-                                AppColors.darkText,
-                                family: AppFontFamily.gilroyMedium,
-                              ),
-                            ),
-                            IconButton(
-                              splashColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
-                                controller.cartCount.value++;
-                                if (controller.goToCart.value == true) {
-                                  controller.goToCart.value = false;
-                                }
-                              },
-                              icon: Container(
-                                height: 30.h,
-                                width: 30.h,
-                                decoration: BoxDecoration(
-                                  color: AppColors.black,
-                                ),
-                                child: Icon(
-                                  Icons.add,
-                                  size: 18.w,
-                                  color: AppColors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      wBox(8),
-                      Container(
-                        width: Get.width * 0.6,
-                        decoration: BoxDecoration(
-                          color: AppColors.transparent,
-                        ),
-                        child: Padding(
-                          padding: REdgeInsets.fromLTRB(22,2,22,Platform.isIOS ? 15 : 0),
-                          child: Obx(
-                                () => controller.goToCart.value == true
-                                ? CustomElevatedButton(
-                                fontFamily: AppFontFamily.gilroyMedium,
-                                width: Get.width,
-                                color: AppColors.primary,
-                                isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
-                                text: "Go to Cart",
-                                onPressed: () {
-                                  // restaurantCartController.isCartScreen.value ?
-                                  // Get.toNamed(AppRoutes.restaurantNavbar) :
-                                  if (fromCart != null && fromCart == true) {
-                                    Get.back();
-                                  } else {
-                                    addToCartController.clearSelected();
-                                    Get.to(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
-                                  }
-                                  controller.goToCart.value = false;
-                                  controller.cartCount.value = 1;
-                                })
-                                : CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
-                              width: Get.width,
-                              color: AppColors.darkText,
-                              isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
-                              text: "Add to Cart",
-                              onPressed: () {
-                                if (getUserDataController.userData.value.user?.userType =="guestUser") {
-                                  showLoginRequired(context);
-                                }
-                                else {
-                                  addToCartController.addToCartApi(
-                                    isPopUp: false,
-                                    cartId: cartId,
-                                    productId: controller.productData.value.product!.id.toString(),
-                                    productPrice: controller.productData.value.product!.salePrice != "null"
-                                        ? controller.productData.value.product!.salePrice.toString()
-                                        : controller.productData.value.product!.regularPrice.toString(),
-                                    productQuantity: controller.cartCount.toString(),
-                                    restaurantId: controller.productData.value.product!.vendorId.toString(),
-                                    addons: controller.selectedAddOn.toList(),
-                                    extrasIds: controller.extrasTitlesIdsId,
-                                    extrasItemIds: controller.extrasItemIdsId.toList(),
-                                    extrasItemNames: controller.extrasItemIdsName.toList(),
-                                    extrasItemPrices: controller.extrasItemIdsPrice.toList(),
-                                  );
-                                  pt("object ${controller.extrasItemIdsName}");
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
+            return body(context);
         }
       },
     ),
    );
+  }
+
+  Widget body(BuildContext context) {
+    return Stack(
+        children: [
+          RefreshIndicator(
+              onRefresh: () async {
+                controller.specific_Product_Api(
+                    productId: productId, categoryId: categoryId.toString());
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    mainContainer(),
+                    hBox(30)
+                  ],
+                ),
+              )),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: Container(
+              padding: const EdgeInsets.only(left: 22,bottom: 4,top: 4,right: 22),
+              color: AppColors.backgroundColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(
+                        () => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            if (controller.cartCount.value > 1) {
+                              controller.cartCount.value--;
+                              if (controller.goToCart.value == true) {
+                                controller.goToCart.value = false;
+                              }
+                            }
+                          },
+                          icon: Container(
+                            height: 30.h,
+                            width: 30.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: AppColors.black),
+                              color: AppColors.white,
+                              // controller.cartCount.value > 1
+                              //     ? AppColors.black
+                              //     : AppColors.textFieldBorder,
+                            ),
+                            child: Icon(
+                              Icons.remove,
+                              size: 18.w,
+                              color: AppColors.black,
+                              // controller.cartCount.value > 1
+                              //     ? AppColors.primary
+                              //     : AppColors.lightText,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "${controller.cartCount.value}",
+                          style: AppFontStyle.text_16_600(
+                            AppColors.darkText,
+                            family: AppFontFamily.onestMedium,
+                          ),
+                        ),
+                        IconButton(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            controller.cartCount.value++;
+                            if (controller.goToCart.value == true) {
+                              controller.goToCart.value = false;
+                            }
+                          },
+                          icon: Container(
+                            height: 30.h,
+                            width: 30.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: AppColors.black),
+                              color: AppColors.black,
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              size: 18.w,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // wBox(4),
+                  Container(
+                    width: Get.width * 0.61,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: AppColors.transparent,
+                    ),
+                    child: Obx(
+                          () => controller.goToCart.value == true
+                          ? CustomElevatedButton(
+                          fontFamily: AppFontFamily.onestMedium,
+                          width: Get.width,
+                          color: AppColors.primary,
+                          isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
+                          text: "Go to Cart",
+                          onPressed: () {
+                            // restaurantCartController.isCartScreen.value ?
+                            // Get.toNamed(AppRoutes.restaurantNavbar) :
+                            if (fromCart != null && fromCart == true) {
+                              Get.back();
+                            } else {
+                              addToCartController.clearSelected();
+                              Get.to(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
+                            }
+                            controller.goToCart.value = false;
+                            controller.cartCount.value = 1;
+                          })
+                          : CustomElevatedButton(
+                        fontFamily: AppFontFamily.onestMedium,
+                        width: Get.width,
+                        color: AppColors.primary,
+                        isLoading: addToCartController.rxRequestStatus.value == (Status.LOADING),
+                        text: "Add to Cart",
+                        onPressed: () {
+                          if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                            showLoginRequired(context);
+                          }
+                          else {
+                            addToCartController.addToCartApi(
+                              isPopUp: false,
+                              cartId: cartId,
+                              productId: controller.productData.value.product!.id.toString(),
+                              productPrice: controller.productData.value.product!.salePrice != "null"
+                                  ? controller.productData.value.product!.salePrice.toString()
+                                  : controller.productData.value.product!.regularPrice.toString(),
+                              productQuantity: controller.cartCount.toString(),
+                              restaurantId: controller.productData.value.product!.vendorId.toString(),
+                              addons: controller.selectedAddOn.toList(),
+                              extrasIds: controller.extrasTitlesIdsId,
+                              extrasItemIds: controller.extrasItemIdsId.toList(),
+                              extrasItemNames: controller.extrasItemIdsName.toList(),
+                              extrasItemPrices: controller.extrasItemIdsPrice.toList(),
+                            );
+                            pt("object ${controller.extrasItemIdsName}");
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+  }
+
+  CustomAppBar appbar() {
+    return CustomAppBar(
+      isLeading: true,
+      height: 14,
+      width: 14,
+      actions: [
+        GestureDetector(
+          onTap: () {
+            // showLocationDialog();
+            Get.toNamed(AppRoutes.notifications);
+          },
+          child: Container(
+            padding: REdgeInsets.all(9),
+            height: 44.h,
+            width: 44.h,
+            decoration: BoxDecoration(
+                color: AppColors.transparent.withAlpha(20),
+                borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Stack(
+              children: [
+                SvgPicture.asset(
+                  ImageConstants.notification,
+                  colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                ),
+                Positioned(
+                  right: 3,
+                  top: 3,
+                  child: Container(
+                    height: 9,
+                    width: 9,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.white),
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        // GestureDetector(
+        //   onTap: () {
+        //     if (fromCart != null && fromCart == true) {
+        //       Get.back();
+        //     } else {
+        //       Get.off(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
+        //     }
+        //
+        //     controller.goToCart.value = false;
+        //     controller.cartCount.value = 1;
+        //   },
+        //   child: Stack(
+        //     clipBehavior: Clip.none,
+        //     children: [
+        //       Container(
+        //         padding: REdgeInsets.all(9),
+        //         height: 44.h,
+        //         width: 44.h,
+        //         decoration: BoxDecoration(
+        //             color: AppColors.greyBackground,
+        //             borderRadius: BorderRadius.circular(12.r)),
+        //         child: SvgPicture.asset(
+        //           ImageConstants.cart,
+        //         ),
+        //       ),
+        //       Obx(
+        //         () {
+        //           return restaurantCartController.allResCartData.value.carts?.length == null ||
+        //                   restaurantCartController.allResCartData.value.carts!.isEmpty
+        //               ? const SizedBox.shrink()
+        //               : Positioned(
+        //                   right: -3,
+        //                   top: -8,
+        //                   child: Container(
+        //                     padding: REdgeInsets.all(4),
+        //                     decoration: BoxDecoration(
+        //                       color: AppColors.black.withOpacity(0.75),
+        //                       shape: BoxShape.circle,
+        //                     ),
+        //                     child: Padding(
+        //                       padding: const EdgeInsets.only(bottom: 1.5),
+        //                       child: Center(
+        //                         child: Text(
+        //                           restaurantCartController.allResCartData.value.carts?.length.toString() ?? "",
+        //                           style: TextStyle(fontSize: 9, color: AppColors.white),
+        //                         ),
+        //                       ),
+        //                     ),
+        //                   ),
+        //               );
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // ),
+
+      ],
+    );
   }
 
   Future<dynamic> addToCartPopUp(BuildContext context, MoreProducts? product) {
@@ -401,7 +458,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 "No addons available",
                                                 style: AppFontStyle.text_16_400(
                                                   AppColors.darkText,
-                                                  family: AppFontFamily.gilroyMedium,
+                                                  family: AppFontFamily.onestMedium,
                                                 ),
                                               ),
                                               hBox(5),
@@ -409,7 +466,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                 "You can add this product directly to cart",
                                                 style: AppFontStyle.text_14_400(
                                                   AppColors.lightText,
-                                                  family: AppFontFamily.gilroyRegular,
+                                                  family: AppFontFamily.onestRegular,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -449,7 +506,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             child: Obx(
                                   () => controller.goToCart.value == true
                                   ? CustomElevatedButton(
-                                fontFamily: AppFontFamily.gilroyMedium,
+                                fontFamily: AppFontFamily.onestMedium,
                                 width: Get.width,
                                 color: AppColors.primary,
                                 isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
@@ -468,9 +525,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                 },
                               )
                                   : CustomElevatedButton(
-                                fontFamily: AppFontFamily.gilroyMedium,
+                                fontFamily: AppFontFamily.onestMedium,
                                 width: Get.width,
-                                color: AppColors.darkText,
+                                color: AppColors.primary,
                                 isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
                                 text: "Add to Cart",
                                 onPressed: () {
@@ -525,6 +582,7 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   Widget mainContainer() {
+    controller.isSelected.value = 0;
     controller.selectedImageUrl.value =
         controller.productData.value.product!.imageUrl.toString();
 
@@ -567,7 +625,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     height: 340.h,
                     errorWidget: (context, url, error) => const ImageErrorWidget(),
                     placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: AppColors.gray,
+                      baseColor: AppColors.gray.withAlpha(150),
                       highlightColor: AppColors.lightText,
                       child: Container(
                         width: double.infinity,
@@ -581,40 +639,50 @@ class ProductDetailsScreen extends StatelessWidget {
 
               // Image Indicators (Dots)
               if (allImages.length > 1)
-                Positioned(
-                  bottom: 40.h,
-                  left: 0,
-                  right: 0,
+                Positioned.fill(
+                  bottom: 28.h,
                   child: Obx(() {
                     int currentIndex = controller.isSelected.value;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(
-                        allImages.length,
-                            (index) {
-                          bool isActive = currentIndex == index;
-                          return GestureDetector(
-                            onTap: () {
-                              controller.pageController.animateToPage(
-                                index,
-                                duration: Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
+                    return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.gray.withAlpha(160),
+                          borderRadius: BorderRadius.circular(100.r),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 2),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            allImages.length,
+                                (index) {
+                              bool isActive = currentIndex == index;
+                              return GestureDetector(
+                                onTap: () {
+                                  controller.pageController.animateToPage(
+                                    index,
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeInOut,
+                                  );
+                                },
+                                child: AnimatedContainer(
+                                  duration: const Duration(milliseconds: 300),
+                                  margin: EdgeInsets.symmetric(horizontal: 4.w),
+                                  width: 9.w,
+                                  // width: isActive ? 20.w : 8.w,
+                                  height: 9.h,
+                                  decoration: BoxDecoration(
+                                    color: isActive
+                                        ? AppColors.black
+                                        : AppColors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(100.r),
+                                  ),
+                                ),
                               );
                             },
-                            child: AnimatedContainer(
-                              duration: Duration(milliseconds: 300),
-                              margin: EdgeInsets.symmetric(horizontal: 4.w),
-                              width: isActive ? 20.w : 8.w,
-                              height: 8.h,
-                              decoration: BoxDecoration(
-                                color: isActive
-                                    ? AppColors.white
-                                    : AppColors.white.withOpacity(0.5),
-                                borderRadius: BorderRadius.circular(4.r),
-                              ),
-                            ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
                     );
                   }),
@@ -631,19 +699,19 @@ class ProductDetailsScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.backgroundColor,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25.r),
-                topRight: Radius.circular(25.r),
+                topLeft: Radius.circular(20.r),
+                topRight: Radius.circular(20.r),
               ),
               boxShadow: [
                 BoxShadow(
                   color: AppColors.black.withOpacity(0.05),
                   blurRadius: 20,
-                  offset: Offset(0, -5),
+                  offset: const Offset(0, -5),
                 ),
               ],
             ),
             child: Padding(
-              padding: REdgeInsets.symmetric(horizontal: 22, vertical: 25),
+              padding: REdgeInsets.symmetric(horizontal: 24, vertical: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -654,7 +722,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         categoryName,
                         style: AppFontStyle.text_16_400(
                           AppColors.primary,
-                          family: AppFontFamily.gilroyMedium,
+                          family: AppFontFamily.onestMedium,
                         ),
                       ),
                       const Spacer(),
@@ -672,19 +740,20 @@ class ProductDetailsScreen extends StatelessWidget {
                             },
                             child: Container(
                               padding: REdgeInsets.all(9),
-                              height: 44.h,
-                              width: 44.h,
+                              height: 42.h,
+                              width: 42.h,
                               decoration: BoxDecoration(
-                                color: AppColors.greyBackground,
+                                color: AppColors.transparent.withAlpha(20),
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child:  Icon(
-                                Icons.share,
+                                Icons.share_outlined,
+                                color: AppColors.black.withAlpha(180),
                                 size: 24.w,
                               ),
                             ),
                           ),
-                          wBox(5),
+                          wBox(6.w),
                           Obx(() {
                             return GestureDetector(
                               onTap: () async {
@@ -716,10 +785,10 @@ class ProductDetailsScreen extends StatelessWidget {
                               },
                               child: Container(
                                 padding: REdgeInsets.all(9),
-                                height: 44.h,
-                                width: 44.h,
+                                height: 42.h,
+                                width: 42.h,
                                 decoration: BoxDecoration(
-                                  color: AppColors.greyBackground,
+                                  color: AppColors.transparent.withAlpha(20),
                                   borderRadius: BorderRadius.circular(12.r),
                                 ),
                                 child: controller.isLoading.value
@@ -730,6 +799,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                       ? Icons.favorite_outline_sharp
                                       : Icons.favorite_outlined,
                                   size: 24.w,
+                                  color: AppColors.black.withAlpha(180),
                                 ),
                               ),
                             );
@@ -740,16 +810,15 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                   // ---------- Product Title ----------
                   Text(
-                    controller.productData.value.product!.title.toString(),
+                    controller.productData.value.product?.title ?? "",
                     style: AppFontStyle.text_22_500(
                       AppColors.darkText,
-                      family: AppFontFamily.gilroyMedium,
+                      family: AppFontFamily.onestMedium,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  hBox(6.h),
-
+                  hBox(4.h),
                   // ---------- Price and Rating Row ----------
                   Row(
                     children: [
@@ -761,7 +830,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             "\$${controller.productData.value.product!.salePrice ?? "0.00"}",
                             style: AppFontStyle.text_18_600(
                               AppColors.primary,
-                              family: AppFontFamily.gilroyMedium,
+                              family: AppFontFamily.onestMedium,
                             ),
                           ),
                           wBox(8.w),
@@ -771,7 +840,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               fontSize: 16.sp,
                               color: AppColors.mediumText,
                               fontWeight: FontWeight.w400,
-                              fontFamily: AppFontFamily.gilroyRegular,
+                              fontFamily: AppFontFamily.onestRegular,
                               decoration: TextDecoration.lineThrough,
                               decorationColor: AppColors.mediumText,
                             ),
@@ -783,7 +852,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         "\$${controller.productData.value.product!.regularPrice ?? "0.00"}",
                         style: AppFontStyle.text_18_600(
                           AppColors.primary,
-                          family: AppFontFamily.gilroyMedium,
+                          family: AppFontFamily.onestMedium,
                         ),
                       ),
                       const Spacer(),
@@ -800,7 +869,7 @@ class ProductDetailsScreen extends StatelessWidget {
                             "4.5/5",
                             style: AppFontStyle.text_14_600(
                               AppColors.darkText,
-                              family: AppFontFamily.gilroyMedium,
+                              family: AppFontFamily.onestMedium,
                             ),
                           ),
                         ],
@@ -816,6 +885,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   hBox(20),
                   productAttributes(tempController: controller),
                   hBox(30),
+                  if(controller.productData.value.moreProducts?.isNotEmpty ?? false)
                   moreProducts()
                 ],
               ),
@@ -832,12 +902,12 @@ class ProductDetailsScreen extends StatelessWidget {
       children: [
         Text(
           "Descriptions",
-          style: AppFontStyle.text_20_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_18_500(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
         hBox(10),
         Text(
           controller.productData.value.product!.description.toString(),
-          style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_16_400(AppColors.lightText, height: 1.4,family: AppFontFamily.onestRegular),
           maxLines: 20,
         ),
       ],
@@ -851,7 +921,7 @@ class ProductDetailsScreen extends StatelessWidget {
     // Check if options are available
     if (controllerToUse.productData.value.product?.options == null ||
         controllerToUse.productData.value.product!.options!.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return Column(
@@ -864,7 +934,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
           // Check if choices are available
           if (option.choices == null || option.choices!.isEmpty) {
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }
 
           return Column(
@@ -872,10 +942,10 @@ class ProductDetailsScreen extends StatelessWidget {
             children: [
               // Option Name (Heading)
               Text(
-                option.optionName ?? "Option ${index + 1}",
-                style: AppFontStyle.text_20_500(
+                option.optionName ?? "",
+                style: AppFontStyle.text_18_500(
                     AppColors.darkText,
-                    family: AppFontFamily.gilroySemiBold
+                    family: AppFontFamily.onestSemiBold
                 ),
               ),
 
@@ -886,16 +956,16 @@ class ProductDetailsScreen extends StatelessWidget {
                   children: [
                     Text(
                       "Required",
-                      style: AppFontStyle.text_12_200(
+                      style: AppFontStyle.text_13_400(
                           AppColors.lightText,
-                          family: AppFontFamily.gilroyRegular
+                          family: AppFontFamily.onestRegular
                       ),
                     ),
                     Text(
                       "•",
-                      style: AppFontStyle.text_12_200(
+                      style: AppFontStyle.text_13_400(
                           AppColors.lightText,
-                          family: AppFontFamily.gilroyRegular
+                          family: AppFontFamily.onestRegular
                       ),
                     ),
                     wBox(4),
@@ -904,7 +974,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         "Select any 1 option",
                         style: AppFontStyle.text_12_200(
                             AppColors.lightText,
-                            family: AppFontFamily.gilroyRegular
+                            family: AppFontFamily.onestRegular
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -935,10 +1005,11 @@ class ProductDetailsScreen extends StatelessWidget {
                         Flexible(
                           flex: 2,
                           child: Text(
-                            choice.name ?? "Choice ${choiceIndex + 1}",
+                            choice.name?.capitalizeFirst ?? "",
+                            // choice.name ?? "Choice ${choiceIndex + 1}",
                             style: AppFontStyle.text_16_400(
                               AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -1001,7 +1072,7 @@ class ProductDetailsScreen extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
           maxWidth: 100, // Limit maximum width
         ),
         child: Row(
@@ -1013,7 +1084,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 title,
                 style: AppFontStyle.text_16_400(
                   AppColors.black,
-                  family: AppFontFamily.gilroySemiBold,
+                  family: AppFontFamily.onestSemiBold,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -1044,7 +1115,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                 ),
               )
-                  : SizedBox(),
+                  : const SizedBox(),
             ),
           ],
         ),
@@ -1057,7 +1128,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
     if (controllerToUse.productData.value.product?.productAttributes == null ||
         controllerToUse.productData.value.product!.productAttributes!.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return Column(
@@ -1065,9 +1136,9 @@ class ProductDetailsScreen extends StatelessWidget {
       children: [
         Text(
           "Attributes",
-          style: AppFontStyle.text_20_500(
+          style: AppFontStyle.text_18_500(
             AppColors.darkText,
-            family: AppFontFamily.gilroySemiBold,
+            family: AppFontFamily.onestSemiBold,
           ),
         ),
         hBox(10),
@@ -1085,10 +1156,10 @@ class ProductDetailsScreen extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      attributeGroup.groupName!,
+                      attributeGroup.groupName ?? "",
                       style: AppFontStyle.text_18_600(
                         AppColors.darkText,
-                        family: AppFontFamily.gilroyMedium,
+                        family: AppFontFamily.onestMedium,
                       ),
                     ),
                     hBox(10),
@@ -1109,10 +1180,11 @@ class ProductDetailsScreen extends StatelessWidget {
                         Flexible(
                           flex: 2,
                           child: Text(
-                            attribute.name ?? "Attribute ${attrIndex + 1}",
+                            attribute.name ?? "",
+                            // attribute.name ?? "Attribute ${attrIndex + 1}",
                             style: AppFontStyle.text_16_400(
                               AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -1154,7 +1226,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
     if (controllerToUse.productData.value.product?.addOns == null ||
         controllerToUse.productData.value.product!.addOns!.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return Column(
@@ -1162,14 +1234,14 @@ class ProductDetailsScreen extends StatelessWidget {
       children: [
         Text(
           "Add On",
-          style: AppFontStyle.text_20_500(AppColors.darkText, family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_18_500(AppColors.darkText, family: AppFontFamily.onestSemiBold),
         ),
         hBox(5),
         Row(
           children: [
             Text(
               "Select any option",
-              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.onestRegular),
             ),
           ],
         ),
@@ -1193,7 +1265,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           addOn?.name ?? "Addon ${index + 1}",
                           style: AppFontStyle.text_16_400(
                             AppColors.black,
-                            family: AppFontFamily.gilroyRegular,
+                            family: AppFontFamily.onestRegular,
                           ),
                         ),
 
@@ -1205,7 +1277,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               "\$${addOn?.price ?? "0.00"}",
                               style: AppFontStyle.text_16_600(
                                 AppColors.black,
-                                family: AppFontFamily.gilroyRegular,
+                                family: AppFontFamily.onestRegular,
                               ),
                             ),
                             wBox(10),
@@ -1237,7 +1309,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(4.r),
                                 ),
                                 child: isSelected
-                                    ? Center(
+                                    ? const Center(
                                   child: Icon(
                                     Icons.check,
                                     size: 10,
@@ -1282,7 +1354,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         showAll.value ?
                         "-${totalAddons - initialShowCount} Less" :
                         "+${totalAddons - initialShowCount} More",
-                        style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.onestRegular),
                       ),
                       wBox(4),
                       Icon(
@@ -1512,7 +1584,7 @@ class ProductDetailsScreen extends StatelessWidget {
           children: [
             Text(
               'More Products',
-              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestSemiBold),
             ),
           ],
         ),
@@ -1522,9 +1594,9 @@ class ProductDetailsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisSpacing: 5,
+            mainAxisSpacing: 14,
             childAspectRatio: 0.72,
-            crossAxisSpacing: 10,
+            crossAxisSpacing: 14,
           ),
           itemCount: controller.productData.value.moreProducts?.length ?? 0,
           itemBuilder: (context, index) {
@@ -1570,7 +1642,7 @@ class ProductDetailsScreen extends StatelessWidget {
         children: [
           Positioned.fill(
             child: CachedNetworkImage(
-              imageUrl: image!,
+              imageUrl: image ?? "",
               fit: BoxFit.cover,
             )
           ),
@@ -1610,7 +1682,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 4,
                       spreadRadius: 0,
-                      offset: Offset(0, 2),
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
@@ -1652,8 +1724,8 @@ class ProductDetailsScreen extends StatelessWidget {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.all(8), // Reduced from 12 to 8
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(8), // Reduced from 12 to 8
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(15),
@@ -1670,12 +1742,8 @@ class ProductDetailsScreen extends StatelessWidget {
                       Expanded(
                         flex: 2,
                         child: Text(
-                          productName!,
-                          style: TextStyle(
-                            fontSize: 14, // Reduced from 16
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
+                          productName ?? "",
+                          style: AppFontStyle.text_14_600(AppColors.black,family: AppFontFamily.onestMedium),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -1683,20 +1751,17 @@ class ProductDetailsScreen extends StatelessWidget {
                       wBox(4),
                       Row(
                         mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.star,
                             color: Colors.amber,
-                            size: 12, // Reduced from 14
+                            size: 15
                           ),
-                          SizedBox(width: 2),
+                          const SizedBox(width: 2),
                           Text(
-                            rating!,
-                            style: TextStyle(
-                              fontSize: 10, // Reduced from 12
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+                            double.tryParse(rating ?? "0")?.toStringAsFixed(1) ?? "0",
+                            style: AppFontStyle.text_12_400(AppColors.black,family: AppFontFamily.onestMedium),
                           ),
                         ],
                       ),
@@ -1704,13 +1769,10 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
 
                   // Restaurant Name
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
                     restroName! ?? '',
-                    style: TextStyle(
-                      fontSize: 11, // Reduced from 12
-                      color: Colors.grey[600],
-                    ),
+                    style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -1724,8 +1786,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     children: [
                       // Price - Made more compact
                       Container(
-                        height: 18, // Reduced from 20
-                        padding: EdgeInsets.symmetric(horizontal: 6),
+                        padding: const EdgeInsets.symmetric(horizontal: 6,vertical: 1),
                         decoration: BoxDecoration(
                           color: AppColors.primary.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(10), // Reduced from 15
@@ -1734,13 +1795,12 @@ class ProductDetailsScreen extends StatelessWidget {
                             width: 0.5,
                           ),
                         ),
-                        child: Center(
-                          child: Text(
-                            "\$${price}",
-                            style: TextStyle(
-                              fontSize: 9, // Reduced font size
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.black,
+                        child: Flexible(
+                          flex: 1,
+                          child: Center(
+                            child: Text(
+                              "\$${double.tryParse(price ?? "0")?.toStringAsFixed(1) ?? ""}",
+                              style: AppFontStyle.text_11_400(AppColors.black,family: AppFontFamily.onestRegular),
                             ),
                           ),
                         ),
@@ -1748,22 +1808,20 @@ class ProductDetailsScreen extends StatelessWidget {
 
                       // Delivery Time and Add Button
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
                             Icons.access_time,
-                            color: Colors.grey[600],
-                            size: 12,
+                            color: AppColors.black,
+                            size: 17,
                           ),
                           wBox(2.w),
                           Text(
-                            '45 min',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey[600],
-                            ),
+                            '45Min',
+                            style: AppFontStyle.text_12_400(AppColors.black,family: AppFontFamily.onestRegular),
                           ),
-                          wBox(6),
+                          wBox(4),
                           GetBuilder<AddToCartController>(
                             builder: (addToCartController) {
                               return GestureDetector(
@@ -1806,15 +1864,15 @@ class ProductDetailsScreen extends StatelessWidget {
                                 child: addToCartController.isCartLoader(controller.productData.value.product!.id.toString())
                                     ? circularProgressIndicator(size: 25)
                                     : Container(
-                                  height: 32,
-                                  width: 32,
+                                  height: 30,
+                                  width: 30,
                                   decoration: BoxDecoration(
                                       color: AppColors.black,
                                       borderRadius: BorderRadius.circular(20)
                                   ),
                                   child: Icon(
                                     Icons.add,
-                                    size: 18,
+                                    size: 17,
                                     color: AppColors.white,
                                   ),
                                 ),

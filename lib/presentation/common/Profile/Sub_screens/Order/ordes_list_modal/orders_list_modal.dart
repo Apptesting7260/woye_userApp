@@ -71,7 +71,7 @@ class OrdersList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
 
     if (orders != null) {
@@ -117,6 +117,7 @@ class Orders {
   String? discountedTotal;
   dynamic addressDetails;
   Review? review;
+  List<OrderS>? orderss;
 
   Orders({
     this.id,
@@ -141,6 +142,7 @@ class Orders {
     this.discountedTotal,
     this.addressDetails,
     this.review,
+    this.orderss,
   });
 
   Orders.fromJson(Map<String, dynamic> json) {
@@ -164,17 +166,24 @@ class Orders {
     if (json['decoded_attribute'] != null) {
       decodedAttribute = <DecodedAttribute>[];
       json['decoded_attribute'].forEach((v) {
-        decodedAttribute!.add(new DecodedAttribute.fromJson(v));
+        decodedAttribute!.add(DecodedAttribute.fromJson(v));
+      });
+    }
+    if (json['orders'] != null) {
+      orderss = <OrderS>[];
+      json['orders'].forEach((v) {
+        orderss!.add(OrderS.fromJson(v));
       });
     }
     vendorName = json['vendor_name'];
     discountedTotal = json['discounted_total']?.toString();
     addressDetails = json['address_details'];
     review = json['reviews'] != null ? Review.fromJson(json['reviews']) : null;
+
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['order_id'] = orderId;
     data['tracking_id'] = trackingId;
@@ -196,12 +205,63 @@ class Orders {
       data['decoded_attribute'] =
           decodedAttribute!.map((v) => v.toJson()).toList();
     }
+    if (orderss != null) {
+      data['orders'] = orderss!.map((v) => v.toJson()).toList();
+    }
     data['vendor_name'] = vendorName;
     data['discounted_total'] = discountedTotal;
     data['address_details'] = addressDetails;
     if (review != null) {
       data['reviews'] = review!.toJson();
     }
+    return data;
+  }
+}
+
+class OrderS {
+  String? productId;
+  String? quantity;
+  String? price;
+  List<Addons>? addons;
+  String? attribute;
+  String? checked;
+  String? count;
+
+  OrderS(
+      {this.productId,
+        this.quantity,
+        this.price,
+        this.addons,
+        this.attribute,
+        this.checked,
+        this.count});
+
+  OrderS.fromJson(Map<String, dynamic> json) {
+    productId = json['product_id']?.toString();
+    quantity = json['quantity']?.toString();
+    price = json['price']?.toString();
+    if (json['addons'] != null) {
+      addons = <Addons>[];
+      json['addons'].forEach((v) {
+        addons!.add(Addons.fromJson(v));
+      });
+    }
+    attribute = json['attribute']?.toString();
+    checked = json['checked']?.toString();
+    count = json['count']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['product_id'] = productId;
+    data['quantity'] = quantity;
+    data['price'] = price;
+    if (addons != null) {
+      data['addons'] = addons!.map((v) => v.toJson()).toList();
+    }
+    data['attribute'] = attribute;
+    data['checked'] = checked;
+    data['count'] = count;
     return data;
   }
 }
@@ -253,7 +313,7 @@ class DecodedAttribute {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['product_id'] = productId;
     data['quantity'] = quantity;
     data['price'] = price;
@@ -285,7 +345,7 @@ class Addons {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['price'] = price;
     data['name'] = name;
@@ -296,22 +356,50 @@ class Addons {
 class Attribute {
   String? titleId;
   ItemDetails? itemDetails;
+  Choices? choices;
 
-  Attribute({this.titleId, this.itemDetails});
+  Attribute({this.titleId, this.itemDetails, this.choices});
 
   Attribute.fromJson(Map<String, dynamic> json) {
     titleId = json['title_id'];
     itemDetails = json['item_details'] != null
-        ? new ItemDetails.fromJson(json['item_details'])
+        ? ItemDetails.fromJson(json['item_details'])
         : null;
+    choices = json['choices'] != null ? Choices.fromJson(json['choices']) : null;
+
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['title_id'] = titleId;
     if (itemDetails != null) {
       data['item_details'] = itemDetails!.toJson();
     }
+    if (choices != null) {
+      data['choices'] = choices!.toJson();
+    }
+    return data;
+  }
+}
+
+class Choices {
+  String? optionId;
+  String? name;
+  String? price;
+
+  Choices({this.optionId, this.name, this.price});
+
+  Choices.fromJson(Map<String, dynamic> json) {
+    optionId = json['option_id']?.toString();
+    name = json['name']?.toString();
+    price = json['price']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['option_id'] = optionId;
+    data['name'] = name;
+    data['price'] = price;
     return data;
   }
 }
@@ -330,7 +418,7 @@ class ItemDetails {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['item_id'] = itemId;
     data['item_name'] = itemName;
     data['item_price'] = itemPrice;

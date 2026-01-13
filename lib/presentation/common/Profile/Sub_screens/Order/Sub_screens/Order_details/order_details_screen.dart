@@ -25,6 +25,7 @@ import 'dart:io';
 
 import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/app_image.dart';
+import 'package:woye_user/shared/widgets/file_downloder.dart';
 
 
 class OrderDetailsScreen extends StatelessWidget {
@@ -33,10 +34,11 @@ class OrderDetailsScreen extends StatelessWidget {
   final OrderDetailsController controller = Get.put(OrderDetailsController());
   final RestaurantNavbarController restaurantNavbarController = Get.put(RestaurantNavbarController());
   final CancelOrderController cancelOrderController = Get.put(CancelOrderController());
+  final FileDownloader fileDownloader = Get.put(FileDownloader());
 
   @override
   Widget build(BuildContext context) {
-    print("dafsfdafsf : ${controller.ordersData.value.orderDetails?.drslip}");
+    print("orderDetails?.drslip>>> : ${controller.ordersData.value.orderDetails?.drslip}");
 
     final arguments = Get.arguments ?? {};
     final id = arguments['order_id'] ?? "";
@@ -143,7 +145,7 @@ class OrderDetailsScreen extends StatelessWidget {
           AppImage(path: ImageConstants.delete,svgColor:ColorFilter.mode( AppColors.white, BlendMode.srcIn)),
           wBox(10),
           Text("Cancel Order",style:AppFontStyle.text_16_500(AppColors.white,family: AppFontFamily.onestSemiBold),),
-          Spacer(),
+          const Spacer(),
           Icon(Icons.arrow_forward_ios_rounded,color: AppColors.white),
         ],
       ),
@@ -158,15 +160,19 @@ class OrderDetailsScreen extends StatelessWidget {
         color: AppColors.black,
         width: 0.8,
       ),
-      onPressed:(){},
-      child: Row(
-        children: [
-          AppImage(path: ImageConstants.receipt),
-          wBox(10),
-          Text("Download Invoice",style:AppFontStyle.text_16_500(AppColors.black,family: AppFontFamily.onestMedium),),
-          Spacer(),
-          Icon(Icons.arrow_forward_ios_rounded,color: AppColors.black),
-        ],
+      onPressed:(){
+        fileDownloader.downloadAndSaveFile(controller.ordersData.value.invoice ?? "",saveInDownload: true);
+      },
+      child:Obx(
+        ()=> fileDownloader.rxRequestStats.value == Status.LOADING ? circularProgressIndicator() : Row(
+          children: [
+            AppImage(path: ImageConstants.receipt),
+            wBox(10),
+            Text("Download Invoice",style:AppFontStyle.text_16_500(AppColors.black,family: AppFontFamily.onestMedium),),
+            const Spacer(),
+            Icon(Icons.arrow_forward_ios_rounded,color: AppColors.black),
+          ],
+        ),
       ),
     );
   }
@@ -615,15 +621,14 @@ class OrderDetailsScreen extends StatelessWidget {
                       style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     ),
                     Text(
-                      "\$${controller.ordersData.value.deliveryCharges.toString()}",
+                      "\$${controller.ordersData.value.deliveryCharges ?? "0"}",
                       style: AppFontStyle.text_13_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                     ),
                   ],
                 ),
                 hBox(5),
-                if (controller.ordersData.value.orderDetails!.couponDiscount?.isNotEmpty ?? false
-                || controller.ordersData.value.orderDetails!.couponDiscount.toString() != '0.00'
-                )...[
+                if (controller.ordersData.value.orderDetails?.couponDiscount?.isNotEmpty ?? false
+                || controller.ordersData.value.orderDetails?.couponDiscount.toString() != '0.00')...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

@@ -3,16 +3,18 @@ import 'package:woye_user/Core/Utils/snackbar.dart';
 import 'package:woye_user/Data/Repository/repository.dart';
 import 'package:woye_user/Data/response/status.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Order/Sub_screens/Order_details/order_details_modal.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class OrderDetailsController extends GetxController {
   final api = Repository();
-  final rxRequestStatus = Status.COMPLETED.obs;
-  final ordersData = OrderDetailsModal().obs;
+
   RxString error = ''.obs;
+  void setError(String value) => error.value = value;
 
-
+  final rxRequestStatus = Status.COMPLETED.obs;
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
+  final ordersData = OrderDetailsModal().obs;
   void setData(OrderDetailsModal value) => ordersData.value = value;
 
   orderDetailsApi({
@@ -30,18 +32,14 @@ class OrderDetailsController extends GetxController {
       if (ordersData.value.status == true) {
         setRxRequestStatus(Status.COMPLETED);
       } else {
-        // Utils.showToast(postReviewData.value.message.toString());
         setRxRequestStatus(Status.COMPLETED);
       }
     }).onError((error, stackError) {
-      print("Error: $error");
+      pt("Error: $error");
       setError(error.toString());
-      print(stackError);
+      pt(stackError);
       setRxRequestStatus(Status.ERROR);
     });
   }
 
-
-
-  void setError(String value) => error.value = value;
 }
