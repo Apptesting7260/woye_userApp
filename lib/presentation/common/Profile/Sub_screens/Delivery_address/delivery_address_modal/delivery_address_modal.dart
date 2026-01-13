@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 class DeliveryAddressModal {
   bool? status;
   String? message;
-  List<Data>? data;
+  RxList<Data>? data;
 
   DeliveryAddressModal({this.status, this.message, this.data});
 
@@ -11,7 +11,7 @@ class DeliveryAddressModal {
     status = json['status'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <Data>[].obs;
       json['data'].forEach((v) {
         data!.add(new Data.fromJson(v));
       });

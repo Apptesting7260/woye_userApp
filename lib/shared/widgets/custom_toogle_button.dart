@@ -1,5 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
+import '../theme/font_family.dart';
+
 class CustomToogleButton extends StatelessWidget {
   final String title;
   final RxInt value;
@@ -50,7 +52,7 @@ class CustomToogleButton extends StatelessWidget {
                     Text(
                       title,
                       style: AppFontStyle.text_14_500(
-                          isSelected ? AppColors.primary : AppColors.darkText),
+                          isSelected ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium),
                     )
                   ],
                 ));

@@ -20,17 +20,20 @@ class CheckedUncheckedController extends GetxController {
     required String cartId,
     required String productId,
     required String status,
+    required String countId,
+
   }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       "cart_id": cartId,
       "product_id": productId,
       "status": status,
+      "count_id": countId,
     };
     api.checkedUncheckedApi(body).then((value) {
       setData(value);
       if (checkedUncheckedData.value.status == true) {
-        restaurantCartController.getRestaurantCartApi().then((value) async {
+        restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId).then((value) async {
           await Future.delayed(const Duration(milliseconds: 800));
           Utils.showToast(checkedUncheckedData.value.message.toString());
           setRxRequestStatus(Status.COMPLETED);

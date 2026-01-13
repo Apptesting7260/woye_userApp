@@ -2,13 +2,17 @@ import 'package:woye_user/core/utils/app_export.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
-  final Text? title;
+  final Widget? title;
   final List<Widget>? actions;
   final bool isLeading;
   final double? leadingWidth;
   final bool? centetTitle;
   final bool isActions;
   final double? toolbarHeight;
+  final PreferredSizeWidget? bottom;
+  final void Function()? leadingOnTap;
+  final double? width;
+  final double? height;
 
   const CustomAppBar(
       {super.key,
@@ -19,7 +23,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leadingWidth,
       this.centetTitle,
       this.isActions = false,
-      this.toolbarHeight});
+      this.toolbarHeight,
+      this.bottom,
+      this.leadingOnTap,
+      this.width,
+      this.height,
+      });
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,7 +39,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         leading: isLeading
             ? leading ??
                 GestureDetector(
-                  onTap: () {
+                  onTap: leadingOnTap ?? () {
                     Get.back();
                   },
                   child: Padding(
@@ -43,7 +53,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                       child: Center(
                         child: SvgPicture.asset(
-                            "assets/svg/back.svg"
+                            "assets/svg/back.svg",
+                          width:width,
+                          height:height,
                         ),
                       ),
                     ),
@@ -51,6 +63,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                 )
             : null,
         titleSpacing: 0,
+        bottom: bottom,
         centerTitle: isLeading,
         title: title,
         leadingWidth: leadingWidth ?? 44.w,

@@ -17,14 +17,32 @@ class AllRestaurantController extends GetxController {
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void restauran_Set(all_restaurant_modal value) =>
-      restaurantData.value = value;
+  TextEditingController searchController = TextEditingController();
+
+  RxList<Restaurants> filteredWishlistData = RxList<Restaurants>();
+
+  void restauran_Set(all_restaurant_modal value) {
+    restaurantData.value = value;
+    filteredWishlistData.value = List.from(value.restaurants!);
+  }
 
   void setError(String value) => error.value = value;
+
+  void filterCategories(String query) {
+    if (query.isEmpty) {
+      filteredWishlistData.value = List.from(restaurantData.value.restaurants!);
+    } else {
+      filteredWishlistData.value = restaurantData.value.restaurants!
+          .where((shop) =>
+              shop.shopName!.toLowerCase().contains(query.toLowerCase()))
+          .toList(); // Filter categories
+    }
+  }
 
   seeall_restaurant_Api() async {
     api.all_Restaurant_Api().then((value) {
       restauran_Set(value);
+      filterCategories(searchController.text);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());
@@ -41,6 +59,7 @@ class AllRestaurantController extends GetxController {
 
     api.all_Restaurant_Api().then((value) {
       restauran_Set(value);
+      filterCategories(searchController.text);
       setRxRequestStatus(Status.COMPLETED);
     }).onError((error, stackError) {
       setError(error.toString());

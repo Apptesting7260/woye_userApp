@@ -8,11 +8,17 @@ class Categories_FilterController extends GetxController {
     selectedQuickFilters.clear();
     selectedCuisines.clear();
     priceRadioValue.value = 0;
+    selectedAttributes.clear();
+    selectedAddons.clear();
+    selectedOptions.clear();
     super.onInit();
   }
 
   RxList<String> selectedCuisines = <String>[].obs;
   RxList selectedQuickFilters = [].obs;
+  RxList<String> selectedAttributes = <String>[].obs;
+  RxList<String> selectedAddons = <String>[].obs;
+  RxList<String> selectedOptions = <String>[].obs;
 
   final RxDouble lowerValue = 1.0.obs;
   final RxDouble upperValue = 10.0.obs;
@@ -26,17 +32,12 @@ class Categories_FilterController extends GetxController {
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  void get_CategoriesFilter_Set(CategoriesFilter_modal value) =>
-      getFilterData.value = value;
+  void get_CategoriesFilter_Set(CategoriesFilter_modal value) => getFilterData.value = value;
 
   void setError(String value) => error.value = value;
 
-  restaurant_get_CategoriesFilter_Api() async {
-    // setRxRequestStatus(Status.LOADING);
-    // selectedQuickFilters.clear();
-    // selectedCuisines.clear();
-    // priceRadioValue.value = 0;
-    api.get_CategoriesFilter_Api().then((value) {
+  restaurant_get_CategoriesFilter_Api(String categoryId) async {
+    api.get_CategoriesFilter_Api(categoryId).then((value) {
       get_CategoriesFilter_Set(value);
       lowerValue.value = getFilterData.value.minPrice!.toDouble();
       upperValue.value = getFilterData.value.maxPrice!.toDouble();
@@ -45,15 +46,14 @@ class Categories_FilterController extends GetxController {
       setError(error.toString());
       print(stackError);
       print('errrrrrrrrrrrr');
-      // Utils.toastMessage("sorry for the inconvenience we will be back soon!!");
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
   }
 
-  Refresh_Api() async {
+  Refresh_Api(String categoryId) async {
     setRxRequestStatus(Status.LOADING);
-    api.get_CategoriesFilter_Api().then((value) {
+    api.get_CategoriesFilter_Api(categoryId).then((value) {
       get_CategoriesFilter_Set(value);
       lowerValue.value = getFilterData.value.minPrice!.toDouble();
       upperValue.value = getFilterData.value.maxPrice!.toDouble();
@@ -69,5 +69,38 @@ class Categories_FilterController extends GetxController {
       print(error);
       setRxRequestStatus(Status.ERROR);
     });
+  }
+
+  void resetFilters() {
+    selectedCuisines.clear();
+    selectedCuisines.refresh();
+    selectedQuickFilters.clear();
+    selectedQuickFilters.refresh();
+    selectedAttributes.clear();
+    selectedAttributes.refresh();
+    selectedAddons.clear();
+    selectedAddons.refresh();
+    selectedOptions.clear();
+    selectedOptions.refresh();
+    if(getFilterData.value.minPrice != null){
+      lowerValue.value = getFilterData.value.minPrice!.toDouble();
+    }
+    if(getFilterData.value.maxPrice != null){
+      upperValue.value = getFilterData.value.maxPrice!.toDouble();
+    }
+    for (var cuisine in (getFilterData.value.cuisineId??[])) {
+      cuisine.isSelected.value = false;
+    }
+    for (var option in (getFilterData.value.options??[])) {
+      option.isSelected.value = false;
+    }
+    for (var attribute in (getFilterData.value.attributeIds??[])) {
+      attribute.isSelected.value = false;
+    }
+    for (var addon in (getFilterData.value.addons??[])) {
+      addon.isSelected.value = false;
+    }
+    priceRadioValue.value = 0;
+    update();
   }
 }

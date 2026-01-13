@@ -1,5 +1,5 @@
 // import 'package:get/get.dart';
-// import 'restaurant_wishlist_controller.dart';
+// import 'pharmacy_wishlist_controller.dart';
 //
 // class RestaurantCategoriesBindingBinding extends Bindings {
 //   @override

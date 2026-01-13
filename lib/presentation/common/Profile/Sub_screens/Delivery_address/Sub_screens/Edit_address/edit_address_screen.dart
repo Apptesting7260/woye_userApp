@@ -1,8 +1,11 @@
 import 'package:flutter/services.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_controller.dart';
+import 'package:woye_user/shared/widgets/CustomPhoneNumberField/CustomPhoneNumberField.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/AddressFromGoogleTextField.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 class EditAddressScreen extends StatelessWidget {
   EditAddressScreen({super.key});
@@ -12,12 +15,20 @@ class EditAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var arguments = Get.arguments ?? {};
+    String type = arguments['type'] ?? "";
+    bool fromCart = arguments['fromcart'] ?? "";
+    String? cartId = arguments['cartId'] ?? "";
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $type");
+    print("fromCart >>>>>>>>>>>>>>>>>>>>>>>> $fromCart");
+    print("cartId >>>>>>>>>>>>>>>>>>>>>>>> $cartId");
+
     return Scaffold(
       appBar: CustomAppBar(
         isLeading: true,
         title: Text(
           "Edit Address",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -61,8 +72,7 @@ class EditAddressScreen extends StatelessWidget {
                   );
                 },
                 onSelected: (Predictions selectedAddress) {
-                  controller.locationController.text =
-                      selectedAddress.description ?? "";
+                  controller.locationController.text = selectedAddress.description ?? "";
                   controller.getLatLang(controller.locationController.text);
                   controller.selectedLocation =
                       controller.locationController.text;
@@ -70,6 +80,7 @@ class EditAddressScreen extends StatelessWidget {
                   controller.searchPlace.clear();
                   print("SelectedLocation ${controller.selectedLocation}");
                   print("SelectedLocation 2${controller.isValidAddress}");
+                  return null;
                 },
                 hintText: 'Address',
                 validator: (value) {
@@ -89,7 +100,7 @@ class EditAddressScreen extends StatelessWidget {
               hBox(20.h),
               defaultSet(),
               hBox(30.h),
-              saveButton(),
+              saveButton(type,cartId,fromCart),
               hBox(50.h)
             ],
           ),
@@ -110,7 +121,7 @@ class EditAddressScreen extends StatelessWidget {
       },
     );
   }
-
+  
   Widget phoneNumber() {
     return CustomTextFormField(
       controller: controller.mobNoController.value,
@@ -119,6 +130,7 @@ class EditAddressScreen extends StatelessWidget {
       ],
       prefix: CountryCodePicker(
         padding: const EdgeInsets.only(left: 10),
+        textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         onChanged: (CountryCode countryCode) {
           print("country code===========> ${countryCode.code}");
           controller.updateCountryCode(countryCode);
@@ -142,6 +154,13 @@ class EditAddressScreen extends StatelessWidget {
       },
     );
   }
+  // Widget phoneNumber() {
+  //   return CustomPhoneNumberField(
+  //     controller: controller.mobNoController.value,
+  //     initialSelection:
+  //         controller.selectedCountryCode.value.dialCode.toString(),
+  //   );
+  // }
 
   Widget houseNo() {
     return CustomTextFormField(
@@ -223,7 +242,7 @@ class EditAddressScreen extends StatelessWidget {
         ),
         Text(
           "Set default",
-          style: AppFontStyle.text_16_400(AppColors.darkText),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
         ),
       ],
     );
@@ -236,13 +255,13 @@ class EditAddressScreen extends StatelessWidget {
     );
   }
 
-  Widget saveButton() {
+  Widget saveButton(type,cartId,fromCart) {
     return Obx(
       () => CustomElevatedButton(
+        fontFamily: AppFontFamily.gilroyMedium,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            controller.editAddressApi();
-            print("object");
+            controller.editAddressApi(type: type,cartId:cartId ,fromCart: fromCart);
           }
         },
         isLoading: controller.rxRequestStatus.value == Status.LOADING,

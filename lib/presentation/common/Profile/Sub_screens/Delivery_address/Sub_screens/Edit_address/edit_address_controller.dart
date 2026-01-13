@@ -7,17 +7,20 @@ import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_cart/Control
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/Sub_screens/Edit_address/edit_address_modal.dart';
 import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/shared/widgets/address_fromgoogle/modal/GoogleLocationModel.dart';
+
+import '../../../../../../Grocery/Pages/Grocery_cart/Controller/grocery_cart_controller.dart';
+import '../../../../../../Grocery/Pages/Grocery_cart/Single_Grocery_Vendor_cart/single_vendor_controller.dart';
+import '../../../../../../Pharmacy/Pages/Pharmacy_cart/Controller/pharma_cart_controller.dart';
 export 'package:country_code_picker/country_code_picker.dart';
 
 class EditAdressController extends GetxController {
   final Rx<TextEditingController> nameController = TextEditingController().obs;
   final Rx<TextEditingController> mobNoController = TextEditingController().obs;
-  final Rx<TextEditingController> houseNoController =
-      TextEditingController().obs;
-  final Rx<TextEditingController> deliveryInstructionController =
-      TextEditingController().obs;
+  final Rx<TextEditingController> houseNoController = TextEditingController().obs;
+  final Rx<TextEditingController> deliveryInstructionController = TextEditingController().obs;
   var location = ''.obs;
-  var addressType = "Home".obs;
+  var addressType = "".obs;
+  // var addressType = "Home".obs;
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
   final locationController = TextEditingController();
@@ -25,8 +28,23 @@ class EditAdressController extends GetxController {
   RxInt radioValue = 0.obs;
   String addressId = "";
 
-  Rx<CountryCode> selectedCountryCode =
-      CountryCode(dialCode: '+91', code: 'IN').obs;
+  Rx<CountryCode> selectedCountryCode = CountryCode(dialCode: '+91', code: 'IN').obs;
+
+  String vendorType = "";
+  String cartScreenType = "";
+  String cartId = "";
+
+    @override
+  void onInit() {
+    var arguments = Get.arguments;
+    vendorType = arguments['type'] ?? "";
+    cartScreenType = arguments['cartScreenType'] ?? "";
+    cartId = arguments['cartId'] ?? "";
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $vendorType");
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $cartScreenType");
+    print("Type >>>>>>>>>>>>>>>>>>>>>>>> $cartId");
+    super.onInit();
+  }
 
   // ---------------------------------------- Place API ---------------------------------------------
   RxBool isValidAddress = true.obs;
@@ -81,20 +99,15 @@ class EditAdressController extends GetxController {
       Get.put(DeliveryAddressController());
 
   setAddressData(int index,) async {
-    addressId = deliveryAddressController
-        .deliveryAddressData.value.data![index].id
-        .toString();
+    addressType.value = deliveryAddressController.deliveryAddressData.value.data![index].addressType ?? "Home";
+    print("Address Type value: ${addressType.value}");
+    addressId = deliveryAddressController.deliveryAddressData.value.data![index].id.toString();
     print("Address ID: $addressId");
 
-    nameController.value.text = deliveryAddressController
-        .deliveryAddressData.value.data![index].fullName
-        .toString()
-        .trim();
+    nameController.value.text = deliveryAddressController.deliveryAddressData.value.data![index].fullName.toString().trim();
     print("Full Name: ${nameController.value.text}");
 
-    String countryCodeFromAPI = deliveryAddressController
-            .deliveryAddressData.value.data?[index].countryCode ??
-        "";
+    String countryCodeFromAPI = deliveryAddressController.deliveryAddressData.value.data?[index].countryCode ??"";
     print("countryCodeFrom API: $countryCodeFromAPI");
     if (countryCodeFromAPI.isNotEmpty) {
       String dialCode = countryCodeFromAPI;
@@ -148,19 +161,61 @@ class EditAdressController extends GetxController {
         "";
     print("Address Type From API: $addressTypeApi");
 
-    if (addressTypeApi == "Home") {
-      radioValue.value = 1;
+    if (addressTypeApi == "Home" || addressTypeApi == "home") {
+      radioValue.value = 0;
       print("Address Type: Home");
-    } else if (addressTypeApi == "Office") {
-      radioValue.value = 2;
+    } else if (addressTypeApi == "Office" ||addressTypeApi == "office") {
+      radioValue.value = 1;
       print("Address Type: Office");
-    } else if (addressTypeApi == "Other") {
-      radioValue.value = 3;
+    } else if (addressTypeApi == "Other" || addressTypeApi == "other") {
+      radioValue.value = 2;
       print("Address Type: Other");
     }
   }
 
-  editAddressApi() async {
+  // editAddressApi() async {
+  //   setRxRequestStatus(Status.LOADING);
+  //   var body = {
+  //     'address_id': addressId,
+  //     'full_name': nameController.value.text,
+  //     'country_code': selectedCountryCode.value.toString(),
+  //     'phone_number': mobNoController.value.text,
+  //     'house_details': houseNoController.value.text,
+  //     'address': locationController.text,
+  //     'address_type': addressType.value,
+  //     'latitude': latitude.value.toString(),
+  //     'longitude': longitude.value.toString(),
+  //     'delivery_instruction': deliveryInstructionController.value.text,
+  //     'is_default': defaultSet.value == true ? "1" : "0",
+  //   };
+  //   print("default Set value ${defaultSet.value}");
+  //   api.editAddressApi(body).then((value) {
+  //     setData(value);
+  //     deliveryAddressController.getDeliveryAddressApi();
+  //     if (editAddress.value.status == true) {
+  //       deliveryAddressController.getDeliveryAddressApi().then((value) {
+  //         Utils.showToast(editAddress.value.message.toString());
+  //         setRxRequestStatus(Status.COMPLETED);
+  //         Get.back();
+  //         nameController.value.clear();
+  //         mobNoController.value.clear();
+  //         houseNoController.value.clear();
+  //         deliveryInstructionController.value.clear();
+  //         locationController.clear();
+  //         return;
+  //       });
+  //     } else {
+  //       Utils.showToast(editAddress.value.message.toString());
+  //     }
+  //   }).onError((error, stackError) {
+  //     print("Error: $error");
+  //     setError(error.toString());
+  //     print(stackError);
+  //     setRxRequestStatus(Status.ERROR);
+  //   });
+  // }
+
+  editAddressApi({String? type,String? cartId,bool? fromCart}) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
       'address_id': addressId,
@@ -175,23 +230,77 @@ class EditAdressController extends GetxController {
       'delivery_instruction': deliveryInstructionController.value.text,
       'is_default': defaultSet.value == true ? "1" : "0",
     };
+    print("default Set value ${defaultSet.value}");
     api.editAddressApi(body).then((value) {
       setData(value);
       deliveryAddressController.getDeliveryAddressApi();
       if (editAddress.value.status == true) {
         deliveryAddressController.getDeliveryAddressApi().then((value) {
           Utils.showToast(editAddress.value.message.toString());
-          setRxRequestStatus(Status.COMPLETED);
-          Get.back();
+
           nameController.value.clear();
           mobNoController.value.clear();
           houseNoController.value.clear();
           deliveryInstructionController.value.clear();
           locationController.clear();
+          if(type == "Profile" && fromCart ==false){
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+          }
+          if(type =='PharmacyCart'){
+            (cartId?.isNotEmpty ?? true)?
+            pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId.toString()).then((value) {
+              setRxRequestStatus(Status.COMPLETED);
+              if(fromCart == true && defaultSet.value) {
+                Get.back();
+              }
+              Get.back();
+            }): pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
+              setRxRequestStatus(Status.COMPLETED);
+              if(fromCart == true && defaultSet.value) {
+                Get.back();
+              }
+              Get.back();
+            });
+          }
+          else if(type =='RestaurantCart'){
+            (cartId?.isNotEmpty ?? true) ?
+            restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
+              setRxRequestStatus(Status.COMPLETED);
+              if(fromCart == true && defaultSet.value) {
+                Get.back();
+              }
+              Get.back();
+            }): restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+              setRxRequestStatus(Status.COMPLETED);
+              if(fromCart == true && defaultSet.value) {
+                Get.back();
+              }
+              Get.back();
+            });
+          }
+          else if(type == "GroceryCart"){
+            (cartId?.isNotEmpty ?? true) ?
+            singleGroceryCartController.getGrocerySingleVendorCartApi(cartId).then((value) {
+              setRxRequestStatus(Status.COMPLETED);
+              if(fromCart == true && defaultSet.value) {
+                Get.back();
+              }
+              Get.back();
+            }):
+            groceryCartController.getGroceryAllCartApi().then((value) {
+              setRxRequestStatus(Status.COMPLETED);
+              if(fromCart == true && defaultSet.value) {
+                Get.back();
+              }
+              Get.back();
+            });
+          }
           return;
         });
       } else {
         Utils.showToast(editAddress.value.message.toString());
+        setRxRequestStatus(Status.ERROR);
       }
     }).onError((error, stackError) {
       print("Error: $error");
@@ -202,8 +311,10 @@ class EditAdressController extends GetxController {
   }
 
 
-  final RestaurantCartController restaurantCartController =
-  Get.put(RestaurantCartController());
+  final RestaurantCartController restaurantCartController =  Get.put(RestaurantCartController());
+  final PharmacyCartController pharmacyCartController =  Get.put(PharmacyCartController());
+  final GroceryCartController groceryCartController =  Get.put(GroceryCartController());
+  final SingleGroceryCartController singleGroceryCartController =  Get.put(SingleGroceryCartController());
 
   changeAddressApi({
     required String addressId,
@@ -216,6 +327,7 @@ class EditAdressController extends GetxController {
     required String latitude,
     required String longitude,
     required String deliveryInstruction,
+    bool? isProfileScreen,
 }) async {
     setRxRequestStatus(Status.LOADING);
     var body = {
@@ -231,22 +343,92 @@ class EditAdressController extends GetxController {
       'delivery_instruction': deliveryInstruction,
       'is_default': "1",
     };
+    print("bodydata :: $body");
     api.editAddressApi(body).then((value) {
       setData(value);
       deliveryAddressController.getDeliveryAddressApi();
       if (editAddress.value.status == true) {
-        restaurantCartController.getRestaurantCartApi().then((value) {
+        if(vendorType =='PharmacyCart'){
+          cartScreenType == "singleCart" ?
+          pharmacyCartController.getPharmacyCartApiAfterInc(cartId: cartId).then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          })
+          : pharmacyCartController.refreshGetAllCartProductsForCheckout().then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          });
+        }
+        else if(vendorType =='RestaurantCart'){
+          cartScreenType == "singleCart" ?
+          restaurantCartController.refreshRestaurantSingleCartApi(cartId: cartId.toString()).then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          }):restaurantCartController.refreshGetAllCheckoutDataRes().then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          });
+        }
+        else if(vendorType == "GroceryCart"){
+          cartScreenType == "singleCart" ?
+          singleGroceryCartController.getGrocerySingleVendorCartApi(cartId).then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          }):
+          groceryCartController.getGroceryAllCartApi().then((value) {
+            Utils.showToast(editAddress.value.message.toString());
+            setRxRequestStatus(Status.COMPLETED);
+            Get.back();
+            nameController.value.clear();
+            mobNoController.value.clear();
+            houseNoController.value.clear();
+            deliveryInstructionController.value.clear();
+            locationController.clear();
+            return;
+          });
+        }
+        else if(isProfileScreen == true){
           Utils.showToast(editAddress.value.message.toString());
           setRxRequestStatus(Status.COMPLETED);
-          Get.back();
-          nameController.value.clear();
-          mobNoController.value.clear();
-          houseNoController.value.clear();
-          deliveryInstructionController.value.clear();
-          locationController.clear();
-          return;
-        });
+          deliveryAddressController.selectedAddressIndex.value = 0;
+        }
       } else {
+        setRxRequestStatus(Status.COMPLETED);
         Utils.showToast(editAddress.value.message.toString());
       }
     }).onError((error, stackError) {
@@ -461,4 +643,7 @@ class EditAdressController extends GetxController {
     'ZM': 9, // Zambia
     'ZW': 9,
   };
+
+
+
 }

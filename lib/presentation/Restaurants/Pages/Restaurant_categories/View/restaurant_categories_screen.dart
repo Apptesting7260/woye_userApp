@@ -1,7 +1,9 @@
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 import '../../../../../Data/components/GeneralException.dart';
 import '../../../../../Data/components/InternetException.dart';
 import '../../../../../shared/widgets/CircularProgressIndicator.dart';
+import '../../../../../shared/widgets/custom_no_data_found.dart';
 import '../Sub_screens/Categories_details/controller/RestaurantCategoriesDetailsController.dart';
 import '../controller/restaurant_categories_controller.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -34,11 +36,11 @@ class _RestaurantCategoriesScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        isLeading: false,
+        isLeading: true,
         isActions: true,
         title: Text(
           "Categories",
-          style: AppFontStyle.text_28_600(AppColors.darkText),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: Obx(() {
@@ -46,7 +48,7 @@ class _RestaurantCategoriesScreenState
           case Status.LOADING:
             return Center(child: circularProgressIndicator());
           case Status.ERROR:
-            if (controller.error.value == 'No internet') {
+            if (controller.error.value == 'No internet'|| controller.error.value == 'InternetExceptionWidget') {
               return InternetExceptionWidget(
                 onPress: () {
                   controller.restaurant_Categories_Api();
@@ -75,10 +77,11 @@ class _RestaurantCategoriesScreenState
                       controller: controller.searchController,
                     ),
                     SliverToBoxAdapter(
-                      child: ListView.separated(
+                      child: controller.filteredWishlistData.length.toString() == "0"  ?
+                      CustomNoDataFound(heightBox:hBox(15.h) ) :   ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: controller.filteredWishlistData.value.length,
+                        itemCount: controller.filteredWishlistData.length ,
                         // Use the filtered list
                         itemBuilder: (context, index) {
                           return GestureDetector(
@@ -94,8 +97,7 @@ class _RestaurantCategoriesScreenState
                                   });
                               restaurantCategoriesDeatilsController
                                   .restaurant_Categories_Details_Api(
-                                id: controller
-                                    .filteredWishlistData[index].id
+                                id: controller.filteredWishlistData[index].id
                                     .toString(),
                               );
                             },
@@ -113,42 +115,49 @@ class _RestaurantCategoriesScreenState
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r)),
-                                          height: 70.w,
-                                          width: 70.w,
-                                          child: CachedNetworkImage(
-                                            imageUrl: controller
-                                                .filteredWishlistData
-                                                [index]
-                                                .imageUrl
-                                                .toString(),
-                                            height: 80.h,
+                                    Container(
+                                      width: Get.width * .72,
+                                      // color: Colors.red,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.r)),
+                                            height: 70.w,
                                             width: 70.w,
-                                            fit: BoxFit.fill,
-                                            placeholder: (context, url) =>
-                                                circularProgressIndicator(),
-                                            errorWidget:
-                                                (context, url, error) =>
-                                                    const Icon(Icons.error),
+                                            child: ClipRRect(
+                                                borderRadius:BorderRadius.circular(10.r),
+                                              child: CachedNetworkImage(
+                                                imageUrl: controller
+                                                    .filteredWishlistData[index]
+                                                    .imageUrl
+                                                    .toString(),
+                                                height: 80.h,
+                                                width: 70.w,
+                                                fit: BoxFit.fill,
+                                                placeholder: (context, url) =>circularProgressIndicator(),
+                                                errorWidget:(context, url, error) => Container(
+                                                  height: 80.h,
+                                                  width: 70.w,
+                                                  decoration: BoxDecoration(
+                                                    color: AppColors.textFieldBorder.withOpacity(0.2),
+                                                    borderRadius: BorderRadius.circular(10.r),
+                                                  ),
+                                                  child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,size: 17),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        wBox(20),
-                                        Text(
-                                          controller.filteredWishlistData
-                                              [index].name
-                                              .toString(),
-                                          style: AppFontStyle.text_18_400(
-                                              AppColors.darkText),
-                                        )
-                                      ],
+                                          wBox(20),
+                                          Text(
+                                            controller.filteredWishlistData[index].name.toString(),
+                                            style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                    const Icon(Icons.arrow_forward_ios,
-                                        weight: 1),
+                                    const Icon(Icons.arrow_forward_ios,size: 20,),
                                   ],
                                 ),
                               ),

@@ -9,7 +9,7 @@ class DeliveryAddressController extends GetxController {
     super.onInit();
   }
 
-  var selectedAddressIndex = 0.obs;
+  RxInt selectedAddressIndex = 0.obs;
 
   final api = Repository();
   final rxRequestStatus = Status.LOADING.obs;

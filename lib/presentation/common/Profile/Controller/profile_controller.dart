@@ -1,8 +1,18 @@
 import 'dart:io';
 
+import 'package:woye_user/Data/app_exceptions.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/common/Profile/model/logout_model.dart';
+
+import '../../../../Data/network/network_api_services.dart' show NetworkApiServices;
 
 class ProfileController extends GetxController {
+
+  final api = Repository();
+  final apiService = NetworkApiServices();
+  final rxRequestStatus = Status.COMPLETED.obs;
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
   final ImagePicker _picker = ImagePicker();
   File? image;
 
@@ -29,5 +39,33 @@ class ProfileController extends GetxController {
       update();
     }
     update();
+  }
+
+  Future<void> logoutUser() async {
+    try {
+      setRxRequestStatus(Status.LOADING);
+      LogoutModel response = await api.logoutUserApi();
+
+      if (response.status == true) {
+        // Clear user data from preferences
+        await userPreference.removeUser();
+        setRxRequestStatus(Status.COMPLETED);
+
+        Utils.showToast("Logout Successfully");
+
+        // Navigate to welcome screen
+        Get.offAllNamed(AppRoutes.welcomeScreen);
+      } else {
+        setRxRequestStatus(Status.COMPLETED);
+        Utils.showToast("Logout Failed");
+      }
+    } catch (e) {
+      setRxRequestStatus(Status.ERROR);
+      Get.snackbar(
+        'Error',
+        'Something went wrong: ${e.toString()}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 }

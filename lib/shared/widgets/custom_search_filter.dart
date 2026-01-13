@@ -1,5 +1,7 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
 
+import '../theme/font_family.dart';
+
 class CustomSearchFilter extends StatelessWidget {
   final String hintText;
   final VoidCallback? onFilterTap;
@@ -58,9 +60,9 @@ class CustomSearchFilter extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide:
                     BorderSide(width: 0.8, color: AppColors.textFieldBorder)),
-            contentPadding: padding ?? REdgeInsets.symmetric(vertical: 6),
+            contentPadding: padding ?? REdgeInsets.symmetric(vertical: 10),
             textStyle:
-                textStyle ?? AppFontStyle.text_14_400(AppColors.darkText),
+                textStyle ?? AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
             prefixConstraints: prefixConstraints ??
                 BoxConstraints(maxHeight: 24.h, maxWidth: 40.w),
             prefix: prefix ??
@@ -75,8 +77,7 @@ class CustomSearchFilter extends StatelessWidget {
                   ),
                 ),
             hintText: hintText,
-            hintStyle:
-                hintStyle ?? AppFontStyle.text_10_400(AppColors.hintText),
+            hintStyle:hintStyle ?? AppFontStyle.text_10_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
           ),
         ),
         SizedBox(width: showfilterIcon == true ? 8.w : 0),

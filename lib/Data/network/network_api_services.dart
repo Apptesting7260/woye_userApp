@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../components/InternetException.dart';
 import '../app_exceptions.dart';
@@ -9,6 +11,8 @@ import '../components/RequestTimeOut.dart';
 import 'base_api_services.dart';
 
 class NetworkApiServices extends BaseApiServices {
+
+  @override
   Future<dynamic> getApiWithoutToken(String url) async {
     if (kDebugMode) {
       print(url);
@@ -57,15 +61,101 @@ class NetworkApiServices extends BaseApiServices {
         onPress: () {},
       );
     }
-    print(responseJson);
+    print("${responseJson}");
+    return responseJson;
+  }
+
+  @override
+  Future<dynamic> getWithParams(String baseUrl, String token, {Map<String, dynamic>? params}) async {
+    pt("token@calling : $token");
+    pt("Base URL@calling : $baseUrl");
+
+    Uri uri;
+    if (params != null && params.isNotEmpty) {
+      uri = Uri.parse(baseUrl).replace(queryParameters: params);
+    } else {
+      uri = Uri.parse(baseUrl);
+    }
+
+    if (kDebugMode) {
+      print("Final URI: $uri");
+    }
+    final uriString = uri.toString().replaceAll('+', ' ');
+    final uriFixed = Uri.parse(uriString);
+    dynamic responseJson;
+    try {
+      final response = await http.get(uriFixed, headers: {
+        "Authorization": "Bearer $token"
+      }).timeout(const Duration(seconds: 50));
+
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw InternetExceptionWidget(
+        onPress: () {},
+      );
+    } on RequestTimeOut {
+      throw RequestTimeOut(
+        onPress: () {},
+      );
+    }
+
+    print("Response JSON: $responseJson");
+    return responseJson;
+  }
+
+  Future<dynamic> postApiWithParams(
+      var data,
+      String baseUrl,
+      String token, {
+        Map<String, dynamic>? params,
+      }) async {
+    pt("Token@calling : $token");
+    pt("Base URL@calling : $baseUrl");
+    pt("Body Data@calling : $data");
+
+    Uri uri;
+    if (params != null && params.isNotEmpty) {
+      uri = Uri.parse(baseUrl).replace(queryParameters: params);
+    } else {
+      uri = Uri.parse(baseUrl);
+    }
+
+    if (kDebugMode) {
+      print("Final URI: $uri");
+    }
+
+    final uriString = uri.toString().replaceAll('+', ' ');
+    final uriFixed = Uri.parse(uriString);
+
+    dynamic responseJson;
+    try {
+      final response = await http
+          .post(
+        uriFixed,
+        headers: {
+          "Authorization": "Bearer $token",
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode(data),
+      )
+          .timeout(const Duration(seconds: 50));
+
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw InternetExceptionWidget(onPress: () {});
+    } on RequestTimeOut {
+      throw RequestTimeOut(onPress: () {});
+    }
+
+    print("Response JSON: $responseJson");
     return responseJson;
   }
 
   @override
   Future<dynamic> postApi(var data, String url, String token) async {
     if (kDebugMode) {
-      print(url);
-      print(data);
+      // print(url);
+      log(data.toString());
     }
 
     dynamic responseJson;
@@ -93,6 +183,7 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+  @override
   Future<dynamic> postApi2(var data, String url, String token) async {
     if (kDebugMode) {
       print(url);
@@ -108,7 +199,7 @@ class NetworkApiServices extends BaseApiServices {
           headers: {"Authorization": "Bearer $token",'Content-Type': 'application/json',}, body: data)
           .timeout(const Duration(seconds: 50));
       responseJson = returnResponse(response);
-      print("data: $response");
+      log("data>>>>>>>>>: ${response.body}");
     } on SocketException {
       throw InternetExceptionWidget(
         onPress: () {},
@@ -119,7 +210,7 @@ class NetworkApiServices extends BaseApiServices {
       );
     }
     if (kDebugMode) {
-      print("$responseJson");
+      log("$responseJson");
     }
     return responseJson;
   }
@@ -137,6 +228,9 @@ class NetworkApiServices extends BaseApiServices {
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 404:
+        dynamic responseJson = jsonDecode(response.body);
+        return responseJson;
+      case 403:
         dynamic responseJson = jsonDecode(response.body);
         return responseJson;
       case 503:

@@ -1,4 +1,5 @@
 import 'package:woye_user/Core/Utils/app_export.dart';
+import 'package:woye_user/Shared/theme/font_family.dart';
 
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
@@ -10,14 +11,14 @@ class HelpScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Settings",
-          style: AppFontStyle.text_22_600(AppColors.darkText),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
         ),
       ),
       body: SingleChildScrollView(
         padding: REdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            hBox(20),
+            // hBox(15.h),
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: SvgPicture.asset(
@@ -26,11 +27,11 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "Support",
-                style: AppFontStyle.text_16_500(AppColors.darkText),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,
-                size: 18.h,
+                size: 20.h,
               ),
               onTap: () {
                 Get.toNamed(AppRoutes.support);
@@ -44,11 +45,11 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "FAQ",
-                style: AppFontStyle.text_16_500(AppColors.darkText),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,
-                size: 18.h,
+                size: 20.h,
               ),
               onTap: () {
                 Get.toNamed(AppRoutes.faq);
@@ -62,11 +63,11 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "Privay Policy",
-                style: AppFontStyle.text_16_500(AppColors.darkText),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,
-                size: 18.h,
+                size: 20.h,
               ),
               onTap: () {
                 Get.toNamed(AppRoutes.privayPolicy);
@@ -80,11 +81,11 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "Terms & Conditions",
-                style: AppFontStyle.text_16_500(AppColors.darkText),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,
-                size: 18.h,
+                size: 20.h,
               ),
               onTap: () {
                 Get.toNamed(AppRoutes.termsAndConditions);

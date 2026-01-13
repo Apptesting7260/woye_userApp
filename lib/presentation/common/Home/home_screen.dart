@@ -1,18 +1,33 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
+import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/maintenance_mode_controller.dart';
 import 'package:woye_user/presentation/common/current_location/current_location.dart';
+import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
+import 'package:woye_user/shared/theme/font_family.dart';
 
 import '../../../shared/widgets/CircularProgressIndicator.dart';
+import '../../Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
 
-class HomeScreen extends StatelessWidget {
-  final String? profileImage;
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
 
-  HomeScreen({super.key, this.profileImage});
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
   final HomeController homeController = Get.put(HomeController());
+
   final CurrentLocationController currentLocationController =
       Get.put(CurrentLocationController());
+
+  final GetUserDataController getUserDataController =
+      Get.put(GetUserDataController());
+
+  final RestaurantNavbarController restaurantNavbarController = Get.find<RestaurantNavbarController >();
+  // final MaintenanceModeController maintenanceModeController = Get.put(MaintenanceModeController());
 
   void showLocationDialog() {
     if (homeController.location.value.isEmpty) {
@@ -23,7 +38,8 @@ class HomeScreen extends StatelessWidget {
             child: AlertDialog(
               title: Image.asset(
                 "assets/images/Location.png",
-                height: 100.h,
+                height: 95.h,
+                color: AppColors.darkText,
               ),
               content: Padding(
                 padding: REdgeInsets.all(0.h),
@@ -34,37 +50,37 @@ class HomeScreen extends StatelessWidget {
                       "Location Permission is off",
                       maxLines: 2,
                       textAlign: TextAlign.center,
-                      style: AppFontStyle.text_22_600(AppColors.darkText),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
                     ),
                     hBox(10.h),
                     Text(
                       "Getting location permission will ensure accurate address and hassle free delivery",
-                      style: AppFontStyle.text_16_400(AppColors.lightText),
+                      style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
                       maxLines: 4,
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 20.h),
                     CustomElevatedButton(
                       height: 50.h,
-                      color: AppColors.primary,
+                      color: AppColors.black,
                       onPressed: () async {
-                        await currentLocationController.getCurrentPosition(
-                            back: true);
+                        Get.back();
+                        await currentLocationController.getCurrentPosition(back: true);
                       },
                       text: "Allow Location Access",
-                      textStyle: AppFontStyle.text_14_400(AppColors.white),
+                      textStyle: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroySemiBold),
                     ),
                     SizedBox(height: 10.h),
                     GestureDetector(
                       onTap: () {
                         Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': ""});
+                            arguments: {'type': "","fromcart": false,});
                       },
                       child: Container(
                           height: 50.h,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50.r),
-                              border: Border.all(color: AppColors.primary)),
+                              border: Border.all(color: AppColors.black)),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,12 +88,13 @@ class HomeScreen extends StatelessWidget {
                               SvgPicture.asset(
                                 "assets/svg/pin_location.svg",
                                 height: 22.h,
+                                color: AppColors.black,
                               ),
                               SizedBox(width: 5.h),
                               Text(
                                 "Add Address",
                                 style:
-                                    AppFontStyle.text_16_400(AppColors.primary),
+                                    AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyMedium),
                               ),
                             ],
                           )),
@@ -95,67 +112,88 @@ class HomeScreen extends StatelessWidget {
     }
   }
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //    maintenanceModeController.getAppVersion();
+  //    maintenanceModeController.maintenanceModeApi();
+  //    maintenanceModeController.versionCheckApi();
+  // }
+
+
   @override
   Widget build(BuildContext context) {
+    // homeController.mainButtonIndex.value;
+    // currentLocationController.getCurrentPosition(back: true);
     showLocationDialog();
     return Material(
       child: Column(
         children: [
           Padding(
-            padding: REdgeInsets.only(left: 24, top: 30, right: 24, bottom: 20),
+            padding: REdgeInsets.only(
+                left: 24.h, top: 10.h, right: 24.h, bottom: 20.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Image.asset(
-                //   ImageConstants.profileImage,
-                //   height: 50.h,
-                //   width: 50.h,
-                // ),
-                profileImage?.isEmpty ?? true
-                    ? Container(
-                        width: 50.h,
-                        height: 50.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        child: CircleAvatar(
-                          backgroundColor:
-                              AppColors.greyBackground.withOpacity(0.5),
-
-                          // radius: 20.h,
-                          child: Icon(
-                            Icons.person,
-                            size: 30.h,
-                            color: AppColors.lightText.withOpacity(0.5),
+                Obx(() {
+                  return getUserDataController.userData.value.user?.imageUrl?.isEmpty ?? true
+                      ? Container(
+                          width: 50.h,
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100.r),
+                            border: Border.all(color: Colors.transparent),
                           ),
-                        ),
-                      )
-                    : Container(
-                        width: 50.h,
-                        height: 50.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          border: Border.all(color: Colors.transparent),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.r),
-                          child: CachedNetworkImage(
-                            imageUrl: profileImage.toString(),
-                            placeholder: (context, url) =>
-                                circularProgressIndicator(),
-                            errorWidget: (context, url, error) => Icon(
+                          child: CircleAvatar(
+                            backgroundColor:
+                                AppColors.greyBackground.withOpacity(0.5),
+                            child: Icon(
                               Icons.person,
-                              size: 40.h,
+                              size: 30.h,
                               color: AppColors.lightText.withOpacity(0.5),
                             ),
-                            fit: BoxFit.cover,
                           ),
-                        ),
-                      ),
+                        )
+                      : Container(
+                          width: 50.h,
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100.r),
+                            border: Border.all(color: Colors.transparent),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100.r),
+                            child: CachedNetworkImage(
+                              imageUrl: getUserDataController
+                                  .userData.value.user!.imageUrl
+                                  .toString(),
+                              placeholder: (context, url) =>
+                                  circularProgressIndicator(),
+                              errorWidget: (context, url, error) => Icon(
+                                Icons.person,
+                                size: 40.h,
+                                color: AppColors.lightText.withOpacity(0.5),
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                }),
+                wBox(7.w),
+                Obx(() => Expanded(
+                  child: Text(
+                      homeController.location.value,
+                      style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                      maxLines: 2,
+                      overflow: TextOverflow.clip,
+                    ),
+                ),
+                ),
+                wBox(7.w),
                 GestureDetector(
                   onTap: () {
-                    showLocationDialog();
+                   // showLocationDialog();
+                    Get.toNamed(AppRoutes.notifications);
                   },
                   child: Container(
                     padding: REdgeInsets.all(9),
@@ -174,45 +212,44 @@ class HomeScreen extends StatelessWidget {
           ),
           Column(
             children: [
-              Padding(
-                padding: REdgeInsets.symmetric(horizontal: 24.h),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: Get.width * 0.8,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Your Location",
-                            style:
-                                AppFontStyle.text_12_400(AppColors.lightText),
-                          ),
-                          hBox(5.w),
-                          Obx(
-                            () => Text(
-                              homeController.location.value,
-                              style:
-                                  AppFontStyle.text_14_400(AppColors.darkText),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_sharp,
-                      size: 22,
-                      color: AppColors.darkText.withOpacity(0.8),
-                    )
-                  ],
-                ),
-              ),
-              hBox(20),
+              // Padding(
+              //   padding: REdgeInsets.symmetric(horizontal: 24.h),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       Container(
+              //         width: Get.width * 0.8,
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           children: [
+              //             Text(
+              //               "Your Location",
+              //               style:
+              //                   AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              //             ),
+              //             hBox(5.w),
+              //             Obx(
+              //               () => Text(
+              //                 homeController.location.value,
+              //                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              //                 maxLines: 3,
+              //                 overflow: TextOverflow.ellipsis,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Icon(
+              //         Icons.arrow_forward_ios_sharp,
+              //         size: 20,
+              //         color: AppColors.darkText.withOpacity(0.8),
+              //       )
+              //     ],
+              //   ),
+              // ),
+              // hBox(20),
               Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24),
                 child: SizedBox(
@@ -224,31 +261,23 @@ class HomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: homeController.mainButtonbar.length,
                         itemBuilder: (context, index) {
-                          bool isSelected =
-                              homeController.mainButtonIndex.value == index;
+                          bool isSelected = restaurantNavbarController.mainButtonIndex.value == index;
                           return GestureDetector(
                             onTap: () {
                               if (index == 2) {
-                                homeController.getIndex(index);
-                                homeController.navigate(index);
+                                restaurantNavbarController.getIndexMainButton(index);
+                                //homeController.navigate(index);
                               } else {
-                                homeController.getIndex(index);
-                                homeController.navigate(index);
+                                restaurantNavbarController.getIndexMainButton(index);
+                                //homeController.navigate(index);
                               }
                             },
                             child: MainButtonBar(
-                              title: homeController.mainButtonbar[index]
-                                      ["title"] ??
-                                  "",
-                              image: isSelected
-                                  ? homeController.mainButtonbar[index]
-                                          ["imageEnabled"] ??
-                                      ""
-                                  : homeController.mainButtonbar[index]
-                                          ["imageDisabled"] ??
-                                      "",
+                              title: homeController.mainButtonbar[index]["title"] ?? "",
+                              image: isSelected ? homeController.mainButtonbar[index]["imageEnabled"] ?? ""
+                                  : homeController.mainButtonbar[index]["imageDisabled"] ?? "",
                               backgroundColor: isSelected
-                                  ? AppColors.primary
+                                  ? AppColors.black
                                   : Colors.transparent,
                               titleColor: isSelected
                                   ? AppColors.white
@@ -271,71 +300,6 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
-// Future showDeleteAddressDialog({
-//   required String addressId,
-// }) {
-//   return Get.dialog(
-//     AlertDialog.adaptive(
-//       content: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Text(
-//             'Delete Address', // Updated text
-//             style: TextStyle(
-//               fontSize: 18.sp,
-//               fontWeight: FontWeight.w600,
-//               color: Colors.black,
-//             ),
-//           ),
-//           SizedBox(height: 15.h),
-//           Text(
-//             'Are you sure you want to delete this address?',
-//             // Updated message
-//             style: TextStyle(
-//               fontSize: 14.sp,
-//               fontWeight: FontWeight.w400,
-//               color: Colors.grey,
-//             ),
-//           ),
-//           SizedBox(height: 15.h),
-//           Row(
-//             children: [
-//               Expanded(
-//                 child: CustomElevatedButton(
-//                   height: 40.h,
-//                   color: AppColors.black,
-//                   onPressed: () {
-//                     Get.back();
-//                   },
-//                   text: "Cancel",
-//                   textStyle: AppFontStyle.text_14_400(AppColors.darkText),
-//                 ),
-//               ),
-//               wBox(15),
-//               Obx(
-//                     () => Expanded(
-//                   child: CustomElevatedButton(
-//                     height: 40.h,
-//                     isLoading:
-//                     deleteAddressController.rxRequestStatus.value ==
-//                         (Status.LOADING),
-//                     onPressed: () {
-//                       deleteAddressController.deleteAddressApi(
-//                           addressId: addressId);
-//                     },
-//                     text: "Yes",
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     ),
-//     barrierDismissible: false,
-//   );
-// }
 }
 
 class MainButtonBar extends StatelessWidget {
@@ -356,7 +320,7 @@ class MainButtonBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      curve: Curves.easeInOut,
+      curve: Curves.easeInCubic,
       height: 42.h,
       width: Get.width * 0.27,
       decoration: BoxDecoration(
@@ -374,7 +338,7 @@ class MainButtonBar extends StatelessWidget {
           wBox(6),
           Text(
             title,
-            style: AppFontStyle.text_12_400(titleColor),
+            style: AppFontStyle.text_12_500(titleColor,family: AppFontFamily.gilroyMedium),
           )
         ],
       ),
