@@ -2221,7 +2221,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 flexibleSpace: FlexibleSpaceBar(
                   titlePadding: REdgeInsets.only(bottom: 15),
                   title: SizedBox(
-                    height: 35.h,
+                    height: 35.h ,
                     child: (CustomSearchFilter(
                       controller: controller.searchController,
                       onChanged: (value) {
