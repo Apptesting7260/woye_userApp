@@ -30,7 +30,7 @@ class MoreProducts extends StatelessWidget {
         isLeading: true,
         title: Text(
           "All Products",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {

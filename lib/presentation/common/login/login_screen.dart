@@ -73,7 +73,7 @@ class LoginScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Login to your\nAccount",
-        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.onestRegular),
       ),
       hBox(20),
       Text(
@@ -82,7 +82,7 @@ class LoginScreen extends StatelessWidget {
             fontSize: 16.sp,
             fontWeight: FontWeight.w400,
             color: AppColors.lightText,
-            fontFamily: AppFontFamily.gilroyRegular,
+            fontFamily: AppFontFamily.onestRegular,
         ),
       ),
     ]);
@@ -105,13 +105,13 @@ class LoginScreen extends StatelessWidget {
                 loginController.countryPhoneDigits[countryCode.code.toString()];
             loginController.chackCountryLength = countrylength!;
           },
-        textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           initialSelection: "IN",
       ),
-      errorStyle : AppFontStyle.text_11_400(AppColors.errorColor,family: AppFontFamily.gilroyMedium),
+      errorStyle : AppFontStyle.text_11_400(AppColors.errorColor,family: AppFontFamily.onestMedium),
       hintText: "Phone Number",
-      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
+      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       textInputType: TextInputType.phone,
 
       validator: (value) {
@@ -140,7 +140,7 @@ class LoginScreen extends StatelessWidget {
   Widget signInButton() {
     return Obx(() => CustomElevatedButton(
           text: "Sign In",
-      fontFamily: AppFontFamily.gilroyMedium,
+      fontFamily: AppFontFamily.onestMedium,
       isLoading: (loginController.isLoding.value || checkUserController.rxRequestStatus.value == Status.LOADING),
           onPressed: () async {
             if (loginController.loginFormKey.currentState!.validate()) {
@@ -202,7 +202,7 @@ class LoginScreen extends StatelessWidget {
         ),
         Text(
           "or continue with",
-          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
         ),
         Expanded(
           child: Divider(
@@ -272,12 +272,12 @@ class LoginScreen extends StatelessWidget {
               text: TextSpan(children: [
             TextSpan(
                 text: "Don't have an account? ",
-                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
+                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular)),
             TextSpan(
                 text: "Sign Up",
                 style: AppFontStyle.text_16_400(
                   AppColors.darkText,
-                  family: AppFontFamily.gilroyRegular,
+                  family: AppFontFamily.onestRegular,
                 )),
           ])),
         ),

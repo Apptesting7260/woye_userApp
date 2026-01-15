@@ -143,16 +143,36 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     for (var imageFile in imageFiles) {
       print("Image File: ${imageFile?.path ?? 'No file found'}");
     }
+    double safeParseDouble(String? value) {
+      if (value == null) return 0.0;
+
+      final cleaned = value
+          .replaceAll(',', '')
+          .replaceAll('₹', '')
+          .trim();
+
+      return double.tryParse(cleaned) ?? 0.0;
+    }
 
     print("Reactive Image Files: $reactiveImageFiles");
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
     controller.payAfterWallet.value = double.parse(controller.total.value.toString());
 
-    if(controller.walletBalance.value != '' && controller.total.value != '' ){
-    controller.walletSelected.value = double.parse(controller.walletBalance.value.replaceAll(",","")) < double.parse(controller.total.value.replaceAll(",","")) ?  false : true;
-    controller.isSelectable.value = double.parse(controller.walletBalance.value.replaceAll(",","")) < double.parse(controller.total.value.replaceAll(",","")) ? false : true;
+    // if(controller.walletBalance.value != '' && controller.total.value != '' ){
+    // controller.walletSelected.value = double.parse(controller.walletBalance.value.replaceAll(",","")) < double.parse(controller.total.value.replaceAll(",","")) ?  false : true;
+    // controller.isSelectable.value = double.parse(controller.walletBalance.value.replaceAll(",","")) < double.parse(controller.total.value.replaceAll(",","")) ? false : true;
+    // }
+    final wallet = safeParseDouble(controller.walletBalance.value);
+    final total = safeParseDouble(controller.total.value);
+
+    if (wallet > 0 && total > 0) {
+      final canUseWallet = wallet >= total;
+
+      controller.walletSelected.value = canUseWallet;
+      controller.isSelectable.value = canUseWallet;
     }
+
     controller.selectedIndex.value = -1;
     print("Updated payAfterWallet 1: ${controller.payAfterWallet.value.toStringAsFixed(2)}");
     print("Updated payAfterWallet 1: ${controller.selectedIndex.value}");
@@ -171,13 +191,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     controller.formattedTime.value = "";
     },);
 
+
+
     return SafeArea(
       child: Scaffold(
         appBar: CustomAppBar(
           isLeading: true,
           title: Text(
             "Checkout",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
         ),
         body: SingleChildScrollView(
@@ -187,7 +209,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               address(),
               hBox(15.h),
-              paymentMethod(walletBalance: controller.walletBalance.value, totalPrice: controller.total.value),
+              paymentMethod(walletBalance: controller.walletBalance.value ?? "", totalPrice: controller.total.value),
               hBox(15.h),
               deliveryNotes(context),
               hBox(15.h),
@@ -203,10 +225,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 totalPrice: controller.total.value,
                 walletBalance: controller.walletBalance.value,
               ),
-              hBox(30.h),
+              hBox(20.h),
               Obx(
                 () => CustomElevatedButton(
-                fontFamily: AppFontFamily.gilroyMedium,
+                fontFamily: AppFontFamily.onestMedium,
                   isLoading: (
                         controller.rxRequestStatus.value == Status.LOADING)
                     || groceryCartController.rxCreateOrderRequestStatus.value == Status.LOADING
@@ -607,7 +629,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               : "Place Order",
                 ),
               ),
-              hBox(50.h)
+              hBox(10.h)
             ],
           ),
         ),
@@ -621,7 +643,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       children: [
         Text(
           "Delivery Address",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(20.h),
         Obx(() {
@@ -654,7 +676,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             // Check if addresses are available
             return Column(
               children: [
-                addressList(deliveryAddressController.deliveryAddressData.value.data!),
+                addressList(deliveryAddressController.deliveryAddressData.value.data ?? []),
                 hBox(8),
                 addAddressButton()
               ],
@@ -692,7 +714,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 style: AppFontStyle.text_16_400(
                   AppColors.darkText,
                   height: 1.h,
-                  family: AppFontFamily.gilroyMedium,
+                  family: AppFontFamily.onestMedium,
                 ),
               ),
               const Spacer(),
@@ -720,8 +742,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       itemBuilder: (context, index) {
         final address = dataList[index];
 
-        final isSelected =
-            controller.addressId.value == address.id.toString();
+        final isSelected = controller.addressId.value == address.id.toString();
 
         return InkWell(
           splashColor: Colors.transparent,
@@ -892,7 +913,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         children: [
           Text(
             "Payment Details",
-            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
           hBox(20.h),
           Row(
@@ -900,13 +921,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               Text(
                 "Regular Price",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 regularPrice != ""
                     ? "\$$regularPrice"
                     : "\$0.00",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -916,13 +937,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               Text(
                 "Save Amount",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 saveAmount != ""
                     ? "\$$saveAmount"
                     : "\$0.00",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -933,13 +954,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               Text(
                 "Coupon Discount",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 couponDiscount != ""
                     ? "-\$$couponDiscount"
                     : "-\$0.00",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           )
@@ -952,11 +973,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               Text(
                 "Delivery Charge",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 "\$${deliveryCharge ?? '0.00'}" ,
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -968,14 +989,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   Text(
                     "Courier Tips",
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                   Text(
                     controller.selectedTipsIndexValue.value == 0 ? "\$5" :
                     controller.selectedTipsIndexValue.value == 1 ? "\$10" :
                     controller.selectedTipsIndexValue.value == 2 ? "\$15" :
                     controller.selectedTipsIndexValue.value == 3 ? "\$${controller.tipsController.value.text}": "",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -988,14 +1009,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               Text(
                 "Total Price",
-                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               Text(
                 formatPrice(controller.newTotalIncludingTips.value.toString()),
                 // formatPrice(controller.newPayAfterWallet.value.toString()),
                 // formatPrice(controller.totalPriceIncludingTips.value.toString()),
                 // formatPrice(totalPrice.toString()),
-                style: AppFontStyle.text_20_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_20_600(AppColors.primary,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -1058,9 +1079,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 SvgPicture.asset("assets/svg/wallet.svg"),
                 wBox(10),
                 Text(
-                  "My Wallet (\$$walletBalance)",
+                  "My Wallet (\$${walletBalance == "null" ? "0"  : walletBalance})",
                   style: AppFontStyle.text_16_400(AppColors.darkText,
-                      family: AppFontFamily.gilroyMedium),
+                      family: AppFontFamily.onestMedium),
                 ),
                 const Spacer(),
                 Container(
@@ -1140,7 +1161,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           style: AppFontStyle.text_16_400(
                             AppColors.darkText,
                             height: 1.h,
-                            family: AppFontFamily.gilroyMedium,
+                            family: AppFontFamily.onestMedium,
                           ),
                         ),
                       ] else if (index == 2) ...[
@@ -1148,7 +1169,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           "Cash On Delivery",
                           style: AppFontStyle.text_16_400(
                             AppColors.darkText,
-                            family: AppFontFamily.gilroyMedium,
+                            family: AppFontFamily.onestMedium,
                           ),
                         ),
                       ],
@@ -1187,11 +1208,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       children: [
         Text(
           "Payment Method",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(15.h),
         wallet(walletBalance: walletBalance, totalPrice: totalPrice),
-        hBox(15.h),
+        // hBox(6.h),
         methodList(walletBalance: walletBalance, totalPrice: totalPrice),
         hBox(15.h),
         // addNewCard(),
@@ -1218,7 +1239,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             wBox(10),
             Text(
               "Add New Card",
-              style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_16_400(AppColors.primary,family: AppFontFamily.onestMedium),
             ),
             const Spacer(),
              Icon(Icons.arrow_forward_ios_sharp,color: AppColors.darkText,size: 21,)
@@ -1307,7 +1328,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               wBox(10),
               Text(
                 controller.isDeliveryNotes.value ? "Delivery notes added" :  "Add Delivery Notes",
-                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               const Spacer(),
               Icon(Icons.add,color: AppColors.darkText,size: 23,)
@@ -1375,7 +1396,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               wBox(10),
               Text(
                 "Delivery as soon as possible",
-                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               const Spacer(),
               Icon(Icons.arrow_forward_ios_sharp,color: AppColors.darkText,size: 21,)
@@ -1470,17 +1491,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                     "Pay With Card",
                                     style: AppFontStyle.text_16_400(
                                         AppColors.darkText,
-                                        height: 1.h,family: AppFontFamily.gilroyMedium),
+                                        height: 1.h,family: AppFontFamily.onestMedium),
                                   ),
                                   // Text(
                                   //   "•••• •••• ••••",
                                   //   style: AppFontStyle.text_16_400(
                                   //       AppColors.darkText,
-                                  //       height: 1.h,family: AppFontFamily.gilroyMedium),
+                                  //       height: 1.h,family: AppFontFamily.onestMedium),
                                   // ),
                                   // Text(
                                   //   "8888",
-                                  //   style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  //   style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                   //
                                   // ),
                                   const Spacer(),
@@ -1532,7 +1553,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                   // SvgPicture.asset("assets/svg/cod-icon.svg"),
                                   Text(
                                     "Cash On Delivery",
-                                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                   ),
                                   const Spacer(),
                                 ],
@@ -1577,7 +1598,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           "Tip for the courier",
           style: AppFontStyle.text_18_600(
             AppColors.darkText,
-            family: AppFontFamily.gilroyRegular,
+            family: AppFontFamily.onestRegular,
           ),
         ),
         Text(
@@ -1585,7 +1606,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           maxLines: 2,
           style: AppFontStyle.text_15_400(
             AppColors.mediumText,
-            family: AppFontFamily.gilroyRegular,
+            family: AppFontFamily.onestRegular,
           ),
         ),
         hBox(8.h),
@@ -1769,7 +1790,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           controller.selectedTipsIndexValue.value == index
                               ? AppColors.white
                               : AppColors.darkText,
-                          family: AppFontFamily.gilroyMedium,
+                          family: AppFontFamily.onestMedium,
                         ),
                       )),
                     );
@@ -1796,7 +1817,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     hBox(30.h),
-                    Center(child: Text( "Tips for the courier",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
+                    Center(child: Text( "Tips for the courier",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.onestRegular,),)),
                     hBox(20.h),
                     Padding(
                       padding: REdgeInsets.symmetric(horizontal: 25.0),
@@ -1816,7 +1837,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                         textInputType: TextInputType.number,
                         hintText: 'Enter tips for the courier',
-                        hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
+                        hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.onestRegular),
                         // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
                         onTapOutside: (value){
                           // restaurantAddOnController.isRedClr.value =false;
@@ -1839,7 +1860,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         width: 145.w,
                         height: 50.h,
                           onPressed: () async {
@@ -1891,7 +1912,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     hBox(30.h),
-                    Center(child: Text( "Delivery Notes",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
+                    Center(child: Text( "Delivery Notes",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.onestRegular,),)),
                     hBox(20.h),
                     Padding(
                       padding: REdgeInsets.symmetric(horizontal: 25.0),
@@ -1904,7 +1925,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         // controller: TextEditingController(text: controller.deliveryNotesController.value.text),
                         onChanged: (value){},
                         hintText: 'Enter delivery notes',
-                        hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
+                        hintStyle: AppFontStyle.text_15_400(AppColors.hintText,family: AppFontFamily.onestRegular),
                         // errorTextClr: restaurantAddOnController.isRedClr.value ? AppColors.red : AppColors.darkText,
                         onTapOutside: (value){
                           // restaurantAddOnController.isRedClr.value =false;
@@ -1925,7 +1946,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         width: 145.w,
                         height: 50.h,
                         onPressed: () {
@@ -1966,7 +1987,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       hBox(30.h),
-                      Center(child: Text( "Delivery time",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.gilroyRegular,),)),
+                      Center(child: Text( "Delivery time",style:  AppFontStyle.text_22_600(AppColors.black, family: AppFontFamily.onestRegular,),)),
                       hBox(20.h),
                       Padding(
                         padding: REdgeInsets.symmetric(horizontal: 12.0),
@@ -1992,7 +2013,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 wBox(10),
                                 Text(
                                   "Delivery as soon as possible",
-                                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                 ),
                                 const Spacer(),
                                 Container(
@@ -2031,9 +2052,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 }
                               },
                               hintText: ' Schedule Delivery',
-                              hintStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                              textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
-                              // hintStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                              hintStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
+                              textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
+                              // hintStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestRegular),
                               onTapOutside: (value){
                                 FocusManager.instance.primaryFocus?.unfocus();
                               },
@@ -2071,7 +2092,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CustomElevatedButton(
-                          fontFamily: AppFontFamily.gilroyMedium,
+                          fontFamily: AppFontFamily.onestMedium,
                           width: 145.w,
                           height: 50.h,
                           onPressed: () {

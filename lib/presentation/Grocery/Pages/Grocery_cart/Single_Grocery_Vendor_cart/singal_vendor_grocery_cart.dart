@@ -85,7 +85,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
             isActions: true,
             title: Text(
               "My Cart",
-              style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
           ),
           body: Obx(() {
@@ -155,7 +155,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                 Row(
                                   children: [
                                     Text("Delivery Type", style: AppFontStyle.text_16_500(
-                                        AppColors.darkText,family: AppFontFamily.gilroyMedium),),
+                                        AppColors.darkText,family: AppFontFamily.onestMedium),),
                                     const Spacer(),
                                     Obx(
                                           ()=> InkWell(
@@ -184,7 +184,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                           circularProgressIndicator2() :
                                           Text("Self", style: AppFontStyle.text_14_400(
                                               controller.cartData.value.cart?.raw?.orderType == 'self'
-                                                  ? AppColors.primary :AppColors.darkText,family: AppFontFamily.gilroyMedium),)),
+                                                  ? AppColors.primary :AppColors.darkText,family: AppFontFamily.onestMedium),)),
                                         ),
                                       ),
                                     ),
@@ -213,7 +213,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                           circularProgressIndicator2() :
                                           Text("Delivery", style: AppFontStyle.text_14_400(
                                             controller.cartData.value.cart?.raw?.orderType == "delivery"
-                                                ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                                                ? AppColors.primary : AppColors.darkText,family: AppFontFamily.onestMedium,
                                           ),
                                           ),
                                           ),
@@ -253,7 +253,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
           children: [
             Text(
               "Delivery Address",
-              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
             const Spacer(),
             InkWell(
@@ -272,7 +272,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 children: [
                   Text(
                     "Change Address",
-                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.onestMedium),
                   ),
                   wBox(4),
                   Icon(
@@ -300,7 +300,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
             children: [
               Text(
                 controller.cartData.value.address!.addressType.toString().capitalizeFirst.toString(),
-                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
               SizedBox(
@@ -309,7 +309,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                   controller.cartData.value.address!.address.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                 ),
               ),
             ],
@@ -341,7 +341,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
           Text(
             "Your\nLocation",
             textAlign: TextAlign.center,
-            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
           ),
           VerticalDivider(thickness: 1.w, color: AppColors.hintText),
           SizedBox(
@@ -350,7 +350,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
               currentLocation.value,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
           ),
         ],
@@ -546,7 +546,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 2,
                                     style: AppFontStyle.text_16_400(
-                                        AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                        AppColors.darkText,family: AppFontFamily.onestMedium),
                                   ),
                                 ),
                           // Obx(
@@ -606,7 +606,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                   "\$${item?.totalPrice ?? ""}",
                                   overflow: TextOverflow.ellipsis,
                             style: AppFontStyle.text_14_600(
-                                AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                AppColors.primary,family: AppFontFamily.onestRegular),
                           ),
                           isLoading
                               ? Shimmer.fromColors(
@@ -689,7 +689,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                                               Text(
                                                 item?.quantity.toString() ?? "",
                                                 style: AppFontStyle.text_14_400(
-                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                                    AppColors.darkText,family: AppFontFamily.onestMedium),
                                               ),
                                               InkWell(
                                                 splashColor: Colors.transparent,
@@ -972,19 +972,19 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                     children: [
                       Text(
                         controller.cartData.value.cart?.appliedCoupon?.code.toString() ?? "",
-                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.onestRegular),
                       ),
                       wBox(5.h),
                       Text(
                         "Applied",
                         style:
-                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
                       ),
                     ],
                   ),
                   Text(
                     " ${controller.cartData.value.cart?.couponDiscount != null ? "-"  : ""}\$${controller.cartData.value.cart?.couponDiscount ?? "0"}",
-                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                 ],
               ),
@@ -1007,7 +1007,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
       children: [
         Text(
           "Payment Details",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10.h),
         if (isLoading) ...[
@@ -1024,11 +1024,11 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
             children: [
               Text(
                 "Regular Price",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 "\$${controller.cartData.value.cart!.raw?.regularPrice.toString() ?? ""}",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -1038,11 +1038,11 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
             children: [
               Text(
                 "Save Amount",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 "\$${controller.cartData.value.cart!.raw?.saveAmount.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -1071,12 +1071,12 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 children: [
                   Text(
                     "Coupon Discount",
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                   Text(
                     controller.cartData.value.cart!.couponDiscount == "0.00" ? "\$0.00":
                     "- \$${controller.cartData.value.cart!.couponDiscount.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -1089,11 +1089,11 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 children: [
                   Text(
                     "Delivery Charge",
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                   Text(
                     "\$${controller.cartData.value.cart!.deliveryCharge.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -1118,14 +1118,14 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
           children: [
             Text(
               "Total Price",
-              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestSemiBold),
             ),
             isLoading
                 ? shimmerItem('\$0.00',
                     width: 70, height: 40, secondShimmer: false)
                 : Text(
                     "\$${controller.cartData.value.cart!.finalTotal.toString()}",
-              style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.onestRegular),
                   ),
           ],
         ),
@@ -1161,7 +1161,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                           }
                         },
                         text: "Checkout",
-                        textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+                        textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
                       ),
                     ),
                   )
@@ -1177,7 +1177,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                         });
                       },
                       text: "Complete Address",
-                      textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+                      textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
                     ),
                   ),
       ],
@@ -1432,7 +1432,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
-                  fontFamily: AppFontFamily.gilroyRegular,
+                  fontFamily: AppFontFamily.onestRegular,
                   color: Colors.black,
                 ),
               ),
@@ -1443,7 +1443,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                   color: Colors.grey,
                 ),
               ),
@@ -1458,7 +1458,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                         Get.back();
                       },
                       text: "Cancel",
-                      textStyle: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium,
                       ),
                     ),
                   ),
@@ -1466,7 +1466,7 @@ class _GroceryCartScreenState extends State<SingleVendorGroceryCart> {
                   Obx(
                     () => Expanded(
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 40.h,
                         isLoading:
                             deleteProductController.rxRequestStatus.value ==

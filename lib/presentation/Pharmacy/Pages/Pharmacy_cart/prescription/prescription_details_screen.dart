@@ -154,7 +154,7 @@ class _PrescriptionsScreenState extends State<PrescriptionsScreen> {
       //             title: Text(
       //               'Download Images',
       //               style: AppFontStyle.text_16_400(AppColors.darkText,
-      //                   fontFamily: AppFontFamily.gilroyMedium),
+      //                   fontFamily: AppFontFamily.onestMedium),
       //             ),
       //           ),
       //         ),

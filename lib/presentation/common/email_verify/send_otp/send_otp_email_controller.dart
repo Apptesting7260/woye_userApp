@@ -116,18 +116,18 @@ class SendOtpEmailController extends GetxController {
                     children: [
                       Text(
                         'OTP Verification',
-                        style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                       ),
                       hBox(10.h),
                       RichText(
                           text: TextSpan(children: [
                         TextSpan(
                           text: "Please enter the verification code sent to",
-                          style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                          style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                         ),
                         TextSpan(
                             text: "\n$email",
-                            style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular)),
+                            style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.onestRegular)),
                       ])),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -145,7 +145,7 @@ class SendOtpEmailController extends GetxController {
                               },
                               child: Text("Wrong email?",
                                   style: AppFontStyle.text_14_400(height: 1.5,
-                                      AppColors.primary,family: AppFontFamily.gilroyRegular)))
+                                      AppColors.primary,family: AppFontFamily.onestRegular)))
                         ],
                       ),
                       // hBox(10.h),
@@ -229,7 +229,7 @@ class SendOtpEmailController extends GetxController {
                                   )
                                   // style: AppFontStyle.text_16_400(
                                   //    AppColors.darkText,
-                                  //   fontFamily: AppFontFamily.gilroyRegular,
+                                  //   fontFamily: AppFontFamily.onestRegular,
                                   //   decoration: TextDecoration.underline,
                                   // ),
                                   ),

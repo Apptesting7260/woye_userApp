@@ -26,7 +26,7 @@ class Utils {
         content: Center(
           child: Text(
             message,
-            style: TextStyle(fontSize: 14.sp, color: Colors.white,fontFamily: AppFontFamily.gilroyMedium),
+            style: TextStyle(fontSize: 14.sp, color: Colors.white,fontFamily: AppFontFamily.onestMedium),
           ),
         )));
 

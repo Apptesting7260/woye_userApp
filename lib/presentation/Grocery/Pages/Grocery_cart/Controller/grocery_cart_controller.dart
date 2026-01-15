@@ -124,7 +124,7 @@ class GroceryCartController extends GetxController {
                 textAlign: TextAlign.center,
                 style: AppFontStyle.text_16_500(
                   AppColors.darkText,
-                  family: AppFontFamily.gilroyMedium,
+                  family: AppFontFamily.onestMedium,
                 ),
               ),
               actions: <Widget>[
@@ -136,7 +136,7 @@ class GroceryCartController extends GetxController {
                     'OK',
                     style: AppFontStyle.text_15_600(
                       AppColors.white,
-                      family: AppFontFamily.gilroyMedium,
+                      family: AppFontFamily.onestMedium,
                     ),
                   ),
                 ),

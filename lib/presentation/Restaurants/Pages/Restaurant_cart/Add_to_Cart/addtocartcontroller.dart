@@ -175,6 +175,7 @@ class AddToCartController extends GetxController {
     required List<dynamic> extrasItemPrices,
     String? cartId,
     required bool isPopUp,
+    bool? isBack = true,
     RestaurantCategoryDetailsModal? product
   }) async {
     setCartLoading(productId, true);
@@ -196,6 +197,9 @@ class AddToCartController extends GetxController {
       "item_price": extrasItemPrices,
 
     });
+
+    print("data body >>>>>>>>> $body");
+
     api.addToCartApi(body).then((value) {
       setCartLoading(productId, false);
       setData(value);
@@ -205,11 +209,13 @@ class AddToCartController extends GetxController {
         }else {
           setRxRequestStatusPopUP(Status.COMPLETED);
         }
-        // specificProductController.goToCart.value = true;
+        goToCart.value = true;
         Utils.showToast(addToCartData.value.message.toString());
         restaurantCartController.getAllCartData();
         restaurantCartController.refreshGetAllCheckoutDataRes();
-        Get.back();
+        if(isBack == true) {
+          Get.back();
+        }
 
        /* if(cartId?.isNotEmpty ?? true){
           restaurantCartController.refreshRestaurantSingleCartApi(cartId:cartId.toString());

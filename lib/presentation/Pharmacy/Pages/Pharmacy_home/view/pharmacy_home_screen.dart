@@ -272,12 +272,12 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                         Text(
                                           pharmacyCartController.cartDataAll.value.carts?[0].pharmacy?.shopName.toString() ?? "",
                                           overflow: TextOverflow.ellipsis,
-                                          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                          style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestMedium),
                                         )
                                         /*:Text(
                                           "Your Carts",
                                           overflow: TextOverflow.ellipsis,
-                                          style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                          style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.onestMedium),
                                         ),*/
                                         // Text(
                                         //   carts.vendorAddress.toString(),
@@ -311,13 +311,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                         children: [
                                           Text(
                                            /* pharmacyCartController.cartDataAll.value.carts?.length == 1 ?*/ "View Cart" /*: "View Carts"*/,
-                                            style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                                            style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestMedium),
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
                                           Text(
                                             "items",
-                                            style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
+                                            style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.onestMedium),
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                           ),
@@ -353,7 +353,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                     Text(
                                       "Carts",
                                       style: AppFontStyle.text_12_600(
-                                          AppColors.primary,family:AppFontFamily.gilroyRegular),
+                                          AppColors.primary,family:AppFontFamily.onestRegular),
                                     ),
                                     Icon(
                                       Icons.arrow_drop_up,
@@ -495,7 +495,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 children: [
                   Text(
                     "Categories",
-                    style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                   const Spacer(),
                   InkWell(
@@ -509,7 +509,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                       children: [
                         Text(
                           "See All",
-                          style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                          style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),
                         ),
                         wBox(4),
                         Icon(
@@ -579,7 +579,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                           pharmacyHomeController
                               .homeData.value.category![index].name
                               .toString(),
-                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                         ),
                       ],
                     ),
@@ -605,7 +605,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             children: [
               Text(
                 "Most Popular Shops",
-                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -614,7 +614,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 },
                 child: Text(
                   "See All",
-                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -698,7 +698,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             children: [
               Text(
                 "Free Delivery Shops",
-                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -707,7 +707,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 },
                 child: Text(
                   "See All",
-                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -787,7 +787,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             children: [
               Text(
                 "Nearby Shops",
-                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -796,7 +796,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 },
                 child: Text(
                   "See All",
-                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -871,7 +871,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             children: [
               Text(
                 "All Pharmacy Shops",
-                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -880,7 +880,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 },
                 child: Text(
                   "See All",
-                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -1012,7 +1012,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
         // hBox(10),
         // Row(
@@ -1021,18 +1021,18 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         //     Text(
         //       price ?? "",
         //       textAlign: TextAlign.left,
-        //       style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+        //       style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestSemiBold),
         //     ),
         //     Text(
         //       " • ",
         //       textAlign: TextAlign.left,
-        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //       style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
         //     ),
         //     SvgPicture.asset("assets/svg/star-yellow.svg"),
         //     wBox(4),
         //     Text(
         //       "$rating/5",
-        //       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+        //       style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
         //     ),
         //   ],
         // )
@@ -1043,7 +1043,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             // Text(
             //   price,
             //   textAlign: TextAlign.left,
-            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestSemiBold),
             // ),
             SvgPicture.asset("assets/svg/star-yellow.svg",height: 15,),
             wBox(4),
@@ -1051,19 +1051,19 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
                 "$rating/5",
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ),
             if(catIndex != null)...[
               catIndex != 0 ? Text(
                 " • ",
                 textAlign: TextAlign.left,
-                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
               ) : const SizedBox.shrink(),
               Row(children: List.generate(catIndex > 3 ? 3 : catIndex, (index) => Text(
                 "${catName?[index]}${index < (catIndex > 3 ? 3 : catIndex) - 1 ? ', ' : ''}",
                 textAlign: TextAlign.left,
-                style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.onestRegular),
               ),
               ),
               ),
@@ -1077,7 +1077,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
             // Text(
             //   price,
             //   textAlign: TextAlign.left,
-            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestSemiBold),
             // ),
 
             SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
@@ -1086,13 +1086,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
                 "30-50 mins",
-                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset(ImageConstants.scooterImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText.withOpacity(0.8), BlendMode.srcIn),),
             wBox(3.w),
@@ -1100,13 +1100,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
                 "\$5 Delivery",
-                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset(ImageConstants.cartIconImage,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
             wBox(3.w),
@@ -1114,7 +1114,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
                 "No min. order",
-                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ),
           ],
@@ -1139,7 +1139,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                   children: [
                     Text(
                       "Your Carts(${pharmacyCartController.cartDataAll.value.carts?.length})",
-                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                     ),
                     const Spacer(),
                     InkWell(
@@ -1154,7 +1154,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                         children: [
                           Text(
                             "Checkout all",
-                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.onestRegular),
                           ),
                           wBox(4),
                           Icon(
@@ -1214,7 +1214,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                 Text(
                                   carts?.pharmacy?.shopName.toString() ?? "",
                                   overflow: TextOverflow.ellipsis,
-                                  style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestMedium),
                                 ),
                                 // Text(
                                 //   carts.vendorAddress.toString(),
@@ -1247,13 +1247,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                                 children: [
                                   Text(
                                     "View Cart",
-                                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                   Text(
                                     "items",
-                                    style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),                                    overflow: TextOverflow.ellipsis,
+                                    style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.onestMedium),                                    overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
                                 ],
@@ -1323,7 +1323,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
         Text(
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
         hBox(2.h),
         Row(
@@ -1335,13 +1335,13 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
                 "$rating/5",
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset(ImageConstants.clockIcon,height: 14,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
             wBox(3.w),
@@ -1349,7 +1349,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               padding: const EdgeInsets.only(top: 3.0),
               child: Text(
                 "30-50 mins",
-                style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ),
           ],
@@ -1366,7 +1366,7 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
               wBox(5.w),
               Text(
                 "Free Delivery",
-                style: AppFontStyle.text_13_400(AppColors.white,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_13_400(AppColors.white,family: AppFontFamily.onestRegular),
               ),
             ],
           ),),
@@ -1392,9 +1392,9 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 hintText: "Rating",
                 selectedValue: pharmacyHomeController.rating.value,
                 hintStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 textStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 items: const ["High to Low", "Low to high"],
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {
@@ -1423,9 +1423,9 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 hintText: "Delivery Fee",
                 selectedValue: pharmacyHomeController.deliveryFee.value,
                 hintStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 textStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 items: const ["Free"],
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {
@@ -1454,9 +1454,9 @@ class _PharmacyHomeScreenState extends State<PharmacyHomeScreen> {
                 hintText: "Open Now",
                 selectedValue: pharmacyHomeController.openNow.value,
                 hintStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 textStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 items: const ["Open", "Closed"],
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {

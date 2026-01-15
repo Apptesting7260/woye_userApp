@@ -76,6 +76,7 @@ class  OrderDetails {
   String? courierTip;
   String? deliverySoon;
   String? couponDiscount;
+  String? deliveryCharge;
   AddressDetails? addressDetails;
 
   OrderDetails(
@@ -103,6 +104,7 @@ class  OrderDetails {
       this.deliveryNotes,
       this.deliverySoon,
       this.couponDiscount,
+      this.deliveryCharge,
       this.addressDetails});
 
   OrderDetails.fromJson(Map<String, dynamic> json) {
@@ -141,6 +143,7 @@ class  OrderDetails {
     courierTip = json['courier_tip']?.toString();
     deliverySoon = json['delivery_soon']?.toString();
     couponDiscount = json['coupon_discount']?.toString();
+    deliveryCharge = json['delivery_charge']?.toString();
     addressDetails = json['address_details'] != null
         ? AddressDetails.fromJson(json['address_details'])
         : null;
@@ -177,6 +180,7 @@ class  OrderDetails {
     data['courier_tip'] = courierTip;
     data['delivery_soon'] = deliverySoon;
     data['coupon_discount'] = couponDiscount;
+    data['delivery_charge'] = deliveryCharge;
     if (addressDetails != null) {
       data['address_details'] = addressDetails!.toJson();
     }

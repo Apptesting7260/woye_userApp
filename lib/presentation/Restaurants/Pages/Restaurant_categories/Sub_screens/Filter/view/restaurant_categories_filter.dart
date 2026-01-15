@@ -65,7 +65,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                         dividerColor: AppColors.gray,
                         dividerHeight: 0.5,
                         labelStyle:
-                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                         tabs: const [
                           Tab(text: "Filter"),
                           Tab(text: "Sort"),
@@ -192,7 +192,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               children: [
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Clear",
                         color: AppColors.black,
@@ -214,7 +214,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 wBox(10),
                 Expanded(
                     child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Apply",
                         onPressed: () {
@@ -259,7 +259,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             children: [
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Clear",
                       color: AppColors.black,
@@ -279,7 +279,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               wBox(10),
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Apply",
                       onPressed: () {
@@ -354,7 +354,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         Obx(() {
@@ -387,7 +387,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16.sp,
-                                    fontFamily:AppFontFamily.gilroyMedium,
+                                    fontFamily:AppFontFamily.onestMedium,
                                   ),
                                 ),
                               ),
@@ -437,7 +437,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -458,7 +458,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -478,7 +478,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         CustomRadioButton(
           title: "Low to high",
           value: 1.obs,
@@ -512,7 +512,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         hBox(10),
         Wrap(
           spacing: 10.w,
@@ -547,14 +547,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
             Obx(() {
               return Text(
                   "\$${controller.lowerValue.value} - \$${controller.upperValue.value}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16.sp,
-                      color: AppColors.primary,fontFamily: AppFontFamily.gilroyMedium));
+                      color: AppColors.primary,fontFamily: AppFontFamily.onestMedium));
             }),
           ],
         ),
@@ -563,7 +563,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
-                color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular)),
+                color: AppColors.lightText,fontFamily: AppFontFamily.onestRegular)),
         hBox(4),
         Obx(() {
           double minPrice = controller.getFilterData.value.minPrice!.toDouble();
@@ -641,7 +641,7 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             fontWeight: FontWeight.w400,
             fontSize: 17.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,
@@ -846,7 +846,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                         dividerColor: AppColors.gray,
                         dividerHeight: 0.5,
                         labelStyle:
-                        AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                        AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                         tabs: const [
                           Tab(text: "Filter"),
                           Tab(text: "Sort"),
@@ -1006,7 +1006,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               children: [
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Clear",
                         color: AppColors.black,
@@ -1023,7 +1023,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 wBox(10),
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Apply",
                         onPressed: () {
@@ -1055,7 +1055,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
     return Text(
       title,
       style: AppFontStyle.text_18_600(AppColors.darkText,
-          family: AppFontFamily.gilroyRegular),
+          family: AppFontFamily.onestRegular),
     );
   }
 
@@ -1094,7 +1094,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             child: Text(
               label,
               style: AppFontStyle.text_16_400(AppColors.darkText,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             ),
           ),
         ],
@@ -1119,7 +1119,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             children: [
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Clear",
                       color: AppColors.black,
@@ -1139,7 +1139,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               wBox(10),
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Apply",
                       onPressed: () {
@@ -1214,7 +1214,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         Obx(() {
@@ -1247,7 +1247,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16.sp,
-                                    fontFamily:AppFontFamily.gilroyMedium,
+                                    fontFamily:AppFontFamily.onestMedium,
                                   ),
                                 ),
                               ),
@@ -1297,7 +1297,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -1318,7 +1318,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -1338,7 +1338,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         CustomRadioButton(
           title: "Low to high",
           value: 1.obs,
@@ -1372,7 +1372,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         hBox(10),
         Wrap(
           spacing: 10.w,
@@ -1407,14 +1407,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
             Obx(() {
               return Text(
                   "\$${controller.lowerValue.value} - \$${controller.upperValue.value}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16.sp,
-                      color: AppColors.primary,fontFamily: AppFontFamily.gilroyMedium));
+                      color: AppColors.primary,fontFamily: AppFontFamily.onestMedium));
             }),
           ],
         ),
@@ -1423,7 +1423,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
-                color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular)),
+                color: AppColors.lightText,fontFamily: AppFontFamily.onestRegular)),
         hBox(4),
         Obx(() {
           double minPrice = controller.getFilterData.value.minPrice!.toDouble();
@@ -1501,7 +1501,7 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             fontWeight: FontWeight.w400,
             fontSize: 17.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,
@@ -1655,7 +1655,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Filter",
-          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -1754,7 +1754,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -1804,7 +1804,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
-                          fontFamily: AppFontFamily.gilroyRegular,
+                          fontFamily: AppFontFamily.onestRegular,
                           color: AppColors.darkText,
                         ),
                       ),
@@ -1831,7 +1831,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       color: AppColors.primary,
                     ),
                   ),
@@ -1849,7 +1849,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       color: AppColors.primary,
                     ),
                   ),
@@ -1869,7 +1869,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -1910,7 +1910,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -1949,7 +1949,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.sp,
-                fontFamily: AppFontFamily.gilroyMedium,
+                fontFamily: AppFontFamily.onestMedium,
               ),
             ),
             Obx(() {
@@ -1959,7 +1959,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 16.sp,
                   color: AppColors.primary,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                 ),
               );
             }),
@@ -1972,7 +1972,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             fontWeight: FontWeight.w400,
             fontSize: 16.sp,
             color: AppColors.lightText,
-            fontFamily: AppFontFamily.gilroyRegular,
+            fontFamily: AppFontFamily.onestRegular,
           ),
         ),
         hBox(10.h),
@@ -2036,7 +2036,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -2067,7 +2067,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -2098,7 +2098,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -2152,7 +2152,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               style: TextStyle(
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
-                fontFamily: AppFontFamily.gilroyRegular,
+                fontFamily: AppFontFamily.onestRegular,
                 color: AppColors.darkText,
               ),
             ),
@@ -2168,7 +2168,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       children: [
         Expanded(
           child: CustomElevatedButton(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             height: 55.h,
             text: "Clear",
             color: AppColors.black,
@@ -2196,7 +2196,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
         wBox(10.w),
         Expanded(
           child: CustomElevatedButton(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             height: 55.h,
             text: "Apply",
             color: AppColors.primary,
@@ -2246,7 +2246,7 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             fontWeight: FontWeight.w400,
             fontSize: 15.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,

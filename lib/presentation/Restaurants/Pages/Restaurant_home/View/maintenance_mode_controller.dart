@@ -78,11 +78,11 @@ class MaintenanceModeController extends GetxController{
       child: AlertDialog(
         title: Center(
           child: Text("Update App",
-            style: AppFontStyle.text_18_500(AppColors.black,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_18_500(AppColors.black,family: AppFontFamily.onestMedium),
           ),
         ),
         content: Text("A new version of  is available! Version $newVersion is now available - you have $oldVersion.",
-          style: AppFontStyle.text_16_400(AppColors.black,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_16_400(AppColors.black,family: AppFontFamily.onestRegular),
           maxLines: 5,
           textAlign: TextAlign.center,
         ),

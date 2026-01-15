@@ -171,7 +171,7 @@ class RestaurantCartController extends GetxController {
                 textAlign: TextAlign.center,
                 style: AppFontStyle.text_16_500(
                   AppColors.darkText,
-                  family: AppFontFamily.gilroyMedium,
+                  family: AppFontFamily.onestMedium,
                 ),
               ),
               actions: <Widget>[
@@ -183,7 +183,7 @@ class RestaurantCartController extends GetxController {
                     'OK',
                     style: AppFontStyle.text_15_600(
                       AppColors.white,
-                      family: AppFontFamily.gilroyMedium,
+                      family: AppFontFamily.onestMedium,
                     ),
                   ),
                 ),
@@ -343,7 +343,7 @@ class RestaurantCartController extends GetxController {
                 textAlign: TextAlign.center,
                 style: AppFontStyle.text_16_500(
                   AppColors.darkText,
-                  family: AppFontFamily.gilroyMedium,
+                  family: AppFontFamily.onestMedium,
                 ),
               ),
               actions: <Widget>[
@@ -355,7 +355,7 @@ class RestaurantCartController extends GetxController {
                     'OK',
                     style: AppFontStyle.text_15_600(
                       AppColors.white,
-                      family: AppFontFamily.gilroyMedium,
+                      family: AppFontFamily.onestMedium,
                     ),
                   ),
                 ),
@@ -431,8 +431,8 @@ class RestaurantCartController extends GetxController {
         isSingleCartScreen == true? refreshRestaurantSingleCartApi(cartId: cartId) : refreshGetAllCheckoutDataRes();
         setRxRequestStatusOrderType(Status.COMPLETED);
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
-        // loadingIndex.value = -1;
-        // loadingType.value = '';
+        loadingIndex.value = -1;
+        loadingType.value = '';
         // if(type == "self"){
         //   isDelivery?.value = false;
         // }else if(type == 'delivery'){
@@ -445,8 +445,8 @@ class RestaurantCartController extends GetxController {
         // }else if(type == 'delivery'){
         //   isDelivery?.value = false;
         // }
-        // loadingIndex.value = -1;
-        // loadingType.value = '';
+        loadingIndex.value = -1;
+        loadingType.value = '';
         Utils.showToast(apiDataOrderType.value.message.toString().capitalize.toString());
       }
     },).onError((error, stackTrace) {

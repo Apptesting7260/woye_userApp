@@ -38,7 +38,7 @@ class AllPharmaShopsScreen extends StatelessWidget {
         title: Text(
           "Pharmacy Shops",
           style: AppFontStyle.text_22_600(
-            AppColors.darkText,family: AppFontFamily.gilroyRegular
+            AppColors.darkText,family: AppFontFamily.onestRegular
           ),
         ),
       ),
@@ -184,7 +184,7 @@ class AllPharmaShopsScreen extends StatelessWidget {
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_17_400(AppColors.darkText
-            ,family: AppFontFamily.gilroyMedium),
+            ,family: AppFontFamily.onestMedium),
         ),
         // hBox(10),
         Row(
@@ -193,19 +193,19 @@ class AllPharmaShopsScreen extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular
+              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular
               ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
           ],
         )

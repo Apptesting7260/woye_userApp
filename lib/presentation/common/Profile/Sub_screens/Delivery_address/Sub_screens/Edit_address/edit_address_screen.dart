@@ -28,7 +28,7 @@ class EditAddressScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Edit Address",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -130,7 +130,7 @@ class EditAddressScreen extends StatelessWidget {
       ],
       prefix: CountryCodePicker(
         padding: const EdgeInsets.only(left: 10),
-        textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
         onChanged: (CountryCode countryCode) {
           print("country code===========> ${countryCode.code}");
           controller.updateCountryCode(countryCode);
@@ -182,7 +182,9 @@ class EditAddressScreen extends StatelessWidget {
   }
 
   Widget toggleButtons() {
-    return Row(children: [
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
       CustomToogleButton(
           title: "Home",
           value: 0.obs,
@@ -192,8 +194,9 @@ class EditAddressScreen extends StatelessWidget {
           onChanged: (v) {
             controller.radioValue.value = v!;
             controller.addressType.value = "Home";
-          }),
-      wBox(10.h),
+          },
+      ),
+      wBox(8.h),
       CustomToogleButton(
           title: "Office",
           value: 1.obs,
@@ -204,7 +207,7 @@ class EditAddressScreen extends StatelessWidget {
             controller.radioValue.value = v!;
             controller.addressType.value = "Office";
           }),
-      wBox(10.h),
+      wBox(8.h),
       CustomToogleButton(
           title: "Other",
           value: 2.obs,
@@ -242,7 +245,7 @@ class EditAddressScreen extends StatelessWidget {
         ),
         Text(
           "Set default",
-          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
       ],
     );
@@ -258,7 +261,7 @@ class EditAddressScreen extends StatelessWidget {
   Widget saveButton(type,cartId,fromCart) {
     return Obx(
       () => CustomElevatedButton(
-        fontFamily: AppFontFamily.gilroyMedium,
+        fontFamily: AppFontFamily.onestMedium,
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             controller.editAddressApi(type: type,cartId:cartId ,fromCart: fromCart);

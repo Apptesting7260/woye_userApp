@@ -44,14 +44,14 @@ class InviteFriendsScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Invite Friends",
-        style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.onestRegular),
       ),
       hBox(15),
       Text(
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
           style: TextStyle(
               fontSize: 15.sp,
-              fontFamily: AppFontFamily.gilroyRegular,
+              fontFamily: AppFontFamily.onestRegular,
               fontWeight: FontWeight.w400,
               color: AppColors.lightText)),
     ]);
@@ -65,8 +65,8 @@ class InviteFriendsScreen extends StatelessWidget {
         onChanged: (val){
           controller.isRed.value = true;
         },
-        hintStyle: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-       textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        hintStyle: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.onestRegular),
+       textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
         prefix: Padding(
           padding: REdgeInsets.only(left: 20, right: 14),
           child: SvgPicture.asset("assets/svg/email.svg"),
@@ -87,7 +87,7 @@ class InviteFriendsScreen extends StatelessWidget {
     return Obx(
       ()=> CustomElevatedButton(
         isLoading: controller.rxRequestStatus.value == Status.LOADING,
-      fontFamily: AppFontFamily.gilroyMedium,
+      fontFamily: AppFontFamily.onestMedium,
         onPressed: () {
           final email = controller.emailTextFieldController.value.text;
 

@@ -18,7 +18,7 @@ class MyWalletScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "My Wallet",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -78,12 +78,12 @@ class MyWalletScreen extends StatelessWidget {
         children: [
           Text(
             "Credit Balance ",
-            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           hBox(10),
           Text(
             "\$${controller.userWalletData.value.currentBalance}",
-            style: AppFontStyle.text_24_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_24_600(AppColors.primary,family: AppFontFamily.onestRegular),
           ),
         ],
       ),
@@ -100,7 +100,7 @@ class MyWalletScreen extends StatelessWidget {
 
             Text(
               "Transaction History",
-              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
         //     InkWell(
         //       splashColor: Colors.transparent,
@@ -185,7 +185,7 @@ class MyWalletScreen extends StatelessWidget {
                                 data?.descp.toString() ?? "",
                                 maxLines: 2,
                                 style:
-                                    AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                    AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                               ),
                             ),
                             wBox(0.w),
@@ -196,7 +196,7 @@ class MyWalletScreen extends StatelessWidget {
                                   data?.transactionType.toString() == "Credit"
                                       ? AppColors.primary
                                       : AppColors.red,
-                              family: AppFontFamily.gilroyMedium,
+                              family: AppFontFamily.onestMedium,
                               ),
                             ),
                           ],
@@ -208,12 +208,12 @@ class MyWalletScreen extends StatelessWidget {
                             Text(
                               DateFormat("EEE, dd MMM - hh:mm a").format(DateTime.parse(data?.transactionDate ?? "")),
                               style:
-                                  AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                  AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                             ),
                             Text(
                               data?.transactionType ?? "",
                               style:
-                                  AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                  AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                             ),
                           ],
                         ),

@@ -77,18 +77,18 @@ class PayStackController extends GetxController {
           builder: (_) => AlertDialog(
             title: Center(
               child: Text("Payment Error",
-                style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.onestMedium),
               ),
             ),
             content: Text("The payment amount must be greater then 0",
-              style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.onestRegular),
               maxLines: 5,
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text("OK",
-                  style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.onestMedium),
                 ),
               ),
             ],
@@ -326,7 +326,7 @@ class PayStackController extends GetxController {
         textAlign: TextAlign.center,
         style: AppFontStyle.text_16_500(
           AppColors.darkText,
-          family: AppFontFamily.gilroyMedium,
+          family: AppFontFamily.onestMedium,
         ),
       ),
       actions: <Widget>[
@@ -338,7 +338,7 @@ class PayStackController extends GetxController {
             'OK',
             style: AppFontStyle.text_15_600(
               AppColors.white,
-              family: AppFontFamily.gilroyMedium,
+              family: AppFontFamily.onestMedium,
             ),
           ),
         ),
@@ -351,18 +351,18 @@ class PayStackController extends GetxController {
     return AlertDialog(
           title: Center(
             child: Text("Payment Error",
-              style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.onestMedium),
             ),
           ),
           content: Text("The payment amount exceeds the maximum ($maxAmount) allowed limit.",
-            style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.onestRegular),
             maxLines: 5,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: Text("OK",
-                style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_18_400(AppColors.black,family: AppFontFamily.onestMedium),
               ),
             ),
           ],

@@ -119,7 +119,7 @@ class MyApp extends StatelessWidget {
                   surface: Colors.white,
                 ),
                 useMaterial3: true,
-                fontFamily: AppFontFamily.gilroyRegular),
+                fontFamily: AppFontFamily.onestRegular),
                 // fontFamily: "Gilroy"),
             getPages: AppRoutes.pages,
             initialRoute: AppRoutes.initalRoute,

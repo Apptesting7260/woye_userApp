@@ -29,7 +29,7 @@ class ProductReviews extends StatelessWidget {
           isLeading: true,
           title: Text(
             "Reviews",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
         ),
         body: Obx(() {
@@ -80,7 +80,7 @@ class ProductReviews extends StatelessWidget {
       children: [
         Text(
           "Reviews",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10),
         Row(
@@ -98,12 +98,12 @@ class ProductReviews extends StatelessWidget {
             wBox(8),
             Text(
               "${rating.toString()}/5",
-              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
             ),
             wBox(8),
             Text(
               "(${reviewcount} reviews)",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             ),
           ],
         ),
@@ -186,7 +186,7 @@ class ProductReviews extends StatelessWidget {
                                       Text(
                                         controller.seeAllReview.value.reviewAll?[index].user?.firstName.toString() ?? "Unknown User",
                                         style: AppFontStyle.text_16_400(
-                                          AppColors.darkText,family: AppFontFamily.gilroyMedium
+                                          AppColors.darkText,family: AppFontFamily.onestMedium
                                         ),
                                       ),
                                       hBox(5),
@@ -211,7 +211,7 @@ class ProductReviews extends StatelessWidget {
                                             .toString()
                                             .trim(),
                                         style: AppFontStyle.text_16_400(
-                                            AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.darkText,family: AppFontFamily.onestMedium),
                                         maxLines: 100,
                                       ),
                                       hBox(10),
@@ -220,7 +220,7 @@ class ProductReviews extends StatelessWidget {
                                             .value.reviewAll![index].createdAt
                                             .toString()),
                                         style: AppFontStyle.text_16_400(
-                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.lightText,family: AppFontFamily.onestMedium),
                                       ),
                                     ],
                                   ),
@@ -245,7 +245,7 @@ class ProductReviews extends StatelessWidget {
                                             .toString()
                                             .trim(),
                                         style: AppFontStyle.text_16_400(
-                                            AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.lightText,family: AppFontFamily.onestMedium),
                                         maxLines: 100,
                                         overflow: TextOverflow.ellipsis,
                                       ),

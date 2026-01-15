@@ -13,6 +13,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final void Function()? leadingOnTap;
   final double? width;
   final double? height;
+  final double? horizontalPadding;
 
   const CustomAppBar(
       {super.key,
@@ -28,12 +29,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.leadingOnTap,
       this.width,
       this.height,
+      this.horizontalPadding,
       });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: REdgeInsets.symmetric(horizontal: 24),
+      padding: REdgeInsets.symmetric(horizontal:horizontalPadding ?? 24),
       child: AppBar(
         automaticallyImplyLeading: false,
         leading: isLeading

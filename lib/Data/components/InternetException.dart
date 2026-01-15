@@ -42,7 +42,7 @@ class _InternetExceptionWidgetState extends State<InternetExceptionWidget> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                       ),
                     ),
                     hBox(20.h),
@@ -52,7 +52,7 @@ class _InternetExceptionWidgetState extends State<InternetExceptionWidget> {
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                       ),
                     ),
                   ],
@@ -75,7 +75,7 @@ class _InternetExceptionWidgetState extends State<InternetExceptionWidget> {
                     style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: Colors.white),
                   )),
             ),

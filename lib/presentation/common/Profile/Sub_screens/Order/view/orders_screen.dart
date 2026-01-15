@@ -414,13 +414,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                           order.decodedAttribute![0].productName
                                               .toString(),
                                           style: AppFontStyle.text_14_600(
-                                              AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                              AppColors.darkText,family: AppFontFamily.onestRegular),
                                         ),
                                         hBox(10),
                                         Text(
                                           "Qty:${order.decodedAttribute![0].quantity.toString()}",
                                           style: AppFontStyle.text_12_400(
-                                              AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                              AppColors.darkText,family: AppFontFamily.onestMedium),
                                         ),
                                       ],
                                     ),
@@ -559,13 +559,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       order.decodedAttribute![0].productName
                                           .toString(),
                                       style: AppFontStyle.text_14_600(
-                                          AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                          AppColors.darkText,family: AppFontFamily.onestRegular),
                                     ),
                                     hBox(10),
                                     Text(
                                       "Qty:${order.decodedAttribute![0].quantity.toString()}",
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                          AppColors.darkText,family: AppFontFamily.onestMedium),
                                     ),
                                   ],
                                 ),
@@ -698,13 +698,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                       order.decodedAttribute![0].productName
                                           .toString(),
                                       style: AppFontStyle.text_14_600(
-                                          AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                          AppColors.darkText,family: AppFontFamily.onestRegular),
                                     ),
                                     hBox(10.h),
                                     Text(
                                       "Qty:${order.decodedAttribute?[0].quantity.toString() ?? ""}",
                                       style: AppFontStyle.text_12_400(
-                                          AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                          AppColors.darkText,family: AppFontFamily.onestMedium),
                                     ),
                                   ],
                                 ),
@@ -1190,14 +1190,14 @@ class _OrdersScreenState extends State<OrdersScreen> {
                   children: [
                     Text(
                       'Cancel',
-                      style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                      style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestMedium),
                     ),
                     // hBox(15),
                     Text(
                       'Are you sure you want to cancel?',
                       maxLines: 2,
                       textAlign: TextAlign.center,
-                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                     ),
                     // hBox(15),
                     Row(
@@ -1211,7 +1211,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                             },
                             text: "No",
                             textStyle:
-                                AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                                AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestMedium),
                           ),
                         ),
                         wBox(15),
@@ -1227,7 +1227,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                               },
                               text: "Yes",
                               textStyle:
-                                  AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                                  AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestMedium),
                             ),
                           ),
                         ),

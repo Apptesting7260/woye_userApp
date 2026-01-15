@@ -18,7 +18,7 @@ class MaintenanceModeScreen extends StatelessWidget {
             Text("We're making some improvements.\nWe'll be back soon — thanks for your patience!",
               maxLines: 3,
               textAlign: TextAlign.center,
-              style: AppFontStyle.text_18_500(AppColors.black,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_18_500(AppColors.black,family: AppFontFamily.onestMedium),
             ),
           ],
         ),

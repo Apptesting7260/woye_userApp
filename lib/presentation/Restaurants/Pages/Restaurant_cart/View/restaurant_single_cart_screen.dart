@@ -70,7 +70,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
           isActions: true,
           title: Text(
             "My Cart",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
         ),
         body: Obx(() {
@@ -140,7 +140,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         Row(
                           children: [
                             Text("Delivery Type", style: AppFontStyle.text_16_500(
-                                AppColors.darkText,family: AppFontFamily.gilroyMedium),),
+                                AppColors.darkText,family: AppFontFamily.onestMedium),),
                             const Spacer(),
                             Obx(
                                   ()=> InkWell(
@@ -169,7 +169,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                   circularProgressIndicator2() :
                                   Text("Self", style: AppFontStyle.text_14_400(
                                      controller.singleCartData.value.cart?.raw?.orderType == 'self'
-                                          ? AppColors.primary :AppColors.darkText,family: AppFontFamily.gilroyMedium),)),
+                                          ? AppColors.primary :AppColors.darkText,family: AppFontFamily.onestMedium),)),
                                 ),
                               ),
                             ),
@@ -195,7 +195,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                   circularProgressIndicator2() :
                                   Text("Delivery", style: AppFontStyle.text_14_400(
                                    controller.singleCartData.value.cart?.raw?.orderType == "delivery"
-                                    ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                                    ? AppColors.primary : AppColors.darkText,family: AppFontFamily.onestMedium,
                                   ),
                                   ),
                                   ),
@@ -234,7 +234,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
           children: [
             Text(
               "Delivery Address",
-              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
             const Spacer(),
             InkWell(
@@ -252,7 +252,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 children: [
                   Text(
                     "Change Address",
-                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.primary,family: AppFontFamily.onestMedium),
                   ),
                   wBox(4),
                   Icon(
@@ -280,7 +280,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
             children: [
               Text(
                 controller.singleCartData.value.address!.addressType.toString().capitalizeFirst.toString(),
-                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
               ),
               VerticalDivider(thickness: 1.w, color: AppColors.hintText),
               SizedBox(
@@ -289,7 +289,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   controller.singleCartData.value.address!.address.toString(),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                 ),
               ),
             ],
@@ -321,7 +321,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
           Text(
             "Your\nLocation",
             textAlign: TextAlign.center,
-            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
           ),
           VerticalDivider(thickness: 1.w, color: AppColors.hintText),
           SizedBox(
@@ -330,7 +330,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               currentLocation.value,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
           ),
         ],
@@ -486,7 +486,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               style: AppFontStyle.text_16_400(
-                                  AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                  AppColors.darkText,family: AppFontFamily.onestMedium),
                             ),
                           ),
                           // Obx(
@@ -546,7 +546,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             "\$${item?.totalPrice.toString() ?? ""}",
                             overflow: TextOverflow.ellipsis,
                             style: AppFontStyle.text_14_600(
-                                AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                AppColors.primary,family: AppFontFamily.onestRegular),
                           ),
                           isLoading
                               ? Shimmer.fromColors(
@@ -621,7 +621,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                   Text(
                                     item?.quantity.toString() ?? "",
                                     style: AppFontStyle.text_14_400(
-                                        AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                        AppColors.darkText,family: AppFontFamily.onestMedium),
                                   ),
                                   // IconButton(onPressed: () {
                                   //
@@ -703,21 +703,21 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             Text(
                               '${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemName?.capitalize}',
                               style:
-                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             Text(
                               ' - ',
                               style:
-                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
                             Text(
                               '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice}',
                               style:
-                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                              AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -725,7 +725,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               Text(
                                 ',',
                                 style:
-                                AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+                                AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                               ),
@@ -762,21 +762,21 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                           Text(
                             '${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].addons![addonIndex].name?.capitalize}',
                             style:
-                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                           Text(
                             ' - ',
                             style:
-                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
                           Text(
                             '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].addons![addonIndex].price?.capitalize}',
                             style:
-                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                            AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                           ),
@@ -784,7 +784,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             Text(
                               ',',
                               style:
-                              AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                              AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             ),
@@ -879,7 +879,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 },
                 child: Text(
                   "Apply",
-                  style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                  style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
                 ),
               ),
               wBox(20.h),
@@ -958,19 +958,19 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     children: [
                       Text(
                         controller.singleCartData.value.cart?.appliedCoupon?.code.toString() ?? "",
-                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_16_600(AppColors.black,family: AppFontFamily.onestRegular),
                       ),
                       wBox(5.h),
                       Text(
                         "Applied",
                         style:
-                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                        AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
                       ),
                     ],
                   ),
                   Text(
                      " ${controller.singleCartData.value.cart?.couponDiscount != null ? "-"  : ""}\$${controller.singleCartData.value.cart?.couponDiscount ?? "0"}",
-                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                 ],
               ),
@@ -991,7 +991,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
       children: [
         Text(
           "Payment Details",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10.h),
         if (isLoading) ...[
@@ -1008,11 +1008,11 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
             children: [
               Text(
                 "Regular Price",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 "\$${controller.singleCartData.value.cart!.raw?.regularPrice.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -1022,11 +1022,11 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
             children: [
               Text(
                 "Save Amount",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
               Text(
                 "\$${controller.singleCartData.value.cart!.raw?.saveAmount.toString()}",
-                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -1043,7 +1043,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   Text(
                         controller.singleCartData.value.cart?.couponDiscount == null? "\$0.0" :
                     "- \$${controller.singleCartData.value.cart?.couponDiscount.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -1056,11 +1056,11 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 children: [
                   Text(
                     "Delivery Charge",
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                   ),
                   Text(
                     "\$${controller.singleCartData.value.cart?.deliveryCharge.toString()}",
-                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -1085,14 +1085,14 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
           children: [
             Text(
               "Total Price",
-              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+              style: AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestSemiBold),
             ),
             isLoading
                 ? shimmerItem('\$0.00',
                 width: 70, height: 40, secondShimmer: false)
                 : Text(
               "\$${controller.singleCartData.value.cart?.finalTotal.toString()}",
-              style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_22_600(AppColors.primary,family: AppFontFamily.onestRegular),
             ),
           ],
         ),
@@ -1169,7 +1169,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 }
               },
               text: "Checkout",
-              textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+              textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
             ),
           ),
         )
@@ -1185,7 +1185,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
               });
             },
             text: "Complete Address",
-            textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.gilroyRegular),
+            textStyle: AppFontStyle.text_16_600(AppColors.white,family: AppFontFamily.onestRegular),
           ),
         ),
       ],
@@ -1263,7 +1263,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     children: [
                       Text(
                         "Your Promo Codes",
-                        style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                       ),
                       InkWell(
                         splashColor: Colors.transparent,
@@ -1334,7 +1334,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                           Text(
                             controller.singleCartData.value.coupons?[index].value ?? "0",
                             style: AppFontStyle.text_22_600(Colors.white,
-                                height: 1.h,family: AppFontFamily.gilroyMedium),
+                                height: 1.h,family: AppFontFamily.onestMedium),
                           ),
                           Text(
                             controller.singleCartData.value.coupons![index].couponType
@@ -1342,7 +1342,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                                 "percentage"
                                 ? "%"
                                 : "\$",
-                            style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_14_400(Colors.white,family: AppFontFamily.onestRegular),
                           )
                         ],
                       ),
@@ -1364,7 +1364,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                       controller.singleCartData.value.coupons![index].title
                           .toString(),
                       overflow: TextOverflow.ellipsis,
-                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                      style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                     ),
                     hBox(10),
                     FittedBox(
@@ -1372,7 +1372,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         controller.singleCartData.value.coupons![index].code
                             .toString(),
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold,
+                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestSemiBold,
                             height: 1.h),
                       ),
                     ),
@@ -1390,7 +1390,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                       child: Text(
                         daysRemaining,
                         overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                       ),
                     ),
                       hBox(8),
@@ -1400,7 +1400,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         "Expired")
                       CustomElevatedButton(
                         textStyle:
-                        AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.gilroyMedium),
+                        AppFontStyle.text_14_400(Colors.white, height: 1.0,family: AppFontFamily.onestMedium),
                         width: 85.w,
                         height: 36.h,
                         text: "Select",
@@ -1442,7 +1442,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
-                  fontFamily: AppFontFamily.gilroyRegular,
+                  fontFamily: AppFontFamily.onestRegular,
                   color: Colors.black,
                 ),
               ),
@@ -1453,7 +1453,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                 style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                   color: Colors.grey,
                 ),
               ),
@@ -1468,7 +1468,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                         Get.back();
                       },
                       text: "Cancel",
-                      textStyle: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium,
+                      textStyle: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium,
                       ),
                     ),
                   ),
@@ -1476,7 +1476,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   Obx(
                         () => Expanded(
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 40.h,
                         isLoading:
                         deleteProductController.rxRequestStatus.value ==

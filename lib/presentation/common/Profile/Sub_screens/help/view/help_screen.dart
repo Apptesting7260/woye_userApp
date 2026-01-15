@@ -11,7 +11,7 @@ class HelpScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Settings",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -27,7 +27,7 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "Support",
-                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,
@@ -45,7 +45,7 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "FAQ",
-                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,
@@ -63,7 +63,7 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "Privay Policy",
-                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,
@@ -81,7 +81,7 @@ class HelpScreen extends StatelessWidget {
               ),
               title: Text(
                 "Terms & Conditions",
-                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               trailing: Icon(
                 Icons.arrow_forward_ios_sharp,

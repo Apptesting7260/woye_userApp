@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
         isLeading: false,
         title: Text(
           "My Profile",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -150,13 +150,13 @@ class ProfileScreen extends StatelessWidget {
                                   .userData.value.user?.firstName?.characters
                                   .toString() ??
                               "",
-                          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                         ),
                         hBox(10),
                         Text(
                           getUserDataController.userData.value.user?.email ??
                               "",
-                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                           maxLines: 2,
                         ),
                       ],
@@ -180,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
       title: Text(
         'Edit Profile',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
@@ -206,7 +206,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/cart-dark.svg"),
       title: Text(
         'Orders',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         // style: AppFontStyle.text_16_500(AppColors.darkText),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
@@ -235,7 +235,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/wishlist.svg", color: AppColors.black),
       title: Text(
         'Wishlist',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         // style: AppFontStyle.text_16_500(AppColors.darkText),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
@@ -253,7 +253,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/location-pin-dark.svg"),
       title: Text(
         'Delivery Address',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
@@ -278,7 +278,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/payment-card-dark.svg"),
       title: Text(
         'Payment Method',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios),
       onTap: () {
@@ -301,7 +301,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/wallet-dark.svg"),
       title: Text(
         'My Wallet',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
@@ -346,7 +346,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/profile-dark.svg"),
       title: Text(
         'Invite Friends',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
@@ -369,7 +369,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/settings-dark.svg"),
       title: Text(
         'Settings',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
@@ -391,7 +391,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/help-dark.svg"),
       title: Text(
         'Help',
-        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       ),
       trailing: const Icon(Icons.arrow_forward_ios,size: 20,),
       onTap: () {
@@ -413,7 +413,7 @@ class ProfileScreen extends StatelessWidget {
       leading: SvgPicture.asset("assets/svg/logout.svg"),
       title: Text(
         'Logout',
-        style: AppFontStyle.text_17_400(AppColors.primary,family: AppFontFamily.gilroyMedium),
+        style: AppFontStyle.text_17_400(AppColors.primary,family: AppFontFamily.onestMedium),
       ),
       onTap: () {
         logoutPopUp(context);
@@ -439,13 +439,13 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Logout',
-                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestMedium),
                   ),
                   // hBox(15),
                   Text(
                     'Are you sure you want to log out?',
                     maxLines: 2,
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                   ),
                   // hBox(15),
                   Row(
@@ -459,14 +459,14 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                              AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                              AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestMedium),
                         ),
                       ),
                       wBox(15),
                       Expanded(
                         child: CustomElevatedButton(
                           height: 40.h,
-                          textStyle:AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          textStyle:AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestMedium),
                           onPressed: () {
                            /* socialLoginController.signout();
                             userPreference.removeUser();
@@ -503,12 +503,12 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Login Required',
-                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestMedium),
                   ),
                   // hBox(15),
                   Text(
                     'You need to log in first',
-                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                   ),
                   // hBox(15),
                   Row(
@@ -522,7 +522,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                              AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                              AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                         ),
                       ),
                       wBox(15),
@@ -535,7 +535,7 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Login",
                           textStyle:
-                          AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                         ),
                       ),
                     ],

@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Location Permission is off",
                       maxLines: 2,
                       textAlign: TextAlign.center,
-                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                     ),
                     hBox(10.h),
                     Text(
                       "Getting location permission will ensure accurate address and hassle free delivery",
-                      style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                       maxLines: 4,
                       textAlign: TextAlign.center,
                     ),
@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         await currentLocationController.getCurrentPosition(back: true);
                       },
                       text: "Allow Location Access",
-                      textStyle: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroySemiBold),
+                      textStyle: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestSemiBold),
                     ),
                     SizedBox(height: 10.h),
                     GestureDetector(
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 "Add Address",
                                 style:
-                                    AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.gilroyMedium),
+                                    AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.onestMedium),
                               ),
                             ],
                           )),
@@ -131,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Padding(
             padding: REdgeInsets.only(
-                left: 24.h, top: 10.h, right: 24.h, bottom: 20.h),
+                left: 20.h, top: 10.h, right: 20.h, bottom: 20.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Obx(() => Expanded(
                   child: Text(
                       homeController.location.value,
-                      style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                      style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                       maxLines: 2,
                       overflow: TextOverflow.clip,
                     ),
@@ -227,13 +227,13 @@ class _HomeScreenState extends State<HomeScreen> {
               //             Text(
               //               "Your Location",
               //               style:
-              //                   AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              //                   AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               //             ),
               //             hBox(5.w),
               //             Obx(
               //               () => Text(
               //                 homeController.location.value,
-              //                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+              //                 style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               //                 maxLines: 3,
               //                 overflow: TextOverflow.ellipsis,
               //               ),
@@ -251,45 +251,41 @@ class _HomeScreenState extends State<HomeScreen> {
               // ),
               // hBox(20),
               Padding(
-                padding: REdgeInsets.symmetric(horizontal: 24),
+                padding: REdgeInsets.symmetric(horizontal: 20),
                 child: SizedBox(
                   height: 42.h,
-                  child: Row(
-                    children: [
-                      ListView.separated(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: homeController.mainButtonbar.length,
-                        itemBuilder: (context, index) {
-                          bool isSelected = restaurantNavbarController.mainButtonIndex.value == index;
-                          return GestureDetector(
-                            onTap: () {
-                              if (index == 2) {
-                                restaurantNavbarController.getIndexMainButton(index);
-                                //homeController.navigate(index);
-                              } else {
-                                restaurantNavbarController.getIndexMainButton(index);
-                                //homeController.navigate(index);
-                              }
-                            },
-                            child: MainButtonBar(
-                              title: homeController.mainButtonbar[index]["title"] ?? "",
-                              image: isSelected ? homeController.mainButtonbar[index]["imageEnabled"] ?? ""
-                                  : homeController.mainButtonbar[index]["imageDisabled"] ?? "",
-                              backgroundColor: isSelected
-                                  ? AppColors.black
-                                  : Colors.transparent,
-                              titleColor: isSelected
-                                  ? AppColors.white
-                                  : AppColors.black,
-                            ),
-                          );
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: homeController.mainButtonbar.length,
+                    itemBuilder: (context, index) {
+                      bool isSelected = restaurantNavbarController.mainButtonIndex.value == index;
+                      return GestureDetector(
+                        onTap: () {
+                          if (index == 2) {
+                            restaurantNavbarController.getIndexMainButton(index);
+                            //homeController.navigate(index);
+                          } else {
+                            restaurantNavbarController.getIndexMainButton(index);
+                            //homeController.navigate(index);
+                          }
                         },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return wBox(10);
-                        },
-                      ),
-                    ],
+                        child: MainButtonBar(
+                          title: homeController.mainButtonbar[index]["title"] ?? "",
+                          image: isSelected ? homeController.mainButtonbar[index]["imageEnabled"] ?? ""
+                              : homeController.mainButtonbar[index]["imageDisabled"] ?? "",
+                          backgroundColor: isSelected
+                              ? AppColors.black
+                              : Colors.transparent,
+                          titleColor: isSelected
+                              ? AppColors.white
+                              : AppColors.black,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return wBox(10);
+                    },
                   ),
                 ),
               ),
@@ -322,7 +318,7 @@ class MainButtonBar extends StatelessWidget {
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInCubic,
       height: 42.h,
-      width: Get.width * 0.27,
+      width: Get.width * 0.28,
       decoration: BoxDecoration(
           border: Border.all(color: AppColors.primary.withOpacity(0.2)),
           color: backgroundColor,
@@ -338,7 +334,7 @@ class MainButtonBar extends StatelessWidget {
           wBox(6),
           Text(
             title,
-            style: AppFontStyle.text_12_500(titleColor,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_12_500(titleColor,family: AppFontFamily.onestMedium),
           )
         ],
       ),

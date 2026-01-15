@@ -22,15 +22,15 @@ class specificProduct {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    if (this.product != null) {
-      data['product'] = this.product!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    if (product != null) {
+      data['product'] = product!.toJson();
     }
-    if (this.moreProducts != null) {
-      data['moreProducts'] = this.moreProducts!.map((v) => v.toJson()).toList();
+    if (moreProducts != null) {
+      data['moreProducts'] = moreProducts!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -208,64 +208,64 @@ class Product {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['slug'] = this.slug;
-    data['sku'] = this.sku;
-    data['description'] = this.description;
-    data['image'] = this.image;
-    data['addimg'] = this.addimg;
-    data['vendor_id'] = this.vendorId;
-    data['category_id'] = this.categoryId;
-    data['cuisine_id'] = this.cuisineId;
-    data['brand_id'] = this.brandId;
-    data['packaging_id'] = this.packagingId;
-    data['application_id'] = this.applicationId;
-    data['ndc_number'] = this.ndcNumber;
-    data['strength'] = this.strength;
-    data['department'] = this.department;
-    data['shelf_life_type'] = this.shelfLifeType;
-    data['shelf_life_value'] = this.shelfLifeValue;
-    data['menu_section'] = this.menuSection;
-    data['regular_price'] = this.regularPrice;
-    data['sale_price'] = this.salePrice;
-    data['discount'] = this.discount;
-    data['quantity_in_stock'] = this.quantityInStock;
-    data['prescription'] = this.prescription;
-    data['preparation_time'] = this.preparationTime;
-    data['rating'] = this.rating;
-    if (this.addOns != null) {
-      data['add_ons'] = this.addOns!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['slug'] = slug;
+    data['sku'] = sku;
+    data['description'] = description;
+    data['image'] = image;
+    data['addimg'] = addimg;
+    data['vendor_id'] = vendorId;
+    data['category_id'] = categoryId;
+    data['cuisine_id'] = cuisineId;
+    data['brand_id'] = brandId;
+    data['packaging_id'] = packagingId;
+    data['application_id'] = applicationId;
+    data['ndc_number'] = ndcNumber;
+    data['strength'] = strength;
+    data['department'] = department;
+    data['shelf_life_type'] = shelfLifeType;
+    data['shelf_life_value'] = shelfLifeValue;
+    data['menu_section'] = menuSection;
+    data['regular_price'] = regularPrice;
+    data['sale_price'] = salePrice;
+    data['discount'] = discount;
+    data['quantity_in_stock'] = quantityInStock;
+    data['prescription'] = prescription;
+    data['preparation_time'] = preparationTime;
+    data['rating'] = rating;
+    if (addOns != null) {
+      data['add_ons'] = addOns!.map((v) => v.toJson()).toList();
     }
-    if (this.options != null) {
-      data['options'] = this.options!.map((v) => v.toJson()).toList();
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
     }
-    data['attributes_grouped'] = this.productAttributes;
-    data['type'] = this.type;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['resto_name'] = this.restoName;
-    data['resto_image'] = this.restoImage;
-    data['addimg_url'] = this.addimgUrl;
-    data['image_url'] = this.imageUrl;
-    data['category_name'] = this.categoryName;
-    data['cuisine_name'] = this.cuisineName;
-    data['brand_name'] = this.brandName;
-    data['packaging_name'] = this.packagingName;
-    data['application_name'] = this.applicationName;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    data['attributes_grouped'] = productAttributes;
+    data['type'] = type;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    data['is_in_wishlist'] = isInWishlist;
+    data['resto_name'] = restoName;
+    data['resto_image'] = restoImage;
+    data['addimg_url'] = addimgUrl;
+    data['image_url'] = imageUrl;
+    data['category_name'] = categoryName;
+    data['cuisine_name'] = cuisineName;
+    data['brand_name'] = brandName;
+    data['packaging_name'] = packagingName;
+    data['application_name'] = applicationName;
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
-    if (this.cuisine != null) {
-      data['cuisine'] = this.cuisine!.toJson();
+    if (cuisine != null) {
+      data['cuisine'] = cuisine!.toJson();
     }
-    data['brand'] = this.brand;
-    data['packaging'] = this.packaging;
-    data['application'] = this.application;
+    data['brand'] = brand;
+    data['packaging'] = packaging;
+    data['application'] = application;
     return data;
   }
 }
@@ -287,10 +287,10 @@ class ProductAttributes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['group_name'] = this.groupName;
-    if (this.attributes != null) {
-      data['attributes'] = this.attributes!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['group_name'] = groupName;
+    if (attributes != null) {
+      data['attributes'] = attributes!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -308,9 +308,9 @@ class Attributes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }
@@ -330,10 +330,10 @@ class AddOns {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['price'] = this.price;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['price'] = price;
+    data['name'] = name;
     return data;
   }
 }
@@ -357,12 +357,12 @@ class Options {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['option_id'] = this.optionId;
-    if (this.choices != null) {
-      data['choices'] = this.choices!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['option_id'] = optionId;
+    if (choices != null) {
+      data['choices'] = choices!.map((v) => v.toJson()).toList();
     }
-    data['option_name'] = this.optionName;
+    data['option_name'] = optionName;
     return data;
   }
 }
@@ -379,9 +379,9 @@ class Choices {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['price'] = this.price;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['price'] = price;
     return data;
   }
 }
@@ -427,18 +427,18 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['image'] = this.image;
-    data['parent_category'] = this.parentCategory;
-    data['description'] = this.description;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['image_url'] = this.imageUrl;
-    data['products_count'] = this.productsCount;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['slug'] = slug;
+    data['image'] = image;
+    data['parent_category'] = parentCategory;
+    data['description'] = description;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['image_url'] = imageUrl;
+    data['products_count'] = productsCount;
     return data;
   }
 }
@@ -475,15 +475,15 @@ class Cuisine {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['image'] = this.image;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['image_url'] = this.imageUrl;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['image'] = image;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['image_url'] = imageUrl;
     return data;
   }
 }
@@ -509,11 +509,12 @@ class MoreProducts {
   String? brandName;
   String? packagingName;
   String? applicationName;
-  String? category;
+  Category? category;
   String? cuisine;
   String? brand;
   String? packaging;
   String? application;
+  String? preparationTime;
   Rx<bool> isLoading = false.obs;
 
   MoreProducts(
@@ -541,6 +542,7 @@ class MoreProducts {
         this.cuisine,
         this.brand,
         this.packaging,
+        this.preparationTime,
         this.application});
 
   MoreProducts.fromJson(Map<String, dynamic> json) {
@@ -579,44 +581,48 @@ class MoreProducts {
     brandName = json['brand_name'].toString();
     packagingName = json['packaging_name'];
     applicationName = json['application_name'];
-    category = json['category'];
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : null;
     cuisine = json['cuisine'];
     brand = json['brand'];
     packaging = json['packaging'];
     application = json['application'];
+    preparationTime = json['preparation_time'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['image'] = this.image;
-    data['rating'] = this.rating;
-    data['sale_price'] = this.salePrice;
-    data['regular_price'] = this.regularPrice;
-    data['title'] = this.title;
-    data['addimg'] = this.addimg;
-    data['vendor_id'] = this.vendorId;
-    if (this.addOns != null) {
-      data['add_ons'] = this.addOns!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['image'] = image;
+    data['rating'] = rating;
+    data['sale_price'] = salePrice;
+    data['regular_price'] = regularPrice;
+    data['title'] = title;
+    data['addimg'] = addimg;
+    data['vendor_id'] = vendorId;
+    if (addOns != null) {
+      data['add_ons'] = addOns!.map((v) => v.toJson()).toList();
     }
-    if (this.options != null) {
-      data['options'] = this.options!.map((v) => v.toJson()).toList();
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
     }
-    data['attributes_grouped'] = this.productAttributes;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['resto_name'] = this.restoName;
-    data['addimg_url'] = this.addimgUrl;
-    data['image_url'] = this.imageUrl;
-    data['category_name'] = this.categoryName;
-    data['cuisine_name'] = this.cuisineName;
-    data['brand_name'] = this.brandName;
-    data['packaging_name'] = this.packagingName;
-    data['application_name'] = this.applicationName;
-    data['category'] = this.category;
-    data['cuisine'] = this.cuisine;
-    data['brand'] = this.brand;
-    data['packaging'] = this.packaging;
-    data['application'] = this.application;
+    data['attributes_grouped'] = productAttributes;
+    data['is_in_wishlist'] = isInWishlist;
+    data['resto_name'] = restoName;
+    data['addimg_url'] = addimgUrl;
+    data['image_url'] = imageUrl;
+    data['category_name'] = categoryName;
+    data['cuisine_name'] = cuisineName;
+    data['brand_name'] = brandName;
+    data['packaging_name'] = packagingName;
+    data['application_name'] = applicationName;
+    data['category_name'] = categoryName;
+    data['cuisine'] = cuisine;
+    data['brand'] = brand;
+    data['packaging'] = packaging;
+    data['application'] = application;
+    data['preparation_time'] = preparationTime;
     return data;
   }
 }

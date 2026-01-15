@@ -52,7 +52,7 @@ class CustomDropDown extends StatelessWidget {
               style: hintStyle ??
                   AppFontStyle.text_16_400(
                     AppColors.black,
-                    family: AppFontFamily.gilroyMedium,
+                    family: AppFontFamily.onestMedium,
                   ),
             ),
           ),
@@ -67,7 +67,7 @@ class CustomDropDown extends StatelessWidget {
                   style: textStyle ??
                       AppFontStyle.text_14_400(
                         AppColors.black,
-                        family: AppFontFamily.gilroyMedium,
+                        family: AppFontFamily.onestMedium,
                       ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,

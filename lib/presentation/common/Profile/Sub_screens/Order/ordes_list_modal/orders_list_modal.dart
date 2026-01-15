@@ -298,6 +298,8 @@ class DecodedAttribute {
       json['addons'].forEach((v) {
         addons!.add(Addons.fromJson(v));
       });
+    }else{
+      addons = [];
     }
     if (json['attribute'] != null) {
       attribute = <Attribute>[];

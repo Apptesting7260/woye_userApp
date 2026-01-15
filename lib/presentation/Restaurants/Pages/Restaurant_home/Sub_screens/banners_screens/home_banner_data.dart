@@ -115,7 +115,7 @@ class RestaurantHomeBanner extends StatelessWidget {
       children: [
         Text(
           "Categories",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(20.h),
         GridView.builder(
@@ -168,7 +168,7 @@ class RestaurantHomeBanner extends StatelessWidget {
                   hBox(15),
                   Text(
                     banners[index].name.toString(),
-                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium ),
+                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium ),
                   ),
                 ],
               ),
@@ -186,7 +186,7 @@ class RestaurantHomeBanner extends StatelessWidget {
       children: [
         Text(
           "Products",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10.h),
         GridView.builder(
@@ -240,7 +240,7 @@ class RestaurantHomeBanner extends StatelessWidget {
         hBox(3.h),
         Text(
           "Restaurant",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(5.h),
         GetBuilder<BannerDetailsController>(
@@ -366,7 +366,7 @@ class RestaurantHomeBanner extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
         // hBox(10),
         Row(
@@ -375,18 +375,18 @@ class RestaurantHomeBanner extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             ),
           ],
         )
