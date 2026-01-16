@@ -701,7 +701,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemName?.capitalize}',
+                              controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].attribute?[addonIndex].itemDetails?.itemName?.capitalize ?? "",
                               style:
                               AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                               overflow: TextOverflow.ellipsis,
@@ -715,7 +715,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                               maxLines: 1,
                             ),
                             Text(
-                              '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].attribute![addonIndex].itemDetails!.itemPrice}',
+                              '\$${controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].attribute?[addonIndex].itemDetails?.itemPrice ?? ""}',
                               style:
                               AppFontStyle.text_12_400(AppColors.primary,family: AppFontFamily.onestMedium),
                               overflow: TextOverflow.ellipsis,
@@ -736,11 +736,8 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                   ),
                 ),
               ),
-            if (controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].addons!
-                .isNotEmpty &&
-                controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index]
-                    .checked ==
-                    "true")
+            if ((controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].addons?.isNotEmpty ?? false) &&
+                (controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].checked == "true"))
               SizedBox(
                 width: Get.width,
                 child: Wrap(
@@ -751,16 +748,20 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                     controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index]
                         .addons?.length ?? 0,
                         (addonIndex) {
-                      bool isLast = addonIndex ==
-                          controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].addons!.length -
-                              1;
-                      return Row(
+                          // bool isLast = addonIndex ==
+                          //     controller.singleCartData.value.cart!.raw!.decodedAttribute!.bucket![index].addons!.length -
+                          //         1;
+                          final addonsLength =controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index]?.addons?.length ?? 0;
+
+                          bool isLast = addonIndex == addonsLength - 1;
+
+                          return Row(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].addons![addonIndex].name?.capitalize}',
+                            controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].addons?[addonIndex].name?.capitalize ?? "",
                             style:
                             AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                             overflow: TextOverflow.ellipsis,
@@ -774,7 +775,7 @@ class _RestaurantSingleCartScreenState extends State<RestaurantSingleCartScreen>
                             maxLines: 1,
                           ),
                           Text(
-                            '\$${controller.singleCartData.value.cart!.raw?.decodedAttribute!.bucket![index].addons![addonIndex].price?.capitalize}',
+                            '\$${controller.singleCartData.value.cart?.raw?.decodedAttribute?.bucket?[index].addons?[addonIndex].price?.capitalize ?? ""}',
                             style:
                             AppFontStyle.text_12_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                             overflow: TextOverflow.ellipsis,
