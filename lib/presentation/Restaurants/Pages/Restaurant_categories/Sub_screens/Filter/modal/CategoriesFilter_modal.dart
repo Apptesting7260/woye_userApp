@@ -122,24 +122,24 @@ class CategoriesFilter_modal {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['category_id'] = this.categoryId;
-    if (this.cuisineId != null) {
-      data['cuisine_id'] = this.cuisineId!.map((v) => v.toJson()).toList();
+    data['status'] = status;
+    data['category_id'] = categoryId;
+    if (cuisineId != null) {
+      data['cuisine_id'] = cuisineId!.map((v) => v.toJson()).toList();
     }
-    if (this.attributeIds != null) {
+    if (attributeIds != null) {
       data['attribute_ids'] =
-          this.attributeIds!.map((v) => v.toJson()).toList();
+          attributeIds!.map((v) => v.toJson()).toList();
     }
-    if (this.addons != null) {
-      data['addons'] = this.addons!.map((v) => v.toJson()).toList();
+    if (addons != null) {
+      data['addons'] = addons!.map((v) => v.toJson()).toList();
     }
-    if (this.options != null) {
-      data['options'] = this.options!.map((v) => v.toJson()).toList();
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
     }
-    data['maxPrice'] = this.maxPrice;
-    data['minPrice'] = this.minPrice;
-    data['message'] = this.message;
+    data['maxPrice'] = maxPrice;
+    data['minPrice'] = minPrice;
+    data['message'] = message;
     return data;
   }
 }
@@ -160,9 +160,9 @@ class CuisineId {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['image_url'] = this.imageUrl;
+    data['id'] = id;
+    data['name'] = name;
+    data['image_url'] = imageUrl;
     return data;
   }
 }
@@ -181,8 +181,8 @@ class AttributeIds {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }
@@ -221,14 +221,14 @@ class Addons {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['category_id'] = this.categoryId;
-    data['type'] = this.type;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['category_id'] = categoryId;
+    data['type'] = type;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -267,14 +267,14 @@ class Options {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['category_id'] = this.categoryId;
-    data['type'] = this.type;
-    data['status'] = this.status;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['id'] = id;
+    data['name'] = name;
+    data['description'] = description;
+    data['category_id'] = categoryId;
+    data['type'] = type;
+    data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

@@ -444,7 +444,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ),
                                 hBox(10),
                                 Text(
-                                  "\$${item.price.toString()}",
+                                  "\$${item.price}",
                                   style: AppFontStyle.text_14_600(
                                       AppColors.primary,family: AppFontFamily.onestRegular),
                                 ),
@@ -783,20 +783,17 @@ class OrderDetailsScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Text(
+              "Delivery Notes",
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
+            ),
+            wBox(15),
             Expanded(
               child: Text(
-                "Delivery Notes",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Expanded(
-                child: Text(
-                  controller.ordersData.value.orderDetails!.deliveryNotes.toString().capitalize ?? "",
-                  maxLines: 25,
-                  style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
-                ),
+                controller.ordersData.value.orderDetails!.deliveryNotes.toString().capitalize ?? "",
+                maxLines: 25,
+                textAlign: TextAlign.right,
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
             ),
           ],

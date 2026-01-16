@@ -2332,10 +2332,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
               ),
             ],
             //------------------------------------------------------------------
-            if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)...[
+            if (controller.categoriesDetailsData.value.filterProduct?.isEmpty ?? false)...[
               if (controller.searchController.text.isNotEmpty && controller.searchData.isEmpty)...[
-                const SliverToBoxAdapter(
-                  child: CustomNoDataFound(),
+                SliverToBoxAdapter(
+                  child: CustomNoDataFound(heightBox: hBox(0)),
                 ),
               ]
               else...[
@@ -2506,7 +2506,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           border: Border.all(color: AppColors.primary),
                                         ),
                                         child: Text(
-                                          "\$${formatPrice1(product.salePrice ?? product.regularPrice ?? '0')}",
+                                            "\$${formatPrice1(product.salePrice == "0" ? product.regularPrice  : product.salePrice ?? '0')}",
                                           style: AppFontStyle.text_11_400(
                                             AppColors.black,
                                             family: AppFontFamily.onestRegular,
@@ -2514,7 +2514,6 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                         ),
                                       ),
 
-                                      /// TIME (flexible)
                                       Expanded(
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
@@ -2557,7 +2556,9 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 cartController.addToCartApi(
                                                   productId: product.id ?? "",
                                                   productQuantity: '1',
-                                                  productPrice: product.regularPrice,
+                                                  productPrice: (product.salePrice ?? '0') == '0'
+                                                      ? (product.regularPrice ?? '0')
+                                                      : (product.salePrice ?? "0"),
                                                   restaurantId: product.vendorId ?? "",
                                                   addons: [],
                                                   extrasIds: [],
@@ -2603,10 +2604,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
             ],
             //------------------------------------------------------------------
 
-            if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)...[
+            if (controller.categoriesDetailsData.value.filterProduct?.isNotEmpty ?? false)...[
               if (controller.searchController.text.isNotEmpty && controller.filterProductSearchData.isEmpty)...[
-                const SliverToBoxAdapter(
-                  child: CustomNoDataFound(),
+                 SliverToBoxAdapter(
+                  child: CustomNoDataFound(heightBox: hBox(0),),
                 ),
               ] else...[
                 SliverGrid(
@@ -2630,6 +2631,281 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             ));
                           },
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Stack(
+                                alignment: Alignment.topRight,
+                                children: [
+                                  Container(
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                        borderRadius:BorderRadius.only(topLeft: Radius.circular(20.r),topRight: Radius.circular(20.r))
+                                    ),
+                                    child: Center(
+                                      child: CachedNetworkImage(
+                                        imageUrl: product.image ?? "",
+                                        fit: BoxFit.cover,
+                                        height: 130.h,
+                                        width: double.maxFinite,
+                                        errorWidget: (context, url,
+                                            error) => Container(
+                                          decoration:
+                                          BoxDecoration(
+                                            border: Border.all(color: AppColors.greyBackground),
+                                            color: AppColors.transparent,
+                                            borderRadius:
+                                            BorderRadius
+                                                .circular(
+                                                20.r),
+                                          ),
+                                          child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,),
+                                        ),
+                                        placeholder:
+                                            (context, url) =>
+                                            Shimmer.fromColors(
+                                              baseColor: AppColors.greyBackground,
+                                              highlightColor:
+                                              AppColors.lightText,
+                                              child: Container(
+                                                decoration:
+                                                BoxDecoration(
+                                                  color: AppColors.gray,
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .circular(
+                                                      20.r),
+                                                ),
+                                              ),
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Obx(() => Container(
+                                  //   margin: REdgeInsets.only(top: 8, right: 8),
+                                  //   padding: REdgeInsets.all(7),
+                                  //   decoration: BoxDecoration(
+                                  //     borderRadius:BorderRadius.circular(100.r),
+                                  //     color: AppColors.white,
+                                  //   ),
+                                  //   child: InkWell(
+                                  //     highlightColor:Colors.transparent,
+                                  //     splashColor: Colors.transparent,
+                                  //     onTap: () async {
+                                  //       if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                  //         showLoginRequired(context);
+                                  //       }else{
+                                  //         product.isInWishlist = !product.isInWishlist!;
+                                  //         product.isLoading.value = true;
+                                  //         await add_Wishlist_Controller.restaurant_add_product_wishlist(categoryId: categoryId.toString(), product_id: product.id.toString(),);
+                                  //         product.isLoading.value =
+                                  //         false;
+                                  //       }
+                                  //     },
+                                  //     child: product.isLoading.value
+                                  //         ? circularProgressIndicator(size: 18)
+                                  //         : Icon(product.isInWishlist == true
+                                  //         ? Icons.favorite
+                                  //         : Icons.favorite_border_outlined,
+                                  //       size: 22,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // ),
+                                  Obx(
+                                        () => Container(
+                                      margin: REdgeInsets.only(top: 10, right: 10),
+                                      padding: REdgeInsets.all(6),
+                                      decoration: BoxDecoration(
+                                        borderRadius:BorderRadius.circular(10.r),
+                                        color: AppColors.greyBackground,
+                                      ),
+                                      child: InkWell(
+                                        highlightColor:Colors.transparent,
+                                        splashColor:Colors.transparent,
+                                        onTap: () async {
+                                          if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                            showLoginRequired(context);
+                                          }else{
+                                            product.isInWishlist =!product.isInWishlist!;
+                                            product.isLoading.value =true;
+                                            await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                                              cuisineType: categoriesFilterController.selectedCuisines.join(', '),
+                                              priceRange:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                  : "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                                              priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                                                  : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                                              quickFilter:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                  : categoriesFilterController.selectedQuickFilters.toString(),
+                                              categoryId: categoryId.toString(),
+                                              product_id: product.id.toString(),
+                                            );
+                                            product.isLoading.value =false;
+                                          }
+                                        },
+                                        child: product.isLoading.value
+                                            ? circularProgressIndicator(size: 18)
+                                            : Icon(product.isInWishlist == true ? Icons.favorite : Icons.favorite_border_outlined,size: 22
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  // Positioned(
+                                  //   bottom: 10,right: 10,
+                                  //   child: Obx(
+                                  //     ()=> InkWell(
+                                  //       onTap: () {
+                                  //         controller.searchData[index].isAddToCart.value = true;
+                                  //       },
+                                  //       child: Container(
+                                  //         height: 30.h,width: 30.w,
+                                  //       decoration: BoxDecoration(color: AppColors.primary,
+                                  //       // shape: BoxShape.circle,
+                                  //       borderRadius: BorderRadius.circular(10.r)
+                                  //       ),
+                                  //       child: Icon( controller.searchData[index].isAddToCart.value ? Icons.done :Icons.add,
+                                  //         color: AppColors.white,size: 20,),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // )
+                                ],
+                              ),
+                              hBox(8.h),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    product.title?.capitalize ?? "",
+                                    textAlign: TextAlign.left,
+                                    style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
+                                  ),
+                                  const Spacer(),
+                                  SvgPicture.asset(
+                                    "assets/svg/star-yellow.svg",
+                                    height: 14,
+                                  ),
+                                  wBox(4),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 3.0),
+                                    child: Text(
+                                      double.tryParse(product.rating ?? "0")?.toStringAsFixed(1) ?? "0",
+                                      style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Flexible(
+                                child: Text(
+                                  product.restoName?.capitalize ?? "",
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.onestMedium),
+                                ),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  /// PRICE
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 4,
+                                      // horizontal: wholePrice == true ? 8 : 4,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary.withAlpha(30),
+                                      borderRadius: BorderRadius.circular(15.r),
+                                      border: Border.all(color: AppColors.primary),
+                                    ),
+                                    child: Text(
+                                      "\$${formatPrice1(product.salePrice == "0" ? product.regularPrice  : product.salePrice ?? '0')}",
+                                      style: AppFontStyle.text_11_400(
+                                        AppColors.black,
+                                        family: AppFontFamily.onestRegular,
+                                      ),
+                                    ),
+                                  ),
+
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          ImageConstants.clockIcon,
+                                          height: 16,
+                                          colorFilter: ColorFilter.mode(
+                                            AppColors.black,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                        wBox(2),
+                                        Text(
+                                          product.preparationTime.toString(),
+                                          style: AppFontStyle.text_13_400(
+                                            AppColors.darkText,
+                                            family: AppFontFamily.onestRegular,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  GetBuilder<AddToCartController>(
+                                    builder: (cartController) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          if (getUserDataController.userData.value.user?.userType ==
+                                              "guestUser") {
+                                            showLoginRequired(context);
+                                            return;
+                                          }
+
+                                          if ((product.addOns?.isNotEmpty ?? false) ||
+                                              (product.options?.isNotEmpty ?? false) /*||
+                                              (product.productAttributes?.isNotEmpty ?? false)*/) {
+                                            addToCartPopUp(Get.context!, product);
+                                          } else {
+                                            cartController.addToCartApi(
+                                              productId: product.id ?? "",
+                                              productQuantity: '1',
+                                              productPrice: (product.salePrice ?? '0') == '0'
+                                                  ? (product.regularPrice ?? '0')
+                                                  : (product.salePrice ?? "0"),
+                                              restaurantId: product.vendorId ?? "",
+                                              addons: [],
+                                              extrasIds: [],
+                                              extrasItemIds: [],
+                                              extrasItemNames: [],
+                                              extrasItemPrices: [],
+                                              isPopUp: false,
+                                            );
+                                          }
+                                        },
+                                        child: cartController.isCartLoading(product.id ?? "")
+                                            ? circularProgressIndicator(size: 30)
+                                            : Container(
+                                          height: 34,
+                                          width: 34,
+                                          decoration: BoxDecoration(
+                                            color: AppColors.black,
+                                            borderRadius: BorderRadius.circular(20),
+                                          ),
+                                          child: const Icon(
+                                            Icons.add,
+                                            size: 20,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        /*Column(
                             crossAxisAlignment:
                             CrossAxisAlignment.start,
                             children: [
@@ -2800,7 +3076,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                               //   ],
                               // )
                             ],
-                          ));
+                          )*/);
                       //  categoryItem(index);
                     }),
                     gridDelegate:(SliverGridDelegateWithFixedCrossAxisCount(

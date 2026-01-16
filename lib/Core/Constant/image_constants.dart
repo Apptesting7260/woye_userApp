@@ -20,6 +20,7 @@ class ImageConstants {
   static String email = "$svgPath/email.svg";
   static String wishlistEmpty = "$imagePath/wishlistEmpty.png";
 
+  static String ellipseCircle = "$svgPath/ellipse_circle.svg";
   static String noData = "$svgPath/No-data-cuate.svg";
   static String home = "$svgPath/home.svg";
   static String homeFilled = "$svgPath/home-filled.svg";

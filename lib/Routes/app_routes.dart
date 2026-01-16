@@ -220,7 +220,7 @@ class AppRoutes {
     GetPage(name: deliveryAddressScreen, page: () => RestaurantBaseScaffold(child: DeliveryAddressScreen())),
     GetPage(name: restaurantCategories, page: () => RestaurantBaseScaffold(child: RestaurantCategoriesScreen())),
     // GetPage(name: restaurantCategoriesFilter,page: () => RestaurantCategoriesFilter()),
-    GetPage(name: restaurantCategoriesFilter, page: () => const RestaurantCategoriesFilter(), binding: CategoriesFilterBinding()),
+    GetPage(name: restaurantCategoriesFilter, page: () => RestaurantCategoriesFilter(), binding: CategoriesFilterBinding()),
     GetPage(name: restaurantCategoriesDetails, page: () => RestaurantBaseScaffold(child: RestaurantCategoryDetails())),
     // GetPage( name: restaurantWishlistFilter, page: () => const RestaurantWishlistFilter()),
     GetPage(name: rateAndReviewProductScreen, page: () => RestaurantBaseScaffold(child: RateAndReviewProductScreen())),
