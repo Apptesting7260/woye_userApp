@@ -62,7 +62,7 @@ class CustomSearchFilter extends StatelessWidget {
                     BorderSide(width: 0.8, color: AppColors.textFieldBorder)),
             contentPadding: padding ?? REdgeInsets.symmetric(vertical: 10),
             textStyle:
-                textStyle ?? AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                textStyle ?? AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
             prefixConstraints: prefixConstraints ??
                 BoxConstraints(maxHeight: 24.h, maxWidth: 40.w),
             prefix: prefix ??
@@ -77,10 +77,10 @@ class CustomSearchFilter extends StatelessWidget {
                   ),
                 ),
             hintText: hintText,
-            hintStyle:hintStyle ?? AppFontStyle.text_10_400(AppColors.hintText,family: AppFontFamily.gilroyRegular),
+            hintStyle:hintStyle ?? AppFontStyle.text_10_400(AppColors.hintText,family: AppFontFamily.onestRegular),
           ),
         ),
-        SizedBox(width: showfilterIcon == true ? 8.w : 0),
+        SizedBox(width: showfilterIcon == true ? 6.w : 0),
         showfilterIcon == true
             ? InkWell(
                 highlightColor: Colors.transparent,
@@ -88,7 +88,7 @@ class CustomSearchFilter extends StatelessWidget {
                 onTap: onFilterTap,
                 child: Container(
                   padding: searchIocnPadding ??
-                      REdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                      REdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     color: filterColor,
 
@@ -107,7 +107,7 @@ class CustomSearchFilter extends StatelessWidget {
                   ),
                 ),
               )
-            : SizedBox(),
+            : const SizedBox(),
       ],
     );
   }

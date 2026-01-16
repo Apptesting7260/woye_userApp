@@ -47,7 +47,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
         isActions: true,
         title: Text(
           "Wishlist",
-          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -91,13 +91,13 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                           hBox(10.h),
                           Text(
                             "Your wishlist is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                            AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+                            AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
                           ),
                         ],
                       )
@@ -288,14 +288,14 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary,family: AppFontFamily.gilroyRegular),
+                                                    .primary,family: AppFontFamily.onestRegular),
                                               )
                                                   : Text(
                                                 "\$${product.regularPrice}",
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary,family: AppFontFamily.gilroyRegular),
+                                                    .primary,family: AppFontFamily.onestRegular),
                                               ),
                                               wBox(5.h),
                                               if (product.salePrice != null)
@@ -306,7 +306,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                                   textAlign: TextAlign.left,
 
                                                   style: TextStyle(
-                                                      fontFamily: AppFontFamily.gilroyRegular,
+                                                      fontFamily: AppFontFamily.onestRegular,
                                                       fontSize: 14.sp,
                                                       fontWeight:
                                                       FontWeight.w300,
@@ -324,7 +324,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                           Text(
                                             product.title.toString(),
                                             textAlign: TextAlign.left,
-                                            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                           ),
                                           Row(
                                             children: [
@@ -332,7 +332,7 @@ class _PharmacyWishlistScreenState extends State<PharmacyWishlistScreen> {
                                               wBox(4),
                                               Text(
                                                 "${product.rating ?? 0}/5",
-                                                style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                                style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.onestRegular),
                                               ),
                                               wBox(4),
                                               // Text(

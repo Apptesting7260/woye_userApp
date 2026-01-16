@@ -264,7 +264,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
           child: Text(
             "Highlights",
             style: AppFontStyle.text_20_600(AppColors.darkText,
-                family: AppFontFamily.gilroyRegular),
+                family: AppFontFamily.onestRegular),
           ),
         ),
         hBox(13.h),
@@ -474,7 +474,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                             Text(
                               item?.title.toString().capitalizeFirst.toString() ?? "",
                               style: AppFontStyle.text_17_400(AppColors.darkText,
-                                  family: AppFontFamily.gilroyMedium),
+                                  family: AppFontFamily.onestMedium),
                             ),
                             const Spacer(),
                             Row(
@@ -488,7 +488,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                 Text(
                                   item?.rating ?? "0",
                                   style: AppFontStyle.text_14_400(AppColors.darkText,
-                                      family: AppFontFamily.gilroyMedium),
+                                      family: AppFontFamily.onestMedium),
                                 ),
                               ],
                             )
@@ -500,7 +500,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: AppFontStyle.text_14_300(AppColors.lightText,
-                              family: AppFontFamily.gilroyRegular),
+                              family: AppFontFamily.onestRegular),
                         ),
                         hBox(8.h),
                        *//* Row(
@@ -510,7 +510,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                               "\$$price",
                               textAlign: TextAlign.left,
                               style: AppFontStyle.text_15_600(AppColors.primary,
-                                  family: AppFontFamily.gilroyRegular),
+                                  family: AppFontFamily.onestRegular),
                             ),
                             wBox(5.h),
                             Text(
@@ -521,7 +521,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w300,
                                   color: AppColors.lightText,
-                                  fontFamily: AppFontFamily.gilroyRegular,
+                                  fontFamily: AppFontFamily.onestRegular,
                                   decoration: TextDecoration.lineThrough,
                                   decorationColor: AppColors.lightText),
                               //  AppFontStyle.text_14_300(AppColors.lightText),
@@ -543,7 +543,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                     fontSize: 14.sp,
                                     fontWeight: FontWeight.w300,
                                     color: AppColors.lightText,
-                                    fontFamily: AppFontFamily.gilroyRegular,
+                                    fontFamily: AppFontFamily.onestRegular,
                                     decoration: TextDecoration.lineThrough,
                                     decorationColor: AppColors.lightText),
                                 //  AppFontStyle.text_14_300(AppColors.lightText),
@@ -563,7 +563,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                   '45 mins',
                                   style: AppFontStyle.text_14_400(
                                       AppColors.darkText,
-                                      family: AppFontFamily.gilroyMedium),
+                                      family: AppFontFamily.onestMedium),
                                 ),
                                 const Spacer(),
                                 GetBuilder<AddToCartController>(
@@ -680,7 +680,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                             : "${controller.travelTime.value.round()}-${(controller.travelTime.value.round() + 2)} mins",
                                         style: AppFontStyle.text_12_400(
                                           controller.isDelivery.value ? AppColors.white : AppColors.darkText,
-                                          family: AppFontFamily.gilroyRegular,
+                                          family: AppFontFamily.onestRegular,
                                         ),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
@@ -733,7 +733,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                     "15 mins",
                                     style: AppFontStyle.text_12_400(
                                       controller.isDelivery.value ? AppColors.darkText : AppColors.white,
-                                      family: AppFontFamily.gilroyRegular,
+                                      family: AppFontFamily.onestRegular,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -789,7 +789,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                     .toString()
                     .capitalize!,
                 style: AppFontStyle.text_20_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -815,23 +815,23 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             // Text(
             //   "${controller.travelTime.toStringAsFixed(0)} Min",
             //   // "32min",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             // ),
             // wBox(4),
             // Text(
             //   "•",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             // ),
             // wBox(4),
             // Text(
             //   // "2km",
             //   "${controller.distance.toStringAsFixed(2)} KM",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             // ),
             // wBox(4),
             // Text(
             //   "•",
-            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+            //   style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             // ),
             // wBox(4),
             SvgPicture.asset(
@@ -843,7 +843,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             Text(
               "${controller.restaurant_Data.value.averageRating}/5",
               style: AppFontStyle.text_15_400(AppColors.darkText,
-                  family: AppFontFamily.gilroyMedium),
+                  family: AppFontFamily.onestMedium),
             ),
             wBox(6.w),
             Row(
@@ -861,14 +861,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                   child: Text(
                     "\$5 Delivery",
                     style: AppFontStyle.text_15_400(AppColors.darkText,
-                        family: AppFontFamily.gilroyRegular),
+                        family: AppFontFamily.onestRegular),
                   ),
                 ),
                 Text(
                   "  •  ",
                   textAlign: TextAlign.left,
                   style: AppFontStyle.text_16_300(AppColors.lightText,
-                      family: AppFontFamily.gilroyRegular),
+                      family: AppFontFamily.onestRegular),
                 ),
                 SvgPicture.asset(
                   ImageConstants.cartIconImage,
@@ -882,7 +882,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                   child: Text(
                     "No min. order",
                     style: AppFontStyle.text_15_400(AppColors.darkText,
-                        family: AppFontFamily.gilroyRegular),
+                        family: AppFontFamily.onestRegular),
                   ),
                 ),
               ],
@@ -911,7 +911,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
             //     "(${controller.restaurant_Data.value.review?.length} Reviews)",
             //     style: TextStyle(
             //         fontSize: 15.sp,
-            //         fontFamily: AppFontFamily.gilroyRegular,
+            //         fontFamily: AppFontFamily.onestRegular,
             //         decoration: TextDecoration.underline,
             //         color: AppColors.lightText,
             //         decorationColor: AppColors.lightText),
@@ -931,7 +931,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         //           fontSize: 14.sp,
         //           color: AppColors.darkText,
         //           fontWeight: FontWeight.w400,
-        //             fontFamily: AppFontFamily.gilroyMedium
+        //             fontFamily: AppFontFamily.onestMedium
         //         ),
         //       ),
         //     )
@@ -946,7 +946,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         //       child: Text(
         //         controller.restaurant_Data.value.restaurant!.email.toString(),
         //         overflow: TextOverflow.ellipsis,
-        //         style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+        //         style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         //       ),
         //     )
         //   ],
@@ -963,7 +963,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         //         maxLines: 2,
         //         overflow: TextOverflow.ellipsis,
         //         style: AppFontStyle.text_14_400(
-        //           AppColors.darkText,family: AppFontFamily.gilroyMedium
+        //           AppColors.darkText,family: AppFontFamily.onestMedium
         //         ),
         //       ),
         //     )
@@ -978,7 +978,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 color: AppColors.primary
               ),
               borderRadius: BorderRadius.circular(54.r)),
-          padding: REdgeInsets.symmetric(vertical: 7, horizontal: 10),
+          padding: REdgeInsets.symmetric(vertical: 7, horizontal: 6),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -993,7 +993,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 child: Text(
                   "Free delivery when you spend over \$1009",
                   style: AppFontStyle.text_14_400(AppColors.black,
-                      family: AppFontFamily.gilroyRegular),
+                      family: AppFontFamily.onestRegular),
                 ),
               ),
             ],
@@ -1011,7 +1011,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
       children: [
         Text(
           "Open Hours",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(14),
         for (var openingHour in openingHours!)
@@ -1024,14 +1024,14 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 children: [
                   Text(
                     openingHour.day ?? "",
-                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     openingHour.status == null
                         ? 'Closed'
                         : "${openingHour.open} - ${openingHour.close}",
-                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     textAlign: TextAlign.start,
                   ),
                 ],
@@ -1048,13 +1048,13 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
       children: [
         Text(
           "Descriptions",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10),
         Text(
           controller.restaurant_Data.value.restaurant!.shopDes.toString(),
           maxLines: 100,
-          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
         ),
       ],
     );
@@ -1143,7 +1143,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                                     .firstName
                                                     .toString(),
                                                 style: AppFontStyle.text_16_400(
-                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                                    AppColors.darkText,family: AppFontFamily.onestMedium),
                                               ),
                                               hBox(5),
                                               RatingBar.readOnly(
@@ -1168,7 +1168,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                                     .review![index].message
                                                     .toString(),
                                                 style: AppFontStyle.text_16_400(
-                                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                                    AppColors.darkText,family: AppFontFamily.onestMedium),
                                                 maxLines: 3,
                                               ),
                                               hBox(10),
@@ -1180,7 +1180,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                                     .updatedAt
                                                     .toString()),
                                                 style: AppFontStyle.text_16_400(
-                                                    AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                                    AppColors.lightText,family: AppFontFamily.onestRegular),
                                               ),
                                             ],
                                           ),
@@ -1212,7 +1212,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                                       .trim(),
                                                   style:
                                                       AppFontStyle.text_16_400(
-                                                          AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                                          AppColors.lightText,family: AppFontFamily.onestMedium),
                                                   maxLines: 100,
                                                   overflow:
                                                       TextOverflow.ellipsis,
@@ -1266,7 +1266,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                         children: [
                           Text(
                             "See All (${controller.restaurant_Data.value.totalReviews.toString()})",
-                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.onestRegular),
                           ),
                           Icon(
                             Icons.arrow_forward,
@@ -1401,8 +1401,8 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                               ? AppColors.white
                               : AppColors.darkText,
                           family: controller.categoriesIndex.value == index
-                              ? AppFontFamily.gilroySemiBold
-                              : AppFontFamily.gilroyMedium),
+                              ? AppFontFamily.onestSemiBold
+                              : AppFontFamily.onestMedium),
                     ),
                   ),
                 ),

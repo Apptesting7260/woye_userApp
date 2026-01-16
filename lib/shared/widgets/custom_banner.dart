@@ -205,12 +205,12 @@ class CustomBanner extends StatelessWidget {
                       "\$$sale_price",
                       textAlign: TextAlign.left,
                 style: AppFontStyle.text_16_600(
-                    AppColors.primary,family: AppFontFamily.gilroyRegular),
+                    AppColors.primary,family: AppFontFamily.onestRegular),
               )
                   : Text(
                       "\$$regular_price",
                       textAlign: TextAlign.left,
-                      style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
                     ),
               wBox(5.h),
               if (sale_price != "null")
@@ -222,7 +222,7 @@ class CustomBanner extends StatelessWidget {
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w300,
                       color: AppColors.lightText,
-                      fontFamily: AppFontFamily.gilroyRegular,
+                      fontFamily: AppFontFamily.onestRegular,
                       decoration: TextDecoration.lineThrough,
                       decorationColor: AppColors.lightText),
                 ),
@@ -233,7 +233,7 @@ class CustomBanner extends StatelessWidget {
             title.toString(),
             textAlign: TextAlign.left,
             style: AppFontStyle.text_16_400(
-                AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           // hBox(10),
           if (quantity.toString() != "null")
@@ -242,7 +242,7 @@ class CustomBanner extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: AppFontStyle.text_14_400(
-                  AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                  AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
 
           Flexible(
@@ -252,7 +252,7 @@ class CustomBanner extends StatelessWidget {
               textAlign: TextAlign.left,
               style: AppFontStyle.text_14_300(
                   AppColors.lightText,
-                family: AppFontFamily.gilroyRegular,
+                family: AppFontFamily.onestRegular,
               ),
             ),
           ),

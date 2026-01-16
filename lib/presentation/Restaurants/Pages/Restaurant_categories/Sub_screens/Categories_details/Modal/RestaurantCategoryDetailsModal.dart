@@ -28,16 +28,16 @@ class RestaurantCategoryDetailsModal {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['status'] = this.status;
-    if (this.categoryProduct != null) {
+    data['status'] = status;
+    if (categoryProduct != null) {
       data['categoryProduct'] =
-          this.categoryProduct!.map((v) => v.toJson()).toList();
+          categoryProduct!.map((v) => v.toJson()).toList();
     }
-    if (this.filterProduct != null) {
+    if (filterProduct != null) {
       data['filterProduct'] =
-          this.filterProduct!.map((v) => v.toJson()).toList();
+          filterProduct!.map((v) => v.toJson()).toList();
     }
-    data['message'] = this.message;
+    data['message'] = message;
     return data;
   }
 }
@@ -45,8 +45,8 @@ class RestaurantCategoryDetailsModal {
 class CategoryProduct {
   String? id;
   String? image;
-  var salePrice;
-  var regularPrice;
+  String? salePrice;
+  String? regularPrice;
   String? title;
   String? preparationTime;
   bool? isInWishlist;
@@ -115,27 +115,27 @@ class CategoryProduct {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = this.id;
-    data['image_url'] = this.image;
-    data['sale_price'] = this.salePrice;
-    data['regular_price'] = this.regularPrice;
-    data['title'] = this.title;
-    data['preparation_time'] = this.preparationTime;
-    data['is_in_wishlist'] = this.isInWishlist;
-    data['resto_name'] = this.restoName;
-    data['url_image'] = this.urlImage;
-    data['vendor_id'] = this.vendorId;
-    if (this.addOns != null) {
-      data['add_ons'] = this.addOns!.map((v) => v.toJson()).toList();
+    data['id'] = id;
+    data['image_url'] = image;
+    data['sale_price'] = salePrice;
+    data['regular_price'] = regularPrice;
+    data['title'] = title;
+    data['preparation_time'] = preparationTime;
+    data['is_in_wishlist'] = isInWishlist;
+    data['resto_name'] = restoName;
+    data['url_image'] = urlImage;
+    data['vendor_id'] = vendorId;
+    if (addOns != null) {
+      data['add_ons'] = addOns!.map((v) => v.toJson()).toList();
     }
-    if (this.options != null) {
-      data['options'] = this.options!.map((v) => v.toJson()).toList();
+    if (options != null) {
+      data['options'] = options!.map((v) => v.toJson()).toList();
     }
-    if (this.productAttributes != null) {
+    if (productAttributes != null) {
       data['attributes_grouped'] =
-          this.productAttributes!.map((v) => v.toJson()).toList();
+          productAttributes!.map((v) => v.toJson()).toList();
     }
-    data['rating'] = this.rating;
+    data['rating'] = rating;
     return data;
   }
 }
@@ -158,9 +158,9 @@ class ProductAttributes {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['group_name'] = this.groupName;
-    if (this.attributes != null) {
-      data['attributes'] = this.attributes!.map((v) => v.toJson()).toList();
+    data['group_name'] = groupName;
+    if (attributes != null) {
+      data['attributes'] = attributes!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -179,8 +179,8 @@ class Attributes {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }
@@ -201,9 +201,9 @@ class AddOns {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['price'] = this.price;
-    data['name'] = this.name;
+    data['id'] = id;
+    data['price'] = price;
+    data['name'] = name;
     return data;
   }
 }
@@ -228,11 +228,11 @@ class Options {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['option_id'] = this.optionId;
-    if (this.choices != null) {
-      data['choices'] = this.choices!.map((v) => v.toJson()).toList();
+    data['option_id'] = optionId;
+    if (choices != null) {
+      data['choices'] = choices!.map((v) => v.toJson()).toList();
     }
-    data['option_name'] = this.optionName;
+    data['option_name'] = optionName;
     return data;
   }
 }
@@ -250,8 +250,8 @@ class Choices {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['price'] = this.price;
+    data['name'] = name;
+    data['price'] = price;
     return data;
   }
 }

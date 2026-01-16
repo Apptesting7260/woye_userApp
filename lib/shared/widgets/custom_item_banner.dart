@@ -136,12 +136,12 @@ class CustomItemBanner extends StatelessWidget {
                 ? Text(
                     "\$$sale_price",
                     textAlign: TextAlign.left,
-                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
                   )
                 : Text(
                     "\$$regular_price",
                     textAlign: TextAlign.left,
-                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
                   ),
             wBox(5.h),
             sale_price != "null"
@@ -153,7 +153,7 @@ class CustomItemBanner extends StatelessWidget {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w300,
                         color: AppColors.lightText,
-                        fontFamily: AppFontFamily.gilroyRegular,
+                        fontFamily: AppFontFamily.onestRegular,
                         decoration: TextDecoration.lineThrough,
                         decorationColor: AppColors.lightText),
 
@@ -166,14 +166,14 @@ class CustomItemBanner extends StatelessWidget {
         Text(
           title.toString().capitalizeFirst.toString(),
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
         // hBox(10),
         Text(
           resto_name.toString(),
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.onestRegular),
         ),
         // hBox(10),
         // Row(

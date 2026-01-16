@@ -115,7 +115,7 @@ class CustomTextFormField extends StatelessWidget {
           controller: controller,
           // focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus ?? false,
-          style: textStyle ?? AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: textStyle ?? AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
           obscureText: obscureText!,
           textInputAction: textInputAction,
           keyboardType: textInputType,
@@ -132,7 +132,7 @@ class CustomTextFormField extends StatelessWidget {
         hintStyle: hintStyle ?? AppFontStyle.text_14_400(AppColors.hintText),
         errorStyle:errorStyle ??  AppFontStyle.text_12_400(
           AppColors.errorColor,
-          family: AppFontFamily.gilroyMedium,
+          family: AppFontFamily.onestMedium,
         ),
         errorMaxLines: 2,
         prefixIcon: prefix,

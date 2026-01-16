@@ -34,7 +34,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         appBar: CustomAppBar(
             // isLeading: typeFrom != "back" ? false : true,
             isLeading: true,
-          title: typeFrom == "back" ? Text("Edit Profile", style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular)) : const SizedBox(),
+          title: typeFrom == "back" ? Text("Edit Profile", style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular)) : const SizedBox(),
         ),
         body: Obx(() {
           switch (controller.rxRequestStatus.value) {
@@ -96,7 +96,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         Text(
           "Fill your profile",
           maxLines: 2,
-          style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(15),
         Text(
@@ -104,7 +104,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
           style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.w400,
-              color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular),
+              color: AppColors.lightText,fontFamily: AppFontFamily.onestRegular),
         ),
       ],
     );
@@ -244,7 +244,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                     ? circularProgressIndicator(size: 18.h)
                     : Text("Verify",style: AppFontStyle.text_16_400(
                             AppColors.primary,
-                            fontWeight: FontWeight.w500,family: AppFontFamily.gilroyMedium),)),
+                            fontWeight: FontWeight.w500,family: AppFontFamily.onestMedium),)),
                               ),
               ),
             ),
@@ -254,9 +254,9 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                 signUpFormController.genderController.text.isEmpty
                     ? "Gender"
                     : signUpFormController.genderController.text,
-                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
-              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               icon: SvgPicture.asset(ImageConstants.arrowDown),
               decoration: InputDecoration(
                   contentPadding:
@@ -298,7 +298,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
               prefix: CountryCodePicker(
                 padding: const EdgeInsets.only(left: 10),
                 showFlag: false,
-                textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                textStyle:AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
                 onChanged: (CountryCode countryCode) {
                   print("country code===========> ${countryCode.code}");
                   signUpFormController.updateCountryCode(countryCode);
@@ -447,7 +447,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
     return CustomElevatedButton(
       isLoading: controller.rxRequestStatus2.value == Status.LOADING,
       text: type == "back" ? "Save" : "Continue",
-      fontFamily: AppFontFamily.gilroyMedium,
+      fontFamily: AppFontFamily.onestMedium,
       onPressed: () {
         // First, validate the form
         if (!controller.formSignUpKey.currentState!.validate()) {
@@ -481,7 +481,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
   //   return CustomElevatedButton(
   //       isLoading: controller.rxRequestStatus2.value == Status.LOADING,
   //       text: type == "back" ? "Update" : "Continue",
-  //       fontFamily: AppFontFamily.gilroyMedium,
+  //       fontFamily: AppFontFamily.onestMedium,
   //       onPressed: () {
   //         print("object ${controller.profileData.value.data?.emailVerified}");
   //         // if (controller.profileData.value.data?.emailVerified != "true") {

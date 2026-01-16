@@ -3620,25 +3620,34 @@ class RestaurantCartScreen extends StatefulWidget {
                       ),
                   ),
                   wBox(10.h),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        buckets.vendorName?.capitalize ?? "",
-                        overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
-                      ),
-                      hBox(2.h),
-                      Text(
-                        buckets.vendorAddress ?? "",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
-                      ),
-                      hBox(8.h),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          buckets.vendorName?.capitalize ?? "",
+                          // maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppFontStyle.text_16_400(
+                            AppColors.darkText,
+                            family: AppFontFamily.onestSemiBold,
+                          ),
+                        ),
+                        hBox(2.h),
+                        Text(
+                          buckets.vendorAddress ?? "",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppFontStyle.text_13_400(
+                            AppColors.lightText,
+                            family: AppFontFamily.onestRegular,
+                          ),
+                        ),
+                        hBox(8.h),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
+                  // const Spacer(),
                   // Obx(() =>deleteVendorPharController.rxDeleteVendorReqStatus.value == Status.LOADING &&
                   //       buckets.isVendorDelete.value == true
                   //       ? Padding(
@@ -4244,7 +4253,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 onTap: () {
                   if (controller.rxRequestStatusOrderType.value == Status.LOADING) return;
                   if (!buckets.isDelivery.value) {
-                    buckets.isDelivery.value = true;
+                    // buckets.isDelivery.value = true;
                     controller.restaurantOrderTypeApi(
                       index: index,
                       cartId: buckets.cartId.toString(),
@@ -4264,10 +4273,8 @@ class RestaurantCartScreen extends StatefulWidget {
                         : Colors.transparent,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: (controller.rxRequestStatusOrderType.value ==
-                      Status.LOADING &&
-                      controller.loadingIndex.value == index &&
-                      controller.loadingType.value == "delivery")
+                  child: (controller.rxRequestStatusOrderType.value == Status.LOADING &&
+                      controller.loadingIndex.value == index && controller.loadingType.value == "delivery")
                       ? circularProgressIndicator2(size: 12)
                       : Text(
                     "Delivery",
@@ -4294,7 +4301,7 @@ class RestaurantCartScreen extends StatefulWidget {
                 onTap: () {
                   if (controller.rxRequestStatusOrderType.value == Status.LOADING) return;
                   if (buckets.isDelivery.value) {
-                    buckets.isDelivery.value = false;
+                    // buckets.isDelivery.value = false;
                     controller.restaurantOrderTypeApi(
                       index: index,
                       cartId: buckets.cartId.toString(),

@@ -37,7 +37,7 @@ class _GeneralExceptionWidgetState extends State<GeneralExceptionWidget> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                 ),
               ),
             ),
@@ -60,7 +60,7 @@ class _GeneralExceptionWidgetState extends State<GeneralExceptionWidget> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w400,
-                    fontFamily: AppFontFamily.gilroyMedium,
+                    fontFamily: AppFontFamily.onestMedium,
                     color: Colors.white,
                   ),
                 ),

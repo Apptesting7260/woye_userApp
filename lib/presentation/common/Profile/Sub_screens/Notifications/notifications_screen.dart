@@ -31,7 +31,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         isLeading: true,
         title: Text(
           "Notifications",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: RefreshIndicator(
@@ -138,18 +138,18 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     children: [
                       Text(
                         controller.apiData.value.notification?[index].title.toString() ?? "",
-                        style: AppFontStyle.text_15_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_15_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                       ),
                       hBox(5.h),
                       Text(
                         controller.apiData.value.notification?[index].message.toString() ?? "",
-                        style: AppFontStyle.text_14_500(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_14_500(AppColors.lightText,family: AppFontFamily.onestRegular),
                         maxLines: 2,
                       ),
                       hBox(5.h),
                       Text(
                         formatDate(controller.apiData.value.notification?[index].createdAt.toString() ?? ""),
-                        style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                       ),
                     ],
                   ),

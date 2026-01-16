@@ -23,7 +23,7 @@ class RestaurantHomeFilter extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           "Filter",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Padding(
@@ -89,7 +89,7 @@ class RestaurantHomeFilter extends StatelessWidget {
       children: [
         Text(
           "Restaurant",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10.h),
         SizedBox(
@@ -118,10 +118,10 @@ class RestaurantHomeFilter extends StatelessWidget {
                       },
                       child: restaurantList(
                         index: index,
-                        image: restaurant?.shopimage,
+                        image: restaurant?.coverPhotoUrl,
                         title: restaurant?.shopName.toString().capitalize.toString(),
                         rating: restaurant?.rating,
-                        price: restaurant?.avgPrice,
+                        price: "000" ?? "restaurant?.avgPrice",
                       ),
                     );
                   },
@@ -142,7 +142,7 @@ class RestaurantHomeFilter extends StatelessWidget {
         hBox(5.h),
         Text(
           "Products",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10.h),
         GridView.builder(
@@ -184,7 +184,7 @@ class RestaurantHomeFilter extends StatelessWidget {
                     categoryId: controller
                         .searchData.value.products?[index].categoryId
                         .toString(),
-                    image: controller.searchData.value.products?[index].urlImage
+                    image: controller.searchData.value.products?[index].imageUrl
                         .toString(),
                     title: controller.searchData.value.products?[index].title
                         .toString(),
@@ -212,7 +212,7 @@ class RestaurantHomeFilter extends StatelessWidget {
 
   Widget restaurantList(
       {index, String? image, title, type, isFavourite, rating, price}) {
-    return Container(
+    return SizedBox(
       width: Get.width / 1.6,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,7 +299,7 @@ class RestaurantHomeFilter extends StatelessWidget {
           Text(
             title,
             textAlign: TextAlign.left,
-            style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           // hBox(10),
           Row(
@@ -308,7 +308,7 @@ class RestaurantHomeFilter extends StatelessWidget {
               Text(
                 price,
                 textAlign: TextAlign.left,
-                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
               ),
               Text(
                 " • ",
@@ -319,7 +319,7 @@ class RestaurantHomeFilter extends StatelessWidget {
               wBox(4),
               Text(
                 "$rating/5",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
               ),
             ],
           )

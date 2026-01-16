@@ -26,7 +26,7 @@ class OrderReveivedScreen extends StatelessWidget {
           leadingOnTap: () {},
           title: Text(
             "Order Received",
-            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
         ),
         body: SingleChildScrollView(
@@ -41,18 +41,18 @@ class OrderReveivedScreen extends StatelessWidget {
               hBox(30),
               Text(
                 "Order Received",
-                style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               hBox(20),
               Text(
                 "Thank you for purchasing products from our store. Wishing you a nice day.",
                 maxLines: 4,
                 textAlign: TextAlign.center,
-                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               hBox(20),
               CustomElevatedButton(
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                   text: "Continue shopping",
                   onPressed: () async {
                     if (cartType == "restaurant" || screenType == "restaurantProfileScreen") {
@@ -81,7 +81,7 @@ class OrderReveivedScreen extends StatelessWidget {
                       arguments: {'type': cartType,'screenType':screenType}
                   );
                 },
-                child: Text("Review This Driver",style:  AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroyMedium),),
+                child: Text("Review This Driver",style:  AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestMedium),),
               ),
             ],
           ),

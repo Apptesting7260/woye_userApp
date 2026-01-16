@@ -58,7 +58,7 @@ class CustomRadioButton extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.w400,
               fontSize: 17.sp,
-              fontFamily: AppFontFamily.gilroyMedium,
+              fontFamily: AppFontFamily.onestMedium,
             ),
           ),
         ],

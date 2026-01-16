@@ -182,7 +182,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       child: HomeScreen(key: homeWidgetKey),
                     ),
                     SliverPadding(
-                      padding: REdgeInsets.symmetric(horizontal: 24.h),
+                      padding: REdgeInsets.symmetric(horizontal: 18.h),
                       sliver: searchAndFilter(),
                     ),
                     if (restaurantHomeController
@@ -295,7 +295,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                             // : Text(
                                             //  'Your Carts',
                                             //   overflow: TextOverflow.ellipsis,
-                                            //   style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            //   style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.onestMedium),
                                             //
                                             // ),
                                             // Text(
@@ -353,8 +353,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                                 style: AppFontStyle.text_10_400(
                                                     AppColors.white
                                                         .withOpacity(.5),
-                                                    family: AppFontFamily
-                                                        .gilroyMedium),
+                                                    family: AppFontFamily.onestMedium),
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                               ),
@@ -396,8 +395,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                             "Carts",
                                             style: AppFontStyle.text_12_600(
                                                 AppColors.primary,
-                                                family: AppFontFamily
-                                                    .gilroyRegular),
+                                                family: AppFontFamily.onestRegular),
                                           ),
                                           Icon(
                                             Icons.arrow_drop_up,
@@ -569,13 +567,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   //                                   Text(
   //                                     restaurantCartController.allResCartData.value.carts?[0].resto?.shopName.toString() ?? "",
   //                                     overflow: TextOverflow.ellipsis,
-  //                                     style: AppFontStyle.text_15_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+  //                                     style: AppFontStyle.text_15_500(AppColors.darkText,family: AppFontFamily.onestMedium),
   //
   //                                   )
   //                                     // : Text(
   //                                   //  'Your Carts',
   //                                   //   overflow: TextOverflow.ellipsis,
-  //                                   //   style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+  //                                   //   style: AppFontStyle.text_16_500(AppColors.darkText,family: AppFontFamily.onestMedium),
   //                                   //
   //                                   // ),
   //                                   // Text(
@@ -610,13 +608,13 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   //                                     Text(
   //                                       "View Cart",
   //                                       // restaurantCartController.allResCartData.value.carts?.length == 1 ?  "View Cart" : "View Carts",
-  //                                       style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+  //                                       style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestMedium),
   //                                       overflow: TextOverflow.ellipsis,
   //                                       maxLines: 1,
   //                                     ),
   //                                     Text(
   //                                       "items",
-  //                                       style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.gilroyMedium),
+  //                                       style: AppFontStyle.text_10_400(AppColors.white.withOpacity(.5),family: AppFontFamily.onestMedium),
   //                                       overflow: TextOverflow.ellipsis,
   //                                       maxLines: 1,
   //                                     ),
@@ -654,7 +652,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
   //                               Text(
   //                                 "Carts",
   //                                 style: AppFontStyle.text_12_600(
-  //                                     AppColors.primary,family:AppFontFamily.gilroyRegular),
+  //                                     AppColors.primary,family:AppFontFamily.onestRegular),
   //                               ),
   //                               Icon(
   //                                 Icons.arrow_drop_up,
@@ -692,9 +690,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 hintText: "Rating",
                 selectedValue: restaurantHomeController.rating.value,
                 hintStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 textStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 items: const ["High to Low", "Low to high"],
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {
@@ -721,9 +719,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 hintText: "Delivery Fee",
                 selectedValue: restaurantHomeController.deliveryFee.value,
                 hintStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 textStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 items: const ["Free"],
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {
@@ -750,9 +748,9 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 hintText: "Open Now",
                 selectedValue: restaurantHomeController.openNow.value,
                 hintStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 textStyle: AppFontStyle.text_15_400(AppColors.black,
-                    family: AppFontFamily.gilroyMedium),
+                    family: AppFontFamily.onestMedium),
                 items: const ["Open", "Closed"],
                 onChanged: (val) {
                   if (val != null && val.isNotEmpty) {
@@ -798,7 +796,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             searchIocnPadding: REdgeInsets.all(8),
             searchIconHeight: 16.h,
             hintStyle: AppFontStyle.text_10_400(AppColors.hintText,
-                family: AppFontFamily.gilroyRegular),
+                family: AppFontFamily.onestRegular),
             textStyle: AppFontStyle.text_10_400(AppColors.darkText),
             prefixConstraints: BoxConstraints(
               maxHeight: 18.h,
@@ -904,7 +902,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                   Text(
                     "Categories",
                     style: AppFontStyle.text_20_600(AppColors.darkText,
-                        family: AppFontFamily.gilroyRegular),
+                        family: AppFontFamily.onestRegular),
                   ),
                   const Spacer(),
                   InkWell(
@@ -919,7 +917,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                         Text(
                           "See All",
                           style: AppFontStyle.text_15_400(AppColors.primary,
-                              family: AppFontFamily.gilroyMedium),
+                              family: AppFontFamily.onestMedium),
                         ),
                         wBox(4),
                         Icon(
@@ -1015,7 +1013,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                 .homeData.value.category![index].name
                                 .toString(),
                             style: AppFontStyle.text_15_400(AppColors.darkText,
-                                family: AppFontFamily.gilroyMedium),
+                                family: AppFontFamily.onestMedium),
                           ),
                         ],
                       ),
@@ -1150,7 +1148,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               Text(
                 "Most Popular Restaurant",
                 style: AppFontStyle.text_20_600(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -1160,7 +1158,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 child: Text(
                   "See All",
                   style: AppFontStyle.text_15_400(AppColors.primary,
-                      family: AppFontFamily.gilroyMedium),
+                      family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -1330,7 +1328,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_17_400(AppColors.darkText,
-              family: AppFontFamily.gilroySemiBold),
+              family: AppFontFamily.onestSemiBold),
         ),
         hBox(2.h),
         Row(
@@ -1346,7 +1344,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               child: Text(
                 "$rating/5",
                 style: AppFontStyle.text_14_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
             if (catIndex != null) ...[
@@ -1355,7 +1353,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       " • ",
                       textAlign: TextAlign.left,
                       style: AppFontStyle.text_16_300(AppColors.lightText,
-                          family: AppFontFamily.gilroyRegular),
+                          family: AppFontFamily.onestRegular),
                     )
                   : const SizedBox.shrink(),
               if (catName != null && catName!.isNotEmpty)
@@ -1366,7 +1364,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                       "${catName![index]}${index < (catName!.length > 3 ? 3 : catName!.length) - 1 ? ', ' : ''}",
                       style: AppFontStyle.text_14_400(
                         AppColors.primary,
-                        family: AppFontFamily.gilroyRegular,
+                        family: AppFontFamily.onestRegular,
                       ),
                     ),
                   ),
@@ -1381,7 +1379,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
             // Text(
             //   price,
             //   textAlign: TextAlign.left,
-            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.gilroySemiBold),
+            //   style: AppFontStyle.text_15_400(AppColors.primary,family: AppFontFamily.onestSemiBold),
             // ),
 
             SvgPicture.asset(
@@ -1396,14 +1394,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               child: Text(
                 "30-50 mins",
                 style: AppFontStyle.text_12_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_300(AppColors.lightText,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset(
               ImageConstants.scooterImage,
@@ -1417,14 +1415,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               child: Text(
                 "\$5 Delivery",
                 style: AppFontStyle.text_12_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_300(AppColors.lightText,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset(
               ImageConstants.cartIconImage,
@@ -1438,7 +1436,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               child: Text(
                 "No min. order",
                 style: AppFontStyle.text_12_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
           ],
@@ -1459,7 +1457,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               Text(
                 "Nearby Restaurants",
                 style: AppFontStyle.text_20_600(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -1469,7 +1467,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 child: Text(
                   "See All",
                   style: AppFontStyle.text_15_400(AppColors.primary,
-                      family: AppFontFamily.gilroyMedium),
+                      family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -1564,7 +1562,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               Text(
                 "All Restaurants",
                 style: AppFontStyle.text_20_600(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -1574,7 +1572,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 child: Text(
                   "See All",
                   style: AppFontStyle.text_15_400(AppColors.primary,
-                      family: AppFontFamily.gilroyMedium),
+                      family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -1671,7 +1669,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               Text(
                 "Free Delivery",
                 style: AppFontStyle.text_20_600(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
               const Spacer(),
               GestureDetector(
@@ -1681,7 +1679,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                 child: Text(
                   "See All",
                   style: AppFontStyle.text_15_400(AppColors.primary,
-                      family: AppFontFamily.gilroyMedium),
+                      family: AppFontFamily.onestMedium),
                 ),
               ),
               wBox(4),
@@ -1797,7 +1795,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
           title.toString().capitalize ?? "",
           textAlign: TextAlign.left,
           style: AppFontStyle.text_17_400(AppColors.darkText,
-              family: AppFontFamily.gilroySemiBold),
+              family: AppFontFamily.onestSemiBold),
         ),
         hBox(2.h),
         Row(
@@ -1813,14 +1811,14 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               child: Text(
                 "$rating/5",
                 style: AppFontStyle.text_14_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_16_300(AppColors.lightText,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             ),
             SvgPicture.asset(
               ImageConstants.clockIcon,
@@ -1834,7 +1832,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               child: Text(
                 "30-50 mins",
                 style: AppFontStyle.text_13_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
           ],
@@ -1858,7 +1856,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
               Text(
                 "Free Delivery",
                 style: AppFontStyle.text_13_400(AppColors.white,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ],
           ),
@@ -1884,7 +1882,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                     Text(
                       "Your Carts(${restaurantCartController.allResCartData.value.carts?.length})",
                       style: AppFontStyle.text_20_600(AppColors.darkText,
-                          family: AppFontFamily.gilroyRegular),
+                          family: AppFontFamily.onestRegular),
                     ),
                     const Spacer(),
                     InkWell(
@@ -1899,7 +1897,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                           Text(
                             "Checkout all",
                             style: AppFontStyle.text_14_600(AppColors.primary,
-                                family: AppFontFamily.gilroyRegular),
+                                family: AppFontFamily.onestRegular),
                           ),
                           wBox(4),
                           Icon(
@@ -1965,7 +1963,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                   overflow: TextOverflow.ellipsis,
                                   style: AppFontStyle.text_15_500(
                                       AppColors.darkText,
-                                      family: AppFontFamily.gilroyMedium),
+                                      family: AppFontFamily.onestMedium),
                                 ),
                                 // Text(
                                 //   carts.vendorAddress.toString(),
@@ -2001,7 +1999,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     "View Cart",
                                     style: AppFontStyle.text_14_400(
                                         AppColors.white,
-                                        family: AppFontFamily.gilroyMedium),
+                                        family: AppFontFamily.onestMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -2009,7 +2007,7 @@ class _HomeRestaurantScreenState extends State<RestaurantHomeScreen> {
                                     "items",
                                     style: AppFontStyle.text_10_400(
                                         AppColors.white.withOpacity(.5),
-                                        family: AppFontFamily.gilroyMedium),
+                                        family: AppFontFamily.onestMedium),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),

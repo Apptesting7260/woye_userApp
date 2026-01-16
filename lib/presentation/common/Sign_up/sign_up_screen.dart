@@ -66,7 +66,7 @@ class SignUpScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(
         "Create your\nAccount",
-        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        style: AppFontStyle.text_34_600(AppColors.darkText,family: AppFontFamily.onestRegular),
       ),
       hBox(20),
       Text(
@@ -74,7 +74,7 @@ class SignUpScreen extends StatelessWidget {
         style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w400,
-            fontFamily: AppFontFamily.gilroyRegular,
+            fontFamily: AppFontFamily.onestRegular,
             color: AppColors.lightText),
       ),
     ]);
@@ -96,13 +96,13 @@ class SignUpScreen extends StatelessWidget {
                 .countryPhoneDigits[countryCode.code.toString()];
             signUpController.checkCountryLength = countrylength!;
           },
-          textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
 
           initialSelection: "IN"),
       hintText: "Phone Number",
       textInputType: TextInputType.phone,
-      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
-      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+      hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
+      textStyle: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your phone number';
@@ -128,7 +128,7 @@ class SignUpScreen extends StatelessWidget {
     return Obx(
       () => CustomElevatedButton(
         text: "Sign Up",
-        fontFamily: AppFontFamily.gilroyMedium,
+        fontFamily: AppFontFamily.onestMedium,
         isLoading: (signUpController.isLoding.value ||
             checkUserController.rxRequestStatus.value == Status.LOADING),
         onPressed: () {
@@ -165,7 +165,7 @@ class SignUpScreen extends StatelessWidget {
         ),
         Text(
           "or continue with",
-          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
         ),
         Expanded(
           child: Divider(
@@ -235,12 +235,12 @@ class SignUpScreen extends StatelessWidget {
               text: TextSpan(children: [
             TextSpan(
                 text: "Already have an account? ",
-                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular)),
+                style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular)),
             TextSpan(
                 text: "Sign In",
                 style: AppFontStyle.text_16_400(
                   AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular
+                    family: AppFontFamily.onestRegular
                 )),
           ])),
         ),

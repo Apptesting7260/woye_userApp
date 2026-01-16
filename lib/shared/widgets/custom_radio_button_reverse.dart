@@ -29,7 +29,7 @@ class CustomTitleRadioButton extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +39,7 @@ class CustomTitleRadioButton extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 17.5.sp,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                 ),
               ),
               wBox(10),
@@ -115,7 +115,7 @@ class CustomTitleCheckbox extends StatelessWidget {
         children: [
           Text(
             title,
-            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
           Row(
             children: [
@@ -124,7 +124,7 @@ class CustomTitleCheckbox extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 17.5.sp,
-                  fontFamily:AppFontFamily.gilroyMedium,
+                  fontFamily:AppFontFamily.onestMedium,
                 ),
               ),
               wBox(10),

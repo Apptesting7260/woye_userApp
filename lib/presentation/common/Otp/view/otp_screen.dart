@@ -52,18 +52,18 @@ class OtpScreen extends StatelessWidget {
       Text(
         "Verification code",
         style: AppFontStyle.text_28_600(AppColors.darkText,
-            family: AppFontFamily.gilroyRegular),
+            family: AppFontFamily.onestRegular),
       ),
       hBox(20),
       Text(
         "Please enter the verification code sent to",
         style: AppFontStyle.text_16_400(AppColors.lightText,
-            family: AppFontFamily.gilroyMedium),
+            family: AppFontFamily.onestMedium),
       ),
       Text(
         mob,
         style: AppFontStyle.text_16_400(AppColors.black,
-            family: AppFontFamily.gilroyMedium),
+            family: AppFontFamily.onestMedium),
       ),
     ]);
   }
@@ -83,7 +83,7 @@ class OtpScreen extends StatelessWidget {
   Widget verifyButton(from, countryCode, mob) {
     return Obx(
       () => CustomElevatedButton(
-        fontFamily: AppFontFamily.gilroyMedium,
+        fontFamily: AppFontFamily.onestMedium,
         isLoading: otpController.rxRequestStatus.value == Status.LOADING,
         onPressed: () async {
           final otpText = otpController.otpPin.value.text.trim();
@@ -129,7 +129,7 @@ class OtpScreen extends StatelessWidget {
 Text(
           'Didn\'t receive OTP?',
           style: AppFontStyle.text_16_400(AppColors.darkText,
-              family: AppFontFamily.gilroyRegular),
+              family: AppFontFamily.onestRegular),
         ),
 
         Obx(
@@ -165,7 +165,7 @@ Text(
                       ? AppColors.black
                       : AppColors.lightText,
                   fontWeight: FontWeight.w400,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             ),
           ),
         ),

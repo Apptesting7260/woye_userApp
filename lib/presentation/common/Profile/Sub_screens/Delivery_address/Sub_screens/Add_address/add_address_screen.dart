@@ -29,7 +29,7 @@ class AddAddressScreen extends StatelessWidget {
           isLeading: controller.location.value == "" ? false : true,
           title: Text(
             "Add New Address",
-            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
         ),
         body: SingleChildScrollView(
@@ -131,7 +131,7 @@ class AddAddressScreen extends StatelessWidget {
         FilteringTextInputFormatter.digitsOnly,
       ],
       prefix: CountryCodePicker(
-        textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+        textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
         padding: const EdgeInsets.only(left: 10),
         onChanged: (CountryCode countryCode) {
           print("country code===========> ${countryCode.code}");
@@ -143,7 +143,7 @@ class AddAddressScreen extends StatelessWidget {
         initialSelection: controller.selectedCountryCode.value.dialCode,
       ),
       hintText: "Phone Number",
-      textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+      textStyle:  AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
       textInputType: TextInputType.phone,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -183,7 +183,9 @@ class AddAddressScreen extends StatelessWidget {
   }
 
   Widget toggleButtons() {
-    return Row(children: [
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
       CustomToogleButton(
           title: "Home",
           value: 0.obs,
@@ -194,7 +196,7 @@ class AddAddressScreen extends StatelessWidget {
             controller.radioValue.value = v!;
             controller.addressType.value = "Home";
           }),
-      wBox(10.h),
+      wBox(8.h),
       CustomToogleButton(
           title: "Office",
           value: 1.obs,
@@ -205,7 +207,7 @@ class AddAddressScreen extends StatelessWidget {
             controller.radioValue.value = v!;
             controller.addressType.value = "Office";
           }),
-      wBox(10.h),
+      wBox(8.h),
       CustomToogleButton(
           title: "Other",
           value: 2.obs,
@@ -244,7 +246,7 @@ class AddAddressScreen extends StatelessWidget {
         ),
         Text(
           "Set default",
-          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
       ],
     );
@@ -260,7 +262,7 @@ class AddAddressScreen extends StatelessWidget {
   Widget saveButton() {
     return Obx(
       () => CustomElevatedButton(
-        fontFamily: AppFontFamily.gilroyMedium,
+        fontFamily: AppFontFamily.onestMedium,
         onPressed: () {
           FocusManager.instance.primaryFocus?.unfocus();
           if (_formKey.currentState!.validate()) {

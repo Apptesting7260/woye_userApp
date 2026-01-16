@@ -38,18 +38,18 @@ class OrderConfirmScreen extends StatelessWidget {
               hBox(30),
               Text(
                 "Your order has been Placed",
-                style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               hBox(20),
               Text(
                 "Your items has been placcd and is on it's way to being processed",
                 textAlign: TextAlign.center,
                 maxLines: 3,
-                style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               hBox(20),
               CustomElevatedButton(
-                fontFamily: AppFontFamily.gilroyMedium,
+                fontFamily: AppFontFamily.onestMedium,
                   text: "Track Order",
                   onPressed: () {
                     Get.toNamed(AppRoutes.trackOrder,
@@ -75,7 +75,7 @@ class OrderConfirmScreen extends StatelessWidget {
                     //homeController.navigate(2);
                   }
                 },
-                child: Text("Continue Shopping",style: AppFontStyle.text_16_500(AppColors.primary,family: AppFontFamily.gilroyMedium,),),
+                child: Text("Continue Shopping",style: AppFontStyle.text_16_500(AppColors.primary,family: AppFontFamily.onestMedium,),),
               ),
             ],
           ),

@@ -61,7 +61,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
         appBar: CustomAppBar(
           title: Text(
             "Prescription",
-            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
         ),
         body: Padding(
@@ -131,7 +131,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                   children: [
                     if (prescription == "yes")
                       CustomElevatedButton(
-                       fontFamily: AppFontFamily.gilroyMedium,
+                       fontFamily: AppFontFamily.onestMedium,
                         onPressed: () {
                           if (controller.imageList[0].value == null) {
                             Utils.showToast("Prescription is required to upload for this medication.");
@@ -173,7 +173,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                     if (prescription != "yes")
                       Obx(
                         () => CustomElevatedButton(
-                          fontFamily: AppFontFamily.gilroyMedium,
+                          fontFamily: AppFontFamily.onestMedium,
                           onPressed: () {
                             // List<String> imagePaths = controller.imageList.map((fileRx) => fileRx.value?.path ?? "").toList();
                             Get.toNamed(
@@ -324,14 +324,14 @@ class PrescriptionUploadScreen extends StatelessWidget {
                                 Text(
                                   "Upload Prescription Image",
                                   style: AppFontStyle.text_14_500(
-                                    AppColors.mediumText, family: AppFontFamily.gilroyMedium,
+                                    AppColors.mediumText, family: AppFontFamily.onestMedium,
                                   ),
                                 ),
                                 SizedBox(height: 2.h),
                                 Text(
                                   "jpg should be less than 5MB",
                                   style: AppFontStyle.text_14_400(
-                                    AppColors.hintText,family: AppFontFamily.gilroyMedium,
+                                    AppColors.hintText,family: AppFontFamily.onestMedium,
                                   ),
                                 ),
                               ],
@@ -367,7 +367,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                             Text(
                               " Remove",
                               style: AppFontStyle.text_15_400(
-                                AppColors.red,family: AppFontFamily.gilroyRegular
+                                AppColors.red,family: AppFontFamily.onestRegular
                               ),
                             )
                           ],
@@ -392,7 +392,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                             Text(
                               " Add More",
                               style: AppFontStyle.text_15_400(
-                                AppColors.primary,family: AppFontFamily.gilroyRegular
+                                AppColors.primary,family: AppFontFamily.onestRegular
                               ),
                             )
                           ],
@@ -449,7 +449,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
               children: [
                 Text("Pick an Image",
                     style: GoogleFonts.poppins(
-                      textStyle: AppFontStyle.text_18_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+                      textStyle: AppFontStyle.text_18_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
                     )),
                 hBox(18),
                 Row(
@@ -484,7 +484,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                             Text(
                               "Camera",
                               style:
-                                  AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                  AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                             ),
                           ],
                         ),
@@ -517,7 +517,7 @@ class PrescriptionUploadScreen extends StatelessWidget {
                             Text(
                               "Gallery",
                               style:
-                                  AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                  AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                             ),
                           ],
                         ),

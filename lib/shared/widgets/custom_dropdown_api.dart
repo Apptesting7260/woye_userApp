@@ -62,7 +62,7 @@ class CustomDropDownApi extends StatelessWidget {
       decoration:  InputDecoration(
         // errorStyle: errorTextStyle ?? AppFontStyle.text_12_400(
         //   errorTextClr ?? AppColors.errorColor,
-        //   fontFamily: AppFontFamily.gilroyMedium,
+        //   fontFamily: AppFontFamily.onestMedium,
         // ),
         labelText: labelText ?? '',
         contentPadding: contentPadding ?? REdgeInsets.symmetric(vertical: 15, horizontal: 10),
@@ -86,13 +86,13 @@ class CustomDropDownApi extends StatelessWidget {
       isExpanded: isExpanded ?? true,
       value: selectedValue == '' ? null : selectedValue,
       validator: validator,
-      hint: Text(hintText ?? 'Select an option', style: hintStyle ?? AppFontStyle.text_16_400(AppColors.black, family: AppFontFamily.gilroyMedium,),),
+      hint: Text(hintText ?? 'Select an option', style: hintStyle ?? AppFontStyle.text_16_400(AppColors.black, family: AppFontFamily.onestMedium,),),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       items: items.map((item) => DropdownMenuItem<String>(
         enabled: selectedValues == null ? true : !selectedValues!.contains(item.id),
         value: item.id,
         child: Text(isTitle != null && isTitle == true ? item.title ?? '' : item.name ?? '',
-          style: textStyle ?? AppFontStyle.text_14_400(AppColors.black, family: AppFontFamily.gilroyMedium,),
+          style: textStyle ?? AppFontStyle.text_14_400(AppColors.black, family: AppFontFamily.onestMedium,),
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),

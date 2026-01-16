@@ -172,7 +172,7 @@ class RestaurantHomeController extends GetxController {
       if(rating.value.isNotEmpty)
       "rating": rating.value.toLowerCase(),
       if(deliveryFee.value.isNotEmpty)
-      "delivery_fee": deliveryFee.value.toLowerCase(),
+      "delivery": deliveryFee.value.toLowerCase(),
       if(openNow.value.isNotEmpty)
       "open_now": openNow.value.toLowerCase(),
       if(latitude.value.isNotEmpty)

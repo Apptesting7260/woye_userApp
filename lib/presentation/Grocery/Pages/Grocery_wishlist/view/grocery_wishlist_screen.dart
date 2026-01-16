@@ -43,7 +43,7 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
         isActions: true,
         title: Text(
           "Wishlist",
-          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -87,13 +87,13 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                           hBox(10.h),
                           Text(
                             "Your wishlist is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
+                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestMedium),
                           ),
                         ],
                       )
@@ -262,14 +262,14 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                                   textAlign: TextAlign.left,
                                                   style:
                                                       AppFontStyle.text_15_600(
-                                                          AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                                          AppColors.primary,family: AppFontFamily.onestRegular),
                                                 )
                                               : Text(
                                                   "\$${product.regularPrice}",
                                                   textAlign: TextAlign.left,
                                                   style:
                                                       AppFontStyle.text_15_600(
-                                                          AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                                          AppColors.primary,family: AppFontFamily.onestRegular),
                                                 ),
                                           wBox(5.h),
                                           if (product.salePrice != null)
@@ -284,7 +284,7 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                                   color: AppColors.lightText,
                                                   decoration: TextDecoration.lineThrough,
                                                   decorationColor:AppColors.lightText,
-                                                  fontFamily: AppFontFamily.gilroyMedium),
+                                                  fontFamily: AppFontFamily.onestMedium),
 
                                               //  AppFontStyle.text_14_300(AppColors.lightText),
                                             ),
@@ -294,7 +294,7 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                         product.title.toString(),
                                         textAlign: TextAlign.left,
                                         style: AppFontStyle.text_16_400(
-                                            AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            AppColors.darkText,family: AppFontFamily.onestMedium),
                                       ),
                                       Row(
                                         children: [
@@ -304,7 +304,7 @@ class _GroceryWishlistScreenState extends State<GroceryWishlistScreen> {
                                           Text(
                                             "${product.rating ?? 0}/5",
                                             style: AppFontStyle.text_14_300(
-                                                AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                                AppColors.lightText,family: AppFontFamily.onestRegular),
                                           ),
                                           wBox(4),
                                           // Text(

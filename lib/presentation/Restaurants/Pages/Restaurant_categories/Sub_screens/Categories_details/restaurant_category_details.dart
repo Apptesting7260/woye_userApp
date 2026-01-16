@@ -17,6 +17,7 @@ import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/custom_no_data_found.dart';
 import 'package:woye_user/shared/widgets/custom_print.dart' show pt;
+import 'package:woye_user/shared/widgets/format_price.dart';
 
 import '../../../../../../Data/components/GeneralException.dart';
 import '../../../../../../Data/components/InternetException.dart';
@@ -133,7 +134,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "No addons available",
                                                 style: AppFontStyle.text_16_400(
                                                   AppColors.darkText,
-                                                  family: AppFontFamily.gilroyMedium,
+                                                  family: AppFontFamily.onestMedium,
                                                 ),
                                               ),
                                               hBox(5),
@@ -141,7 +142,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "You can add this product directly to cart",
                                                 style: AppFontStyle.text_14_400(
                                                   AppColors.lightText,
-                                                  family: AppFontFamily.gilroyRegular,
+                                                  family: AppFontFamily.onestRegular,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -161,7 +162,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Extras",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -173,7 +174,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     option.optionName ?? "Option",
                                                     style: AppFontStyle.text_14_400(
                                                       AppColors.darkText,
-                                                      family: AppFontFamily.gilroyMedium,
+                                                      family: AppFontFamily.onestMedium,
                                                     ),
                                                   ),
                                                   hBox(5.h),
@@ -183,7 +184,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         "${choice.name} (+${choice.price})",
                                                         style: AppFontStyle.text_14_400(
                                                           AppColors.darkText,
-                                                          family: AppFontFamily.gilroyRegular,
+                                                          family: AppFontFamily.onestRegular,
                                                         ),
                                                       ),
                                                       value: choice.name ?? "",
@@ -214,7 +215,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Add-ons",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -224,7 +225,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   "${addOn.name} (+${addOn.price})",
                                                   style: AppFontStyle.text_14_400(
                                                     AppColors.darkText,
-                                                    family: AppFontFamily.gilroyRegular,
+                                                    family: AppFontFamily.onestRegular,
                                                   ),
                                                 ),
                                                 value: isAddOnSelected(addOn.id ?? ""),
@@ -248,7 +249,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   "Attributes",
                                                   style: AppFontStyle.text_16_400(
                                                     AppColors.darkText,
-                                                    family: AppFontFamily.gilroyMedium,
+                                                    family: AppFontFamily.onestMedium,
                                                   ),
                                                 ),
                                                 hBox(10.h),
@@ -260,7 +261,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         attributeGroup.groupName ?? "",
                                                         style: AppFontStyle.text_14_400(
                                                           AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                       hBox(5.h),
@@ -271,7 +272,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                             "• ${attribute.name}",
                                                             style: AppFontStyle.text_14_400(
                                                               AppColors.lightText,
-                                                              family: AppFontFamily.gilroyRegular,
+                                                              family: AppFontFamily.onestRegular,
                                                             ),
                                                           ),
                                                         );
@@ -292,7 +293,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
+                              fontFamily: AppFontFamily.onestMedium,
                               width: Get.width,
                               color: AppColors.darkText,
                               isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
@@ -507,7 +508,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "No addons available",
                                                 style: AppFontStyle.text_16_400(
                                                   AppColors.darkText,
-                                                  family: AppFontFamily.gilroyMedium,
+                                                  family: AppFontFamily.onestMedium,
                                                 ),
                                               ),
                                               hBox(5),
@@ -515,7 +516,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "You can add this product directly to cart",
                                                 style: AppFontStyle.text_14_400(
                                                   AppColors.lightText,
-                                                  family: AppFontFamily.gilroyRegular,
+                                                  family: AppFontFamily.onestRegular,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -535,7 +536,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Extras",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -547,7 +548,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                     option.optionName ?? "Option",
                                                     style: AppFontStyle.text_14_400(
                                                       AppColors.darkText,
-                                                      family: AppFontFamily.gilroyMedium,
+                                                      family: AppFontFamily.onestMedium,
                                                     ),
                                                   ),
                                                   hBox(5.h),
@@ -580,14 +581,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                               choice.name ?? "",
                                                               style: AppFontStyle.text_14_400(
                                                                 isSelected ? AppColors.primary : AppColors.darkText,
-                                                                family: AppFontFamily.gilroyMedium,
+                                                                family: AppFontFamily.onestMedium,
                                                               ),
                                                             ),
                                                             Text(
                                                               "+₹${choice.price ?? "0"}",
                                                               style: AppFontStyle.text_14_400(
                                                                 isSelected ? AppColors.primary : AppColors.darkText,
-                                                                family: AppFontFamily.gilroyMedium,
+                                                                family: AppFontFamily.onestMedium,
                                                               ),
                                                             ),
                                                           ],
@@ -612,7 +613,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                               "Add-ons",
                                               style: AppFontStyle.text_16_400(
                                                 AppColors.darkText,
-                                                family: AppFontFamily.gilroyMedium,
+                                                family: AppFontFamily.onestMedium,
                                               ),
                                             ),
                                             hBox(10.h),
@@ -640,14 +641,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         addOn.name ?? "",
                                                         style: AppFontStyle.text_14_400(
                                                           addOn.isSelected.value ? AppColors.primary : AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                       Text(
                                                         "+₹${addOn.price ?? "0"}",
                                                         style: AppFontStyle.text_14_400(
                                                           addOn.isSelected.value ? AppColors.primary : AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                     ],
@@ -670,7 +671,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                   "Attributes",
                                                   style: AppFontStyle.text_16_400(
                                                     AppColors.darkText,
-                                                    family: AppFontFamily.gilroyMedium,
+                                                    family: AppFontFamily.onestMedium,
                                                   ),
                                                 ),
                                                 hBox(10.h),
@@ -682,7 +683,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                         attributeGroup.groupName ?? "",
                                                         style: AppFontStyle.text_14_400(
                                                           AppColors.darkText,
-                                                          family: AppFontFamily.gilroyMedium,
+                                                          family: AppFontFamily.onestMedium,
                                                         ),
                                                       ),
                                                       hBox(5.h),
@@ -698,7 +699,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                                   attribute.name ?? "",
                                                                   style: AppFontStyle.text_14_400(
                                                                     AppColors.lightText,
-                                                                    family: AppFontFamily.gilroyRegular,
+                                                                    family: AppFontFamily.onestRegular,
                                                                   ),
                                                                 ),
                                                               ),
@@ -722,7 +723,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Obx(() => CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
+                              fontFamily: AppFontFamily.onestMedium,
                               width: Get.width,
                               color: addToCartController.goToCart.value ? AppColors.primary : AppColors.darkText,
                               isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
@@ -813,7 +814,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 option.optionName ?? "Option ${index + 1}",
                 style: AppFontStyle.text_20_500(
                   AppColors.darkText,
-                  family: AppFontFamily.gilroySemiBold,
+                  family: AppFontFamily.onestSemiBold,
                 ),
               ),
               hBox(5),
@@ -834,7 +835,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             choice.name ?? "Choice ${choiceIndex + 1}",
                             style: AppFontStyle.text_16_400(
                               AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -892,7 +893,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 title,
                 style: AppFontStyle.text_16_400(
                   AppColors.black,
-                  family: AppFontFamily.gilroySemiBold,
+                  family: AppFontFamily.onestSemiBold,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -941,14 +942,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
       children: [
         Text(
           "Add On",
-          style: AppFontStyle.text_20_500(AppColors.darkText, family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_20_500(AppColors.darkText, family: AppFontFamily.onestSemiBold),
         ),
         hBox(5),
         Row(
           children: [
             Text(
               "Select any option",
-              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_12_200(AppColors.lightText, family: AppFontFamily.onestRegular),
             ),
           ],
         ),
@@ -959,7 +960,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
             child: Center(
               child: Text(
                 "No add-ons available",
-                style: AppFontStyle.text_16_400(AppColors.lightText, family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_16_400(AppColors.lightText, family: AppFontFamily.onestRegular),
               ),
             ),
           )
@@ -981,7 +982,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             addOn?.name ?? "Addon ${index + 1}",
                             style: AppFontStyle.text_16_400(
                               AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                           ),
                           Row(
@@ -990,7 +991,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 "\$${addOn?.price ?? "0.00"}",
                                 style: AppFontStyle.text_16_600(
                                   AppColors.black,
-                                  family: AppFontFamily.gilroyRegular,
+                                  family: AppFontFamily.onestRegular,
                                 ),
                               ),
                               wBox(10),
@@ -1054,7 +1055,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       children: [
                         Text(
                           showAll.value ? "-${totalAddons - initialShowCount} Less" : "+${totalAddons - initialShowCount} More",
-                          style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.gilroyRegular),
+                          style: AppFontStyle.text_14_600(AppColors.primary, family: AppFontFamily.onestRegular),
                         ),
                         wBox(4),
                         Icon(
@@ -1088,7 +1089,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
           "Attributes",
           style: AppFontStyle.text_20_500(
             AppColors.darkText,
-            family: AppFontFamily.gilroySemiBold,
+            family: AppFontFamily.onestSemiBold,
           ),
         ),
         hBox(10),
@@ -1106,7 +1107,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       attributeGroup.groupName!,
                       style: AppFontStyle.text_18_600(
                         AppColors.darkText,
-                        family: AppFontFamily.gilroyMedium,
+                        family: AppFontFamily.onestMedium,
                       ),
                     ),
                     hBox(10),
@@ -1128,7 +1129,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             attribute.name ?? "Attribute ${attrIndex + 1}",
                             style: AppFontStyle.text_16_400(
                               AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -1163,7 +1164,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        constraints: BoxConstraints(maxWidth: 100),
+        constraints: const BoxConstraints(maxWidth: 100),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1172,7 +1173,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 title,
                 style: AppFontStyle.text_16_400(
                   AppColors.black,
-                  family: AppFontFamily.gilroySemiBold,
+                  family: AppFontFamily.onestSemiBold,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -1200,7 +1201,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                   ),
                 ),
               )
-                  : SizedBox(),
+                  : const SizedBox(),
             ),
           ],
         ),
@@ -1228,7 +1229,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
     // Initialize addons selection state
     if (hasAddOns) {
-      for (var addOn in product!.addOns!) {
+      for (var addOn in product.addOns!) {
         addOn.isSelected.value = false;
       }
     }
@@ -1270,15 +1271,54 @@ class RestaurantCategoryDetails extends StatelessWidget {
                   setState(() {});
                 }
 
+                // void toggleOptionSelection(String optionId, String optionName,
+                //     String choiceName, String choicePrice) {
+                //   if (selectedOptions[optionId] == choiceName) {
+                //     // Deselect
+                //     selectedOptions.remove(optionId);
+                //
+                //     // Remove from arrays
+                //     int indexToRemove =
+                //     extrasTitlesIdsId.indexWhere((id) => id == optionId);
+                //     if (indexToRemove != -1) {
+                //       extrasTitlesIdsId.removeAt(indexToRemove);
+                //       extrasItemIdsId.removeAt(indexToRemove);
+                //       extrasItemIdsName.removeAt(indexToRemove);
+                //       extrasItemIdsPrice.removeAt(indexToRemove);
+                //     }
+                //   } else {
+                //     // Select (radio behavior - one per option)
+                //     selectedOptions[optionId] = choiceName;
+                //
+                //     // Find if this option is already selected
+                //     int existingIndex =
+                //     extrasTitlesIdsId.indexWhere((id) => id == optionId);
+                //
+                //     if (existingIndex != -1) {
+                //       // Update existing
+                //       extrasItemIdsName[existingIndex] = choiceName;
+                //       extrasItemIdsPrice[existingIndex] = choicePrice;
+                //     } else {
+                //       // Add new
+                //       extrasTitlesIdsId.add(optionId);
+                //       extrasItemIdsId.add(optionId);
+                //       extrasItemIdsName.add(choiceName);
+                //       extrasItemIdsPrice.add(choicePrice);
+                //     }
+                //   }
+                //   setState(() {});
+                // }
                 void toggleOptionSelection(String optionId, String optionName,
-                    String choiceName, String choicePrice) {
-                  if (selectedOptions[optionId] == choiceName) {
+                    String choiceName, String choicePrice, int choiceIndex) {
+                  // Create a unique key by combining optionId and choiceIndex
+                  final String uniqueChoiceKey = '$optionId-$choiceIndex';
+
+                  if (selectedOptions[optionId] == uniqueChoiceKey) {
                     // Deselect
                     selectedOptions.remove(optionId);
 
                     // Remove from arrays
-                    int indexToRemove =
-                    extrasTitlesIdsId.indexWhere((id) => id == optionId);
+                    int indexToRemove = extrasTitlesIdsId.indexWhere((id) => id == optionId);
                     if (indexToRemove != -1) {
                       extrasTitlesIdsId.removeAt(indexToRemove);
                       extrasItemIdsId.removeAt(indexToRemove);
@@ -1287,11 +1327,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                     }
                   } else {
                     // Select (radio behavior - one per option)
-                    selectedOptions[optionId] = choiceName;
+                    selectedOptions[optionId] = uniqueChoiceKey;
 
                     // Find if this option is already selected
-                    int existingIndex =
-                    extrasTitlesIdsId.indexWhere((id) => id == optionId);
+                    int existingIndex = extrasTitlesIdsId.indexWhere((id) => id == optionId);
 
                     if (existingIndex != -1) {
                       // Update existing
@@ -1308,28 +1347,33 @@ class RestaurantCategoryDetails extends StatelessWidget {
                   setState(() {});
                 }
 
+                bool isOptionSelected(String optionId, int choiceIndex) {
+                  final String uniqueChoiceKey = '$optionId-$choiceIndex';
+                  return selectedOptions[optionId] == uniqueChoiceKey;
+                }
+
                 bool isAddOnSelected(String addOnId) {
                   return selectedAddOns.any((item) => item['id'] == addOnId);
                 }
 
-                bool isOptionSelected(String optionId, String choiceName) {
-                  return selectedOptions[optionId] == choiceName;
-                }
+                // bool isOptionSelected(String optionId, String choiceName) {
+                //   return selectedOptions[optionId] == choiceName;
+                // }
 
                 // Widget for Options Section (like ProductDetailsScreen)
                 Widget buildOptionsSection() {
-                  if (!hasOptions) return SizedBox.shrink();
+                  if (!hasOptions) return const SizedBox.shrink();
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Loop through each option
-                      ...product!.options!.asMap().entries.map((entry) {
+                      ...product.options!.asMap().entries.map((entry) {
                         final option = entry.value;
                         final index = entry.key;
 
                         if (option.choices == null || option.choices!.isEmpty) {
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         }
 
                         return Column(
@@ -1340,7 +1384,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                               option.optionName ?? "Option ${index + 1}",
                               style: AppFontStyle.text_20_500(
                                 AppColors.darkText,
-                                family: AppFontFamily.gilroySemiBold,
+                                family: AppFontFamily.onestSemiBold,
                               ),
                             ),
 
@@ -1354,14 +1398,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     "Required",
                                     style: AppFontStyle.text_12_200(
                                       AppColors.lightText,
-                                      family: AppFontFamily.gilroyRegular,
+                                      family: AppFontFamily.onestRegular,
                                     ),
                                   ),
                                   Text(
                                     "•",
                                     style: AppFontStyle.text_12_200(
                                       AppColors.lightText,
-                                      family: AppFontFamily.gilroyRegular,
+                                      family: AppFontFamily.onestRegular,
                                     ),
                                   ),
                                   wBox(4),
@@ -1370,7 +1414,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                       "Select any 1 option",
                                       style: AppFontStyle.text_12_200(
                                         AppColors.lightText,
-                                        family: AppFontFamily.gilroyRegular,
+                                        family: AppFontFamily.onestRegular,
                                       ),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -1401,10 +1445,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                       Flexible(
                                         flex: 2,
                                         child: Text(
-                                          choice.name ?? "Choice ${choiceIndex + 1}",
+                                          choice.name?.capitalize ?? "",
                                           style: AppFontStyle.text_16_400(
                                             AppColors.black,
-                                            family: AppFontFamily.gilroyRegular,
+                                            family: AppFontFamily.onestRegular,
                                           ),
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
@@ -1419,17 +1463,30 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                         flex: 1,
                                         child: _buildToggleableRadioButton(
                                           title: '\$${choice.price ?? "0.00"}',
+                                          // isSelected: isOptionSelected(
+                                          //     option.optionId ?? "",
+                                          //     choice.name ?? ""),
                                           isSelected: isOptionSelected(
-                                              option.optionId ?? "",
-                                              choice.name ?? ""),
+                                            option.optionId ?? "",
+                                            choiceIndex, // Pass choiceIndex instead of choiceName
+                                          ),
                                           onTap: () {
                                             toggleOptionSelection(
                                               option.optionId ?? "",
                                               option.optionName ?? "",
                                               choice.name ?? "",
                                               choice.price ?? "0",
+                                              choiceIndex, // Add this parameter
                                             );
                                           },
+                                          // onTap: () {
+                                          //   toggleOptionSelection(
+                                          //     option.optionId ?? "",
+                                          //     option.optionName ?? "",
+                                          //     choice.name ?? "",
+                                          //     choice.price ?? "0",
+                                          //   );
+                                          // },
                                         ),
                                       ),
                                     ],
@@ -1440,23 +1497,23 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     hBox(8),
                                 ],
                               );
-                            }).toList(),
+                            }),
 
                             // Add spacing between options (except last one)
-                            if (index < product!.options!.length - 1) hBox(20.h),
+                            if (index < product.options!.length - 1) hBox(20.h),
                           ],
                         );
-                      }).toList(),
+                      }),
                     ],
                   );
                 }
 
                 // Widget for AddOns Section (like ProductDetailsScreen)
                 Widget buildAddOnsSection() {
-                  if (!hasAddOns) return SizedBox.shrink();
+                  if (!hasAddOns) return const SizedBox.shrink();
 
                   // Show only first 6 items initially
-                  int totalAddons = product!.addOns!.length;
+                  int totalAddons = product.addOns!.length;
                   int initialShowCount = 6;
                   RxBool showAll = false.obs;
                   int itemsToShow = showAll.value
@@ -1469,7 +1526,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       Text(
                         "Add On",
                         style: AppFontStyle.text_20_500(AppColors.darkText,
-                            family: AppFontFamily.gilroySemiBold),
+                            family: AppFontFamily.onestSemiBold),
                       ),
                       hBox(5),
                       Row(
@@ -1477,7 +1534,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           Text(
                             "Select any option",
                             style: AppFontStyle.text_12_200(AppColors.lightText,
-                                family: AppFontFamily.gilroyRegular),
+                                family: AppFontFamily.onestRegular),
                           ),
                         ],
                       ),
@@ -1489,7 +1546,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           ...List.generate(
                             itemsToShow,
                                 (index) {
-                              final addOn = product!.addOns![index];
+                              final addOn = product.addOns![index];
                               bool isSelected = isAddOnSelected(addOn.id ?? '');
 
                               return Column(
@@ -1500,10 +1557,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     children: [
                                       // Addon name
                                       Text(
-                                        addOn.name ?? "Addon ${index + 1}",
+                                        addOn.name?.capitalize ?? "Addon ${index + 1}",
                                         style: AppFontStyle.text_16_400(
                                           AppColors.black,
-                                          family: AppFontFamily.gilroyRegular,
+                                          family: AppFontFamily.onestRegular,
                                         ),
                                       ),
 
@@ -1515,7 +1572,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                             "\$${addOn.price ?? "0.00"}",
                                             style: AppFontStyle.text_16_600(
                                               AppColors.black,
-                                              family: AppFontFamily.gilroyRegular,
+                                              family: AppFontFamily.onestRegular,
                                             ),
                                           ),
                                           wBox(10),
@@ -1545,7 +1602,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 BorderRadius.circular(4.r),
                                               ),
                                               child: addOn.isSelected.value
-                                                  ? Center(
+                                                  ? const Center(
                                                 child: Icon(
                                                   Icons.check,
                                                   size: 10,
@@ -1592,7 +1649,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           : "+${totalAddons - initialShowCount} More",
                                       style: AppFontStyle.text_14_600(
                                           AppColors.primary,
-                                          family: AppFontFamily.gilroyRegular),
+                                          family: AppFontFamily.onestRegular),
                                     ),
                                     wBox(4),
                                     Icon(
@@ -1615,7 +1672,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
                 // Widget for Attributes Section (like ProductDetailsScreen)
                 Widget buildAttributesSection() {
-                  if (!hasAttributes) return SizedBox.shrink();
+                  if (!hasAttributes) return const SizedBox.shrink();
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -1624,13 +1681,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                         "Attributes",
                         style: AppFontStyle.text_20_500(
                           AppColors.darkText,
-                          family: AppFontFamily.gilroySemiBold,
+                          family: AppFontFamily.onestSemiBold,
                         ),
                       ),
                       hBox(10),
 
                       // Loop through each product attribute group
-                      ...product!.productAttributes!.asMap().entries.map((entry) {
+                      ...product.productAttributes!.asMap().entries.map((entry) {
                         final attributeGroup = entry.value;
                         final groupIndex = entry.key;
 
@@ -1643,10 +1700,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                               Column(
                                 children: [
                                   Text(
-                                    attributeGroup.groupName!,
+                                    attributeGroup.groupName?.capitalize ?? "",
                                     style: AppFontStyle.text_18_600(
                                       AppColors.darkText,
-                                      family: AppFontFamily.gilroyMedium,
+                                      family: AppFontFamily.onestMedium,
                                     ),
                                   ),
                                   hBox(10),
@@ -1667,10 +1724,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                       Flexible(
                                         flex: 2,
                                         child: Text(
-                                          attribute.name ?? "Attribute ${attrIndex + 1}",
+                                          attribute.name?.capitalize ?? "Attribute ${attrIndex + 1}",
                                           style: AppFontStyle.text_16_400(
                                             AppColors.black,
-                                            family: AppFontFamily.gilroyRegular,
+                                            family: AppFontFamily.onestRegular,
                                           ),
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
@@ -1687,14 +1744,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     hBox(8),
                                 ],
                               );
-                            }).toList(),
+                            }),
 
                             // Space between groups
-                            if (groupIndex < product!.productAttributes!.length - 1)
-                              hBox(12),
+                            // if (groupIndex < (product.productAttributes?.length ?? 0) - 1)
+                            hBox(12),
                           ],
                         );
-                      }).toList(),
+                      }),
                     ],
                   );
                 }
@@ -1732,7 +1789,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "No addons available",
                                                 style: AppFontStyle.text_16_400(
                                                   AppColors.darkText,
-                                                  family: AppFontFamily.gilroyMedium,
+                                                  family: AppFontFamily.onestMedium,
                                                 ),
                                               ),
                                               hBox(5),
@@ -1740,7 +1797,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                                 "You can add this product directly to cart",
                                                 style: AppFontStyle.text_14_400(
                                                   AppColors.lightText,
-                                                  family: AppFontFamily.gilroyRegular,
+                                                  family: AppFontFamily.onestRegular,
                                                 ),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -1771,61 +1828,76 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Obx(() => CustomElevatedButton(
-                              fontFamily: AppFontFamily.gilroyMedium,
+                              fontFamily: AppFontFamily.onestMedium,
                               width: Get.width,
                               color: addToCartController.goToCart.value
                                   ? AppColors.primary
                                   : AppColors.darkText,
-                              isLoading: addToCartController.rxRequestStatusPopUp
-                                  .value ==
-                                  (Status.LOADING),
-                              text: addToCartController.goToCart.value
-                                  ? "Go to Cart"
-                                  : "Add to Cart",
+                              isLoading: addToCartController.rxRequestStatusPopUp.value == (Status.LOADING),
+                              text: addToCartController.goToCart.value ? "Go to Cart" : "Add to Cart",
                               onPressed: () {
-                                if (getUserDataController
-                                    .userData.value.user?.userType ==
-                                    "guestUser") {
+                                if (getUserDataController.userData.value.user?.userType == "guestUser") {
                                   showLoginRequired(context);
                                   return;
                                 }
 
                                 // Prepare data for API
-                                final addonsIds = selectedAddOns
-                                    .map((addon) => addon['id'].toString())
-                                    .toList();
-                                final addonsNames = selectedAddOns
-                                    .map((addon) => addon['name'].toString())
-                                    .toList();
-                                final addonsPrices = selectedAddOns
-                                    .map((addon) => addon['price'].toString())
-                                    .toList();
+                                // final addonsIds = selectedAddOns
+                                //     .map((addon) => addon['id'].toString())
+                                //     .toList();
+                                // final addonsNames = selectedAddOns
+                                //     .map((addon) => addon['name'].toString())
+                                //     .toList();
+                                // final addonsPrices = selectedAddOns
+                                //     .map((addon) => addon['price'].toString())
+                                //     .toList();
+                                final List<Map<String, String>> addons = selectedAddOns.map((addon) {
+                                  return {
+                                    'id': addon['id'].toString(),
+                                    'name': addon['name'].toString(),
+                                    'price': addon['price'].toString(),
+                                  };
+                                }).toList();
 
-                                print("=== Sending to API ===");
-                                print("Selected AddOns IDs: $addonsIds");
-                                print("Selected Options IDs: ${extrasTitlesIdsId}");
-                                print("Selected Option Names: ${extrasItemIdsName}");
-                                print("Selected Option Prices: ${extrasItemIdsPrice}");
+                                pt("=== Sending to API ===");
+                                pt("Selected addons>>>>>>>>>: $addons");
+                                // print("Selected AddOns IDs: $addonsIds");
+                                pt("Selected Options IDs: $extrasTitlesIdsId");
+                                pt("Selected Option Names: $extrasItemIdsName");
+                                pt("Selected Option Prices: $extrasItemIdsPrice");
 
                                 // Call your addToCart API
-                                addToCartController.addToCartApi_in_categoryProduct(
-                                  isPopUp: true,
-                                  cartId: product?.id.toString(),
-                                  productId: product?.id.toString() ?? '',
-                                  productPrice: product?.salePrice?.toString() ??
-                                      product?.regularPrice?.toString() ??
-                                      '0',
-                                  productQuantity: localCartCount.value.toString(),
-                                  restaurantId: product?.vendorId.toString() ?? '',
-                                  addons: addonsIds,
-                                  extrasIds: extrasTitlesIdsId.toList(),
-                                  extrasItemIds: extrasItemIdsId.toList(),
-                                  extrasItemNames: extrasItemIdsName.toList(),
-                                  extrasItemPrices: extrasItemIdsPrice.toList(),
-                                );
+                                if(addToCartController.goToCart.value == false) {
+                                  addToCartController.addToCartApi_in_categoryProduct(
+                                    isBack: false,
+                                    isPopUp: true,
+                                    cartId: product?.id.toString(),
+                                    productId: product?.id.toString() ?? '',
+                                    productPrice: product?.salePrice?.toString() ??
+                                    product?.regularPrice?.toString() ?? '',
+                                    productQuantity: localCartCount.value.toString(),
+                                    restaurantId: product?.vendorId.toString() ?? '',
+                                    addons: addons,
+                                    extrasIds: extrasTitlesIdsId.toList(),
+                                    extrasItemIds: extrasItemIdsId.toList(),
+                                    extrasItemNames: extrasItemIdsName.toList(),
+                                    extrasItemPrices: extrasItemIdsPrice.toList(),
+                                  );
+                              }else{
+                                  Get.back();
+                                  addToCartController.goToCart.value = false;
+                                  // navController.navigateBackToMainNavbar(index:2);
+                                  // Get.offAndToNamed(AppRoutes.restaurantCartScreen);
+                                  // navController.getIndex(2);
+                                  // RestaurantNavbarController  restaurantNavbarController = Get.isRegistered<RestaurantNavbarController>() ?
+                                  // Get.find<RestaurantNavbarController>() : Get.put(RestaurantNavbarController());
+                                  Get.to(() => const RestaurantBaseScaffold(child: RestaurantCartScreen(isBack: true)));
+                                  // restaurantNavbarController.getIndex(2);
+                                }
                               },
                             )),
                           ),
+                          hBox(16),
                         ],
                       ),
                       // Close Icon
@@ -1835,6 +1907,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                         child: IconButton(
                           onPressed: () {
                             Get.back();
+                            addToCartController.goToCart.value = false;
                             addToCartController.clearSelected();
                           },
                           icon:
@@ -1856,7 +1929,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   Widget extra({CategoryProduct? product, StateSetter? setState}) {
     if (product?.options == null || product!.options!.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return Column(
@@ -1868,7 +1941,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
           final index = entry.key;
 
           if (option.choices == null || option.choices!.isEmpty) {
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           }
 
           return Column(
@@ -1878,7 +1951,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 option.optionName ?? "Option ${index + 1}",
                 style: AppFontStyle.text_20_500(
                   AppColors.darkText,
-                  family: AppFontFamily.gilroySemiBold,
+                  family: AppFontFamily.onestSemiBold,
                 ),
               ),
               hBox(5),
@@ -1888,14 +1961,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                     "Required",
                     style: AppFontStyle.text_12_200(
                       AppColors.lightText,
-                      family: AppFontFamily.gilroyRegular,
+                      family: AppFontFamily.onestRegular,
                     ),
                   ),
                   Text(
                     "•",
                     style: AppFontStyle.text_12_200(
                       AppColors.lightText,
-                      family: AppFontFamily.gilroyRegular,
+                      family: AppFontFamily.onestRegular,
                     ),
                   ),
                   wBox(4),
@@ -1904,7 +1977,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       "Select any 1 option",
                       style: AppFontStyle.text_12_200(
                         AppColors.lightText,
-                        family: AppFontFamily.gilroyRegular,
+                        family: AppFontFamily.onestRegular,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -1926,10 +1999,10 @@ class RestaurantCategoryDetails extends StatelessWidget {
                         Flexible(
                           flex: 2,
                           child: Text(
-                            choice.name ?? "Choice ${choiceIndex + 1}",
+                            choice.name?.capitalize ?? "Choice ${choiceIndex + 1}",
                             style: AppFontStyle.text_16_400(
                               AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -1945,18 +2018,18 @@ class RestaurantCategoryDetails extends StatelessWidget {
                     if (choiceIndex < option.choices!.length - 1) hBox(8),
                   ],
                 );
-              }).toList(),
+              }),
               if (index < product.options!.length - 1) hBox(20.h),
             ],
           );
-        }).toList(),
+        }),
       ],
     );
   }
 
   Widget addOn({CategoryProduct? product}) {
     if (product?.addOns == null || product!.addOns!.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     // Show only first 6 items initially
@@ -1971,7 +2044,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
         Text(
           "Add On",
           style: AppFontStyle.text_20_500(AppColors.darkText,
-              family: AppFontFamily.gilroySemiBold),
+              family: AppFontFamily.onestSemiBold),
         ),
         hBox(5),
         Row(
@@ -1979,7 +2052,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
             Text(
               "Select any option",
               style: AppFontStyle.text_12_200(AppColors.lightText,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             ),
           ],
         ),
@@ -2002,7 +2075,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           addOn.name ?? "Addon ${index + 1}",
                           style: AppFontStyle.text_16_400(
                             AppColors.black,
-                            family: AppFontFamily.gilroyRegular,
+                            family: AppFontFamily.onestRegular,
                           ),
                         ),
 
@@ -2011,7 +2084,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                           "\$${addOn.price ?? "0.00"}",
                           style: AppFontStyle.text_16_600(
                             AppColors.black,
-                            family: AppFontFamily.gilroyRegular,
+                            family: AppFontFamily.onestRegular,
                           ),
                         ),
                       ],
@@ -2046,7 +2119,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             ? "-${totalAddons - initialShowCount} Less"
                             : "+${totalAddons - initialShowCount} More",
                         style: AppFontStyle.text_14_600(AppColors.primary,
-                            family: AppFontFamily.gilroyRegular),
+                            family: AppFontFamily.onestRegular),
                       ),
                       wBox(4),
                       Icon(
@@ -2068,7 +2141,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
   Widget productAttributes({CategoryProduct? product}) {
     if (product?.productAttributes == null ||
         product!.productAttributes!.isEmpty) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return Column(
@@ -2078,7 +2151,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
           "Attributes",
           style: AppFontStyle.text_20_500(
             AppColors.darkText,
-            family: AppFontFamily.gilroySemiBold,
+            family: AppFontFamily.onestSemiBold,
           ),
         ),
         hBox(10),
@@ -2100,7 +2173,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       attributeGroup.groupName!,
                       style: AppFontStyle.text_18_600(
                         AppColors.darkText,
-                        family: AppFontFamily.gilroyMedium,
+                        family: AppFontFamily.onestMedium,
                       ),
                     ),
                     hBox(10),
@@ -2124,7 +2197,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                             attribute.name ?? "Attribute ${attrIndex + 1}",
                             style: AppFontStyle.text_16_400(
                               AppColors.black,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -2140,13 +2213,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                     if (attrIndex < attributeGroup.attributes!.length - 1) hBox(8),
                   ],
                 );
-              }).toList(),
+              }),
 
               // Space between groups
               if (groupIndex < product.productAttributes!.length - 1) hBox(12),
             ],
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -2163,10 +2236,12 @@ class RestaurantCategoryDetails extends StatelessWidget {
         child: Scaffold(
           // bottomNavigationBar: navBarStatic(navbarItems),
           appBar: CustomAppBar(
+            horizontalPadding: 18,
             title: Text(
               categoryTitle,
-              style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
             ),
+            isActions: true,
           ),
           body: Obx(() {
             switch (controller.rxRequestStatus.value) {
@@ -2176,15 +2251,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 if (controller.error.value == 'No internet'  || controller.error.value == 'InternetExceptionWidget') {
                   return InternetExceptionWidget(
                     onPress: () {
-                      controller.restaurant_Categories_Details_Api(
-                          id: categoryId.toString());
+                      controller.restaurant_Categories_Details_Api(id: categoryId.toString());
                     },
                   );
                 } else {
                   return GeneralExceptionWidget(
                     onPress: () {
-                      controller.restaurant_Categories_Details_Api(
-                          id: categoryId.toString());
+                      controller.restaurant_Categories_Details_Api(id: categoryId.toString());
                     },
                   );
                 }
@@ -2192,7 +2265,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                 return body(categoryId, categoryTitle);
             }
           },
-         ),
+          ),
         ),
       ),
     );
@@ -2200,90 +2273,361 @@ class RestaurantCategoryDetails extends StatelessWidget {
 
   Widget body(int categoryId, String categoryTitle) {
     return RefreshIndicator(
-        onRefresh: () async {
-          categoriesFilterController.resetFilters();
-          controller.restaurant_Categories_Details_Api(id: categoryId.toString());
-        },
-        child: Padding(
-          padding: REdgeInsets.symmetric(horizontal: 24),
-          child: CustomScrollView(
-            slivers: [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                // pinned: false,
-                // snap: true,
-                // floating: true,
-                expandedHeight: 70.h,
-                surfaceTintColor: Colors.transparent,
-                backgroundColor: Colors.transparent,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                flexibleSpace: FlexibleSpaceBar(
-                  titlePadding: REdgeInsets.only(bottom: 15),
-                  title: SizedBox(
-                    height: 35.h ,
-                    child: (CustomSearchFilter(
-                      controller: controller.searchController,
-                      onChanged: (value) {
-                        if (controller.categoriesDetailsData.value
-                            .filterProduct!.isEmpty) {
-                          controller.searchDataFun(value);
-                        } else {
-                          controller.filterSearchDataFun(value);
-                        }
-                      },
-                      onFilterTap: () {
-                        Get.toNamed(
-                          AppRoutes.restaurantCategoriesFilter,
-                          arguments: {
-                            'categoryId': categoryId.toString()
-                          },
-                        );
-                        // Get.toNamed(AppRoutes.restaurantCategoriesNewFilter);
-                        categoriesFilterController.restaurant_get_CategoriesFilter_Api(categoryId.toString());
-                      },
-                    )),
-                  ),
-                  centerTitle: true,
+      onRefresh: () async {
+        categoriesFilterController.resetFilters();
+        controller.restaurant_Categories_Details_Api(id: categoryId.toString());
+      },
+      child: Padding(
+        padding: REdgeInsets.symmetric(horizontal: 18),
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              // pinned: false,
+              // snap: true,
+              // floating: true,
+              expandedHeight: 70.h,
+              surfaceTintColor: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: REdgeInsets.only(bottom: 15),
+                title: SizedBox(
+                  height: 35.h,
+                  child: (CustomSearchFilter(
+                    controller: controller.searchController,
+                    onChanged: (value) {
+                      if (controller.categoriesDetailsData.value
+                          .filterProduct!.isEmpty) {
+                        controller.searchDataFun(value);
+                      } else {
+                        controller.filterSearchDataFun(value);
+                      }
+                    },
+                    onFilterTap: () {
+                      Get.toNamed(
+                        AppRoutes.restaurantCategoriesFilter,
+                        arguments: {
+                          'categoryId': categoryId.toString()
+                        },
+                      );
+                      // Get.toNamed(AppRoutes.restaurantCategoriesNewFilter);
+                      categoriesFilterController.restaurant_get_CategoriesFilter_Api(categoryId.toString());
+                    },
+                  )),
                 ),
+                centerTitle: true,
               ),
+            ),
+            SliverToBoxAdapter(
+              child: hBox(8.h),
+            ),
+            if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&controller.categoriesDetailsData.value.categoryProduct!.isEmpty
+            // ||(controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
+            // ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
+            )...[
               SliverToBoxAdapter(
-                child: hBox(10.h),
-              ),
-              if (controller.categoriesDetailsData.value.filterProduct!.isEmpty &&controller.categoriesDetailsData.value.categoryProduct!.isEmpty
-                  // ||(controller.categoriesDetailsData.value.filterProduct!.isEmpty  && controller.searchController.text.isNotEmpty)
-                  // ||(controller.categoriesDetailsData.value.categoryProduct!.isEmpty && controller.searchController.text.isNotEmpty)
-              )...[
-                SliverToBoxAdapter(
                   child:CustomNoDataFound(heightBox: hBox(50.h))
+              ),
+            ],
+            //------------------------------------------------------------------
+            if (controller.categoriesDetailsData.value.filterProduct?.isEmpty ?? false)...[
+              if (controller.searchController.text.isNotEmpty && controller.searchData.isEmpty)...[
+                SliverToBoxAdapter(
+                  child: CustomNoDataFound(heightBox: hBox(0)),
                 ),
-              ],
-              //------------------------------------------------------------------
-              if (controller.categoriesDetailsData.value.filterProduct!.isEmpty)...[
-                if (controller.searchController.text.isNotEmpty && controller.searchData.isEmpty)...[
-                const SliverToBoxAdapter(
-                child: CustomNoDataFound(),
-                ),
-                ]
-                else...[
+              ]
+              else...[
                 SliverGrid(
                     delegate: SliverChildBuilderDelegate(
                         childCount: controller.searchData.length,
-                        (context, index) {
-                      var product = controller.searchData[index];
+                            (context, index) {
+                          var product = controller.searchData[index];
+                          bool wholePrice =  isWholePrice(product.salePrice ?? product.regularPrice ?? "0");
+                          return GestureDetector(
+                              onTap: () {
+                                specific_product_controllerontroller.specific_Product_Api(productId:product.id.toString(),categoryId:categoryId.toString());
+                                Get.to(()=>ProductDetailsScreen(
+                                  productId: product.id.toString(),
+                                  categoryId: categoryId.toString(),
+                                  categoryName: categoryTitle,
+                                  restaurantId: product.vendorId.toString(),
+                                ));
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.topRight,
+                                    children: [
+                                      Container(
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                            borderRadius:BorderRadius.only(topLeft: Radius.circular(20.r),topRight: Radius.circular(20.r))
+                                        ),
+                                        child: Center(
+                                          child: CachedNetworkImage(
+                                            imageUrl: product.image ?? "",
+                                            fit: BoxFit.cover,
+                                            height: 130.h,
+                                            width: double.maxFinite,
+                                            errorWidget: (context, url,
+                                                error) => Container(
+                                              decoration:
+                                              BoxDecoration(
+                                                border: Border.all(color: AppColors.greyBackground),
+                                                color: AppColors.transparent,
+                                                borderRadius:
+                                                BorderRadius
+                                                    .circular(
+                                                    20.r),
+                                              ),
+                                              child: Icon(Icons.broken_image_rounded,color: AppColors.greyImageColor,),
+                                            ),
+                                            placeholder:
+                                                (context, url) =>
+                                                Shimmer.fromColors(
+                                                  baseColor: AppColors.greyBackground,
+                                                  highlightColor:
+                                                  AppColors.lightText,
+                                                  child: Container(
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      color: AppColors.gray,
+                                                      borderRadius:
+                                                      BorderRadius
+                                                          .circular(
+                                                          20.r),
+                                                    ),
+                                                  ),
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                      Obx(() => Container(
+                                          margin: REdgeInsets.only(top: 8, right: 8),
+                                          padding: REdgeInsets.all(7),
+                                          decoration: BoxDecoration(
+                                            borderRadius:BorderRadius.circular(100.r),
+                                            color: AppColors.white,
+                                          ),
+                                          child: InkWell(
+                                            highlightColor:Colors.transparent,
+                                            splashColor: Colors.transparent,
+                                            onTap: () async {
+                                              if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                                showLoginRequired(context);
+                                              }else{
+                                                product.isInWishlist = !product.isInWishlist!;
+                                                product.isLoading.value = true;
+                                                await add_Wishlist_Controller.restaurant_add_product_wishlist(categoryId: categoryId.toString(), product_id: product.id.toString(),);
+                                                product.isLoading.value =
+                                                false;
+                                              }
+                                            },
+                                            child: product.isLoading.value
+                                                ? circularProgressIndicator(size: 18)
+                                                : Icon(product.isInWishlist == true
+                                                ? Icons.favorite
+                                                : Icons.favorite_border_outlined,
+                                              size: 22,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      // Positioned(
+                                      //   bottom: 10,right: 10,
+                                      //   child: Obx(
+                                      //     ()=> InkWell(
+                                      //       onTap: () {
+                                      //         controller.searchData[index].isAddToCart.value = true;
+                                      //       },
+                                      //       child: Container(
+                                      //         height: 30.h,width: 30.w,
+                                      //       decoration: BoxDecoration(color: AppColors.primary,
+                                      //       // shape: BoxShape.circle,
+                                      //       borderRadius: BorderRadius.circular(10.r)
+                                      //       ),
+                                      //       child: Icon( controller.searchData[index].isAddToCart.value ? Icons.done :Icons.add,
+                                      //         color: AppColors.white,size: 20,),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
+                                  hBox(8.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        product.title?.capitalize ?? "",
+                                        textAlign: TextAlign.left,
+                                        style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
+                                      ),
+                                      const Spacer(),
+                                      SvgPicture.asset(
+                                        "assets/svg/star-yellow.svg",
+                                        height: 14,
+                                      ),
+                                      wBox(4),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 3.0),
+                                        child: Text(
+                                          double.tryParse(product.rating ?? "0")?.toStringAsFixed(1) ?? "0",
+                                          style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      product.restoName?.capitalize ?? "",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.onestMedium),
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      /// PRICE
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: wholePrice == true ? 8 : 4,
+                                          vertical: 2,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: AppColors.primary.withAlpha(30),
+                                          borderRadius: BorderRadius.circular(15.r),
+                                          border: Border.all(color: AppColors.primary),
+                                        ),
+                                        child: Text(
+                                            "\$${formatPrice1(product.salePrice == "0" ? product.regularPrice  : product.salePrice ?? '0')}",
+                                          style: AppFontStyle.text_11_400(
+                                            AppColors.black,
+                                            family: AppFontFamily.onestRegular,
+                                          ),
+                                        ),
+                                      ),
+
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              ImageConstants.clockIcon,
+                                              height: 16,
+                                              colorFilter: ColorFilter.mode(
+                                                AppColors.black,
+                                                BlendMode.srcIn,
+                                              ),
+                                            ),
+                                            wBox(2),
+                                            Text(
+                                              product.preparationTime.toString(),
+                                              style: AppFontStyle.text_13_400(
+                                                AppColors.darkText,
+                                                family: AppFontFamily.onestRegular,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      GetBuilder<AddToCartController>(
+                                        builder: (cartController) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              if (getUserDataController.userData.value.user?.userType ==
+                                                  "guestUser") {
+                                                showLoginRequired(context);
+                                                return;
+                                              }
+
+                                              if ((product.addOns?.isNotEmpty ?? false) ||
+                                                  (product.options?.isNotEmpty ?? false) /*||
+                                              (product.productAttributes?.isNotEmpty ?? false)*/) {
+                                                addToCartPopUp(Get.context!, product);
+                                              } else {
+                                                cartController.addToCartApi(
+                                                  productId: product.id ?? "",
+                                                  productQuantity: '1',
+                                                  productPrice: (product.salePrice ?? '0') == '0'
+                                                      ? (product.regularPrice ?? '0')
+                                                      : (product.salePrice ?? "0"),
+                                                  restaurantId: product.vendorId ?? "",
+                                                  addons: [],
+                                                  extrasIds: [],
+                                                  extrasItemIds: [],
+                                                  extrasItemNames: [],
+                                                  extrasItemPrices: [],
+                                                  isPopUp: false,
+                                                );
+                                              }
+                                            },
+                                            child: cartController.isCartLoading(product.id ?? "")
+                                                ? circularProgressIndicator(size: 30)
+                                                : Container(
+                                              height: 34,
+                                              width: 34,
+                                              decoration: BoxDecoration(
+                                                color: AppColors.black,
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                              child: const Icon(
+                                                Icons.add,
+                                                size: 20,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ));
+                          //  categoryItem(index);
+                        }),
+                    gridDelegate:
+                    (SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.67.h,
+                      crossAxisSpacing: 12.w,
+                      mainAxisSpacing: 5.h,
+                    ))),
+              ],
+            ],
+            //------------------------------------------------------------------
+
+            if (controller.categoriesDetailsData.value.filterProduct?.isNotEmpty ?? false)...[
+              if (controller.searchController.text.isNotEmpty && controller.filterProductSearchData.isEmpty)...[
+                 SliverToBoxAdapter(
+                  child: CustomNoDataFound(heightBox: hBox(0),),
+                ),
+              ] else...[
+                SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                        childCount: controller.filterProductSearchData.length, (context, index) {
+                      var product =controller.filterProductSearchData[index];
                       return GestureDetector(
                           onTap: () {
-                            specific_product_controllerontroller
-                                .specific_Product_Api(
-                                    productId:
-                                        product.id.toString(),
-                                    categoryId:
-                                        categoryId.toString());
-                            Get.to(()=>ProductDetailsScreen(
+                            specific_product_controllerontroller.specific_Product_Api(
+                                productId:product.id.toString(),
+                                categoryId:categoryId.toString());
+                            Get.to(ProductDetailsScreen(
+                              cuisineType: categoriesFilterController.selectedCuisines.join(', '),
+                              priceRange: "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                              priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                                  : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                              quickFilter: categoriesFilterController.selectedQuickFilters.toString(),
                               productId: product.id.toString(),
                               categoryId: categoryId.toString(),
                               categoryName: categoryTitle,
-                              restaurantId: product.vendorId.toString(),
                             ));
                           },
                           child: Column(
@@ -2296,17 +2640,16 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   Container(
                                     clipBehavior: Clip.antiAlias,
                                     decoration: BoxDecoration(
-                                      borderRadius:BorderRadius.circular(20.r),
+                                        borderRadius:BorderRadius.only(topLeft: Radius.circular(20.r),topRight: Radius.circular(20.r))
                                     ),
                                     child: Center(
                                       child: CachedNetworkImage(
-                                        imageUrl: "${product.image}"
-                                            .toString(),
+                                        imageUrl: product.image ?? "",
                                         fit: BoxFit.cover,
-                                        height: 160.h,
+                                        height: 130.h,
                                         width: double.maxFinite,
                                         errorWidget: (context, url,
-                                                error) => Container(
+                                            error) => Container(
                                           decoration:
                                           BoxDecoration(
                                             border: Border.all(color: AppColors.greyBackground),
@@ -2320,57 +2663,90 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                         ),
                                         placeholder:
                                             (context, url) =>
-                                                Shimmer.fromColors(
-                                                  baseColor: AppColors.greyBackground,
-                                            highlightColor:
+                                            Shimmer.fromColors(
+                                              baseColor: AppColors.greyBackground,
+                                              highlightColor:
                                               AppColors.lightText,
-                                          child: Container(
-                                            decoration:
+                                              child: Container(
+                                                decoration:
                                                 BoxDecoration(
-                                              color: AppColors.gray,
-                                              borderRadius:
+                                                  color: AppColors.gray,
+                                                  borderRadius:
                                                   BorderRadius
                                                       .circular(
-                                                          20.r),
+                                                      20.r),
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
                                       ),
                                     ),
                                   ),
+                                  // Obx(() => Container(
+                                  //   margin: REdgeInsets.only(top: 8, right: 8),
+                                  //   padding: REdgeInsets.all(7),
+                                  //   decoration: BoxDecoration(
+                                  //     borderRadius:BorderRadius.circular(100.r),
+                                  //     color: AppColors.white,
+                                  //   ),
+                                  //   child: InkWell(
+                                  //     highlightColor:Colors.transparent,
+                                  //     splashColor: Colors.transparent,
+                                  //     onTap: () async {
+                                  //       if (getUserDataController.userData.value.user?.userType =="guestUser") {
+                                  //         showLoginRequired(context);
+                                  //       }else{
+                                  //         product.isInWishlist = !product.isInWishlist!;
+                                  //         product.isLoading.value = true;
+                                  //         await add_Wishlist_Controller.restaurant_add_product_wishlist(categoryId: categoryId.toString(), product_id: product.id.toString(),);
+                                  //         product.isLoading.value =
+                                  //         false;
+                                  //       }
+                                  //     },
+                                  //     child: product.isLoading.value
+                                  //         ? circularProgressIndicator(size: 18)
+                                  //         : Icon(product.isInWishlist == true
+                                  //         ? Icons.favorite
+                                  //         : Icons.favorite_border_outlined,
+                                  //       size: 22,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // ),
                                   Obx(
-                                    () => Container(
-                                      margin: REdgeInsets.only(
-                                          top: 10, right: 10),
+                                        () => Container(
+                                      margin: REdgeInsets.only(top: 10, right: 10),
                                       padding: REdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                                10.r),
-                                        color: AppColors
-                                            .greyBackground,
+                                        borderRadius:BorderRadius.circular(10.r),
+                                        color: AppColors.greyBackground,
                                       ),
                                       child: InkWell(
                                         highlightColor:Colors.transparent,
-                                        splashColor: Colors.transparent,
+                                        splashColor:Colors.transparent,
                                         onTap: () async {
                                           if (getUserDataController.userData.value.user?.userType =="guestUser") {
                                             showLoginRequired(context);
                                           }else{
-                                          product.isInWishlist = !product.isInWishlist!;
-                                          product.isLoading.value = true;
-                                          await add_Wishlist_Controller.restaurant_add_product_wishlist(categoryId: categoryId.toString(), product_id: product.id.toString(),);
-                                          product.isLoading.value =
-                                              false;
+                                            product.isInWishlist =!product.isInWishlist!;
+                                            product.isLoading.value =true;
+                                            await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                                              cuisineType: categoriesFilterController.selectedCuisines.join(', '),
+                                              priceRange:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                  : "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                                              priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                                                  : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                                              quickFilter:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                  : categoriesFilterController.selectedQuickFilters.toString(),
+                                              categoryId: categoryId.toString(),
+                                              product_id: product.id.toString(),
+                                            );
+                                            product.isLoading.value =false;
                                           }
                                         },
                                         child: product.isLoading.value
                                             ? circularProgressIndicator(size: 18)
-                                            : Icon(product.isInWishlist == true
-                                                    ? Icons.favorite
-                                                    : Icons.favorite_border_outlined,
-                                                size: 22,
-                                              ),
+                                            : Icon(product.isInWishlist == true ? Icons.favorite : Icons.favorite_border_outlined,size: 22
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -2395,175 +2771,143 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   // )
                                 ],
                               ),
-                              hBox(10.h),
+                              hBox(8.h),
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Text(
-                                    product.title.toString(),
+                                    product.title?.capitalize ?? "",
                                     textAlign: TextAlign.left,
-                                    style: AppFontStyle.text_14_400(
-                                        AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                    style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                   ),
                                   const Spacer(),
                                   SvgPicture.asset(
                                     "assets/svg/star-yellow.svg",
-                                    height: 12,
+                                    height: 14,
                                   ),
                                   wBox(4),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 3.0),
                                     child: Text(
-                                      "${product.rating}",
-                                      style: AppFontStyle.text_12_400(AppColors.darkText,
-                                          family: AppFontFamily.gilroyMedium),
+                                      double.tryParse(product.rating ?? "0")?.toStringAsFixed(1) ?? "0",
+                                      style: AppFontStyle.text_14_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                     ),
                                   ),
                                 ],
                               ),
                               Flexible(
                                 child: Text(
-                                  product.restoName.toString(),
+                                  product.restoName?.capitalize ?? "",
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
-                                  style: AppFontStyle.text_14_300(
-                                      AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                  style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                                 ),
                               ),
                               Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
+                                  /// PRICE
                                   Container(
-                                    height: 20,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                        color: AppColors.primary.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(15.r),
-                                        border: Border.all(
-                                          color: AppColors.primary,
-                                        )
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 4,
+                                      // horizontal: wholePrice == true ? 8 : 4,
+                                      vertical: 2,
                                     ),
-                                    child: Center(
-                                      child: Text(
-                                        "\$${product.regularPrice ?? '0'}",
-                                        style: AppFontStyle.text_10_400(AppColors.black,
-                                            family: AppFontFamily.gilroyRegular
-                                        ),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primary.withAlpha(30),
+                                      borderRadius: BorderRadius.circular(15.r),
+                                      border: Border.all(color: AppColors.primary),
+                                    ),
+                                    child: Text(
+                                      "\$${formatPrice1(product.salePrice == "0" ? product.regularPrice  : product.salePrice ?? '0')}",
+                                      style: AppFontStyle.text_11_400(
+                                        AppColors.black,
+                                        family: AppFontFamily.onestRegular,
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 2),
-                                  SvgPicture.asset(
-                                    ImageConstants.clockIcon,
-                                    height: 10,
-                                    colorFilter:
-                                    ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),
+
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          ImageConstants.clockIcon,
+                                          height: 16,
+                                          colorFilter: ColorFilter.mode(
+                                            AppColors.black,
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                        wBox(2),
+                                        Text(
+                                          product.preparationTime.toString(),
+                                          style: AppFontStyle.text_13_400(
+                                            AppColors.darkText,
+                                            family: AppFontFamily.onestRegular,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  wBox(3.w),
-                                  Text(
-                                    product.preparationTime.toString(),
-                                    style: AppFontStyle.text_10_400(AppColors.darkText,
-                                        family: AppFontFamily.gilroyRegular),
-                                  ),
-                                  const Spacer(),
+
                                   GetBuilder<AddToCartController>(
                                     builder: (cartController) {
                                       return GestureDetector(
                                         onTap: () {
-                                          /*if (getUserDataController.userData.value.user?.userType == "guestUser") {
+                                          if (getUserDataController.userData.value.user?.userType ==
+                                              "guestUser") {
                                             showLoginRequired(context);
+                                            return;
+                                          }
+
+                                          if ((product.addOns?.isNotEmpty ?? false) ||
+                                              (product.options?.isNotEmpty ?? false) /*||
+                                              (product.productAttributes?.isNotEmpty ?? false)*/) {
+                                            addToCartPopUp(Get.context!, product);
                                           } else {
                                             cartController.addToCartApi(
-                                                productId: product.id.toString(),
-                                                productQuantity: '1',
-                                                productPrice: product.regularPrice,
-                                                restaurantId: product.vendorId.toString(),
-                                                addons: [],
-                                                extrasIds: [],
-                                                extrasItemIds: [],
-                                                extrasItemNames: [],
-                                                extrasItemPrices: [],
-                                                isPopUp: false
+                                              productId: product.id ?? "",
+                                              productQuantity: '1',
+                                              productPrice: (product.salePrice ?? '0') == '0'
+                                                  ? (product.regularPrice ?? '0')
+                                                  : (product.salePrice ?? "0"),
+                                              restaurantId: product.vendorId ?? "",
+                                              addons: [],
+                                              extrasIds: [],
+                                              extrasItemIds: [],
+                                              extrasItemNames: [],
+                                              extrasItemPrices: [],
+                                              isPopUp: false,
                                             );
-                                          }*/
-                                          if(product.addOns!.isNotEmpty || product.options!.isNotEmpty || product.productAttributes!.isNotEmpty)
-                                          addToCartPopUp(Get.context!, product);
-                                          else
-                                            cartController.addToCartApi(
-                                                productId: product.id.toString(),
-                                                productQuantity: '1',
-                                                productPrice: product.regularPrice,
-                                                restaurantId: product.vendorId.toString(),
-                                                addons: [],
-                                                extrasIds: [],
-                                                extrasItemIds: [],
-                                                extrasItemNames: [],
-                                                extrasItemPrices: [],
-                                                isPopUp: false
-                                            );
+                                          }
                                         },
-                                        child: cartController.isCartLoading(product.id.toString())
+                                        child: cartController.isCartLoading(product.id ?? "")
                                             ? circularProgressIndicator(size: 30)
                                             : Container(
-                                          height: 40,
-                                          width: 40,
+                                          height: 34,
+                                          width: 34,
                                           decoration: BoxDecoration(
-                                              color: AppColors.black,
-                                              borderRadius: BorderRadius.circular(20)
+                                            color: AppColors.black,
+                                            borderRadius: BorderRadius.circular(20),
                                           ),
-                                          child: Icon(
+                                          child: const Icon(
                                             Icons.add,
                                             size: 20,
-                                            color: AppColors.white,
+                                            color: Colors.white,
                                           ),
                                         ),
                                       );
                                     },
-                                  )
+                                  ),
                                 ],
                               ),
                             ],
-                          ));
-                      //  categoryItem(index);
-                    }),
-                    gridDelegate:
-                        (SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.6.w,
-                      crossAxisSpacing: 14.w,
-                      mainAxisSpacing: 5.h,
-                    ))),
-                ],
-              ],
-              //------------------------------------------------------------------
-
-              if (controller.categoriesDetailsData.value.filterProduct!.isNotEmpty)...[
-              if (controller.searchController.text.isNotEmpty && controller.filterProductSearchData.isEmpty)...[
-                const SliverToBoxAdapter(
-                  child: CustomNoDataFound(),
-                ),
-              ] else...[
-                SliverGrid(
-                    delegate: SliverChildBuilderDelegate(
-                     childCount: controller.filterProductSearchData.length, (context, index) {
-                      var product =controller.filterProductSearchData[index];
-                      return GestureDetector(
-                          onTap: () {
-                            specific_product_controllerontroller.specific_Product_Api(
-                                    productId:product.id.toString(),
-                                    categoryId:categoryId.toString());
-                            Get.to(ProductDetailsScreen(
-                              cuisineType: categoriesFilterController.selectedCuisines.join(', '),
-                              priceRange: "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
-                              priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
-                              : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
-                              quickFilter: categoriesFilterController.selectedQuickFilters.toString(),
-                              productId: product.id.toString(),
-                              categoryId: categoryId.toString(),
-                              categoryName: categoryTitle,
-                            ));
-                          },
-                          child: Column(
+                          ),
+                        /*Column(
                             crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                            CrossAxisAlignment.start,
                             children: [
                               Stack(
                                 alignment: Alignment.topRight,
@@ -2572,8 +2916,8 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     clipBehavior: Clip.antiAlias,
                                     decoration: BoxDecoration(
                                       borderRadius:
-                                          BorderRadius.circular(
-                                              20.r),
+                                      BorderRadius.circular(
+                                          20.r),
                                     ),
                                     child: Center(
                                       child: CachedNetworkImage(
@@ -2608,7 +2952,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     ),
                                   ),
                                   Obx(
-                                    () => Container(
+                                        () => Container(
                                       margin: REdgeInsets.only(top: 10, right: 10),
                                       padding: REdgeInsets.all(6),
                                       decoration: BoxDecoration(
@@ -2622,30 +2966,30 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                           if (getUserDataController.userData.value.user?.userType =="guestUser") {
                                             showLoginRequired(context);
                                           }else{
-                                          product.isInWishlist =!product.isInWishlist!;
-                                          product.isLoading.value =true;
-                                          await add_Wishlist_Controller.restaurant_add_product_wishlist(
-                                            cuisineType: categoriesFilterController.selectedCuisines.join(', '),
-                                            priceRange:categoriesFilterController.priceRadioValue.value == 1 ? ""
-                                                : "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
-                                            priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
-                                                : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
-                                            quickFilter:categoriesFilterController.priceRadioValue.value == 1 ? ""
-                                                       : categoriesFilterController.selectedQuickFilters.toString(),
-                                            categoryId: categoryId.toString(),
-                                            product_id: product.id.toString(),
-                                          );
-                                          product.isLoading.value =false;
+                                            product.isInWishlist =!product.isInWishlist!;
+                                            product.isLoading.value =true;
+                                            await add_Wishlist_Controller.restaurant_add_product_wishlist(
+                                              cuisineType: categoriesFilterController.selectedCuisines.join(', '),
+                                              priceRange:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                  : "${categoriesFilterController.lowerValue.value},${categoriesFilterController.upperValue.value}",
+                                              priceSort: categoriesFilterController.priceRadioValue.value == 0 ? ""
+                                                  : categoriesFilterController.priceRadioValue.value == 1 ? "low to high" : "high to low",
+                                              quickFilter:categoriesFilterController.priceRadioValue.value == 1 ? ""
+                                                  : categoriesFilterController.selectedQuickFilters.toString(),
+                                              categoryId: categoryId.toString(),
+                                              product_id: product.id.toString(),
+                                            );
+                                            product.isLoading.value =false;
                                           }
                                         },
                                         child: product.isLoading.value
                                             ? circularProgressIndicator(size: 18)
                                             : Icon(
-                                                product.isInWishlist == true
-                                                    ? Icons.favorite
-                                                    : Icons.favorite_border_outlined,
-                                                size: 22,
-                                              ),
+                                          product.isInWishlist == true
+                                              ? Icons.favorite
+                                              : Icons.favorite_border_outlined,
+                                          size: 22,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -2677,7 +3021,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     "\$${product.salePrice ?? product.regularPrice}",
                                     textAlign: TextAlign.left,
                                     style: AppFontStyle.text_16_600(
-                                        AppColors.primary,family: AppFontFamily.gilroyRegular),
+                                        AppColors.primary,family: AppFontFamily.onestRegular),
                                   ),
                                   wBox(5),
                                   Text(
@@ -2685,14 +3029,14 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w300,
-                                        color: AppColors.lightText,
-                                        decoration: TextDecoration
-                                            .lineThrough,
-                                        decorationColor:
-                                            AppColors.lightText,
-                                        fontFamily: AppFontFamily.gilroyRegular,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w300,
+                                      color: AppColors.lightText,
+                                      decoration: TextDecoration
+                                          .lineThrough,
+                                      decorationColor:
+                                      AppColors.lightText,
+                                      fontFamily: AppFontFamily.onestRegular,
                                     ),
 
                                     //  AppFontStyle.text_14_300(AppColors.lightText),
@@ -2704,7 +3048,7 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                 product.title.toString(),
                                 textAlign: TextAlign.left,
                                 style: AppFontStyle.text_16_400(
-                                    AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                    AppColors.darkText,family: AppFontFamily.onestMedium),
                               ),
                               // hBox(10),
 
@@ -2726,13 +3070,13 @@ class RestaurantCategoryDetails extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
                                   style: AppFontStyle.text_14_300(
-                                      AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                      AppColors.lightText,family: AppFontFamily.onestRegular),
                                 ),
                               ),
                               //   ],
                               // )
                             ],
-                          ));
+                          )*/);
                       //  categoryItem(index);
                     }),
                     gridDelegate:(SliverGridDelegateWithFixedCrossAxisCount(
@@ -2745,116 +3089,116 @@ class RestaurantCategoryDetails extends StatelessWidget {
                       // crossAxisSpacing: 16.w,
                       // mainAxisSpacing: 5.h,
                     ))),
-                ],
               ],
-              //------------------------------------------------------------------
-
-              SliverToBoxAdapter(
-                child: hBox(70.h),
-              ),
             ],
-          ),
+            //------------------------------------------------------------------
+
+            SliverToBoxAdapter(
+              child: hBox(70.h),
+            ),
+          ],
         ),
+      ),
     );
   }
-  // Container navBarStatic() {
-  //   List<String> navbarItems = [
-  //     ImageConstants.home,
-  //     ImageConstants.categories,
-  //     ImageConstants.wishlist,
-  //     ImageConstants.cart,
-  //     ImageConstants.profileOutlined,
-  //   ];
-  //   return Container( height: 70.h,
-  //         width: Get.width,
-  //         decoration: BoxDecoration(
-  //           color: AppColors.navbar,
-  //           borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)
-  //           ),
-  //         ),
-  //         child:  Row(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: List.generate(navbarItems.length, (index) {
-  //               bool isSelected = navbarController.navbarCurrentIndex == index;
-  //               // String icon = isSelected ? navbarItemsFilled[index] : navbarItems[index];
-  //               return InkWell(
-  //                 highlightColor: Colors.transparent,
-  //                 splashColor: Colors.transparent,
-  //                 onTap: () {
-  //                   // Get.to(RestaurantNavbar(navbarInitialIndex: index));
-  //                   navbarController.getIndex(index);
-  //                   Get.to(RestaurantNavbar(navbarInitialIndex: index));
-  //                 },
-  //                 child: Padding(
-  //                   padding: REdgeInsets.symmetric(horizontal: 12),
-  //                   child: AnimatedContainer(
-  //                     duration: const Duration(milliseconds: 300),
-  //                     curve: Curves.easeInOut,
-  //                     width: 44.w,
-  //                     child: Stack(
-  //                       children: [
-  //                         Column(
-  //                           children: [
-  //                             AnimatedContainer(
-  //                               duration: const Duration(milliseconds: 300),
-  //                               curve: Curves.linear,
-  //                               height: 4.h,
-  //                               width: 44.w,
-  //                               decoration: BoxDecoration(
-  //                                   color:
-  //                                   // isSelected
-  //                                   //     ? AppColors.primary
-  //                                   //     :
-  //                                   Colors.transparent,
-  //                                   borderRadius: BorderRadius.only(
-  //                                       bottomLeft: Radius.circular(10.r),
-  //                                       bottomRight: Radius.circular(10.r))),
-  //                             ),
-  //                             Padding(
-  //                               padding:
-  //                               REdgeInsets.only(top: 19, bottom: 23),
-  //                               child: SvgPicture.asset(
-  //                                 navbarItems[index],
-  //                                 height: 24.h,
-  //                               ),
-  //                             ),
-  //                           ],
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               );
-  //             })
-  //           // navbarItems.map((icon) {
-  //           //   int index = navbarItems.indexOf(icon);
-  //           //   bool isSelected = navbarController.navbarCurrentIndex == index;
-  //           //   return GestureDetector(
-  //           //     onTap: () {
-  //           //       navbarController.getIndex(index);
-  //           //     },
-  //           //     child: Padding(
-  //           //       padding: REdgeInsets.symmetric(horizontal: 12),
-  //           //       child: AnimatedContainer(
-  //           //         duration: const Duration(milliseconds: 300),
-  //           //         curve: Curves.easeInOut,
-  //           //         height: 48.h,
-  //           //         width: 48.h,
-  //           //         child: Column(
-  //           //           children: [
-  //           //             SvgPicture.asset(
-  //           //               icon,
-  //           //             ),
-  //           //           ],
-  //           //         ),
-  //           //       ),
-  //           //     ),
-  //           //   );
-  //           // }).toList(),
-  //         ),
-  //       );
-  // }
+// Container navBarStatic() {
+//   List<String> navbarItems = [
+//     ImageConstants.home,
+//     ImageConstants.categories,
+//     ImageConstants.wishlist,
+//     ImageConstants.cart,
+//     ImageConstants.profileOutlined,
+//   ];
+//   return Container( height: 70.h,
+//         width: Get.width,
+//         decoration: BoxDecoration(
+//           color: AppColors.navbar,
+//           borderRadius: BorderRadius.only(
+//               topLeft: Radius.circular(20.r), topRight: Radius.circular(20.r)
+//           ),
+//         ),
+//         child:  Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: List.generate(navbarItems.length, (index) {
+//               bool isSelected = navbarController.navbarCurrentIndex == index;
+//               // String icon = isSelected ? navbarItemsFilled[index] : navbarItems[index];
+//               return InkWell(
+//                 highlightColor: Colors.transparent,
+//                 splashColor: Colors.transparent,
+//                 onTap: () {
+//                   // Get.to(RestaurantNavbar(navbarInitialIndex: index));
+//                   navbarController.getIndex(index);
+//                   Get.to(RestaurantNavbar(navbarInitialIndex: index));
+//                 },
+//                 child: Padding(
+//                   padding: REdgeInsets.symmetric(horizontal: 12),
+//                   child: AnimatedContainer(
+//                     duration: const Duration(milliseconds: 300),
+//                     curve: Curves.easeInOut,
+//                     width: 44.w,
+//                     child: Stack(
+//                       children: [
+//                         Column(
+//                           children: [
+//                             AnimatedContainer(
+//                               duration: const Duration(milliseconds: 300),
+//                               curve: Curves.linear,
+//                               height: 4.h,
+//                               width: 44.w,
+//                               decoration: BoxDecoration(
+//                                   color:
+//                                   // isSelected
+//                                   //     ? AppColors.primary
+//                                   //     :
+//                                   Colors.transparent,
+//                                   borderRadius: BorderRadius.only(
+//                                       bottomLeft: Radius.circular(10.r),
+//                                       bottomRight: Radius.circular(10.r))),
+//                             ),
+//                             Padding(
+//                               padding:
+//                               REdgeInsets.only(top: 19, bottom: 23),
+//                               child: SvgPicture.asset(
+//                                 navbarItems[index],
+//                                 height: 24.h,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                 ),
+//               );
+//             })
+//           // navbarItems.map((icon) {
+//           //   int index = navbarItems.indexOf(icon);
+//           //   bool isSelected = navbarController.navbarCurrentIndex == index;
+//           //   return GestureDetector(
+//           //     onTap: () {
+//           //       navbarController.getIndex(index);
+//           //     },
+//           //     child: Padding(
+//           //       padding: REdgeInsets.symmetric(horizontal: 12),
+//           //       child: AnimatedContainer(
+//           //         duration: const Duration(milliseconds: 300),
+//           //         curve: Curves.easeInOut,
+//           //         height: 48.h,
+//           //         width: 48.h,
+//           //         child: Column(
+//           //           children: [
+//           //             SvgPicture.asset(
+//           //               icon,
+//           //             ),
+//           //           ],
+//           //         ),
+//           //       ),
+//           //     ),
+//           //   );
+//           // }).toList(),
+//         ),
+//       );
+// }
 }
 
 

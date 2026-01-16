@@ -38,7 +38,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Reviews",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -53,7 +53,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
             hBox(20),
             Obx(
               () => CustomElevatedButton(
-                fontFamily: AppFontFamily.gilroyMedium,
+                fontFamily: AppFontFamily.onestMedium,
                 isLoading: (controller.rxRequestStatus.value == Status.LOADING),
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
@@ -100,7 +100,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
       children: [
         Text(
           "What is your rate?",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(20),
         // RatingBar(
@@ -138,7 +138,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(
           "What is your rate?",
-          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(20),
         CustomTextFormField(
@@ -146,7 +146,7 @@ class RateAndReviewProductScreen extends StatelessWidget {
           minLines: 7,
           controller: controller.reviewController.value,
           hintText: "Write your review...",
-          hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+          hintStyle: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'Please write a review';

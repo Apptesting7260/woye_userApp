@@ -39,7 +39,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           isLeading: widget.isBack,
           title: Text(
             "Discover",
-            style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+            style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.onestMedium),
           ),
         ),
         body: RefreshIndicator(
@@ -87,14 +87,14 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                                       hintText: "Search",
                                       hintStyle: AppFontStyle.text_14_400(
                                         AppColors.lightText.withOpacity(0.5),
-                                        family: AppFontFamily.gilroyMedium,
+                                        family: AppFontFamily.onestMedium,
                                       ),
                                       border: InputBorder.none,
                                       contentPadding: REdgeInsets.only(top: 16, bottom: 16),
                                     ),
                                     style: AppFontStyle.text_14_400(
                                       AppColors.darkText,
-                                      family: AppFontFamily.gilroyRegular,
+                                      family: AppFontFamily.onestRegular,
                                     ),
                                     onChanged: (value) {
                                       // Add search logic here
@@ -184,7 +184,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         "Most Popular",
                         style: AppFontStyle.text_18_600(
                           AppColors.darkText,
-                          family: AppFontFamily.gilroyRegular,
+                          family: AppFontFamily.onestRegular,
                         ),
                       ),
                     ],
@@ -199,7 +199,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         "Free Delivery",
                         style: AppFontStyle.text_18_600(
                           AppColors.darkText,
-                          family: AppFontFamily.gilroyRegular,
+                          family: AppFontFamily.onestRegular,
                         ),
                       ),
                       const Spacer(),
@@ -209,7 +209,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             'See All',
                             style:  AppFontStyle.text_12_600(
                               AppColors.primary,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                           ),
                           Icon(
@@ -230,7 +230,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         "Promotion",
                         style: AppFontStyle.text_18_600(
                           AppColors.darkText,
-                          family: AppFontFamily.gilroyRegular,
+                          family: AppFontFamily.onestRegular,
                         ),
                       ),
                       const Spacer(),
@@ -240,7 +240,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             'See All',
                             style:  AppFontStyle.text_12_600(
                               AppColors.primary,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                           ),
                           Icon(
@@ -259,7 +259,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     "Fast Delivery",
                     style: AppFontStyle.text_18_600(
                       AppColors.darkText,
-                      family: AppFontFamily.gilroyRegular,
+                      family: AppFontFamily.onestRegular,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -271,7 +271,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         "Our Recommendation",
                         style: AppFontStyle.text_18_600(
                           AppColors.darkText,
-                          family: AppFontFamily.gilroyRegular,
+                          family: AppFontFamily.onestRegular,
                         ),
                       ),
                       const Spacer(),
@@ -281,7 +281,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             'See All',
                             style:  AppFontStyle.text_12_600(
                               AppColors.primary,
-                              family: AppFontFamily.gilroyRegular,
+                              family: AppFontFamily.onestRegular,
                             ),
                           ),
                           Icon(
@@ -322,7 +322,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           text,
           style: AppFontStyle.text_16_500(
             isSelected ? Colors.white : AppColors.darkText,
-            family: AppFontFamily.gilroyMedium,
+            family: AppFontFamily.onestMedium,
           ),
         ),
       ),
@@ -442,7 +442,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               'Pizza',
               textAlign: TextAlign.left,
               style: AppFontStyle.text_17_400(AppColors.darkText,
-                  family: AppFontFamily.gilroySemiBold
+                  family: AppFontFamily.onestSemiBold
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -457,7 +457,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               child: Text(
                 "$rating/5",
                 style: AppFontStyle.text_14_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
           ],
@@ -469,7 +469,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               "The Pizza hub and Restaurent",
               textAlign: TextAlign.left,
               style: AppFontStyle.text_14_400(AppColors.primary,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             )
           ],
         ),
@@ -490,7 +490,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 child: Text(
                   price.toString(),
                   style: AppFontStyle.text_10_400(AppColors.black,
-                      family: AppFontFamily.gilroyRegular
+                      family: AppFontFamily.onestRegular
                   ),
                 ),
               ),
@@ -508,7 +508,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               child: Text(
                 "30-50 mins",
                 style: AppFontStyle.text_15_400(AppColors.darkText,
-                    family: AppFontFamily.gilroyRegular),
+                    family: AppFontFamily.onestRegular),
               ),
             ),
             const Spacer(),
@@ -634,7 +634,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                           'Pizza',
                           style: AppFontStyle.text_14_600(
                             AppColors.darkText,
-                            family: AppFontFamily.gilroySemiBold,
+                            family: AppFontFamily.onestSemiBold,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -651,7 +651,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                               "${rating ?? "4.5"}/5",
                               style: AppFontStyle.text_10_400(
                                 AppColors.darkText,
-                                family: AppFontFamily.gilroyRegular,
+                                family: AppFontFamily.onestRegular,
                               ),
                             ),
                           ],
@@ -664,7 +664,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       "The Pizza Hub And...",
                       style: AppFontStyle.text_10_400(
                         AppColors.lightText,
-                        family: AppFontFamily.gilroyRegular,
+                        family: AppFontFamily.onestRegular,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -687,7 +687,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         price.toString(),
                         style: AppFontStyle.text_14_600(
                           AppColors.darkText,
-                          family: AppFontFamily.gilroySemiBold,
+                          family: AppFontFamily.onestSemiBold,
                         ),
                       ),
                     ),
@@ -696,7 +696,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                       '45 min',
                       style: AppFontStyle.text_14_600(
                         AppColors.darkText,
-                        family: AppFontFamily.gilroySemiBold,
+                        family: AppFontFamily.onestSemiBold,
                       ),
                     ),
                   ],

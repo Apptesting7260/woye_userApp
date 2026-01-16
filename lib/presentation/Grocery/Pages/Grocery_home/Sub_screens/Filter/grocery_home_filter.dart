@@ -23,7 +23,7 @@ class GroceryHomeFilter extends StatelessWidget {
       appBar: CustomAppBar(
         title: Text(
           "Filter",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Padding(
@@ -68,12 +68,12 @@ class GroceryHomeFilter extends StatelessWidget {
                       ),
                       Text(
                         "We couldn't find any results",
-                        style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                        style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                       ),
                       hBox(5.h),
                       Text(
                         "Explore more and shortlist some items",
-                        style: AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyMedium),
+                        style: AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestMedium),
                       ),
                     ],
                   ),
@@ -110,7 +110,7 @@ class GroceryHomeFilter extends StatelessWidget {
         hBox(10.h),
         Text(
           "Products",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(10.h),
         GridView.builder(
@@ -150,7 +150,7 @@ class GroceryHomeFilter extends StatelessWidget {
       children: [
         Text(
           "Grocery Shops",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(5.h),
         SizedBox(
@@ -259,7 +259,7 @@ class GroceryHomeFilter extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
         // hBox(10),
         Row(
@@ -268,18 +268,18 @@ class GroceryHomeFilter extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
             ),
             Text(
               " • ",
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestMedium),
             ),
             SvgPicture.asset("assets/svg/star-yellow.svg"),
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
             ),
           ],
         )

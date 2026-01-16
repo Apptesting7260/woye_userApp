@@ -202,7 +202,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
               Flexible(
                 child: Text(
                   controller.pharma_Data.value.pharmaShop?.shopName.toString().capitalize.toString() ?? "",
-                  style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -247,7 +247,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
               wBox(4.w),
               Text(
                 "${controller.pharma_Data.value.averageRating}/5",
-                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestMedium),
               ),
               wBox(5.w),
               GestureDetector(
@@ -267,7 +267,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                 },
                 child: Text(
                   "(${controller.pharma_Data.value.review?.length} Reviews)",
-                  style:TextStyle(fontSize: 15.sp,fontFamily: AppFontFamily.gilroyRegular,decoration: TextDecoration.underline,color: AppColors.lightText,decorationColor: AppColors.lightText),
+                  style:TextStyle(fontSize: 15.sp,fontFamily: AppFontFamily.onestRegular,decoration: TextDecoration.underline,color: AppColors.lightText,decorationColor: AppColors.lightText),
                 ),
               ),
             ],
@@ -281,13 +281,13 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Text(
                   "\$5 Delivery",
-                  style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestRegular),
                 ),
               ),
               Text(
                 "  •  ",
                 textAlign: TextAlign.left,
-                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_16_300(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               SvgPicture.asset(ImageConstants.cartIconImage,height: 18,colorFilter: ColorFilter.mode(AppColors.darkText, BlendMode.srcIn),),
               wBox(6.w),
@@ -295,7 +295,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                 padding: const EdgeInsets.only(top: 3.0),
                 child: Text(
                   "No min. order",
-                  style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                  style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestRegular),
                 ),
               ),
             ],
@@ -312,7 +312,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                 Padding(
                   padding: REdgeInsets.only(top: 3.0),
                   child: Text("Free delivery when you spend over \$1009",
-                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestMedium),
                   ),
                 ),
               ],
@@ -645,7 +645,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
           hBox(15.h),
              Text(
             "All Products",
-            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
           hBox(10.h),
           (products?.isEmpty ?? false)? CustomNoDataFound(heightBox: hBox(0.h),) :
@@ -741,7 +741,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                                         : "${controller.travelTime.value.round()}-${(controller.travelTime.value.round() + 2)} mins",
                                     style: AppFontStyle.text_12_400(
                                       controller.isDelivery.value ? AppColors.white : AppColors.darkText,
-                                      family: AppFontFamily.gilroyRegular,
+                                      family: AppFontFamily.onestRegular,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -794,7 +794,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                                     "15 mins",
                                     style: AppFontStyle.text_12_400(
                                       controller.isDelivery.value ? AppColors.darkText : AppColors.white,
-                                      family: AppFontFamily.gilroyRegular,
+                                      family: AppFontFamily.onestRegular,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
@@ -854,7 +854,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
   //                             controller.rxRequestStatus.value == Status.LOADING
   //                                 ? "0 - 0 mins"
   //                                 : "${controller.travelTime.value.round()}-${(controller.travelTime.value.round() + 2)} mins",
-  //                             style: AppFontStyle.text_12_400(AppColors.white, family: AppFontFamily.gilroyRegular),
+  //                             style: AppFontStyle.text_12_400(AppColors.white, family: AppFontFamily.onestRegular),
   //                             overflow: TextOverflow.ellipsis,
   //                             maxLines: 1,
   //                           )),
@@ -876,7 +876,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
   //                       mainAxisAlignment: MainAxisAlignment.center,
   //                       children: [
   //                         Text("Collection",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyBold),),
-  //                         Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),),
+  //                         Text("15 mins",style: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),),
   //                       ],
   //                     ),
   //                   ],
@@ -916,7 +916,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                   child: Text(
                     categoryKeys[index],
                     style: AppFontStyle.text_15_400(controller.categoriesIndex.value == index  ? AppColors.white : AppColors.darkText,
-                        family:controller.categoriesIndex.value == index ? AppFontFamily.gilroySemiBold : AppFontFamily.gilroyMedium),
+                        family:controller.categoriesIndex.value == index ? AppFontFamily.onestSemiBold : AppFontFamily.onestMedium),
                   ),
                 ),
               ),
@@ -948,7 +948,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
             children: [
               Text(
                 selectedKey,
-                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               // InkWell(
               //   onTap: () {
@@ -967,7 +967,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
               //     children: [
               //       Text(
               //         "See All",
-              //         style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              //         style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.onestRegular),
               //       ),
               //       wBox(4),
               //       Icon(
@@ -1038,7 +1038,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
           padding: REdgeInsets.symmetric(horizontal: 24),
           child: Text(
             "Highlights",
-            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
           ),
         ),
         hBox(10.h),
@@ -1183,7 +1183,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                             Text(
                               "\$$price",
                               textAlign: TextAlign.left,
-                              style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                              style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
                             ),
                             wBox(5.h),
                             Text(
@@ -1194,7 +1194,7 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w300,
                                   color: AppColors.lightText,
-                                  fontFamily: AppFontFamily.gilroyRegular,
+                                  fontFamily: AppFontFamily.onestRegular,
                                   decoration: TextDecoration.lineThrough,
                                   decorationColor: AppColors.lightText),
                               //  AppFontStyle.text_14_300(AppColors.lightText),
@@ -1205,14 +1205,14 @@ class _GroceryVendorDetailsScreenState extends State<GroceryVendorDetailsScreen>
                         Text(
                           item?.title.toString().capitalizeFirst.toString() ?? "",
                           // textAlign: TextAlign.left,
-                          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                         ),
                         // hBox(10),
                         Text(
                           item?.groceryName.toString() ?? "",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
-                          style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                          style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.onestRegular),
                         ),
                         hBox(18.h)
                       ],

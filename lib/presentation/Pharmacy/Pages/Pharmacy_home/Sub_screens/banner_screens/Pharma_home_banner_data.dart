@@ -122,7 +122,7 @@ class PharmacyHomeBanner extends StatelessWidget {
         hBox(3.h),
         Text(
           "Categories",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(20.h),
         GridView.builder(
@@ -175,7 +175,7 @@ class PharmacyHomeBanner extends StatelessWidget {
                   hBox(15),
                   Text(
                     banners[index].name.toString(),
-                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                   ),
                 ],
               ),
@@ -234,7 +234,7 @@ class PharmacyHomeBanner extends StatelessWidget {
         hBox(5.h),
         Text(
           "Pharmacy Shops",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(5.h),
         GetBuilder<PharmaBannerDetailsControllerController>(
@@ -336,7 +336,7 @@ class PharmacyHomeBanner extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.left,
-          style: AppFontStyle.text_18_500(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_18_500(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
         // hBox(10),
         Row(
@@ -345,7 +345,7 @@ class PharmacyHomeBanner extends StatelessWidget {
             Text(
               price,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+              style: AppFontStyle.text_16_600(AppColors.primary,family: AppFontFamily.onestRegular),
             ),
             Text(
               " • ",
@@ -356,7 +356,7 @@ class PharmacyHomeBanner extends StatelessWidget {
             wBox(4),
             Text(
               "$rating/5",
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             ),
           ],
         )

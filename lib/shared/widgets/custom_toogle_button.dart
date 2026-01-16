@@ -52,7 +52,7 @@ class CustomToogleButton extends StatelessWidget {
                     Text(
                       title,
                       style: AppFontStyle.text_14_500(
-                          isSelected ? AppColors.primary : AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                          isSelected ? AppColors.primary : AppColors.darkText,family: AppFontFamily.onestMedium),
                     )
                   ],
                 ));

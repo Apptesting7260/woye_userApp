@@ -71,7 +71,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                      decoration: TextDecoration.underline,
                      decorationColor: AppColors.primary,
                      fontWeight: FontWeight.w400,
-                     fontFamily: AppFontFamily.gilroyRegular
+                     fontFamily: AppFontFamily.onestRegular
                  ),
                ),
              )
@@ -86,7 +86,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                child: Text(
                  controller.pharma_Data.value.pharmaShop!.email.toString(),
                  overflow: TextOverflow.ellipsis,
-                 style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+                 style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
                ),
              )
            ],
@@ -103,7 +103,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                      .toString(),
                  maxLines: 10,
                  overflow: TextOverflow.ellipsis,
-                 style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+                 style: AppFontStyle.text_17_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
                ),
              )
            ],
@@ -119,7 +119,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
        children: [
          Text(
            "Open Hours",
-           style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+           style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
          ),
          hBox(14),
          for (var openingHour in openingHours!)
@@ -132,14 +132,14 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                  children: [
                    Text(
                      openingHour.day ?? "",
-                     style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                     style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                      overflow: TextOverflow.ellipsis,
                    ),
                    Text(
                      openingHour.status == null
                          ? 'Closed'
                          : "${openingHour.open} - ${openingHour.close}",
-                     style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                     style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                      textAlign: TextAlign.start,
                    ),
                  ],
@@ -156,13 +156,13 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
        children: [
          Text(
            "Descriptions",
-           style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+           style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
          ),
          hBox(10),
          Text(
            controller.pharma_Data.value.pharmaShop?.shopDes.toString() ?? "",
            maxLines: 100,
-           style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+           style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
          ),
        ],
      );
@@ -240,7 +240,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                                          Text(
                                            controller.pharma_Data.value.review?[index].user?.firstName.toString() ?? "Unknown User",
                                            style: AppFontStyle.text_16_400(
-                                               AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                               AppColors.darkText,family: AppFontFamily.onestMedium),
                                          ),
                                          hBox(5),
                                          RatingBar.readOnly(
@@ -259,7 +259,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                                                .review?[index].message
                                                .toString() ?? "",
                                            style: AppFontStyle.text_16_400(
-                                               AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                               AppColors.darkText,family: AppFontFamily.onestMedium),
                                            maxLines: 2,
                                          ),
                                          hBox(10),
@@ -271,7 +271,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                                                .updatedAt
                                                .toString()),
                                            style: AppFontStyle.text_15_400(
-                                               AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                               AppColors.lightText,family: AppFontFamily.onestMedium),
                                          ),
                                        ],
                                      ),
@@ -298,7 +298,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                                                  .toString()
                                                  .trim(),
                                              style: AppFontStyle.text_16_400(
-                                                 AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                                                 AppColors.lightText,family: AppFontFamily.onestMedium),
                                              maxLines: 100,
                                              overflow: TextOverflow.ellipsis,
                                            ),
@@ -349,7 +349,7 @@ class _GroceryShopInformationState extends State<GroceryShopInformation> {
                    children: [
                      Text(
                        "See All (${controller.pharma_Data.value.totalReviews.toString()})",
-                       style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                       style: AppFontStyle.text_14_600(AppColors.primary,family: AppFontFamily.onestRegular),
                      ),
                      Icon(
                        Icons.arrow_forward,

@@ -16,7 +16,7 @@ class AddCardScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Add Card",
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: SingleChildScrollView(
@@ -71,7 +71,7 @@ class AddCardScreen extends StatelessWidget {
 
   Widget saveButton() {
     return CustomElevatedButton(
-        fontFamily: AppFontFamily.gilroyMedium,
+        fontFamily: AppFontFamily.onestMedium,
         text: "Save",
         onPressed: () {
           Get.back();

@@ -194,12 +194,12 @@ class CustomBannerGrocery extends StatelessWidget {
                   ? Text(
                       "\$$sale_price",
                       textAlign: TextAlign.left,
-                      style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                      style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
                     )
                   : Text(
                       "\$$regular_price",
                       textAlign: TextAlign.left,
-                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_15_600(AppColors.primary,family: AppFontFamily.onestRegular),
                     ),
               wBox(5.h),
               if (sale_price != "null")
@@ -210,7 +210,7 @@ class CustomBannerGrocery extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w300,
-                      fontFamily: AppFontFamily.gilroyRegular,
+                      fontFamily: AppFontFamily.onestRegular,
                       color: AppColors.lightText,
                       decoration: TextDecoration.lineThrough,
                       decorationColor: AppColors.lightText),
@@ -221,7 +221,7 @@ class CustomBannerGrocery extends StatelessWidget {
           Text(
             title.toString(),
             textAlign: TextAlign.left,
-            style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+            style: AppFontStyle.text_15_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
           ),
           // hBox(10),
           if (quantity.toString() != "null")
@@ -229,7 +229,7 @@ class CustomBannerGrocery extends StatelessWidget {
               quantity.toString(),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
-              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+              style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
             ),
 
           Flexible(
@@ -237,7 +237,7 @@ class CustomBannerGrocery extends StatelessWidget {
             shop_name ?? "",
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.left,
-            style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+            style: AppFontStyle.text_14_300(AppColors.lightText,family: AppFontFamily.onestRegular),
           ),
         ),
         ],

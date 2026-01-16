@@ -52,7 +52,7 @@ class ReviewDriverScreen extends StatelessWidget {
         Text(
           "David Ronney",
           textAlign: TextAlign.center,
-          style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_20_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
       ],
     );
@@ -65,7 +65,7 @@ class ReviewDriverScreen extends StatelessWidget {
         Text(
           "What is your rate?",
           textAlign: TextAlign.center,
-          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
         hBox(10),
         // Row(
@@ -122,7 +122,7 @@ class ReviewDriverScreen extends StatelessWidget {
         Text(
           "How was your experience ?",
           textAlign: TextAlign.center,
-          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+          style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
         ),
         hBox(10),
         TextFormField(
@@ -140,7 +140,7 @@ class ReviewDriverScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.r)),
             hintText: "Write your review...",
             hintStyle: AppFontStyle.text_14_400(
-              AppColors.lightText,family: AppFontFamily.gilroySemiBold,
+              AppColors.lightText,family: AppFontFamily.onestSemiBold,
             ),
           ),
         ),
@@ -150,7 +150,7 @@ class ReviewDriverScreen extends StatelessWidget {
 
   Widget submitButton(cartType,screenType) {
     return CustomElevatedButton(
-    fontFamily: AppFontFamily.gilroySemiBold,
+    fontFamily: AppFontFamily.onestSemiBold,
         text: "Submit",
         onPressed: () async {
           if (cartType == "restaurant" || screenType == 'restaurantProfileScreen') {

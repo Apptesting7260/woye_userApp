@@ -93,6 +93,7 @@ class RestaurantCategoriesDetailsController extends GetxController {
   }
 
 //------------------------------------------------------------restaurant_Categories_Details_filter_Api
+
   restaurant_Categories_Details_filter_Api({
     required String id,
      String? cuisine_type,
@@ -111,17 +112,17 @@ class RestaurantCategoriesDetailsController extends GetxController {
       "category_id": id,
       if(cuisine_type != null && cuisine_type != '')
       "cuisine_id": cuisine_type,
-      if(price_sort != null)
+      if(price_sort != null && price_sort != "")
       "price_sort": price_sort,
       if(quick_filter != null && quick_filter != "")
       "quick_filter[]": quick_filter,
       if(price_range != null)
       "price_range": price_range,
-      if(attribute_ids != null)
+      if(attribute_ids != null && attribute_ids.isNotEmpty)
         "attribute_ids[]": attribute_ids,
-      if(addons != null)
+      if(addons != null && addons.isNotEmpty)
         "addons[]": addons,
-      if(options != null)
+      if(options != null&& options.isNotEmpty)
         "options[]": options
     };
 

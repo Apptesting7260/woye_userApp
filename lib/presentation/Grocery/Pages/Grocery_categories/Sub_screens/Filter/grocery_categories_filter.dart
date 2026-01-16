@@ -60,7 +60,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
                         dividerColor: AppColors.gray,
                         dividerHeight: 0.5,
                         labelStyle:
-                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                         tabs: const [
                           Tab(text: "Filter"),
                           Tab(text: "Sort"),
@@ -206,7 +206,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
             children: [
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Clear",
                       color: AppColors.black,
@@ -226,7 +226,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
               wBox(10),
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
 
                       height: 55.h,
                       text: "Apply",
@@ -287,7 +287,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
               children: [
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
 
                         height: 55.h,
                         text: "Clear",
@@ -307,7 +307,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
                 wBox(10),
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
 
                         height: 55.h,
                         text: "Apply",
@@ -344,7 +344,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily:  AppFontFamily.gilroyRegular,
+            fontFamily:  AppFontFamily.onestRegular,
           ),
         ),
         Obx(() {
@@ -376,7 +376,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16.sp,
-                                    fontFamily: AppFontFamily.gilroyMedium,
+                                    fontFamily: AppFontFamily.onestMedium,
                                   ),
                                 ),
                               ),
@@ -426,7 +426,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -447,7 +447,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -468,7 +468,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyRegular)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestRegular)),
         CustomRadioButton(
           title: "Low to high",
           value: 1.obs,
@@ -501,7 +501,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyRegular,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestRegular,
             )),
         hBox(10),
         Wrap(
@@ -538,7 +538,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp ,fontFamily: AppFontFamily.gilroyRegular,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp ,fontFamily: AppFontFamily.onestRegular,
                 )),
             Obx(() {
               return Text(
@@ -546,7 +546,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16.sp,
-                      color: AppColors.primary,fontFamily: AppFontFamily.gilroyMedium));
+                      color: AppColors.primary,fontFamily: AppFontFamily.onestMedium));
             }),
           ],
         ),
@@ -555,7 +555,7 @@ class GroceryCategoriesFilter extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
-                color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular)),
+                color: AppColors.lightText,fontFamily: AppFontFamily.onestRegular)),
         hBox(4),
         Obx(() {
           double minPrice = controller.getFilterData.value.minPrice!.toDouble();
@@ -633,7 +633,7 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             fontWeight: FontWeight.w400,
             fontSize: 16.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,

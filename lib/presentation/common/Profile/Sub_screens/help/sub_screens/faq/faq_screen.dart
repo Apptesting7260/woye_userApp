@@ -19,7 +19,7 @@ class FaqScreen extends StatelessWidget {
         isLeading: true,
         title: Text(
           "FAQ",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -81,7 +81,7 @@ class FaqScreen extends StatelessWidget {
                             controller.apiData.value.data?[index].ans.toString() ??  "",
                             maxLines: 100,
                             style: AppFontStyle.text_15_400(AppColors.mediumText,
-                                family: AppFontFamily.gilroyRegular),
+                                family: AppFontFamily.onestRegular),
                           ),
                         ])),
           );

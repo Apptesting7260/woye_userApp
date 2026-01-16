@@ -26,7 +26,7 @@ class GroceryCategoryDetails extends StatelessWidget {
         centetTitle: true,
         title: Text(
           categoryTitle,
-          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {

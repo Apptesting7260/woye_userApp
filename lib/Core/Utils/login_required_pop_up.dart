@@ -27,20 +27,20 @@ Future showLoginRequired(context) {
               children: [
                 Text(
                   'Login Required',
-                  style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular
+                  style: AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular
                   ),
                 ),
                 // hBox(15),
                 Text(
                   'You need to log in first',
-                  style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyMedium),
+                  style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestMedium),
                 ),
                 // hBox(15),
                 Row(
                   children: [
                     Expanded(
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 40.h,
                         color: AppColors.black,
                         onPressed: () {
@@ -54,7 +54,7 @@ Future showLoginRequired(context) {
                     wBox(15),
                     Expanded(
                       child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 40.h,
                         onPressed: () {
                           userPreference.removeUser();

@@ -36,7 +36,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
         isLeading: true,
         title: Text(
           "Track Order",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -120,13 +120,13 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
               Text(
                 "David Ronney",
                 textAlign: TextAlign.center,
-                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+                style: AppFontStyle.text_18_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
               ),
               hBox(10),
               Text(
                 phoneNumber,
                 textAlign: TextAlign.center,
-                style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_15_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               )
             ],
           ),
@@ -168,12 +168,12 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
             children: [
               Text(
                 "Transit Time",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               hBox(8),
               Text(
                 "20 Minutes",
-                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
               ),
             ],
           ),
@@ -182,13 +182,13 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
             children: [
               Text(
                 "Order id",
-                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
               ),
               hBox(8),
               Obx(
                 ()=> Text(
                   controller.apiData.value.orderDetails?.orderId ?? orderId ?? "",
-                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
                 ),
               ),
             ],
@@ -229,13 +229,13 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
               children: [
                 Text(
                   "Order Placed",
-                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+                  style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
                 ),
                 hBox(8),
                 Obx(
                     ()=> Text(
                     "We have received your order at ${controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "")}",
-                    style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     maxLines: 2,
                   ),
                 ),
@@ -286,7 +286,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                     "Order Confirmed",
                     style: AppFontStyle.text_16_400( controller.apiData.value.orderDetails?.status == "in_progress" ||
                         controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText : AppColors.darkText.withOpacity(0.3)
-                        ,family: AppFontFamily.gilroySemiBold
+                        ,family: AppFontFamily.onestSemiBold
                     ),
                   ),
                   hBox(8),
@@ -295,7 +295,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                         controller.apiData.value.orderDetails?.status == "completed" ?
                     controller.convertToTime(controller.apiData.value.orderDetails?.createdAt.toString() ?? "") : "..."}",
                     style: AppFontStyle.text_13_400( controller.apiData.value.orderDetails?.status == "in_progress" ||
-                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText : AppColors.lightText.withOpacity(.4),family: AppFontFamily.gilroyRegular),
+                        controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText : AppColors.lightText.withOpacity(.4),family: AppFontFamily.onestRegular),
                     maxLines: 2,
                   ),
 
@@ -340,13 +340,13 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                   Text(
                     "On its way",
                     style: AppFontStyle.text_16_400(controller.apiData.value.orderDetails?.status == "in_progress"
-                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText :AppColors.darkText.withOpacity(0.4),family: AppFontFamily.gilroySemiBold),
+                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.darkText :AppColors.darkText.withOpacity(0.4),family: AppFontFamily.onestSemiBold),
                   ),
                   hBox(8),
                   Text(
                     "Store Location | 09:15 AM",
                     style: AppFontStyle.text_13_400(controller.apiData.value.orderDetails?.status == "in_progress"
-                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText :AppColors.lightText.withOpacity(0.4),family: AppFontFamily.gilroyRegular),
+                        || controller.apiData.value.orderDetails?.status == "completed" ? AppColors.lightText :AppColors.lightText.withOpacity(0.4),family: AppFontFamily.onestRegular),
                   ),
                 ],
               ),
@@ -387,13 +387,13 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
                 children: [
                   Text(
                     controller.apiData.value.orderDetails?.addressDetails?.addressType.toString() ?? "",
-                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroySemiBold),
+                    style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestSemiBold),
                   ),
                   hBox(8),
                   Text(
                     "${controller.apiData.value.orderDetails?.addressDetails?.address.toString() ?? ""} ,"
                         "${controller.apiData.value.orderDetails?.addressDetails?.houseDetails.toString() ?? ""}",
-                    style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                    style: AppFontStyle.text_13_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                     maxLines: 5,
                   ),
                   // Text(
@@ -414,7 +414,7 @@ class _TrackOrderScreenState extends State<TrackOrderScreen> {
     return CustomElevatedButton(
           // color: controller.apiData.value.orderDetails?.status == "completed" ? AppColors.primary : AppColors.primary.withOpacity(0.4)  ,
           color: AppColors.primary,
-          fontFamily: AppFontFamily.gilroyMedium,
+          fontFamily: AppFontFamily.onestMedium,
           text: "Order Received",
           onPressed: () {
             // if(controller.apiData.value.orderDetails?.status == "completed") {

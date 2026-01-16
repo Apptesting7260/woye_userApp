@@ -238,18 +238,18 @@ class SignUpForm_editProfileController extends GetxController {
         data: ThemeData().copyWith(
           textTheme: TextTheme(
             headlineLarge: TextStyle(
-              fontFamily: AppFontFamily.gilroyMedium,
+              fontFamily: AppFontFamily.onestMedium,
               fontWeight: FontWeight.bold,
               fontSize: 20,
               color: Colors.black,
             ),
             titleLarge: TextStyle(
-              fontFamily: AppFontFamily.gilroyMedium,
+              fontFamily: AppFontFamily.onestMedium,
               fontSize: 16,
               color: Colors.blue,
             ),
             bodyLarge: TextStyle(
-              fontFamily: AppFontFamily.gilroyMedium,
+              fontFamily: AppFontFamily.onestMedium,
               fontSize: 14,
             ),
           ),

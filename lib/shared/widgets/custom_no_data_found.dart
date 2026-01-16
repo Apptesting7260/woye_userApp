@@ -28,12 +28,12 @@ class CustomNoDataFound extends StatelessWidget {
         ),
         Text(
           "We couldn't find any results",
-          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
         hBox(5.h),
         Text(
           "Explore more and shortlist some items",
-          style: AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
         ),
       ],
     );

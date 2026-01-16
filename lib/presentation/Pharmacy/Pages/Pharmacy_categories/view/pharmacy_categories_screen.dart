@@ -40,7 +40,7 @@ class _PharmacyCategoriesScreenState extends State<PharmacyCategoriesScreen> {
         isActions: true,
         title: Text(
           "Categories",
-          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -152,7 +152,7 @@ class _PharmacyCategoriesScreenState extends State<PharmacyCategoriesScreen> {
                                             controller
                                                 .filteredWishlistData[index].name
                                                 .toString(),
-                                            style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            style: AppFontStyle.text_17_400(AppColors.darkText,family: AppFontFamily.onestMedium),
 
                                           )
                                         ],

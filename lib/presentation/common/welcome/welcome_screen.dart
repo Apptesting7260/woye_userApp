@@ -65,7 +65,7 @@ class WelcomeScreen extends StatelessWidget {
         hBox(20),
         Text(
           "Let’s Get Started!",
-          style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+          style: AppFontStyle.text_24_600(AppColors.darkText,family: AppFontFamily.onestMedium),
         ),
       ],
     );
@@ -102,7 +102,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     wBox(12),
                     Text("Continue As Guest",
-                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
+                        style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium))
                   ],
                 )),
     );
@@ -148,7 +148,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Facebook",
-                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium))
           ],
         ));
   }
@@ -168,7 +168,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Google",
-                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium)
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium)
                 // AppFontStyle.text_16_800(AppColors.darkText),
                 )
           ],
@@ -192,7 +192,7 @@ class WelcomeScreen extends StatelessWidget {
             ),
             wBox(12),
             Text("Continue with Apple",
-                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium))
+                style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium))
           ],
         ));
   }
@@ -210,10 +210,10 @@ class WelcomeScreen extends StatelessWidget {
             text: TextSpan(children: [
           TextSpan(
               text: "Don't have an account? ",
-              style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.gilroyMedium)),
+              style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestMedium)),
           TextSpan(
               text: "Sign Up",
-              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium)),
+              style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium)),
         ])),
       ),
     );

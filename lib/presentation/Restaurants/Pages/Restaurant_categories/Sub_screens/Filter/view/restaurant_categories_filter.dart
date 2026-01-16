@@ -65,7 +65,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                         dividerColor: AppColors.gray,
                         dividerHeight: 0.5,
                         labelStyle:
-                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                         tabs: const [
                           Tab(text: "Filter"),
                           Tab(text: "Sort"),
@@ -192,7 +192,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               children: [
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Clear",
                         color: AppColors.black,
@@ -214,7 +214,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 wBox(10),
                 Expanded(
                     child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Apply",
                         onPressed: () {
@@ -259,7 +259,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             children: [
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Clear",
                       color: AppColors.black,
@@ -279,7 +279,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               wBox(10),
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Apply",
                       onPressed: () {
@@ -354,7 +354,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         Obx(() {
@@ -387,7 +387,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16.sp,
-                                    fontFamily:AppFontFamily.gilroyMedium,
+                                    fontFamily:AppFontFamily.onestMedium,
                                   ),
                                 ),
                               ),
@@ -437,7 +437,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -458,7 +458,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -478,7 +478,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         CustomRadioButton(
           title: "Low to high",
           value: 1.obs,
@@ -512,7 +512,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         hBox(10),
         Wrap(
           spacing: 10.w,
@@ -547,14 +547,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
             Obx(() {
               return Text(
                   "\$${controller.lowerValue.value} - \$${controller.upperValue.value}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16.sp,
-                      color: AppColors.primary,fontFamily: AppFontFamily.gilroyMedium));
+                      color: AppColors.primary,fontFamily: AppFontFamily.onestMedium));
             }),
           ],
         ),
@@ -563,7 +563,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
-                color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular)),
+                color: AppColors.lightText,fontFamily: AppFontFamily.onestRegular)),
         hBox(4),
         Obx(() {
           double minPrice = controller.getFilterData.value.minPrice!.toDouble();
@@ -641,7 +641,7 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             fontWeight: FontWeight.w400,
             fontSize: 17.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,
@@ -846,7 +846,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                         dividerColor: AppColors.gray,
                         dividerHeight: 0.5,
                         labelStyle:
-                        AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                        AppFontStyle.text_18_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                         tabs: const [
                           Tab(text: "Filter"),
                           Tab(text: "Sort"),
@@ -1006,7 +1006,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               children: [
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Clear",
                         color: AppColors.black,
@@ -1023,7 +1023,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                 wBox(10),
                 Expanded(
                     child: CustomElevatedButton(
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         height: 55.h,
                         text: "Apply",
                         onPressed: () {
@@ -1055,7 +1055,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
     return Text(
       title,
       style: AppFontStyle.text_18_600(AppColors.darkText,
-          family: AppFontFamily.gilroyRegular),
+          family: AppFontFamily.onestRegular),
     );
   }
 
@@ -1094,7 +1094,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             child: Text(
               label,
               style: AppFontStyle.text_16_400(AppColors.darkText,
-                  family: AppFontFamily.gilroyRegular),
+                  family: AppFontFamily.onestRegular),
             ),
           ),
         ],
@@ -1119,7 +1119,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             children: [
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Clear",
                       color: AppColors.black,
@@ -1139,7 +1139,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               wBox(10),
               Expanded(
                   child: CustomElevatedButton(
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       height: 55.h,
                       text: "Apply",
                       onPressed: () {
@@ -1214,7 +1214,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         Obx(() {
@@ -1247,7 +1247,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 16.sp,
-                                    fontFamily:AppFontFamily.gilroyMedium,
+                                    fontFamily:AppFontFamily.onestMedium,
                                   ),
                                 ),
                               ),
@@ -1297,7 +1297,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -1318,7 +1318,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
-                        fontFamily: AppFontFamily.gilroyMedium,
+                        fontFamily: AppFontFamily.onestMedium,
                         color: AppColors.primary,
                       ),
                     ),
@@ -1338,7 +1338,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Price",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         CustomRadioButton(
           title: "Low to high",
           value: 1.obs,
@@ -1372,7 +1372,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("Quick Filter",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
         hBox(10),
         Wrap(
           spacing: 10.w,
@@ -1407,14 +1407,14 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text("Price Range",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.gilroyMedium)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp,fontFamily: AppFontFamily.onestMedium)),
             Obx(() {
               return Text(
                   "\$${controller.lowerValue.value} - \$${controller.upperValue.value}",
                   style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 16.sp,
-                      color: AppColors.primary,fontFamily: AppFontFamily.gilroyMedium));
+                      color: AppColors.primary,fontFamily: AppFontFamily.onestMedium));
             }),
           ],
         ),
@@ -1423,7 +1423,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             style: TextStyle(
                 fontWeight: FontWeight.w400,
                 fontSize: 16.sp,
-                color: AppColors.lightText,fontFamily: AppFontFamily.gilroyRegular)),
+                color: AppColors.lightText,fontFamily: AppFontFamily.onestRegular)),
         hBox(4),
         Obx(() {
           double minPrice = controller.getFilterData.value.minPrice!.toDouble();
@@ -1501,7 +1501,7 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             fontWeight: FontWeight.w400,
             fontSize: 17.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,
@@ -1637,14 +1637,16 @@ import 'package:woye_user/Shared/Widgets/CircularProgressIndicator.dart';
 import 'package:woye_user/Shared/Widgets/custom_radio_button.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/controller/CategoriesFilter_controller.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_categories/Sub_screens/Filter/modal/CategoriesFilter_modal.dart';
+import 'package:woye_user/shared/widgets/custom_print.dart';
 
 import '../../../../../../../Shared/theme/font_family.dart';
 
-final Categories_FilterController controller = Get.put(Categories_FilterController());
-final RestaurantCategoriesDetailsController restaurantCategoriesDetailsController = Get.put(RestaurantCategoriesDetailsController());
-
 class RestaurantCategoriesFilter extends StatelessWidget {
-  const RestaurantCategoriesFilter({super.key});
+   RestaurantCategoriesFilter({super.key});
+
+  final Categories_FilterController controller = Get.put(Categories_FilterController(), permanent: true);
+// final Categories_FilterController controller = Get.put(Categories_FilterController());
+  final RestaurantCategoriesDetailsController restaurantCategoriesDetailsController = Get.put(RestaurantCategoriesDetailsController());
 
   @override
   Widget build(BuildContext context) {
@@ -1655,7 +1657,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
         isLeading: true,
         title: Text(
           "Filter",
-          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -1680,20 +1682,20 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             return _buildFilterScreen(categoryId);
         }
       }),
+      bottomNavigationBar: _buildActionButtons(categoryId),
     );
   }
 
   Widget _buildFilterScreen(String categoryId) {
     return Column(
       children: [
-        // Main Content - Use Expanded to take available space
         Expanded(
           child: RefreshIndicator(
             onRefresh: () async {
               controller.Refresh_Api(categoryId);
             },
             child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               child: Padding(
                 padding: REdgeInsets.symmetric(horizontal: 24.0, vertical: 20),
                 child: Column(
@@ -1716,23 +1718,28 @@ class RestaurantCategoriesFilter extends StatelessWidget {
 
                     // Price Range Section
                     _buildPriceRangeSection(),
-                    hBox(20.h),
+                    hBox(12.h),
 
                     // Food Preferences Section
+                    if(controller.getFilterData.value.attributeIds?.isNotEmpty ?? false)...[
                     _buildFoodPreferencesSection(),
                     hBox(20.h),
+                    ],
 
                     // Add-ons Section
+                    if(controller.getFilterData.value.addons?.isNotEmpty ?? false)...[
                     _buildAddonsSection(),
                     hBox(20.h),
-
+                    ],
                     // Options Section
+                    if(controller.getFilterData.value.options?.isNotEmpty ?? false)...[
                     _buildOptionsSection(),
                     hBox(30.h),
+                    ],
 
                     // Apply/Clear Buttons
-                    _buildActionButtons(categoryId),
-                    hBox(20.h),
+                    // _buildActionButtons(categoryId),
+                    // hBox(10.h),
                   ],
                 ),
               ),
@@ -1743,6 +1750,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
     );
   }
 
+/*
   Widget _buildCuisinesSection() {
     Rx<int> visibleItemCount = 20.obs;
 
@@ -1754,7 +1762,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -1772,44 +1780,63 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             children: visibleItems.map((cuisine) {
               return Padding(
                 padding: REdgeInsets.only(bottom: 12.h),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 24.w,
-                      height: 24.h,
-                      child: Obx(() => Checkbox(
-                        value: cuisine.isSelected.value,
-                        onChanged: (value) {
-                          cuisine.isSelected.value = value!;
-                          if (value) {
-                            controller.selectedCuisines.add(cuisine.id.toString());
-                          } else {
-                            controller.selectedCuisines.remove(cuisine.id.toString());
-                          }
-                        },
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                        side: BorderSide(
-                          color: Colors.grey[400]!,
-                          width: 1.5,
-                        ),
-                        activeColor: AppColors.black,
-                      )),
-                    ),
-                    wBox(12.w),
-                    Expanded(
-                      child: Text(
-                        cuisine.name ?? "",
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: AppFontFamily.gilroyRegular,
-                          color: AppColors.darkText,
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(6.r),
+                  onTap: () {
+                    final isSelected = !cuisine.isSelected.value;
+                    cuisine.isSelected.value = isSelected;
+
+                    if (isSelected) {
+                      controller.selectedCuisines.add(cuisine.id.toString());
+                    } else {
+                      controller.selectedCuisines.remove(cuisine.id.toString());
+                    }
+                  },
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 24.w,
+                        height: 24.h,
+                        child: Obx(
+                              () => Checkbox(
+                            value: cuisine.isSelected.value,
+                            onChanged: (value) {
+                              final isSelected = value ?? false;
+                              cuisine.isSelected.value = isSelected;
+
+                              if (isSelected) {
+                                controller.selectedCuisines
+                                    .add(cuisine.id.toString());
+                              } else {
+                                controller.selectedCuisines
+                                    .remove(cuisine.id.toString());
+                              }
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                            side: BorderSide(
+                              color: Colors.grey[400]!,
+                              width: 1.5,
+                            ),
+                            activeColor: AppColors.black,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      wBox(12.w),
+                      Expanded(
+                        child: Text(
+                          cuisine.name ?? "",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: AppFontFamily.onestRegular,
+                            color: AppColors.darkText,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }).toList(),
@@ -1831,7 +1858,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
                       color: AppColors.primary,
                     ),
                   ),
@@ -1849,7 +1876,155 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
-                      fontFamily: AppFontFamily.gilroyMedium,
+                      fontFamily: AppFontFamily.onestMedium,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+            ],
+          )),
+      ],
+    );
+  }
+*/
+  Widget _buildCuisinesSection() {
+    Rx<int> visibleItemCount = 20.obs;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Cuisines",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+            fontFamily: AppFontFamily.onestMedium,
+          ),
+        ),
+        hBox(10.h),
+        Obx(() {
+          List<CuisineId> cuisineTypes = controller.getFilterData.value.cuisineId ?? [];
+          int itemCount = visibleItemCount.value < cuisineTypes.length
+              ? visibleItemCount.value
+              : cuisineTypes.length;
+
+          // Take only visible items
+          List<CuisineId> visibleItems = cuisineTypes.sublist(0, itemCount);
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: visibleItems.map((cuisine) {
+              // Check if this cuisine is in the selectedCuisines list
+              final isSelected = controller.selectedCuisines.contains(cuisine.id.toString());
+
+              // Sync the cuisine's isSelected value with the list
+              if (cuisine.isSelected.value != isSelected) {
+                cuisine.isSelected.value = isSelected;
+              }
+
+              return Padding(
+                padding: REdgeInsets.only(bottom: 12.h),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(6.r),
+                  onTap: () {
+                    final newIsSelected = !isSelected;
+
+                    // Update the list
+                    if (newIsSelected) {
+                      controller.selectedCuisines.add(cuisine.id.toString());
+                    } else {
+                      controller.selectedCuisines.remove(cuisine.id.toString());
+                    }
+
+                    // Update the UI state
+                    cuisine.isSelected.value = newIsSelected;
+                  },
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 24.w,
+                        height: 24.h,
+                        child: Obx(
+                              () => Checkbox(
+                            value: cuisine.isSelected.value,
+                            onChanged: (value) {
+                              final newValue = value ?? false;
+
+                              // Update the list
+                              if (newValue) {
+                                controller.selectedCuisines.add(cuisine.id.toString());
+                              } else {
+                                controller.selectedCuisines.remove(cuisine.id.toString());
+                              }
+
+                              // Update the UI state
+                              cuisine.isSelected.value = newValue;
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(4.r),
+                            ),
+                            side: BorderSide(
+                              color: Colors.grey[400]!,
+                              width: 1.5,
+                            ),
+                            activeColor: AppColors.black,
+                          ),
+                        ),
+                      ),
+                      wBox(12.w),
+                      Expanded(
+                        child: Text(
+                          cuisine.name ?? "",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: AppFontFamily.onestRegular,
+                            color: AppColors.darkText,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          );
+        }),
+
+        // See More/Show Less Buttons
+        if ((controller.getFilterData.value.cuisineId?.length ?? 0) > 20)
+          Obx(() => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (visibleItemCount.value < (controller.getFilterData.value.cuisineId?.length ?? 0))
+                TextButton(
+                  onPressed: () {
+                    visibleItemCount.value += 10;
+                  },
+                  child: Text(
+                    "See More",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: AppFontFamily.onestMedium,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ),
+              if (visibleItemCount.value > 20)
+                TextButton(
+                  onPressed: () {
+                    visibleItemCount.value = (visibleItemCount.value - 10).clamp(
+                      20,
+                      controller.getFilterData.value.cuisineId?.length ?? 20,
+                    );
+                  },
+                  child: Text(
+                    "Show Less",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: AppFontFamily.onestMedium,
                       color: AppColors.primary,
                     ),
                   ),
@@ -1869,7 +2044,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -1878,7 +2053,10 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           value: 1.obs,
           groupValue: controller.priceRadioValue,
           onChanged: (value) {
-            controller.priceRadioValue.value = value!;
+            if(value != null) {
+              controller.priceRadioValue.value = value;
+              pt("controller.priceRadioValue.value >>> ${controller.priceRadioValue.value}");
+            }
             controller.update();
           },
         ),
@@ -1887,7 +2065,10 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           value: 2.obs,
           groupValue: controller.priceRadioValue,
           onChanged: (value) {
-            controller.priceRadioValue.value = value!;
+            if(value != null) {
+              controller.priceRadioValue.value = value;
+            }
+            pt("controller.priceRadioValue.value >>>>> ${controller.priceRadioValue.value}");
           },
         ),
       ],
@@ -1910,7 +2091,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -1949,7 +2130,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18.sp,
-                fontFamily: AppFontFamily.gilroyMedium,
+                fontFamily: AppFontFamily.onestMedium,
               ),
             ),
             Obx(() {
@@ -1959,7 +2140,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: 16.sp,
                   color: AppColors.primary,
-                  fontFamily: AppFontFamily.gilroyMedium,
+                  fontFamily: AppFontFamily.onestMedium,
                 ),
               );
             }),
@@ -1972,13 +2153,13 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             fontWeight: FontWeight.w400,
             fontSize: 16.sp,
             color: AppColors.lightText,
-            fontFamily: AppFontFamily.gilroyRegular,
+            fontFamily: AppFontFamily.onestRegular,
           ),
         ),
-        hBox(10.h),
+        // hBox(6.h),
         Obx(() {
-          double minPrice = controller.getFilterData.value.minPrice!.toDouble();
-          double maxPrice = controller.getFilterData.value.maxPrice!.toDouble();
+          double minPrice = controller.getFilterData.value.minPrice?.toDouble() ?? 0.0;
+          double maxPrice = controller.getFilterData.value.maxPrice?.toDouble() ?? 0.0;
 
           double lowerValue = controller.lowerValue.value < minPrice
               ? minPrice
@@ -1995,21 +2176,21 @@ class RestaurantCategoriesFilter extends StatelessWidget {
             handlerHeight: 24.h,
             handler: FlutterSliderHandler(
               child: SvgPicture.asset(
-                "assets/svg/slider.svg",
-                height: 26.h,
+                ImageConstants.ellipseCircle,
+                height: 22.h,
               ),
             ),
             rightHandler: FlutterSliderHandler(
               child: SvgPicture.asset(
-                "assets/svg/slider.svg",
-                height: 26.h,
+                ImageConstants.ellipseCircle,
+                height: 22.h,
               ),
             ),
             trackBar: FlutterSliderTrackBar(
-              activeTrackBarHeight: 8,
-              inactiveTrackBarHeight: 8,
+              activeTrackBarHeight: 2,
+              inactiveTrackBarHeight: 2,
               activeTrackBar: BoxDecoration(
-                color: AppColors.primary,
+                color: AppColors.black,
                 borderRadius: BorderRadius.circular(4),
               ),
               inactiveTrackBar: BoxDecoration(
@@ -2027,6 +2208,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
     );
   }
 
+/*
   Widget _buildFoodPreferencesSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -2036,7 +2218,7 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
@@ -2057,6 +2239,47 @@ class RestaurantCategoriesFilter extends StatelessWidget {
       ],
     );
   }
+*/
+
+  Widget _buildFoodPreferencesSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Food Preferences",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+            fontFamily: AppFontFamily.onestMedium,
+          ),
+        ),
+        hBox(10.h),
+        ...(controller.getFilterData.value.attributeIds ?? []).map((attribute) {
+          final isAlreadySelected = controller.selectedAttributes.contains(attribute.id.toString());
+
+          if (attribute.isSelected.value != isAlreadySelected) {
+            attribute.isSelected.value = isAlreadySelected;
+          }
+
+          return _buildCheckboxItem(
+            label: attribute.name.toString(),
+            isSelected: attribute.isSelected.value,
+            onChanged: (value) {
+              final newValue = value ?? false;
+              attribute.isSelected.value = newValue;
+              if (newValue) {
+                if (!controller.selectedAttributes.contains(attribute.id.toString())) {
+                  controller.selectedAttributes.add(attribute.id.toString());
+                }
+              } else {
+                controller.selectedAttributes.remove(attribute.id.toString());
+              }
+            },
+          );
+        }),
+      ],
+    );
+  }
 
   Widget _buildAddonsSection() {
     return Column(
@@ -2067,24 +2290,39 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
-        ...(controller.getFilterData.value.addons ?? []).map((addon) =>
-            _buildCheckboxItem(
-              label: addon.name.toString(),
-              isSelected: addon.isSelected.value,
-              onChanged: (value) {
-                addon.isSelected.value = value!;
-                if (value) {
+        ...(controller.getFilterData.value.addons ?? []).map((addon) {
+          // Check if this addon is already in the selectedAddons list
+          final isAlreadySelected = controller.selectedAddons.contains(addon.id.toString());
+
+          // Sync the addon's isSelected value with the list
+          if (addon.isSelected.value != isAlreadySelected) {
+            addon.isSelected.value = isAlreadySelected;
+          }
+
+          return _buildCheckboxItem(
+            label: addon.name.toString(),
+            isSelected: addon.isSelected.value,
+            onChanged: (value) {
+              final newValue = value ?? false;
+
+              // Update the addon's UI state
+              addon.isSelected.value = newValue;
+
+              // Update the selectedAddons list
+              if (newValue) {
+                if (!controller.selectedAddons.contains(addon.id.toString())) {
                   controller.selectedAddons.add(addon.id.toString());
-                } else {
-                  controller.selectedAddons.remove(addon.id.toString());
                 }
-              },
-            )
-        ).toList(),
+              } else {
+                controller.selectedAddons.remove(addon.id.toString());
+              }
+            },
+          );
+        }),
       ],
     );
   }
@@ -2098,24 +2336,39 @@ class RestaurantCategoriesFilter extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
           ),
         ),
         hBox(10.h),
-        ...(controller.getFilterData.value.options ?? []).map((options) =>
-            _buildCheckboxItem(
-              label: options.name.toString(),
-              isSelected: options.isSelected.value,
-              onChanged: (value) {
-                options.isSelected.value = value!;
-                if (value) {
-                  controller.selectedOptions.add(options.id.toString());
-                } else {
-                  controller.selectedOptions.remove(options.id.toString());
+        ...(controller.getFilterData.value.options ?? []).map((option) {
+          // Check if this option is already in the selectedOptions list
+          final isAlreadySelected = controller.selectedOptions.contains(option.id.toString());
+
+          // Sync the option's isSelected value with the list
+          if (option.isSelected.value != isAlreadySelected) {
+            option.isSelected.value = isAlreadySelected;
+          }
+
+          return _buildCheckboxItem(
+            label: option.name.toString(),
+            isSelected: option.isSelected.value,
+            onChanged: (value) {
+              final newValue = value ?? false;
+
+              // Update the option's UI state
+              option.isSelected.value = newValue;
+
+              // Update the selectedOptions list
+              if (newValue) {
+                if (!controller.selectedOptions.contains(option.id.toString())) {
+                  controller.selectedOptions.add(option.id.toString());
                 }
-              },
-            )
-        ).toList(),
+              } else {
+                controller.selectedOptions.remove(option.id.toString());
+              }
+            },
+          );
+        }),
       ],
     );
   }
@@ -2127,96 +2380,113 @@ class RestaurantCategoriesFilter extends StatelessWidget {
   }) {
     return Padding(
       padding: REdgeInsets.only(bottom: 12.h),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 24.w,
-            height: 24.h,
-            child: Checkbox(
-              value: isSelected,
-              onChanged: onChanged,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4.r),
-              ),
-              side: BorderSide(
-                color: Colors.grey[400]!,
-                width: 1.5,
-              ),
-              activeColor: AppColors.black,
-            ),
-          ),
-          wBox(12.w),
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
-                fontFamily: AppFontFamily.gilroyRegular,
-                color: AppColors.darkText,
+      child: InkWell(
+        onTap: () {
+          onChanged(!isSelected);
+        },
+        child: Row(
+          children: [
+            SizedBox(
+              width: 24.w,
+              height: 24.h,
+              child: Checkbox(
+                value: isSelected,
+                onChanged: onChanged,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.r),
+                ),
+                side: BorderSide(
+                  color: Colors.grey[400]!,
+                  width: 1.5,
+                ),
+                activeColor: AppColors.black,
               ),
             ),
-          ),
-        ],
+            wBox(12.w),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: AppFontFamily.onestRegular,
+                  color: AppColors.darkText,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildActionButtons(String categoryId) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: CustomElevatedButton(
-            fontFamily: AppFontFamily.gilroyMedium,
-            height: 55.h,
-            text: "Clear",
-            color: AppColors.black,
-            onPressed: () {
-              controller.selectedCuisines.clear();
-              controller.selectedQuickFilters.clear();
-              controller.selectedOptions.clear();
-              controller.selectedAddons.clear();
-              controller.selectedAttributes.clear();
-              controller.priceRadioValue.value = 0;
-              if (controller.getFilterData.value.minPrice != null) {
-                controller.lowerValue.value = controller.getFilterData.value.minPrice!.toDouble();
-              }
-              if (controller.getFilterData.value.maxPrice != null) {
-                controller.upperValue.value = controller.getFilterData.value.maxPrice!.toDouble();
-              }
-              if (controller.getFilterData.value.cuisineId != null) {
-                for (var cuisine in controller.getFilterData.value.cuisineId!) {
-                  cuisine.isSelected.value = false;
-                }
-              }
-            },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: CustomElevatedButton(
+              fontFamily: AppFontFamily.onestMedium,
+              height: 55.h,
+              text: "Clear",
+              color: AppColors.black,
+              // onPressed: () {
+              //   controller.selectedCuisines.clear();
+              //   controller.selectedQuickFilters.clear();
+              //   controller.selectedOptions.clear();
+              //   controller.selectedAddons.clear();
+              //   controller.selectedAttributes.clear();
+              //   controller.priceRadioValue.value = 0;
+              //   if (controller.getFilterData.value.minPrice != null) {
+              //     controller.lowerValue.value = controller.getFilterData.value.minPrice!.toDouble();
+              //   }
+              //   if (controller.getFilterData.value.maxPrice != null) {
+              //     controller.upperValue.value = controller.getFilterData.value.maxPrice!.toDouble();
+              //   }
+              //   if (controller.getFilterData.value.cuisineId != null) {
+              //     for (var cuisine in controller.getFilterData.value.cuisineId!) {
+              //       cuisine.isSelected.value = false;
+              //     }
+              //   }
+              // },
+              onPressed: () {
+                controller.resetFilters();
+                restaurantCategoriesDetailsController.restaurant_Categories_Details_Api(id: categoryId);
+              },
+            ),
           ),
-        ),
-        wBox(10.w),
-        Expanded(
-          child: CustomElevatedButton(
-            fontFamily: AppFontFamily.gilroyMedium,
-            height: 55.h,
-            text: "Apply",
-            color: AppColors.primary,
-            onPressed: () {
-              Get.back();
-              controller.priceRadioValue.value = 0;
-              final selectedQuickFilter = controller.selectedQuickFilters.toString();
-              restaurantCategoriesDetailsController.restaurant_Categories_Details_filter_Api(
-                id: categoryId.toString(),
-                cuisine_type: controller.selectedCuisines.join(', '),
-                quick_filter: selectedQuickFilter != [].toString() ? selectedQuickFilter : "",
-                price_range: "${controller.lowerValue.value},${controller.upperValue.value}",
-                attribute_ids: controller.selectedAttributes.join(', '),
-                addons: controller.selectedAddons.join(', '),
-                options: controller.selectedOptions.join(', '),
-              );
-            },
+          wBox(10.w),
+          Expanded(
+            child: CustomElevatedButton(
+              fontFamily: AppFontFamily.onestMedium,
+              height: 55.h,
+              text: "Apply",
+              color: AppColors.primary,
+              onPressed: () {
+                Get.back();
+                // controller.priceRadioValue.value = 0;
+                final selectedQuickFilter = controller.selectedQuickFilters.toString();
+                restaurantCategoriesDetailsController.restaurant_Categories_Details_filter_Api(
+                  id: categoryId.toString(),
+                  cuisine_type: controller.selectedCuisines.join(', '),
+                  quick_filter: selectedQuickFilter != [].toString() ? selectedQuickFilter : "",
+                  price_range: "${controller.lowerValue.value},${controller.upperValue.value}",
+                  price_sort:controller.priceRadioValue.value == 0
+                      ? ""
+                      : controller.priceRadioValue.value == 1
+                      ? "low to high"
+                      : "high to low",
+                  attribute_ids: controller.selectedAttributes.join(', '),
+                  addons: controller.selectedAddons.join(', '),
+                  options: controller.selectedOptions.join(', '),
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -2246,7 +2516,7 @@ class FilterChipWidget extends StatelessWidget {
         label: Text(
           label,
           style: TextStyle(
-            fontFamily: AppFontFamily.gilroyMedium,
+            fontFamily: AppFontFamily.onestMedium,
             fontWeight: FontWeight.w400,
             fontSize: 15.sp,
             color: isSelect.value ? AppColors.white : AppColors.darkText,

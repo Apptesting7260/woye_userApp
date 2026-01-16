@@ -47,7 +47,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
         isActions: true,
         title: Text(
           "Wishlist",
-          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+          style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.onestRegular),
         ),
       ),
       body: Obx(() {
@@ -91,13 +91,13 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                           hBox(10.h),
                           Text(
                             "Your wishlist is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
                           ),
                           hBox(5.h),
                           Text(
                             "Explore more and shortlist some items",
                             style:
-                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.gilroyRegular),
+                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
                           ),
                         ],
                       )
@@ -118,7 +118,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                               title: SizedBox(
                                 height: 35.h,
                                 child: CustomSearchFilter(
-                                  textStyle: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.gilroyRegular),
+                                  textStyle: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
                                   onChanged: (value) {
                                     controller.filterWishlistData(value);
                                   },
@@ -250,14 +250,14 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary,family: AppFontFamily.gilroyRegular),
+                                                    .primary,family: AppFontFamily.onestRegular),
                                               )
                                                   : Text(
                                                 "\$${product.regularPrice}",
                                                 textAlign: TextAlign.left,
                                                 style: AppFontStyle
                                                     .text_16_600(AppColors
-                                                    .primary,family: AppFontFamily.gilroyRegular),
+                                                    .primary,family: AppFontFamily.onestRegular),
                                               ),
                                               wBox(5.h),
                                               if (product.salePrice != null)
@@ -268,7 +268,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                   textAlign: TextAlign.left,
                                                   style: TextStyle(
                                                       fontSize: 14.sp,
-                                                      fontFamily: AppFontFamily.gilroyRegular,
+                                                      fontFamily: AppFontFamily.onestRegular,
                                                       fontWeight: FontWeight.w300,
                                                       color: AppColors.lightText,
                                                       decoration: TextDecoration.lineThrough,
@@ -280,7 +280,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                           Text(
                                             product.title.toString().capitalize.toString(),
                                             textAlign: TextAlign.left,
-                                            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.gilroyMedium),
+                                            style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestMedium),
                                           ),
                                           Row(
                                             children: [
@@ -290,7 +290,7 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                               Text(
                                                 "${product.rating.toString()}/5",
                                                 style: AppFontStyle.text_14_300(
-                                                    AppColors.lightText,family: AppFontFamily.gilroyRegular),
+                                                    AppColors.lightText,family: AppFontFamily.onestRegular),
                                               ),
                                               wBox(4),
                                               // Text(
