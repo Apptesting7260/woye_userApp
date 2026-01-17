@@ -427,11 +427,13 @@ class ProfileScreen extends StatelessWidget {
         context: context,
         builder: (context) {
           return AlertDialog.adaptive(
+            backgroundColor: AppColors.white,
             content: Container(
               height: 150.h,
               width: 320.w,
               padding: REdgeInsets.symmetric(vertical: 15, horizontal: 10),
               decoration: BoxDecoration(
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(30.r),
               ),
               child: Column(
@@ -445,10 +447,12 @@ class ProfileScreen extends StatelessWidget {
                   Text(
                     'Are you sure you want to log out?',
                     maxLines: 2,
+                    textAlign: TextAlign.center,
                     style: AppFontStyle.text_14_400(AppColors.lightText,family: AppFontFamily.onestRegular),
                   ),
                   // hBox(15),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
                         child: CustomElevatedButton(
@@ -459,14 +463,14 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "Cancel",
                           textStyle:
-                              AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestMedium),
+                              AppFontStyle.text_14_500(AppColors.white,family: AppFontFamily.onestMedium),
                         ),
                       ),
                       wBox(15),
                       Expanded(
                         child: CustomElevatedButton(
                           height: 40.h,
-                          textStyle:AppFontStyle.text_14_500(AppColors.darkText,family: AppFontFamily.onestMedium),
+                          textStyle:AppFontStyle.text_14_500(AppColors.white,family: AppFontFamily.onestMedium),
                           onPressed: () {
                            /* socialLoginController.signout();
                             userPreference.removeUser();

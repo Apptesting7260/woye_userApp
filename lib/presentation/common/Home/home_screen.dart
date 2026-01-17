@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/services.dart';
 import 'package:woye_user/Presentation/Common/Home/home_controller.dart';
 import 'package:woye_user/core/utils/app_export.dart';
 import 'package:woye_user/presentation/Restaurants/Pages/Restaurant_home/View/maintenance_mode_controller.dart';
+import 'package:woye_user/presentation/common/Profile/Sub_screens/Delivery_address/controller/delivery_address_controller.dart';
 import 'package:woye_user/presentation/common/current_location/current_location.dart';
 import 'package:woye_user/presentation/common/get_user_data/get_user_data.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
+import 'package:woye_user/shared/widgets/custom_dropdown_api.dart';
 
 import '../../../shared/widgets/CircularProgressIndicator.dart';
 import '../../Restaurants/Restaurants_navbar/Controller/restaurant_navbar_controller.dart';
@@ -26,7 +29,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final GetUserDataController getUserDataController =
       Get.put(GetUserDataController());
 
-  final RestaurantNavbarController restaurantNavbarController = Get.find<RestaurantNavbarController >();
+  final RestaurantNavbarController restaurantNavbarController =
+      Get.find<RestaurantNavbarController>();
+  final DeliveryAddressController addressController =
+      Get.find<DeliveryAddressController>();
+
   // final MaintenanceModeController maintenanceModeController = Get.put(MaintenanceModeController());
 
   void showLocationDialog() {
@@ -50,12 +57,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       "Location Permission is off",
                       maxLines: 2,
                       textAlign: TextAlign.center,
-                      style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
+                      style: AppFontStyle.text_20_600(AppColors.darkText,
+                          family: AppFontFamily.onestRegular),
                     ),
                     hBox(10.h),
                     Text(
                       "Getting location permission will ensure accurate address and hassle free delivery",
-                      style: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
+                      style: AppFontStyle.text_16_400(AppColors.lightText,
+                          family: AppFontFamily.onestRegular),
                       maxLines: 4,
                       textAlign: TextAlign.center,
                     ),
@@ -65,16 +74,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: AppColors.black,
                       onPressed: () async {
                         Get.back();
-                        await currentLocationController.getCurrentPosition(back: true);
+                        await currentLocationController.getCurrentPosition(
+                            back: true);
                       },
                       text: "Allow Location Access",
-                      textStyle: AppFontStyle.text_14_400(AppColors.white,family: AppFontFamily.onestSemiBold),
+                      textStyle: AppFontStyle.text_14_400(AppColors.white,
+                          family: AppFontFamily.onestSemiBold),
                     ),
                     SizedBox(height: 10.h),
                     GestureDetector(
                       onTap: () {
-                        Get.toNamed(AppRoutes.addAddressScreen,
-                            arguments: {'type': "","fromcart": false,});
+                        Get.toNamed(AppRoutes.addAddressScreen, arguments: {
+                          'type': "",
+                          "fromcart": false,
+                        });
                       },
                       child: Container(
                           height: 50.h,
@@ -93,8 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               SizedBox(width: 5.h),
                               Text(
                                 "Add Address",
-                                style:
-                                    AppFontStyle.text_15_400(AppColors.black,family: AppFontFamily.onestMedium),
+                                style: AppFontStyle.text_15_400(AppColors.black,
+                                    family: AppFontFamily.onestMedium),
                               ),
                             ],
                           )),
@@ -120,7 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
   //    maintenanceModeController.versionCheckApi();
   // }
 
-
   @override
   Widget build(BuildContext context) {
     // homeController.mainButtonIndex.value;
@@ -136,7 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Obx(() {
-                  return getUserDataController.userData.value.user?.imageUrl?.isEmpty ?? true
+                  return getUserDataController
+                              .userData.value.user?.imageUrl?.isEmpty ??
+                          true
                       ? Container(
                           width: 50.h,
                           height: 50.h,
@@ -180,19 +194,47 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                 }),
                 wBox(7.w),
-                Obx(() => Expanded(
-                  child: Text(
-                      homeController.location.value,
-                      style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.onestMedium),
-                      maxLines: 2,
-                      overflow: TextOverflow.clip,
+                Expanded(
+                  child: DropdownButtonFormField2<String>(
+                    isExpanded: true,
+                    // value: selectedAddress,
+                    hint: const Text("Select address"),
+                    decoration: InputDecoration(
+                      contentPadding:  EdgeInsets.zero,
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(0),
+                      ),
                     ),
+                    iconStyleData: IconStyleData(icon: Icon(Icons.keyboard_arrow_down, size: 22, color: AppColors.black,),),
+                    items: addressController.deliveryAddressData.value.data?.map((item) => DropdownMenuItem<String>(
+                      value: item.address,
+                      child: Text(
+                        item.address ?? '',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ).toList() ?? [],
+                    onChanged: (value) {
+                      // selectedAddress = value;
+                      print("Selected address: $value");
+                    },
+                  ),
                 ),
-                ),
+                // Obx(() => Expanded(
+                //   child: Text(
+                //      "Delivery To: ${homeController.location.value}",
+                //       style: AppFontStyle.text_13_400(AppColors.darkText,family: AppFontFamily.onestMedium),
+                //       maxLines: 2,
+                //       overflow: TextOverflow.clip,
+                //     ),
+                // ),
+                // ),
                 wBox(7.w),
                 GestureDetector(
                   onTap: () {
-                   // showLocationDialog();
+                    // showLocationDialog();
                     Get.toNamed(AppRoutes.notifications);
                   },
                   child: Container(
@@ -259,27 +301,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.horizontal,
                     itemCount: homeController.mainButtonbar.length,
                     itemBuilder: (context, index) {
-                      bool isSelected = restaurantNavbarController.mainButtonIndex.value == index;
+                      bool isSelected =
+                          restaurantNavbarController.mainButtonIndex.value ==
+                              index;
                       return GestureDetector(
                         onTap: () {
                           if (index == 2) {
-                            restaurantNavbarController.getIndexMainButton(index);
+                            restaurantNavbarController
+                                .getIndexMainButton(index);
                             //homeController.navigate(index);
                           } else {
-                            restaurantNavbarController.getIndexMainButton(index);
+                            restaurantNavbarController
+                                .getIndexMainButton(index);
                             //homeController.navigate(index);
                           }
                         },
                         child: MainButtonBar(
-                          title: homeController.mainButtonbar[index]["title"] ?? "",
-                          image: isSelected ? homeController.mainButtonbar[index]["imageEnabled"] ?? ""
-                              : homeController.mainButtonbar[index]["imageDisabled"] ?? "",
-                          backgroundColor: isSelected
-                              ? AppColors.black
-                              : Colors.transparent,
-                          titleColor: isSelected
-                              ? AppColors.white
-                              : AppColors.black,
+                          title: homeController.mainButtonbar[index]["title"] ??
+                              "",
+                          image: isSelected
+                              ? homeController.mainButtonbar[index]
+                                      ["imageEnabled"] ??
+                                  ""
+                              : homeController.mainButtonbar[index]
+                                      ["imageDisabled"] ??
+                                  "",
+                          backgroundColor:
+                              isSelected ? AppColors.black : Colors.transparent,
+                          titleColor:
+                              isSelected ? AppColors.white : AppColors.black,
                         ),
                       );
                     },
@@ -334,7 +384,8 @@ class MainButtonBar extends StatelessWidget {
           wBox(6),
           Text(
             title,
-            style: AppFontStyle.text_12_500(titleColor,family: AppFontFamily.onestMedium),
+            style: AppFontStyle.text_12_500(titleColor,
+                family: AppFontFamily.onestMedium),
           )
         ],
       ),

@@ -9,6 +9,13 @@ class CheckUserController extends GetxController {
   final checkUser = CheckUserModal().obs;
   RxString error = ''.obs;
 
+  final RxString _phoneNumberFieldError = ''.obs;
+  get phoneNumberFieldError => _phoneNumberFieldError;
+  setOtpFieldError(String error){
+    _phoneNumberFieldError.value = error;
+    update();
+  }
+
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
   void setData(CheckUserModal value) => checkUser.value = value;
@@ -27,12 +34,16 @@ class CheckUserController extends GetxController {
       setData(value);
       if (checkUser.value.status == true) {
         setRxRequestStatus(Status.COMPLETED);
-      } else {
-        if(isLoginType == false && checkUser.value.message.toString() == 'User not exists'){}
-        else {
-          Utils.showToast(checkUser.value.message.toString());
-        }
+      } else if(checkUser.value.status == false) {
+        // if(isLoginType == false && checkUser.value.message.toString() == 'User not exists'){}
+        // else {
+          setOtpFieldError(checkUser.value.message ?? "");
+          // Utils.showToast(checkUser.value.message.toString());
+        // }
         setRxRequestStatus(Status.COMPLETED);
+      }else{
+        setRxRequestStatus(Status.COMPLETED);
+        setOtpFieldError(checkUser.value.message ?? "");
       }
     }).onError((error, stackError) {
       print("Error: $error");

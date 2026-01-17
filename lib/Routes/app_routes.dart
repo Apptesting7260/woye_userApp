@@ -81,6 +81,7 @@ import '../presentation/Pharmacy/Pages/Pharmacy_home/Sub_screens/Vendor_details/
 import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Restaurant_details/view/restaurant_information_screen.dart';
 import '../presentation/Restaurants/Pages/Restaurant_home/Sub_screens/Reviews/product_reviews.dart';
 import '../presentation/Restaurants/Pages/Restaurant_home/View/maintenance_binding.dart';
+import '../presentation/common/Profile/Sub_screens/Delivery_address/binding/delivery_address_binding.dart';
 
 class AppRoutes {
   ///`common=====================================================>`
@@ -184,7 +185,7 @@ class AppRoutes {
     GetPage(name: signUp, page: () => SignUpScreen()),
     GetPage(name: signUpFom, page: () => SignUpFormScreen(), binding: SignUpFormBinding()),
     GetPage(name: homeScreen, page: () => HomeScreen(), /*binding: RestaurantNavbarBinding()*/),
-    GetPage(name: restaurantNavbar, page: () => RestaurantNavbar(navbarInitialIndex: 0,), bindings: [RestaurantNavbarBinding(), HomeBinding()]),
+    GetPage(name: restaurantNavbar, page: () => RestaurantNavbar(navbarInitialIndex: 0,), bindings: [RestaurantNavbarBinding(), HomeBinding(),DeliveryAddressBinding()]),
     GetPage(name: pharmacyNavbar, page: () => PharmacyNavbar(),),
     GetPage(name: groceryNavbar, page: () => GroceryNavbar(),),
     GetPage(name: restaurantHomeFilter, page: () => RestaurantHomeFilter()),
@@ -217,7 +218,7 @@ class AppRoutes {
     GetPage(name: notificationsSettings, page: () =>  const RestaurantBaseScaffold(child: NotificationsSettingsScreen())),
     GetPage(name: transactionHistory, page: () => const RestaurantBaseScaffold(child: TransactionHistoryScreen())),
     GetPage(name: myWalletFilter, page: () => const MyWalletFilter()),
-    GetPage(name: deliveryAddressScreen, page: () => RestaurantBaseScaffold(child: DeliveryAddressScreen())),
+    GetPage(name: deliveryAddressScreen, page: () => RestaurantBaseScaffold(child: DeliveryAddressScreen(),),binding: DeliveryAddressBinding()),
     GetPage(name: restaurantCategories, page: () => RestaurantBaseScaffold(child: RestaurantCategoriesScreen())),
     // GetPage(name: restaurantCategoriesFilter,page: () => RestaurantCategoriesFilter()),
     GetPage(name: restaurantCategoriesFilter, page: () => RestaurantCategoriesFilter(), binding: CategoriesFilterBinding()),

@@ -21,6 +21,15 @@ class OtpController extends GetxController {
   RxInt remainingTime = 60.obs;
   late Timer timer1;
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  final RxString _otpFieldError = ''.obs;
+  get otpFieldError => _otpFieldError;
+  setOtpFieldError(String error){
+    otpFieldError.value = error;
+    update();
+  }
+
   // final OtpScreen _otpScreen = OtpScreen();
   final FirebaseAuth auth = FirebaseAuth.instance;
   final api = Repository();

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:woye_user/Core/Utils/app_export.dart';
 import 'package:woye_user/presentation/common/guest%20login/guest_controller.dart';
@@ -45,6 +46,29 @@ class LoginScreen extends StatelessWidget {
                   hBox(40.h),
                   //
                   phoneNumberField(),
+                  Obx(() {
+                    if(checkUserController.phoneNumberFieldError.value != ""){
+                      return  Padding(
+                        padding: const EdgeInsets.only(left: 14.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            hBox(4.h),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                checkUserController.phoneNumberFieldError.value,
+                                maxLines: 3,
+                               style: AppFontStyle.text_13_400(AppColors.errorColor,family: AppFontFamily.onestMedium),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  }),
                   hBox(20.h),
                   //
                   signInButton(),
@@ -94,6 +118,9 @@ class LoginScreen extends StatelessWidget {
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
       ],
+      onChanged: (value) {
+        checkUserController.setOtpFieldError("");
+      },
       prefix: CountryCodePicker(
           padding: const EdgeInsets.only(left: 10),
           showFlag: false,
@@ -125,6 +152,7 @@ class LoginScreen extends StatelessWidget {
       },
     );
   }
+
 
   // Widget phoneNumberField() {
   //   return Obx(() {

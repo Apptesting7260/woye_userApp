@@ -43,8 +43,10 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        isLeading: false,
+        horizontalPadding: 20,
+        isLeading: true,
         isActions: true,
+        centetTitle: true,
         title: Text(
           "Wishlist",
           style: AppFontStyle.text_23_600(AppColors.darkText,family: AppFontFamily.onestRegular),
@@ -74,61 +76,12 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                 controller.restaurantProductWishlistRefreshApi();
               },
               child: Padding(
-                padding: REdgeInsets.symmetric(horizontal: 24.w),
+                padding: REdgeInsets.symmetric(horizontal: 20.w),
                 child: (controller.wishlistData.value.categoryProduct?.isEmpty ?? false)
-                    ? Column(
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          hBox(Get.height / 3),
-                          Center(
-                            child: Image.asset(
-                              ImageConstants.wishlistEmpty,
-                              height: 70.h,
-                              width: 100.h,
-                            ),
-                          ),
-                          hBox(10.h),
-                          Text(
-                            "Your wishlist is empty!",
-                            style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
-                          ),
-                          hBox(5.h),
-                          Text(
-                            "Explore more and shortlist some items",
-                            style:
-                                AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
-                          ),
-                        ],
-                      )
+                    ? nodataWidget()
                     : CustomScrollView(
                         slivers: [
-                          SliverAppBar(
-                            automaticallyImplyLeading: false,
-                            pinned: false,
-                            // snap: true,
-                            // floating: true,
-                            expandedHeight: 70.h,
-                            surfaceTintColor: Colors.transparent,
-                            backgroundColor: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                            flexibleSpace: FlexibleSpaceBar(
-                              titlePadding: REdgeInsets.only(bottom: 15),
-                              title: SizedBox(
-                                height: 35.h,
-                                child: CustomSearchFilter(
-                                  textStyle: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
-                                  onChanged: (value) {
-                                    controller.filterWishlistData(value);
-                                  },
-                                  controller: controller.searchController,
-                                  showfilterIcon: false,
-                                ),
-                              ),
-                              centerTitle: true,
-                            ),
-                          ),
+                          searchBar(),
                           if (controller
                               .wishlistData.value.categoryProduct?.isNotEmpty ?? false)...[
                             controller.filteredWishlistData.isNotEmpty ? SliverGrid(
@@ -162,17 +115,15 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                             children: [
                                               Container(
                                                 clipBehavior: Clip.antiAlias,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      20.r),
+                                                decoration: const BoxDecoration(
+                                                    borderRadius: BorderRadius.only(topRight: Radius.circular(15),topLeft:Radius.circular(15))
                                                 ),
                                                 child: Center(
                                                   child: CachedNetworkImage(
-                                                    imageUrl: product.imageUrl
-                                                        .toString(),
+                                                    imageUrl: product.imageUrl ?? "",
                                                     fit: BoxFit.cover,
-                                                    height: 160.h,
+                                                    height: 130.h,
+                                                    width: Get.width,
                                                     errorWidget: (context, url,
                                                         error) => const ImageErrorWidget(),
                                                     placeholder:
@@ -184,11 +135,8 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                           child: Container(
                                                             decoration:
                                                             BoxDecoration(
-                                                              color: AppColors.gray,
-                                                              borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                  20.r),
+                                                              color: AppColors.gray.withAlpha(80),
+                                                                borderRadius: const BorderRadius.only(topRight: Radius.circular(15),topLeft:Radius.circular(15))
                                                             ),
                                                           ),
                                                         ),
@@ -201,11 +149,9 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
                                                       top: 10, right: 10),
                                                   padding: REdgeInsets.all(6),
                                                   decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(
-                                                        10.r),
-                                                    color: AppColors
-                                                        .greyBackground,
+                                                    shape: BoxShape.circle,
+                                                    // borderRadius:BorderRadius.circular(10.r),
+                                                    color: AppColors.white,
                                                   ),
                                                   child: InkWell(
                                                     highlightColor:
@@ -332,5 +278,62 @@ class _RestaurantWishlistScreenState extends State<RestaurantWishlistScreen> {
         }
       }),
     );
+  }
+
+  SliverAppBar searchBar() {
+    return SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          pinned: false,
+                          // snap: true,
+                          // floating: true,
+                          expandedHeight: 70.h,
+                          surfaceTintColor: Colors.transparent,
+                          backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15)),
+                          flexibleSpace: FlexibleSpaceBar(
+                            titlePadding: REdgeInsets.only(bottom: 15),
+                            title: SizedBox(
+                              height: 35.h,
+                              child: CustomSearchFilter(
+                                textStyle: AppFontStyle.text_12_400(AppColors.darkText,family: AppFontFamily.onestRegular),
+                                onChanged: (value) {
+                                  controller.filterWishlistData(value);
+                                },
+                                controller: controller.searchController,
+                                showfilterIcon: false,
+                              ),
+                            ),
+                            centerTitle: true,
+                          ),
+                        );
+  }
+
+  Column nodataWidget() {
+    return Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        hBox(Get.height / 3),
+                        Center(
+                          child: Image.asset(
+                            ImageConstants.wishlistEmpty,
+                            height: 70.h,
+                            width: 100.h,
+                          ),
+                        ),
+                        hBox(10.h),
+                        Text(
+                          "Your wishlist is empty!",
+                          style: AppFontStyle.text_20_600(AppColors.darkText,family: AppFontFamily.onestRegular),
+                        ),
+                        hBox(5.h),
+                        Text(
+                          "Explore more and shortlist some items",
+                          style:
+                              AppFontStyle.text_16_400(AppColors.mediumText,family: AppFontFamily.onestRegular),
+                        ),
+                      ],
+                    );
   }
 }

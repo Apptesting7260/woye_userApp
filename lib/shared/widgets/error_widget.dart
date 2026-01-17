@@ -12,8 +12,8 @@ class ImageErrorWidget extends StatelessWidget {
       height: height,
       width:width ?? Get.width,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.textFieldBorder),
-        borderRadius:borderRadius ?? BorderRadius.circular(20.r),
+        border: Border.all(color: AppColors.textFieldBorder.withAlpha(140)),
+        borderRadius:borderRadius ?? const BorderRadius.only(topRight: Radius.circular(15),topLeft:Radius.circular(15))
       ),
       child: Icon(Icons.broken_image_rounded,color: AppColors.textFieldBorder),
     );

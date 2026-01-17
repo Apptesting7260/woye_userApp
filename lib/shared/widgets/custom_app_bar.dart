@@ -56,7 +56,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                       child: Center(
                         child: SvgPicture.asset(
                             "assets/svg/back.svg",
-                          width:width,
+                          width:width ?? 10,
                           height:height,
                         ),
                       ),

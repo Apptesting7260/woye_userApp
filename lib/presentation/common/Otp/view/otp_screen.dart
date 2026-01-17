@@ -25,26 +25,49 @@ class OtpScreen extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: const CustomAppBar(),
+      appBar: const CustomAppBar(horizontalPadding: 20,),
       body: Padding(
         padding: REdgeInsets.symmetric(
-          horizontal: 24,
+          horizontal: 20,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            hBox(20),
-            header("$countryCode $mob"),
-            hBox(30),
-            otpField(),
-            hBox(20),
-            verifyButton(from, countryCode, mob),
-            hBox(10),
-            resendOtp(from)
-          ],
+        child: Form(
+          key: otpController.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              hBox(20),
+              header("$countryCode $mob"),
+              hBox(30),
+              otpField(),
+              errorText(),
+              hBox(20),
+              verifyButton(from, countryCode, mob),
+              hBox(10),
+              resendOtp(from)
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Obx errorText() {
+    return Obx(() {
+              if(otpController.otpFieldError.value != ""){
+                return  Padding(
+                  padding: const EdgeInsets.only(left: 4.0,top: 5),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      otpController.otpFieldError.value,
+                      maxLines: 3,
+                      style: AppFontStyle.text_13_400(AppColors.errorColor,family: AppFontFamily.onestMedium),
+                    ),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            });
   }
 
   Widget header(mob) {
@@ -76,6 +99,15 @@ class OtpScreen extends StatelessWidget {
         defaultPinTheme: otpController.defaultPinTheme,
         focusedPinTheme: otpController.focusedPinTheme,
         submittedPinTheme: otpController.submittedPinTheme,
+        validator: (value) {
+          if(value?.isEmpty ?? false || value!.length < 6){
+            return "Please enter a valid 6 digit OTP";
+          }
+          return null;
+        },
+        onChanged: (value) {
+          otpController.setOtpFieldError("");
+        },
       ),
     );
   }
@@ -88,7 +120,8 @@ class OtpScreen extends StatelessWidget {
         onPressed: () async {
           final otpText = otpController.otpPin.value.text.trim();
           if (otpText.length != 6) {
-            Utils.showToast('Please enter a valid 6-digit OTP.');
+            otpController.setOtpFieldError("Please enter a valid 6-digit OTP.");
+            // Utils.showToast('Please enter a valid 6-digit OTP.');
             pt("Otp length ${otpText.length}  $otpText");
             return;
           } else {
@@ -111,7 +144,8 @@ class OtpScreen extends StatelessWidget {
                 }
               }
             } else {
-              Utils.showToast("The OTP has expired. Please resend it.");
+              otpController.setOtpFieldError("The OTP has expired. Please resend it.");
+              // Utils.showToast("The OTP has expired. Please resend it.");
             }
             // Get.toNamed(AppRoutes.signUp);
           }
@@ -126,7 +160,7 @@ class OtpScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-Text(
+        Text(
           'Didn\'t receive OTP?',
           style: AppFontStyle.text_16_400(AppColors.darkText,
               family: AppFontFamily.onestRegular),
@@ -158,15 +192,21 @@ Text(
               }
               // otpController.remainingTime.value == 0 ? otpController.startTimer() : null;
             },
-            child: Text(
-              " Resend code in ${otpController.remainingTime.value} Sec",
-              style: AppFontStyle.text_16_400(
-                  otpController.remainingTime.value == 0
-                      ? AppColors.black
-                      : AppColors.lightText,
-                  fontWeight: FontWeight.w400,
-                  family: AppFontFamily.onestRegular),
-            ),
+            child:otpController.remainingTime.value == 0 ?  Text(
+                " Resend code",
+                style: AppFontStyle.text_16_400(
+                   AppColors.lightText,
+                    fontWeight: FontWeight.w400,
+                    family: AppFontFamily.onestRegular),
+              ): Text(
+                " Resend code in ${otpController.remainingTime.value} Sec",
+                style: AppFontStyle.text_16_400(
+                    otpController.remainingTime.value == 0
+                        ? AppColors.black
+                        : AppColors.lightText,
+                    fontWeight: FontWeight.w400,
+                    family: AppFontFamily.onestRegular),
+              ),
           ),
         ),
       ],

@@ -7,6 +7,7 @@ import 'package:woye_user/presentation/common/Update_profile/controller/Update_p
 import 'package:woye_user/presentation/common/email_verify/send_otp/send_otp_email_controller.dart';
 import 'package:woye_user/shared/theme/font_family.dart';
 import 'package:woye_user/shared/widgets/CircularProgressIndicator.dart';
+import 'package:woye_user/shared/widgets/custom_dropdown_api.dart';
 
 class SignUpFormScreen extends StatefulWidget {
   SignUpFormScreen({super.key});
@@ -32,8 +33,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
     String? typeFrom = arguments?['typefrom'];
     return Scaffold(
         appBar: CustomAppBar(
-            // isLeading: typeFrom != "back" ? false : true,
-            isLeading: true,
+            isLeading: typeFrom != "back" ? false : true,
           title: typeFrom == "back" ? Text("Edit Profile", style: AppFontStyle.text_22_600(AppColors.darkText,family: AppFontFamily.onestRegular)) : const SizedBox(),
         ),
         body: Obx(() {
@@ -226,12 +226,14 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
 
                               // Email validation
                               if (email.isEmpty) {
-                                Get.snackbar("Error", "Email field cannot be empty");
+                                controller.formSignUpKey.currentState?.validate();
+                                // Utils.showToast("Email field cannot be empty");
                                 return;
                               }
 
                               if (!GetUtils.isEmail(email)) {
-                                Get.snackbar("Error", "Enter a valid email address");
+                                // Utils.showToast("Enter a valid email address");
+                                controller.formSignUpKey.currentState?.validate();
                                 return;
                               }
 
@@ -242,13 +244,38 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                             },
                     child: (sendOtpEmailController.rxRequestStatus.value == Status.LOADING)
                     ? circularProgressIndicator(size: 18.h)
-                    : Text("Verify",style: AppFontStyle.text_16_400(
-                            AppColors.primary,
-                            fontWeight: FontWeight.w500,family: AppFontFamily.onestMedium),)),
-                              ),
+                    : Text(
+                      "Verify",
+                      style: AppFontStyle.text_14_400(
+                          AppColors.primary,
+                      family: AppFontFamily.onestMedium),
+                    ),
+                  ),
+                ),
               ),
             ),
             hBox(15),
+            CustomDropDownApi(
+              hintText: "Select Gender",
+              hintStyle: AppFontStyle.text_16_400(AppColors.lightText,family: AppFontFamily.onestRegular),
+              items: genderItems,
+              textStyle: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
+              selectedValue: signUpFormController.genderController.text.isEmpty
+                  ? null
+                  : signUpFormController.genderController.text,
+              onChanged: (value) {
+                signUpFormController.genderController.text = value ?? '';
+              },
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please select gender";
+                }
+                return null;
+              },
+              borderRadius: 15,
+              isExpanded: true,
+            ),
+/*
             DropdownButtonFormField(
               hint: Text(
                 signUpFormController.genderController.text.isEmpty
@@ -257,7 +284,10 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                 style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
               ),
               style: AppFontStyle.text_16_400(AppColors.darkText,family: AppFontFamily.onestRegular),
-              icon: SvgPicture.asset(ImageConstants.arrowDown),
+              icon: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: SvgPicture.asset(ImageConstants.arrowDown,height: 10,width: 10),
+              ),
               decoration: InputDecoration(
                   contentPadding:
                       REdgeInsets.symmetric(horizontal: 20, vertical: 18),
@@ -289,12 +319,14 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                 return null;
               },
             ),
+*/
             hBox(15),
             CustomTextFormField(
               controller: signUpFormController.mobileController,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
               ],
+              // readOnly: controller.profileData.value.data?.type == "google" ? false : true,
               prefix: CountryCodePicker(
                 padding: const EdgeInsets.only(left: 10),
                 showFlag: false,
@@ -303,8 +335,7 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
                   print("country code===========> ${countryCode.code}");
                   signUpFormController.updateCountryCode(countryCode);
                   signUpFormController.showError.value = false;
-                  int? countrylength = signUpFormController
-                      .countryPhoneDigits[countryCode.code.toString()];
+                  int? countrylength = signUpFormController.countryPhoneDigits[countryCode.code.toString()];
                   signUpFormController.chackCountryLength = countrylength!;
                 },
                 // initialSelection: "IN"
@@ -620,3 +651,15 @@ class _SignUpFormScreenState extends State<SignUpFormScreen> {
         });
   }
 }
+class CommonDropDownItem {
+  final String id;
+  final String name;
+
+  CommonDropDownItem({required this.id, required this.name});
+}
+
+final List<CommonDropDownItem> genderItems = [
+  CommonDropDownItem(id: "Male", name: "Male"),
+  CommonDropDownItem(id: "Female", name: "Female"),
+  CommonDropDownItem(id: "Other", name: "Other"),
+];
